@@ -1,12 +1,12 @@
 #' Computerized Adaptive Testing Latent Trait Model with Binary Data
 #'
-#' This function fits the latent trait model for binary data and populates the fitted values for discimination, difficulty, and guessing parameters to an object of class \code{CATsurv}.  
+#' This function fits the latent trait model for binary data and populates the fitted values for discimination, difficulty, and guessing parameters to an object of class \code{Cat}.  
 #'
 #' @param data a \code{data.frame} or a numeric \code{matrix} of manifest variables. 
-#' @param object an object of class \code{CATsurv} to be populated. If omitted, a new object of class \code{CATsurv} is created.
+#' @param object an object of class \code{Cat} to be populated. If omitted, a new object of class \code{Cat} is created.
 #' @param ... arguments to be passed to methods. For more details about the arguments, see \code{\link{tpm}}.
 #'
-#'  @return An object of class \code{CATsurv} with components,
+#'  @return An object of class \code{Cat} with components,
 #' \itemize{
 #' \item \code{difficulty} a named vector of difficulty parameters for use with dichotomous questions/items.  Each element's name tells the question/item to which it applies.
 #' \item \code{guessing} a vector of guessing parameter for each item.
@@ -18,16 +18,16 @@
 #' 
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val="random"}. 
 #' 
-#' @seealso \code{\link{grmCAT}}, \code{\link{nextItem}}, \code{\link{question.path}}
+#' @seealso \code{\link{grmCat}}, \code{\link{nextItem}}, \code{\link{question.path}}
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
-#' @rdname ltmCAT
+#' @rdname ltmCat
 #' @export
-setGeneric("ltmCAT", function(data, object=NULL, ...){standardGeneric("ltmCAT")})
+setGeneric("ltmCat", function(data, object=NULL, ...){standardGeneric("ltmCat")})
 
 #' @export
-setMethod(f="ltmCAT", signature="data.frame", 
+setMethod(f="ltmCat", signature="data.frame", 
           definition=function(data, object,...){
-            if(!is.null(object)) if(class(object)!="CATsurv") stop("object is not class CATsurv")            
+            if(!is.null(object)) if(class(object)!="Cat") stop("object is not class Cat")            
             fit <- tpm(data,...)
             coefficient <- coef(fit)
             answer <- rep(NA,nrow(coefficient))
@@ -36,7 +36,7 @@ setMethod(f="ltmCAT", signature="data.frame",
             guessing <- coefficient[,"Gussng"]
             names(difficulty) <- rownames(coefficient)
             if(is.null(object)){
-              return(new("CATsurv", discrimination=discrimination, difficulty=difficulty, guessing=guessing, answers=answer))
+              return(new("Cat", discrimination=discrimination, difficulty=difficulty, guessing=guessing, answers=answer))
             } else {
               object@discrimination <- discrimination
               object@difficulty <- difficulty
