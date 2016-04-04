@@ -1,8 +1,8 @@
 #' A Computerized Adaptive Testing Survey (CATsurv) Object
 #' 
-#' Objects of class \code{CATsurv} are used in administering Computerized Adaptive Testing (CAT) Surveys.  These objects contain several pieces of information relevent for CAT surveys, and are used as input in the main functions of the \code{CATsurv} package, \code{\link{nextItem}} and \code{\link{storeAnswer}}. They are created using the \code{initialize} function.      
+#' Objects of class \code{Cat} are used in administering Computerized Adaptive Testing (CAT) Surveys.  These objects contain several pieces of information relevent for CAT surveys, and are used as input in the main functions of the \code{catSurv} package, \code{\link{nextItem}} and \code{\link{storeAnswer}}. They are created using the \code{initialize} function.      
 #'
-#' An object of the class `CATsurv' has the following slots:
+#' An object of the class `Cat' has the following slots:
 #' \itemize{
 #' \item \code{guessing} A named vector of guessing parameters 
 #' \item \code{discrimination} A named vector of disrimination parameters including a numeric value per question/item.
@@ -24,15 +24,15 @@
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
 #' @seealso \code{\link{nextItem}}
 #' @seealso \code{\link{storeAnswer}}
-#' @aliases CATsurv-class initialize,CATsurv-method
-#' @rdname CATsurv
+#' @aliases Cat-class initialize,Cat-method
+#' @rdname Cat
 #' @export
 
-class.name = "CATsurv"
+class.name = "Cat"
 setClassUnion("logicalORnumeric", c("numeric","logical"))
 setClassUnion("numericORlist", c("numeric","list"))
 
-setClass("CATsurv",
+setClass("Cat",
          slots=list(
            guessing="numeric",
            discrimination="numeric",
