@@ -2,6 +2,9 @@
 library(devtools)
 library(roxygen2)
 setwd("/Users/iramalis/Desktop/gitstuff/CATSurv") #This will need to be changed to match your git directory
+
+rm(list=ls())
+devtools::create("catSurv")
 current.code <- as.package("./catSurv")
 load_all(current.code)
 document(current.code)
