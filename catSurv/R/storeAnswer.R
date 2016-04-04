@@ -19,3 +19,5 @@ setMethod(f="storeAnswer", signature=class.name, definition=function(cat, item, 
   cat@answers[item] <- answer
   return(cat)
 })
+
+
