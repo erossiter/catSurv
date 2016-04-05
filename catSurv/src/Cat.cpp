@@ -75,9 +75,9 @@ Cat constructCppCat(S4 cat_df) {
 	if (poly) {
 		// Unpack the difficulty list
 		List cat_difficulty = cat_df.slot("difficulty");
-		for (List::iterator itr = cat_difficulty.begin(); itr != cat_difficulty.end(); ++itr) {
+		for (auto item : cat_difficulty) {
 			poly_difficulty.push_back(
-					Rcpp::as<std::vector<double> >(*itr)); // if poly, set poly_difficulty to vector<vector<double>
+					Rcpp::as<std::vector<double> >(item)); // if poly, set poly_difficulty to vector<vector<double>
 		}
 	}
 	else {
