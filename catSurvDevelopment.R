@@ -1,11 +1,11 @@
 ## Load libraries and set working directory
 library(devtools)
 library(roxygen2)
+library(Rcpp)
 #setwd("/Users/iramalis/Desktop/gitstuff/CATSurv")
 setwd("/Users/erinrossiter/Dropbox/Spring2016/Rclass/CATsurv")
 
-rm(list=ls())
-devtools::create("catSurv")
+
 current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
