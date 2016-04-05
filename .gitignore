@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+*.o
+
+CMakeLists.txt
+.idea
+
+
+
+*.so
