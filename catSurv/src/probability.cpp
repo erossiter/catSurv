@@ -3,29 +3,23 @@
 using namespace Rcpp;
 
 
-void probability(Cat &cat, double theta, int question, std::vector<double> &ret_prob) {
-	size_t diff_size = cat.poly_difficulty[question].size();
-	double discrimination = cat.discrimination[question];
-	double guessing = cat.guessing[question];
+double probability(question_data question, double difficulty, double theta) {
+	double exp_prob = exp(question.D * question.discrimination * (theta - difficulty));
+	return question.guessing + (1 - question.guessing) * (exp_prob) / (1 + exp_prob);
+}
 
-	for (size_t i = 0; i < diff_size; ++i) {
-		double exp_prob = exp(cat.D * discrimination * (theta - cat.poly_difficulty[question][i]));
-		ret_prob.push_back(guessing + (1 - guessing) * (exp_prob) / (1 + exp_prob));
+std::vector<double> probability(Cat &cat, double theta, int question_number) {
+	std::vector<double> probabilities;
+	auto question = cat.get_question(question_number);
+	
+	for (auto term : question.difficulty) {
+		probabilities.push_back(probability(question, term, theta));
 	}
+	return probabilities;
 }
 
 
-/* Overloaded since non-poly case needs to just return one double value,
- * rather than a vector of doubles.
- */
-double probability(Cat &cat, double theta, int question) {
-	double D = cat.D;
-	double discrimination = cat.discrimination[question];
-	double difficulty = cat.nonpoly_difficulty[question];
-	double guessing = cat.guessing[question];
-	double exp_prob = exp(D * discrimination * (theta - difficulty));
-	return guessing + (1 - guessing) * (exp_prob / (1 + exp_prob));
-}
+
 
 //' Find the weighted mean of several normal distributions
 //' 
@@ -36,21 +30,12 @@ double probability(Cat &cat, double theta, int question) {
 //' @export
 // [[Rcpp::export]]
 List probability(S4 cat_df, NumericVector t, IntegerVector q) {
-	// convert R inputs
-	Cat cat = constructCppCat(cat_df);
+	Cat cat(cat_df);
 
-	// Todo: Determine whether or not these casts are necessary.
-	double theta = Rcpp::as<std::vector<double> >(t)[0];
-	int question = Rcpp::as<std::vector<int> >(q)[0];
+	double theta = t[0];
+	int question = q[0];
 
-	std::vector<double> probs;
-
-	if (cat.poly) {
-		probability(cat, theta, question, probs);
-	}
-	else {
-		probs.push_back(probability(cat, theta, question));
-	}
+	std::vector<double> probs = probability(cat, theta, question);
 
 	DataFrame question_probs = DataFrame::create(Named("probabilities") = probs);
 	return List::create(Named("all.probabilities") = question_probs);

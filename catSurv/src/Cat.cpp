@@ -5,11 +5,11 @@ using namespace Rcpp;
 
 Cat::Cat(std::vector<double> guess, std::vector<double> disc, std::vector<double> pri_v, std::string pri_n,
          std::vector<double> pri_p, std::vector<int> ans, double d, std::vector<double> x,
-         std::vector<double> t_est, std::vector<std::vector<double> > poly_diff, std::vector<double> nonpoly_diff,
+         std::vector<double> t_est, std::vector<std::vector<double> > difficulty,
          std::vector<int> app_rows, std::vector<int> nonapp_rows, bool p, std::string im, std::string em,
          std::string sm, double cov, int pts)
 		: guessing(guess), discrimination(disc), prior_values(pri_v), prior_params(pri_p),
-		  answers(ans), D(d), X(x), theta_est(t_est), poly_difficulty(poly_diff), nonpoly_difficulty(nonpoly_diff),
+		  answers(ans), D(d), X(x), theta_est(t_est), difficulty(difficulty),
 		  applicable_rows(app_rows), nonapplicable_rows(nonapp_rows), poly(p), coverage(cov), points(pts) {
 	if (im == "trapezoid") {
 		integration_method = TRAPEZOID;
@@ -46,8 +46,7 @@ Cat::Cat(std::vector<double> guess, std::vector<double> disc, std::vector<double
 	}
 }
 
-Cat constructCppCat(S4 cat_df) {
-	std::vector<double> X = Rcpp::as<std::vector<double> >(cat_df.slot("X"));
+Cat::Cat(S4 cat_df) {
 	std::string priorName = Rcpp::as<std::string>(cat_df.slot("priorName"));
 	std::vector<double> priorParams = Rcpp::as<std::vector<double> >(cat_df.slot("priorParams"));
 	std::vector<double> prior_values;
@@ -61,6 +60,7 @@ Cat constructCppCat(S4 cat_df) {
 	std::vector<int> applicable_rows;
 	std::vector<int> nonapplicable_rows;
 	std::vector<int> answers = Rcpp::as<std::vector<int> >(cat_df.slot("answers"));
+
 	for (unsigned int i = 0; i < answers.size(); i++) {
 		if (answers[i] != NA_INTEGER) {
 			applicable_rows.push_back(i);
@@ -69,39 +69,45 @@ Cat constructCppCat(S4 cat_df) {
 		}
 	}
 
-	bool poly = Rcpp::as<std::vector<bool> >(cat_df.slot("poly"))[0];
-	std::vector<std::vector<double> > poly_difficulty; // if poly, construct obj with vector<vector<double>> for difficulty
-	std::vector<double> nonpoly_difficulty;
-	if (poly) {
-		// Unpack the difficulty list
-		List cat_difficulty = cat_df.slot("difficulty");
-		for (auto item : cat_difficulty) {
-			poly_difficulty.push_back(
-					Rcpp::as<std::vector<double> >(item)); // if poly, set poly_difficulty to vector<vector<double>
-		}
-	}
-	else {
-		// if non-poly, set non_poly difficulty to vector<double>
-		nonpoly_difficulty = Rcpp::as<std::vector<double> >(cat_df.slot("difficulty"));
+	std::vector<std::vector<double> > difficulty;
+
+	// Unpack the difficulty list
+	List cat_difficulty = cat_df.slot("difficulty");
+	for (auto item : cat_difficulty) {
+		difficulty.push_back(Rcpp::as<std::vector<double> >(item));
 	}
 
+	//TODO: Convert to initializer list
+	this->guessing = Rcpp::as<std::vector<double> >(cat_df.slot("guessing"));
+	this->discrimination = Rcpp::as<std::vector<double> >(cat_df.slot("discrimination"));
+	this->prior_values = prior_values;
+	this->prior_params = priorParams;
+	this->answers = answers;
+	this->D = Rcpp::as<std::vector<double> >(cat_df.slot("D"))[0];
+	this->X = Rcpp::as<std::vector<double> >(cat_df.slot("X"));
+	this->theta_est = Rcpp::as<std::vector<double> >(cat_df.slot("Theta.est"));
+	this->difficulty = difficulty;
+	this->applicable_rows = applicable_rows;
+	this->nonapplicable_rows = nonapplicable_rows;
+	this->coverage = Rcpp::as<std::vector<double> >(cat_df.slot("coverage"))[0];
+	this->points = Rcpp::as<std::vector<int> >(cat_df.slot("points"))[0];
+	this->poly = Rcpp::as<std::vector<bool> >(cat_df.slot("poly"))[0];;
 
-	//Construct C++ Cat object
-	Cat cat(Rcpp::as<std::vector<double> >(cat_df.slot("guessing")),
-	        Rcpp::as<std::vector<double> >(cat_df.slot("discrimination")),
-	        prior_values, priorName, priorParams,
-	        Rcpp::as<std::vector<int> >(cat_df.slot("answers")),
-	        Rcpp::as<std::vector<double> >(cat_df.slot("D"))[0],
-	        Rcpp::as<std::vector<double> >(cat_df.slot("X")),
-	        Rcpp::as<std::vector<double> >(cat_df.slot("Theta.est")), poly_difficulty, nonpoly_difficulty,
-	        applicable_rows,
-	        nonapplicable_rows, poly,
-	        Rcpp::as<std::string>(cat_df.slot("integration")),
-	        Rcpp::as<std::string>(cat_df.slot("estimation")),
-	        Rcpp::as<std::string>(cat_df.slot("selection")),
-	        Rcpp::as<std::vector<double> >(cat_df.slot("coverage"))[0],
-	        Rcpp::as<std::vector<int> >(cat_df.slot("points"))[0]);
+	//TODO: Convert all these strings to their enums
+	//this->prior_name
+	//this->integration_method
+	//this->estimation
+	//this->selection
+}
 
-	return cat;
+std::string Cat::priorEnumToString() {
+	return prior_name == NORMAL ? "normal" : "student_t";
+}
+
+question_data Cat::get_question(int question) {
+	return (question_data) {.difficulty = difficulty[question],
+							.D = D,
+							.discrimination = discrimination[question],
+							.guessing = guessing[question]};
 }
 
