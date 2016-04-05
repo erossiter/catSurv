@@ -21,7 +21,7 @@ List probability(S4 cat_df, NumericVector t, IntegerVector q){
 }
 
 
-void probability(Cat& cat, double theta, int question, std::vector<double>& ret_prob) {
+void probability(Cat& cat, double theta, int question, NumericVector& ret_prob) {
   unsigned int diff_size = cat.poly_difficulty[question].size();
   double D = cat.D;
   double discrimination = cat.discrimination[question];
