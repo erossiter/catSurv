@@ -1,5 +1,5 @@
 #include "Rcpp.h"
-#include "Cat-class.h"
+#include "Cat.h"
 
 using namespace Rcpp;
 
