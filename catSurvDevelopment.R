@@ -1,11 +1,12 @@
 ## Load libraries and set working directory
 library(devtools)
 library(roxygen2)
-setwd("/Users/iramalis/Desktop/gitstuff/CATSurv") #This will need to be changed to match your git directory
+#setwd("/Users/iramalis/Desktop/gitstuff/CATSurv")
+setwd("/Users/erinrossiter/Dropbox/Spring2016/Rclass/CATsurv")
 
 rm(list=ls())
 devtools::create("catSurv")
-current.code <- as.package("./catSurv")
+current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
