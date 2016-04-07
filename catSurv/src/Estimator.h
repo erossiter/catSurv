@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "../Integration/Integrator.h"
-#include "../QuestionSet.h"
-#include "../Prior/Prior.h"
+#include "Integrator.h"
+#include "QuestionSet.h"
+#include "Prior.h"
 
 enum class EstimationType {
 	EAP, MAP
@@ -11,7 +11,7 @@ enum class EstimationType {
 
 class Estimator {
 protected:
-	const Integrator integrator;
+	const Integrator &integrator;
 public:
 	Estimator(Integrator integrator) : integrator(integrator) { };
 
@@ -19,6 +19,9 @@ public:
 
 	virtual const double estimateTheta(QuestionSet questionSet, Prior prior) = 0;
 
+	double likelihood(double x, std::vector<int> y){
+		return 0;
+	}
 	virtual double estimateSE(QuestionSet questionSet, Prior prior) {
 		std::vector<double> fx;
 		std::vector<double> fx_theta;

@@ -7,17 +7,17 @@
 storeAnswer(cat, item, answer)
 }
 \arguments{
-\item{cat}{An object of class \code{CATsurv}}
+\item{cat}{An object of class \code{Cat}}
 
-\item{item}{The question for which to estimate the expected posterior variance for a respondent with a latent trait estimate of theta.hat.  This should be the name of a row in the "questions" data-frame in the "questions" slot of a \code{CATsurv} object.}
+\item{item}{The question for which to estimate the expected posterior variance for a respondent with a latent trait estimate of theta.hat.  This should be the name of a row in the "questions" data-frame in the "questions" slot of a \code{Cat} object.}
 
 \item{answer}{The answer to the item \emph{k} to be stored}
 }
 \value{
-An updated object of class \code{CATsurv} containing the answers to \emph{k} items
+An updated object of class \code{Cat} containing the answers to \emph{k} items
 }
 \description{
-This function updates the object of class \code{CATsurv} by storing the answer to item \emph{k} into questions data frame.
+This function updates the object of class \code{Cat} by storing the answer to item \emph{k} into questions data frame.
 }
 \author{
 Josh W. Cutler: \email{josh@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@wustl.edu}

@@ -1,26 +1,35 @@
 #pragma once
 #include <Rcpp.h>
-#include "Integration/Integrator.h"
-#include "Estimation/Estimator.h"
-#include "Prior/Prior.h"
+#include "Prior.h"
 #include "QuestionSet.h"
+#include "TrapezoidIntegrator.h"
+#include "EAPEstimator.h"
 using namespace Rcpp;
 
 
 class Cat {
 	std::vector<double> theta_est;
-	QuestionSet questionSet;
-	Integrator integrator;
-	Estimator estimator;
+
+	TrapezoidIntegrator integrator = TrapezoidIntegrator();
+	EAPEstimator estimator = EAPEstimator(integrator);
 	Prior prior;
 	double D;
-protected:
-	double likelihood(double theta, std::vector<int> items);
-
 public:
-	Cat(QuestionSet questionSet, Integrator integrator, Estimator estimator, Prior prior);
+	QuestionSet questionSet;
+
+	Cat(QuestionSet &questionSet, Prior &prior);
 
 	Cat(S4 cat_df);
+
+	double estimateTheta();
+
+	double estimateSE();
+
+	double likelihood(double theta, std::vector<int> items);
+
+	double expectedPV(int item);
+
+	Rcpp::List nextItem();
 
 	std::vector<double> probability(double theta, int question);
 };

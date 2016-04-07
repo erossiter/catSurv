@@ -3,7 +3,7 @@
 
 class QuestionSet {
 public:
-	std::vector<std::vector<double>> difficulty;
+	std::vector<std::vector<double> > difficulty;
 	std::vector<int> applicable_rows;
 	std::vector<int> nonapplicable_rows;
 	std::vector<double> guessing;

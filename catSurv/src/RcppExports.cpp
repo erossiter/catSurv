@@ -18,3 +18,50 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// likelihood
+double likelihood(S4 cat_df, NumericVector t);
+RcppExport SEXP catSurv_likelihood(SEXP cat_dfSEXP, SEXP tSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
+    __result = Rcpp::wrap(likelihood(cat_df, t));
+    return __result;
+END_RCPP
+}
+// estimateTheta
+double estimateTheta(S4 cat_df);
+RcppExport SEXP catSurv_estimateTheta(SEXP cat_dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    __result = Rcpp::wrap(estimateTheta(cat_df));
+    return __result;
+END_RCPP
+}
+// estimateSE
+double estimateSE(S4 cat_df);
+RcppExport SEXP catSurv_estimateSE(SEXP cat_dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    __result = Rcpp::wrap(estimateSE(cat_df));
+    return __result;
+END_RCPP
+}
+// prior
+double prior(NumericVector x, CharacterVector c, NumericVector p);
+RcppExport SEXP catSurv_prior(SEXP xSEXP, SEXP cSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type c(cSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type p(pSEXP);
+    __result = Rcpp::wrap(prior(x, c, p));
+    return __result;
+END_RCPP
+}

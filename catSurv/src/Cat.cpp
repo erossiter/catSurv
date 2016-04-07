@@ -4,119 +4,136 @@
 using namespace Rcpp;
 
 
-Cat::Cat(S4 cat_df) {
-
-	std::vector<double> prior_values;
-	prior = (Prior) {.name = Rcpp::as<std::string>(cat_df.slot("priorName")),
-			.parameters = Rcpp::as<std::vector<double> >(cat_df.slot("priorParams"))};
-
-	for (auto i : X) {
-		prior.values.push_back(prior.prior(i, prior.name, prior.parameters);
-	}
+Cat::Cat(S4 cat_df) : prior(cat_df) {
+	questionSet = (QuestionSet) {.answers = Rcpp::as<std::vector<int> >(cat_df.slot("answers")),
+			.guessing =  Rcpp::as<std::vector<double> >(cat_df.slot("guessing")),
+			.discrimination = Rcpp::as<std::vector<double> >(cat_df.slot("discrimination"))
+	};
 
 
-
-	// Precalculate the rows that have been answered.s
-	std::vector<int> applicable_rows;
-	std::vector<int> nonapplicable_rows;
-	std::vector<int> answers = Rcpp::as<std::vector<int> >(cat_df.slot("answers"));
-
-	for (unsigned int i = 0; i < answers.size(); i++) {
-		if (answers[i] != NA_INTEGER) {
-			applicable_rows.push_back(i);
+	for (int i = 0; i < questionSet.answers.size(); i++) {
+		if (questionSet.answers[i] == NA_INTEGER) {
+			questionSet.nonapplicable_rows.push_back(i + 1);
 		} else {
-			nonapplicable_rows.push_back(i + 1);
+			questionSet.applicable_rows.push_back(i);
 		}
 	}
 
-	std::vector<std::vector<double> > difficulty;
-
-	// Unpack the difficulty list
-	List cat_difficulty = cat_df.slot("difficulty");
-	for (auto item : cat_difficulty) {
-		difficulty.push_back(Rcpp::as<std::vector<double> >(item));
+	for (auto item : (List) cat_df.slot("difficulty")) {
+		questionSet.difficulty.push_back(Rcpp::as<std::vector<double> >(item));
 	}
 
-	//TODO: Convert to initializer list
-	this->guessing = Rcpp::as<std::vector<double> >(cat_df.slot("guessing"));
-	this->discrimination = Rcpp::as<std::vector<double> >(cat_df.slot("discrimination"));
-	this->prior_values = prior_values;
-	this->prior_params = priorParams;
-	this->answers = answers;
+
 	this->D = Rcpp::as<std::vector<double> >(cat_df.slot("D"))[0];
-	this->X = Rcpp::as<std::vector<double> >(cat_df.slot("X"));
 	this->theta_est = Rcpp::as<std::vector<double> >(cat_df.slot("Theta.est"));
-	this->difficulty = difficulty;
-	this->applicable_rows = applicable_rows;
-	this->nonapplicable_rows = nonapplicable_rows;
-	this->coverage = Rcpp::as<std::vector<double> >(cat_df.slot("coverage"))[0];
-	this->points = Rcpp::as<std::vector<int> >(cat_df.slot("points"))[0];
-	this->poly = Rcpp::as<std::vector<bool> >(cat_df.slot("poly"))[0];
 }
 
 double Cat::likelihood(double theta, std::vector<int> items) {
 	double L = 1.0;
-	if (poly) {
+	if (questionSet.poly) {
 		for (auto question : items) {
-			double prob = probability(theta, question)[0];
-			int this_answer = answers[question];
-			L *= pow(prob, this_answer) * pow(1 - prob, 1 - this_answer);
+			auto question_cdf = probability(theta, question);
+			question_cdf.insert(question_cdf.begin(), 1.0);
+			question_cdf.push_back(0.0);
+			int index = questionSet.answers[question] - 1;
+			L *= question_cdf[index - 1] - question_cdf[index];
 		}
 		return L;
 	}
+
 	for (auto question : items) {
-
-		auto probabilities = probability(theta, question);
-
-		std::vector<double> question_cdf;
-
-		question_cdf.push_back(1.0);
-		question_cdf.insert(question_cdf.end(), probabilities.begin(), probabilities.end());
-		question_cdf.push_back(0.0);
-
-		std::vector<double> question_pdf;
-		for (unsigned int j = 0; j < question_cdf.size() - 1; ++j) {
-			question_pdf.push_back(question_cdf[j] - question_cdf[j + 1]);
-		}
-
-		L *= question_pdf[answers[question] - 1];
+		double prob = probability(theta, question)[0];
+		int this_answer = questionSet.answers[question];
+		L *= pow(prob, this_answer) * pow(1 - prob, 1 - this_answer);
 	}
 	return L;
-	//	} else {
-	//		double L = 1.0;
-	//		for(unsigned int i = 0; i < items.size(); ++i){
-	//			int question = items[i];
-	//			double prob = probability(cat, theta, question);
-	//			int this_answer = cat.answers[question];
-	//			double l_temp = pow(prob, this_answer) * pow(1-prob, 1-this_answer);
-	//			L *= l_temp;
-	//		}
-	//		return L;
-	//	}
 }
 
-std::vector<double> Cat::probability(double theta, int question_number) {
-	std::vector<double> probabilities;
-	auto question = get_question(question_number);
+std::vector<double> Cat::probability(double theta, int question) {
+	double initial_probability = exp(D * questionSet.discrimination[question - 1]);
+	double guessing = questionSet.guessing[question - 1];
 
-	double initial_probability = exp(D * questionSet.discrimination[question_number]);
-	double guessing = questionSet.guessing[question_number];
-
-	auto calculate = [&](auto difficulty) {
+	auto calculate = [&](int difficulty) {
 		double exp_prob = initial_probability * exp(theta - difficulty);
 		double base_probability = (exp_prob) / (1 + exp_prob);
-		return poly ? guessing + (1 - guessing) * base_probability : base_probability;
+		return questionSet.poly ? base_probability : guessing + (1 - guessing) * base_probability;
 	};
 
-	for (auto term : question.difficulty) {
+	std::vector<double> probabilities;
+	for (auto term : questionSet.difficulty[question - 1]) {
 		probabilities.push_back(calculate(term));
 	}
-
 	return probabilities;
 }
 
-Cat::Cat(QuestionSet questionSet, Integrator integrator, Estimator estimator, Prior prior)
-		: estimator(estimator), questionSet(questionSet), integrator(integrator), prior(prior) {
-	this->poly = questionSet.difficulty[0].size() > 1;
+Cat::Cat(QuestionSet &questionSet, Prior &prior)
+		: questionSet(questionSet), prior(prior) { }
+
+double Cat::estimateTheta() {
+	return estimator.estimateTheta(questionSet, prior);
 }
 
+double Cat::estimateSE() {
+	return estimator.estimateSE(questionSet, prior);
+}
+
+double Cat::expectedPV(int item) {
+	double sum = 0.0;
+
+	questionSet.applicable_rows.push_back(item); // add item to set of answered items
+	if (questionSet.poly) {
+		std::vector<double> variances;
+		for (unsigned i = 0; i < questionSet.difficulty[item].size() + 1; ++i) {
+			questionSet.answers[item] = i + 1;
+			variances.push_back(estimator.estimateSE(questionSet, prior));
+			variances[i] *= variances[i];
+		}
+		questionSet.answers[item] = NA_INTEGER;
+		questionSet.applicable_rows.pop_back();
+		std::vector<double> question_cdf = probability(estimator.estimateTheta(questionSet, prior), item);
+		question_cdf.insert(question_cdf.begin(), 1.0);
+		question_cdf.push_back(0.0);
+
+		for (unsigned i = 0; i < question_cdf.size() - 1; ++i) {
+			sum += variances[i] * (question_cdf[i] - question_cdf[i + 1]);
+		}
+		return sum;
+	}
+
+	questionSet.answers[item] = 0;
+	double variance_zero = estimateSE();
+	variance_zero *= variance_zero;
+
+	questionSet.answers[item] = 1;
+	double variance_one = estimateSE();
+	variance_one *= variance_one;
+
+	questionSet.applicable_rows.pop_back();
+	questionSet.answers[item] = NA_INTEGER; // remove answer
+
+	double prob_zero = probability(estimateTheta(), item)[0];
+	double prob_one = 1.0 - prob_zero;
+
+	return prob_zero * variance_zero + (prob_one * variance_one);
+
+}
+
+List Cat::nextItem() {
+	// For every unanswered item, calculate the epv of that item
+	std::vector<double> epvs;
+	int min_item = -1;
+	double min_epv = DBL_MAX;
+
+	for (int row : questionSet.nonapplicable_rows) {
+		double epv = expectedPV(row - 1);
+		epvs.push_back(epv);
+
+		if (epv < min_epv) {
+			min_item = row;
+			min_epv = epv;
+		}
+	}
+	DataFrame all_estimates = Rcpp::DataFrame_Impl<Rcpp::PreserveStorage>::create(
+			Named("questions") = questionSet.nonapplicable_rows, Named("EPV") = epvs);
+	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(min_item));
+}
