@@ -50,11 +50,10 @@ double Cat::likelihood(double theta, std::vector<int> items) {
 }
 
 std::vector<double> Cat::probability(double theta, int question) {
-	double initial_probability = exp(D * questionSet.discrimination[question - 1]);
 	double guessing = questionSet.guessing[question - 1];
 
 	auto calculate = [&](int difficulty) {
-		double exp_prob = initial_probability * exp(theta - difficulty);
+		double exp_prob = exp(D * questionSet.discrimination[question - 1] * (theta - difficulty));
 		double base_probability = (exp_prob) / (1 + exp_prob);
 		return questionSet.poly ? base_probability : guessing + (1 - guessing) * base_probability;
 	};
