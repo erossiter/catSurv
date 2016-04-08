@@ -8,6 +8,8 @@ using namespace Rcpp;
 // [[Rcpp::depends(BH)]]
 
 // [[Rcpp::export]]
+//'
+//'
 List probability(S4 cat_df, NumericVector t, IntegerVector q) {
 	Cat cat = Cat(cat_df);
 	double theta = t[0];
