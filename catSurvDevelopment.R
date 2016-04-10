@@ -2,9 +2,15 @@
 library(devtools)
 library(roxygen2)
 library(Rcpp)
-#setwd("/Users/iramalis/Desktop/gitstuff/CATSurv")
+library(testthat)
+setwd("/Users/iramalis/Desktop/gitstuff/CATSurv")
 setwd("/Users/erinrossiter/Dropbox/Spring2016/Rclass/CATsurv")
 
+getwd()
+test_dir("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat")
+source("/catSurv/tests/testthat/test-probability.R")
+
+?source
 
 current.code <- as.package("catSurv")
 load_all(current.code)
