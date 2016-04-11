@@ -55,8 +55,8 @@ test_that("polytomous likelihood calculates correctly",{
   ## R test function
   
   likelihood_test <- function(catPoly = "Cat", theta = "numeric", items = "numeric"){
-    ## each element in p_ikList is a vector corresponding to a question item
-    ##    (the output of the polytomous probability function for each question item)
+    ## each element in p_ikList is a vector (possibly of length 1) corresponding to a question item 
+    ##    (the output of the binary or polytomous probability function for each question item)
     ## each vector will be of length k_i, where k_i is the number of possible response
     ##    categories to question i, and each value in the vector is the probability of
     ##    the respondent giving a response in a category strictly higher than k
@@ -68,19 +68,38 @@ test_that("polytomous likelihood calculates correctly",{
     ##  ...from "the probability of a response in a category strictly higher than k"...
     ##  ...to, "the probability of a response in exactly category k
     
-    p_ikListExact<-lapply(p_ikList, function(i){ ## iterating over each question item...
-      
-      })
-    })
+    p_ikListExact<-p_ikList ##copy list
     
+    for (i in 1:length(p_ikList)){ ##iterating over items...
+      for(k in 1:length(p_ikList[[i]])){ ##iterating over response categories
+        if(k==1){ ## p_ikListExact[[i]][k] = p_ikList[[i]][k-1] - p_ikList[[i]][k]...
+                  ## ...but p_ikList[[i]][0] = 1, as no responses are in category k=0 
+                  ##  (see note in 3.1.2, between equations (4) and (5))
+          p_ikListExact[[i]][k]<-1-p_ikList[[i]][k]
+        }
+        else p_ikListExact[[i]][k]<-p_ikList[[i]][k-1]-p_ikList[[i]][k]
+      }
+    }
+    
+    ##storing answers for question items of interest
     ansVec<-catPoly@answers[items]
     
-    #piqiVec<-sapply(1:length(p_iVec), function(i){
-    #  (p_iVec[i]^ansVec[i])*((1-p_iVec[i])^(1-ansVec[i]))
-    #})
+    ## creating a list of vectors of (P_ijk)^I(y_ij = k) values... 
+    ## ... each element of the list is a vector, corresponding to question item i, of length k_i
+    ## ... and each element of each (length k) vector is the value of (P_ijk)^I(y_ij = k)
+    probExpList<-p_ikListExact
+    for(i in 1:length(probExpList)){
+      thisItemValues<-c()
+      for(k in 1:length(i)){
+        hold<-(p_ikListExact[[i]][k])^(ansVec[i]==k)
+        thisItemValues<-c(thisItemValues,hold)
+      }
+    }
     
-    #likelihood<-sapply(piqiVec, prod) 
-    
+    ##multiplying over response categories
+    productList<-lapply(probExpList, prod)
+   ##multiplying over question items
+    likelihood<-prod(productList)
     return(likelihood)
   }
   expect_equal(likelihood(catPoly_test, t=1, q=1), likelihood_test(catPoly_test, 1, 1))
