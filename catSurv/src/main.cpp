@@ -6,10 +6,30 @@ using namespace Rcpp;
 
 // [[Rcpp::plugins(cpp11)]]
 
-
+//' Probabilities of the responses to a question given theta 
+//' 
+//' This function calculates the probabilities of a specific set of responses to a specific question for a specific value of \eqn{\theta}.
+//' 
+//' @param cat_df An object of \code{Cat} class
+//' @param t A double indicating the potential value for \eqn{\theta_j}
+//' @param q An integer indicating the index of the question
+//' @param ret_prob (For polytonomous implementation only) A double-vector where the calculations carried out by this function will be stored.
+//' 
+//' @return A vector consisting of the probability of a correct response for each respondent on item \eqn{i}.
+//' 
+//' @details The probability of a correct response for respondent \eqn{j} on item \eqn{i} is ....
+//' where \eqn{\theta_j} is respondent \eqn{j}'s position on the latent scale of interest, \eqn{a_i} is item \eqn{i}'s discrimination parameter,
+//'  \eqn{b_i} is item i's difficulty parameter, and \eqn{c_i} is item \eqn{i}'s guessing parameter.
+//'  
+//'  Note: this function is overloaded, due to different output types of binary vs polytomous implementations (outputs single value for binary implementation,
+//'  vector of values for polytomous implementation)
+//'  
+//'  Note: the function for polytomous implementation does not return values, but rather alters the object ret_prob in memory
+//'  
+//'  Note: I'm not sure whether the above two notes are true...
+//'  
+//' @export
 // [[Rcpp::export]]
-//'
-//'
 List probability(S4 cat_df, NumericVector t, IntegerVector q) {
 	Cat cat = Cat(cat_df);
 	double theta = t[0];
@@ -19,6 +39,19 @@ List probability(S4 cat_df, NumericVector t, IntegerVector q) {
 	return List::create(Named("all.probabilities") = question_probs);
 }
 
+//' Likelihood of offering specific response
+//' 
+//' This function returns the value of likelihood of a person with ability parameter \eqn{\theta} having offered the specific response profile stored in answers conditional on the item-level parameters. 
+//' 
+//' @param cat_df An object of \code{Cat} class
+//' @param t A numeric for possible value of theta (position on the latent scale of interest)
+//' 
+//' @return A value of the likelihood of each respondent having offered the provided response profile
+//' 
+//' @details Letting \eqn{q_i(\theta_j)=1-p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is..
+//' \deqn{L(\theta_j|\mathbf{y}_{j})=\prod^{j}_{i=1}p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij}}}, where \eqn{y_j} is evaluated based only on the questions the respondent has actually had the opportunity to answer
+//'  
+//' @export
 // [[Rcpp::export]]
 double likelihood(S4 cat_df, NumericVector t) {
 	Cat cat = Cat(cat_df);
