@@ -26,8 +26,6 @@ using namespace Rcpp;
 //'  
 //'  Note: the function for polytomous implementation does not return values, but rather alters the object ret_prob in memory
 //'  
-//'  Note: I'm not sure whether the above two notes are true...
-//'  
 //' @export
 // [[Rcpp::export]]
 List probability(S4 cat_df, NumericVector t, IntegerVector q) {
@@ -58,6 +56,24 @@ double likelihood(S4 cat_df, NumericVector t) {
 	return cat.likelihood(t[0], cat.questionSet.applicable_rows);
 }
 
+//' Estimate of the ability parameter
+//' 
+//' This function takes a Cat object and returns the expected value of the ability parameter conditioned on the observed answers and the item calibrations.
+//' 
+//' @param cat An object of \code{Cat} class
+//' 
+//' @return An expected value of the ability parameter
+//' 
+//' @details The expected value of \eqn{\theta_j} is:
+//' \frac{\int_{-\infty}^\infty \theta_j \deqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \deqn{L}(\theta_j) \pi(\theta_j) d\theta_j},
+//' where \deqn{L}(\theta_j) is the likelihood function and \pi(\theta_j) is the prior distribution for \eqn{\theta_j}
+//'   
+//'  
+//'  Note: For the moment, this function implements only the expected a posteriori (EAP) approach
+//'  
+//'  Note: This method will only be available using the normal prior distribution
+//'  
+//' @export
 // [[Rcpp::export]]
 double estimateTheta(S4 cat_df) {
 	return Cat(cat_df).estimateTheta();
