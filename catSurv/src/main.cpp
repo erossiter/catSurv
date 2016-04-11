@@ -62,7 +62,7 @@ double likelihood(S4 cat_df, NumericVector t) {
 //' 
 //' @param cat An object of \code{Cat} class
 //' 
-//' @return An expected value of the ability parameter
+//' @return A vector consisting of the expected value of the ability parameter
 //' 
 //' @details The expected value of \eqn{\theta_j} is:
 //' \frac{\int_{-\infty}^\infty \theta_j \deqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \deqn{L}(\theta_j) \pi(\theta_j) d\theta_j},
@@ -98,6 +98,18 @@ double estimateSE(S4 cat_df) {
 	return Cat(cat_df).estimateSE();
 }
 
+
+//' The possible prior distribution functions
+//' 
+//' This function returns the prior value for each respondent's position on the latent scale of interest
+//' 
+//' @param x A numeric value where we want to evaluate the prior name
+//' 
+//' @return A vector consisting of prior value, \pi(x), given the value \eqn{x}
+//' 
+//' @details \eqn{x} needs to be either NORMAL or STUDENT_T params, which are parameters controlling the shape of the prior
+//'  
+//' @export
 // [[Rcpp::export]]
 double prior(NumericVector x, CharacterVector c, NumericVector p) {
 	std::string name = Rcpp::as<std::string>(c);
