@@ -5,6 +5,7 @@ library(Rcpp)
 library(testthat)
 setwd("/Users/iramalis/Desktop/gitstuff/CATSurv")
 setwd("/Users/erinrossiter/Dropbox/Spring2016/Rclass/CATsurv")
+setwd("~/Dropbox/2016Spring_Programming/CATSurv")
 
 getwd()
 test_dir("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat")

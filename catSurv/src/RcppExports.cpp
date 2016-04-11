@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // probability
-//' //' List probability(S4 cat_df, NumericVector t, IntegerVector q);
+List probability(S4 cat_df, NumericVector t, IntegerVector q);
 RcppExport SEXP catSurv_probability(SEXP cat_dfSEXP, SEXP tSEXP, SEXP qSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
