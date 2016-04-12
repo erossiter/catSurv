@@ -46,7 +46,7 @@ List probability(S4 cat_df, NumericVector t, IntegerVector q) {
 //' 
 //' @return A value of the likelihood of each respondent having offered the provided response profile
 //' 
-//' @details Letting \eqn{q_{i}(\theta_j)=1-p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is..
+//' @details Letting \eqn{q_i(\theta_j)=1-p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is..
 //' \eqn{L(\theta_j|\mathbf{y}_{j})=\prod^{j}_{i=1}p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij}}}, where \eqn{y_j} is evaluated based only on the questions the respondent has actually had the opportunity to answer
 //'  
 //' @export
