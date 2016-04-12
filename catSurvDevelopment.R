@@ -18,6 +18,8 @@ load_all(current.code)
 document(current.code)
 
 ?probability
+?likelihood
+?estimateSE
 ?estimateTheta
 
 ## Install the package

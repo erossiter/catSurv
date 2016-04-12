@@ -14,11 +14,10 @@ test_that("binary probability calculates correctly", {
   
   ## R test function
   probability_test_bi <- function(cat = "Cat", theta = "numeric", question = "numeric"){
-    D = cat@D
 	  discrimination = cat@discrimination[question]
 	  difficulty = cat@difficulty[question]
 	  guessing = cat@guessing[question]
-	  exp_prob = exp(D * discrimination * (theta - difficulty))
+	  exp_prob = exp(discrimination * (theta - difficulty))
 	  probability <- guessing + (1-guessing) * (exp_prob / (1 + exp_prob))
 	  return(probability)
 	  }
@@ -47,16 +46,15 @@ test_that("polytomous probability calculates correctly", {
 
   ## R test function
   probability_test_poly <- function(cat = "Cat", theta = "numeric", question = "numeric"){
-    D = cat@D
     discrimination = cat@discrimination[question]
     difficulty = cat@difficulty[[question]]
     probVec <- c()
     for(k in 1:length(difficulty)){
-      exp_prob = exp(D * discrimination * (theta - difficulty[k]))
+      exp_prob = exp(discrimination * (theta - difficulty[k]))
       probK<-(exp_prob/(1+exp_prob))
       probVec<-c(probVec, probK)
     }
-    return(probVec) ## NEEDS TO RETURN A LIST
+    return(as.list(probVec)) ## NEEDS TO RETURN A LIST
   }
   
   expect_equal(probability(catPoly, t=1, q=1), probability_test_poly(catPoly, 1, 1))
