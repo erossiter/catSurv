@@ -12,7 +12,6 @@
 #' \item \code{lowerBound} The lower bound of the interval of the latent scale used in estimation. The default value is \code{-4.5}.
 #' \item \code{upperBound} The upper bound of the interval of the latent scale used in estimation. The default value is \code{4.5}.
 #' \item \code{quadPoints} Desired number of points to be used in approximating integral. The default value is \code{43}.
-#' \item \code{D} A model parameter. 1 is for a logistic model and 1.702 for an approximation of the probit model. The default value is 1.
 #' \item \code{difficulty} A named vector consisting of difficulty parameter for each item.
 #' \item \code{X}
 #' \item \code{Theta.est} A scalar value containing an estimate of a respondent's position on the latent trait.  Generally, this is the output of the \code{\link{estimateTheta}} funciton.
@@ -44,7 +43,6 @@ setClass("Cat",
            lowerBound="numeric",
            upperBound="numeric",
            quadPoints="numeric",
-           D="numeric",
            X="numeric",
            Theta.est="numeric",
            difficulty="numericORlist",
@@ -61,7 +59,6 @@ setClass("Cat",
            lowerBound=-4.5,
            upperBound=4.5,
            quadPoints=43,
-           D=1,
            poly=FALSE,
            integration="trapezoid",
            estimation="EAP",
