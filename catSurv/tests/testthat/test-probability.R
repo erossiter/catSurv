@@ -56,7 +56,7 @@ test_that("polytomous probability calculates correctly", {
       probK<-(exp_prob/(1+exp_prob))
       probVec<-c(probVec, probK)
     }
-    return(probVec)
+    return(probVec) ## NEEDS TO RETURN A LIST
   }
   
   expect_equal(probability(catPoly, t=1, q=1), probability_test(catPoly, 1, 1))
