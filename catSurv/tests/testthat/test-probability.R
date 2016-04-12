@@ -13,7 +13,7 @@ test_that("binary probability calculates correctly", {
   catBi@guessing <- c(.5, .1, .32, .999)
   
   ## R test function
-  probability_test <- function(cat = "Cat", theta = "numeric", question = "numeric"){
+  probability_test_bi <- function(cat = "Cat", theta = "numeric", question = "numeric"){
     D = cat@D
 	  discrimination = cat@discrimination[question]
 	  difficulty = cat@difficulty[question]
@@ -23,10 +23,10 @@ test_that("binary probability calculates correctly", {
 	  return(probability)
 	  }
 
-  expect_equal(probability(catBi, t=1, q=1), probability_test(catBi, 1, 1))
-  expect_equal(probability(catBi, t=1872, q=2), probability_test(catBi, 1872, 2))
-  expect_equal(probability(catBi, t=.001, q=3), probability_test(catBi, .001, 3))
-  expect_equal(probability(catBi, t=-90, q=4), probability_test(catBi, -90, 4))
+  expect_equal(probability(catBi, t=1, q=1), probability_test_bi(catBi, 1, 1))
+  expect_equal(probability(catBi, t=1872, q=2), probability_test_bi(catBi, 1872, 2))
+  expect_equal(probability(catBi, t=.001, q=3), probability_test_bi(catBi, .001, 3))
+  expect_equal(probability(catBi, t=-90, q=4), probability_test_bi(catBi, -90, 4))
   
 })
 
@@ -46,7 +46,7 @@ test_that("polytomous probability calculates correctly", {
   
 
   ## R test function
-  probability_test <- function(cat = "Cat", theta = "numeric", question = "numeric"){
+  probability_test_poly <- function(cat = "Cat", theta = "numeric", question = "numeric"){
     D = cat@D
     discrimination = cat@discrimination[question]
     difficulty = cat@difficulty[[question]]
@@ -59,10 +59,10 @@ test_that("polytomous probability calculates correctly", {
     return(probVec) ## NEEDS TO RETURN A LIST
   }
   
-  expect_equal(probability(catPoly, t=1, q=1), probability_test(catPoly, 1, 1))
-  expect_equal(probability(catPoly, t=1872, q=2), probability_test(catPoly, 1872, 2))
-  expect_equal(probability(catPoly, t=.001, q=3), probability_test(catPoly, .001, 3))
-  expect_equal(probability(catPoly, t=-90, q=4), probability_test(catPoly, -90, 4))
+  expect_equal(probability(catPoly, t=1, q=1), probability_test_poly(catPoly, 1, 1))
+  expect_equal(probability(catPoly, t=1872, q=2), probability_test_poly(catPoly, 1872, 2))
+  expect_equal(probability(catPoly, t=.001, q=3), probability_test_poly(catPoly, .001, 3))
+  expect_equal(probability(catPoly, t=-90, q=4), probability_test_poly(catPoly, -90, 4))
   ## I don't know if it's a problem that the cpp function returns a List (according to main.cpp)
   ##  because according to Cat.cpp it actually returns a vector of doubles...
 })
