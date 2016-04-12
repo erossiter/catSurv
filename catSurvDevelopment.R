@@ -17,6 +17,9 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+?probability
+?estimateTheta
+
 ## Install the package
 install(pkg=current.code, local=TRUE, args="--no-multiarch")
 

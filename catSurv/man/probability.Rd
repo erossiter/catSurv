@@ -30,7 +30,5 @@ where \eqn{\theta_j} is respondent \eqn{j}'s position on the latent scale of int
  vector of values for polytomous implementation)
  
  Note: the function for polytomous implementation does not return values, but rather alters the object ret_prob in memory
- 
- Note: I'm not sure whether the above two notes are true...
 }
 
