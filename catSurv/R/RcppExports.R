@@ -35,9 +35,7 @@ probability <- function(cat_df, t, q) {
 #' 
 #' @return A value of the likelihood of each respondent having offered the provided response profile
 #' 
-#' @details Letting \eqn{q_{i}(\theta_j)=1-p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is..
-#' \eqn{L(\theta_j|\mathbf{y}_{j})=\prod^{j}_{i=1}p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij}}}, where \eqn{y_j} is evaluated based only on the questions the respondent has actually had the opportunity to answer
-#'  
+#' @details Letting \deqn{q_i(\theta_j)=1-p_i(\theta_[j])} <sup>superscript</sup>
 #' @export
 likelihood <- function(cat_df, t) {
     .Call('catSurv_likelihood', PACKAGE = 'catSurv', cat_df, t)

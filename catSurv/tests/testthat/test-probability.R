@@ -6,8 +6,11 @@ context("Probability")
 test_that("binary probability calculates correctly", {
   
   ## Creating a cat object and filling in needed slots
-  catBiCreator
-  catBi <- new("Cat")
+  catBiCreator<-function(length="numeric"){
+    catBi <- new("Cat")
+    
+  }
+  
   catBi@discrimination <- c(2,4,6,8)
   catBi@difficulty <- c(3,5,-12.27,9)
   catBi@guessing <- c(.5, .1, .32, .999)
