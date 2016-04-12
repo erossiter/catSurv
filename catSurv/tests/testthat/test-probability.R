@@ -1,12 +1,12 @@
 library(catSurv)
 context("Probability")
 
-## is it better to set this up as a single test, with an if(poly){...expect_equal(...)} else {...expect_equal(...)} ?
+###### BINARY PROBABILITY TEST ########
 
 test_that("binary probability calculates correctly", {
   
   ## Creating a cat object and filling in needed slots
-  
+  catBiCreator
   catBi <- new("Cat")
   catBi@discrimination <- c(2,4,6,8)
   catBi@difficulty <- c(3,5,-12.27,9)
@@ -28,6 +28,8 @@ test_that("binary probability calculates correctly", {
   expect_equal(probability(catBi, t=-90, q=4), probability_test_bi(catBi, -90, 4))
   
 })
+
+###### POLYTOMOUS PROBABILITY TEST ########
 
 test_that("polytomous probability calculates correctly", {
   
@@ -54,7 +56,7 @@ test_that("polytomous probability calculates correctly", {
       probK<-(exp_prob/(1+exp_prob))
       probVec<-c(probVec, probK)
     }
-    return(as.list(probVec)) ## NEEDS TO RETURN A LIST
+    return(as.list(probVec))
   }
   
   expect_equal(probability(catPoly, t=1, q=1), probability_test_poly(catPoly, 1, 1))
