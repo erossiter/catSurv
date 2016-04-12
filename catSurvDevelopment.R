@@ -19,6 +19,7 @@ document(current.code)
 
 ?probability
 ?likelihood
+warnings()
 ?estimateSE
 ?estimateTheta
 

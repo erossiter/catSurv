@@ -65,7 +65,7 @@ double likelihood(S4 cat_df, NumericVector t) {
 //' @return A vector consisting of the expected value of the ability parameter
 //' 
 //' @details The expected value of \eqn{\theta_j} is:
-//' \frac{\int_{-\infty}^\infty \theta_j \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j},
+//' \eqn{\frac{\int_{-\infty}^\infty \theta_j \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}},
 //' where \eqn{L}(\theta_j) is the likelihood function and \pi(\theta_j) is the prior distribution for \eqn{\theta_j}
 //'   
 //'  

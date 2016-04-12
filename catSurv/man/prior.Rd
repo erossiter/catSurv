@@ -10,7 +10,7 @@ prior(x, c, p)
 \item{x}{A numeric value where we want to evaluate the prior name}
 }
 \value{
-A vector consisting of prior value, \pi(x), given the value \eqn{x}
+A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
 }
 \description{
 This function returns the prior value for each respondent's position on the latent scale of interest

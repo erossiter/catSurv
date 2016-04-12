@@ -15,9 +15,4 @@ The posterior standard error for \eqn{\theta_j}
 \description{
 This function estimates the standard error for the posterior estimate for the position \eqn{\theta_j} of a person on the latent scale
 }
-\details{
-The posterior variance for \eqn{\theta_j} is:
-\deqn{Var}(\hat{\theta}_j) = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{\int\pi(\theta_j)L(\theta_j)d\theta_j},
-where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then \sqrt{\mbox{Var}(\hat{\theta}_j)}
-}
 

@@ -36,7 +36,7 @@ probability <- function(cat_df, t, q) {
 #' @return A value of the likelihood of each respondent having offered the provided response profile
 #' 
 #' @details Letting \eqn{q_i(\theta_j)=1-p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is..
-#' \deqn{L(\theta_j|\mathbf{y}_{j})=\prod^{j}_{i=1}p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij}}}, where \eqn{y_j} is evaluated based only on the questions the respondent has actually had the opportunity to answer
+#' \eqn{L(\theta_j|\mathbf{y}_{j})=\prod^{j}_{i=1}p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij}}}, where \eqn{y_j} is evaluated based only on the questions the respondent has actually had the opportunity to answer
 #'  
 #' @export
 likelihood <- function(cat_df, t) {
@@ -52,8 +52,8 @@ likelihood <- function(cat_df, t) {
 #' @return A vector consisting of the expected value of the ability parameter
 #' 
 #' @details The expected value of \eqn{\theta_j} is:
-#' \frac{\int_{-\infty}^\infty \theta_j \deqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \deqn{L}(\theta_j) \pi(\theta_j) d\theta_j},
-#' where \deqn{L}(\theta_j) is the likelihood function and \pi(\theta_j) is the prior distribution for \eqn{\theta_j}
+#' \frac{\int_{-\infty}^\infty \theta_j \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j},
+#' where \eqn{L}(\theta_j) is the likelihood function and \pi(\theta_j) is the prior distribution for \eqn{\theta_j}
 #'   
 #'  
 #'  Note: For the moment, this function implements only the expected a posteriori (EAP) approach
@@ -74,7 +74,7 @@ estimateTheta <- function(cat_df) {
 #' @return The posterior standard error for \eqn{\theta_j}
 #' 
 #' @details The posterior variance for \eqn{\theta_j} is:
-#' \deqn{Var}(\hat{\theta}_j) = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{\int\pi(\theta_j)L(\theta_j)d\theta_j},
+#' \eqn{\hat{\theta}_j = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{}\int\pi(\theta_j)L(\theta_j)d\theta_j}},
 #' where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then \sqrt{\mbox{Var}(\hat{\theta}_j)}
 #'   
 #'  
@@ -89,7 +89,7 @@ estimateSE <- function(cat_df) {
 #' 
 #' @param x A numeric value where we want to evaluate the prior name
 #' 
-#' @return A vector consisting of prior value, \pi(x), given the value \eqn{x}
+#' @return A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
 #' 
 #' @details \eqn{x} needs to be either NORMAL or STUDENT_T params, which are parameters controlling the shape of the prior
 #'  
