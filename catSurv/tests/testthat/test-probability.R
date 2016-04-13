@@ -5,15 +5,21 @@ context("Probability")
 
 test_that("binary probability calculates correctly", {
   
-  ## Creating a cat object and filling in needed slots
-  catBiCreator<-function(length="numeric"){
-    catBi <- new("Cat")
-    
+  ## Creating a lot of cat objects and filling in needed slots
+  
+  catBiCreator<-function(numCats=10){
+    set.seed(999)
+    allTheCats<-as.list(rep(NA, numCats))
+    for(i in 1:numCats){
+      newCat<-new("Cat")
+      numQuestions<-floor(abs(50*(rnorm(1))))
+      newCat@discrimination<-sort(100*rnorm(numQuestions))
+      newCat@difficulty<-sort(100*rnorm(numQuestions))
+      newCat@difficulty<-runif(numQuestions)
+      allTheCats[[i]]<-newCat
+    }
   }
   
-  catBi@discrimination <- c(2,4,6,8)
-  catBi@difficulty <- c(3,5,-12.27,9)
-  catBi@guessing <- c(.5, .1, .32, .999)
   
   ## R test function
   probability_test_bi <- function(cat = "Cat", theta = "numeric", question = "numeric"){
@@ -25,6 +31,11 @@ test_that("binary probability calculates correctly", {
 	  return(probability)
 	  }
 
+  thetaVec<-
+  funValues<-lapply(allTheCats, function(x){
+    
+    probability_test_bi(x, )})
+  testValues<-
   expect_equal(probability(catBi, t=1, q=1), probability_test_bi(catBi, 1, 1))
   expect_equal(probability(catBi, t=1872, q=2), probability_test_bi(catBi, 1872, 2))
   expect_equal(probability(catBi, t=.001, q=3), probability_test_bi(catBi, .001, 3))
