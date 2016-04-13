@@ -31,15 +31,21 @@ test_that("binary probability calculates correctly", {
 	  return(probability)
 	  }
 
-  thetaVec<-
-  funValues<-lapply(allTheCats, function(x){
-    
-    probability_test_bi(x, )})
-  testValues<-
-  expect_equal(probability(catBi, t=1, q=1), probability_test_bi(catBi, 1, 1))
-  expect_equal(probability(catBi, t=1872, q=2), probability_test_bi(catBi, 1872, 2))
-  expect_equal(probability(catBi, t=.001, q=3), probability_test_bi(catBi, .001, 3))
-  expect_equal(probability(catBi, t=-90, q=4), probability_test_bi(catBi, -90, 4))
+  ## setting inputs to the "funValues" function
+  thetaVec<-c()
+  questionVec<-c()
+  setThetaQuestion<-function(seed=1000){
+    set.seed(seed)
+    thetaVec<-c(1000*rnorm(length(allTheCats)))
+    questionVec<-c(floor(1000*runif(length(allTheCats))))
+  }
+  
+  realFunValues<-lapply(length(allTheCats), function(x){
+    probability(allTheCats[[x]], thetaVec(x), questionVec(x))})
+  testFunValues<-lapply(length(allTheCats), function(x){
+    probability_test_bi(allTheCats[[x]], thetaVec(x), questionVec(x))})
+  
+  expect_equal(realFunValues, testFunValues)
   
 })
 
