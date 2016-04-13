@@ -103,7 +103,7 @@ double estimateSE(S4 cat_df) {
 //' 
 //' This function returns the prior value for each respondent's position on the latent scale of interest
 //' 
-//' @param x A numeric value where we want to evaluate the prior name
+//' @param x A numeric value where we want to evaluate the prior
 //' 
 //' @return A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
 //' 
