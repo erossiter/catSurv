@@ -14,9 +14,9 @@ test_that("binary probability calculates correctly", {
       newCat<-new("Cat")
       ## randomly assigning number of questions for each Cat
       numQuestions<-floor(abs(50*(rnorm(1))))
-      newCat@discrimination<-sort(100*rnorm(numQuestions))
+      newCat@discrimination<-(100*rnorm(numQuestions))
       newCat@difficulty<-sort(100*rnorm(numQuestions))
-      newCat@difficulty<-runif(numQuestions)
+      newCat@guessing<-runif(numQuestions)
       allTheCats[[i]]<-newCat
     }
   }
@@ -39,20 +39,27 @@ test_that("binary probability calculates correctly", {
 
   ## setting the question and theta values for the test...
   thetaVec<-c()
-  questionVec<-c()
-  setThetaQuestion<-function(seed="numeric"){
+  setThetas<-function(seed="numeric"){
     set.seed(seed)
     thetaVec<-c(1000*rnorm(length(allTheCats)))
-    questionVec<-c(floor(1000*runif(length(allTheCats))))
   }
-  setThetaQuestion(1000)
+  setThetas(1000)
+  
+  questionList<-c()
+  questionList<-lapply(1:length(allTheCats), function(x){
+    #drawing a question randomly from the number of questions stored in the Cat stored at allTheCats[[x]]
+    set.seed(2222)
+    questionVec[x]<-runif(length(allTheCats[[x]]@discrimination)) 
+  })
+  questionVec<-unlist(questionList)
+  
   
   ##### NEED A CHECK ON WHETHER QUESTIONS ARE IN BOUNDS 
   #####    (ie is each value in questionVec smaller than the number of questions in its corresponding Cat)
   
   
   ##calculating values from real probability function
-  realFunValues<-lapply(length(allTheCats), function(x){
+  realFunValues<-lapply(1:length(allTheCats), function(x){
     probability(allTheCats[[x]], thetaVec(x), questionVec(x))})
   
   ##calculating values from the test probability function (created above)

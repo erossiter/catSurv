@@ -82,6 +82,21 @@ setValidity("Cat", function(object){
   test4<-(length(object@discrimination)==length(object@difficulty))  
   if(!test4){return("discrimination and difficulty not same length")}
   
+  ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING
+  if(poly){
+    for(i in object@difficulty){
+      if (is.list(i)){
+        i<-unlist(i)
+      }
+      sorted<-sort(i)
+      uniques<-unique(i)
+      test5<-(isTRUE(all.equal(i,uniques)))
+      if(!test5){return(paste("Repeated difficulty values for question ", which(object@difficulty==i, arr.ind=T))}
+      test6<-(isTRUE(all.equal(i,sorted)))
+      if(!test6){return(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " are not increasing")}
+    }
+  }
+  
 })
 
 #' @export
