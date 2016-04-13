@@ -35,7 +35,17 @@ probability <- function(cat_df, t, q) {
 #' 
 #' @return A value of the likelihood of each respondent having offered the provided response profile
 #' 
+<<<<<<< Updated upstream
 #' @details Letting \deqn{q_i(\theta_j)=1-p_i(\theta_[j])} <sup>superscript</sup>
+=======
+<<<<<<< Updated upstream
+#' @details Letting \eqn{q_{i}(\theta_j)=1-p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is..
+=======
+#' @details Letting \eqn{q_i(\theta_j)=1-p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is..
+>>>>>>> Stashed changes
+#' \eqn{L(\theta_j|\mathbf{y}_{j})=\prod^{j}_{i=1}p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij}}}, where \eqn{y_j} is evaluated based only on the questions the respondent has actually had the opportunity to answer
+#'  
+>>>>>>> Stashed changes
 #' @export
 likelihood <- function(cat_df, t) {
     .Call('catSurv_likelihood', PACKAGE = 'catSurv', cat_df, t)
@@ -50,7 +60,11 @@ likelihood <- function(cat_df, t) {
 #' @return A vector consisting of the expected value of the ability parameter
 #' 
 #' @details The expected value of \eqn{\theta_j} is:
+<<<<<<< Updated upstream
 #' \eqn{\frac{\int_{-\infty}^\infty \theta_j \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}},
+=======
+#' \frac{\int_{-\infty}^\infty \theta_j \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j},
+>>>>>>> Stashed changes
 #' where \eqn{L}(\theta_j) is the likelihood function and \pi(\theta_j) is the prior distribution for \eqn{\theta_j}
 #'   
 #'  

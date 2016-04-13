@@ -11,15 +11,15 @@ using namespace Rcpp;
 //' This function calculates the probabilities of a specific set of responses to a specific question for a specific value of \eqn{\theta}.
 //' 
 //' @param cat_df An object of \code{Cat} class
-//' @param t A double indicating the potential value for \eqn{\theta_j}
+//' @param t A double indicating the potential value for \eqn{\theta_{j}}{\theta_j}
 //' @param q An integer indicating the index of the question
 //' @param ret_prob (For polytonomous implementation only) A double-vector where the calculations carried out by this function will be stored.
 //' 
 //' @return A vector consisting of the probability of a correct response for each respondent on item \eqn{i}.
 //' 
 //' @details The probability of a correct response for respondent \eqn{j} on item \eqn{i} is ....
-//' where \eqn{\theta_j} is respondent \eqn{j}'s position on the latent scale of interest, \eqn{a_i} is item \eqn{i}'s discrimination parameter,
-//'  \eqn{b_i} is item i's difficulty parameter, and \eqn{c_i} is item \eqn{i}'s guessing parameter.
+//' where \eqn{\theta_{j}}{\theta_j} is respondent \eqn{j}'s position on the latent scale of interest, \eqn{a_{i}}{a_i} is item \eqn{i}'s discrimination parameter,
+//'  \eqn{b_{i}}{b_i} is item i's difficulty parameter, and \eqn{c_{i}}{c_i} is item \eqn{i}'s guessing parameter.
 //'  
 //'  Note: this function is overloaded, due to different output types of binary vs polytomous implementations (outputs single value for binary implementation,
 //'  vector of values for polytomous implementation)
@@ -46,8 +46,8 @@ List probability(S4 cat_df, NumericVector t, IntegerVector q) {
 //' 
 //' @return A value of the likelihood of each respondent having offered the provided response profile
 //' 
-//' @details Letting \eqn{q_i(\theta_j)=1-p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is..
-//' \eqn{L(\theta_j|\mathbf{y}_{j})=\prod^{j}_{i=1}p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij}}}, where \eqn{y_j} is evaluated based only on the questions the respondent has actually had the opportunity to answer
+//' @details Letting \eqn{q_{i}(\theta_{j})=1-p_{i}(\theta_{j})}{q_i(\theta_j)=1-p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_{j}}{y_j} is..
+//' \eqn{L(\theta_{j}|y_{j})=\prod^{j}_{i=1}p_{i}(\theta_{j})^{y_{ij}}q_{i}(\theta_{j})^{(1-y_{ij}}}{L(\theta_j|y_j)=\prod^{j}_{i=1}p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij}}}, where \eqn{y_{j}}{y_j} is evaluated based only on the questions the respondent has actually had the opportunity to answer
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -64,9 +64,9 @@ double likelihood(S4 cat_df, NumericVector t) {
 //' 
 //' @return A vector consisting of the expected value of the ability parameter
 //' 
-//' @details The expected value of \eqn{\theta_j} is:
-//' \eqn{\frac{\int_{-\infty}^\infty \theta_j \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}},
-//' where \eqn{L}(\theta_j) is the likelihood function and \pi(\theta_j) is the prior distribution for \eqn{\theta_j}
+//' @details The expected value of \eqn{\theta_{j}}{\theta_j} is:
+//' \eqn{\frac{\int_{-\infty}^{\infty} \theta_{j} \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}}{\frac{\int_{-\infty}^\infty \theta_j \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}},
+//' where \eqn{L(\theta_{j})}{L(\theta_j)} is the likelihood function and \eqn{\pi(\theta_{j})}{\pi(\theta_j)} is the prior distribution for \eqn{\theta_{j}}{\theta_j}
 //'   
 //'  
 //'  Note: For the moment, this function implements only the expected a posteriori (EAP) approach
@@ -81,15 +81,15 @@ double estimateTheta(S4 cat_df) {
 
 //' Estimate of standard error for the posterior estimate
 //' 
-//' This function estimates the standard error for the posterior estimate for the position \eqn{\theta_j} of a person on the latent scale
+//' This function estimates the standard error for the posterior estimate for the position \eqn{\theta_{j}}{\theta_j} of a person on the latent scale
 //' 
 //' @param cat An object of \code{Cat} class
 //' 
-//' @return The posterior standard error for \eqn{\theta_j}
+//' @return The posterior standard error for \eqn{\theta_{j}}{\theta_j}
 //' 
 //' @details The posterior variance for \eqn{\theta_j} is:
-//' \eqn{\hat{\theta}_j = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{}\int\pi(\theta_j)L(\theta_j)d\theta_j}},
-//' where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then \sqrt{\mbox{Var}(\hat{\theta}_j)}
+//' \eqn{\hat{\theta}_{j} = E[(\theta_{j}-\hat{\theta_{j}})^{2}]=\frac{\int(\theta_{j}-\hat{\theta_{j}})^{2}\pi(\theta_{j})L(\theta_{j})d\theta_{j}}\int\pi(\theta_{j})L(\theta_{j})d\theta_{j}}}{\hat{\theta}_j = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}\int\pi(\theta_j)L(\theta_j)d\theta_j}},
+//' where \eqn{\hat{\theta}_{j}}{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then \eqn{\sqrt{\text{Var}(\hat{\theta}_{j})}\sqrt{\text{Var}(\hat{\theta}_j)}}
 //'   
 //'  
 //' @export
