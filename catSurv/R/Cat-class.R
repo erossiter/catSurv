@@ -68,6 +68,21 @@ setClass("Cat",
          )
 )
 
+setValidity("Cat", function(object){
+  # guessing, discrimination, answers, poly, difficulty should all be same length
+  test1<-(length(object@discrimination)==length(object@guessing))  
+  if(!test1){return("discrimination and guessing not same length")}
+  
+  test2<-(length(object@discrimination)==length(object@answers))  
+  if(!test2){return("discrimination and answers not same length")}
+  
+  test3<-(length(object@discrimination)==length(object@poly))  
+  if(!test3){return("discrimination and poly not same length")}
+  
+  test4<-(length(object@discrimination)==length(object@difficulty))  
+  if(!test4){return("discrimination and difficulty not same length")}
+  
+})
 
 #' @export
 setMethod("initialize", class.name, function(.Object, ...) {
