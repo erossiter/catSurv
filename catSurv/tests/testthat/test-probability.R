@@ -7,11 +7,12 @@ test_that("binary probability calculates correctly", {
   
   ## Creating a lot of cat objects and filling in needed slots
   
-  catBiCreator<-function(numCats=10){
+  catBiCreator<-function(numCats="numeric"){
     set.seed(999)
     allTheCats<-as.list(rep(NA, numCats))
     for(i in 1:numCats){
       newCat<-new("Cat")
+      ## randomly assigning number of questions for each Cat
       numQuestions<-floor(abs(50*(rnorm(1))))
       newCat@discrimination<-sort(100*rnorm(numQuestions))
       newCat@difficulty<-sort(100*rnorm(numQuestions))
@@ -20,6 +21,11 @@ test_that("binary probability calculates correctly", {
     }
   }
   
+  #### NOTE: there should be NA values somewhere in here....
+  
+  ##running the function, creating 10 cats
+  ## ADJUST THIS INPUT IF YOU WANT A SHORTER OR LONGER TEST
+  catBiCreator(10)
   
   ## R test function
   probability_test_bi <- function(cat = "Cat", theta = "numeric", question = "numeric"){
@@ -31,20 +37,29 @@ test_that("binary probability calculates correctly", {
 	  return(probability)
 	  }
 
-  ## setting inputs to the "funValues" function
+  ## setting the question and theta values for the test...
   thetaVec<-c()
   questionVec<-c()
-  setThetaQuestion<-function(seed=1000){
+  setThetaQuestion<-function(seed="numeric"){
     set.seed(seed)
     thetaVec<-c(1000*rnorm(length(allTheCats)))
     questionVec<-c(floor(1000*runif(length(allTheCats))))
   }
+  setThetaQuestion(1000)
   
+  ##### NEED A CHECK ON WHETHER QUESTIONS ARE IN BOUNDS 
+  #####    (ie is each value in questionVec smaller than the number of questions in its corresponding Cat)
+  
+  
+  ##calculating values from real probability function
   realFunValues<-lapply(length(allTheCats), function(x){
     probability(allTheCats[[x]], thetaVec(x), questionVec(x))})
+  
+  ##calculating values from the test probability function (created above)
   testFunValues<-lapply(length(allTheCats), function(x){
     probability_test_bi(allTheCats[[x]], thetaVec(x), questionVec(x))})
   
+  ##expect the values to be equal
   expect_equal(realFunValues, testFunValues)
   
 })
