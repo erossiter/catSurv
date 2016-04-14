@@ -15,7 +15,7 @@
 #' \item \code{difficulty} A named vector consisting of difficulty parameter for each item.
 #' \item \code{X}
 #' \item \code{Theta.est} A scalar value containing an estimate of a respondent's position on the latent trait.  Generally, this is the output of the \code{\link{estimateTheta}} funciton.
-#' \item \code{poly} A logical vector containing the type of answers. The default is set for questions with dichotomous answers.
+#' \item \code{poly} A logical containing the type of answers. The default is set for questions with dichotomous answers.
 #' }
 #'
 #'@details When priorName is set to "normal", the first priorParam is the mean, the second is the standard deviation.  When priorName is set to "Cauchy", the first priorParam is the location, and the second is the scale.  When priorName is set to "t", the first priorParam is mu, a location parameter, the second is sigma, a scale parameter, and the third is nu, the degrees of freedom parameter.
@@ -69,36 +69,37 @@ setClass("Cat",
          )
 )
 
-setValidity("Cat", function(object){
-  # guessing, discrimination, answers, poly, difficulty should all be same length
-  test1<-(length(object@discrimination)==length(object@guessing))  
-  if(!test1){return("discrimination and guessing not same length")}
-  
-  test2<-(length(object@discrimination)==length(object@answers))  
-  if(!test2){return("discrimination and answers not same length")}
-  
-  test3<-(length(object@discrimination)==length(object@poly))  
-  if(!test3){return("discrimination and poly not same length")}
-  
-  test4<-(length(object@discrimination)==length(object@difficulty))  
-  if(!test4){return("discrimination and difficulty not same length")}
-  
-  ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING
-  if(any(object@poly==T)){
-    for(i in object@difficulty){
-      if (is.list(i)){
-        i<-unlist(i)
-      }
-      sorted<-sort(i)
-      uniques<-unique(i)
-      test5<-(isTRUE(all.equal(i,uniques)))
-      if(!test5){return(paste("Repeated difficulty values for question ", which(object@difficulty==i, arr.ind=T)))}
-      test6<-(isTRUE(all.equal(i,sorted)))
-      if(!test6){return(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " are not increasing"))}
-    }
-  }
-  
-})
+# 
+# setValidity("Cat", function(object){
+#   # guessing, discrimination, answers, poly, difficulty should all be same length
+#   test1<-(length(object@discrimination)==length(object@guessing))  
+#   if(!test1){return("discrimination and guessing not same length")}
+#   
+#   test2<-(length(object@discrimination)==length(object@answers))  
+#   if(!test2){return("discrimination and answers not same length")}
+#   
+#   test3<-(length(object@discrimination)==length(object@poly))  
+#   if(!test3){return("discrimination and poly not same length")}
+#   
+#   test4<-(length(object@discrimination)==length(object@difficulty))  
+#   if(!test4){return("discrimination and difficulty not same length")}
+#   
+#   ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING
+#   if(any(object@poly==T)){
+#     for(i in object@difficulty){
+#       if (is.list(i)){
+#         i<-unlist(i)
+#       }
+#       sorted<-sort(i)
+#       uniques<-unique(i)
+#       test5<-(isTRUE(all.equal(i,uniques)))
+#       if(!test5){return(paste("Repeated difficulty values for question ", which(object@difficulty==i, arr.ind=T)))}
+#       test6<-(isTRUE(all.equal(i,sorted)))
+#       if(!test6){return(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " are not increasing"))}
+#     }
+#   }
+#   
+# })
 
 #' @export
 setMethod("initialize", class.name, function(.Object, ...) {

@@ -18,15 +18,11 @@ test_that("binary probability calculates correctly", {
                   guessing=runif(numQuestions),
                   poly=rep(F, numQuestions),
                   answers=rep(F, numQuestions))
-      ## randomly assigning number of questions for each Cat
-      #newCat@discrimination<-(100*rnorm(numQuestions))
-      #newCat@difficulty<-sort(100*rnorm(numQuestions))
-      #newCat@guessing<-runif(numQuestions)
-      #newCat@poly<-rep(F, numQuestions)
       
       allTheCats<-c(allTheCats, newCat)
-      return(as.list(allTheCats))
+      
     }
+    return(as.list(allTheCats))
   }
   
   #### NOTE: there should be NA values somewhere in here....
@@ -34,7 +30,7 @@ test_that("binary probability calculates correctly", {
   ##running the function, creating 10 cats
   ## ADJUST THIS INPUT IF YOU WANT A SHORTER OR LONGER TEST
   allTheCats<-catBiCreator(10)
-  
+  length(allTheCats)
   ## setting the question and theta values for each Cat, to be used in the probability function...
   
   thetaVec<-c()
@@ -43,18 +39,20 @@ test_that("binary probability calculates correctly", {
     thetaVec<-c(1000*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
     ## ...and multiplying by 1000 so the values cover a wide range
   }
-  setThetas(1000)
+  thetaVec<-setThetas(1000)
   
   questionList<-c()
+  set.seed(2222)
   questionList<-lapply(allTheCats, function(x){
-    set.seed(2222)
     #drawing a question randomly from the number of questions stored in each Cat:
     ##  (number of quesitons corresponds to the length of a Cat's discrimination vector)
+    #return(length(x@discrimination))
     return(ceiling(runif(1)*length(x@discrimination))) #rounding up: question indices are integer values, and there is no question zero
   })
   questionVec<-unlist(questionList)
   
-  allTheCats
+  length(allTheCats[[1]]@discrimination)
+  
   ## R test function
   probability_test_bi <- function(cat = "Cat", theta = "numeric", question = "numeric"){
     discrimination = cat@discrimination[question]
@@ -67,14 +65,19 @@ test_that("binary probability calculates correctly", {
   
   
   ##calculating values from real probability function 
-  realFunValues<-lapply(allTheCats, function(x){
-    probability(x, thetaVec(which(allTheCats==x)), questionVec(which(allTheCats==x)))
+  realFunValues<-lapply(1:length(allTheCats), function(x){
+    probability(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
+  realFunValues<-c()
+  for(i in 1:length(allTheCats)){
+    realFunValues<-c(realFunValues, probability(allTheCats[i], thetaVec[i], questionVec[i]))
+  }
+  thetaVec
   
-  
+  ?which
   ##calculating values from the test probability function (created above)
   testFunValues<-lapply(allTheCats, function(x){
-    probability_test_bi(x, thetaVec(which(allTheCats==x)), questionVec(which(allTheCats==x)))
+    probability_test_bi(x, thetaVec(which(allTheCats, x)), questionVec(which(allTheCats, x)))
   })
   
   ##expect the values to be equal
