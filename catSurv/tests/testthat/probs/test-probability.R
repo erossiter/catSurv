@@ -25,6 +25,7 @@ test_that("binary probability calculates correctly", {
       #newCat@poly<-rep(F, numQuestions)
       
       allTheCats[[i]]<-newCat
+      return(allTheCats)
     }
   }
   

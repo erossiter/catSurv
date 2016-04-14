@@ -84,7 +84,7 @@ setValidity("Cat", function(object){
   if(!test4){return("discrimination and difficulty not same length")}
   
   ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING
-  if(poly){
+  if(poly==T){
     for(i in object@difficulty){
       if (is.list(i)){
         i<-unlist(i)
