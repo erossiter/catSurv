@@ -8,14 +8,18 @@ setwd("/Users/erinrossiter/Dropbox/Spring2016/Rclass/CATsurv")
 setwd("~/Dropbox/2016Spring_Programming/CATSurv")
 
 getwd()
-test_dir("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat")
-source("/catSurv/tests/testthat/test-probability.R")
+source("Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-probability.R")
+test("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-probability.R")
 
+?testthat
 ?source
 
 current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
+
+test_dir("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/probs")
+
 
 ?probability
 ?likelihood

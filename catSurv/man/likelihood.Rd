@@ -18,6 +18,7 @@ A value of the likelihood of each respondent having offered the provided respons
 This function returns the value of likelihood of a person with ability parameter \eqn{\theta} having offered the specific response profile stored in answers conditional on the item-level parameters.
 }
 \details{
-Letting \deqn{q_i(\theta_j)=1-p_i(\theta_[j])} <sup>superscript</sup>
+Letting \eqn{q_{i}(\theta_{j})=1-p_{i}(\theta_{j})}{q_i(\theta_j)=1-p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_{j}}{y_j} is..
+\eqn{L(\theta_{j}|y_{j})=\prod^{j}_{i=1}p_{i}(\theta_{j})^{y_{ij}}q_{i}(\theta_{j})^{(1-y_{ij}}}{L(\theta_j|y_j)=\prod^{j}_{i=1}p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij}}}, where \eqn{y_{j}}{y_j} is evaluated based only on the questions the respondent has actually had the opportunity to answer
 }
 

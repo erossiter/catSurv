@@ -10,9 +10,9 @@ estimateSE(cat_df)
 \item{cat}{An object of \code{Cat} class}
 }
 \value{
-The posterior standard error for \eqn{\theta_j}
+The posterior standard error for \eqn{\theta_{j}}{\theta_j}
 }
 \description{
-This function estimates the standard error for the posterior estimate for the position \eqn{\theta_j} of a person on the latent scale
+This function estimates the standard error for the posterior estimate for the position \eqn{\theta_{j}}{\theta_j} of a person on the latent scale
 }
 
