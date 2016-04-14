@@ -16,13 +16,13 @@ A vector consisting of the expected value of the ability parameter
 This function takes a Cat object and returns the expected value of the ability parameter conditioned on the observed answers and the item calibrations.
 }
 \details{
-The expected value of \eqn{\theta_{j}}{\theta_j} is:
-\eqn{\frac{\int_{-\infty}^{\infty} \theta_{j} \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}}{\frac{\int_{-\infty}^\infty \theta_j \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}},
-where \eqn{L(\theta_{j})}{L(\theta_j)} is the likelihood function and \eqn{\pi(\theta_{j})}{\pi(\theta_j)} is the prior distribution for \eqn{\theta_{j}}{\theta_j}
-  
- 
+The expected value of \eqn{\theta_j} is:
+\eqn{\frac{\int_{-\infty}^\infty \theta_j \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}},
+where \eqn{L}(\theta_j) is the likelihood function and \pi(\theta_j) is the prior distribution for \eqn{\theta_j}
+
+
  Note: For the moment, this function implements only the expected a posteriori (EAP) approach
- 
+
  Note: This method will only be available using the normal prior distribution
 }
 

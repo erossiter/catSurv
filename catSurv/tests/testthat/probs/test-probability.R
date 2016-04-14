@@ -6,10 +6,10 @@ context("Probability")
 test_that("binary probability calculates correctly", {
   
   ## Creating a lot of cat objects and filling in needed slots
-  
-  catBiCreator<-function(numCats="numeric"){
+
+    catBiCreator<-function(numCats="numeric"){
     set.seed(999)
-    allTheCats<-as.list(rep(NA, numCats))
+    allTheCats<-c()
     for(i in 1:numCats){
       numQuestions<-8#floor(abs(50*(rnorm(1))))
       newCat<-new("Cat",
@@ -24,8 +24,8 @@ test_that("binary probability calculates correctly", {
       #newCat@guessing<-runif(numQuestions)
       #newCat@poly<-rep(F, numQuestions)
       
-      allTheCats[[i]]<-newCat
-      return(allTheCats)
+      allTheCats<-c(allTheCats, newCat)
+      return(as.list(allTheCats))
     }
   }
   
@@ -33,7 +33,7 @@ test_that("binary probability calculates correctly", {
   
   ##running the function, creating 10 cats
   ## ADJUST THIS INPUT IF YOU WANT A SHORTER OR LONGER TEST
-  catBiCreator(10)
+  allTheCats<-catBiCreator(10)
   
   ## setting the question and theta values for each Cat, to be used in the probability function...
   
@@ -54,7 +54,7 @@ test_that("binary probability calculates correctly", {
   })
   questionVec<-unlist(questionList)
   
-  
+  allTheCats
   ## R test function
   probability_test_bi <- function(cat = "Cat", theta = "numeric", question = "numeric"){
     discrimination = cat@discrimination[question]

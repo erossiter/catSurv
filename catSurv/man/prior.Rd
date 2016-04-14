@@ -7,7 +7,7 @@
 prior(x, c, p)
 }
 \arguments{
-\item{x}{A numeric value where we want to evaluate the prior}
+\item{x}{A numeric value where we want to evaluate the prior name}
 }
 \value{
 A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
