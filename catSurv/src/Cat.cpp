@@ -3,77 +3,31 @@
 
 using namespace Rcpp;
 
-
-Cat::Cat(S4 cat_df) : prior(cat_df) {
-	questionSet = (QuestionSet) {.answers = Rcpp::as<std::vector<int> >(cat_df.slot("answers")),
-			.guessing =  Rcpp::as<std::vector<double> >(cat_df.slot("guessing")),
-			.discrimination = Rcpp::as<std::vector<double> >(cat_df.slot("discrimination"))
-	};
-
-
-	for (int i = 0; i < questionSet.answers.size(); i++) {
-		if (questionSet.answers[i] == NA_INTEGER) {
-			questionSet.nonapplicable_rows.push_back(i + 1);
-		} else {
-			questionSet.applicable_rows.push_back(i);
-		}
-	}
-
-	for (auto item : (List) cat_df.slot("difficulty")) {
-		questionSet.difficulty.push_back(Rcpp::as<std::vector<double> >(item));
-	}
-
-
-	this->D = Rcpp::as<std::vector<double> >(cat_df.slot("D"))[0];
-	this->theta_est = Rcpp::as<std::vector<double> >(cat_df.slot("Theta.est"));
+Cat::Cat(QuestionSet &questions, Prior &prior)
+		: questionSet(questions), prior(prior), estimator(integrator, questionSet) {
 }
 
-double Cat::likelihood(double theta, std::vector<int> items) {
-	double L = 1.0;
-	if (questionSet.poly) {
-		for (auto question : items) {
-			auto question_cdf = probability(theta, question);
-			question_cdf.insert(question_cdf.begin(), 1.0);
-			question_cdf.push_back(0.0);
-			int index = questionSet.answers[question] - 1;
-			L *= question_cdf[index - 1] - question_cdf[index];
-		}
-		return L;
-	}
+Cat::Cat(S4 cat_df) : prior(cat_df), questionSet(initialize_questionSet(cat_df)){
+	theta_est = Rcpp::as<std::vector<double> >(cat_df.slot("Theta.est"));
+	estimator.setQuestionSet(questionSet);
+}
 
-	for (auto question : items) {
-		double prob = probability(theta, question)[0];
-		int this_answer = questionSet.answers[question];
-		L *= pow(prob, this_answer) * pow(1 - prob, 1 - this_answer);
-	}
-	return L;
+
+double Cat::likelihood(double theta) {
+	return estimator.likelihood(theta);
 }
 
 std::vector<double> Cat::probability(double theta, int question) {
-	double guessing = questionSet.guessing[question - 1];
-
-	auto calculate = [&](int difficulty) {
-		double exp_prob = exp(D * questionSet.discrimination[question - 1] * (theta - difficulty));
-		double base_probability = (exp_prob) / (1 + exp_prob);
-		return questionSet.poly ? base_probability : guessing + (1 - guessing) * base_probability;
-	};
-
-	std::vector<double> probabilities;
-	for (auto term : questionSet.difficulty[question - 1]) {
-		probabilities.push_back(calculate(term));
-	}
-	return probabilities;
+	return estimator.probability(theta, question);
 }
 
-Cat::Cat(QuestionSet &questionSet, Prior &prior)
-		: questionSet(questionSet), prior(prior) { }
 
 double Cat::estimateTheta() {
-	return estimator.estimateTheta(questionSet, prior);
+	return estimator.estimateTheta(prior);
 }
 
 double Cat::estimateSE() {
-	return estimator.estimateSE(questionSet, prior);
+	return estimator.estimateSE(prior);
 }
 
 double Cat::expectedPV(int item) {
@@ -84,12 +38,12 @@ double Cat::expectedPV(int item) {
 		std::vector<double> variances;
 		for (unsigned i = 0; i < questionSet.difficulty[item].size() + 1; ++i) {
 			questionSet.answers[item] = i + 1;
-			variances.push_back(estimator.estimateSE(questionSet, prior));
+			variances.push_back(estimator.estimateSE(prior));
 			variances[i] *= variances[i];
 		}
 		questionSet.answers[item] = NA_INTEGER;
 		questionSet.applicable_rows.pop_back();
-		std::vector<double> question_cdf = probability(estimator.estimateTheta(questionSet, prior), item);
+		std::vector<double> question_cdf = probability(estimator.estimateTheta(prior), item);
 		question_cdf.insert(question_cdf.begin(), 1.0);
 		question_cdf.push_back(0.0);
 
@@ -136,3 +90,29 @@ List Cat::nextItem() {
 			Named("questions") = questionSet.nonapplicable_rows, Named("EPV") = epvs);
 	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(min_item));
 }
+
+QuestionSet Cat::initialize_questionSet(S4 &cat_df) {
+	QuestionSet questionSet;
+
+	questionSet.answers = Rcpp::as<std::vector<int> >(cat_df.slot("answers"));
+	questionSet.guessing = Rcpp::as<std::vector<double> >(cat_df.slot("guessing"));
+	questionSet.discrimination = Rcpp::as<std::vector<double> >(cat_df.slot("discrimination"));
+
+
+	for (int i = 0; i < questionSet.answers.size(); i++) {
+		if (questionSet.answers[i] == NA_INTEGER) {
+			questionSet.nonapplicable_rows.push_back(i + 1);
+		} else {
+			questionSet.applicable_rows.push_back(i);
+		}
+	}
+
+	for (auto item : (List) cat_df.slot("difficulty")) {
+		questionSet.difficulty.push_back(Rcpp::as<std::vector<double> >(item));
+	}
+	questionSet.poly = cat_df.slot("poly");
+	return questionSet;
+
+
+}
+

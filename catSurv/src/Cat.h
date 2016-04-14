@@ -11,13 +11,14 @@ class Cat {
 	std::vector<double> theta_est;
 
 	TrapezoidIntegrator integrator = TrapezoidIntegrator();
-	EAPEstimator estimator = EAPEstimator(integrator);
+	EAPEstimator estimator = EAPEstimator(integrator, QuestionSet());
 	Prior prior;
-	double D;
+
 public:
+	QuestionSet initialize_questionSet(S4 &cat_df);
 	QuestionSet questionSet;
 
-	Cat(QuestionSet &questionSet, Prior &prior);
+	Cat(QuestionSet &questions, Prior &prior);
 
 	Cat(S4 cat_df);
 
@@ -25,7 +26,7 @@ public:
 
 	double estimateSE();
 
-	double likelihood(double theta, std::vector<int> items);
+	double likelihood(double theta);
 
 	double expectedPV(int item);
 

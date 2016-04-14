@@ -10,29 +10,30 @@ enum class EstimationType {
 };
 
 class Estimator {
+private:
+	static std::vector<double> calculate_probability(double guessing, double discrimination,
+	                                                 std::vector<double> difficulty_level, bool poly,
+	                                                 double theta);
 protected:
 	const Integrator &integrator;
+	QuestionSet questionSet;
+
+	double polynomial_likelihood(double theta);
+
+	double binary_likelihood(double theta);
+
 public:
-	Estimator(Integrator integrator) : integrator(integrator) { };
+	Estimator(Integrator integrator, QuestionSet questionSet);
 
-	virtual const EstimationType get_integration_type() const = 0;
+	virtual const EstimationType getIntegrationType() const = 0;
 
-	virtual const double estimateTheta(QuestionSet questionSet, Prior prior) = 0;
+	virtual const double estimateTheta(Prior prior) = 0;
 
-	double likelihood(double x, std::vector<int> y){
-		return 0;
-	}
-	virtual double estimateSE(QuestionSet questionSet, Prior prior) {
-		std::vector<double> fx;
-		std::vector<double> fx_theta;
+	double likelihood(double theta);
 
-		const double theta_hat = estimateTheta(questionSet, prior);
+	std::vector<double> probability(double theta, int question);
 
-		for (size_t i = 0; i < questionSet.X.size(); ++i) {
-			fx.push_back(likelihood(questionSet.X[i], questionSet.applicable_rows) * prior.values[i]);
-			fx_theta.push_back((questionSet.X[i] - theta_hat) * (questionSet.X[i] - theta_hat) * fx[i]);
-		}
-		return sqrt(integrator.integrate(questionSet.X, fx_theta) / integrator.integrate(questionSet.X, fx));
-	}
+	virtual double estimateSE(Prior prior);
+
 
 };

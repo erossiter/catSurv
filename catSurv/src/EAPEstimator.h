@@ -3,14 +3,15 @@
 #include "Prior.h"
 
 class EAPEstimator : public Estimator {
-private:
-
-
 public:
 
-	EAPEstimator(Integrator integrator) : Estimator(integrator) { };
+	EAPEstimator(const Integrator &integrator, const QuestionSet &questionSet) : Estimator(integrator, questionSet) { }
 
-	virtual const EstimationType get_integration_type() const;
+	virtual const EstimationType getIntegrationType() const override;
 
-	virtual const double estimateTheta(QuestionSet questionSet, Prior prior);
+	virtual const double estimateTheta(Prior prior) override;
+
+	void setQuestionSet(QuestionSet question) {
+		questionSet = question;
+	}
 };

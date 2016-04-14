@@ -20,7 +20,7 @@ public:
 
 	double prior(double x);
 
-	Prior(Rcpp::S4 cat_df);;
+	Prior(Rcpp::S4 cat_df);
 
 	Prior(const std::string &name, const std::vector<double> &parameters);
 };

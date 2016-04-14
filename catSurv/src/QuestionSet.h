@@ -11,5 +11,4 @@ public:
 	std::vector<int> answers;
 	std::vector<double> X;
 	bool poly;
-
 };

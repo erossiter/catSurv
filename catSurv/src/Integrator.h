@@ -9,5 +9,5 @@ enum class IntegrationType {
 
 class Integrator {
 public:
-	virtual const double integrate(std::vector<double> &x, std::vector<double> &fx) const = 0;
+	virtual const double integrate(const std::vector<double> &x, const std::vector<double> &fx) const = 0;
 };
