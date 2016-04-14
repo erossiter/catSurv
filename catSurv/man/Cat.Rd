@@ -27,7 +27,7 @@ An object of the class `Cat' has the following slots:
 \item \code{difficulty} A named vector consisting of difficulty parameter for each item.
 \item \code{X}
 \item \code{Theta.est} A scalar value containing an estimate of a respondent's position on the latent trait.  Generally, this is the output of the \code{\link{estimateTheta}} funciton.
-\item \code{poly} A logical vector containing the type of answers. The default is set for questions with dichotomous answers.
+\item \code{poly} A logical containing the type of answers. The default is set for questions with dichotomous answers.
 }
 
 When priorName is set to "normal", the first priorParam is the mean, the second is the standard deviation.  When priorName is set to "Cauchy", the first priorParam is the location, and the second is the scale.  When priorName is set to "t", the first priorParam is mu, a location parameter, the second is sigma, a scale parameter, and the third is nu, the degrees of freedom parameter.

@@ -11,7 +11,7 @@ test_that("binary probability calculates correctly", {
     set.seed(999)
     allTheCats<-c()
     for(i in 1:numCats){
-      numQuestions<-8#floor(abs(50*(rnorm(1))))
+      numQuestions<-floor(abs(50*(rnorm(1))))
       newCat<-new("Cat",
                   discrimination=(100*rnorm(numQuestions)),
                   difficulty=sort(100*rnorm(numQuestions)),
@@ -51,8 +51,7 @@ test_that("binary probability calculates correctly", {
   })
   questionVec<-unlist(questionList)
   
-  length(allTheCats[[1]]@discrimination)
-  
+
   ## R test function
   probability_test_bi <- function(cat = "Cat", theta = "numeric", question = "numeric"){
     discrimination = cat@discrimination[question]
@@ -62,17 +61,19 @@ test_that("binary probability calculates correctly", {
     probability <- guessing + (1-guessing) * (exp_prob / (1 + exp_prob))
     return(probability)
   }
-  
-  
+  class(allTheCats[[4]])
   ##calculating values from real probability function 
   realFunValues<-lapply(1:length(allTheCats), function(x){
     probability(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
-  realFunValues<-c()
+  realFunValues<-as.list(c())
   for(i in 1:length(allTheCats)){
-    realFunValues<-c(realFunValues, probability(allTheCats[i], thetaVec[i], questionVec[i]))
-  }
+    thisProb<-probability(allTheCats[[i]], thetaVec[i], questionVec[i])
+    realFunValues[[i]]<-thisProb
+  
+    }
   thetaVec
+  probability(allTheCats[1], thetaVec[1], questionVec[1])
   
   ?which
   ##calculating values from the test probability function (created above)
