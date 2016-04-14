@@ -27,44 +27,47 @@ test_that("binary probability calculates correctly", {
   ## ADJUST THIS INPUT IF YOU WANT A SHORTER OR LONGER TEST
   catBiCreator(10)
   
-  ## R test function
-  probability_test_bi <- function(cat = "Cat", theta = "numeric", question = "numeric"){
-	  discrimination = cat@discrimination[question]
-	  difficulty = cat@difficulty[question]
-	  guessing = cat@guessing[question]
-	  exp_prob = exp(discrimination * (theta - difficulty))
-	  probability <- guessing + (1-guessing) * (exp_prob / (1 + exp_prob))
-	  return(probability)
-	  }
-
-  ## setting the question and theta values for the test...
+  ## setting the question and theta values for each Cat, to be used in the probability function...
+  
   thetaVec<-c()
   setThetas<-function(seed="numeric"){
     set.seed(seed)
-    thetaVec<-c(1000*rnorm(length(allTheCats)))
+    thetaVec<-c(1000*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
+    ## ...and multiplying by 1000 so the values cover a wide range
   }
   setThetas(1000)
   
   questionList<-c()
-  questionList<-lapply(1:length(allTheCats), function(x){
-    #drawing a question randomly from the number of questions stored in the Cat stored at allTheCats[[x]]
+  questionList<-lapply(allTheCats, function(x){
     set.seed(2222)
-    questionVec[x]<-runif(length(allTheCats[[x]]@discrimination)) 
+    #drawing a question randomly from the number of questions stored in each Cat:
+    ##  (number of quesitons corresponds to the length of a Cat's discrimination vector)
+    return(ceiling(runif(1)*length(x@discrimination))) #rounding up: question indices are integer values, and there is no question zero
   })
   questionVec<-unlist(questionList)
   
   
-  ##### NEED A CHECK ON WHETHER QUESTIONS ARE IN BOUNDS 
-  #####    (ie is each value in questionVec smaller than the number of questions in its corresponding Cat)
+  ## R test function
+  probability_test_bi <- function(cat = "Cat", theta = "numeric", question = "numeric"){
+    discrimination = cat@discrimination[question]
+    difficulty = cat@difficulty[question]
+    guessing = cat@guessing[question]
+    exp_prob = exp(discrimination * (theta - difficulty))
+    probability <- guessing + (1-guessing) * (exp_prob / (1 + exp_prob))
+    return(probability)
+  }
   
   
-  ##calculating values from real probability function
-  realFunValues<-lapply(1:length(allTheCats), function(x){
-    probability(allTheCats[[x]], thetaVec(x), questionVec(x))})
+  ##calculating values from real probability function 
+  realFunValues<-lapply(allTheCats, function(x){
+    probability(x, thetaVec(which(allTheCats==x)), questionVec(which(allTheCats==x)))
+  })
+  
   
   ##calculating values from the test probability function (created above)
-  testFunValues<-lapply(length(allTheCats), function(x){
-    probability_test_bi(allTheCats[[x]], thetaVec(x), questionVec(x))})
+  testFunValues<-lapply(allTheCats, function(x){
+    probability_test_bi(x, thetaVec(which(allTheCats==x)), questionVec(which(allTheCats==x)))
+  })
   
   ##expect the values to be equal
   expect_equal(realFunValues, testFunValues)
