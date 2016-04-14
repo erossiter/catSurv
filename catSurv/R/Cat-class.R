@@ -64,7 +64,8 @@ setClass("Cat",
            estimation="EAP",
            selection="EPV",
            coverage=0.9,
-           points=40
+           points=40,
+           answers=NA
          )
 )
 
@@ -91,9 +92,9 @@ setValidity("Cat", function(object){
       sorted<-sort(i)
       uniques<-unique(i)
       test5<-(isTRUE(all.equal(i,uniques)))
-      if(!test5){return(paste("Repeated difficulty values for question ", which(object@difficulty==i, arr.ind=T))}
+      if(!test5){return(paste("Repeated difficulty values for question ", which(object@difficulty==i, arr.ind=T)))}
       test6<-(isTRUE(all.equal(i,sorted)))
-      if(!test6){return(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " are not increasing")}
+      if(!test6){return(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " are not increasing"))}
     }
   }
   

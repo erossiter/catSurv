@@ -9,7 +9,7 @@ probability(cat_df, t, q)
 \arguments{
 \item{cat_df}{An object of \code{Cat} class}
 
-\item{t}{A double indicating the potential value for \eqn{\theta_j}}
+\item{t}{A double indicating the potential value for \eqn{\theta_{j}}{\theta_j}}
 
 \item{q}{An integer indicating the index of the question}
 
@@ -23,8 +23,8 @@ This function calculates the probabilities of a specific set of responses to a s
 }
 \details{
 The probability of a correct response for respondent \eqn{j} on item \eqn{i} is ....
-where \eqn{\theta_j} is respondent \eqn{j}'s position on the latent scale of interest, \eqn{a_i} is item \eqn{i}'s discrimination parameter,
- \eqn{b_i} is item i's difficulty parameter, and \eqn{c_i} is item \eqn{i}'s guessing parameter.
+where \eqn{\theta_{j}}{\theta_j} is respondent \eqn{j}'s position on the latent scale of interest, \eqn{a_{i}}{a_i} is item \eqn{i}'s discrimination parameter,
+ \eqn{b_{i}}{b_i} is item i's difficulty parameter, and \eqn{c_{i}}{c_i} is item \eqn{i}'s guessing parameter.
  
  Note: this function is overloaded, due to different output types of binary vs polytomous implementations (outputs single value for binary implementation,
  vector of values for polytomous implementation)
