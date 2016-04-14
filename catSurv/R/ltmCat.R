@@ -36,12 +36,52 @@ setMethod(f="ltmCat", signature="data.frame",
             guessing <- coefficient[,"Gussng"]
             names(difficulty) <- rownames(coefficient)
             if(is.null(object)){
-              return(new("Cat", discrimination=discrimination, difficulty=difficulty, guessing=guessing, answers=answer))
-            } else {
-              object@discrimination <- discrimination
-              object@difficulty <- difficulty
-              object@guessing <- guessing
-              object@answers <- answer
-              return(object)
+              object<-new("Cat")
+            }
+            
+            object@discrimination <- discrimination
+            object@difficulty <- difficulty
+            object@poly <- TRUE
+            object@guessing <- 0
+            object@answers <- answer
+            
+            # guessing, discrimination, answers, difficulty should all be same length
+            test1<-(length(object@discrimination)==length(object@guessing))  
+            if(!test1){stop("discrimination and guessing not same length")}
+            
+            test2<-(length(object@discrimination)==length(object@answers))  
+            if(!test2){stop("discrimination and answers not same length")}
+            
+            test3<-(length(object@discrimination)==length(object@difficulty))  
+            if(!test3){stop("discrimination and difficulty not same length")}
+            
+            ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING, and not NA
+            if(object@poly==T){
+              for(i in object@difficulty){
+                if (is.list(i)){
+                  i<-unlist(i)
+                }
+                sorted<-sort(i)
+                uniques<-unique(i)
+                test4<-(isTRUE(all.equal(i,uniques)))
+                if(!test4){stop(paste("Repeated difficulty values for question ", which(object@difficulty==i, arr.ind=T)))}
+                test5<-(isTRUE(all.equal(i,sorted)))
+                if(!test5){stop(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " are not increasing"))}
+                test6<-(all(!is.na(i)))
+                if(!test6){stop(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " include NAs"))}
+                
+              }
+            }
+            
+            ## test that discrimination and guessing are not NA
+            for(i in object@discrimination){
+              test7<-!is.na(i)
+              if(!test7){stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+            }
+            if(!object@poly){
+              for(i in object@guessing){
+                test8<-!is.na(i)
+                if(!test8){stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+              }
             }
           })
