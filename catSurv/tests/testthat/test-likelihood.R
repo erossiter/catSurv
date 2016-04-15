@@ -1,15 +1,57 @@
 library(catSurv)
 context("Likelihood")
 
+######## BINARY LIKELIHOOD TEST #############
+
 
 test_that("binary likelihood calculates correctly",{
   
-  ## creating new Cat object and filling in the slots
+  ## Creating a lot of cat objects and filling in needed slots
   
-  catBi_test <- new("Cat")
-  catBi_test@discrimination <- c(2,4,6,8)
-  catBi_test@difficulty <- c(3,5,-12.27,9)
-  catBi_test@guessing <- c(.5, .1, .32, .999)
+  catBiCreator<-function(numCats="numeric"){
+    set.seed(999)
+    allTheCats<-c()
+    for(i in 1:numCats){
+      numQuestions<-floor(abs(50*(rnorm(1)))) ## 50 is arbitrary... goal is that most Cats have between 0-50 questions, with some higher outliers
+      newCat<-new("Cat",
+                  discrimination=(100*rnorm(numQuestions)),
+                  difficulty=sort(100*rnorm(numQuestions)),
+                  guessing=runif(numQuestions),
+                  poly=rep(F, numQuestions),
+                  answers=rep(F, numQuestions))
+      
+      allTheCats<-c(allTheCats, newCat)
+      
+    }
+    return(as.list(allTheCats))
+  }
+  
+  #### NOTE: there should be NA values somewhere in here....
+  
+  ##running the function, creating 10 cats
+  ## ADJUST THIS INPUT IF YOU WANT A SHORTER OR LONGER TEST
+  allTheCats<-catBiCreator(10)
+  length(allTheCats)
+  ## setting the question and theta values for each Cat, to be used in the probability function...
+  
+  thetaVec<-c()
+  setThetas<-function(seed="numeric"){
+    set.seed(seed)
+    thetaVec<-c(1000*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
+    ## ...and multiplying by 1000 so the values cover a wide range
+  }
+  thetaVec<-setThetas(1000)
+  
+  questionList<-c()
+  set.seed(2222)
+  questionList<-lapply(allTheCats, function(x){
+    #drawing a question randomly from the number of questions stored in each Cat:
+    ##  (number of quesitons corresponds to the length of a Cat's discrimination vector)
+    #return(length(x@discrimination))
+    return(sample(1:length(x@discrimination), 1))
+    #return(ceiling(runif(1)*length(x@discrimination))) #rounding up: question indices are integer values, and there is no question zero
+  })
+  questionVec<-unlist(questionList)
   
   ## R test function
   
@@ -41,6 +83,9 @@ test_that("binary likelihood calculates correctly",{
   expect_equal(likelihood(catBi_test, t=.001), likelihood_test(catBi_test, .001, 3))
   expect_equal(likelihood(catBi_test, t=-90), likelihood_test(catBi_test, -90, 4))
 })
+
+
+######## POLYTOMOUS LIKELIHOOD TEST #############
 
 
 test_that("polytomous likelihood calculates correctly",{
