@@ -10,7 +10,7 @@ using namespace Rcpp;
 class Cat {
 	std::vector<double> theta_est;
 
-	TrapezoidIntegrator integrator = TrapezoidIntegrator();
+	Integrator integrator = Integrator();
 	EAPEstimator estimator = EAPEstimator(integrator, QuestionSet());
 	Prior prior;
 
