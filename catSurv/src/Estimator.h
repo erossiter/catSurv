@@ -10,10 +10,6 @@ enum class EstimationType {
 };
 
 class Estimator {
-private:
-	static std::vector<double> calculate_probability(double guessing, double discrimination,
-	                                                 std::vector<double> difficulty_level, bool poly,
-	                                                 double theta);
 protected:
 	const Integrator &integrator;
 	QuestionSet questionSet;
