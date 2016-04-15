@@ -4,17 +4,16 @@ context("Prior")
 
 test_that("prior calculates correctly", {
   
-  test_cat <- new("Cat")
-  test_cat@discrimination <- c(2,4,6,8)
-  test_cat@difficulty <- c(1,2,3,4)
-  test_cat@priorName <- "NORMAL"
-  test_cat@priorParams <- c(0,1)
+  test_cat <- new("Cat", discrimination = c(2,4), difficulty = c(1,2),
+                  priorName = "NORMAL", priorParams = c(0,1),
+                  guessing = c(.5, .5), answers = c(1,2), poly = c(TRUE, TRUE))
+
   
   ## R test function
   prior_test <- function(x, cat){
     distribution <- cat@priorName
     parameters <- cat@priorParams
-    
+
     if(distribution == "NORMAL"){
       prior_values <- dnorm(x, parameters[1], parameters[2])
     }

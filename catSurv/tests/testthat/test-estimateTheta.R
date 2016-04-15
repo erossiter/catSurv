@@ -25,17 +25,19 @@ test_that("estimateTheta calculates correctly", {
     if(cat@estimation == "XXXXXXXXXX"){ 
       numerator <- function(cat){
         answered_questions <- which(!is.na(cat@answers))
-        prior_values <- prior(cat)
+        prior_theta <- prior(cat)
         x <- cat@X
-        return(theta * likelihood(cat, x, answered_questions) * prior_values)
+        L_theta <- likelihood(cat, x, answered_questions) 
+        return(theta * L_theta * prior_theta)
       }
       denominator <- function(cat){
         answered_questions <- which(!is.na(cat@answers))
-        prior_values <- prior(cat)
+        prior_theta <- prior(cat)
         x <- cat@X
-        return(likelihood(cat, x, answered_questions) * prior_values)
+        L_theta <- likelihood(cat, x, answered_questions) 
+        return(L_theta * prior_theta)
       }
-      results <- integrate(numerator, -5, 5)/integrate(denominator, -5, 5)
+      results <- integrate(numerator(cat), -5, 5)/integrate(denominator(cat), -5, 5)
     }
   
   if(cat@estimation == "MAP"){
