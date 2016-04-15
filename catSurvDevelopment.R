@@ -3,6 +3,7 @@ library(devtools)
 library(roxygen2)
 library(Rcpp)
 library(testthat)
+library(BH)
 setwd("/Users/iramalis/Desktop/gitstuff/CATSurv")
 setwd("/Users/erinrossiter/Dropbox/Spring2016/Rclass/CATsurv")
 setwd("~/Dropbox/2016Spring_Programming/CATSurv")
@@ -17,6 +18,9 @@ test("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-proba
 current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
+
+
+likelihood(test_cat, 2)
 
 test_dir("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/probs")
 
