@@ -88,7 +88,7 @@ setMethod(f="grmCat", signature="data.frame",
             }
             
           }
-          
+          return(object)
           )
 
 

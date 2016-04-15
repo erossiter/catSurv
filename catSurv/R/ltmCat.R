@@ -84,4 +84,6 @@ setMethod(f="ltmCat", signature="data.frame",
                 if(!test8){stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
               }
             }
-          })
+          }
+          return(object)
+          )
