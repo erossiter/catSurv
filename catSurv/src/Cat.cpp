@@ -101,7 +101,7 @@ QuestionSet Cat::initialize_questionSet(S4 &cat_df) {
 
 	for (int i = 0; i < questionSet.answers.size(); i++) {
 		if (questionSet.answers[i] == NA_INTEGER) {
-			questionSet.nonapplicable_rows.push_back(i + 1);
+			questionSet.nonapplicable_rows.push_back(i); // + 1
 		} else {
 			questionSet.applicable_rows.push_back(i);
 		}
