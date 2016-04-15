@@ -4,10 +4,13 @@
 using namespace Rcpp;
 
 Cat::Cat(QuestionSet &questions, Prior &prior)
-		: questionSet(questions), prior(prior), estimator(integrator, questionSet) {
+		: questionSet(questions), integrator(Integrator()), estimator(integrator, questionSet), prior(prior) {
 }
 
-Cat::Cat(S4 cat_df) : prior(cat_df), questionSet(initialize_questionSet(cat_df)){
+Cat::Cat(S4 cat_df) : questionSet(initialize_questionSet(cat_df)),
+                      prior(cat_df),
+                      integrator(Integrator()),
+                      estimator(EAPEstimator(integrator, QuestionSet())){
 	theta_est = Rcpp::as<std::vector<double> >(cat_df.slot("Theta.est"));
 	estimator.setQuestionSet(questionSet);
 }
@@ -92,26 +95,26 @@ List Cat::nextItem() {
 }
 
 QuestionSet Cat::initialize_questionSet(S4 &cat_df) {
-	QuestionSet questionSet;
+	QuestionSet questions;
 
-	questionSet.answers = Rcpp::as<std::vector<int> >(cat_df.slot("answers"));
-	questionSet.guessing = Rcpp::as<std::vector<double> >(cat_df.slot("guessing"));
-	questionSet.discrimination = Rcpp::as<std::vector<double> >(cat_df.slot("discrimination"));
+	questions.answers = Rcpp::as<std::vector<int> >(cat_df.slot("answers"));
+	questions.guessing = Rcpp::as<std::vector<double> >(cat_df.slot("guessing"));
+	questions.discrimination = Rcpp::as<std::vector<double> >(cat_df.slot("discrimination"));
 
 
-	for (int i = 0; i < questionSet.answers.size(); i++) {
-		if (questionSet.answers[i] == NA_INTEGER) {
-			questionSet.nonapplicable_rows.push_back(i); // + 1
+	for (size_t i = 0; i < questions.answers.size(); i++) {
+		if (questions.answers[i] == NA_INTEGER) {
+			questions.nonapplicable_rows.push_back(i); // + 1
 		} else {
-			questionSet.applicable_rows.push_back(i);
+			questions.applicable_rows.push_back(i);
 		}
 	}
 
 	for (auto item : (List) cat_df.slot("difficulty")) {
-		questionSet.difficulty.push_back(Rcpp::as<std::vector<double> >(item));
+		questions.difficulty.push_back(Rcpp::as<std::vector<double> >(item));
 	}
-	questionSet.poly = cat_df.slot("poly");
-	return questionSet;
+	questions.poly = cat_df.slot("poly");
+	return questions;
 
 
 }

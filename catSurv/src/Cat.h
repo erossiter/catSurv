@@ -2,18 +2,11 @@
 #include <Rcpp.h>
 #include "Prior.h"
 #include "QuestionSet.h"
-#include "TrapezoidIntegrator.h"
 #include "EAPEstimator.h"
 using namespace Rcpp;
 
 
 class Cat {
-	std::vector<double> theta_est;
-
-	Integrator integrator = Integrator();
-	EAPEstimator estimator = EAPEstimator(integrator, QuestionSet());
-	Prior prior;
-
 public:
 	QuestionSet initialize_questionSet(S4 &cat_df);
 	QuestionSet questionSet;
@@ -33,6 +26,15 @@ public:
 	Rcpp::List nextItem();
 
 	std::vector<double> probability(double theta, int question);
+
+private:
+	std::vector<double> theta_est;
+
+	Integrator integrator;
+	EAPEstimator estimator;
+	Prior prior;
+
+
 };
 
 
