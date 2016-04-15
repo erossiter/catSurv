@@ -1,3 +1,13 @@
+#' @useDynLib catSurv
+#' @importFrom Rcpp sourceCpp
+NULL
+
+class.name = "Cat"
+setClassUnion("logicalORnumeric", c("numeric","logical"))
+setClassUnion("numericORlist", c("numeric","list"))
+
+
+
 #' A Computerized Adaptive Testing Survey (catSurv) Object
 #'
 #' Objects of class \code{Cat} are used in administering Computerized Adaptive Testing (CAT) Surveys.  These objects contain several pieces of information relevent for CAT surveys, and are used as input in the main functions of the \code{catSurv} package, \code{\link{nextItem}} and \code{\link{storeAnswer}}. They are created using the \code{initialize} function.
@@ -25,14 +35,7 @@
 #' @seealso \code{\link{storeAnswer}}
 #' @aliases Cat-class initialize,Cat-method
 #' @rdname Cat
-#' @useDynLib catSurv
-#' @importFrom Rcpp RcppGSL sourceCpp
 #' @export
-
-class.name = "Cat"
-setClassUnion("logicalORnumeric", c("numeric","logical"))
-setClassUnion("numericORlist", c("numeric","list"))
-
 setClass("Cat",
          slots=list(
            guessing="numeric",

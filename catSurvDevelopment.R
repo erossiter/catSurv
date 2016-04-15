@@ -2,6 +2,7 @@
 library(devtools)
 library(roxygen2)
 library(Rcpp)
+library(RcppGSL)
 library(testthat)
 library(BH)
 setwd("/Users/iramalis/Desktop/gitstuff/CATSurv")
@@ -15,8 +16,10 @@ test("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-proba
 ?testthat
 ?source
 
+getwd()
+
 current.code <- as.package("catSurv")
-load_all(current.code)
+load_all(current.code, reset=TRUE, recompile=TRUE)
 document(current.code)
 
 
