@@ -10,7 +10,7 @@ double Prior::dt(double x, double mu, int df) {
 }
 
 double Prior::prior(double x) {
-	if (name == "normal") {
+	if (name == "NORMAL") {
 		return dnorm4(Rcpp::NumericVector::create(x), parameters[0], (bool) (parameters[1]))[0];
 	}
 	return dt(x, parameters[0], (int) parameters[1]);
