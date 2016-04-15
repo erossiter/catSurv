@@ -6,8 +6,8 @@ Description: What the package does (one paragraph).
 Depends:
     R (>= 3.1.2)
 License: What license is it under?
-Imports: Rcpp (>= 0.11.6)
-LinkingTo: Rcpp, BH
+Imports: Rcpp (>= 0.11.6), RcppGSL, BH
+LinkingTo: Rcpp, RcppGSL, BH
 LazyData: true
 RoxygenNote: 5.0.1
 SystemRequirements: C++11
