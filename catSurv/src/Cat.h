@@ -2,7 +2,6 @@
 #include <Rcpp.h>
 #include "Prior.h"
 #include "QuestionSet.h"
-#include "TrapezoidIntegrator.h"
 #include "EAPEstimator.h"
 using namespace Rcpp;
 
