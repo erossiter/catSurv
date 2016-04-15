@@ -26,7 +26,7 @@
 #' @aliases Cat-class initialize,Cat-method
 #' @rdname Cat
 #' @useDynLib catSurv
-#' @importFrom Rcpp RcppGSL sourceCpp
+#' @importFrom Rcpp sourceCpp
 #' @export
 
 class.name = "Cat"
