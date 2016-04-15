@@ -11,8 +11,8 @@ set(SOURCE_FILES
 		Cat.h
 		Cat.cpp
 		main.cpp Prior.h Prior.cpp
-		Integrator.h TrapezoidIntegrator.cpp TrapezoidIntegrator.h
-		Estimator.h Estimator.cpp EAPEstimator.cpp EAPEstimator.h
+		Integrator.h Estimator.h Estimator.cpp
+		EAPEstimator.cpp EAPEstimator.h
 		QuestionSet.h )
 
 add_library(catSurv STATIC ${SOURCE_FILES} )
