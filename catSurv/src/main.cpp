@@ -32,7 +32,6 @@ List probability(S4 cat_df, NumericVector t, IntegerVector q) {
 	Cat cat = Cat(cat_df);
 	double theta = t[0];
 	int question = q[0];
-
 	DataFrame question_probs = DataFrame::create(Named("probabilities") = cat.probability(theta, question));
 	return List::create(Named("all.probabilities") = question_probs);
 }
@@ -51,8 +50,8 @@ List probability(S4 cat_df, NumericVector t, IntegerVector q) {
 //'
 //' @export
 // [[Rcpp::export]]
-double likelihood(S4 cat_df, NumericVector t) {
-	return Cat(cat_df).likelihood(t[0]);
+double likelihood(S4 cat_df, double t) {
+	return Cat(cat_df).likelihood(t);
 }
 
 //' Estimate of the ability parameter
