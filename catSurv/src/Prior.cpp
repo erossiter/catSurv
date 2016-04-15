@@ -24,5 +24,5 @@ Prior::Prior(Rcpp::S4 cat_df) : name(Rcpp::as<std::string>(cat_df.slot("priorNam
 
 }
 
-Prior::Prior(const std::string &name, const std::vector<double> &parameters) : name(
-		name), parameters(parameters) { }
+Prior::Prior(const std::string &prior_name, const std::vector<double> &parameters) : name(
+		prior_name), parameters(parameters) { }

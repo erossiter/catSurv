@@ -22,6 +22,6 @@ public:
 
 	Prior(Rcpp::S4 cat_df);
 
-	Prior(const std::string &name, const std::vector<double> &parameters);
+	Prior(const std::string &prior_name, const std::vector<double> &parameters);
 };
 
