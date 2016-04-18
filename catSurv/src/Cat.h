@@ -11,7 +11,7 @@ public:
 	QuestionSet initialize_questionSet(S4 &cat_df);
 	QuestionSet questionSet;
 
-	Cat(QuestionSet &questions, Prior &prior);
+	Cat(QuestionSet &questions, Prior &priorData);
 
 	Cat(S4 cat_df);
 

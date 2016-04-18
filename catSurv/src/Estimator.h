@@ -19,17 +19,19 @@ protected:
 	double binary_likelihood(double theta);
 
 public:
-	Estimator(Integrator integrator, QuestionSet questionSet);
+	Estimator(Integrator integration, QuestionSet question);
 
-	virtual const EstimationType getIntegrationType() const = 0;
+	virtual EstimationType getIntegrationType() const = 0;
 
-	virtual const double estimateTheta(Prior prior) = 0;
+	virtual double estimateTheta(Prior prior) = 0;
 
 	double likelihood(double theta);
 
 	std::vector<double> probability(double theta, int question);
 
-	virtual double estimateSE(Prior prior);
+	virtual double estimateSE(Prior prior) = 0;
+
+	virtual double expectedPV(int item, Prior &prior) = 0;
 
 
 };

@@ -2,16 +2,33 @@
 #include "Estimator.h"
 #include "Prior.h"
 
+
 class EAPEstimator : public Estimator {
+private:
+	typedef std::function<double(double)> integrableFunction;
+
+	/**
+    * Computes the quotient of the integrals of the functions provided
+    * - that is, it computes: ∫(numerator) / ∫(denominator).
+    */
+	double integralQuotient(const integrableFunction &numerator,
+	                        const integrableFunction &denominator);
+
+	double polytomous_posterior_variance(int item, Prior &prior);
+
+
+	double binary_posterior_variance(int item, Prior &prior);
 public:
 
-	EAPEstimator(const Integrator &integrator, const QuestionSet &questionSet) : Estimator(integrator, questionSet) { }
+	EAPEstimator(const Integrator &integrator, const QuestionSet &questionSet);
 
-	virtual const EstimationType getIntegrationType() const override;
+	virtual EstimationType getIntegrationType() const override;
 
-	virtual const double estimateTheta(Prior prior) override;
+	virtual double estimateTheta(Prior prior) override;
 
-	void setQuestionSet(QuestionSet question) {
-		questionSet = question;
-	}
+	double estimateSE(Prior prior) override;
+
+	virtual double expectedPV(int item, Prior &prior) override;
+
+
 };

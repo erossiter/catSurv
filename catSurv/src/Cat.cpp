@@ -3,16 +3,15 @@
 
 using namespace Rcpp;
 
-Cat::Cat(QuestionSet &questions, Prior &prior)
-		: questionSet(questions), integrator(Integrator()), estimator(integrator, questionSet), prior(prior) {
+Cat::Cat(QuestionSet &questions, Prior &priorData)
+		: questionSet(questions), integrator(Integrator()), estimator(integrator, questionSet), prior(priorData) {
 }
 
 Cat::Cat(S4 cat_df) : questionSet(initialize_questionSet(cat_df)),
-                      prior(cat_df),
                       integrator(Integrator()),
-                      estimator(EAPEstimator(integrator, QuestionSet())){
+                      estimator(EAPEstimator(integrator, questionSet)),
+                      prior(cat_df) {
 	theta_est = Rcpp::as<std::vector<double> >(cat_df.slot("Theta.est"));
-	estimator.setQuestionSet(questionSet);
 }
 
 
@@ -34,44 +33,7 @@ double Cat::estimateSE() {
 }
 
 double Cat::expectedPV(int item) {
-	double sum = 0.0;
-
-	questionSet.applicable_rows.push_back(item); // add item to set of answered items
-	if (questionSet.poly) {
-		std::vector<double> variances;
-		for (unsigned i = 0; i < questionSet.difficulty[item].size() + 1; ++i) {
-			questionSet.answers[item] = i + 1;
-			variances.push_back(estimator.estimateSE(prior));
-			variances[i] *= variances[i];
-		}
-		questionSet.answers[item] = NA_INTEGER;
-		questionSet.applicable_rows.pop_back();
-		std::vector<double> question_cdf = probability(estimator.estimateTheta(prior), item);
-		question_cdf.insert(question_cdf.begin(), 1.0);
-		question_cdf.push_back(0.0);
-
-		for (unsigned i = 0; i < question_cdf.size() - 1; ++i) {
-			sum += variances[i] * (question_cdf[i] - question_cdf[i + 1]);
-		}
-		return sum;
-	}
-
-	questionSet.answers[item] = 0;
-	double variance_zero = estimateSE();
-	variance_zero *= variance_zero;
-
-	questionSet.answers[item] = 1;
-	double variance_one = estimateSE();
-	variance_one *= variance_one;
-
-	questionSet.applicable_rows.pop_back();
-	questionSet.answers[item] = NA_INTEGER; // remove answer
-
-	double prob_zero = probability(estimateTheta(), item)[0];
-	double prob_one = 1.0 - prob_zero;
-
-	return prob_zero * variance_zero + (prob_one * variance_one);
-
+	return estimator.expectedPV(item, prior);
 }
 
 List Cat::nextItem() {

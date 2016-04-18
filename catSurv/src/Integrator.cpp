@@ -21,9 +21,8 @@ double Integrator::integrate(const gsl_function *function, const size_t interval
 	const double relative_error_limit = GSL_SQRT_DBL_EPSILON;
 
 
-	int error_code =
-			gsl_integration_qag(function, lower, upper, relative_error_limit, absolute_error_limit,
-			                    intervals, integration_method, workspace, &result, &absolute_error);
+	int error_code = gsl_integration_qag(function, lower, upper, relative_error_limit, absolute_error_limit,
+	                                     intervals, integration_method, workspace, &result, &absolute_error);
 
 	// Always ensure that any allocated memory is freed
 	gsl_integration_workspace_free(workspace);
