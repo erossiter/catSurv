@@ -6,7 +6,7 @@ test_that("estimateTheta calculates correctly", {
   
   test_cat <- new("Cat")
   test_cat@discrimination <- c(2,4,6,8, 8)
-  test_cat@difficulty <- c(1,2,3,4)
+  test_cat@difficulty <- c(1,2,3,4,5)
   test_cat@priorName <- "NORMAL"
   test_cat@priorParams <- c(0,1)
   test_cat@answers <- c(1, 2, 3, NA, NA)
@@ -24,12 +24,14 @@ test_that("estimateTheta calculates correctly", {
     #     }
     #   results <- trapIntegration_test(x, fx_x) / trapIntegration_test(x, fx)
     # }
-    numerator <- function(cat){
+    numerator <- function(cat, theta){
       answered_questions <- which(!is.na(cat@answers))
-      prior_values <- prior(cat)
-      x <- cat@X
-      return(theta * likelihood(cat, x, answered_questions) * prior_values)
-      }
+      prior_values <- prior(theta, cat@priorName, cat@priorParams)
+      return(theta * likelihood(cat, theta) * prior_values)
+    }
+    
+    likelihood(test_cat, 2)
+    
       denominator <- function(cat){
         answered_questions <- which(!is.na(cat@answers))
         prior_values <- prior(cat)

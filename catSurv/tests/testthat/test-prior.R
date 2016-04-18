@@ -8,13 +8,13 @@ test_that("prior calculates correctly", {
   cat_dnorm@discrimination <- c(2,4,6,8)
   cat_dnorm@difficulty <- c(1,2,3,4)
   cat_dnorm@priorName <- "NORMAL"
-  cat_dnorm@priorParams <- c(0,1)
+  cat_dnorm@priorParams <- c(0,1.5)
   
   cat_studT <- new("Cat")
   cat_studT@discrimination <- c(2,4,6,8)
   cat_studT@difficulty <- c(1,2,3,4)
   cat_studT@priorName <- "STUDENT_T"
-  cat_studT@priorParams <- c(0,1,1)
+  cat_studT@priorParams <- c(2,3,4)
   
   ## R test function
   prior_test <- function(x, cat){
@@ -25,9 +25,8 @@ test_that("prior calculates correctly", {
       prior_values <- dnorm(x, parameters[1], parameters[2])
     }
     if(distribution == "STUDENT_T"){
-      ## These two equations give the same result?
       #prior_values <- (1/parameters[2]) * dt( (x - parameters[1]) / parameters[2], parameters[3])
-      prior_values <- dt(x, parameters[3])
+      prior_values <- dt(x, df = parameters[2], ncp = parameters[1])
     }
     return(prior_values)
   }
@@ -35,13 +34,27 @@ test_that("prior calculates correctly", {
   expect_equal(prior(1, cat_dnorm@priorName, cat_dnorm@priorParams), prior_test(1, cat_dnorm))
   expect_equal(prior(1, cat_studT@priorName, cat_studT@priorParams), prior_test(1, cat_studT))
 })
-
+# 
+# my_dt <- function(x, mu, df){
+#   Z <- dnorm(x, 0, 1)
+#   V <- 6
+#   results <- (Z+mu) / sqrt(V/df)
+#   results <- 1 - pt(results, df=df)
+#   return(results)
+# }
+# 
+# my_dt(1, mu=2, df=3)
+# 
+# dt(1, df=3, ncp=2)
 
 ## I figured out how the cpp code and my R function differ for normal distribution.
 ## When I set the 'log' arguement equal to TRUE they get the same answer... 
 ## do we want the log of probabilities or not?
 
-## Then I think this is affecting the student's t result.
+## Pretty sure the documentation is wrong for dt()... it's just giving you
+## the equation for the student t-distributed random variable.  But even
+## that is wrongly implemented in c++ code... "V" is being calculated as
+## the pdf when we need the noncentral Chisquared-distributed random variable
 
 
 
