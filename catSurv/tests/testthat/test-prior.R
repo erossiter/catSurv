@@ -22,7 +22,7 @@ test_that("prior calculates correctly", {
     parameters <- cat@priorParams
     
     if(distribution == "NORMAL"){
-      prior_values <- dnorm(x, parameters[1], parameters[2], log = TRUE)
+      prior_values <- dnorm(x, parameters[1], parameters[2])
     }
     if(distribution == "STUDENT_T"){
       ## These two equations give the same result?
