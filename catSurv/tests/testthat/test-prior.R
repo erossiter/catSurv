@@ -4,11 +4,17 @@ context("Prior")
 
 test_that("prior calculates correctly", {
   
-  test_cat <- new("Cat")
-  test_cat@discrimination <- c(2,4,6,8)
-  test_cat@difficulty <- c(1,2,3,4)
-  test_cat@priorName <- "NORMAL"
-  test_cat@priorParams <- c(0,1)
+  cat_dnorm <- new("Cat")
+  cat_dnorm@discrimination <- c(2,4,6,8)
+  cat_dnorm@difficulty <- c(1,2,3,4)
+  cat_dnorm@priorName <- "NORMAL"
+  cat_dnorm@priorParams <- c(0,1)
+  
+  cat_studT <- new("Cat")
+  cat_studT@discrimination <- c(2,4,6,8)
+  cat_studT@difficulty <- c(1,2,3,4)
+  cat_studT@priorName <- "STUDENT_T"
+  cat_studT@priorParams <- c(0,1,1)
   
   ## R test function
   prior_test <- function(x, cat){
@@ -16,16 +22,31 @@ test_that("prior calculates correctly", {
     parameters <- cat@priorParams
     
     if(distribution == "NORMAL"){
-      prior_values <- dnorm(x, parameters[1], parameters[2])
+      prior_values <- dnorm(x, parameters[1], parameters[2], log = TRUE)
     }
     if(distribution == "STUDENT_T"){
-      prior_values <- (1/parameters[2]) * dt( (x - parameters[1]) / parameters[2], parameters[3])
+      ## These two equations give the same result?
+      #prior_values <- (1/parameters[2]) * dt( (x - parameters[1]) / parameters[2], parameters[3])
+      prior_values <- dt(x, parameters[3])
     }
     return(prior_values)
   }
   
-  expect_equal(prior(5, test_cat@priorName, test_cat@priorParams), prior_test(5, test_cat))
+  expect_equal(prior(1, cat_dnorm@priorName, cat_dnorm@priorParams), prior_test(1, cat_dnorm))
+  expect_equal(prior(1, cat_studT@priorName, cat_studT@priorParams), prior_test(1, cat_studT))
 })
+
+
+## I figured out how the cpp code and my R function differ for normal distribution.
+## When I set the 'log' arguement equal to TRUE they get the same answer... 
+## do we want the log of probabilities or not?
+
+## Then I think this is affecting the student's t result.
+
+
+
+
+
 
 ## I think the cpp code is wrong.
 
