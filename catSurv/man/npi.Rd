@@ -5,7 +5,7 @@
 %%   ~~ NPI ~~
 }
 \description{
-%%  ~~ Data from the test with the 40 paired items. Respondents had to choose the one that fit them the best. ~~
+%%  ~~ Data from the test with the 40 paired items on one page. Respondents had to choose the one that fit them the best. Respondents' demographics were entered on the next page. In addition, they were also asked to affirm that their answers were acurate and suitable for research, those that did not (9%) are not included in this dataset.~~
 }
 \usage{data("npi")}
 \format{
@@ -58,10 +58,10 @@
   }
 }
 \details{
-%%  ~~ elapse was calculated with following equation: (time submitted) - (time loaded) ~~
+%%  ~~ elapse was calculated with following equation: (time submitted) - (time loaded) of the questions page in seconds. Response optinos for gender question is following: 1=male, 3=female, 3=other, 0=none). Age was entered as a free response but ages below 14 were omiited from the dataset. ~~
 }
 \source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
+%%  ~~ ~~
 }
 \references{
 %%  ~~ Jacob Montgomery ~~
