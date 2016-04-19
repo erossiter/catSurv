@@ -25,8 +25,8 @@ test_that("estimateSE calculates correctly", {
       L_theta <- likelihood(cat, theta)
       return(prior_theta * L_theta)
       }
-    results <- (integrate(Vectorize(numerator), -Inf, Inf)$value)/
-        (integrate(Vectorize(denominator), -Inf, Inf)$value)
+    results <- (integrate(Vectorize(numerator), -6, 6)$value)/
+        (integrate(Vectorize(denominator), -6, 6)$value)
     return(sqrt(results))
     }
   expect_equal(estimateSE(test_cat1), estimateSE_test(test_cat1))

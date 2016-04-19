@@ -26,7 +26,7 @@ test_that("prior calculates correctly", {
     }
     if(distribution == "STUDENT_T"){
       #prior_values <- (1/parameters[2]) * dt( (x - parameters[1]) / parameters[2], parameters[3])
-      prior_values <- dt(x, df = parameters[2]) #, ncp = parameters[1])
+      prior_values <- dt(x, df = parameters[2], ncp = parameters[1])
     }
     return(prior_values)
   }

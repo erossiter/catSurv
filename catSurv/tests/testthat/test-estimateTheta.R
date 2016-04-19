@@ -8,7 +8,7 @@ test_that("estimateTheta calculates correctly", {
   test_cat1@discrimination <- c(2,4,6,8)
   test_cat1@difficulty <- c(1,2,3,4)
   test_cat1@priorName <- "NORMAL"
-  test_cat1@priorParams <- c(0,1.5)
+  test_cat1@priorParams <- c(0,5)
   test_cat1@poly <- FALSE
   
   test_cat2 <- test_cat1
@@ -25,8 +25,8 @@ test_that("estimateTheta calculates correctly", {
       return(likelihood(cat, theta) * prior_values)
       }
     if(cat@estimation == "EAP"){ 
-      results <- (integrate(Vectorize(numerator), -Inf, Inf)$value)/
-        (integrate(Vectorize(denominator), -Inf, Inf)$value)
+      results <- (integrate(Vectorize(numerator), -6, 6)$value)/
+        (integrate(Vectorize(denominator), -6, 6)$value)
       }
     
     if(cat@estimation == "MAP"){
