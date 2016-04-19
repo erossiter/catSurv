@@ -81,3 +81,200 @@ setMethod("initialize", class.name, function(.Object, ...) {
   validObject(value)
   return(value)
 })
+
+
+setGeneric("setguessing<-",
+		   function(object, value){
+		   	standardGeneric("setguessing<-")
+		   	})
+setReplaceMethod(
+	f = "setguessing",
+	signature = "Cat",
+	definition = function(object, value){
+		object@guessing <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setdiscrimination<-",
+		   function(object, value){
+		   	standardGeneric("setdiscrimination<-")
+		   	})
+setReplaceMethod(
+	f = "setdiscrimination",
+	signature = "Cat",
+	definition = function(object, value){
+		object@discrimination <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setpriorParam<-",
+		   function(object, value){
+		   	standardGeneric("setpriorParam<-")
+		   	})
+setReplaceMethod(
+	f = "setpriorParam",
+	signature = "Cat",
+	definition = function(object, value){
+		object@priorParam <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setpriorName<-",
+		   function(object, value){
+		   	standardGeneric("setpriorName<-")
+		   	} 
+setReplaceMethod(
+	f = "setpriorName",
+	signature = "Cat",
+	definition = function(object, value){
+		object@priorName <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setlowerBound<-",
+		   function(object, value){
+		   	standardGeneric("setlowerBound<-")
+		   	})
+setReplaceMethod(
+	f = "setlowerBound",
+	signature = "Cat",
+	definition = function(object, value){
+		object@lowerBound <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setupperBound<-",
+		   function(object, value){
+		   	standardGeneric("setupperBound<-")
+		   	})
+setReplaceMethod(
+	f = "setupperBound",
+	signature = "Cat",
+	definition = function(object, value){
+		object@upperBound <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setquadPoints<-",
+		   function(object, value){
+		   	standardGeneric("setquadPoints<-")
+		   	})
+setReplaceMethod(
+	f = "setquadPoints",
+	signature = "Cat",
+	definition = function(object, value){
+		object@quadPoints <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setdifficulty<-",
+		   function(object, value){
+		   	standardGeneric("setdifficulty<-")
+		   	})
+setReplaceMethod(
+	f = "setdifficulty",
+	signature = "Cat",
+	definition = function(object, value){
+		object@difficulty <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setpoly<-",
+		   function(object, value){
+		   	standardGeneric("setpoly<-")
+		   	})
+setReplaceMethod(
+	f = "setpoly",
+	signature = "Cat",
+	definition = function(object, value){
+		object@poly <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setintegration<-",
+		   function(object, value){
+		   	standardGeneric("setintegration<-")
+		   	})
+setReplaceMethod(
+	f = "setintegration",
+	signature = "Cat",
+	definition = function(object, value){
+		object@integration <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setestimation<-",
+		   function(object, value){
+		   	standardGeneric("setestimation<-")
+		   	})
+setReplaceMethod(
+	f = "setestimation",
+	signature = "Cat",
+	definition = function(object, value){
+		object@estimation <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setselection<-",
+		   function(object, value){
+		   	standardGeneric("setselection<-")
+		   	})
+setReplaceMethod(
+	f = "setselection",
+	signature = "Cat",
+	definition = function(object, value){
+		object@selection <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setcoverage<-",
+		   function(object, value){
+		   	standardGeneric("setcoverage<-")
+		   	})
+setReplaceMethod(
+	f = "setcoverage",
+	signature = "Cat",
+	definition = function(object, value){
+		object@coverage <- value
+		validObject(object)
+		return(object)
+		})
+
+
+setGeneric("setpoints<-",
+		   function(object, value){
+		   	standardGeneric("setpoints<-")
+		   	})
+setReplaceMethod(
+	f = "setpoints",
+	signature = "Cat",
+	definition = function(object, value){
+		object@points <- value
+		validObject(object)
+		return(object)
+		})
+
