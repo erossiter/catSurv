@@ -19,11 +19,11 @@
     \item{\code{NFC15}}{The idea of relying on thought to make my way to the top appeals to me}
     \item{\code{NFC16}}{The notion of thinking abstractly is appealing to me}
     \item{\code{NFC19}}{I only think as hard as I have to}
-    \item{\code{NFC21}}{a numeric vector}
-    \item{\code{NFC22}}{a numeric vector}
-    \item{\code{NFC23}}{a numeric vector}
-    \item{\code{NFC24}}{a numeric vector}
-    \item{\code{NFC29}}{a numeric vector}
+    \item{\code{NFC21}}{I think tasks that require little thought once I've learned them}
+    \item{\code{NFC22}}{I prefer to think about small, daily projects to long-term ones}
+    \item{\code{NFC23}}{I would rather do something that requires little thought than something that is sure to challenge my thinking abilities}
+    \item{\code{NFC24}}{I find satisfaction in deliberating hard and for long hours}
+    \item{\code{NFC29}}{I like to have }
     \item{\code{NFC31}}{a numeric vector}
     \item{\code{NFC32}}{a numeric vector}
     \item{\code{NFC33}}{a numeric vector}
