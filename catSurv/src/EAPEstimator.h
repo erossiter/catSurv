@@ -5,6 +5,7 @@
 
 class EAPEstimator : public Estimator {
 private:
+	constexpr static int integrationSubintervals = 10;
 	typedef std::function<double(double)> integrableFunction;
 
 	/**
@@ -18,6 +19,7 @@ private:
 
 
 	double binary_posterior_variance(int item, Prior &prior);
+
 public:
 
 	EAPEstimator(const Integrator &integrator, const QuestionSet &questionSet);
@@ -29,6 +31,5 @@ public:
 	double estimateSE(Prior prior) override;
 
 	virtual double expectedPV(int item, Prior &prior) override;
-
 
 };

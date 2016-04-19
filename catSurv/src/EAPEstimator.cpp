@@ -36,8 +36,8 @@ double EAPEstimator::integralQuotient(integrableFunction const &numerator,
 	gsl_function *numeratorFunction = GSLFunctionWrapper(numerator).asGSLFunction();
 	gsl_function *denominatorFunction = GSLFunctionWrapper(denominator).asGSLFunction();
 
-	const double top = integrator.integrate(numeratorFunction, 10);
-	const double bottom = integrator.integrate(denominatorFunction, 10);
+	const double top = integrator.integrate(numeratorFunction, integrationSubintervals);
+	const double bottom = integrator.integrate(denominatorFunction, integrationSubintervals);
 	return top / bottom;
 }
 
