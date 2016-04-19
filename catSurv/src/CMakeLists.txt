@@ -14,7 +14,7 @@ set(SOURCE_FILES
 		main.cpp Prior.h Prior.cpp
 		Integrator.h Estimator.h Estimator.cpp
 		EAPEstimator.cpp EAPEstimator.h
-		QuestionSet.h Integrator.cpp)
+		QuestionSet.h Integrator.cpp MAPEstimator.cpp MAPEstimator.h)
 
 add_library(catSurv STATIC ${SOURCE_FILES})
 add_executable(run main.cpp)
