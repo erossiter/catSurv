@@ -26,20 +26,18 @@ test_that("estimateTheta calculates correctly", {
         (integrate(Vectorize(denominator), -Inf, Inf)$value)
       }
     
-    # Need dLL() and d2LL() to do further work on "MAP"
-    # if(cat@estimation == "MAP"){
-    #   theta_hat_old <- 0
-    #   theta_hat_new <- 1
-    #   tolerance <- .001
-    #   difference <- abs(theta_hat_new - theta_hat_old)
-    #   while(difference > tolerance){
-    #   ## still need to write dLL_test() and d2LL_test() functions
-    #     theta_hat_new <- theta_hat_old - dLL(cat, theta_hat_old, TRUE)/d2LL(cat, theta_hat_old, TRUE)
-    #     difference <- abs(theta_hat_new - theta_hat_old)
-    #     theta_hat_new <- theta_hat_old
-    #     }
-    #   results <- theta_hat_new
-    #   }
+    if(cat@estimation == "MAP"){
+      theta_hat_old <- 0
+      theta_hat_new <- 1
+      tolerance <- .001
+      difference <- abs(theta_hat_new - theta_hat_old)
+      while(difference > tolerance){
+        theta_hat_new <- theta_hat_old - (dLL(cat, theta_hat_old, TRUE)/d2LL(cat, theta_hat_old, TRUE))
+        difference <- abs(theta_hat_new - theta_hat_old)
+        theta_hat_new <- theta_hat_old
+        }
+      results <- theta_hat_new
+      }
     return(results)
     }
   
