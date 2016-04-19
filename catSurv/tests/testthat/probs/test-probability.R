@@ -16,8 +16,8 @@ test_that("binary probability calculates correctly", {
                   discrimination=(100*rnorm(numQuestions)),
                   difficulty=sort(100*rnorm(numQuestions)),
                   guessing=runif(numQuestions),
-                  poly=rep(F, numQuestions),
-                  answers=rep(F, numQuestions))
+                  poly=F,
+                  answers=rep(NA, numQuestions))
       
       allTheCats<-c(allTheCats, newCat)
       
