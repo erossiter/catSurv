@@ -5,10 +5,6 @@
 
 using namespace boost::math;
 
-double Prior::dchi(double x, double k) {
-	return pdf(chi_squared(x), k);
-}
-
 double Prior::dt(double x, int df) {
 	return pdf(students_t(df), x);
 }

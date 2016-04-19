@@ -11,6 +11,9 @@ test_that("estimateTheta calculates correctly", {
   test_cat1@priorParams <- c(0,1.5)
   test_cat1@poly <- FALSE
   
+  test_cat2 <- test_cat1
+  test_cat2@estimation <- "MAP"
+  
   estimateTheta_test <- function(cat){
     library(stats)
     numerator <- function(theta){
