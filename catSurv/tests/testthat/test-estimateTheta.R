@@ -50,4 +50,3 @@ test_that("estimateTheta calculates correctly", {
 
 ## 'stats' is the package integrate() is in.
 ## Is likelihood giving back correct answers??
-## range from -inf to inf for integrating???
