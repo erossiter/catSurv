@@ -74,7 +74,8 @@ test_that("binary probability calculates correctly", {
 #     } TRIED A FOR LOOP because I couldn't get the lapply to work, but now it's all good
 
   probability(allTheCats[[1]], thetaVec[1], questionVec[1])
-  probability_test_bi(allTheCats[[1]], thetaVec[1], questionVec[1])
+probability
+    probability_test_bi(allTheCats[[1]], thetaVec[1], questionVec[1])
   
 
   ##calculating values from the test probability function (created above)
