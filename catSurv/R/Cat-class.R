@@ -82,6 +82,53 @@ setMethod("initialize", class.name, function(.Object, ...) {
   return(value)
 })
 
+########### VALIDITY CHECKS ##############
+
+setValidity("Cat", function(object){
+  # guessing, discrimination, answers, difficulty should all be same length
+  test1<-(length(object@discrimination)==length(object@guessing))  
+  if(!test1){return("discrimination and guessing not same length")}
+  
+  test2<-(length(object@discrimination)==length(object@answers))  
+  if(!test2){return("discrimination and answers not same length")}
+  
+  test3<-(length(object@discrimination)==length(object@difficulty))  
+  if(!test3){return("discrimination and difficulty not same length")}
+  
+  ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING, and not NA
+  if(object@poly==T){
+    for(i in object@difficulty){
+      if (is.list(i)){
+        item<-unlist(i)
+      }
+      item<-i #don't want to change the value stored in the object itself...
+      sorted<-sort(item)
+      uniques<-unique(item)
+      test4<-(isTRUE(all.equal(item,uniques)))
+      if(!test4){return(paste("Repeated difficulty values for question ", which(object@difficulty==item, arr.ind=T)))}
+      test5<-(isTRUE(all.equal(i,sorted)))
+      if(!test5){return(paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " are not increasing"))}
+      test6<-(all(!is.na(item)))
+      if(!test6){return(paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " include NAs"))}
+      
+    }
+  }
+  
+  ## test that discrimination and guessing are not NA
+  for(i in object@discrimination){
+    test7<-!is.na(i)
+    if(!test7){return(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+  }
+  if(!object@poly){
+    for(i in object@guessing){
+      test8<-!is.na(i)
+      if(!test8){return(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+    }
+  }
+})
+
+
+########### SETTERS  ##############
 
 setGeneric("setguessing<-",
 		   function(object, value){
