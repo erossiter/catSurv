@@ -1,5 +1,7 @@
 #include "Rcpp.h"
 #include "Cat.h"
+#include <stdexcept>
+#include "MAPEstimator.h"
 
 using namespace Rcpp;
 
@@ -9,7 +11,7 @@ Cat::Cat(QuestionSet &questions, Prior &priorData)
 
 Cat::Cat(S4 cat_df) : questionSet(initialize_questionSet(cat_df)),
                       integrator(Integrator()),
-                      estimator(EAPEstimator(integrator, questionSet)),
+                      estimator(createEstimator(cat_df)),
                       prior(cat_df) {
 	theta_est = Rcpp::as<std::vector<double> >(cat_df.slot("Theta.est"));
 }
@@ -80,4 +82,38 @@ QuestionSet Cat::initialize_questionSet(S4 &cat_df) {
 
 
 }
+
+double Cat::dLL(double theta, bool use_prior) {
+	if (typeid(estimator) == typeid(MAPEstimator)) {
+		stop("Error: dLL is only available when using MAP estimation.");
+	}
+	MAPEstimator mapEstimator = static_cast<MAPEstimator&>(estimator);
+	return mapEstimator.dLL(theta, use_prior, prior);
+}
+
+double Cat::d2LL(double theta, bool use_prior) {
+	if (typeid(estimator) == typeid(MAPEstimator)) {
+		stop("Error: d2LL is only available when using MAP estimation.");
+	}
+	MAPEstimator mapEstimator = static_cast<MAPEstimator&>(estimator);
+	return mapEstimator.d2LL(theta, use_prior, prior);
+}
+
+Estimator Cat::createEstimator(S4 cat_df) {
+	std::string estimation_type = cat_df.slot("estimation");
+	if (estimation_type == "EAP") {
+		return EAPEstimator(integrator, questionSet);
+	}
+
+	if (estimation_type == "MAP") {
+		return MAPEstimator(integrator, questionSet);
+	}
+
+	stop("%s is not a valid estimation type.", estimation_type);
+	throw std::invalid_argument("Invalid estimation type");
+}
+
+
+
+
 

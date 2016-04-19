@@ -24,10 +24,6 @@ public:
 
 	virtual double estimateTheta(Prior prior) override;
 
-
-	virtual double expectedPV(int item, Prior &prior) override;
-
-
 	double polytomous_dLL(double theta);
 
 	double binary_dLL(double theta);

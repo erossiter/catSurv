@@ -5,8 +5,6 @@
 
 class Prior {
 private:
-	double dchi(double x, double k);
-
 	double dt(double x, int df);
 
 public:

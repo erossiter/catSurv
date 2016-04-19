@@ -6,7 +6,23 @@
 #include "Prior.h"
 
 enum class EstimationType {
-	EAP, MAP
+	NONE, EAP, MAP
+};
+
+class NotImplementedException : public std::exception {
+
+public:
+
+	NotImplementedException(const std::string &error = "Functionality not yet implemented!") {
+		errorMessage = error;
+	}
+
+	const char *what() const noexcept {
+		return errorMessage.c_str();
+	}
+
+private:
+	std::string errorMessage;
 };
 
 class Estimator {
@@ -36,9 +52,15 @@ protected:
 public:
 	Estimator(Integrator integration, QuestionSet question);
 
-	virtual EstimationType getEstimationType() const = 0;
+	virtual EstimationType getEstimationType() const {
+		return EstimationType::NONE;
+	}
 
-	virtual double estimateTheta(Prior prior) = 0;
+	virtual double estimateTheta(Prior prior) {
+		(void) prior;
+		const std::string message = "This function is not implemented in the base class.";
+		throw NotImplementedException(message);
+	}
 
 	double likelihood(double theta);
 

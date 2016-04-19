@@ -1,12 +1,9 @@
 \name{nfc}
 \alias{nfc}
 \docType{data}
-\title{
-%%   ~~ Need For Cognition dataset from TAPS and AMT ~~
-}
+\title{ Need For Cognition dataset from TAPS and AMT}
 \description{
-%%  ~~ Data of survey respondents' respond to 18 NFC questions, which is a reduced version of NFC. For each question, respondents could choose one of five response options: Agree strongly, agree somewhat, neither agree nor disagree, disagree somewhat, disagree strongly. In addition, missingness is optional. Sample variable indicates where the dataset come from: 1 = The American Panel Survey, 2 = Amazon's Mechanical Turk (fall 2014), 3 = Amazon's Mechanical Turk (spring 2015) ~~
-}
+Data of survey respondents' respond to 18 NFC questions, which is a reduced version of NFC. For each question, respondents could choose one of five response options: Agree strongly, agree somewhat, neither agree nor disagree, disagree somewhat, disagree strongly. In addition, missingness is optional. Sample variable indicates where the dataset come from: 1 = The American Panel Survey, 2 = Amazon's Mechanical Turk (fall 2014), 3 = Amazon's Mechanical Turk (spring 2015)}
 \usage{data("nfc")}
 \format{
   A data frame with 4043 observations on the following 20 variables.

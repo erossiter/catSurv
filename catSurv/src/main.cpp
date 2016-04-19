@@ -116,14 +116,17 @@ double prior(NumericVector x, CharacterVector c, NumericVector p) {
 }
 
 
-//double dLL(Cat &cat_df, double theta, bool use_prior){
-//	return Cat(cat_df).d
-//	return 0;
-//}
-//
-//double d2LL(Cat & cat, double theta, bool use_prior){
-//	return 0;
-//}
+//' @export
+// [[Rcpp::export]]
+double dLL(S4 &cat_df, double theta, bool use_prior){
+	return Cat(cat_df).dLL(theta, use_prior);
+}
+
+//' @export
+// [[Rcpp::export]]
+double d2LL(S4 &cat_df, double theta, bool use_prior){
+	return Cat(cat_df).d2LL(theta, use_prior);
+}
 
 //
 //// [[Rcpp::export]]

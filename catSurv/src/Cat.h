@@ -9,6 +9,7 @@ using namespace Rcpp;
 class Cat {
 public:
 	QuestionSet initialize_questionSet(S4 &cat_df);
+
 	QuestionSet questionSet;
 
 	Cat(QuestionSet &questions, Prior &priorData);
@@ -23,6 +24,10 @@ public:
 
 	double expectedPV(int item);
 
+	double dLL(double theta, bool use_prior);
+
+	double d2LL(double theta, bool use_prior);
+
 	Rcpp::List nextItem();
 
 	std::vector<double> probability(double theta, int question);
@@ -30,8 +35,9 @@ public:
 private:
 	std::vector<double> theta_est;
 
+	Estimator createEstimator(S4 cat_df);
 	Integrator integrator;
-	EAPEstimator estimator;
+	Estimator estimator;
 	Prior prior;
 
 
