@@ -4,10 +4,12 @@
 \alias{setguessing<-}
 \title{Setters for slots within Cat class objects}
 \usage{
-setguessing(object) <- value
+setguessing(object, valid) <- value
 }
 \arguments{
 \item{object}{An object of class \code{Cat} with a slot to be changed}
+
+\item{valid}{Boolean for whether to check validity of object before allowing setter method to execute, default to TRUE}
 
 \item{value}{The value to replace the current value stored in the slot of the \code{Cat}, as specified in the function name}
 }

@@ -69,10 +69,10 @@ setClass("Cat",
            selection="EPV",
            coverage=0.9,
            points=40,
-           answers=NA,
-           discrimination=0,
-           guessing=0,
-           difficulty=0
+           answers=c(NA, NA),
+           discrimination=c(0,0),
+           guessing=c(0,0),
+           difficulty=c(0,0)
          )
 )
 
@@ -89,6 +89,10 @@ setMethod("initialize", class.name, function(.Object, ...) {
 
 setValidity("Cat", function(object){
   # guessing, discrimination, answers, difficulty should all be same length
+  #... and that length must be greater than 1
+  test0<-(length(object@discrimination)>1)
+  if(!test0){return("discrimination needs length greater than 1")}
+      
   test1<-(length(object@discrimination)==length(object@guessing))  
   if(!test1){return("discrimination and guessing not same length")}
   
@@ -139,8 +143,9 @@ setValidity("Cat", function(object){
 #' These functions replace the values currently stored in a given slot of an object of class \code{Cat} with the user-provided values.  
 #'
 #' @param object An object of class \code{Cat} with a slot to be changed
+#' @param valid Boolean for whether to check validity of object before allowing setter method to execute, default to TRUE
 #' @param value The value to replace the current value stored in the slot of the \code{Cat}, as specified in the function name
-#'
+#' 
 #' @return An object of class \code{Cat} with an updated slot, specified in the function name
 
 #' @note Notes if you need 
@@ -149,197 +154,197 @@ setValidity("Cat", function(object){
 #' @rdname setters
 #' @export
 setGeneric("setguessing<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setguessing<-")
 		   	})
 setReplaceMethod(
 	f = "setguessing",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@guessing <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setdiscrimination<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setdiscrimination<-")
 		   	})
 setReplaceMethod(
 	f = "setdiscrimination",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@discrimination <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setpriorParam<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setpriorParam<-")
 		   	})
 setReplaceMethod(
 	f = "setpriorParam",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@priorParam <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setpriorName<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setpriorName<-")
 		   	}) 
 setReplaceMethod(
 	f = "setpriorName",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@priorName <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setlowerBound<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setlowerBound<-")
 		   	})
 setReplaceMethod(
 	f = "setlowerBound",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@lowerBound <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setupperBound<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setupperBound<-")
 		   	})
 setReplaceMethod(
 	f = "setupperBound",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@upperBound <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setquadPoints<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setquadPoints<-")
 		   	})
 setReplaceMethod(
 	f = "setquadPoints",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@quadPoints <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setdifficulty<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setdifficulty<-")
 		   	})
 setReplaceMethod(
 	f = "setdifficulty",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@difficulty <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setpoly<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setpoly<-")
 		   	})
 setReplaceMethod(
 	f = "setpoly",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@poly <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setintegration<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setintegration<-")
 		   	})
 setReplaceMethod(
 	f = "setintegration",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@integration <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setestimation<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setestimation<-")
 		   	})
 setReplaceMethod(
 	f = "setestimation",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@estimation <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setselection<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setselection<-")
 		   	})
 setReplaceMethod(
 	f = "setselection",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@selection <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setcoverage<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setcoverage<-")
 		   	})
 setReplaceMethod(
 	f = "setcoverage",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@coverage <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
 #' @export
 setGeneric("setpoints<-",
-		   function(object, value){
+		   function(object, valid=T, value){
 		   	standardGeneric("setpoints<-")
 		   	})
 setReplaceMethod(
 	f = "setpoints",
 	signature = "Cat",
-	definition = function(object, value){
+	definition = function(object, valid, value){
 		object@points <- value
-		validObject(object)
+		if(valid){validObject(object)}
 		return(object)
 		})
 
