@@ -11,13 +11,6 @@ test_that("estimateTheta calculates correctly", {
   test_cat1@priorParams <- c(0,1.5)
   test_cat1@poly <- FALSE
   
-  test_cat2 <- new("Cat")
-  test_cat2@discrimination <- c(1,10,12,13)
-  test_cat2@difficulty <- c(1,2,3,4)
-  test_cat2@priorName <- "NORMAL"
-  test_cat2@priorParams <- c(0,10)
-  test_cat2@poly <- FALSE
-  
   estimateTheta_test <- function(cat){
     library(stats)
     numerator <- function(theta){

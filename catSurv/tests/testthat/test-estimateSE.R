@@ -4,36 +4,31 @@ context("Prior")
 
 test_that("estimateSE calculates correctly", {
   
+  test_cat1 <- new("Cat")
+  test_cat1@discrimination <- c(2,4,6,8)
+  test_cat1@difficulty <- c(1,2,3,4)
+  test_cat1@priorName <- "NORMAL"
+  test_cat1@priorParams <- c(0,1.5)
+  test_cat1@poly <- FALSE
+  
   estimateSE_test <- function(cat){
-    #answered_questions <- cat@applicable_rows
-    #theta_hat <- estimateTheta(cat)
-    #x <- cat@X
-    #prior_values <- prior(cat)
-  
-    #fx <- fx_theta <- rep(NA, length(x))
-    #for(i in 1:length(x)){
-    #  fx[i] <- likelihood(cat, x[i], answered_questions)*prior_values[i]
-    #  fx_theta[i] <- ((x[i] - theta_hat)^2) * fx[i]
-    #}
-    numerator <- function(cat){
-      answered_questions <- cat@applicable_rows
+    library(stats)
+    numerator <- function(theta){
       theta_hat <- estimateTheta(cat)
-      x <- cat@X
-      prior_values <- prior(cat)
-      return((theta - theta_hat)^2 * prior_values * likelihood(cat, x, answered_questions))
+      diff <- (theta - theta_hat)^2
+      prior_theta <- prior(theta, cat@priorName, cat@priorParams)
+      L_theta <- likelihood(cat, theta)
+      return(diff * prior_theta * L_theta)
+      }
+    denominator <- function(theta){
+      prior_theta <- prior(theta, cat@priorName, cat@priorParams)
+      L_theta <- likelihood(cat, theta)
+      return(prior_theta * L_theta)
+      }
+    results <- (integrate(Vectorize(numerator), -Inf, Inf)$value)/
+        (integrate(Vectorize(denominator), -Inf, Inf)$value)
+    return(sqrt(results))
     }
-    denominator <- function(cat){
-      answered_questions <- cat@applicable_rows
-      theta_hat <- estimateTheta(cat)
-      x <- cat@X
-      prior_values <- prior(cat)
-      return(prior_values * likelihood(cat, x, answered_questions))
-    }
-  
-    results <- sqrt(integrate(numerator)/integrate(denominator))
-    return(results)
-  }
-  
-  expect_equal()
+  expect_equal(estimateSE(test_cat1), estimateSE_test(test_cat1))
 })
 
