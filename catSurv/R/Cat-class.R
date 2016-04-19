@@ -128,7 +128,7 @@ setReplaceMethod(
 setGeneric("setpriorName<-",
 		   function(object, value){
 		   	standardGeneric("setpriorName<-")
-		   	} 
+		   	}) 
 setReplaceMethod(
 	f = "setpriorName",
 	signature = "Cat",
