@@ -18,6 +18,8 @@ document(current.code)
 ?setters
 ?setdiscrimination
 
+
+
 ## Checking the "set" methods.
 test_cat <- new("Cat")
 
@@ -27,9 +29,9 @@ test_cat@guessing
 setdiscrimination(test_cat) <- 5
 test_cat@discrimination
 
+validObject(test_cat)
 
-
-
+setdifficulty(test_cat)<-c(0,1,2,3)
 
 
 

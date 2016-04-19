@@ -9,9 +9,10 @@ setguessing(object) <- value
 \arguments{
 \item{object}{An object of class \code{Cat} with a slot to be changed}
 
-\item{value}{The value to replace the current value stored in the slot of the \code{Cat}, as specified in the function name
-
- @return An object of class \code{Cat} with an updated slot, specified in the function name}
+\item{value}{The value to replace the current value stored in the slot of the \code{Cat}, as specified in the function name}
+}
+\value{
+An object of class \code{Cat} with an updated slot, specified in the function name
 }
 \description{
 These functions replace the values currently stored in a given slot of an object of class \code{Cat} with the user-provided values.

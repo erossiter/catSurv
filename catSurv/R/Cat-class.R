@@ -69,7 +69,10 @@ setClass("Cat",
            selection="EPV",
            coverage=0.9,
            points=40,
-           answers=NA
+           answers=NA,
+           discrimination=0,
+           guessing=0,
+           difficulty=0
          )
 )
 

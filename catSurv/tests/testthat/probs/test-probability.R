@@ -73,13 +73,26 @@ test_that("binary probability calculates correctly", {
   
     }
   thetaVec
-  probability(allTheCats[1], thetaVec[1], questionVec[1])
+  probability(allTheCats[[1]], thetaVec[1], questionVec[1])
+
+  allTheCats[[9]]@guessing
   
-  ?which
   ##calculating values from the test probability function (created above)
-  testFunValues<-lapply(allTheCats, function(x){
-    probability_test_bi(x, thetaVec(which(allTheCats, x)), questionVec(which(allTheCats, x)))
+  testFunValues<-lapply(1:length(allTheCats), function(x){
+    print(paste(length(allTheCats[[x]]@discrimination), thetaVec[x], questionVec[x]))
+    probability_test_bi(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
+  
+  ######## BROKE DOWN THE probability_test_bi FUNCTION TO SEE WHY I'M GETTING NaN VALUES########
+    Adiscrimination = allTheCats[[8]]@discrimination[16]
+    Adifficulty = allTheCats[[8]]@difficulty[16]
+    Aguessing = allTheCats[[8]]@guessing[16]
+    exp_probb = exp(Adiscrimination * (719.750691474437 - Adifficulty))
+    pribs <- Aguessing + (1-Aguessing) * (exp_probb / (1 + exp_probb))
+  #### THE NUMBERS ARE TOO BIG AND R CAN'T HANDLE IT ####
+  }
+  
+  
   
   ##expect the values to be equal
   expect_equal(realFunValues, testFunValues)
