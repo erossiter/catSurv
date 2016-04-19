@@ -31,9 +31,8 @@ test_cat@discrimination
 
 validObject(test_cat)
 
+
 setdifficulty(test_cat)<-c(0,1,2,3)
-
-
 
 
 
@@ -81,7 +80,7 @@ cat@difficulty <- unlist(json_cat$difficulty)
 cat@poly <- FALSE
 
 ## Change cat@selection to change nextItem algorithm
-nextItem(cat) 
+nextItem(cat)
 
 ## Run this if you change code and need to resource the cpp file
 sourceCpp("./catSurv/src/epv.cpp")
