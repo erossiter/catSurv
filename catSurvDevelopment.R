@@ -15,6 +15,28 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+
+cat_dnorm <- new("Cat")
+cat_dnorm@discrimination <- c(2)
+cat_dnorm@difficulty <- c(1)
+cat_dnorm@priorName <- "NORMAL"
+cat_dnorm@priorParams <- c(0,1.5)
+
+cat_dnorm
+probability(cat_dnorm,1,1)
+
+test_cat <- new("Cat")
+
+?setters
+setguessing(test_cat)<-c(0)
+test_cat@discrimination<-.5
+test_cat@difficulty<-.8
+test_cat@guessing<-.1
+
+probability(test_cat, 1, 1)
+
+
+
 ?setters
 ?setdiscrimination
 

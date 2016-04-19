@@ -73,8 +73,13 @@ test_that("binary probability calculates correctly", {
 #   
 #     } TRIED A FOR LOOP because I couldn't get the lapply to work, but now it's all good
 
-  probability(allTheCats[[1]], thetaVec[1], questionVec[1])
-probability
+  catSurv::probability(allTheCats[[1]], 1, questionVec[1])
+
+  
+  thetaVec[1]
+  allTheCats[[1]]@discrimination<-rep(1, 14)
+  class(allTheCats[[1]])
+  probability
     probability_test_bi(allTheCats[[1]], thetaVec[1], questionVec[1])
   
 

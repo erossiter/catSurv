@@ -58,7 +58,7 @@ setClass("Cat",
            points="numeric"
          ),
          prototype=prototype(
-           priorName="normal",
+           priorName="NORMAL",
            priorParams=c(0,1),
            lowerBound=-4.5,
            upperBound=4.5,
