@@ -10,6 +10,12 @@ enum class EstimationType {
 };
 
 class Estimator {
+	constexpr static int integrationSubintervals = 10;
+
+	double polytomous_posterior_variance(int item, Prior &prior);
+
+	double binary_posterior_variance(int item, Prior &prior);
+
 protected:
 	const Integrator &integrator;
 	QuestionSet questionSet;
@@ -18,10 +24,19 @@ protected:
 
 	double binary_likelihood(double theta);
 
+	typedef std::function<double(double)> integrableFunction;
+
+	/**
+	* Computes the quotient of the integrals of the functions provided
+	* - that is, it computes: ∫(numerator) / ∫(denominator).
+	*/
+	double integralQuotient(const integrableFunction &numerator,
+	                        const integrableFunction &denominator);
+
 public:
 	Estimator(Integrator integration, QuestionSet question);
 
-	virtual EstimationType getIntegrationType() const = 0;
+	virtual EstimationType getEstimationType() const = 0;
 
 	virtual double estimateTheta(Prior prior) = 0;
 
@@ -29,9 +44,8 @@ public:
 
 	std::vector<double> probability(double theta, int question);
 
-	virtual double estimateSE(Prior prior) = 0;
 
-	virtual double expectedPV(int item, Prior &prior) = 0;
+	double estimateSE(Prior prior);
 
-
+	virtual double expectedPV(int item, Prior &prior);
 };

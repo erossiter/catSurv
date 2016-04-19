@@ -116,6 +116,14 @@ double prior(NumericVector x, CharacterVector c, NumericVector p) {
 }
 
 
+//double dLL(Cat &cat_df, double theta, bool use_prior){
+//	return Cat(cat_df).d
+//	return 0;
+//}
+//
+//double d2LL(Cat & cat, double theta, bool use_prior){
+//	return 0;
+//}
 
 //
 //// [[Rcpp::export]]
@@ -414,84 +422,7 @@ double prior(NumericVector x, CharacterVector c, NumericVector p) {
 //	return output;
 //}
 //
-//double dLL(Cat & cat, double theta, bool use_prior){
-//	if(cat.applicable_rows.size() == 0){
-//		return ((theta - cat.prior_params[0]) / (cat.prior_params[1] * cat.prior_params[1]));
-//	}
-//
-//	double L_theta = 0.0;
-//	if(cat.poly){
-//		for(unsigned int i = 0; i < cat.applicable_rows.size(); ++i){
-//			int item = cat.applicable_rows[i];
-//			int answer_k = cat.answers[item];
-//			std::vector<double> probs;
-//			probs.push_back(1.0);
-//			probability(cat, theta, item, probs);
-//			probs.push_back(0.0);
-//			double P_star1 = probs[answer_k];
-//			double Q_star1 = 1.0 - P_star1;
-//			double P_star2 = probs[answer_k-1];
-//			double Q_star2 = 1 - P_star2;
-//			double P = P_star2 - P_star1;
-//			double w2 = P_star2 * Q_star2;
-//			double w1 = P_star1 * Q_star1;
-//			L_theta = L_theta + (cat.discrimination[item] * ((w2 - w1) / P));
-//		}
-//	}
-//	else{
-//		for(unsigned int i = 0; i < cat.applicable_rows.size(); ++i){
-//			int item = cat.applicable_rows[i];
-//			double P = probability(cat, theta, item);
-//			L_theta = L_theta + cat.discrimination[item] * ((P - cat.guessing[item]) / (P * (1.0 - cat.guessing[item])))
-//			                    * (cat.answers[item] - P);
-//		}
-//	}
-//	if(use_prior){
-//		L_theta -= ((theta - cat.prior_params[0]) / (cat.prior_params[1] * cat.prior_params[1]));
-//	}
-//	return L_theta;
-//}
-//
-//double d2LL(Cat & cat, double theta, bool use_prior){
-//	if(cat.applicable_rows.size() == 0){
-//		return -1.0 / (cat.prior_params[1] * cat.prior_params[1]);
-//	}
-//
-//	double Lambda_theta = 0.0;
-//	if(cat.poly){
-//		for(unsigned int i = 0; i < cat.applicable_rows.size(); ++i){
-//			int item = cat.applicable_rows[i];
-//			int answer_k = cat.answers[item];
-//			std::vector<double> probs;
-//			probs.push_back(1.0);
-//			probability(cat, theta, item, probs);
-//			probs.push_back(0.0);
-//			double P_star1 = probs[answer_k];
-//			double Q_star1 = 1.0 - P_star1;
-//			double P_star2 = probs[answer_k-1];
-//			double Q_star2 = 1 - P_star2;
-//			double P = P_star2 - P_star1;
-//			double w2 = P_star2 * Q_star2;
-//			double w1 = P_star1 * Q_star1;
-//			Lambda_theta = Lambda_theta + (cat.discrimination[item] * cat.discrimination[item]) * (((-w1 * (Q_star1 - P_star1)
-//			                                                                                         + w2 * (Q_star2 - P_star2)) / P) - (((w2 - w1) * (w2 - w1)) / (P*P)));
-//		}
-//	}
-//	else{
-//		for(unsigned int i = 0; i < cat.applicable_rows.size(); ++i){
-//			int item = cat.applicable_rows[i];
-//			double P = probability(cat, theta, item);
-//			double Q = 1.0 - P;
-//			double Lambda_temp = (P - cat.guessing[item]) / (1.0 - cat.guessing[item]);
-//			Lambda_temp *= Lambda_temp;
-//			Lambda_theta = Lambda_theta - (cat.discrimination[item] * cat.discrimination[item]) * Lambda_temp * (Q / P);
-//		}
-//	}
-//	if(use_prior){
-//		Lambda_theta -= (1.0 / (cat.prior_params[1] * cat.prior_params[1]));
-//	}
-//	return Lambda_theta;
-//}
+
 // TODO
 //// [[Rcpp::export]]
 //double obsInf(S4 cat_df, int item, double theta){

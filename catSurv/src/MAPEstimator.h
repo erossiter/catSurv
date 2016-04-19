@@ -4,33 +4,31 @@
 #include "Prior.h"
 
 
-class EAPEstimator : public Estimator {
+class MAPEstimator : public Estimator {
 private:
 	constexpr static int integrationSubintervals = 10;
-	typedef std::function<double(double)> integrableFunction;
 
-	/**
-    * Computes the quotient of the integrals of the functions provided
-    * - that is, it computes: ∫(numerator) / ∫(denominator).
-    */
-	double integralQuotient(const integrableFunction &numerator,
-	                        const integrableFunction &denominator);
-
-	double polytomous_posterior_variance(int item, Prior &prior);
-
-
-	double binary_posterior_variance(int item, Prior &prior);
+	double polytomous_d2LL(double theta);
+	double binary_d2LL(double theta);
 
 public:
 
-	EAPEstimator(const Integrator &integrator, const QuestionSet &questionSet);
+	MAPEstimator(const Integrator &integrator, const QuestionSet &questionSet);
 
-	virtual EstimationType getIntegrationType() const override;
+	double dLL(double theta, bool use_prior, Prior &prior);
+
+	double d2LL(double theta, bool use_prior, Prior &prior);
+
+
+	virtual EstimationType getEstimationType() const override;
 
 	virtual double estimateTheta(Prior prior) override;
 
-	double estimateSE(Prior prior) override;
 
 	virtual double expectedPV(int item, Prior &prior) override;
 
+
+	double polytomous_dLL(double theta);
+
+	double binary_dLL(double theta);
 };
