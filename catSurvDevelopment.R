@@ -11,10 +11,12 @@ getwd()
 source("Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-probability.R")
 test("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-probability.R")
 
-
 current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
+
+?setters
+?setdiscrimination
 
 ## Checking the "set" methods.
 test_cat <- new("Cat")

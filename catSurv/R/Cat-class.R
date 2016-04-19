@@ -130,6 +130,21 @@ setValidity("Cat", function(object){
 
 ########### SETTERS  ##############
 
+
+#' Setters for slots within Cat class objects
+#'
+#' These functions replace the values currently stored in a given slot of an object of class \code{Cat} with the user-provided values.  
+#'
+#' @param object An object of class \code{Cat} with a slot to be changed
+#' @param value The value to replace the current value stored in the slot of the \code{Cat}, as specified in the function name
+#'
+#' @return An object of class \code{Cat} with an updated slot, specified in the function name
+
+#' @note Notes if you need 
+#' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
+#' @seealso \code{\link{Cat}}
+#' @rdname setters
+#' @export
 setGeneric("setguessing<-",
 		   function(object, value){
 		   	standardGeneric("setguessing<-")
@@ -143,7 +158,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setdiscrimination<-",
 		   function(object, value){
 		   	standardGeneric("setdiscrimination<-")
@@ -157,7 +172,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setpriorParam<-",
 		   function(object, value){
 		   	standardGeneric("setpriorParam<-")
@@ -171,7 +186,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setpriorName<-",
 		   function(object, value){
 		   	standardGeneric("setpriorName<-")
@@ -185,7 +200,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setlowerBound<-",
 		   function(object, value){
 		   	standardGeneric("setlowerBound<-")
@@ -199,7 +214,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setupperBound<-",
 		   function(object, value){
 		   	standardGeneric("setupperBound<-")
@@ -213,7 +228,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setquadPoints<-",
 		   function(object, value){
 		   	standardGeneric("setquadPoints<-")
@@ -227,7 +242,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setdifficulty<-",
 		   function(object, value){
 		   	standardGeneric("setdifficulty<-")
@@ -241,7 +256,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setpoly<-",
 		   function(object, value){
 		   	standardGeneric("setpoly<-")
@@ -255,7 +270,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setintegration<-",
 		   function(object, value){
 		   	standardGeneric("setintegration<-")
@@ -269,7 +284,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setestimation<-",
 		   function(object, value){
 		   	standardGeneric("setestimation<-")
@@ -283,7 +298,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setselection<-",
 		   function(object, value){
 		   	standardGeneric("setselection<-")
@@ -297,7 +312,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setcoverage<-",
 		   function(object, value){
 		   	standardGeneric("setcoverage<-")
@@ -311,7 +326,7 @@ setReplaceMethod(
 		return(object)
 		})
 
-
+#' @export
 setGeneric("setpoints<-",
 		   function(object, value){
 		   	standardGeneric("setpoints<-")
