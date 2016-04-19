@@ -4,44 +4,26 @@ context("Prior")
 
 test_that("estimateTheta calculates correctly", {
   
-  test_cat <- new("Cat")
-  test_cat@discrimination <- c(2,4,6,8, 8)
-  test_cat@difficulty <- c(1,2,3,4,5)
-  test_cat@priorName <- "NORMAL"
-  test_cat@priorParams <- c(0,1)
-  test_cat@answers <- c(1, 2, 3, NA, NA)
-  test_cat@estimation <- "EAP"
+  cat_dnorm <- new("Cat")
+  cat_dnorm@discrimination <- c(2,4,6,8)
+  cat_dnorm@difficulty <- c(1,2,3,4)
+  cat_dnorm@priorName <- "NORMAL"
+  cat_dnorm@priorParams <- c(0,1.5)
+  cat_dnorm@poly <- FALSE
   
-  estimateTheta_test <- function(cat){
-    # answered_questions <- which(!is.na(cat@answers))
-    # prior_values <- prior_test(cat)
-    # x <- cat@X
-    # if(cat@estimation == "EAP"){
-    #   fx <- fx_x <- rep(NA, length(x))
-    #   for(i in 1:length(x)){
-    #     fx[i] <- likelihood(cat, x[i], answered_questions)*prior_values[i]
-    #     fx_x[i] <- fx[i] * x[i] 
-    #     }
-    #   results <- trapIntegration_test(x, fx_x) / trapIntegration_test(x, fx)
-    # }
-    numerator <- function(cat, theta){
-      answered_questions <- which(!is.na(cat@answers))
+  estimateTheta_test <- function(cat, theta){
+    library(stats)
+    numerator <- function(theta){
       prior_values <- prior(theta, cat@priorName, cat@priorParams)
       return(theta * likelihood(cat, theta) * prior_values)
-    }
-    
-    likelihood(test_cat, 2)
-    
-      denominator <- function(cat){
-        answered_questions <- which(!is.na(cat@answers))
-        prior_values <- prior(cat)
-        x <- cat@X
-        return(likelihood(cat, x, answered_questions) * prior_values)
+      }
+    denominator <- function(theta){
+      prior_values <- prior(theta, cat@priorName, cat@priorParams)
+      return(likelihood(cat, theta) * prior_values)
       }
     if(cat@estimation == "EAP"){ 
-      results <- integrate(numerator, -5, 5)/integrate(denominator, -5, 5)
-    }
-  
+      results <- integrate(Vectorize(numerator), lower = -5, upper = 5) #/integrate(Vectorize(denominator), -5, 5)
+      }
   # if(cat@estimation == "MAP"){
   #   theta_hat_old <- 0
   #   theta_hat_new <- 1
@@ -55,18 +37,10 @@ test_that("estimateTheta calculates correctly", {
   #   }
   #   results <- theta_hat_new
   # }
-    
   return(results)
 }
   
-  expect_equal(estimateTheta(xxxxxxxxx), estimateTheta_test(test_cat) )
+  expect_equal(estimateTheta(cat_dnorm), estimateTheta_test(cat_dnorm, 1) )
 })
 
-## I think the cpp code is wrong.
-
-## We need to:
-# add documentation specifying it takes a scalar and returns a scalar
-# add code in that will throw an error if it is fed a vector or list
-# add a test to make sure it throws an error when fed something other than scalar
-# make sure we are consistent about character strings for "normal" and "studentT"
-
+## 'stats' is the package integrate() is in.
