@@ -61,25 +61,25 @@ test_that("binary probability calculates correctly", {
     probability <- guessing + (1-guessing) * (exp_prob / (1 + exp_prob))
     return(probability)
   }
-  class(allTheCats[[4]])
+
   ##calculating values from real probability function 
   realFunValues<-lapply(1:length(allTheCats), function(x){
     probability(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
   realFunValues<-as.list(c())
-  for(i in 1:length(allTheCats)){
-    thisProb<-probability(allTheCats[[i]], thetaVec[i], questionVec[i])
-    realFunValues[[i]]<-thisProb
-  
-    }
-  thetaVec
-  probability(allTheCats[[1]], thetaVec[1], questionVec[1])
+#   for(i in 1:length(allTheCats)){
+#     thisProb<-probability(allTheCats[[i]], thetaVec[i], questionVec[i])
+#     realFunValues[[i]]<-thisProb
+#   
+#     } TRIED A FOR LOOP because I couldn't get the lapply to work, but now it's all good
 
-  allTheCats[[9]]@guessing
+  probability(allTheCats[[1]], thetaVec[1], questionVec[1])
+  probability_test_bi(allTheCats[[1]], thetaVec[1], questionVec[1])
   
+
   ##calculating values from the test probability function (created above)
   testFunValues<-lapply(1:length(allTheCats), function(x){
-    print(paste(length(allTheCats[[x]]@discrimination), thetaVec[x], questionVec[x]))
+    ##print(paste(length(allTheCats[[x]]@discrimination), thetaVec[x], questionVec[x]))
     probability_test_bi(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
   
