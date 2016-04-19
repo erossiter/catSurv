@@ -30,14 +30,14 @@ test_that("binary probability calculates correctly", {
   ##running the function, creating 10 cats
   ## ADJUST THIS INPUT IF YOU WANT A SHORTER OR LONGER TEST
   allTheCats<-catBiCreator(10)
-  length(allTheCats)
+
   ## setting the question and theta values for each Cat, to be used in the probability function...
   
   thetaVec<-c()
   setThetas<-function(seed="numeric"){
     set.seed(seed)
-    thetaVec<-c(1000*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
-    ## ...and multiplying by 1000 so the values cover a wide range
+    thetaVec<-c(100*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
+    ## ...and multiplying by 100 so the values cover a wide range
   }
   thetaVec<-setThetas(1000)
   
@@ -90,7 +90,7 @@ test_that("binary probability calculates correctly", {
     exp_probb = exp(Adiscrimination * (719.750691474437 - Adifficulty))
     pribs <- Aguessing + (1-Aguessing) * (exp_probb / (1 + exp_probb))
   #### THE NUMBERS ARE TOO BIG AND R CAN'T HANDLE IT ####
-  }
+  
   
   
   
