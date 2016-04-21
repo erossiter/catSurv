@@ -388,7 +388,7 @@ setReplaceMethod(
 
 
 
-#' Allow us to access to the slots within Cat class objects
+#' Access slots within \cod{Cat} class objects
 #'
 #' These functions allow us to access to the values currently stored in a given slot of an object of class \code{Cat} with the user-provided values.  
 #'
@@ -444,9 +444,16 @@ setGeneric("getPriorParam",
            })
 
 #' @export
-setGeneric("getPriorParam",
+setMethod("getPriorParam", "Cat",
+          function(object){
+            return(object@priorParam)
+          })
+
+
+#' @export
+setGeneric("getPriorName",
            function(object="Cat")  {
-             standardGeneric("getpriorName")
+             standardGeneric("getPriorName")
            })
 
 #' @export

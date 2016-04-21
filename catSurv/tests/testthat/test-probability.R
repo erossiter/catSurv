@@ -74,8 +74,8 @@ test_that("binary probability calculates correctly", {
     probability_test_bi(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
   
-  probability(allTheCats[[2]],.9,1)
-  probability_test_bi(allTheCats[[2]],.9,1)
+  probability(allTheCats[[5]],.9,1)
+  probability_test_bi(allTheCats[[5]],.9,1)
   
   class(realFunValues[[1]])
   class(testFunValues[[1]])
