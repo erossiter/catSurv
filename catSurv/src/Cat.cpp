@@ -1,12 +1,12 @@
 #include "Rcpp.h"
 #include "Cat.h"
-#include <stdexcept>
+#include "EAPEstimator.h"
 #include "MAPEstimator.h"
 
 using namespace Rcpp;
 
 Cat::Cat(QuestionSet &questions, Prior &priorData)
-		: questionSet(questions), integrator(Integrator()), estimator(integrator, questionSet), prior(priorData) {
+		: questionSet(questions), integrator(Integrator()), estimator(), prior(priorData) {
 }
 
 Cat::Cat(S4 cat_df) : questionSet(initialize_questionSet(cat_df)),
@@ -18,24 +18,24 @@ Cat::Cat(S4 cat_df) : questionSet(initialize_questionSet(cat_df)),
 
 
 double Cat::likelihood(double theta) {
-	return estimator.likelihood(theta);
+	return estimator->likelihood(theta);
 }
 
 std::vector<double> Cat::probability(double theta, int question) {
-	return estimator.probability(theta, question);
+	return estimator->probability(theta, question);
 }
 
 
 double Cat::estimateTheta() {
-	return estimator.estimateTheta(prior);
+	return estimator->estimateTheta(prior);
 }
 
 double Cat::estimateSE() {
-	return estimator.estimateSE(prior);
+	return estimator->estimateSE(prior);
 }
 
 double Cat::expectedPV(int item) {
-	return estimator.expectedPV(item, prior);
+	return estimator->expectedPV(item, prior);
 }
 
 List Cat::nextItem() {
@@ -86,7 +86,7 @@ double Cat::dLL(double theta, bool use_prior) {
 	if (typeid(estimator) == typeid(MAPEstimator)) {
 		stop("Error: dLL is only available when using MAP estimation.");
 	}
-	MAPEstimator mapEstimator = static_cast<MAPEstimator&>(estimator);
+	MAPEstimator &mapEstimator = static_cast<MAPEstimator&>(*estimator);
 	return mapEstimator.dLL(theta, use_prior, prior);
 }
 
@@ -94,23 +94,24 @@ double Cat::d2LL(double theta, bool use_prior) {
 	if (typeid(estimator) == typeid(MAPEstimator)) {
 		stop("Error: d2LL is only available when using MAP estimation.");
 	}
-	MAPEstimator mapEstimator = static_cast<MAPEstimator&>(estimator);
+	MAPEstimator &mapEstimator = static_cast<MAPEstimator&>(*estimator);
 	return mapEstimator.d2LL(theta, use_prior, prior);
 }
 
-Estimator Cat::createEstimator(S4 cat_df) {
+std::unique_ptr<Estimator> Cat::createEstimator(S4 cat_df) {
 	std::string estimation_type = cat_df.slot("estimation");
 	if (estimation_type == "EAP") {
-		return EAPEstimator(integrator, questionSet);
+		return std::unique_ptr<EAPEstimator>(new EAPEstimator(integrator, questionSet));
 	}
 
 	if (estimation_type == "MAP") {
-		return MAPEstimator(integrator, questionSet);
+		return std::unique_ptr<MAPEstimator>(new MAPEstimator(integrator, questionSet));
 	}
 
 	stop("%s is not a valid estimation type.", estimation_type);
 	throw std::invalid_argument("Invalid estimation type");
 }
+
 
 
 

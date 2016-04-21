@@ -19,7 +19,6 @@ public:
 
 	double d2LL(double theta, bool use_prior, Prior &prior);
 
-
 	virtual EstimationType getEstimationType() const override;
 
 	virtual double estimateTheta(Prior prior) override;

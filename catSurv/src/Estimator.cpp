@@ -118,7 +118,8 @@ double Estimator::expectedPV(int item, Prior &prior) {
 	return result;
 }
 
-double Estimator::estimateTheta(__unused Prior prior) {
+double Estimator::estimateTheta(Prior prior) {
+	(void) prior;
 	throw NotImplementedException("This function is not implemented in the base class.");
 }
 

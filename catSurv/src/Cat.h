@@ -35,9 +35,9 @@ public:
 private:
 	std::vector<double> theta_est;
 
-	Estimator createEstimator(S4 cat_df);
+	std::unique_ptr<Estimator> createEstimator(S4 cat_df);
 	Integrator integrator;
-	Estimator estimator;
+	std::unique_ptr<Estimator> estimator;
 	Prior prior;
 
 
