@@ -108,3 +108,7 @@ d2LL <- function(cat_df, theta, use_prior) {
     .Call('catSurv_d2LL', PACKAGE = 'catSurv', cat_df, theta, use_prior)
 }
 
+nextItem <- function(cat_df) {
+    .Call('catSurv_nextItem', PACKAGE = 'catSurv', cat_df)
+}
+
