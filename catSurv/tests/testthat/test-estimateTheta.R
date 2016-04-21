@@ -4,15 +4,18 @@ context("Prior")
 
 test_that("estimateTheta calculates correctly", {
   
-  test_cat1 <- new("Cat")
-  test_cat1@discrimination <- c(2,4,6,8)
-  test_cat1@difficulty <- c(1,2,3,4)
-  test_cat1@priorName <- "NORMAL"
-  test_cat1@priorParams <- c(0,5)
-  test_cat1@poly <- FALSE
-  
-  test_cat2 <- test_cat1
-  test_cat2@estimation <- "MAP"
+    test_cat1 <- test_cat2 <- new("Cat")
+    test_cat1@estimation <- "EAP"
+    test_cat1@priorName <- "NORMAL"
+    test_cat1@priorName <- "STUDENT_T"
+    test_cat1@priorParams <- c(0,1)
+    
+    
+    test_cat2@estimation <- "MAP"
+    test_cat2@priorName <- "NORMAL"
+    test_cat2@priorName <- "STUDENT_T"
+    test_cat2@priorParams <- c(0,1)
+    
   
   estimateTheta_test <- function(cat){
     library(stats)
@@ -32,7 +35,7 @@ test_that("estimateTheta calculates correctly", {
     if(cat@estimation == "MAP"){
       theta_hat_old <- 0
       theta_hat_new <- 1
-      tolerance <- .001
+      tolerance <- .0000001
       difference <- abs(theta_hat_new - theta_hat_old)
       while(difference > tolerance){
         theta_hat_new <- theta_hat_old - (dLL(cat, theta_hat_old, TRUE)/d2LL(cat, theta_hat_old, TRUE))
@@ -44,8 +47,8 @@ test_that("estimateTheta calculates correctly", {
     return(results)
     }
   
-  expect_equal(estimateTheta(test_cat1), estimateTheta_test(test_cat1))
-  expect_equal(estimateTheta(test_cat2), estimateTheta_test(test_cat2))
+  expect_equal(estimateTheta(test_cats[[1]]), estimateTheta_test(test_cats[[1]]))
+  expect_equal(estimateTheta(test_cats[[2]]), estimateTheta_test(test_cats[[2]]))
 })
 
 ## 'stats' is the package integrate() is in.
