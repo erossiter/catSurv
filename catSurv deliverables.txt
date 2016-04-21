@@ -9,6 +9,8 @@ Section 2 Ð probability
 Section 3 Ð likelihood
 Section 5 Ð estimateTheta (EAP)
 Section 10 Ð estimateSE
+Section 11 Ð expectedPV
+Section 12 Ð nextItemEPV
 
 
 Functions we are currently working on and testing
@@ -16,8 +18,6 @@ Adding randomization to the above methods, for more robust testing
 Section 5 Ð estimateTheta (MAP)
 Section 6 Ð dLL
 Section 7 Ð d2LL
-Section 11 Ð expectedPV
-Section 12 Ð nextItemEPV
 
 
 Other package tasks we are currently working on:
