@@ -19,7 +19,6 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
 
 	std::vector<double> probabilities;
 	for (auto term : questionSet.difficulty.at(question)) {
-		Rprintf("%f\n", term);
 		probabilities.push_back(calculate(term));
 	}
 	return probabilities;
