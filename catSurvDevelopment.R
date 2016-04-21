@@ -17,8 +17,8 @@ document(current.code)
 
 
 test_cat <- new("Cat")
-setdiscrimination(test_cat)<-c(0,3,.8)
-setdiscrimination(test_cat, valid=F)<-c(0,3,.8)
+setDiscrimination(test_cat)<-c(0,3,.8)
+setDiscrimination(test_cat, valid=F)<-c(0,3,.8)
 
 probability(test_cat, 1, 1)
 
@@ -27,12 +27,12 @@ probability(test_cat, 1, 1)
 ?setters
 ?setDiscrimination
 
-
+getdiscrimination(test_cat)
 
 ## Checking the "set" methods.
 test_cat <- new("Cat")
 
-setGuessing(test_cat) <- 5
+setGuessing(test_cat) <- c(5,0)
 test_cat@guessing
 
 setGuessing(test_cat, valid=F) <-1

@@ -13,7 +13,7 @@ test_that("binary probability calculates correctly", {
     for(i in 1:numCats){
       numQuestions<-floor(abs(50*(rnorm(1))))
       newCat<-new("Cat",
-                  discrimination=(100*rnorm(numQuestions)),
+                  discrimination=(10*rnorm(numQuestions)),
                   difficulty=sort(100*rnorm(numQuestions)),
                   guessing=runif(numQuestions),
                   poly=F,
@@ -34,7 +34,7 @@ test_that("binary probability calculates correctly", {
   thetaVec<-c()
   setThetas<-function(seed="numeric"){
     set.seed(seed)
-    thetaVec<-c(100*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
+    thetaVec<-c(10*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
     ## ...and multiplying by 100 so the values cover a wide range
   }
   thetaVec<-setThetas(1000)
@@ -55,7 +55,7 @@ test_that("binary probability calculates correctly", {
     difficulty = cat@difficulty[question]
     guessing = cat@guessing[question]
     exp_prob = exp(discrimination * (theta - difficulty))
-    probability <- guessing + (1-guessing) * (exp_prob / (1 + exp_prob))
+    probability <- guessing + ((1-guessing) * (exp_prob / (1 + exp_prob)))
     return(probability)
   }
 
@@ -74,7 +74,8 @@ test_that("binary probability calculates correctly", {
     probability_test_bi(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
   
-  probability(allTheCats[[1]],1,1)
+  probability(allTheCats[[2]],.9,1)
+  probability_test_bi(allTheCats[[2]],.9,1)
   
   class(realFunValues[[1]])
   class(testFunValues[[1]])

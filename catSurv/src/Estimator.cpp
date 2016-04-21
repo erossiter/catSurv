@@ -8,7 +8,7 @@ double Estimator::likelihood(double theta) {
 
 std::vector<double> Estimator::probability(double theta, int question) {
 
-	auto calculate = [&](double difficulty) {
+	auto calculate = [&](int difficulty) {
 		double exp_prob = exp(questionSet.discrimination[question] * (theta - difficulty));
 		double base_probability = exp_prob / (1 + exp_prob);
 		double poly_answer = questionSet.guessing[question] + (1 - questionSet.guessing[question]);

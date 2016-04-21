@@ -392,193 +392,187 @@ setReplaceMethod(
 #'
 #' These functions allow us to access to the values currently stored in a given slot of an object of class \code{Cat} with the user-provided values.  
 #'
-#' @param object An object of class \code{Cat} with a slot to be changed
+#' @param object An object of class \code{Cat} whose slot we wish to access
 #' 
-#' @return A value of an object of class \code{Cat} with an updated slot
+#' @return The value of the specified slot of the user-provided \code{Cat}
 #' 
-#' @note Notes
+#' @note all
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
 #' @seealso \code{\link{Cat}}
-#' @rdname get
+#' @rdname getCat
 #' @export 
-setGeneric("getcatSurv",
+setGeneric("getCatSurv",
            function(object="Cat")  {
-             standardGeneric("getcatSurv")
+             standardGeneric("getCatSurv")
            })
 
 #' @export
-setMethod("getcatSurv", "Cat",
+setMethod("getCatSurv", "Cat",
           function(object){
             return(object@Cat)
           })
 
 
 #' @export
-setGeneric("getguessing",
+setGeneric("getGuessing",
            function(object="Cat")  {
-             standardGeneric("getguessing")
+             standardGeneric("getGuessing")
            })
 
 #' @export
-setMethod("getguessing", "Cat",
+setMethod("getGuessing", "Cat",
           function(object){
             return(object@guessing)
           })
 
 #' @export
-setGeneric("getdiscrimination",
+setGeneric("getDiscrimination",
            function(object="Cat")  {
-             standardGeneric("getdiscrimination")
+             standardGeneric("getDiscrimination")
            })
 
 #' @export
-setMethod("getdiscrimination", "Cat",
+setMethod("getDiscrimination", "Cat",
           function(object){
             return(object@discrimination)
           })
 
 #' @export
-setGeneric("getpriorParam",
+setGeneric("getPriorParam",
            function(object="Cat")  {
-             standardGeneric("getpriorParam")
+             standardGeneric("getPriorParam")
            })
 
 #' @export
-setGeneric("getpriorName",
+setGeneric("getPriorParam",
            function(object="Cat")  {
              standardGeneric("getpriorName")
            })
 
 #' @export
-setMethod("getpriorName", "Cat",
+setMethod("getPriorName", "Cat",
           function(object){
             return(object@priorName)
           })
 
 #' @export
-setMethod("getpriorName", "Cat",
-          function(object){
-            return(object@priorName)
-          })
-
-#' @export
-setGeneric("getlowerBound",
+setGeneric("getLowerBound",
            function(object="Cat")  {
-             standardGeneric("getlowerBound")
+             standardGeneric("getLowerBound")
            })
 
 #' @export
-setMethod("getlowerBound", "Cat",
+setMethod("getLowerBound", "Cat",
           function(object){
             return(object@lowerBound)
           })
 
 
 #' @export
-setGeneric("getupperBound",
+setGeneric("getUpperBound",
            function(object="Cat")  {
-             standardGeneric("getupperBound")
+             standardGeneric("getUpperBound")
            })
 
 #' @export
-setMethod("getupperBound", "Cat",
+setMethod("getUpperBound", "Cat",
           function(object){
             return(object@upperBound)
           })
 
 #' @export
-setGeneric("getquadPoints",
+setGeneric("getQuadPoints",
            function(object="Cat")  {
-             standardGeneric("getquadPoints")
+             standardGeneric("getQuadPoints")
            })
 
 #' @export
-setMethod("getquadPoints", "Cat",
+setMethod("getQuadPoints", "Cat",
           function(object){
             return(object@quadPoints)
           })
 
 
 #' @export
-setGeneric("getdifficulty",
+setGeneric("getDifficulty",
            function(object="Cat")  {
-             standardGeneric("getdifficulty")
+             standardGeneric("getDifficulty")
            })
 
 #' @export
-setMethod("getdifficulty", "Cat",
+setMethod("getDifficulty", "Cat",
           function(object){
             return(object@difficulty)
           })
 
 #' @export
-setGeneric("getpoly",
+setGeneric("getPoly",
            function(object="Cat")  {
-             standardGeneric("getpoly")
+             standardGeneric("getPoly")
            })
 
 #' @export
-setMethod("getpoly", "Cat",
+setMethod("getPoly", "Cat",
           function(object){
             return(object@poly)
           })
 
 #' @export
-setGeneric("getintegration",
+setGeneric("getIntegration",
            function(object="Cat")  {
-             standardGeneric("getintegration")
+             standardGeneric("getIntegration")
            })
 
 #' @export
-setMethod("getintegration", "Cat",
+setMethod("getIntegration", "Cat",
           function(object){
             return(object@integration)
           })
 
 #' @export
-setGeneric("getestimation",
+setGeneric("getEstimation",
            function(object="Cat")  {
-             standardGeneric("getestimation")
+             standardGeneric("getEstimation")
            })
 
 #' @export
-setMethod("getestimation", "Cat",
+setMethod("getEstimation", "Cat",
           function(object){
             return(object@estimation)
           })
 
 #' @export
-setGeneric("getselection",
+setGeneric("getSelection",
            function(object="Cat")  {
-             standardGeneric("getselection")
+             standardGeneric("getSelection")
            })
 
 #' @export
-setMethod("getselection", "Cat",
+setMethod("getSelection", "Cat",
           function(object){
             return(object@selection)
           })
 
 #' @export
-setGeneric("getcoverage",
+setGeneric("getCoverage",
            function(object="Cat")  {
-             standardGeneric("getcoverage")
+             standardGeneric("getCoverage")
            })
 
 #' @export
-setMethod("getcoverage", "Cat",
+setMethod("getCoverage", "Cat",
           function(object){
             return(object@coverage)
           })
 
 #' @export
-setGeneric("getpoints",
+setGeneric("getPoints",
            function(object="Cat")  {
-             standardGeneric("getpoints")
+             standardGeneric("getPoints")
            })
 
 #' @export
-setMethod("getpoints", "Cat",
+setMethod("getPoints", "Cat",
           function(object){
             return(object@points)
           })
