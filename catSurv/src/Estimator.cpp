@@ -6,17 +6,20 @@ double Estimator::likelihood(double theta) {
 	return questionSet.poly ? polynomial_likelihood(theta) : binary_likelihood(theta);
 }
 
-std::vector<double> Estimator::probability(double theta, int question) {
+
+std::vector<double> Estimator::probability(double theta, size_t question) {
 
 	auto calculate = [&](double difficulty) {
-		double exp_prob = exp(questionSet.discrimination[question] * (theta - difficulty));
+		double guess = questionSet.guessing.at(question);
+		double poly_answer = guess + (1 - guess);
+		double exp_prob = exp(questionSet.discrimination.at(question) * (theta - difficulty));
 		double base_probability = exp_prob / (1 + exp_prob);
-		double poly_answer = questionSet.guessing[question] + (1 - questionSet.guessing[question]);
 		return questionSet.poly ? base_probability : poly_answer * base_probability;
 	};
 
 	std::vector<double> probabilities;
-	for (auto term : questionSet.difficulty[question]) {
+	for (auto term : questionSet.difficulty.at(question)) {
+		Rprintf("%f\n", term);
 		probabilities.push_back(calculate(term));
 	}
 	return probabilities;

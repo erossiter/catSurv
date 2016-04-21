@@ -44,7 +44,7 @@ public:
 
 	double likelihood(double theta);
 
-	std::vector<double> probability(double theta, int question);
+	std::vector<double> probability(double theta, size_t question);
 
 
 	double estimateSE(Prior prior);

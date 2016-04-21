@@ -22,7 +22,7 @@ double Cat::likelihood(double theta) {
 }
 
 std::vector<double> Cat::probability(double theta, int question) {
-	return estimator->probability(theta, question);
+	return estimator->probability(theta, size_t(question) - 1);
 }
 
 
