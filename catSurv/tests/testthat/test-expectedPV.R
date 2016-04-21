@@ -4,13 +4,16 @@ context("expectedPV")
 
 test_that("expectedPV calculates correctly", {
   
-  expectedPV_test <- function(cat, item){
     test_cat1 <- new("Cat")
-    test_cat1@discrimination <- c(2,4,6,8)
-    test_cat1@difficulty <- c(1,2,3,4)
+    test_cat1@guessing <- c(.2, .4)
+    test_cat1@discrimination <- c(1, -2)
+    test_cat1@answers <- c(1, 0)
+    test_cat1@estimation <- "EAP"
     test_cat1@priorName <- "NORMAL"
-    test_cat1@priorParams <- c(0,1.5)
-    test_cat1@poly <- FALSE
+    test_cat1@priorParams <- c(0,1)
+    test_cat1@answers <- c(1, NA)
+  
+  expectedPV_test <- function(cat, item){
   
     if(cat@poly == FALSE){
       ## Probability they get it right
@@ -54,5 +57,5 @@ test_that("expectedPV calculates correctly", {
     return(item_EPV)
   }
   
-  expect_equal(expectedPV(test_cat1, 2), expectedPV_test(test_cat1, 1))
+  expect_equal(expectedPV(test_cat1, 2), expectedPV_test(test_cat1, 2))
 })

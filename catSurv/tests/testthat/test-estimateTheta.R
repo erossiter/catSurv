@@ -13,11 +13,8 @@ test_that("estimateTheta calculates correctly", {
     test_cat1@priorName <- "STUDENT_T"
     test_cat1@priorParams <- c(0,1)
     
-    
+    test_cat2 <- test_cat1
     test_cat2@estimation <- "MAP"
-    test_cat2@priorName <- "NORMAL"
-    test_cat2@priorName <- "STUDENT_T"
-    test_cat2@priorParams <- c(0,1)
     
   
   estimateTheta_test <- function(cat){
@@ -50,8 +47,8 @@ test_that("estimateTheta calculates correctly", {
     return(results)
     }
   
-  expect_equal(estimateTheta(test_cat1), estimateTheta_test(test_cats[[1]]))
-  expect_equal(estimateTheta(test_cats[[2]]), estimateTheta_test(test_cats[[2]]))
+  expect_equal(estimateTheta(test_cat1), estimateTheta_test(test_cat1))
+  expect_equal(estimateTheta(test_cat2), estimateTheta_test(test_cat2))
 })
 
 ## 'stats' is the package integrate() is in.
