@@ -12,7 +12,7 @@ source("Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-prob
 test("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-probability.R")
 
 current.code <- as.package("catSurv")
-load_all(current.code, recompile=T)
+load_all(current.code)#, recompile=T)
 document(current.code)
 
 
@@ -32,16 +32,18 @@ probability(test_cat, 1, 1)
 ## Checking the "set" methods.
 test_cat <- new("Cat")
 
-setguessing(test_cat) <- 5
+setGuessing(test_cat) <- 5
 test_cat@guessing
 
-setdiscrimination(test_cat) <- 5
-test_cat@discrimination
+setGuessing(test_cat, valid=F) <-1
+
+setDiscrimination(test_cat) <- 5
+test_cat@Discrimination
 
 validObject(test_cat)
 
 
-setdifficulty(test_cat)<-c(0,1,2,3)
+setDifficulty(test_cat)<-c(0,1,2,3)
 
 
 
