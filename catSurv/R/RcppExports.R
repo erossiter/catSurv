@@ -98,31 +98,11 @@ prior <- function(x, c, p) {
     .Call('catSurv_prior', PACKAGE = 'catSurv', x, c, p)
 }
 
-#' The possible prior distribution functions
-#'
-#' This function returns the prior value for each respondent's position on the latent scale of interest
-#'
-#' @param x A numeric value where we want to evaluate the prior name
-#'
-#' @return A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
-#'
-#' @details \eqn{x} needs to be either NORMAL or STUDENT_T params, which are parameters controlling the shape of the prior
-#'
 #' @export
 dLL <- function(cat_df, theta, use_prior) {
     .Call('catSurv_dLL', PACKAGE = 'catSurv', cat_df, theta, use_prior)
 }
 
-#' The possible prior distribution functions
-#'
-#' This function returns the prior value for each respondent's position on the latent scale of interest
-#'
-#' @param x A numeric value where we want to evaluate the prior name
-#'
-#' @return A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
-#'
-#' @details \eqn{x} needs to be either NORMAL or STUDENT_T params, which are parameters controlling the shape of the prior
-#'
 #' @export
 d2LL <- function(cat_df, theta, use_prior) {
     .Call('catSurv_d2LL', PACKAGE = 'catSurv', cat_df, theta, use_prior)

@@ -34,5 +34,7 @@ Josh W. Cutler: \email{josh@zistle.com} and Jacob M. Montgomery: \email{jacob.mo
 \code{\link{nextItem}}
 
 \code{\link{storeAnswer}}
+
+\code{\link{setGuessing}}, \code{\link{setDiscrimination}}
 }
 

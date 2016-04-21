@@ -12,19 +12,20 @@ source("Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-prob
 test("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-probability.R")
 
 current.code <- as.package("catSurv")
-load_all(current.code)
+load_all(current.code, recompile=T)
 document(current.code)
 
 
 test_cat <- new("Cat")
 setdiscrimination(test_cat)<-c(0,3,.8)
+setdiscrimination(test_cat, valid=F)<-c(0,3,.8)
 
 probability(test_cat, 1, 1)
 
 
-
+?Cat
 ?setters
-?setdiscrimination
+?setDiscrimination
 
 
 

@@ -34,6 +34,7 @@ setClassUnion("logicalORnumeric", c("numeric","logical"))
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
 #' @seealso \code{\link{nextItem}}
 #' @seealso \code{\link{storeAnswer}}
+#' @seealso \code{\link{setGuessing}}, \code{\link{setDiscrimination}}
 #' @aliases Cat-class initialize,Cat-method
 #' @rdname Cat
 #' @export
@@ -138,27 +139,27 @@ setValidity("Cat", function(object){
 ########### SETTERS  ##############
 
 
-#' Setters for slots within Cat class objects
+#' Setter for guessing slot within Cat class objects
 #'
-#' These functions replace the values currently stored in a given slot of an object of class \code{Cat} with the user-provided values.  
+#' This functions replaces the values currently stored in the guessing slot of an object of class \code{Cat} with the user-provided values.  
 #'
-#' @param object An object of class \code{Cat} with a slot to be changed
+#' @param object An object of class \code{Cat} to be updated
 #' @param valid Boolean for whether to check validity of object before allowing setter method to execute, default to TRUE
-#' @param value The value to replace the current value stored in the slot of the \code{Cat}, as specified in the function name
+#' @param value The value to replace the current value stored in the guessing slot of the \code{Cat}
 #' 
-#' @return An object of class \code{Cat} with an updated slot, specified in the function name
-
-#' @note Notes if you need 
+#' @return Updates the \code{Cat} object that was provided by the user, and returns the updated object 
+#' 
+#' @note There are setters for every slot in \code{Cat} objects, all following the format \code{setSlot}
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
-#' @seealso \code{\link{Cat}}
-#' @rdname setters
+#' @seealso \code{\link{Cat}}, \code{\link{setDiscrimination}}, \code{\link{setPriorParam}}
+#' @rdname setGuessing
 #' @export
-setGeneric("setguessing<-",
+setGeneric("setGuessing<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setguessing<-")
+		   	standardGeneric("setGuessing<-")
 		   	})
 setReplaceMethod(
-	f = "setguessing",
+	f = "setGuessing",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@guessing <- value
@@ -166,13 +167,27 @@ setReplaceMethod(
 		return(object)
 		})
 
+#' Setter for discrimination slot within Cat class objects
+#'
+#' This functions replaces the values currently stored in the discrimination slot of an object of class \code{Cat} with the user-provided values.  
+#'
+#' @param object An object of class \code{Cat} to be updated
+#' @param valid Boolean for whether to check validity of object before allowing setter method to execute, default to TRUE
+#' @param value The value to replace the current value stored in the discrimination slot of the \code{Cat}
+#' 
+#' @return Updates the \code{Cat} object that was provided by the user, and returns the updated object 
+#' 
+#' @note There are setters for every slot in \code{Cat} objects, all following the format \code{setSlot}
+#' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
+#' @seealso \code{\link{Cat}}, \code{\link{setDiscrimination}}, \code{\link{setPriorParam}}
+#' @rdname setDiscrimination
 #' @export
-setGeneric("setdiscrimination<-",
+setGeneric("setDiscrimination<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setdiscrimination<-")
+		   	standardGeneric("setDiscrimination<-")
 		   	})
 setReplaceMethod(
-	f = "setdiscrimination",
+	f = "setDiscrimination",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@discrimination <- value
@@ -180,13 +195,27 @@ setReplaceMethod(
 		return(object)
 		})
 
+#' Setter for priorParam slot within Cat class objects
+#'
+#' This functions replaces the values currently stored in the priorParam slot of an object of class \code{Cat} with the user-provided values.  
+#'
+#' @param object An object of class \code{Cat} to be updated
+#' @param valid Boolean for whether to check validity of object before allowing setter method to execute, default to TRUE
+#' @param value The value to replace the current value stored in the priorParam slot of the \code{Cat}
+#' 
+#' @return Updates the \code{Cat} object that was provided by the user, and returns the updated object 
+#' 
+#' @note There are setters for every slot in \code{Cat} objects, all following the format \code{setSlot}
+#' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
+#' @seealso \code{\link{Cat}}, \code{\link{setDiscrimination}}, \code{\link{setGuessing}}
+#' @rdname setPriorParam
 #' @export
-setGeneric("setpriorParam<-",
+setGeneric("setPriorParam<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setpriorParam<-")
+		   	standardGeneric("setPriorParam<-")
 		   	})
 setReplaceMethod(
-	f = "setpriorParam",
+	f = "setPriorParam",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@priorParam <- value
@@ -195,12 +224,12 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setpriorName<-",
+setGeneric("setPriorName<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setpriorName<-")
+		   	standardGeneric("setPriorName<-")
 		   	}) 
 setReplaceMethod(
-	f = "setpriorName",
+	f = "setPriorName",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@priorName <- value
@@ -209,12 +238,12 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setlowerBound<-",
+setGeneric("setLowerBound<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setlowerBound<-")
+		   	standardGeneric("setLowerBound<-")
 		   	})
 setReplaceMethod(
-	f = "setlowerBound",
+	f = "setLowerBound",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@lowerBound <- value
@@ -223,12 +252,12 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setupperBound<-",
+setGeneric("setUpperBound<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setupperBound<-")
+		   	standardGeneric("setUpperBound<-")
 		   	})
 setReplaceMethod(
-	f = "setupperBound",
+	f = "setUpperBound",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@upperBound <- value
@@ -237,12 +266,12 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setquadPoints<-",
+setGeneric("setQuadPoints<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setquadPoints<-")
+		   	standardGeneric("setQuadPoints<-")
 		   	})
 setReplaceMethod(
-	f = "setquadPoints",
+	f = "setQuadPoints",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@quadPoints <- value
@@ -251,12 +280,12 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setdifficulty<-",
+setGeneric("setDifficulty<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setdifficulty<-")
+		   	standardGeneric("setDifficulty<-")
 		   	})
 setReplaceMethod(
-	f = "setdifficulty",
+	f = "setDifficulty",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@difficulty <- value
@@ -265,12 +294,12 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setpoly<-",
+setGeneric("setPoly<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setpoly<-")
+		   	standardGeneric("setPoly<-")
 		   	})
 setReplaceMethod(
-	f = "setpoly",
+	f = "setPoly",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@poly <- value
@@ -279,12 +308,12 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setintegration<-",
+setGeneric("setIntegration<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setintegration<-")
+		   	standardGeneric("setIntegration<-")
 		   	})
 setReplaceMethod(
-	f = "setintegration",
+	f = "setIntegration",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@integration <- value
@@ -293,12 +322,12 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setestimation<-",
+setGeneric("setEstimation<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setestimation<-")
+		   	standardGeneric("setEstimation<-")
 		   	})
 setReplaceMethod(
-	f = "setestimation",
+	f = "setEstimation",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@estimation <- value
@@ -307,12 +336,12 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setselection<-",
+setGeneric("setSelection<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setselection<-")
+		   	standardGeneric("setSelection<-")
 		   	})
 setReplaceMethod(
-	f = "setselection",
+	f = "setSelection",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@selection <- value
@@ -321,12 +350,12 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setcoverage<-",
+setGeneric("setCoverage<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setcoverage<-")
+		   	standardGeneric("setCoverage<-")
 		   	})
 setReplaceMethod(
-	f = "setcoverage",
+	f = "setCoverage",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@coverage <- value
@@ -335,12 +364,12 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setpoints<-",
+setGeneric("setPoints<-",
 		   function(object, valid=T, value){
-		   	standardGeneric("setpoints<-")
+		   	standardGeneric("setPoints<-")
 		   	})
 setReplaceMethod(
-	f = "setpoints",
+	f = "setPoints",
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@points <- value
