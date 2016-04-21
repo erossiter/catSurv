@@ -36,8 +36,7 @@ expectedPV_test <- function(cat, item){
     item_vars <- rep(NA, length(cat@difficulty[[item]]))
     for(i in 1:length(item_thetas)){
       cat@answers <- i
-      item_thetas[i] <- estimateTheta(cat)
-      item_vars[i] <- estimateSE(cat, item_thetas[i])^2
+      item_vars[i] <- estimateSE(cat)^2
     }
     cat@answers[item] <- NA
     
