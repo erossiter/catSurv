@@ -5,6 +5,9 @@ context("Prior")
 test_that("estimateTheta calculates correctly", {
   
     test_cat1 <- test_cat2 <- new("Cat")
+    test_cat1@guessing <- c(.2, .4)
+    test_cat1@discrimination <- c(1, -2)
+    test_cat1@answers <- c(1, 0)
     test_cat1@estimation <- "EAP"
     test_cat1@priorName <- "NORMAL"
     test_cat1@priorName <- "STUDENT_T"
@@ -47,7 +50,7 @@ test_that("estimateTheta calculates correctly", {
     return(results)
     }
   
-  expect_equal(estimateTheta(test_cats[[1]]), estimateTheta_test(test_cats[[1]]))
+  expect_equal(estimateTheta(test_cat1), estimateTheta_test(test_cats[[1]]))
   expect_equal(estimateTheta(test_cats[[2]]), estimateTheta_test(test_cats[[2]]))
 })
 
