@@ -73,7 +73,7 @@ setClass("Cat",
            answers=c(NA, NA),
            discrimination=c(0,0),
            guessing=c(0,0),
-           difficulty=as.list(c(0,0))
+           difficulty=c(0,0)
          )
 )
 
@@ -102,6 +102,15 @@ setValidity("Cat", function(object){
   
   test3<-(length(object@discrimination)==length(object@difficulty))  
   if(!test3){return("discrimination and difficulty not same length")}
+  
+  ## If the Cat is polytomous, the difficulty needs to be list
+  if(object@poly==T){
+    if(class(object@difficulty)!=list){return("Cat object is polytomous, but difficulty slot is not a list")}
+  }
+  else{
+    if(class(object@diffiuclty)!=numeric){return("Cat object is binary, but difficulty slot is not a numeric vector")}
+  }
+  
   
   ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING, and not NA
   if(object@poly==T){

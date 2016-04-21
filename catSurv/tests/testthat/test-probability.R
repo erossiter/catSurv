@@ -25,8 +25,6 @@ test_that("binary probability calculates correctly", {
     return(as.list(allTheCats))
   }
   
-  #### NOTE: there should be NA values somewhere in here....
-  
   ##running the function, creating 10 cats
   ## ADJUST THIS INPUT IF YOU WANT A SHORTER OR LONGER TEST
   allTheCats<-catBiCreator(10)
