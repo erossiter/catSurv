@@ -8,7 +8,6 @@ Data of survey respondents' respond to 18 NFC questions, which is a reduced vers
 \format{
   A data frame with 4043 observations on the following 20 variables.
   \describe{
-    \item{\code{X}}{a numeric vector}
     \item{\code{NFC1}}{I really enjoy a task that involves coming up with new solutions to problems}
     \item{\code{NFC4}}{I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought}
     \item{\code{NFC10}}{Learning new ways to think doesnt excite me very much}
