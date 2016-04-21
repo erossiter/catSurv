@@ -387,7 +387,6 @@ setReplaceMethod(
 		})
 
 
-### get function
 
 #' Allow us to access to the slots within Cat class objects
 #'
