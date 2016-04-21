@@ -1,0 +1,40 @@
+catSurv
+Erin, Alex, Matt, Minhee
+4/21/16
+
+
+
+Functions we currently have working (c++) and tested (R)
+Section 2 – probability
+Section 3 – likelihood
+Section 5 – estimateTheta (EAP)
+Section 10 – estimateSE
+
+
+Functions we are currently working on and testing
+Adding randomization to the above methods, for more robust testing
+Section 5 – estimateTheta (MAP)
+Section 6 – dLL
+Section 7 – d2LL
+Section 11 – expectedPV
+Section 12 – nextItemEPV
+
+
+Other package tasks we are currently working on:
+Adding data to package
+Getting a demo running
+Writing “get” methods
+Fixing validity check (?)
+
+	
+Functions we plan to have working and tested when the semester concludes
+Section 8 – ObsInf
+Section 9 – FisherInf
+Section 13 – nextItemMFI
+Section 18 – MLWI
+Section 19 – MPWI
+Section 20 – expectedObsInf
+Section 21 – nextItemMEI
+
+
+

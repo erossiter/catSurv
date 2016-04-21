@@ -14,7 +14,7 @@ test_that("binary probability calculates correctly", {
       numQuestions<-floor(abs(50*(rnorm(1))))
       newCat<-new("Cat",
                   discrimination=(100*rnorm(numQuestions)),
-                  difficulty=sort(100*rnorm(numQuestions)),
+                  difficulty=as.list(sort(100*rnorm(numQuestions))),
                   guessing=runif(numQuestions),
                   poly=F,
                   answers=rep(NA, numQuestions))
@@ -46,8 +46,7 @@ test_that("binary probability calculates correctly", {
   questionList<-lapply(allTheCats, function(x){
     #drawing a question randomly from the number of questions stored in each Cat:
     ##  (number of quesitons corresponds to the length of a Cat's discrimination vector)
-    #return(length(x@discrimination))
-    return(ceiling(runif(1)*length(x@discrimination))) #rounding up: question indices are integer values, and there is no question zero
+    return(sample(length(x@discrimination), 1))
   })
   questionVec<-unlist(questionList)
   
@@ -55,7 +54,7 @@ test_that("binary probability calculates correctly", {
   ## R test function
   probability_test_bi <- function(cat = "Cat", theta = "numeric", question = "numeric"){
     discrimination = cat@discrimination[question]
-    difficulty = cat@difficulty[question]
+    difficulty = cat@difficulty[[question]]
     guessing = cat@guessing[question]
     exp_prob = exp(discrimination * (theta - difficulty))
     probability <- guessing + (1-guessing) * (exp_prob / (1 + exp_prob))
@@ -63,42 +62,23 @@ test_that("binary probability calculates correctly", {
   }
 
   ##calculating values from real probability function 
-  realFunValues<-lapply(1:length(allTheCats), function(x){
+  realFunLists<-lapply(1:length(allTheCats), function(x){
     probability(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
-  realFunValues<-as.list(c())
-#   for(i in 1:length(allTheCats)){
-#     thisProb<-probability(allTheCats[[i]], thetaVec[i], questionVec[i])
-#     realFunValues[[i]]<-thisProb
-#   
-#     } TRIED A FOR LOOP because I couldn't get the lapply to work, but now it's all good
+  realFunValues<-lapply(1:length(realFunLists), function(x){
+    return(realFunLists[[x]]$all.probabilities)
+  })
 
-  catSurv::probability(allTheCats[[1]], 1, questionVec[1])
-
-  
-  thetaVec[1]
-  allTheCats[[1]]@discrimination<-rep(1, 14)
-  class(allTheCats[[1]])
-  probability
-    probability_test_bi(allTheCats[[1]], thetaVec[1], questionVec[1])
-  
+### PROBABILITY NOT WORKING
 
   ##calculating values from the test probability function (created above)
   testFunValues<-lapply(1:length(allTheCats), function(x){
-    ##print(paste(length(allTheCats[[x]]@discrimination), thetaVec[x], questionVec[x]))
     probability_test_bi(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
   
-  ######## BROKE DOWN THE probability_test_bi FUNCTION TO SEE WHY I'M GETTING NaN VALUES########
-    Adiscrimination = allTheCats[[8]]@discrimination[16]
-    Adifficulty = allTheCats[[8]]@difficulty[16]
-    Aguessing = allTheCats[[8]]@guessing[16]
-    exp_probb = exp(Adiscrimination * (719.750691474437 - Adifficulty))
-    pribs <- Aguessing + (1-Aguessing) * (exp_probb / (1 + exp_probb))
-  #### THE NUMBERS ARE TOO BIG AND R CAN'T HANDLE IT ####
   
-  
-  
+  class(realFunValues[[1]])
+  class(testFunValues[[1]])
   
   ##expect the values to be equal
   expect_equal(realFunValues, testFunValues)
