@@ -112,3 +112,7 @@ nextItem <- function(cat_df) {
     .Call('catSurv_nextItem', PACKAGE = 'catSurv', cat_df)
 }
 
+expectedPV <- function(cat_df, item) {
+    .Call('catSurv_expectedPV', PACKAGE = 'catSurv', cat_df, item)
+}
+
