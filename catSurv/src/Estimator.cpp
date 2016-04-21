@@ -9,6 +9,7 @@ double Estimator::likelihood(double theta) {
 
 std::vector<double> Estimator::probability(double theta, size_t question) {
 
+<<<<<<< HEAD
 	auto calculate = [&](double difficulty) {
 		double guess = questionSet.guessing.at(question);
 		double poly_answer = guess + (1 - guess);
