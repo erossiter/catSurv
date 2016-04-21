@@ -14,7 +14,7 @@ test_that("binary probability calculates correctly", {
       numQuestions<-floor(abs(50*(rnorm(1))))
       newCat<-new("Cat",
                   discrimination=(100*rnorm(numQuestions)),
-                  difficulty=as.list(sort(100*rnorm(numQuestions))),
+                  difficulty=sort(100*rnorm(numQuestions)),
                   guessing=runif(numQuestions),
                   poly=F,
                   answers=rep(NA, numQuestions))
@@ -52,7 +52,7 @@ test_that("binary probability calculates correctly", {
   ## R test function
   probability_test_bi <- function(cat = "Cat", theta = "numeric", question = "numeric"){
     discrimination = cat@discrimination[question]
-    difficulty = cat@difficulty[[question]]
+    difficulty = cat@difficulty[question]
     guessing = cat@guessing[question]
     exp_prob = exp(discrimination * (theta - difficulty))
     probability <- guessing + (1-guessing) * (exp_prob / (1 + exp_prob))
@@ -64,7 +64,7 @@ test_that("binary probability calculates correctly", {
     probability(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
   realFunValues<-lapply(1:length(realFunLists), function(x){
-    return(realFunLists[[x]]$all.probabilities)
+    return(as.numeric(realFunLists[[x]]$all.probabilities))
   })
 
 ### PROBABILITY NOT WORKING
