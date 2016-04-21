@@ -11,7 +11,8 @@ Section 5 – estimateTheta (EAP)
 Section 10 – estimateSE
 Section 11 – expectedPV
 Section 12 – nextItemEPV
-
+Adding data to package
+Writing “get” methods
 
 Functions we are currently working on and testing
 Adding randomization to the above methods, for more robust testing
@@ -21,9 +22,7 @@ Section 7 – d2LL
 
 
 Other package tasks we are currently working on:
-Adding data to package
 Getting a demo running
-Writing “get” methods
 Fixing validity check (?)
 
 	
