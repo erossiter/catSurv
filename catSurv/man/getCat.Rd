@@ -2,7 +2,7 @@
 % Please edit documentation in R/Cat-class.R
 \name{getCatSurv}
 \alias{getCatSurv}
-\title{Allow us to access to the slots within Cat class objects}
+\title{Access slots within \cod{Cat} class objects}
 \usage{
 getCatSurv(object = "Cat")
 }
