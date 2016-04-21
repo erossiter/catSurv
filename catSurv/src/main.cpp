@@ -128,26 +128,11 @@ double d2LL(S4 &cat_df, double theta, bool use_prior){
 	return Cat(cat_df).d2LL(theta, use_prior);
 }
 
-//
-//// [[Rcpp::export]]
-//List nextItem(S4 cat_df) {
-//	Cat cat = Cat(cat_df);
-//	switch (cat.selection_method) {
-//		case Cat::EPV:
-//			return nextItemEPVcpp(cat);
-//		case Cat::MFI:
-//			return nextItemMFI(cat);
-//		case Cat::LWI:
-//			return nextItemMLWI(cat);
-//		case Cat::PWI:
-//			return nextItemMPWI(cat);
-//		case Cat::MEI:
-//			return nextItemMEI(cat);
-//		default:
-//			throw -1;
-//	}
-//}
-//
+// [[Rcpp::export]]
+List nextItem(S4 cat_df) {
+	return Cat(cat_df).nextItem();
+}
+
 //// [[Rcpp::export]]
 //List lookAheadEPVcpp(S4 cat_df, NumericVector item) {
 //	int look_ahead_item = as<int>(item) - 1;
@@ -440,49 +425,4 @@ double d2LL(S4 &cat_df, double theta, bool use_prior){
 ////	Cat cat = Cat(cat_df);
 ////	return fisherInf(cat, item, theta);
 //	return 0;
-//}
-
-// TODO
-// [[Rcpp:::export]]
-//double dLL(S4 cat_df, NumericVector t, LogicalVector use_p){
-//	Cat cat = Cat(cat_df);
-//	double theta = as<std::vector<double> >(t)[0];
-//	bool use_prior = as<std::vector<bool> >(use_p)[0];
-//	return dLL(cat, theta, use_p);
-//}
-//
-//// TODO
-//// [[Rcpp::export]]
-//double d2LL(S4 cat_df, NumericVector t, LogicalVector use_p){
-////	Cat cat = Cat(cat_df);
-////	double theta = t[0];
-////	bool use_prior = (bool) use_p[0];
-////	return d2LL(cat, theta, use_p);
-//	return 0;
-//}
-
-
-// TODO
-//// [[Rcpp:export]]
-//double integrate(NumericVector x, NumericVector fx){
-//	std::vector<double> x_ = as<std::vector<double> >(x);
-//	std::vector<double> fx_ = as<std::vector<double> >(fx);
-//	return trapezoidal_integration(x_, fx_);
-//}
-
-//// [[Rcpp:export]]
-//double dnorm(NumericVector x, NumericVector mu, NumericVector sigma){
-//	return dnorm(as<std::vector<double> >(x)[0], as<std::vector<double> >(mu)[0],
-//	             as<std::vector<double> >(sigma)[0]);
-//}
-//
-//// [[Rcpp:export]]
-//double dchi(NumericVector x, NumericVector k){
-//	return dchi(as<std::vector<double> >(x)[0], as<std::vector<double> >(k)[0]);
-//}
-//
-//// [[Rcpp::export]]
-//double dt(NumericVector x, NumericVector mu, IntegerVector df){
-//	return dt(as<std::vector<double> >(x)[0], as<std::vector<double> >(mu)[0],
-//	          as<std::vector<int> >(df)[0]);
 //}

@@ -53,8 +53,7 @@ List Cat::nextItem() {
 			min_epv = epv;
 		}
 	}
-	DataFrame all_estimates = Rcpp::DataFrame_Impl<Rcpp::PreserveStorage>::create(
-			Named("questions") = questionSet.nonapplicable_rows, Named("EPV") = epvs);
+	DataFrame all_estimates = Rcpp::DataFrame_Impl<Rcpp::PreserveStorage>::create(Named("questions") = questionSet.nonapplicable_rows, Named("EPV") = epvs);
 	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(min_item));
 }
 

@@ -1,6 +1,6 @@
 #include "EAPEstimator.h"
-#include "Estimator.h"
 #include "GSLFunctionWrapper.h"
+#include "NotImplementedException.h"
 
 double Estimator::likelihood(double theta) {
 	return questionSet.poly ? polynomial_likelihood(theta) : binary_likelihood(theta);
@@ -30,7 +30,7 @@ double Estimator::polynomial_likelihood(double theta) {
 		std::vector<double> question_cdf{1.0};
 		question_cdf.insert(question_cdf.end(), probabilities.begin(), probabilities.end());
 		question_cdf.push_back(0.0);
-		
+
 		size_t index = (size_t) questionSet.answers.at((size_t) question);
 		L *= question_cdf.at(index - 1) - question_cdf.at(index);
 	}
@@ -48,7 +48,7 @@ double Estimator::binary_likelihood(double theta) {
 }
 
 Estimator::Estimator(Integrator integration, QuestionSet question) : integrator(integration),
-                                                                       questionSet(question) { }
+                                                                     questionSet(question) { }
 
 double Estimator::estimateSE(Prior prior) {
 	const double theta_hat = estimateTheta(prior);
@@ -78,14 +78,14 @@ double Estimator::integralQuotient(integrableFunction const &numerator,
 }
 
 double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
-	std::__1::vector<double> variances;
+	std::vector<double> variances;
 	for (size_t i = 0; i <= questionSet.difficulty[item].size(); ++i) {
-		questionSet.answers[item] = (int) i + 1;
+		questionSet.answers[item] = (int) i;
 		variances.push_back(pow(estimateSE(prior), 2));
 	}
 
 	auto probabilities = probability(estimateTheta(prior), item);
-	std::__1::vector<double> question_cdf{1.0};
+	std::vector<double> question_cdf{1.0};
 	question_cdf.insert(question_cdf.end(), probabilities.begin(), probabilities.end());
 	question_cdf.push_back(0.0);
 
@@ -116,4 +116,12 @@ double Estimator::expectedPV(int item, Prior &prior) {
 	questionSet.answers[item] = NA_INTEGER; // remove answer
 	questionSet.applicable_rows.pop_back();
 	return result;
+}
+
+double Estimator::estimateTheta(__unused Prior prior) {
+	throw NotImplementedException("This function is not implemented in the base class.");
+}
+
+EstimationType Estimator::getEstimationType() const {
+	return EstimationType::NONE;
 }

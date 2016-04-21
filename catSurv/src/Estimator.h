@@ -9,21 +9,7 @@ enum class EstimationType {
 	NONE, EAP, MAP
 };
 
-class NotImplementedException : public std::exception {
 
-public:
-
-	NotImplementedException(const std::string &error = "Functionality not yet implemented!") {
-		errorMessage = error;
-	}
-
-	const char *what() const noexcept {
-		return errorMessage.c_str();
-	}
-
-private:
-	std::string errorMessage;
-};
 
 class Estimator {
 	constexpr static int integrationSubintervals = 10;
@@ -52,15 +38,9 @@ protected:
 public:
 	Estimator(Integrator integration, QuestionSet question);
 
-	virtual EstimationType getEstimationType() const {
-		return EstimationType::NONE;
-	}
+	virtual EstimationType getEstimationType() const;
 
-	virtual double estimateTheta(Prior prior) {
-		(void) prior;
-		const std::string message = "This function is not implemented in the base class.";
-		throw NotImplementedException(message);
-	}
+	virtual double estimateTheta(Prior prior);
 
 	double likelihood(double theta);
 
