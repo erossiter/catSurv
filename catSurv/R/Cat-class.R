@@ -105,10 +105,10 @@ setValidity("Cat", function(object){
   
   ## If the Cat is polytomous, the difficulty needs to be list
   if(object@poly==T){
-    if(class(object@difficulty)!=list){return("Cat object is polytomous, but difficulty slot is not a list")}
+    if(class(object@difficulty)!="list"){return("Cat object is polytomous, but difficulty slot is not a list")}
   }
   else{
-    if(class(object@difficulty)!=numeric){return("Cat object is binary, but difficulty slot is not a numeric vector")}
+    if(class(object@difficulty)!="numeric"){return("Cat object is binary, but difficulty slot is not a numeric vector")}
   }
   
   
