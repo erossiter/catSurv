@@ -1,5 +1,4 @@
 #include <boost/math/special_functions/gamma.hpp>
-#include <boost/math/distributions/chi_squared.hpp>
 #include <boost/math/distributions/students_t.hpp>
 #include "Prior.h"
 
