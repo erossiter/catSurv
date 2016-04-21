@@ -37,7 +37,7 @@ Data of survey respondents' respond to 18 NFC questions, which is a reduced vers
 %%  ~~ TAPS is conducted by Washington University in St.Louis and AMT sample is recruited via Amazon's Mechanical Turk, which both are online survey ~~
 }
 \references{
-%%  ~~ Jacob Montgomery ~~
+%%  ~~ Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu} ~~
 }
 \examples{
 data(nfc)

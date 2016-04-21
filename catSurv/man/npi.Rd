@@ -1,7 +1,7 @@
 \name{npi}
 \alias{npi}
 \docType{data}
-\title{NPI}
+\title{Narcissistic Personality Inventory data}
 \description{
 Data from the test with the 40 paired items on one page. Respondents had to choose the one that fit them the best. Missingness is optional. Respondents' demographics were entered on the next page. In addition, they were also asked to affirm that their answers were acurate and suitable for research, those that did not (9\%) are not included in this dataset.
 }
@@ -9,7 +9,7 @@ Data from the test with the 40 paired items on one page. Respondents had to choo
 \format{
   A data frame with 11243 observations on the following 44 variables.
   \describe{
-    \item{\code{score}}{a numeric vector}
+    \item{\code{score}}{a numeric vector indicates the score for each question; see details}
     \item{\code{Q1}}{1=I have a natural talent for influencing people. 2=I am not good at influencing people}
     \item{\code{Q2}}{1=Modesty doesnt become me. 2=I am essentially a modest person}
     \item{\code{Q3}}{1=I would do almost anything on a dare. 2=I tend to be a fairly cautious person}
@@ -50,19 +50,19 @@ Data from the test with the 40 paired items on one page. Respondents had to choo
     \item{\code{Q38}}{1=I get upset when people don't notice how I look when I go out in public. 2=I don't mind blending into the crowd when I go out in public}
     \item{\code{Q39}}{1=I am more capable than other people. 2=There is a lot that I can learn from other people}
     \item{\code{Q40}}{1=I am much like everybody else. 2=I am an extraordinary person}
-    \item{\code{elapse}}{a numeric vector indicates between time submitted and time loaded of the questions}
-    \item{\code{gender}}{a numeric vector}
-    \item{\code{age}}{a numeric vector}
+    \item{\code{elapse}}{a numeric vector indicates between time submitted and time loaded of the questions; see details}
+    \item{\code{gender}}{a numeric vector indicates the gender of the respondents; see details}
+    \item{\code{age}}{a numeric vector indicates the age of the respondents; see details}
   }
 }
 \details{
-%%  ~~ elapse was calculated with following equation: (time submitted) - (time loaded) of the questions page in seconds. Response optinos for gender question is following: 1=male, 3=female, 3=other, 0=none). Age was entered as a free response but ages below 14 were omiited from the dataset. ~~
+%%  ~~ score variable gives one point for following questions: Q1, Q2, Q3, Q6, Q8, Q11, Q12, Q13, Q14, Q16, Q21, Q24, Q25, Q27, Q29, Q30, Q31, Q33, Q34, Q36, Q37, Q38, Q39. It gives two points for following questions: Q4, Q5, Q7, Q9, Q10, Q15, Q17, Q18, Q19, Q20, Q22, Q23, Q26, Q28, Q32, Q35, Q40. elapse was calculated with following equation: (time submitted) - (time loaded) of the questions page in seconds. Response options for gender question is following: 1=male, 3=female, 3=other, 0=none). Age was entered as a free response but ages below 14 were omiited from the dataset. ~~
 }
 \source{
 %%  ~~ ~~
 }
 \references{
-%%  ~~ Jacob Montgomery ~~
+%%  ~~ Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu} ~~
 }
 \examples{
 data(npi)
