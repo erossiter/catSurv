@@ -133,6 +133,11 @@ List nextItem(S4 cat_df) {
 	return Cat(cat_df).nextItem();
 }
 
+// [[Rcpp::export]]
+List expectedPV(S4 cat_df, int item) {
+	return Cat(cat_df).expectedPV(item);
+}
+
 //// [[Rcpp::export]]
 //List lookAheadEPVcpp(S4 cat_df, NumericVector item) {
 //	int look_ahead_item = as<int>(item) - 1;
