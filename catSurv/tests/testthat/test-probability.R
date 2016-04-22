@@ -7,14 +7,14 @@ test_that("binary probability calculates correctly", {
   
   ## Creating a lot of cat objects and filling in needed slots
 
-    catBiCreator<-function(numCats="numeric"){
-    set.seed(999)
+    catBiCreator<-function(numCats="numeric", spread=2, seed=576){
+    set.seed(seed)
     allTheCats<-c()
     for(i in 1:numCats){
       numQuestions<-floor(abs(50*(rnorm(1))))
       newCat<-new("Cat",
-                  discrimination=(2*rnorm(numQuestions)),
-                  difficulty=(2*rnorm(numQuestions)),
+                  discrimination=(spread*rnorm(numQuestions)),
+                  difficulty=(spread*rnorm(numQuestions)),
                   guessing=.1*runif(numQuestions),
                   poly=F,
                   answers=rep(NA, numQuestions))
@@ -84,17 +84,27 @@ test_that("binary probability calculates correctly", {
 
 test_that("polytomous probability calculates correctly", {
   
-  ## Creating a cat object and filling in needed slots
-  
-  catPoly <- new("Cat")
-  catPoly@discrimination <- c(2,4,6,8)
-  catPoly@difficulty <- list(q1=c(1,2,3,4), q2=c(-90.2, -87, -.003), q3=c(seq(-10, 10, .1)), q4=2)
-  ## I can't tell from the cpp code how a cpp Cat object creates its "difficulty" slot from a polytomous S4 Cat object
-  ## ...it looks like it's a vector of vectors, which I guess would be an array, except that the length of the diffuculty
-  ##      parameter vector for each quesiton could be different... 
-  ## So I used a list here
-  ##
-  ##...also, should there be a test to make sure the difficulty parameters for a given question are non-decreasing?
+  ## Polytoumous Cat creator function
+  catPolyCreator<-function(numCats="numeric", spread=2, seed=272){
+    set.seed(seed)
+    allTheCats<-c()
+    for(i in 1:numCats){
+      numQuestions<-2+floor(abs(50*(rnorm(1))))
+      newCat<-new("Cat",
+                  discrimination=(spread*rnorm(numQuestions)),
+                  difficulty=lapply(1:numQuestions, function(x){
+                    sort(spread*rnorm(sample(10, 1, replace=T)))}) ,
+                  guessing=.1*runif(numQuestions),
+                  poly=T,
+                  answers=rep(NA, numQuestions))
+      
+      allTheCats<-c(allTheCats, newCat)
+      
+    }
+    return(as.list(allTheCats))
+  }
+ 
+  allPolyCats<-catPolyCreator(10)
   
 
   ## R test function
@@ -110,11 +120,41 @@ test_that("polytomous probability calculates correctly", {
     return(as.list(probVec))
   }
   
-  #expect_equal(probability(catPoly, t=1, q=1), probability_test_poly(catPoly, 1, 1))
-  #expect_equal(probability(catPoly, t=1872, q=2), probability_test_poly(catPoly, 1872, 2))
-  #expect_equal(probability(catPoly, t=.001, q=3), probability_test_poly(catPoly, .001, 3))
-  #expect_equal(probability(catPoly, t=-90, q=4), probability_test_poly(catPoly, -90, 4))
-  ## I don't know if it's a problem that the cpp function returns a List (according to main.cpp)
-  ##  because according to Cat.cpp it actually returns a vector of doubles...
+  setThetas<-function(spread=2, seed=754){
+    set.seed(seed)
+    return(spread*rnorm(length(allPolyCats))) # drawing one theta value for each Cat (number of draws = length(allPolyCats))... 
+    ## ...and multiplying by a spread factor so the values cover a certain range
+  }
+  thetaVec<-setThetas()
+  
+
+  
+  questionList<-lapply(allTheCats, function(x, seed=2534){
+    set.seed(seed)
+    #drawing a question randomly from the number of questions stored in each Cat:
+    ##  (number of quesitons corresponds to the length of a Cat's discrimination vector)
+    return(sample(length(x@discrimination), 1))
+  })
+  questionVec<-unlist(questionList)
+  
+  probability(allPolyCats[[1]], 2.3, 2)
+  probability_test_poly(allPolyCats[[1]], 2.3, 2)
+  
+  ##calculating values from real probability function 
+  realFunLists<-lapply(1:length(allTheCats), function(x){
+    probability(allTheCats[[x]], thetaVec[x], questionVec[x])
+  })
+  realFunValues<-lapply(1:length(realFunLists), function(x){
+    return(as.numeric(realFunLists[[x]]$all.probabilities))
+  })
+  
+  
+  ##calculating values from the test probability function (created above)
+  testFunValues<-lapply(1:length(allTheCats), function(x){
+    probability_test_bi(allTheCats[[x]], thetaVec[x], questionVec[x])
+  })
+  
+  expect_equal(realFunValues, testFunValues)
+  
 })
 
