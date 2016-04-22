@@ -13,8 +13,8 @@ test_that("binary probability calculates correctly", {
     for(i in 1:numCats){
       numQuestions<-floor(abs(50*(rnorm(1))))
       newCat<-new("Cat",
-                  discrimination=(5*rnorm(numQuestions)),
-                  difficulty=sort(5*rnorm(numQuestions)),
+                  discrimination=(2*rnorm(numQuestions)),
+                  difficulty=(2*rnorm(numQuestions)),
                   guessing=.1*runif(numQuestions),
                   poly=F,
                   answers=rep(NA, numQuestions))
@@ -74,10 +74,16 @@ test_that("binary probability calculates correctly", {
     probability_test_bi(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
   
-  probability_test_bi(allTheCats[[1]],1,2)
-  probability(allTheCats[[1]],1,2)
+  probability_test_bi(allTheCats[[3]],.8,2)
+  probability(allTheCats[[3]],.8,2)
   
-    
+  lapply(allTheCats, function(x){print(x@discrimination)})
+
+  thisCat<-new("Cat", guessing=c(.08,.1), discrimination=c(-1.3, .7), difficulty=c(5,3.2))
+  probability_test_bi(thisCat, 2.85, 2)
+  probability(thisCat, 2.85, 2)
+  
+        
   class(realFunValues[[1]])
   class(testFunValues[[1]])
   
