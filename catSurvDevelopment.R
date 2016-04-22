@@ -13,8 +13,11 @@ source("Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-prob
 test("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-probability.R")
 
 current.code <- as.package("catSurv")
-load_all(current.code)#, recompile=T)
+load_all(current.code, recompile=T)
 document(current.code)
+
+?catBiCreator
+myFifteenCats<-catBiCreator(15)
 
 
 test_cat <- new("Cat")
