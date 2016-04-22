@@ -11,10 +11,9 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
 
 	auto calculate = [&](double difficulty) {
 		double guess = questionSet.guessing.at(question);
-		double poly_answer = guess + (1 - guess);
 		double exp_prob = exp(questionSet.discrimination.at(question) * (theta - difficulty));
 		double base_probability = exp_prob / (1 + exp_prob);
-		return questionSet.poly ? base_probability : poly_answer * base_probability;
+		return questionSet.poly ? base_probability : guess + (1 - guess) * base_probability;
 	};
 
 	std::vector<double> probabilities;
