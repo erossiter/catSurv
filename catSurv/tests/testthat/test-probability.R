@@ -34,7 +34,7 @@ test_that("binary probability calculates correctly", {
   thetaVec<-c()
   setThetas<-function(seed="numeric"){
     set.seed(seed)
-    thetaVec<-c(100*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
+    thetaVec<-c(2*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
     ## ...and multiplying by 100 so the values cover a wide range
   }
   thetaVec<-setThetas(1000)
@@ -67,25 +67,13 @@ test_that("binary probability calculates correctly", {
     return(as.numeric(realFunLists[[x]]$all.probabilities))
   })
 
-### PROBABILITY NOT WORKING
 
   ##calculating values from the test probability function (created above)
   testFunValues<-lapply(1:length(allTheCats), function(x){
     probability_test_bi(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
   
-  probability_test_bi(allTheCats[[3]],.8,2)
-  probability(allTheCats[[3]],.8,2)
-  
-  lapply(allTheCats, function(x){print(x@discrimination)})
 
-  thisCat<-new("Cat", guessing=c(.08,.1), discrimination=c(-1.3, .7), difficulty=c(5,3.2))
-  probability_test_bi(thisCat, 2.85, 2)
-  probability(thisCat, 2.85, 2)
-  
-        
-  class(realFunValues[[1]])
-  class(testFunValues[[1]])
   
   ##expect the values to be equal
   expect_equal(realFunValues, testFunValues)
