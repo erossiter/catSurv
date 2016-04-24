@@ -1,6 +1,9 @@
 library(catSurv)
 context("obsInf")
 
+
+######## BINARY OBSINF TEST ###########
+
 test_that("binary obsInf calculates correctly", {
   ## creating cats
   
@@ -40,7 +43,13 @@ test_that("binary obsInf calculates correctly", {
     test_obsInf_bi(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
   
+  expect_equal(testObsValues, realObsValues)
+  
 })
+
+
+######## POLYTOMOUS OBSINF TEST ###########
+
 
 test_that("polytomous obsInf calculates correctly", {
   ## creating cats
@@ -75,10 +84,11 @@ test_that("polytomous obsInf calculates correctly", {
   realObsValues<-lapply(1:length(allTheCats), function(x){
     obsInf(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
-  
+
   ## creating list of values as calculated by the test function
   testObsValues<-lapply(1:length(allTheCats), function(x){
     test_obsInf_bi(allTheCats[[x]], thetaVec[x], questionVec[x])
   })
   
+  expect_equal(testObsValues, realObsValues)
 })
