@@ -9,7 +9,7 @@
 #'
 #'@return A list of length \code{numCats} containing objects of class \code{Cat} with randomized values for components:
 #' \itemize{
-#' \item \code{difficulty} a vector of difficulty parameters for each question/item.
+#' \item \code{difficulty} a list of vectors of difficulty parameters for each question/item: each vector corresponds to a question, and each value in the vector is the difficulty parameter for each response category
 #' \item \code{guessing} a vector of guessing parameter for each question/item. 
 #' \item \code{discrimination} a vector of disrimination parameter for each question/item.
 #' and prototype (default) values for components:

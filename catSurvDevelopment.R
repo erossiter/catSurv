@@ -17,8 +17,10 @@ load_all(current.code, recompile=T)
 document(current.code)
 
 ?catBiCreator
-myFifteenCats<-catBiCreator(15)
+myFifteenBiCats<-catBiCreator(15)
+myFifteenBiCats[[4]]@discrimination
 
+myTwelvePolyCats<-catPolyCreator(12)
 
 test_cat <- new("Cat")
 setdiscrimination(test_cat)<-c(0,3,.8)
