@@ -5,24 +5,22 @@ context("Likelihood")
 test_that("binary likelihood calculates correctly",{
   
   ## creating new Cat object and filling in the slots
+  allTheCats<-catBiCreator(10)
   
-  catBiCreator<-function(numCats="numeric"){
-    set.seed(999)
-    allTheCats<-c()
-    for(i in 1:numCats){
-      numQuestions<-floor(abs(50*(rnorm(1))))
-      newCat<-new("Cat",
-                  discrimination=(100*rnorm(numQuestions)),
-                  difficulty=as.list(sort(100*rnorm(numQuestions))),
-                  guessing=runif(numQuestions),
-                  poly=F,
-                  answers=rep(NA, numQuestions))
-      
-      allTheCats<-c(allTheCats, newCat)
-      
-    }
-    return(as.list(allTheCats))
+  ## randomly setting answer values (0 or 1, because we're using binary cats) 
+  allCatsAnswered<-lapply(allTheCats, function(x){
+    x@answers<-sample(c(0,1), length(x@answers), replace=T)
+    return(x)
+  })
+  
+  ## creating vector of thetas
+  setThetas<-function(seed="numeric"){
+    set.seed(seed)
+    thetas<-c(2*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
+    ## ...and multiplying by 2 so the values cover a range of ~(-4,4)
   }
+  thetaVec<-setThetas(1000)
+  
   
   ## R test function
   
@@ -44,6 +42,14 @@ test_that("binary likelihood calculates correctly",{
     
     return(likelihood)
   }
+
+  ## applying real likelihood function on my cats
+  realFunValues<-lapply(1:length(allCatsAnswered), function(x){
+    likelihood(allCatsAnswered[[x]], thetaVec[x], c(1:length(allCatsAnswered[[x]]@answers)))
+  })
+  
+  ## applying test likelihood function on my cats  
+    
   
   ## NOTE: the documentation says the likelihood functions takes an argument "items", a vector of 
   ##  the indices of the question items whose answers we want to consider...
