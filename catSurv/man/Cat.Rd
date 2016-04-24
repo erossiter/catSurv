@@ -15,14 +15,14 @@ An object of the class `Cat' has the following slots:
 \item \code{discrimination} A named vector of disrimination parameters including a numeric value per question/item.
 \item \code{answers} A named vector of answers to questions as given by the survey respondent.
 \item \code{priorName} A character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{normal} for the normal distirbution, \code{cauchy} for the Cauchy distribution, are \code{t} for the t-distribution. Defaults to \code{normal}.
-\item \code{priorParams} A numeric vector of parameters for the distribution specified in the \code{priorName} slot. See the details section for more infomration.  Defaults to \code{c(1,1)}.
+\item \code{priorParams} A numeric vector of parameters for the distribution specified in the \code{priorName} slot. See the details section for more infomration.  Defaults to \code{c(0,1)}.
 \item \code{lowerBound} The lower bound of the interval of the latent scale used in estimation. The default value is \code{-4.5}.
 \item \code{upperBound} The upper bound of the interval of the latent scale used in estimation. The default value is \code{4.5}.
 \item \code{quadPoints} Desired number of points to be used in approximating integral. The default value is \code{43}.
 \item \code{difficulty} A named list consisting of a vector of difficulty parameters for each item. (vector will be length=1 for binary Cats)
 \item \code{X}
 \item \code{Theta.est} A scalar value containing an estimate of a respondent's position on the latent trait.  Generally, this is the output of the \code{\link{estimateTheta}} funciton.
-\item \code{poly} A logical containing the type of answers. The default is set for questions with dichotomous answers.
+\item \code{poly} A logical containing the type of answers. The default is set for questions with binary answers.
 }
 
 When priorName is set to "normal", the first priorParam is the mean, the second is the standard deviation.  When priorName is set to "Cauchy", the first priorParam is the location, and the second is the scale.  When priorName is set to "t", the first priorParam is mu, a location parameter, the second is sigma, a scale parameter, and the third is nu, the degrees of freedom parameter.

@@ -7,7 +7,7 @@
 #' @param spread The spread factor the difficulty, theta, and discrimination values. Default to 2, which is multiplied by rnorm() outputs to provide values falling mostly within a range of (-4,4) 
 #' @param maxGuessing The maximum value for the guessing parameter, which is multiplied by runif() for each question. Default to 0.1.
 #'
-#' @return A list of length \code{numCats} containing objects of class \code{Cat} with randomized values for components:
+#'@return A list of length \code{numCats} containing objects of class \code{Cat} with randomized values for components:
 #' \itemize{
 #' \item \code{difficulty} a vector of difficulty parameters for each question/item.
 #' \item \code{guessing} a vector of guessing parameter for each question/item. 

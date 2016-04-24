@@ -6,43 +6,21 @@ context("Probability")
 test_that("binary probability calculates correctly", {
   
   ## Creating a lot of cat objects and filling in needed slots
-
-    catBiCreator<-function(numCats="numeric", spread=2, seed=576){
-    set.seed(seed)
-    allTheCats<-c()
-    for(i in 1:numCats){
-      numQuestions<-floor(abs(50*(rnorm(1))))
-      newCat<-new("Cat",
-                  discrimination=(spread*rnorm(numQuestions)),
-                  difficulty=(spread*rnorm(numQuestions)),
-                  guessing=.1*runif(numQuestions),
-                  poly=F,
-                  answers=rep(NA, numQuestions))
-      
-      allTheCats<-c(allTheCats, newCat)
-      
-    }
-    return(as.list(allTheCats))
-  }
-  
-  ##running the function, creating 10 cats
   ## ADJUST THIS INPUT IF YOU WANT A SHORTER OR LONGER TEST
   allTheCats<-catBiCreator(10)
 
   ## setting the question and theta values for each Cat, to be used in the probability function...
   
-  thetaVec<-c()
   setThetas<-function(seed="numeric"){
     set.seed(seed)
-    thetaVec<-c(2*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
-    ## ...and multiplying by 100 so the values cover a wide range
+    thetas<-c(2*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
+    ## ...and multiplying by 2 so the values cover a range of ~(-4,4)
   }
   thetaVec<-setThetas(1000)
   
-  questionList<-c()
   set.seed(2222)
   questionList<-lapply(allTheCats, function(x){
-    #drawing a question randomly from the number of questions stored in each Cat:
+    #drawing a question/item number randomly from the number of questions stored in each Cat:
     ##  (number of quesitons corresponds to the length of a Cat's discrimination vector)
     return(sample(length(x@discrimination), 1))
   })
@@ -59,14 +37,10 @@ test_that("binary probability calculates correctly", {
     return(probability)
   }
 
-  ##calculating values from real probability function 
-  realFunLists<-lapply(1:length(allTheCats), function(x){
-    probability(allTheCats[[x]], thetaVec[x], questionVec[x])
+  ##calculating values from real probability function (found in Estimator.cpp)
+  realFunValues<-lapply(1:length(allTheCats), function(x){
+    return(as.numeric((probability(allTheCats[[x]], thetaVec[x], questionVec[x]))$all.probabilities))
   })
-  realFunValues<-lapply(1:length(realFunLists), function(x){
-    return(as.numeric(realFunLists[[x]]$all.probabilities))
-  })
-
 
   ##calculating values from the test probability function (created above)
   testFunValues<-lapply(1:length(allTheCats), function(x){

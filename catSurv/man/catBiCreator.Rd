@@ -14,17 +14,20 @@ catBiCreator(numCats = "numeric", seed = 9999, spread = 2,
 
 \item{spread}{The spread factor the difficulty, theta, and discrimination values. Default to 2, which is multiplied by rnorm() outputs to provide values falling mostly within a range of (-4,4)}
 
-\item{maxGuessing}{The maximum value for the guessing parameter, which is multiplied by runif() for each question. Default to 0.1.
-
- @return A list of length \code{numCats} containing objects of class \code{Cat} with components,
+\item{maxGuessing}{The maximum value for the guessing parameter, which is multiplied by runif() for each question. Default to 0.1.}
+}
+\value{
+A list of length \code{numCats} containing objects of class \code{Cat} with randomized values for components:
 \itemize{
 \item \code{difficulty} a vector of difficulty parameters for each question/item.
 \item \code{guessing} a vector of guessing parameter for each question/item. 
 \item \code{discrimination} a vector of disrimination parameter for each question/item.
-\item \code{answers} a vector of answers to questions as given by the survey respondent.
+and prototype (default) values for components:
+\item \code{answers} a vector of answers to questions as given by the survey respondent. Default to a vector of NA values, whose length is the number of questions (same length as difficulty, guessing, and discrimination)
 \item \code{priorName} a character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{normal} for the normal distirbution, \code{cauchy} for the Cauchy distribution, are \code{t} for the t-distribution. Defaults to \code{normal}. 
 \item \code{priorParams} a numeric vector of parameters for the distribution specified in the \code{priorName} slot. See the details section for more information.  Defaults to \code{c(0,1)}.   
-}}
+\item \code{poly} a boolean indicating the type of questions contained in this \code{Cat} object. Default is FALSE, indicating binary questions.
+}
 }
 \description{
 This function creates a user-specified number of objects of class \code{Cat}, with randomly drawn values
