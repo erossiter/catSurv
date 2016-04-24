@@ -30,4 +30,14 @@ test_that("binary obsInf calculates correctly", {
     return((discrim^2)* (( (probs-guess)/(1-guess) )^2)* (1-probs)/probs )
   }
   
+  ## creating list of values as calculated by the real function
+  realObsValues<-lapply(1:length(allTheCats), function(x){
+    obsInf(allTheCats[[x]], thetaVec[x], questionVec[x])
+  })
+    
+  ## creating list of values as calculated by the test function
+  testObsValues<-lapply(1:length(allTheCats), function(x){
+    test_obsInf_bi(allTheCats[[x]], thetaVec[x], questionVec[x])
+  })
+  
 })
