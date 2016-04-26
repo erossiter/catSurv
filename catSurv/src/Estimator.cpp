@@ -200,7 +200,7 @@ double Estimator::expectedObsInf(int item, Prior &prior) {
 		questionSet.answers[item] = NA_INTEGER;
 		questionSet.applicable_rows.pop_back();
 
-		std::vector<double> question_cdf = paddedProbability(estimateTheta(prior));
+		std::vector<double> question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
 		for(size_t i = 0; i < question_cdf.size() -1; ++i){
 			sum += obsInfs[i] * (question_cdf[i] - question_cdf[i + 1]);
 		}

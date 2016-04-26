@@ -123,3 +123,8 @@ obsInf <- function(cat_df, theta, item) {
     .Call('catSurv_obsInf', PACKAGE = 'catSurv', cat_df, theta, item)
 }
 
+#' @export
+expectedObsInf <- function(cat_df, item) {
+    .Call('catSurv_expectedObsInf', PACKAGE = 'catSurv', cat_df, item)
+}
+

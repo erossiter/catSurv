@@ -4,11 +4,11 @@ MEISelector::MEISelector(QuestionSet &questions, Estimator &estimation, Prior &p
                                                                                                       estimation,
                                                                                                       priorModel) { }
 
-SelectionType virtual MEISelector::getSelectionType() {
+SelectionType MEISelector::getSelectionType() {
 	return SelectionType::MEI;
 }
 
-Selection virtual MEISelector::nextItem() {
+Selection MEISelector::nextItem() {
 	Selection selection;
 	selection.questions = questionSet.nonapplicable_rows;
 	selection.values.reserve(questionSet.nonapplicable_rows.size());

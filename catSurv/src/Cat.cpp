@@ -3,6 +3,7 @@
 #include "EAPEstimator.h"
 #include "MAPEstimator.h"
 #include "EPVSelector.h"
+#include "MEISelector.h"
 #include "MFISelector.h"
 
 using namespace Rcpp;
@@ -105,7 +106,7 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 }
 
 double Cat::expectedObsInf(int item) {
-	return estimator.expectedObsInf(item);
+	return estimator->expectedObsInf(item, prior);
 }
 
 
