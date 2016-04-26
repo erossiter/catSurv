@@ -49,6 +49,8 @@ public:
 
 	double obsInf(double theta, int item);
 
+	double fisherInf(double theta, int item);
+
 	double partial_second_derivative(double theta, size_t question);
 
 	virtual double expectedPV(int item, Prior &prior);

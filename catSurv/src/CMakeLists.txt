@@ -20,7 +20,7 @@ set(SOURCE_FILES
 		NotImplementedException.cpp NotImplementedException.h
 		Selector.cpp Selector.h
 		EPVSelector.cpp	EPVSelector.h
-		Selection.h)
+		Selection.h MFISelector.cpp MFISelector.h)
 
 add_library(catSurv STATIC ${SOURCE_FILES})
 add_executable(run main.cpp)

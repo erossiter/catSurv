@@ -3,6 +3,7 @@
 #include "EAPEstimator.h"
 #include "MAPEstimator.h"
 #include "EPVSelector.h"
+#include "MFISelector.h"
 
 using namespace Rcpp;
 
@@ -89,6 +90,10 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 
 	if (selection_type == "EPV") {
 		return std::unique_ptr<EPVSelector>(new EPVSelector(questionSet, estimator, prior));
+	}
+
+	if (selection_type == "MFI") {
+		return std::unique_ptr<MFISelector>(new MFISelector(questionSet, estimator, prior));
 	}
 
 	stop("%s is not a valid integration type.", selection_type);

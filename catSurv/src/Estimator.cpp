@@ -165,3 +165,8 @@ double Estimator::obsInf(double theta, int item) {
 	double temp = pow((P - guess) / (1 - guess), 2);
 	return pow(discrimination, 2) * temp * (Q / P);
 }
+
+double Estimator::fisherInf(double theta, int item) {
+	return 0;
+}
+

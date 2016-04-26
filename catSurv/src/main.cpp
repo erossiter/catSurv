@@ -127,125 +127,25 @@ double d2LL(S4 &cat_df, double theta, bool use_prior){
 	return Cat(cat_df).d2LL(theta, use_prior);
 }
 
-// [[Rcpp::export]]
 //' @export
+// [[Rcpp::export]]
 List nextItem(S4 cat_df) {
 	return Cat(cat_df).nextItem();
 }
 
-// [[Rcpp::export]]
 //' @export
+// [[Rcpp::export]]
 List expectedPV(S4 cat_df, int item) {
 	return Cat(cat_df).expectedPV(item);
 }
 
-// [[Rcpp::export]]
 //' @export
+// [[Rcpp::export]]
 double obsInf(S4 cat_df, double theta, int item) {
 	return Cat(cat_df).obsInf(theta, item);
 }
 
-//// [[Rcpp::export]]
-//List lookAheadEPVcpp(S4 cat_df, NumericVector item) {
-//	int look_ahead_item = as<int>(item) - 1;
-//	/*NumericVector X = cat_df.slot("X");
-//	CharacterVector priorName = cat_df.slot("priorName");
-//	NumericVector priorParams = cat_df.slot("priorParams");
-//	std::vector<double> prior_values = as<std::vector<double> >(prior(X, priorName, priorParams));
-//	*/
-//	std::vector<double> X = as<std::vector<double> >(cat_df.slot("X"));
-//	std::string priorName = as<std::string>(cat_df.slot("priorName"));
-//	std::vector<double> priorParams = as<std::vector<double> >(cat_df.slot("priorParams"));
-//	std::vector<double> prior_values;
-//
-//	for (unsigned int i = 0; i < X.size(); ++i) {
-//		prior_values.push_back(prior(X[i], priorName, priorParams));
-//	}
-//
-//	// Precalculate the rows that have been answered.
-//	std::vector<int> applicable_rows;
-//	std::vector<int> nonapplicable_rows;
-//	std::vector<int> answers = as<std::vector<int> >(cat_df.slot("answers"));
-//	for (int i = 0; i < answers.size(); i++) {
-//		if (i == look_ahead_item) {
-//			applicable_rows.push_back(i);
-//		} else if (answers[i] != NA_INTEGER) {
-//			applicable_rows.push_back(i);
-//		} else {
-//			nonapplicable_rows.push_back(i + 1);
-//		}
-//	}
-//
-//	bool poly = as<std::vector<bool> >(cat_df.slot("poly"))[0];
-//	std::vector<std::vector<double> > poly_difficulty; // if poly, construct obj with vector<vector<double>> for difficulty
-//	std::vector<double> nonpoly_difficulty;
-//	if (poly) {
-//		// Unpack the difficulty list
-//		List cat_difficulty = cat_df.slot("difficulty");
-//		for (List::iterator itr = cat_difficulty.begin(); itr != cat_difficulty.end(); ++itr) {
-//			poly_difficulty.push_back(
-//					as<std::vector<double> >(*itr)); // if poly, set poly_difficulty to vector<vector<double>
-//		}
-//	}
-//	else {
-//		// if non-poly, set non_poly difficulty to vector<double>
-//		nonpoly_difficulty = as<std::vector<double> >(cat_df.slot("difficulty"));
-//	}
-//
-//
-//	//Construct C++ Cat object
-//	Cat cat(as<std::vector<double> >(cat_df.slot("guessing")), as<std::vector<double> >(cat_df.slot("discrimination")),
-//	        prior_values, priorName, priorParams, as<std::vector<int> >(cat_df.slot("answers")),
-//	        as<std::vector<double> >(cat_df.slot("D"))[0], as<std::vector<double> >(cat_df.slot("X")),
-//	        as<std::vector<double> >(cat_df.slot("Theta.est")), poly_difficulty, nonpoly_difficulty, applicable_rows,
-//	        nonapplicable_rows, poly, as<std::string>(cat_df.slot("integration")),
-//	        as<std::string>(cat_df.slot("estimation")),
-//	        as<std::string>(cat_df.slot("selection")), as<std::vector<double> >(cat_df.slot("coverage"))[0],
-//	        as<std::vector<int> >(cat_df.slot("points"))[0]);
-//
-//	if (look_ahead_item >= cat.answers.size()) {
-//		stop("Item out of bounds");
-//	} else if (!(cat.answers[look_ahead_item] == NA_INTEGER)) {
-//		stop("Item already answered");
-//	}
-//	std::vector<DataFrame> all_epvs;
-//	std::vector<double> min_items;
-//	for (unsigned int answer = 1, size = cat.poly_difficulty[look_ahead_item].size() + 2; answer < size; ++answer) {
-//		cat.answers[look_ahead_item] = answer;
-//		std::vector<double> epvs;
-//		int min_item = -1;
-//		double min_epv = std::numeric_limits<double>::max();
-//		for (unsigned int i = 0, size = nonapplicable_rows.size(); i < size; ++i) {
-//			epvs.push_back(expectedPV(cat, nonapplicable_rows[i] - 1));
-//			if (epvs[i] < min_epv) {
-//				min_item = nonapplicable_rows[i];
-//				min_epv = epvs[i];
-//			}
-//		}
-//		all_epvs.push_back(DataFrame::create(Named("questions") = nonapplicable_rows, Named("epvs") = epvs));
-//		min_items.push_back(min_item);
-//	}
-//	return List::create(Named("all.epvs") = all_epvs, Named("next.items") = min_items);
-//}
 
-//
-//List nextItemMFI(Cat &cat) {
-//	std::vector<double> mfis;
-//	double max_mfi = 0.0;
-//	int max_item = -1;
-//
-//	double theta = estimateTheta(cat);
-//	for (unsigned int i = 0; i < cat.nonapplicable_rows.size(); ++i) {
-//		mfis.push_back(fisherInf(cat, cat.nonapplicable_rows[i] - 1, theta));
-//		if (mfis[i] > max_mfi) {
-//			max_item = cat.nonapplicable_rows[i];
-//			max_mfi = mfis[i];
-//		}
-//	}
-//	DataFrame all_estimates = DataFrame::create(Named("questions") = cat.nonapplicable_rows, Named("MFI") = mfis);
-//	NumericVector next_item = wrap(max_item);
-//	return List::create(Named("all.estimates") = all_estimates, Named("next.item") = next_item);
-//}
 //
 //List nextItemMLWI(Cat &cat) {
 //	std::vector<double> LWI;
