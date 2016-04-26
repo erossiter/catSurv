@@ -39,7 +39,7 @@ dLL_test <- function(cat="Cat", theta="numeric", use_prior=TRUE) {
   }
   return(L_theta)
 }
-  expect_equal(dLL(cat_df=allTheCats, theta=1, use_prior=TRUE), dLL_test(test_cat=allTheCats, 1, usePrior=TRUE))
+  expect_equal(dLL(cat_df=allTheCats, theta=1, TRUE), dLL_test(test_cat, 1, TRUE))
   expect_equal(dLL(cat_df=allTheCats, theta=1, use_prior=FALSE), dLL_test(test_cat, 1, usePrior=FALSE))
 })
 
