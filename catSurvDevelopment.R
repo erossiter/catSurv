@@ -22,7 +22,7 @@ myTwelvePolyCats<-catPolyCreator(12)
 myTwelvePolyCats[[5]]@difficulty
 myTwelvePolyCats[[5]]@answers
 
-myUnansweredBiCat<-catBiCreator
+myUnansweredBiCat<-catBiCreator(1, fillAnswers=F)
 
 test_cat <- new("Cat")
 setdiscrimination(test_cat)<-c(0,3,.8)

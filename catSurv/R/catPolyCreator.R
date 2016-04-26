@@ -6,7 +6,7 @@
 #' @param seed The seed to set for randomization. Default to 8888.
 #' @param spread The spread factor the difficulty, theta, and discrimination values. Default to 2, which is multiplied by rnorm() outputs to provide values falling mostly within a range of (-4,4) 
 #' @param maxGuessing The maximum value for the guessing parameter, which is multiplied by runif() for each question. Default to 0.1.
-#' @param fillAnswers A boolean dictating whether to fill in answers with random values, or leave them all NA's. Default to TRUE, meaning fill in with random values. 
+#' @param fillAnswers A numeric indicating what portion of each Cat's answers to fill with random values. The rest will be filled with NA's. Default to .5, meaning fill in a randomly drawn sample of half of the answer slots with random values. 
 #' Values correspond to response categories. Response categories range from 1 to k, where (k-1) is the number of difficulty parameters for this question item.
 #'
 #'@return A list of length \code{numCats} containing objects of class \code{Cat} with randomized values for components:
@@ -25,7 +25,7 @@
 #' @seealso \code{\link{Cat-class.R}}
 #' @rdname catPolyCreator
 #' @export
-setGeneric("catPolyCreator", function(numCats="numeric", seed=8888, spread=2, maxGuessing=.1, fillAnswers=TRUE, ...){standardGeneric("catPolyCreator")})
+setGeneric("catPolyCreator", function(numCats="numeric", seed=8888, spread=2, maxGuessing=.1, fillAnswers=.5, ...){standardGeneric("catPolyCreator")})
 
 #' @export
 setMethod(f="catPolyCreator", signature="numeric", 
@@ -44,10 +44,12 @@ setMethod(f="catPolyCreator", signature="numeric",
                           guessing=maxGuessing*runif(numQuestions),
                           poly=T,
                           answers=rep(NA, numQuestions))
-              if(fillAnswers){
-                newCat@answers<-sapply(newCat@difficulty, function(x){
-                  return(sample(1:(length(x)+1),1,replace=T ))
-                })}
+              ## randomly selecting the question items that will be filled with answers
+              filled<-sample(length(newCat@answers), floor(fillAnswers*length(newCat@answers)), replace=F)
+              ## filling those selected questions with a response value, which is randomly drawn from (the number of difficulty parameters + 1)
+              newCat@answers[filled]<-sapply(newCat@difficulty[filled], function(x){
+                  return(sample(1:(length(x)+1), 1))
+                })
                   
               allTheCats<-c(allTheCats, newCat)
               
