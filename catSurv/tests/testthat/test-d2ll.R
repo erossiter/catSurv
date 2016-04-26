@@ -6,20 +6,21 @@ context("d2LL")
 test_that("d2LL calculates correctly",{
   
   dLL_test <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
-    answered_questions <- cat@applicable_rows
+    unanswered_questions <- length(is.na(cat@answers))
     L_theta <- 0
-    if(length(answered_questions) == 0) {
+    if(length(unanswered_questions) == 0) {
       return_this <- ( 1/ cat@priorParams[1]^2)
+      return(return_this)
     }
     if(cat@poly == FALSE) {
-      for(i in 1:length(answered_questions)) {
+      for(i in 1:length(unanswered_questions)+1) {
         P <- probability(cat, theta, answered_questions[i])
         Q <- 1-P
         L_theta <- L_theta + cat@discrimination * (P-cat@guessing / P(1-cat@guessing)) * (cat@answers[i]-P)
       }
     }
     if(cat@poly == TRUE) {
-      for(i in 1:length(answered_questions)){
+      for(i in 1:length(unanswered_questions)+1){
         answer_k <- cat@answers[i]s
         probs <- probability(cat, theta, answered_questions[i])
         Pstar1 <- probs[answer_k]
