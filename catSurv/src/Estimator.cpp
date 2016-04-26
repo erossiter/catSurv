@@ -1,6 +1,5 @@
 #include "EAPEstimator.h"
 #include "GSLFunctionWrapper.h"
-#include "NotImplementedException.h"
 
 double Estimator::likelihood(double theta) {
 	return questionSet.poly ? polynomial_likelihood(theta) : binary_likelihood(theta);
@@ -27,15 +26,13 @@ double Estimator::polynomial_likelihood(double theta) {
 	double L = 1.0;
 
 	for (auto question : questionSet.applicable_rows) {
-		auto probabilities = probability(theta, question);
-		std::vector<double> question_cdf{1.0};
-		question_cdf.insert(question_cdf.end(), probabilities.begin(), probabilities.end());
-		question_cdf.push_back(0.0);
+		size_t unsigned_question = (size_t) question;
+		auto question_cdf = paddedProbability(theta, unsigned_question);
 
 		// TODO: Determine what should happen when a negative answer is given
 		// TODO: that is, when a user doesn't respond, the value will be negative
 		// TODO: Which will result in an out-of-bounds array access
-		int index = questionSet.answers.at(question);
+		int index = questionSet.answers.at(unsigned_question);
 		L *= question_cdf[index - 1] - question_cdf[index];
 	}
 	return L;
@@ -89,10 +86,7 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 		variances.push_back(pow(estimateSE(prior), 2));
 	}
 
-	auto probabilities = probability(estimateTheta(prior), (size_t) item);
-	std::vector<double> question_cdf{1.0};
-	question_cdf.insert(question_cdf.end(), probabilities.begin(), probabilities.end());
-	question_cdf.push_back(0.0);
+	auto question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
 
 	double sum = 0;
 	for (size_t i = 0; i < question_cdf.size() - 1; ++i) {
@@ -113,7 +107,7 @@ double Estimator::binary_posterior_variance(int item, Prior &prior) {
 }
 
 double Estimator::expectedPV(int item, Prior &prior) {
-	questionSet.applicable_rows.push_back((size_t) item); // add item to set of answered items
+	questionSet.applicable_rows.push_back(item); // add item to set of answered items
 
 	double result = questionSet.poly ? polytomous_posterior_variance(item, prior) : binary_posterior_variance(item,
 	                                                                                                          prior);
@@ -125,24 +119,21 @@ double Estimator::expectedPV(int item, Prior &prior) {
 double Estimator::partial_second_derivative(double theta, size_t question) {
 	size_t answer_k = (size_t) questionSet.answers.at(question);
 
-	auto probabilities = probability(theta, question);
-	std::vector<double> probs{1.0};
-	probs.insert(probs.end(), probabilities.begin(), probabilities.end());
-	probs.push_back(0.0);
+	auto probabilities = paddedProbability(theta, question);
 
-	const double P_star1 = probs.at(answer_k);
-	const double P_star2 = probs.at(answer_k - 1);
-	const double P = P_star2 - P_star1;
+	double P_star1 = probabilities.at(answer_k);
+	double P_star2 = probabilities.at(answer_k - 1);
+	double P = P_star2 - P_star1;
 
-	const double Q_star1 = 1 - P_star1;
-	const double Q_star2 = 1 - P_star2;
+	double Q_star1 = 1 - P_star1;
+	double Q_star2 = 1 - P_star2;
 
-	const double w2 = P_star2 * Q_star2;
-	const double w1 = P_star1 * Q_star1;
-	const double w  = w2 - w1;
+	double w2 = P_star2 * Q_star2;
+	double w1 = P_star1 * Q_star1;
+	double w = w2 - w1;
 
-	const double first_term = (-w1 * (Q_star1 - P_star1) + w2 * (Q_star2 - P_star2)) / P;
-	const double second_term = pow(w, 2) / pow(P, 2);
+	double first_term = (-w1 * (Q_star1 - P_star1) + w2 * (Q_star2 - P_star2)) / P;
+	double second_term = pow(w, 2) / pow(P, 2);
 
 	return first_term - second_term;
 }
@@ -167,6 +158,34 @@ double Estimator::obsInf(double theta, int item) {
 }
 
 double Estimator::fisherInf(double theta, int item) {
-	return 0;
+
+	if (!questionSet.poly) {
+		return obsInf(theta, item);
+	}
+
+	double output = 0.0;
+	auto probabilities = paddedProbability(theta, (size_t) item);
+
+
+	double discrimination_squared = pow(questionSet.discrimination[item], 2);
+	for (size_t i = 1; i <= questionSet.difficulty[item].size(); ++i) {
+		double P_star1 = probabilities[i];
+		double P_star2 = probabilities[i - 1];
+		double w1 = P_star1 * (1.0 - P_star1);
+		double w2 = P_star2 * (1.0 - P_star2);
+
+		output += discrimination_squared * (pow(w2 - w1, 2) / (P_star2 - P_star1));
+	}
+	return output;
 }
+
+std::vector<double> Estimator::paddedProbability(double theta, size_t question) {
+	std::vector<double> probabilities = probability(theta, question);
+	std::vector<double> padded{1.0};
+	padded.insert(padded.end(), probabilities.begin(), probabilities.end());
+	padded.push_back(0.0);
+	return padded;
+}
+
+
 

@@ -21,6 +21,7 @@ protected:
 	const Integrator &integrator;
 	QuestionSet &questionSet;
 
+	std::vector<double> paddedProbability(double theta, size_t question);
 	double polynomial_likelihood(double theta);
 
 	double binary_likelihood(double theta);
