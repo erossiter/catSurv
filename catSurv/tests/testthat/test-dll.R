@@ -13,14 +13,15 @@ dLL_test <- function(cat="Cat", theta="numeric", use_prior=TRUE) {
     return(return_this)
   }
   if(cat@poly == FALSE) {
-    for(i in 1:length(answered_questions)) {
+    for(i in 1:length(answered_questions)+1) {
       P <- probability(cat, theta, answered_questions[i])
       Q <- 1-P
-      L_theta <- L_theta + cat@discrimination[i] * (P-cat@guessing[i] / P(1-cat@guessing[i])) * (cat@answers[i]-P)
+      sum_this <- cat@discrimination[i] * (P-cat@guessing[i] / P(1-cat@guessing[i])) * (cat@answers[i]-P)
+      L_theta <- L_theta + sum_this
     }
   }
   if(cat@poly == TRUE) {
-    for(i in 1:length(answered_questions)){
+    for(i in 1:length(answered_questions)+1){
       item <- answered_questions[i]
       answer_k <- cat@answers[i]
       probs <- probability(cat, theta, answered_questions[i])
