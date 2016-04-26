@@ -40,7 +40,7 @@ setMethod(f="catBiCreator", signature="numeric",
                           poly=F,
                           answers=rep(NA, numQuestions))
               if(fillAnswers){
-                newCat@answers<-
+                newCat@answers<-sample(c(0,1), length(newCat@answers), replace=T)
               }
               allTheCats<-c(allTheCats, newCat)
               

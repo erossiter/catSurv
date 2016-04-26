@@ -5,7 +5,7 @@
 \title{Randomly created polytomous Cat objects for testing}
 \usage{
 catPolyCreator(numCats = "numeric", seed = 8888, spread = 2,
-  maxGuessing = 0.1, ...)
+  maxGuessing = 0.1, fillAnswers = TRUE, ...)
 }
 \arguments{
 \item{numCats}{The number of different objects of class \code{Cat} this function should return}
@@ -15,6 +15,9 @@ catPolyCreator(numCats = "numeric", seed = 8888, spread = 2,
 \item{spread}{The spread factor the difficulty, theta, and discrimination values. Default to 2, which is multiplied by rnorm() outputs to provide values falling mostly within a range of (-4,4)}
 
 \item{maxGuessing}{The maximum value for the guessing parameter, which is multiplied by runif() for each question. Default to 0.1.}
+
+\item{fillAnswers}{A boolean dictating whether to fill in answers with random values, or leave them all NA's. Default to TRUE, meaning fill in with random values. 
+Values correspond to response categories. Response categories range from 1 to k, where (k-1) is the number of difficulty parameters for this question item.}
 }
 \value{
 A list of length \code{numCats} containing objects of class \code{Cat} with randomized values for components:

@@ -8,19 +8,21 @@ setwd("/Users/erinrossiter/Dropbox/Spring2016/Rclass/CATsurv")
 setwd("~/Dropbox/2016Spring_Programming/CATSurv")
 
 
-getwd()
-source("Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-probability.R")
-test("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/test-probability.R")
 
 current.code <- as.package("catSurv")
-load_all(current.code, recompile=T)
 document(current.code)
+load_all(current.code, recompile=T)
 
 ?catBiCreator
 myFifteenBiCats<-catBiCreator(15)
-myFifteenBiCats[[4]]@discrimination
+myFifteenBiCats[[4]]@answers
+
 
 myTwelvePolyCats<-catPolyCreator(12)
+myTwelvePolyCats[[5]]@difficulty
+myTwelvePolyCats[[5]]@answers
+
+myUnansweredBiCat<-catBiCreator
 
 test_cat <- new("Cat")
 setdiscrimination(test_cat)<-c(0,3,.8)

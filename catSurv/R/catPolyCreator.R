@@ -44,7 +44,11 @@ setMethod(f="catPolyCreator", signature="numeric",
                           guessing=maxGuessing*runif(numQuestions),
                           poly=T,
                           answers=rep(NA, numQuestions))
-              
+              if(fillAnswers){
+                newCat@answers<-sapply(newCat@difficulty, function(x){
+                  return(sample(1:(length(x)+1),1,replace=T ))
+                })}
+                  
               allTheCats<-c(allTheCats, newCat)
               
             }
