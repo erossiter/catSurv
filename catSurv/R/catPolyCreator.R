@@ -6,6 +6,8 @@
 #' @param seed The seed to set for randomization. Default to 8888.
 #' @param spread The spread factor the difficulty, theta, and discrimination values. Default to 2, which is multiplied by rnorm() outputs to provide values falling mostly within a range of (-4,4) 
 #' @param maxGuessing The maximum value for the guessing parameter, which is multiplied by runif() for each question. Default to 0.1.
+#' @param fillAnswers A boolean dictating whether to fill in answers with random values, or leave them all NA's. Default to TRUE, meaning fill in with random values. 
+#' Values correspond to response categories. Response categories range from 1 to k, where (k-1) is the number of difficulty parameters for this question item.
 #'
 #'@return A list of length \code{numCats} containing objects of class \code{Cat} with randomized values for components:
 #' \itemize{
@@ -23,11 +25,11 @@
 #' @seealso \code{\link{Cat-class.R}}
 #' @rdname catPolyCreator
 #' @export
-setGeneric("catPolyCreator", function(numCats="numeric", seed=8888, spread=2, maxGuessing=.1, ...){standardGeneric("catPolyCreator")})
+setGeneric("catPolyCreator", function(numCats="numeric", seed=8888, spread=2, maxGuessing=.1, fillAnswers=TRUE, ...){standardGeneric("catPolyCreator")})
 
 #' @export
 setMethod(f="catPolyCreator", signature="numeric", 
-          definition=function(numCats, seed, spread, maxGuessing,...){
+          definition=function(numCats, seed, spread, maxGuessing, fillAnswers, ...){
             set.seed(seed)
             allTheCats<-c()
             for(i in 1:numCats){

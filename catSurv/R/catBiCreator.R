@@ -6,7 +6,8 @@
 #' @param seed The seed to set for randomization. Default to 9999.
 #' @param spread The spread factor the difficulty, theta, and discrimination values. Default to 2, which is multiplied by rnorm() outputs to provide values falling mostly within a range of (-4,4) 
 #' @param maxGuessing The maximum value for the guessing parameter, which is multiplied by runif() for each question. Default to 0.1.
-#'
+#' @param fillAnswers A boolean dictating whether to fill in answers with random values, or leave them all NA's. Default to TRUE, meaning fill in with random values. Values are randomly sampled from (0,1).
+#'  
 #'@return A list of length \code{numCats} containing objects of class \code{Cat} with randomized values for components:
 #' \itemize{
 #' \item \code{difficulty} a vector of difficulty parameters for each question/item.
@@ -23,11 +24,11 @@
 #' @seealso \code{\link{Cat-class.R}}
 #' @rdname catBiCreator
 #' @export
-setGeneric("catBiCreator", function(numCats="numeric", seed=9999, spread=2, maxGuessing=.1, ...){standardGeneric("catBiCreator")})
+setGeneric("catBiCreator", function(numCats="numeric", seed=9999, spread=2, maxGuessing=.1, fillAnswers = TRUE, ...){standardGeneric("catBiCreator")})
 
 #' @export
 setMethod(f="catBiCreator", signature="numeric", 
-          definition=function(numCats, seed, spread, maxGuessing,...){
+          definition=function(numCats, seed, spread, maxGuessing, fillAnswers, ...){
             set.seed(seed)
             allTheCats<-c()
             for(i in 1:numCats){
@@ -38,7 +39,9 @@ setMethod(f="catBiCreator", signature="numeric",
                           guessing=maxGuessing*runif(numQuestions),
                           poly=F,
                           answers=rep(NA, numQuestions))
-              
+              if(fillAnswers){
+                newCat@answers<-
+              }
               allTheCats<-c(allTheCats, newCat)
               
             }

@@ -1,6 +1,7 @@
 library(catSurv)
 context("Likelihood")
 
+########## BINARY LIKELIHOOD TEST ##############
 
 test_that("binary likelihood calculates correctly",{
   
@@ -45,22 +46,18 @@ test_that("binary likelihood calculates correctly",{
 
   ## applying real likelihood function on my cats
   realFunValues<-lapply(1:length(allCatsAnswered), function(x){
-    likelihood(allCatsAnswered[[x]], thetaVec[x], c(1:length(allCatsAnswered[[x]]@answers)))
+    likelihood(allCatsAnswered[[x]], thetaVec[x])
   })
   
   ## applying test likelihood function on my cats  
     
-  
-  ## NOTE: the documentation says the likelihood functions takes an argument "items", a vector of 
-  ##  the indices of the question items whose answers we want to consider...
-  ## ...the version of the function in main.cpp does not take in an "items" argument, but refers to its 
-  ## "applicable rows" slot instead. I don't know how to resolve this. 
-  expect_equal(likelihood(catBi_test, t=1), likelihood_test(catBi_test, 1, 1))
-  expect_equal(likelihood(catBi_test, t=1872), likelihood_test(catBi_test, 1872, 2))
-  expect_equal(likelihood(catBi_test, t=.001), likelihood_test(catBi_test, .001, 3))
-  expect_equal(likelihood(catBi_test, t=-90), likelihood_test(catBi_test, -90, 4))
-})
+  testFunValues<-lapply(1:length(allCatsAnswered), function(x){
+    likelihood(allCatsAnswered[[x]], thetaVec[x])
+  })
 
+  expect_equal(realFunValues, testFunValues)
+
+########## POLYTOMOUS LIKELIHOOD TEST ##############
 
 test_that("polytomous likelihood calculates correctly",{
   
