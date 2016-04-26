@@ -29,7 +29,12 @@ Section 8 Ð ObsInf
 Section 9 Ð FisherInf
 Section 13 Ð nextItemMFI
 Section 18 Ð MLWI Ònext itemÓ function likelihoodWI
-Section 19 Ð MPWI Ònext itemÓ function priorWI
+
+Erin is doing:
+Section 19 Ð MPWI
+		Ñ> changing this name to nextItemMPWI
+		Ñ> adding a function called priorWI
+Section 20 - expectedObsInf
 Section 21 Ð nextItemMEI
 
 
