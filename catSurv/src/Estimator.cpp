@@ -49,8 +49,7 @@ double Estimator::binary_likelihood(double theta) {
 	return L;
 }
 
-Estimator::Estimator(Integrator &integration, QuestionSet &question) : integrator(integration),
-                                                                       questionSet(question) { }
+Estimator::Estimator(Integrator &integration, QuestionSet &question) : integrator(integration), questionSet(question) { }
 
 double Estimator::estimateSE(Prior prior) {
 	const double theta_hat = estimateTheta(prior);
