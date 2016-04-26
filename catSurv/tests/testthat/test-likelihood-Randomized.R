@@ -24,13 +24,13 @@ test_that("binary likelihood calculates correctly",{
   
   ## R test function
   
-  likelihood_test <- function(catBi = "Cat", theta = "numeric", items = "numeric"){
+  likelihood_test <- function(catBi = "Cat", theta = "numeric"){
     ## vector of probabilities for each question item
-    p_iVec<-sapply(items, function(x){
+    p_iVec<-sapply(1:length(catBi@answers), function(x){
       probability(catBi, theta, x)
     })
     ## storing respondent's answers to these question items
-    ansVec<-catBi@answers[items]
+    ansVec<-catBi@answers
     
     ## creating a vector of values inside the product function in equation (3) [from the documentation]
     piqiVec<-sapply(1:length(p_iVec), function(i){
