@@ -10,16 +10,18 @@ dLL_test <- function(cat="Cat", theta="numeric", use_prior=TRUE) {
   L_theta <- 0
   if(length(answered_questions) == 0) {
     return_this <- ((theta - cat@priorParams[1]) / cat@priorParams[2]^2)
+    return(return_this)
   }
   if(cat@poly == FALSE) {
     for(i in 1:length(answered_questions)) {
       P <- probability(cat, theta, answered_questions[i])
       Q <- 1-P
-      L_theta <- L_theta + cat@discrimination * (P-cat@guessing / P(1-cat@guessing)) * (cat@answers[i]-P)
+      L_theta <- L_theta + cat@discrimination[i] * (P-cat@guessing[i] / P(1-cat@guessing[i])) * (cat@answers[i]-P)
     }
   }
   if(cat@poly == TRUE) {
     for(i in 1:length(answered_questions)){
+      item <- answered_questions[i]
       answer_k <- cat@answers[i]
       probs <- probability(cat, theta, answered_questions[i])
       Pstar1 <- probs[answer_k]
