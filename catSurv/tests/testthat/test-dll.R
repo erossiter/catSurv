@@ -41,26 +41,3 @@ dLL_test <- function(cat="Cat", theta="numeric", use_prior=TRUE) {
   expect_equal(dLL(cat_df=allTheCats, theta=1, use_prior=FALSE), dLL_test(test_cat, 1, usePrior=FALSE))
 })
 
-
-
-catBiCreator<-function(numCats="numeric"){
-  set.seed(999)
-  allTheCats<-c()
-  for(i in 1:numCats){
-    numQuestions<-floor(abs(50*(rnorm(1))))
-    newCat<-new("Cat",
-                discrimination=(10*rnorm(numQuestions)),
-                difficulty=sort(100*rnorm(numQuestions)),
-                guessing=runif(numQuestions),
-                poly=F,
-                answers=rep(NA, numQuestions))
-    
-    allTheCats<-c(allTheCats, newCat)
-    
-  }
-  return(as.list(allTheCats))
-}
-
-##running the function, creating 10 cats
-## ADJUST THIS INPUT IF YOU WANT A SHORTER OR LONGER TEST
-allTheCats<-catBiCreator(10)
