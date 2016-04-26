@@ -13,6 +13,7 @@ Section 11 – expectedPV
 Section 12 – nextItemEPV
 Adding data to package
 Writing “get” methods
+Fixing validity check
 
 Functions we are currently working on and testing
 Adding randomization to the above methods, for more robust testing
@@ -20,18 +21,15 @@ Section 5 – estimateTheta (MAP)
 Section 6 – dLL
 Section 7 – d2LL
 
-
 Other package tasks we are currently working on:
 Getting a demo running
-Fixing validity check (?)
-
 	
 Functions we plan to have working and tested when the semester concludes
 Section 8 – ObsInf
 Section 9 – FisherInf
 Section 13 – nextItemMFI
-Section 18 – MLWI
-Section 19 – MPWI
+Section 18 – MLWI “next item” function likelihoodWI
+Section 19 – MPWI “next item” function priorWI
 Section 21 – nextItemMEI
 
 
