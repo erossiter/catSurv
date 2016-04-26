@@ -26,6 +26,8 @@ public:
 
 	double obsInf(double theta, int item);
 
+	double expectedObsInf(int item);
+
 	Rcpp::List nextItem();
 
 	std::vector<double> probability(double theta, int question);

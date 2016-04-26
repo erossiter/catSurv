@@ -22,6 +22,7 @@ protected:
 	QuestionSet &questionSet;
 
 	std::vector<double> paddedProbability(double theta, size_t question);
+
 	double polynomial_likelihood(double theta);
 
 	double binary_likelihood(double theta);
@@ -55,4 +56,6 @@ public:
 	double partial_second_derivative(double theta, size_t question);
 
 	virtual double expectedPV(int item, Prior &prior);
+
+	double expectedObsInf(int item, Prior &prior);
 };

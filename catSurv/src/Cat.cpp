@@ -96,8 +96,18 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 		return std::unique_ptr<MFISelector>(new MFISelector(questionSet, estimator, prior));
 	}
 
-	stop("%s is not a valid integration type.", selection_type);
-	throw std::invalid_argument("Invalid estimation type");
+	if (selection_type == "MEI") {
+		return std::unique_ptr<MEISelector>(new MEISelector(questionSet, estimator, prior));
+	}
+
+	stop("%s is not a valid selection type.", selection_type);
+	throw std::invalid_argument("Invalid selection type");
 }
+
+double Cat::expectedObsInf(int item) {
+	return estimator.expectedObsInf(item);
+}
+
+
 
 

@@ -1,7 +1,3 @@
-//
-// Created by Alex Weil on 4/26/16.
-//
-
 #include "MFISelector.h"
 
 SelectionType MFISelector::getSelectionType() {

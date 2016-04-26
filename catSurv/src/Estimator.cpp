@@ -187,5 +187,39 @@ std::vector<double> Estimator::paddedProbability(double theta, size_t question) 
 	return padded;
 }
 
+double Estimator::expectedObsInf(int item, Prior &prior) {
+	questionSet.applicable_rows.push_back(item);
+	if (questionSet.poly){
+		double sum = 0.0;
+		std::vector<double> obsInfs;
+		for (size_t i = 0; i <= questionSet.difficulty[item].size(); ++i){
+			questionSet.answers[item] = (int) i + 1;
+			obsInfs.push_back(obsInf(estimateTheta(prior), item));
+		}
+
+		questionSet.answers[item] = NA_INTEGER;
+		questionSet.applicable_rows.pop_back();
+
+		std::vector<double> question_cdf = paddedProbability(estimateTheta(prior));
+		for(size_t i = 0; i < question_cdf.size() -1; ++i){
+			sum += obsInfs[i] * (question_cdf[i] - question_cdf[i + 1]);
+		}
+		return sum;
+	}
+
+		questionSet.answers[item] = 0;
+		double obsInfZero = obsInf(estimateTheta(prior), item);
+		questionSet.answers[item] = 1;
+		double obsInfOne = obsInf(estimateTheta(prior), item);
+		questionSet.applicable_rows.pop_back();
+		questionSet.answers[item] = NA_INTEGER;
+
+		double prob_one = probability(estimateTheta(prior), (size_t) item)[0];
+		return prob_one + obsInfZero - (prob_one * obsInfZero) + obsInfOne;
+}
+
+
+
+
 
 
