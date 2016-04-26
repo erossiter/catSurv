@@ -6,14 +6,14 @@ context("dLL")
 test_that("dLL calculates correctly",{
   
 dLL_test <- function(cat="Cat", theta="numeric", use_prior=TRUE) {
-  answered_questions <- cat@applicable_rows
+  unanswered_questions <- length(is.na(cat@answers))
   L_theta <- 0
-  if(length(answered_questions) == 0) {
+  if(length(unanswered_questions) == 0) {
     return_this <- ((theta - cat@priorParams[1]) / cat@priorParams[2]^2)
     return(return_this)
   }
   if(cat@poly == FALSE) {
-    for(i in 1:length(answered_questions)+1) {
+    for(i in 1:length(unanswered_questions)+1) {
       P <- probability(cat, theta, answered_questions[i])
       Q <- 1-P
       sum_this <- cat@discrimination[i] * (P-cat@guessing[i] / P(1-cat@guessing[i])) * (cat@answers[i]-P)
@@ -21,8 +21,8 @@ dLL_test <- function(cat="Cat", theta="numeric", use_prior=TRUE) {
     }
   }
   if(cat@poly == TRUE) {
-    for(i in 1:length(answered_questions)+1){
-      item <- answered_questions[i]
+    for(i in 1:length(unanswered_questions)+1){
+      item <- unanswered_questions[i]
       answer_k <- cat@answers[i]
       probs <- probability(cat, theta, answered_questions[i])
       Pstar1 <- probs[answer_k]
@@ -40,7 +40,7 @@ dLL_test <- function(cat="Cat", theta="numeric", use_prior=TRUE) {
   }
   return(L_theta)
 }
-  expect_equal(dLL(cat_df=allTheCats, theta=1, TRUE), dLL_test(cat=test_cat, 1, TRUE))
+  expect_equal(dLL(cat_df=allTheCats, theta=1, TRUE), dLL_test(cat=myFifteenBiCats, 1, TRUE))
   expect_equal(dLL(cat_df=allTheCats, theta=1, use_prior=FALSE), dLL_test(test_cat, 1, FALSE))
 })
 
