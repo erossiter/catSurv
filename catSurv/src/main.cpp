@@ -1,7 +1,6 @@
 #include <Rcpp.h>
 #include "Cat.h"
 #include <boost/variant.hpp>
-
 using namespace Rcpp;
 
 // [[Rcpp::plugins(cpp11)]]
@@ -129,13 +128,21 @@ double d2LL(S4 &cat_df, double theta, bool use_prior){
 }
 
 // [[Rcpp::export]]
+//' @export
 List nextItem(S4 cat_df) {
 	return Cat(cat_df).nextItem();
 }
 
 // [[Rcpp::export]]
+//' @export
 List expectedPV(S4 cat_df, int item) {
 	return Cat(cat_df).expectedPV(item);
+}
+
+// [[Rcpp::export]]
+//' @export
+double obsInf(S4 cat_df, double theta, int item) {
+	return Cat(cat_df).obsInf(theta, item);
 }
 
 //// [[Rcpp::export]]

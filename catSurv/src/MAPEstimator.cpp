@@ -7,26 +7,10 @@
 double MAPEstimator::polytomous_d2LL(double theta) {
 	double lambda_theta = 0.0;
 	for (auto question : questionSet.applicable_rows) {
-		int answer_k = questionSet.answers[question];
-		auto probabilities = probability(theta, question);
-		std::vector<double> probs{1.0};
-		probs.insert(probs.end(), probabilities.begin(), probabilities.end());
-		probs.push_back(0.0);
-
-		const double P_star1 = probs[answer_k];
-		const double Q_star1 = 1 - P_star1;
-		const double P_star2 = probs[answer_k - 1];
-		const double Q_star2 = 1 - P_star2;
-		const double P = P_star2 - P_star1;
-		const double w2 = P_star2 * Q_star2;
-		const double w1 = P_star1 * Q_star1;
-
 		const double question_discrimination = pow(questionSet.discrimination[question], 2);
+		const double second_derivative = partial_second_derivative(theta, (size_t) question);
 
-		const double first_term = (-w1 * (Q_star1 - P_star1) + w2 * (Q_star2 - P_star2)) / P;
-		const double second_term = pow(w2 - w1, 2) / pow(P, 2);
-
-		lambda_theta += question_discrimination * (first_term - second_term);
+		lambda_theta += question_discrimination * second_derivative;
 	}
 	return lambda_theta;
 }
@@ -34,11 +18,13 @@ double MAPEstimator::polytomous_d2LL(double theta) {
 double MAPEstimator::binary_d2LL(double theta) {
 	double lambda_theta = 0;
 	for (auto question : questionSet.applicable_rows) {
-		const double P = probability(theta, question)[0];
+		const double P = probability(theta, (size_t) question)[0];
 		const double guess = questionSet.guessing[question];
 		const double Q = 1.0 - P;
 		const double lambda_temp = (P - guess) / (1.0 - guess);
-		lambda_theta -= pow(questionSet.discrimination[question], 2) * pow(lambda_temp, 2) * (Q / P);
+		const double discrimination = questionSet.discrimination[question];
+
+		lambda_theta -= pow(discrimination, 2) * pow(lambda_temp, 2) * (Q / P);
 	}
 	return lambda_theta;
 }
@@ -49,7 +35,7 @@ double MAPEstimator::polytomous_dLL(double theta) {
 	for (auto question : questionSet.applicable_rows) {
 		const int answer_k = questionSet.answers[question];
 
-		auto probabilities = probability(theta, question);
+		auto probabilities = probability(theta, (size_t) question);
 		std::vector<double> probs{1.0};
 		probs.insert(probs.end(), probabilities.begin(), probabilities.end());
 		probs.push_back(0.0);
@@ -117,5 +103,4 @@ EstimationType MAPEstimator::getEstimationType() const {
 	return EstimationType::MAP;
 }
 
-MAPEstimator::MAPEstimator(const Integrator &integrator, const QuestionSet &questionSet) : Estimator(integrator,
-                                                                                                     questionSet) { }
+MAPEstimator::MAPEstimator(Integrator &integrator, QuestionSet &questionSet) : Estimator(integrator, questionSet) { }

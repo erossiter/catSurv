@@ -1,0 +1,15 @@
+#pragma once
+#include "Selector.h"
+#include "Selection.h"
+
+class EPVSelector : public Selector {
+public:
+	virtual SelectionType getSelectionType();
+
+	virtual Selection nextItem();
+
+	EPVSelector(QuestionSet &questions, Estimator &estimation, Prior &priorModel);
+private:
+	std::string getSelectionName();
+};
+

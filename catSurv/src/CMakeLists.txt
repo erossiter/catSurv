@@ -9,12 +9,18 @@ set(WARNINGS "-Werror -Wall -Wextra -pedantic -Wcast-align -Wcast-qual -Wctor-dt
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${WARNINGS} -isystem ${RCPP_PATH} -isystem ${RCPPGSL_PATH} -isystem${RINSIDE_PATH}")
 
 set(SOURCE_FILES
-		Cat.h
-		Cat.cpp
-		main.cpp Prior.h Prior.cpp
-		Integrator.h Estimator.h Estimator.cpp
+		main.cpp
+		Cat.h Cat.cpp
+		Prior.h Prior.cpp
+		Integrator.h Integrator.cpp
+		Estimator.h Estimator.cpp
 		EAPEstimator.cpp EAPEstimator.h
-		QuestionSet.h Integrator.cpp MAPEstimator.cpp MAPEstimator.h NotImplementedException.cpp NotImplementedException.h)
+		QuestionSet.h QuestionSet.cpp
+		MAPEstimator.cpp MAPEstimator.h
+		NotImplementedException.cpp NotImplementedException.h
+		Selector.cpp Selector.h
+		EPVSelector.cpp	EPVSelector.h
+		Selection.h)
 
 add_library(catSurv STATIC ${SOURCE_FILES})
 add_executable(run main.cpp)

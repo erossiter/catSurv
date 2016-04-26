@@ -115,3 +115,16 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// obsInf
+double obsInf(S4 cat_df, double theta, int item);
+RcppExport SEXP catSurv_obsInf(SEXP cat_dfSEXP, SEXP thetaSEXP, SEXP itemSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< int >::type item(itemSEXP);
+    __result = Rcpp::wrap(obsInf(cat_df, theta, item));
+    return __result;
+END_RCPP
+}

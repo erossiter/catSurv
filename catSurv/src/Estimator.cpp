@@ -32,8 +32,11 @@ double Estimator::polynomial_likelihood(double theta) {
 		question_cdf.insert(question_cdf.end(), probabilities.begin(), probabilities.end());
 		question_cdf.push_back(0.0);
 
-		size_t index = (size_t) questionSet.answers.at((size_t) question);
-		L *= question_cdf.at(index - 1) - question_cdf.at(index);
+		// TODO: Determine what should happen when a negative answer is given
+		// TODO: that is, when a user doesn't respond, the value will be negative
+		// TODO: Which will result in an out-of-bounds array access
+		int index = questionSet.answers.at(question);
+		L *= question_cdf[index - 1] - question_cdf[index];
 	}
 	return L;
 }
@@ -41,15 +44,16 @@ double Estimator::polynomial_likelihood(double theta) {
 double Estimator::binary_likelihood(double theta) {
 	double L = 1.0;
 	for (auto question : questionSet.applicable_rows) {
-		double prob = probability(theta, question)[0];
-		int this_answer = questionSet.answers.at((size_t) question);
+		size_t index = (size_t) question;
+		double prob = probability(theta, index)[0];
+		int this_answer = questionSet.answers.at(index);
 		L *= pow(prob, this_answer) * pow(1 - prob, 1 - this_answer);
 	}
 	return L;
 }
 
-Estimator::Estimator(Integrator integration, QuestionSet question) : integrator(integration),
-                                                                     questionSet(question) { }
+Estimator::Estimator(Integrator &integration, QuestionSet &question) : integrator(integration),
+                                                                       questionSet(question) { }
 
 double Estimator::estimateSE(Prior prior) {
 	const double theta_hat = estimateTheta(prior);
@@ -85,7 +89,7 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 		variances.push_back(pow(estimateSE(prior), 2));
 	}
 
-	auto probabilities = probability(estimateTheta(prior), item);
+	auto probabilities = probability(estimateTheta(prior), (size_t) item);
 	std::vector<double> question_cdf{1.0};
 	question_cdf.insert(question_cdf.end(), probabilities.begin(), probabilities.end());
 	question_cdf.push_back(0.0);
@@ -98,19 +102,18 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 }
 
 double Estimator::binary_posterior_variance(int item, Prior &prior) {
-
 	questionSet.answers[item] = 0;
 	double variance_zero = pow(estimateSE(prior), 2);
 
 	questionSet.answers[item] = 1;
 	double variance_one = pow(estimateSE(prior), 2);
 
-	const double prob_zero = probability(estimateTheta(prior), item)[0];
+	const double prob_zero = probability(estimateTheta(prior), (size_t) item)[0];
 	return prob_zero * (variance_zero - variance_one) + variance_one;
 }
 
 double Estimator::expectedPV(int item, Prior &prior) {
-	questionSet.applicable_rows.push_back(item); // add item to set of answered items
+	questionSet.applicable_rows.push_back((size_t) item); // add item to set of answered items
 
 	double result = questionSet.poly ? polytomous_posterior_variance(item, prior) : binary_posterior_variance(item,
 	                                                                                                          prior);
@@ -119,11 +122,46 @@ double Estimator::expectedPV(int item, Prior &prior) {
 	return result;
 }
 
-double Estimator::estimateTheta(Prior prior) {
-	(void) prior;
-	throw NotImplementedException("This function is not implemented in the base class.");
+double Estimator::partial_second_derivative(double theta, size_t question) {
+	size_t answer_k = (size_t) questionSet.answers.at(question);
+
+	auto probabilities = probability(theta, question);
+	std::vector<double> probs{1.0};
+	probs.insert(probs.end(), probabilities.begin(), probabilities.end());
+	probs.push_back(0.0);
+
+	const double P_star1 = probs.at(answer_k);
+	const double P_star2 = probs.at(answer_k - 1);
+	const double P = P_star2 - P_star1;
+
+	const double Q_star1 = 1 - P_star1;
+	const double Q_star2 = 1 - P_star2;
+
+	const double w2 = P_star2 * Q_star2;
+	const double w1 = P_star1 * Q_star1;
+	const double w  = w2 - w1;
+
+	const double first_term = (-w1 * (Q_star1 - P_star1) + w2 * (Q_star2 - P_star2)) / P;
+	const double second_term = pow(w, 2) / pow(P, 2);
+
+	return first_term - second_term;
 }
 
-EstimationType Estimator::getEstimationType() const {
-	return EstimationType::NONE;
+double Estimator::obsInf(double theta, int item) {
+	if (questionSet.applicable_rows.empty()) {
+		throw std::domain_error("ObsInf should not be called if no items have been answered.");
+	}
+
+	size_t index = (size_t) item;
+	double discrimination = questionSet.discrimination.at(index);
+
+	if (questionSet.poly) {
+		return -pow(discrimination, 2) * partial_second_derivative(theta, index);
+	}
+
+	double guess = questionSet.guessing.at(index);
+	double P = probability(theta, index)[0];
+	double Q = 1 - P;
+	double temp = pow((P - guess) / (1 - guess), 2);
+	return pow(discrimination, 2) * temp * (Q / P);
 }

@@ -6,9 +6,8 @@
 #include "Prior.h"
 
 enum class EstimationType {
-	NONE, EAP, MAP
+	EAP, MAP
 };
-
 
 
 class Estimator {
@@ -20,7 +19,7 @@ class Estimator {
 
 protected:
 	const Integrator &integrator;
-	QuestionSet questionSet;
+	QuestionSet &questionSet;
 
 	double polynomial_likelihood(double theta);
 
@@ -36,18 +35,21 @@ protected:
 	                        const integrableFunction &denominator);
 
 public:
-	Estimator(Integrator integration, QuestionSet question);
+	Estimator(Integrator &integration, QuestionSet &question);
 
-	virtual EstimationType getEstimationType() const;
+	virtual EstimationType getEstimationType() const = 0;
 
-	virtual double estimateTheta(Prior prior);
+	virtual double estimateTheta(Prior prior) = 0;
 
 	double likelihood(double theta);
 
 	std::vector<double> probability(double theta, size_t question);
 
-
 	double estimateSE(Prior prior);
+
+	double obsInf(double theta, int item);
+
+	double partial_second_derivative(double theta, size_t question);
 
 	virtual double expectedPV(int item, Prior &prior);
 };

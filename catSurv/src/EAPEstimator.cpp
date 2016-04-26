@@ -17,6 +17,5 @@ EstimationType EAPEstimator::getEstimationType() const {
 	return EstimationType::EAP;
 }
 
-EAPEstimator::EAPEstimator(const Integrator &integrator, const QuestionSet &questionSet) : Estimator(integrator,
-                                                                                                     questionSet) { }
+EAPEstimator::EAPEstimator(Integrator &integrator, QuestionSet &questionSet) : Estimator(integrator, questionSet) { }
 

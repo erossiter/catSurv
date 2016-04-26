@@ -13,7 +13,7 @@ private:
 
 public:
 
-	MAPEstimator(const Integrator &integrator, const QuestionSet &questionSet);
+	MAPEstimator(Integrator &integrator, QuestionSet &questionSet);
 
 	double dLL(double theta, bool use_prior, Prior &prior);
 

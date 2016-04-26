@@ -8,7 +8,7 @@ class EAPEstimator : public Estimator {
 
 public:
 
-	EAPEstimator(const Integrator &integrator, const QuestionSet &questionSet);
+	EAPEstimator(Integrator &integrator, QuestionSet &questionSet);
 
 	virtual EstimationType getEstimationType() const override;
 
