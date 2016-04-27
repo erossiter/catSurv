@@ -9,19 +9,19 @@ test_that("d2LL calculates correctly",{
     unanswered_questions <- length(is.na(cat@answers))
     L_theta <- 0
     if(length(unanswered_questions) == 0) {
-      return_this <- ( 1/ cat@priorParams[1]^2)
+      return_this <- ( 1/ cat@priorParams[2]^2)
       return(return_this)
     }
     if(cat@poly == FALSE) {
-      for(i in 1:length(unanswered_questions)+1) {
+      for(i in 1:length(unanswered_questions)-1) {
         P <- probability(cat, theta, answered_questions[i])
         Q <- 1-P
-        L_theta <- L_theta + cat@discrimination * (P-cat@guessing / P(1-cat@guessing)) * (cat@answers[i]-P)
+        L_theta <- L_theta - cat@discrimination * (P-cat@guessing / P(1-cat@guessing)) * (cat@answers[i]-P)
       }
     }
     if(cat@poly == TRUE) {
-      for(i in 1:length(unanswered_questions)+1){
-        answer_k <- cat@answers[i]s
+      for(i in 1:length(unanswered_questions)-1){
+        answer_k <- cat@answers[i]
         probs <- probability(cat, theta, answered_questions[i])
         Pstar1 <- probs[answer_k]
         Qstar1 <- 1-Pstar1
@@ -30,11 +30,11 @@ test_that("d2LL calculates correctly",{
         P <- Pstar2 - Pstar1
         W2 <- Pstar2 * Qstar2
         W1 <- Pstar1 * Qstar1
-        L_theta <- L_theta + (cat@discrimintation[item]^2 * (-W2*(Qstar1-Pstar1) +W2*(Qstar2-Pstar2)/P -(W2-W1)^2/p^2)
+        L_theta <- L_theta + (cat@discrimintation[item]^2 * (-W2*(Qstar1-Pstar1) +W2*(Qstar2-Pstar2)/P -(W2-W1)^2/p^2))
       }
     }
     if(usePrior == TRUE){
-      L_theta <- L_theta - (1/cat@priorParams[1]^2)
+      L_theta <- L_theta - (1/cat@priorParams[2]^2)
     }
     return(L_theta)
   }

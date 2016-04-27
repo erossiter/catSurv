@@ -14,7 +14,7 @@ dLL_test <- function(cat="Cat", theta="numeric", use_prior=TRUE) {
     return(return_this)
   }
   if(cat@poly == FALSE) {
-    for(i in 1:length(unanswered_questions)+1) {
+    for(i in 1:length(unanswered_questions)-1) {
       P <- probability(cat, theta, answered_questions[i])
       Q <- 1-P
       sum_this <- cat@discrimination[i] * (P-cat@guessing[i] / P(1-cat@guessing[i])) * (cat@answers[i]-P)
@@ -22,7 +22,7 @@ dLL_test <- function(cat="Cat", theta="numeric", use_prior=TRUE) {
     }
   }
   if(cat@poly == TRUE) {
-    for(i in 1:length(unanswered_questions)+1){
+    for(i in 1:length(unanswered_questions)-1){
       item <- unanswered_questions[i]
       answer_k <- cat@answers[i]
       probs <- probability(cat, theta, answered_questions[i])
