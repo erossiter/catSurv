@@ -5,13 +5,14 @@
 using namespace boost::math;
 
 double Prior::dt(double x, int df) {
-	return pdf(students_t(df), x);
+  return pdf(students_t(df), x);
 }
 
 double Prior::prior(double x) {
 	if (name == "NORMAL") {
 		return dnorm4(Rcpp::NumericVector::create(x), parameters[0], parameters[1], 0)[0];
 	}
+	//where do we put/what do we do with paramters
 	return dt(x, (int) parameters[1]);
 }
 

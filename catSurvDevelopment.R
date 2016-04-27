@@ -10,8 +10,9 @@ setwd("~/Dropbox/2016Spring_Programming/CATSurv")
 
 
 current.code <- as.package("catSurv")
+load_all(current.code)
 document(current.code)
-load_all(current.code, recompile=T)
+
 
 ?catBiCreator
 myFifteenBiCats<-catBiCreator(15)

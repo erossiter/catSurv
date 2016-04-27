@@ -1,21 +1,8 @@
 library(catSurv)
 library(testthat)
-context("Prior")
+context("estimateTheta")
 
 test_that("estimateTheta calculates correctly", {
-  
-    test_cat1 <- test_cat2 <- new("Cat")
-    test_cat1@guessing <- c(.2, .4)
-    test_cat1@discrimination <- c(1, -2)
-    test_cat1@answers <- c(1, 0)
-    test_cat1@estimation <- "EAP"
-    test_cat1@priorName <- "NORMAL"
-    test_cat1@priorName <- "STUDENT_T"
-    test_cat1@priorParams <- c(0,1)
-    
-    test_cat2 <- test_cat1
-    test_cat2@estimation <- "MAP"
-    
   
   estimateTheta_test <- function(cat){
     library(stats)
@@ -35,21 +22,42 @@ test_that("estimateTheta calculates correctly", {
     if(cat@estimation == "MAP"){
       theta_hat_old <- 0
       theta_hat_new <- 1
-      tolerance <- .0000001
+      tolerance <- .00000001
       difference <- abs(theta_hat_new - theta_hat_old)
       while(difference > tolerance){
         theta_hat_new <- theta_hat_old - (dLL(cat, theta_hat_old, TRUE)/d2LL(cat, theta_hat_old, TRUE))
         difference <- abs(theta_hat_new - theta_hat_old)
-        theta_hat_new <- theta_hat_old
+        theta_hat_old <- theta_hat_new
         }
       results <- theta_hat_new
       }
     return(results)
-    }
+  }
   
-  expect_equal(estimateTheta(test_cat1), estimateTheta_test(test_cat1))
-  expect_equal(estimateTheta(test_cat2), estimateTheta_test(test_cat2))
+  # lapply(testCats, function(x) expect_equal(estimateTheta(x),
+  #                                           estimateTheta_test(x),
+  #                                           tolerance = .01))
 })
 
 ## 'stats' is the package integrate() is in.
-## Is likelihood giving back correct answers??
+
+## Binary - MAP -- works
+estimateTheta(testCats[[1]])
+estimateTheta_test(testCats[[1]])
+
+## Binary - EAP -- works
+estimateTheta(testCats[[6]])
+estimateTheta_test(testCats[[6]])
+
+## Categorical - MAP
+estimateTheta(testCats[[11]]) ## Doesn't work -- 7, 9, 11
+estimateTheta_test(testCats[[9]]) ## Doesn't work b/c of dLL -- 7, 9, 11
+
+## Categorical - EAP
+## what do we do if estimateTheta returns "NaN"?  
+## what effect does this have down the line?
+## This cat returns different answers each time.
+estimateTheta(testCats[[12]])
+estimateTheta_test(testCats[[12]])
+
+

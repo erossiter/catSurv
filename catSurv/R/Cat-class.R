@@ -3,8 +3,9 @@
 NULL
 
 class.name = "Cat"
-setClassUnion("numericORlist", c("numeric","list"))
 setClassUnion("logicalORnumeric", c("numeric","logical"))
+setClassUnion("numericORlist", c("numeric","list"))
+
 
 
 

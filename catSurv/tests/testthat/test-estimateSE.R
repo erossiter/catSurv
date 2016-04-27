@@ -21,7 +21,18 @@ test_that("estimateSE calculates correctly", {
     results <- (integrate(Vectorize(numerator), -6, 6)$value)/
         (integrate(Vectorize(denominator), -6, 6)$value)
     return(sqrt(results))
-    }
-  expect_equal(estimateSE(test_cat1), estimateSE_test(test_cat1))
+  }
+  
+  lapply(testCats[[1]], function(x) expect_equal(estimateSE(x),
+                                            estimateSE_test(x),
+                                            tolerance = .1))
+  lapply(testCats, estimateSE)
+
 })
 
+
+
+
+#
+#estimateSE(testCats[[1]])
+#estimateSE(testCats[[6]])
