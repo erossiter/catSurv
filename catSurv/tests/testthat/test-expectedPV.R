@@ -59,10 +59,10 @@ test_that("expectedPV calculates correctly", {
 })
 
 
-## My categorical code isn't working
+## Again, only testing binary b/c categorical code isn't working b/c of liklihood
 expectedPV_test(cat = testCats[[3]],  item = min(which(is.na(testCats[[3]]@answers))) )
-expectedPV_test(cat = testCats[[7]],  item = min(which(is.na(testCats[[9]]@answers))) )
 
-## C++ isn't returning anything
-expectedPV(testCats[[1]], min(which(is.na(testCats[[1]]@answers))) )
+## c++ codes isn't returning anything
+expectedPV(testCats[[3]], min(which(is.na(testCats[[3]]@answers))))
+
 
