@@ -16,7 +16,7 @@ test_that("dichotomous case of dLL calculates correctly",{
       for(i in 1:length(unanswered_questions)) {
         P <- probability(cat, theta, question)
         Q <- 1-P
-        sum_this <- cat@discrimination[i] * ((P-cat@guessing[i]) / P(1-cat@guessing[i])) * (cat@answers[i]-P)
+        sum_this <- sum(cat@discrimination[i] * ((P-cat@guessing[i]) / P(1-cat@guessing[i])) * (cat@answers[i]-P))
         L_theta <- sum_this
       }
       return(L_theta)
@@ -54,7 +54,7 @@ dLL_test_poly <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
       P <- Pstar2 - Pstar1
       W2 <- Pstar2 * Qstar2
       W1 <- Pstar1 * Qstar1
-      sum_this <- cat@discrimintation[i] * ((W2 - W1)/P)
+      sum_this <- sum(cat@discrimintation[i] * ((W2 - W1)/P))
     }
     L_theta <- sum_this
     return(L_theta)

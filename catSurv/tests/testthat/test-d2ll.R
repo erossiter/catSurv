@@ -16,7 +16,7 @@ test_that("dichotomous case of d2LL calculates correctly",{
       for(i in 1:length(unanswered_questions)) {
         P <- probability(cat, theta, question)
         Q <- 1-P
-        sum_this <- cat@discrimination[i]^2 * ((P-cat@guessing[i]) / (1-cat@guessing[i]))^2 * (Q/P)
+        sum_this <- sum(cat@discrimination[i]^2 * ((P-cat@guessing[i]) / (1-cat@guessing[i]))^2 * (Q/P))
         Lambda_theta <- -(sum_this)
       }
       return(Lambda_theta)
@@ -54,7 +54,7 @@ test_that("Graded response case d2LL calculates correctly",{
         P <- Pstar2 - Pstar1
         W2 <- Pstar2 * Qstar2
         W1 <- Pstar1 * Qstar1
-        sum_this <- cat@discrimintation[i]^2 * ((-W1*(Qstar1-Pstar1)+W2*(Qstar2-Pstar2))/p - ((W2 - W1)^2/P^2))
+        sum_this <- sum(cat@discrimintation[i]^2 * ((-W1*(Qstar1-Pstar1)+W2*(Qstar2-Pstar2))/p - ((W2 - W1)^2/P^2)))
       }
       Lambda_theta <- sum_this
       return(Lambda_theta)
