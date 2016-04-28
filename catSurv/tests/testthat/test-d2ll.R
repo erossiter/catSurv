@@ -14,7 +14,7 @@ test_that("dichotomous case of d2LL calculates correctly",{
     }
     if(usePrior == FALSE) {
       for(i in 1:length(unanswered_questions)) {
-        P <- probability(cat, theta, question)
+        P <- probability(cat, theta, question)$all.probabilities$probabilities
         Q <- 1-P
         sum_this[i] <- cat@discrimination[i]^2 * ((P-cat@guessing[i]) / (1-cat@guessing[i]))^2 * (Q/P)
       }
@@ -22,7 +22,7 @@ test_that("dichotomous case of d2LL calculates correctly",{
     }
     if(usePrior == TRUE){
       for(i in 1:length(unanswered_questions)) {
-        P <- probability(cat, theta, question)
+        P <- probability(cat, theta, question)$all.probabilities$probabilities
         Q <- 1-P
         sum_this[i] <- cat@discrimination[i]^2 * ((P-cat@guessing[i]) / (1-cat@guessing[i]))^2 * (Q/P)
       }
@@ -50,7 +50,7 @@ test_that("Graded response case d2LL calculates correctly",{
     if(usePrior == FALSE) {
       for(i in 1:length(unanswered_questions)){
         answer_k <- cat@answers[i]
-        probs <- probability(cat, theta, question)
+        probs <- probability(cat, theta, question)$all.probabilities$probabilities
         Pstar1 <- probs[answer_k]
         Qstar1 <- 1-Pstar1
         Pstar2 <- probs[answer_k -1]
@@ -65,7 +65,7 @@ test_that("Graded response case d2LL calculates correctly",{
     if(usePrior == TRUE){
       for(i in 1:length(unanswered_questions)){
         answer_k <- cat@answers[i]
-        probs <- probability(cat, theta, question)
+        probs <- probability(cat, theta, question)$all.probabilities$probabilities
         Pstar1 <- probs[answer_k]
         Qstar1 <- 1-Pstar1
         Pstar2 <- probs[answer_k -1]

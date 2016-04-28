@@ -14,7 +14,7 @@ test_that("dichotomous case of dLL calculates correctly",{
     }
     if(usePrior == FALSE) {
       for(i in 1:length(unanswered_questions)) {
-        P <- probability(cat, theta, question)
+        P <- probability(cat, theta, question)$all.probabilities$probabilities
         Q <- 1-P
         sum_this[i] <- cat@discrimination[i] * ((P-cat@guessing[i]) / P(1-cat@guessing[i])) * (cat@answers[i]-P)
       }
@@ -22,7 +22,7 @@ test_that("dichotomous case of dLL calculates correctly",{
     }
     if(usePrior == TRUE){
       for(i in 1:length(unanswered_questions)) {
-        P <- probability(cat, theta, question)
+        P <- probability(cat, theta, question)$all.probabilities$probabilities
         Q <- 1-P
         sum_this[i] <- cat@discrimination[i] * ((P-cat@guessing[i]) / P(1-cat@guessing[i])) * (cat@answers[i]-P)
       }
@@ -30,7 +30,7 @@ test_that("dichotomous case of dLL calculates correctly",{
     }
     return(L_theta)
   }
-  expect_equal(dLL(test_cat, 1, TRUE), dLL_test_bi(test_cat, 1, TRUE))
+  expect_equal(dLL(cat_df=testCats, 1, use_prior=TRUE), dLL_test_bi(test_cat, 1, TRUE))
   expect_equal(dLL(test_cat, 1, FALSE), dLL_test_bi(test_cat, 1, FALSE))
 })
 
@@ -50,7 +50,7 @@ dLL_test_poly <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
   if(usePrior == FALSE) {
     for(i in 1:length(unanswered_questions)){
       answer_k <- cat@answers[i]
-      probs <- probability(cat, theta, question)
+      probs <- probability(cat, theta, question)$all.probabilities$probabilities
       Pstar1 <- probs[answer_k]
       Qstar1 <- 1-Pstar1
       Pstar2 <- probs[answer_k -1]
@@ -65,7 +65,7 @@ dLL_test_poly <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
   if(usePrior == TRUE){
     for(i in 1:length(unanswered_questions)){
       answer_k <- cat@answers[i]
-      probs <- probability(cat, theta, question)
+      probs <- probability(cat, theta, question)$all.probabilities$probabilities
       Pstar1 <- probs[answer_k]
       Qstar1 <- 1-Pstar1
       Pstar2 <- probs[answer_k -1]
@@ -79,7 +79,7 @@ dLL_test_poly <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
   }
   return(L_theta)
 }
-expect_equal(dLL(test_cat, 1, TRUE), dLL_test_poly(test_cat, 1, TRUE))
+expect_equal(dLL(test_cat, 1, TRUE), dLL_test_poly(testCats, 1, TRUE))
 expect_equal(dLL(test_cat, 1, FALSE), dLL_test_poly(test_cat, 1, FALSE))
 }
 )
