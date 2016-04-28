@@ -55,13 +55,19 @@ test_that("binary likelihood calculates correctly",{
 
 test_that("polytomous likelihood calculates correctly",{
   
-  ## creating new Cat object and filling in the slots
+  ## creating lots of new Cats  and filling in the slots
   
-  catPoly_test <- new("Cat")
-  catPoly_test@discrimination <- c(2,4,6,8)
-  catPoly_test@difficulty <- list(q1=c(1,2,3,4), q2=c(-90.2, -87, -.003), q3=c(seq(-10, 10, .1)), q4=2)
+ allTheCats<-catPolyCreator(10, fillAnswers=.4)
   
-  
+ ## creating vector of theta values
+ setThetas<-function(seed="numeric"){
+   set.seed(seed)
+   thetas<-c(2*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
+   ## ...and multiplying by 2 so the values cover a range of ~(-4,4)
+ }
+ thetaVec<-setThetas(18)
+ 
+ 
   ## R test function
   
   likelihood_test <- function(catPoly = "Cat", theta = "numeric", items = "numeric"){
@@ -112,8 +118,18 @@ test_that("polytomous likelihood calculates correctly",{
     likelihood<-prod(productList)
     return(likelihood)
   }
-  expect_equal(likelihood(catPoly_test, t=1, q=1), likelihood_test(catPoly_test, 1, 1))
-  expect_equal(likelihood(catPoly_test, t=1872, q=2), likelihood_test(catPoly_test, 1872, 2))
-  expect_equal(likelihood(catPoly_test, t=.001, q=3), likelihood_test(catPoly_test, .001, 3))
-  expect_equal(likelihood(catPoly_test, t=-90, q=4), likelihood_test(catPoly_test, -90, 4))
+  
+  ### running real and test functions on allTheCats
+  realFunValues<-lapply(1:length(allTheCats), function(x){
+    likelihood(allTheCats[[x]], thetaVec[x])
+  })
+  
+  testFunValues<-lapply(1:length(allTheCats), function(x){
+    likelihood(allTheCats[[x]], thetaVec[x])
+  })
+  
+  
+  expect_equal(realFunValues, testFunValues)
+  
+
 })
