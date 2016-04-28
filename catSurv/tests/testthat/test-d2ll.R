@@ -3,26 +3,50 @@ library(testthat)
 context("d2LL")
 
 
-test_that("d2LL calculates correctly",{
+test_that("dichotomous case of d2LL calculates correctly",{
   
-  dLL_test <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
+  d2LL_test_bi <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
     unanswered_questions <- length(is.na(cat@answers))
-    L_theta <- 0
+    Lambda_theta <- 0
     if(length(unanswered_questions) == 0) {
-      return_this <- ( 1/ cat@priorParams[2]^2)
+      return_this <- -(1 / cat@priorParams[2]^2)
       return(return_this)
     }
-    if(cat@poly == FALSE) {
-      for(i in 1:length(unanswered_questions)-1) {
-        P <- probability(cat, theta, answered_questions[i])
+    if(usePrior == FALSE) {
+      for(i in 1:length(unanswered_questions)) {
+        P <- probability(cat, theta, question)
         Q <- 1-P
-        L_theta <- L_theta - cat@discrimination * (P-cat@guessing / P(1-cat@guessing)) * (cat@answers[i]-P)
+        sum_this <- cat@discrimination[i]^2 * ((P-cat@guessing[i]) / (1-cat@guessing[i]))^2 * (Q/P)
+        Lambda_theta <- -(sum_this)
       }
+      return(Lambda_theta)
     }
-    if(cat@poly == TRUE) {
-      for(i in 1:length(unanswered_questions)-1){
+    if(usePrior == TRUE){
+      Lambda_theta <- -sum_this - (1/cat@priorParams[2]^2)
+      return(Lambda_theta)
+    }
+  }
+  expect_equal(d2LL(test_cat, 1, TRUE), d2LL_test_bi(test_cat, 1, TRUE))
+  expect_equal(d2LL(test_cat, 1, FALSE), d2LL_test_bi(test_cat, 1, FALSE))
+})
+
+
+
+
+test_that("Graded response case d2LL calculates correctly",{
+  
+  d2LL_test_poly <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
+    
+    unanswered_questions <- length(is.na(cat@answers))
+    Lambda_theta <- 0
+    if(length(unanswered_questions) == 0) {
+      return_this <- -(1 / cat@priorParams[2]^2)
+      return(return_this)
+    }
+    if(usePrior == FALSE) {
+      for(i in 1:length(unanswered_questions)){
         answer_k <- cat@answers[i]
-        probs <- probability(cat, theta, answered_questions[i])
+        probs <- probability(cat, theta, question)
         Pstar1 <- probs[answer_k]
         Qstar1 <- 1-Pstar1
         Pstar2 <- probs[answer_k -1]
@@ -30,14 +54,18 @@ test_that("d2LL calculates correctly",{
         P <- Pstar2 - Pstar1
         W2 <- Pstar2 * Qstar2
         W1 <- Pstar1 * Qstar1
-        L_theta <- L_theta + (cat@discrimintation[item]^2 * (-W2*(Qstar1-Pstar1) +W2*(Qstar2-Pstar2)/P -(W2-W1)^2/p^2))
+        sum_this <- cat@discrimintation[i]^2 * ((-W1*(Qstar1-Pstar1)+W2*(Qstar2-Pstar2))/p - ((W2 - W1)^2/P^2))
       }
+      Lambda_theta <- sum_this
+      return(Lambda_theta)
     }
     if(usePrior == TRUE){
-      L_theta <- L_theta - (1/cat@priorParams[2]^2)
+      Lambda_theta <- sum_this - (1/cat@priorParams[2]^2)
+      return(Lambda_theta)
     }
-    return(L_theta)
+    expect_equal(d2LL(test_cat, 1, TRUE), d2LL_test_poly(test_cat, 1, TRUE))
+    expect_equal(d2LL(test_cat, 1, FALSE), d2LL_test_poly(test_cat, 1, FALSE))
   }
-  expect_equal(d2LL(cat, t=1, usePrior=TRUE), d2LL_test(test_cat, 1, usePrior=TRUE))
-  expect_equal(d2LL(cat, t=1, usePrior=FALSE), d2LL_test(test_cat, 1, usePrior=FALSE))
-})
+}
+)
+
