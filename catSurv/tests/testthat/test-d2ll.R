@@ -6,7 +6,7 @@ context("d2LL")
 test_that("dichotomous case of d2LL calculates correctly",{
   
   d2LL_test_bi <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
-    unanswered_questions <- length(is.na(cat@answers))
+    unanswered_questions <- which(is.na(cat@answers))
     Lambda_theta <- 0
     sum_this <- rep(0, length(unanswered_questions))
     if(length(unanswered_questions) == 0) {
@@ -14,19 +14,19 @@ test_that("dichotomous case of d2LL calculates correctly",{
     }
     if(usePrior == FALSE) {
       for(i in 1:length(unanswered_questions)) {
-        P <- probability(cat, theta, question)$all.probabilities$probabilities
+        P <- probability(cat, theta, unanswered_questions)$all.probabilities$probabilities
         Q <- 1-P
         sum_this[i] <- cat@discrimination[i]^2 * ((P-cat@guessing[i]) / (1-cat@guessing[i]))^2 * (Q/P)
       }
-      Lambda_theta <- -sum(sum_this)
+      Lambda_theta <- -sum(sum_this, na.rm=TRUE)
     }
     if(usePrior == TRUE){
       for(i in 1:length(unanswered_questions)) {
-        P <- probability(cat, theta, question)$all.probabilities$probabilities
+        P <- probability(cat, theta, unanswered_questions)$all.probabilities$probabilities
         Q <- 1-P
         sum_this[i] <- cat@discrimination[i]^2 * ((P-cat@guessing[i]) / (1-cat@guessing[i]))^2 * (Q/P)
       }
-      Lambda_theta <- -sum(sum_this) - (1/cat@priorParams[2]^2)
+      Lambda_theta <- -sum(sum_this, na.rm=TRUE) - (1/cat@priorParams[2]^2)
     }
     return(Lambda_theta)
   }
@@ -58,9 +58,9 @@ test_that("Graded response case d2LL calculates correctly",{
         P <- Pstar2 - Pstar1
         W2 <- Pstar2 * Qstar2
         W1 <- Pstar1 * Qstar1
-        sum_this[i] <- cat@discrimintation[i]^2 * ((-W1*(Qstar1-Pstar1)+W2*(Qstar2-Pstar2))/p - ((W2 - W1)^2/P^2))
+        sum_this[i] <- cat@discrimination[i]^2 * ((-W1*(Qstar1-Pstar1)+W2*(Qstar2-Pstar2))/P - ((W2 - W1)^2/P^2))
       }
-      Lambda_theta <- sum(sum_this)
+      Lambda_theta <- sum(sum_this, na.rm=TRUE)
     }
     if(usePrior == TRUE){
       for(i in 1:length(unanswered_questions)){
@@ -73,9 +73,9 @@ test_that("Graded response case d2LL calculates correctly",{
         P <- Pstar2 - Pstar1
         W2 <- Pstar2 * Qstar2
         W1 <- Pstar1 * Qstar1
-        sum_this[i] <- sum(cat@discrimintation[i]^2 * ((-W1*(Qstar1-Pstar1)+W2*(Qstar2-Pstar2))/p - ((W2 - W1)^2/P^2)))
+        sum_this[i] <- sum(cat@discrimination[i]^2 * ((-W1*(Qstar1-Pstar1)+W2*(Qstar2-Pstar2))/P - ((W2 - W1)^2/P^2)))
       }
-      Lambda_theta <- sum(sum_this) - (1/cat@priorParams[2]^2)
+      Lambda_theta <- sum(sum_this, na.rm=TRUE) - (1/cat@priorParams[2]^2)
     }
     return(Lambda_theta)
   }
