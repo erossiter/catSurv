@@ -50,14 +50,14 @@ estimateTheta(testCats[[6]])
 estimateTheta_test(testCats[[6]])
 
 ## Categorical - MAP
-estimateTheta(testCats[[11]]) ## Doesn't work -- 7, 9, 11
-estimateTheta_test(testCats[[9]]) ## Doesn't work b/c of dLL -- 7, 9, 11
+estimateTheta(testCats[[9]]) ## Doesn't work -- 7, 9, 11
+estimateTheta_test(testCats[[9]]) ## Doesn't work b/c of d2LL -- 7, 9, 11??
 
 ## Categorical - EAP
-## what do we do if estimateTheta returns "NaN"?  
-## what effect does this have down the line?
-## This cat returns different answers each time.
+## This cat returns different answers each time for both the test
+## and the c++.... that makes me think the issue is in likelihood
 estimateTheta(testCats[[12]])
 estimateTheta_test(testCats[[12]])
 
 
+d2LL(testCats[[9]], 0, TRUE)

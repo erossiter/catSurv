@@ -8,15 +8,15 @@ test_that("expectedObsInf calculates correctly", {
   if(cat@poly == FALSE){
       ## Probability they get it right
       ## and obsInf if they get it right
-      pr_correct <- probability(cat, estimateTheta(cat), item)
+      pr_correct <- probability(cat, estimateTheta(cat), item)$all.probabilities$probabilities
       cat@answers[item] <- 1 
-      inf_correct <- ObsInf(cat, cat@answers[item], estimateTheta(cat))
+      inf_correct <- obsInf(cat, estimateTheta(cat), cat@answers[item])
     
       ## Probability they get it wrong,
       ## and obsInf *if* they get it wrong
       pr_incorrect <- 1 - pr_correct
       cat@answers[item] <- 0 
-      inf_incorrect <- ObsInf(cat, cat@answers[item], estimateTheta(cat))
+      inf_incorrect <- obsInf(cat, estimateTheta(cat),  cat@answers[item])
     
       cat@answers[item] <- NA
       item_EI <- (pr_correct * inf_correct) + (pr_incorrect * inf_incorrect)
@@ -28,19 +28,24 @@ test_that("expectedObsInf calculates correctly", {
       cat@difficulty <- cat@difficulty[[item]]
       cat@discrimination <- cat@discrimination[item]
       cat@guessing <- cat@guessing[item]
-      result <- probability(cat, estimateTheta(cat))
+      result <- probability(cat, estimateTheta(cat))$all.probabilities$probabilities
       return(result)
       }
       item_thetas <- rep(NA, length(cat@difficulty[[item]]))
       item_inf <- rep(NA, length(cat@difficulty[[item]]))
       for(i in 1:length(item_thetas)){
         cat@answers <- i
-        item_inf[i] <- ObsInf(cat, cat@answers[item], estimateTheta(cat))
+        item_inf[i] <- obsInf(cat, estimateTheta(cat),cat@answers[item])
       }
       cat@answers[item] <- NA
       item_EI <- sum(item_probabilities * item_inf)
     }
     return(item_EI)
   }
-  #expect_equal(expectedObsInf(), expectedPV_test())
+  #expect_equal(expectedObsInf(), expectedObsInf_test())
 })
+
+
+
+expectedObsInf(testCats[[1]], min(which(is.na(testCats[[1]]@answers))))
+expectedObsInf_test(testCats[[1]], min(which(is.na(testCats[[1]]@answers))))

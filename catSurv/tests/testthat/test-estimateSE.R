@@ -29,8 +29,7 @@ test_that("estimateSE calculates correctly", {
 
 })
 
-## Ony testing it on binary cats, because estimateTheta isn't working 
-## consisntely for categorical
+## Ony testing it on binary cats, because estimateTheta isn't working for categorical
 estimateSE(testCats[[1]])
 estimateSE_test(testCats[[1]])
 

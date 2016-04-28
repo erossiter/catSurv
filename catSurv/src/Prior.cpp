@@ -1,11 +1,14 @@
 #include <boost/math/special_functions/gamma.hpp>
 #include <boost/math/distributions/students_t.hpp>
+//#include <boost/math/distributions/non_central_t.hpp>
 #include "Prior.h"
 
 using namespace boost::math;
 
 double Prior::dt(double x, int df) {
   return pdf(students_t(df), x);
+  //return pdf(non_central_t_distribution(df, mu), x);
+  
 }
 
 double Prior::prior(double x) {
