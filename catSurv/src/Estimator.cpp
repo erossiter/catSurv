@@ -99,14 +99,14 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 }
 
 double Estimator::binary_posterior_variance(int item, Prior &prior) {
-	questionSet.answers[item] = 0;
-	double variance_zero = pow(estimateSE(prior), 2);
-
 	questionSet.answers[item] = 1;
-	double variance_one = pow(estimateSE(prior), 2);
+	double variance_correct = pow(estimateSE(prior), 2);
 
-	const double prob_zero = probability(estimateTheta(prior), (size_t) item)[0];
-	return prob_zero * (variance_zero - variance_one) + variance_one;
+	questionSet.answers[item] = 0;
+	double variance_incorrect = pow(estimateSE(prior), 2);
+
+	const double probability_incorrect = probability(estimateTheta(prior), (size_t) item)[0];
+	return (probability_incorrect * variance_correct) + ((1.0 - probability_incorrect) * variance_incorrect);
 }
 
 double Estimator::expectedPV(int item, Prior &prior) {

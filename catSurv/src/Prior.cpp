@@ -4,7 +4,7 @@
 using namespace boost::math;
 
 double Prior::dt(double x, int df, double mu) {
-	return pdf(non_central_t_distribution<>(mu, df), x);
+	return pdf(non_central_t_distribution<>(df, mu), x);
   
 }
 
