@@ -3,7 +3,7 @@ context("Likelihood")
 
 ########## BINARY LIKELIHOOD TEST ##############
 
-test_that("binary likelihood calculates correctly",{
+test_that("binary likelihood calculates correctly", {
   
   ## creating new Cat object and filling in the slots
   allTheCats<-catBiCreator(10, fillAnswers=.3)
@@ -51,6 +51,9 @@ test_that("binary likelihood calculates correctly",{
 
   expect_equal(realFunValues, testFunValues)
 
+rm(list=ls())
+})
+  
 ########## POLYTOMOUS LIKELIHOOD TEST ##############
 
 test_that("polytomous likelihood calculates correctly",{
@@ -70,7 +73,7 @@ test_that("polytomous likelihood calculates correctly",{
  
   ## R test function
   
-  likelihood_test <- function(catPoly = "Cat", theta = "numeric", items = "numeric"){
+  likelihood_test_poly <- function(catPoly = "Cat", theta = "numeric"){
     ## each element in p_ikList is a vector (possibly of length 1) corresponding to a question item 
     ##    (the output of the binary or polytomous probability function for each question item)
     ## each vector will be of length k_i, where k_i is the number of possible response
@@ -125,11 +128,10 @@ test_that("polytomous likelihood calculates correctly",{
   })
   
   testFunValues<-lapply(1:length(allTheCats), function(x){
-    likelihood(allTheCats[[x]], thetaVec[x])
+    likelihood_test_poly(allTheCats[[x]], thetaVec[x])
   })
   
   
   expect_equal(realFunValues, testFunValues)
-  
 
-})
+  })
