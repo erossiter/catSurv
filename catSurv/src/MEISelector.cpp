@@ -19,6 +19,7 @@ Selection MEISelector::nextItem() {
 
 	for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
 		int item = questionSet.nonapplicable_rows.at(i);
+
 		double this_EI = estimator.expectedObsInf(item - 1, prior);
 		if (this_EI > max_EI) {
 			max_EI = this_EI;

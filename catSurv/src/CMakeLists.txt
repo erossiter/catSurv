@@ -17,7 +17,6 @@ set(SOURCE_FILES
 		EAPEstimator.cpp EAPEstimator.h
 		QuestionSet.h QuestionSet.cpp
 		MAPEstimator.cpp MAPEstimator.h
-		NotImplementedException.cpp NotImplementedException.h
 		Selector.cpp Selector.h
 		EPVSelector.cpp	EPVSelector.h
 		Selection.h MFISelector.cpp MFISelector.h MEISelector.cpp MEISelector.h)
