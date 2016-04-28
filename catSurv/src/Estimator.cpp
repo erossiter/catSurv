@@ -2,9 +2,8 @@
 #include "GSLFunctionWrapper.h"
 
 double Estimator::likelihood(double theta) {
-	return questionSet.poly ? polynomial_likelihood(theta) : binary_likelihood(theta);
+	return questionSet.poly ? polytomous_likelihood(theta) : binary_likelihood(theta);
 }
-
 
 std::vector<double> Estimator::probability(double theta, size_t question) {
 
@@ -22,7 +21,7 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
 	return probabilities;
 }
 
-double Estimator::polynomial_likelihood(double theta) {
+double Estimator::polytomous_likelihood(double theta) {
 	double L = 1.0;
 
 	for (auto question : questionSet.applicable_rows) {
@@ -33,7 +32,7 @@ double Estimator::polynomial_likelihood(double theta) {
 		// TODO: that is, when a user doesn't respond, the value will be negative
 		// TODO: Which will result in an out-of-bounds array access
 		int index = questionSet.answers.at(unsigned_question);
-		L *= question_cdf[index - 1] - question_cdf[index];
+		L *= question_cdf.at(((size_t) index) - 1) - question_cdf.at((size_t) index);
 	}
 	return L;
 }

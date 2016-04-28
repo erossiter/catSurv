@@ -23,7 +23,7 @@ protected:
 
 	std::vector<double> paddedProbability(double theta, size_t question);
 
-	double polynomial_likelihood(double theta);
+	double polytomous_likelihood(double theta);
 
 	double binary_likelihood(double theta);
 
