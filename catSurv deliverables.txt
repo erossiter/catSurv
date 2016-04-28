@@ -20,6 +20,8 @@ Adding randomization to the above methods, for more robust testing
 Section 5 – estimateTheta (MAP)
 Section 6 – dLL
 Section 7 – d2LL
+Section 13 – nextItemMFI
+Section 18 – MLWI “next item” function likelihoodWI
 
 Other package tasks we are currently working on:
 Getting a demo running
@@ -27,8 +29,7 @@ Getting a demo running
 Functions we plan to have working and tested when the semester concludes
 Section 8 – ObsInf
 Section 9 – FisherInf
-Section 13 – nextItemMFI
-Section 18 – MLWI “next item” function likelihoodWI
+
 
 Erin is doing:
 Section 19 – MPWI
