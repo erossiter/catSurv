@@ -6,13 +6,7 @@ context("Likelihood")
 test_that("binary likelihood calculates correctly",{
   
   ## creating new Cat object and filling in the slots
-  allTheCats<-catBiCreator(10)
-  
-  ## randomly setting answer values (0 or 1, because we're using binary cats) 
-  allCatsAnswered<-lapply(allTheCats, function(x){
-    x@answers<-sample(c(0,1), length(x@answers), replace=T)
-    return(x)
-  })
+  allTheCats<-catBiCreator(10, fillAnswers=.3)
   
   ## creating vector of thetas
   setThetas<-function(seed="numeric"){
@@ -45,14 +39,14 @@ test_that("binary likelihood calculates correctly",{
   }
 
   ## applying real likelihood function on my cats
-  realFunValues<-lapply(1:length(allCatsAnswered), function(x){
-    likelihood(allCatsAnswered[[x]], thetaVec[x])
+  realFunValues<-lapply(1:length(allTheCats), function(x){
+    likelihood(allTheCats[[x]], thetaVec[x])
   })
   
   ## applying test likelihood function on my cats  
     
-  testFunValues<-lapply(1:length(allCatsAnswered), function(x){
-    likelihood(allCatsAnswered[[x]], thetaVec[x])
+  testFunValues<-lapply(1:length(allTheCats), function(x){
+    likelihood(allTheCats[[x]], thetaVec[x])
   })
 
   expect_equal(realFunValues, testFunValues)
