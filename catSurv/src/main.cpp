@@ -135,7 +135,7 @@ List nextItem(S4 cat_df) {
 
 //' @export
 // [[Rcpp::export]]
-List expectedPV(S4 cat_df, int item) {
+double expectedPV(S4 cat_df, int item) {
 	return Cat(cat_df).expectedPV(item);
 }
 
