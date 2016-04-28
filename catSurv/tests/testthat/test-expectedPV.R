@@ -49,13 +49,13 @@ test_that("expectedPV calculates correctly", {
     return(item_EPV)
   }
   
-  #   equal_test <- function(cat){
-  #   item <- min(which(is.na(cat@answers)))
-  #   expect_equal(expectedPV(cat, item),
-  #                expectedPV_test(cat, item),
-  #                tolerance = .01)
-  #   }
-  # lapply(testCats, equal_test)
+     equal_test <- function(cat){
+     item <- min(which(is.na(cat@answers)))
+     expect_equal(expectedPV(cat, item),
+                  expectedPV_test(cat, item),
+                  tolerance = .01)
+     }
+   lapply(testCats, equal_test)
 })
 
 

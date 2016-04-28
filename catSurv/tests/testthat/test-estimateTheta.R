@@ -34,30 +34,9 @@ test_that("estimateTheta calculates correctly", {
     return(results)
   }
   
-  # lapply(testCats, function(x) expect_equal(estimateTheta(x),
-  #                                           estimateTheta_test(x),
-  #                                           tolerance = .01))
+   lapply(testCats, function(x) expect_equal(estimateTheta(x),
+                                             estimateTheta_test(x),
+                                             tolerance = .01))
 })
 
 ## 'stats' is the package integrate() is in.
-
-## Binary - MAP -- works
-estimateTheta(testCats[[1]])
-estimateTheta_test(testCats[[1]])
-
-## Binary - EAP -- works
-estimateTheta(testCats[[6]])
-estimateTheta_test(testCats[[6]])
-
-## Categorical - MAP
-estimateTheta(testCats[[9]]) ## Doesn't work -- 7, 9, 11
-estimateTheta_test(testCats[[9]]) ## Doesn't work b/c of d2LL -- 7, 9, 11??
-
-## Categorical - EAP
-## This cat returns different answers each time for both the test
-## and the c++.... that makes me think the issue is in likelihood
-estimateTheta(testCats[[12]])
-estimateTheta_test(testCats[[12]])
-
-
-d2LL(testCats[[9]], 0, TRUE)
