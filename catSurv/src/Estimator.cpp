@@ -69,6 +69,11 @@ double Estimator::estimateSE(Prior prior) {
 double Estimator::integralQuotient(integrableFunction const &numerator,
                                    integrableFunction const &denominator) {
 
+	/*
+	 * Because GSL is a C library, not a C++ library, it is not easy to pass arbitrary
+	 * C++ functions to GSL's integration routine. To solve this, wrap the arbitrary functions
+	 * in a GSLFunctionWrapper, which is integrable.
+	 */
 	gsl_function *numeratorFunction = GSLFunctionWrapper(numerator).asGSLFunction();
 	gsl_function *denominatorFunction = GSLFunctionWrapper(denominator).asGSLFunction();
 

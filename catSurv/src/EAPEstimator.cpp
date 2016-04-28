@@ -2,6 +2,16 @@
 
 double EAPEstimator::estimateTheta(Prior prior) {
 
+	/**
+	 * Because these denominator and numerator functions
+	 * are used nowhere else, it makes sense to give them
+	 * the smallest scope possible. As a result, they are
+	 * declared as lambdas. They capture by reference because
+	 * they need access to prior and likelihood, but, because
+	 * they are passed to GSL's integration function, cannot
+	 * take prior and likelihood as arguments.
+	 */
+
 	integrableFunction denominator = [&](double theta) {
 		return likelihood(theta) * prior.prior(theta);
 	};

@@ -19,7 +19,7 @@ set(SOURCE_FILES
 		MAPEstimator.cpp MAPEstimator.h
 		Selector.cpp Selector.h
 		EPVSelector.cpp	EPVSelector.h
-		Selection.h MFISelector.cpp MFISelector.h MEISelector.cpp MEISelector.h)
+		Selection.h MFISelector.cpp MFISelector.h MEISelector.cpp MEISelector.h MWPISelector.cpp MWPISelector.h)
 
 add_library(catSurv STATIC ${SOURCE_FILES})
 add_executable(run main.cpp)

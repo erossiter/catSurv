@@ -5,7 +5,7 @@
 
 class Prior {
 private:
-	double dt(double x, int df);
+	double dt(double x, int df, double mu);
 
 public:
 	const std::string name;

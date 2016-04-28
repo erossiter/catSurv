@@ -1,13 +1,10 @@
-#include <boost/math/special_functions/gamma.hpp>
-#include <boost/math/distributions/students_t.hpp>
-//#include <boost/math/distributions/non_central_t.hpp>
+#include <boost/math/distributions/non_central_t.hpp>
 #include "Prior.h"
 
 using namespace boost::math;
 
-double Prior::dt(double x, int df) {
-  return pdf(students_t(df), x);
-  //return pdf(non_central_t_distribution(df, mu), x);
+double Prior::dt(double x, int df, double mu) {
+	return pdf(non_central_t_distribution<>(mu, df), x);
   
 }
 
@@ -15,8 +12,7 @@ double Prior::prior(double x) {
 	if (name == "NORMAL") {
 		return dnorm4(Rcpp::NumericVector::create(x), parameters[0], parameters[1], 0)[0];
 	}
-	//where do we put/what do we do with paramters
-	return dt(x, (int) parameters[1]);
+	return dt(x, (int) parameters[1], parameters[0]);
 }
 
 Prior::Prior(Rcpp::S4 cat_df) : name(Rcpp::as<std::string>(cat_df.slot("priorName"))),
