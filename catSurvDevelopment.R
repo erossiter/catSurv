@@ -15,15 +15,15 @@ document(current.code)
 
 
 ?catBiCreator
-myFifteenBiCats<-catBiCreator(15)
-myFifteenBiCats[[4]]@answers
+myFifteenBiCats<-catBiCreator(1, fillAnswers=.8)
+myFifteenBiCats[[1]]@answers
 
-
-myTwelvePolyCats<-catPolyCreator(12)
+?catPolyCreator
+myTwelvePolyCats<-catPolyCreator(12, fillAnswers=.2)
 myTwelvePolyCats[[5]]@difficulty
 myTwelvePolyCats[[5]]@answers
 
-myUnansweredBiCat<-catBiCreator(1, fillAnswers=F)
+myUnansweredBiCat<-catBiCreator(1, fillAnswers=0)
 
 test_cat <- new("Cat")
 setdiscrimination(test_cat)<-c(0,3,.8)

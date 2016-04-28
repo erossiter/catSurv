@@ -5,7 +5,7 @@
 \title{Randomly created binary Cat objects for testing}
 \usage{
 catBiCreator(numCats = "numeric", seed = 9999, spread = 2,
-  maxGuessing = 0.1, fillAnswers = TRUE, ...)
+  maxGuessing = 0.1, fillAnswers = 0.5, ...)
 }
 \arguments{
 \item{numCats}{The number of different objects of class \code{Cat} this function should return}
@@ -16,7 +16,7 @@ catBiCreator(numCats = "numeric", seed = 9999, spread = 2,
 
 \item{maxGuessing}{The maximum value for the guessing parameter, which is multiplied by runif() for each question. Default to 0.1.}
 
-\item{fillAnswers}{A boolean dictating whether to fill in answers with random values, or leave them all NA's. Default to TRUE, meaning fill in with random values. Values are randomly sampled from (0,1).}
+\item{fillAnswers}{A numeric indicating what portion of each Cat's answers to fill with random values. The rest will be filled with NA's. Default to .5, meaning fill in a randomly drawn sample of half of the answer slots with random values.}
 }
 \value{
 A list of length \code{numCats} containing objects of class \code{Cat} with randomized values for components:
@@ -24,8 +24,9 @@ A list of length \code{numCats} containing objects of class \code{Cat} with rand
 \item \code{difficulty} a vector of difficulty parameters for each question/item.
 \item \code{guessing} a vector of guessing parameter for each question/item. 
 \item \code{discrimination} a vector of disrimination parameter for each question/item.
-and prototype (default) values for components:
-\item \code{answers} a vector of answers to questions as given by the survey respondent. Default to a vector of NA values, whose length is the number of questions (same length as difficulty, guessing, and discrimination)
+\item \code{answers} a vector of answers to questions as given by the survey respondent. Filled answers (by default, a randomly drawn sample of half of the question items), will be randomly assigned  values 0 or 1.
+} and prototype (default) values for components:
+\itemize{
 \item \code{priorName} a character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{normal} for the normal distirbution, \code{cauchy} for the Cauchy distribution, are \code{t} for the t-distribution. Defaults to \code{normal}. 
 \item \code{priorParams} a numeric vector of parameters for the distribution specified in the \code{priorName} slot. See the details section for more information.  Defaults to \code{c(0,1)}.   
 \item \code{poly} a boolean indicating the type of questions contained in this \code{Cat} object. Default is FALSE, indicating binary questions.
