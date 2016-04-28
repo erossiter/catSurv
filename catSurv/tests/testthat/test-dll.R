@@ -8,6 +8,7 @@ test_that("dichotomous case of dLL calculates correctly",{
   dLL_test_bi <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
     unanswered_questions <- length(is.na(cat@answers))
     L_theta <- 0
+    sum_this <- rep(0, length(unanswered_questions))
     if(length(unanswered_questions) == 0) {
       L_theta <- ((theta - cat@priorParams[1]) / cat@priorParams[2]^2)
     }
@@ -15,17 +16,17 @@ test_that("dichotomous case of dLL calculates correctly",{
       for(i in 1:length(unanswered_questions)) {
         P <- probability(cat, theta, question)
         Q <- 1-P
-        sum_this <- sum(cat@discrimination[i] * ((P-cat@guessing[i]) / P(1-cat@guessing[i])) * (cat@answers[i]-P))
-        L_theta <- sum_this
+        sum_this[i] <- cat@discrimination[i] * ((P-cat@guessing[i]) / P(1-cat@guessing[i])) * (cat@answers[i]-P)
       }
+      L_theta <- sum(sum_this)
     }
     if(usePrior == TRUE){
       for(i in 1:length(unanswered_questions)) {
         P <- probability(cat, theta, question)
         Q <- 1-P
-        sum_this <- sum(cat@discrimination[i] * ((P-cat@guessing[i]) / P(1-cat@guessing[i])) * (cat@answers[i]-P))
-        L_theta <- sum_this - ((theta - cat@priorParams[1])/cat@priorParams[2]^2)
+        sum_this[i] <- cat@discrimination[i] * ((P-cat@guessing[i]) / P(1-cat@guessing[i])) * (cat@answers[i]-P)
       }
+      L_theta <- sum(sum_this) - ((theta - cat@priorParams[1])/cat@priorParams[2]^2)
     }
     return(L_theta)
   }
@@ -42,6 +43,7 @@ dLL_test_poly <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
   
   unanswered_questions <- length(is.na(cat@answers))
   L_theta <- 0
+  sum_this <- rep(0, length(unanswered_questions))
   if(length(unanswered_questions) == 0) {
     L_theta <- ((theta - cat@priorParams[1]) / cat@priorParams[2]^2)
   }
@@ -56,9 +58,9 @@ dLL_test_poly <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
       P <- Pstar2 - Pstar1
       W2 <- Pstar2 * Qstar2
       W1 <- Pstar1 * Qstar1
-      sum_this <- sum(cat@discrimintation[i] * ((W2 - W1)/P))
+      sum_this[i] <- sum(cat@discrimintation[i] * ((W2 - W1)/P))
     }
-    L_theta <- sum_this
+    L_theta <- sum(sum_this)
   }
   if(usePrior == TRUE){
     for(i in 1:length(unanswered_questions)){
@@ -71,9 +73,9 @@ dLL_test_poly <- function(cat="Cat", theta="numeric", usePrior=TRUE) {
       P <- Pstar2 - Pstar1
       W2 <- Pstar2 * Qstar2
       W1 <- Pstar1 * Qstar1
-      sum_this <- sum(cat@discrimintation[i] * ((W2 - W1)/P))
+      sum_this[i] <- sum(cat@discrimintation[i] * ((W2 - W1)/P))
     }
-    L_theta <- sum_this - ((theta - cat@priorParams[1])/cat@priorParams[2]^2)
+    L_theta <- sum(sum_this) - ((theta - cat@priorParams[1])/cat@priorParams[2]^2)
   }
   return(L_theta)
 }

@@ -10,8 +10,10 @@ test_that("nextItemMFI calculates correctly", {
     for(i in 1:length(unanswered_questions)){
       questions_fisherInf[i] <- fisherInf(cat, unanswered_questions[i])
     }
+    max_fisher <- max(questions_fisherInf)
     next_item <- which(max(questions_fisherInf))
-    return(next_item)
+    return_this <- list(max_fisher, next_item)
+    return(return_this)
   }
   expect_equal(nextItemMFI_test(test_cat), nextItemMFI(test_cat))
 })
