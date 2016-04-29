@@ -14,12 +14,12 @@ Section 12 – nextItemEPV
 Adding data to package
 Writing “get” methods
 Fixing validity check
+Section 6 – dLL
+Section 7 – d2LL
 
 Functions we are currently working on and testing
 Adding randomization to the above methods, for more robust testing
 Section 5 – estimateTheta (MAP)
-Section 6 – dLL
-Section 7 – d2LL
 Section 13 – nextItemMFI
 Section 18 – MLWI “next item” function likelihoodWI
 
