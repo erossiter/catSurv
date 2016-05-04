@@ -22,7 +22,10 @@ test_that("binary likelihood calculates correctly", {
   likelihood_test_bi <- function(catBi = "Cat", theta = "numeric"){
     ## vector of probabilities for each question item that has been answered
     answered_indices<-which(!is.na(catBi@answers), arr.ind=T)
-    p_iVec<-sapply(answered_indices, function(i){
+   
+    if(length(answered_indices)>0){
+    
+     p_iVec<-sapply(answered_indices, function(i){
       probability(catBi, theta, i)$all.probabilities$probabilities
     })
     ## storing respondent's answers to these question items
@@ -36,6 +39,8 @@ test_that("binary likelihood calculates correctly", {
     likelihood<-prod(piqiVec) 
     
     return(likelihood)
+    }
+    else return (1)
   }
 
   ## applying real likelihood function on my cats
@@ -56,14 +61,25 @@ test_that("binary likelihood calculates correctly", {
   
 rm(list=ls())
 
+
+
+
+
+
+
+
+
 ########## POLYTOMOUS LIKELIHOOD TEST ##############
 
 test_that("polytomous likelihood calculates correctly",{
   
   ## creating lots of new Cats  and filling in the slots
   
- allTheCats<-catPolyCreator(10, fillAnswers=.4)
-  
+ allTheCats<-catPolyCreator(1, fillAnswers=0, seed=9576)
+ #allTheCats[[1]]@guessing<-rep(0, length(allTheCats[[1]]@guessing))
+ allTheCats[[1]]@answers[2]<-3 
+ allTheCats[[1]]@difficulty
+ 
  ## creating vector of theta values
  setThetas<-function(seed="numeric"){
    set.seed(seed)
@@ -82,6 +98,7 @@ test_that("polytomous likelihood calculates correctly",{
     ##    categories to question i, and each value in the vector is the probability of
     ##    the respondent giving a response in a category strictly higher than k
     answered_indices<-which(!is.na(catPoly@answers), arr.ind=T)
+    if(length(answered_indices)>0){
     p_ikList<-lapply(answered_indices, function(i){
       probability(catPoly, theta, i)$all.probabilities$probabilities
     })
@@ -118,12 +135,14 @@ test_that("polytomous likelihood calculates correctly",{
         probExpList[[i]][k]<-(p_ikListExact[[i]][k])^(ansVec[i]==k)
       }
     }
-    probExpVec<-unlist(probExpList)
+    
     ##multiplying over response categories
-    productList<-sapply(probExpVec, prod)
+    productVec<-sapply(probExpList, prod)
    ##multiplying over question items
-    likelihood<-prod(unlist(productList))
+    likelihood<-prod(productVec)
     return(likelihood)
+    }
+    else return(1)
   }
   
   ### running real and test functions on allTheCats
@@ -134,8 +153,7 @@ test_that("polytomous likelihood calculates correctly",{
   testFunValues<-lapply(1:length(allTheCats), function(x){
     likelihood_test_poly(allTheCats[[x]], thetaVec[x])
   })
-  
-  
+
   expect_equal(realFunValues, testFunValues)
 
   })
