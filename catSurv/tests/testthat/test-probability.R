@@ -1,6 +1,6 @@
 library(catSurv)
 context("Probability")
-
+rm(list=ls())
 ###### BINARY PROBABILITY TEST ########
 
 test_that("binary probability calculates correctly", {
@@ -63,6 +63,9 @@ test_that("polytomous probability calculates correctly", {
  
   allPolyCats<-catPolyCreator(12, seed=9872453)
   
+  for (i in 1:length(allPolyCats)){
+    print(allPolyCats[[i]]@difficulty)
+  }
 
   ## R test function
   probability_test_poly <- function(cat = "Cat", theta = "numeric", question = "numeric"){
@@ -97,16 +100,22 @@ test_that("polytomous probability calculates correctly", {
   
   
   ##calculating values from real probability function 
-  realFunLists<-lapply(1:length(allPolyCats), function(x){
-    return(probability(allPolyCats[[x]], thetaVec[x], questionVec[x])$all.probabilities)
-  })
-  realFunValues<-sapply(realFunLists, function(x){ ## just gotta do this because probability() returns a data.frame...
-    return(x[,1])
+  realFunValues<-lapply(1:length(allPolyCats), function(x){
+    return(probability(allPolyCats[[x]], thetaVec[x], questionVec[x])$all.probabilities$probabilities)
   })
 
+asdf<-sapply(c(1:26), function(x){
+  return(probability(allPolyCats[[3]], 1.4, x)$all.probabilities$probabilities)
+} ) 
+
+class(asdf)
+indices<-c(which(allPolyCats[[3]]@discrimination<0, arr.ind=T))
+for (i in indices){
+  print(asdf[[i]])
+}
   
   ##calculating values from the test probability function (created above)
-  testFunValues<-sapply(1:length(allPolyCats), function(x){
+  testFunValues<-lapply(1:length(allPolyCats), function(x){
     probability_test_poly(allPolyCats[[x]], thetaVec[x], questionVec[x])
   })
   

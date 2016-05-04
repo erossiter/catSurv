@@ -37,7 +37,7 @@ setMethod(f="catPolyCreator", signature="numeric",
             for(i in 1:numCats){
               numQuestions<-3+floor(abs(50*(rnorm(1))))
               newCat<-new("Cat",
-                          discrimination=(spread*rnorm(numQuestions)),
+                          discrimination=abs((spread*rnorm(numQuestions))),
                           difficulty=lapply(1:numQuestions, function(x){
                             ## questions can have anywhere from 1 to 10 possible answers...
                             ## spread sets the probable range for the difficulty values (default to ~(-4, 4))

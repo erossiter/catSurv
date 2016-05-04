@@ -35,7 +35,7 @@ setMethod(f="catBiCreator", signature="numeric",
             for(i in 1:numCats){
               numQuestions<-3+floor(abs(50*(rnorm(1))))
               newCat<-new("Cat",
-                          discrimination=(spread*rnorm(numQuestions)),
+                          discrimination=abs((spread*rnorm(numQuestions))),
                           difficulty=(spread*rnorm(numQuestions)),
                           guessing=maxGuessing*runif(numQuestions),
                           poly=F,

@@ -16,7 +16,7 @@ document(current.code)
 
 ?catBiCreator
 myFifteenBiCats<-catBiCreator(1, fillAnswers=.8)
-myFifteenBiCats[[1]]@answers
+myFifteenBiCats[[1]]
 
 ?catPolyCreator
 myTwelvePolyCats<-catPolyCreator(12, fillAnswers=.2)

@@ -83,7 +83,7 @@ test_that("polytomous likelihood calculates correctly",{
     ##    the respondent giving a response in a category strictly higher than k
     answered_indices<-which(!is.na(catPoly@answers), arr.ind=T)
     p_ikList<-lapply(answered_indices, function(i){
-      probability(catPoly, theta, i)
+      probability(catPoly, theta, i)$all.probabilities$probabilities
     })
     
     ## now, need to convert each value in each vector...
@@ -118,11 +118,11 @@ test_that("polytomous likelihood calculates correctly",{
         probExpList[[i]][k]<-(p_ikListExact[[i]][k])^(ansVec[i]==k)
       }
     }
-    
+    probExpVec<-unlist(probExpList)
     ##multiplying over response categories
-    productList<-lapply(probExpList, prod)
+    productList<-sapply(probExpVec, prod)
    ##multiplying over question items
-    likelihood<-prod(productList)
+    likelihood<-prod(unlist(productList))
     return(likelihood)
   }
   
