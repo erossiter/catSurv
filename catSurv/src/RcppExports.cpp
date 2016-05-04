@@ -104,7 +104,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // expectedPV
-List expectedPV(S4 cat_df, int item);
+double expectedPV(S4 cat_df, int item);
 RcppExport SEXP catSurv_expectedPV(SEXP cat_dfSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;

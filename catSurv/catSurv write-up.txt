@@ -1,0 +1,58 @@
+catSurv
+Erin, Alex, Matt, Minhee
+4/29/16
+
+
+The following functions in the catSurv package have been implemented in C++ and have been tested in R:
+- É
+- É
+
+All of the above tests are robust to variation in the following slots of the Cat object:
+- É
+- É
+(With the following exceptionsÉ)
+
+The class structure of the C++ Cat object has been modified as follows:
+É
+
+The class structure of the S4 Cat object has been modified as follows:
+É
+
+
+
+Functions we currently have working (c++) and tested (R)
+Section 2 Ð probability
+Section 3 Ð likelihood
+Section 5 Ð estimateTheta (EAP)
+Section 10 Ð estimateSE
+Section 11 Ð expectedPV
+Section 12 Ð nextItemEPV
+Adding data to package
+Writing ÒgetÓ methods
+Fixing validity check
+Section 6 Ð dLL
+Section 7 Ð d2LL
+
+Functions we are currently working on and testing
+Adding randomization to the above methods, for more robust testing
+Section 5 Ð estimateTheta (MAP)
+Section 13 Ð nextItemMFI
+Section 18 Ð MLWI Ònext itemÓ function likelihoodWI
+
+Other package tasks we are currently working on:
+Getting a demo running
+	
+Functions we plan to have working and tested when the semester concludes
+Section 8 Ð ObsInf
+Section 9 Ð FisherInf
+
+
+Erin is doing:
+Section 19 Ð MPWI
+		Ñ> changing this name to nextItemMPWI
+		Ñ> adding a function called priorWI
+Section 20 - expectedObsInf
+Section 21 Ð nextItemMEI
+
+
+

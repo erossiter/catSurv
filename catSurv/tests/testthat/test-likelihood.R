@@ -19,21 +19,21 @@ test_that("binary likelihood calculates correctly", {
   
   ## R test function
   
-  likelihood_test <- function(catBi = "Cat", theta = "numeric"){
-    ## vector of probabilities for each question item
-    p_iVec<-sapply(1:length(catBi@answers), function(x){
-      probability(catBi, theta, x)
+  likelihood_test_bi <- function(catBi = "Cat", theta = "numeric"){
+    ## vector of probabilities for each question item that has been answered
+    answered_indices<-which(!is.na(catBi@answers), arr.ind=T)
+    p_iVec<-sapply(answered_indices, function(i){
+      probability(catBi, theta, i)$all.probabilities$probabilities
     })
     ## storing respondent's answers to these question items
-    ansVec<-catBi@answers
-    
+    ansVec<-catBi@answers[answered_indices]
+
     ## creating a vector of values inside the product function in equation (3) [from the documentation]
     piqiVec<-sapply(1:length(p_iVec), function(i){
-      (p_iVec[i]^ansVec[i])*((1-p_iVec[i])^(1-ansVec[i]))
+      (p_iVec[i]^(ansVec[i]))*((1-p_iVec[i])^(1-ansVec[i]))
     })
-    
     ## applying product function over this vector
-    likelihood<-sapply(piqiVec, prod) 
+    likelihood<-prod(piqiVec) 
     
     return(likelihood)
   }
@@ -46,14 +46,16 @@ test_that("binary likelihood calculates correctly", {
   ## applying test likelihood function on my cats  
     
   testFunValues<-lapply(1:length(allTheCats), function(x){
-    likelihood(allTheCats[[x]], thetaVec[x])
+    likelihood_test_bi(allTheCats[[x]], thetaVec[x])
   })
 
   expect_equal(realFunValues, testFunValues)
 
-rm(list=ls())
+
 })
   
+rm(list=ls())
+
 ########## POLYTOMOUS LIKELIHOOD TEST ##############
 
 test_that("polytomous likelihood calculates correctly",{
@@ -74,44 +76,46 @@ test_that("polytomous likelihood calculates correctly",{
   ## R test function
   
   likelihood_test_poly <- function(catPoly = "Cat", theta = "numeric"){
-    ## each element in p_ikList is a vector (possibly of length 1) corresponding to a question item 
-    ##    (the output of the binary or polytomous probability function for each question item)
+    ## each element in p_ikList is a vector (of variable length, possibly length 1) corresponding to a question item 
+    ##    (the output of the probability function for each question item)
     ## each vector will be of length k_i, where k_i is the number of possible response
     ##    categories to question i, and each value in the vector is the probability of
     ##    the respondent giving a response in a category strictly higher than k
-    p_ikList<-lapply(items, function(i){
+    answered_indices<-which(!is.na(catPoly@answers), arr.ind=T)
+    p_ikList<-lapply(answered_indices, function(i){
       probability(catPoly, theta, i)
     })
     
     ## now, need to convert each value in each vector...
     ##  ...from "the probability of a response in a category strictly higher than k"...
-    ##  ...to, "the probability of a response in exactly category k
+    ##  ...to, "the probability of a response in exactly category k"
     
-    p_ikListExact<-p_ikList ##copy list
+    p_ikListExact<-p_ikList ##copy list, for dimensions
     
     for (i in 1:length(p_ikList)){ ##iterating over items...
       for(k in 1:length(p_ikList[[i]])){ ##iterating over response categories
         if(k==1){ ## p_ikListExact[[i]][k] = p_ikList[[i]][k-1] - p_ikList[[i]][k]...
-                  ## ...but p_ikList[[i]][0] = 1, as no responses are in category k=0 
+                  ## ...but p_ikList[[i]][0] = 1, as no responses are in category k=0 (so all responses are above k=0)
                   ##  (see note in 3.1.2, between equations (4) and (5))
           p_ikListExact[[i]][k]<-1-p_ikList[[i]][k]
         }
-        else p_ikListExact[[i]][k]<-p_ikList[[i]][k-1]-p_ikList[[i]][k]
+        else {  ## for all answers in response category higher than 1...
+          p_ikListExact[[i]][k]<-p_ikList[[i]][k-1]-p_ikList[[i]][k]
+        }
+          }
       }
-    }
     
-    ##storing answers for question items of interest
-    ansVec<-catPoly@answers[items]
+    
+    ##storing answers for question items that have been answered
+    ansVec<-catPoly@answers[answered_indices]
     
     ## creating a list of vectors of (P_ijk)^I(y_ij = k) values... 
     ## ... each element of the list is a vector, corresponding to question item i, of length k_i
-    ## ... and each element of each (length k) vector is the value of (P_ijk)^I(y_ij = k)
-    probExpList<-p_ikListExact
+    ## ... and each element of each (length k_i) vector is the value of (P_ijk)^I(y_ij = k)
+    probExpList<-p_ikListExact ##copying, for dimensions
     for(i in 1:length(probExpList)){
-      thisItemValues<-c()
       for(k in 1:length(i)){
-        hold<-(p_ikListExact[[i]][k])^(ansVec[i]==k)
-        thisItemValues<-c(thisItemValues,hold)
+        probExpList[[i]][k]<-(p_ikListExact[[i]][k])^(ansVec[i]==k)
       }
     }
     

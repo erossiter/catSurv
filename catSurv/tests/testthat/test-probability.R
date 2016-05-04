@@ -7,7 +7,7 @@ test_that("binary probability calculates correctly", {
   
   ## Creating a lot of cat objects and filling in needed slots
   ## ADJUST THIS INPUT IF YOU WANT A SHORTER OR LONGER TEST
-  allTheCats<-catBiCreator(10)
+  allTheCats<-catBiCreator(10,seed=78)
 
   ## setting the question and theta values for each Cat, to be used in the probability function...
   
@@ -61,7 +61,7 @@ test_that("polytomous probability calculates correctly", {
 
   ## creating lots of polytomous cats
  
-  allPolyCats<-catPolyCreator(10)
+  allPolyCats<-catPolyCreator(12, seed=9872453)
   
 
   ## R test function
