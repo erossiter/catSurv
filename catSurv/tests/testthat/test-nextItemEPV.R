@@ -13,5 +13,7 @@ test_that("nextItemEPV calculates correctly", {
     next_item <- which(min(questions_EPV))
     return(next_item)
   }
-  expect_equal(nextItemEPV(test_cat1), nextItemEPV(test_cat1))
+  
+  #lapply(c(catBiCreator(5), catPolyCreator(5)),
+  #       function(x) expect_equal(nextItem(x), nextItemEPV_test(x), tolerance = .1))
 })

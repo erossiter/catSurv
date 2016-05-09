@@ -34,9 +34,8 @@ test_that("estimateTheta calculates correctly", {
     return(results)
   }
   
-   lapply(testCats, function(x) expect_equal(estimateTheta(x),
-                                             estimateTheta_test(x),
-                                             tolerance = .01))
+   lapply(c(catBiCreator(5), catPolyCreator(5)),
+          function(x) expect_equal(estimateTheta(x), estimateTheta_test(x), tolerance = .01))
 })
 
 ## 'stats' is the package integrate() is in.

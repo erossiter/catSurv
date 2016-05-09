@@ -23,7 +23,9 @@ test_that("prior calculates correctly", {
     expect_equal(prior(x, cat@priorName, cat@priorParams), prior_test(x, cat),
                  tolerance = .00001)
     }
-  lapply(testCats, equal_test)
+  lapply(c(catBiCreator(5), catPolyCreator(5)), equal_test)
 })
 
 
+xx <- c(catBiCreator(5), catPolyCreator(5))
+xx[[1]]

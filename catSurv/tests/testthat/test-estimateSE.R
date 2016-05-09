@@ -23,9 +23,8 @@ test_that("estimateSE calculates correctly", {
     return(sqrt(results))
   }
   
-   lapply(testCats, function(x) expect_equal(estimateSE(x),
-                                             estimateSE_test(x),
-                                             tolerance = .1))
+   lapply(c(catBiCreator(5), catPolyCreator(5)),
+          function(x) expect_equal(estimateSE(x), estimateSE_test(x), tolerance = .1))
 
 })
 
