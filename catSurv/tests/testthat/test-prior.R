@@ -10,9 +10,9 @@ test_that("prior calculates correctly", {
     
     if(distribution == "NORMAL"){
       prior_values <- dnorm(x, parameters[1], parameters[2])
-    }
+      }
     if(distribution == "STUDENT_T"){
-      prior_values <- dt(x, df = parameters[2])#, ncp = parameters[1])
+      prior_values <- dt(x, df = parameters[2], ncp = parameters[1])
     }
     return(prior_values)
   }
@@ -26,11 +26,4 @@ test_that("prior calculates correctly", {
   lapply(testCats, equal_test)
 })
 
-## student T test
-prior(1, testCats[[2]]@priorName, testCats[[2]]@priorParams)
-prior_test(1, testCats[[2]])
-
-## Normal test
-prior(1, testCats[[6]]@priorName, testCats[[6]]@priorParams)
-prior_test(1, testCats[[6]])
 

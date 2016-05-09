@@ -28,13 +28,13 @@ test_that("expectedPV calculates correctly", {
     if(cat@poly == TRUE){
       pr_item_correct <- function(cat){
       ## temporarily changing cat to just have this question's info
-        cat@difficulty <- cat@difficulty[[item]]
-        cat@discrimination <- cat@discrimination[item]
-        cat@guessing <- cat@guessing[item]
+        setDifficulty(cat) <- cat@difficulty[[item]]
+        setDiscrimination(cat) <- cat@discrimination[item]
+        setGuessing(cat) <- cat@guessing[item]
         result <- probability(cat, estimateTheta(cat), item)$all.probabilities$probabilities
         return(result)
       }
-      pr_item_incorrect <- 1 - pr_item_correct(testCats[[7]]@difficulty)
+      pr_item_incorrect <- 1 - pr_item_correct(cat)
     
       item_thetas <- rep(NA, length(cat@difficulty[[item]]))
       item_vars <- rep(NA, length(cat@difficulty[[item]]))
@@ -59,10 +59,12 @@ test_that("expectedPV calculates correctly", {
 })
 
 
-## Again, only testing binary b/c categorical code isn't working b/c of liklihood
-expectedPV_test(cat = testCats[[3]],  item = min(which(is.na(testCats[[3]]@answers))) )
+## Binary is working, answers aren't exactly the same
+which(is.na(testCats[[3]]@answers))
+expectedPV_test(cat = testCats[[3]], 5) -
+expectedPV(testCats[[3]], 5)
 
-## c++ codes isn't returning anything
-expectedPV(testCats[[3]], min(which(is.na(testCats[[3]]@answers))))
-
+## Categorical isn't working... accessing something out of bounds
+expectedPV_test(cat = testCats[[7]],  item = min(which(is.na(testCats[[7]]@answers))) )
+expectedPV(testCats[[8]], 3 )
 
