@@ -75,8 +75,58 @@ test_that("polytomous obsInf calculates correctly", {
     return(sample(length(x@discrimination[!is.na(x@answers)]), 1))
   })
   questionVec<-unlist(questionList)
+
   
-  test_obsInf_poly<-function(cat="Cat", theta="numeric", item="numeric"){
+  test_obsInf_poly<-function(catPoly="Cat", theta="numeric", item="numeric"){
+    
+    ## check if this question is within the bounds of this Cat
+    if(item>length(catPoly@answers)){
+      return("Question item is out of bounds: this Cat does not have that many questions")
+    }
+    
+    ## check if this question has been answered:
+    if(is.na(catPoly@answers[item])){
+      return("Question item has not been answered")
+    }
+    
+    ##if both these checks pass, move on...
+    
+    ## creating pkExact: vector of each 
+    
+    ##indices of questions that have been answered:
+    answered_indices<-which(!is.na(catPoly@answers), arr.ind=T)
+    ##storing answers for question items that have been answered
+    ansVec<-catPoly@answers[answered_indices]
+    
+    if(length(answered_indices)>0){
+      p_ikList<-lapply(answered_indices, function(i){
+        probability(catPoly, theta, i)$all.probabilities$probabilities
+      })
+      
+      ## now, need to convert each value in each vector...
+      ##  ...from "the probability of a response in a category strictly higher than k"...
+      ##  ...to, "the probability of a response in exactly category k"
+      
+      p_ikListExact<-p_ikList ##copy list, for dimensions
+      
+      for (i in 1:length(p_ikList)){ ##iterating over items...
+        for(k in 1:length(p_ikList[[i]])){ ##iterating over response categories
+          if(k==1){ ## p_ikListExact[[i]][k] = p_ikList[[i]][k-1] - p_ikList[[i]][k]...
+            ## ...but p_ikList[[i]][0] = 1, as no responses are in category k=0 (so all responses are above k=0)
+            ##  (see note in 3.1.2, between equations (4) and (5))
+            p_ikListExact[[i]][k]<-1-p_ikList[[i]][k]
+          }
+          else {  ## for all answers in response category higher than 1...
+            p_ikListExact[[i]][k]<-p_ikList[[i]][k-1]-p_ikList[[i]][k]
+          }
+        }
+      }
+      
+      
+
+      
+    
+    
     discrim = cat@discrimination[item]
     guess<-cat@guessing[item]
     probs<-probability(cat, theta, item)

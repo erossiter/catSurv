@@ -76,29 +76,40 @@ test_that("polytomous likelihood calculates correctly",{
   ## creating lots of new Cats  and filling in the slots
   
   allTheCats<-catPolyCreator(10, fillAnswers=0.4, seed=9576)
-  #allTheCats[[1]]@guessing<-rep(0, length(allTheCats[[1]]@guessing))
-  #allTheCats[[1]]@answers[2]<-3 
-  #allTheCats[[1]]@difficulty
   
   ## creating vector of theta values
-  setThetas<-function(seed="numeric"){
+  setThetas<-function(seed=18){
     set.seed(seed)
     thetas<-c(2*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
     ## ...and multiplying by 2 so the values cover a range of ~(-4,4)
   }
-  thetaVec<-setThetas(18)
+  thetaVec<-setThetas()
   
   
   ## R test function
+  ## this function runs on a single Cat object, given a single theta value
   
   likelihood_test_poly <- function(catPoly = "Cat", theta = "numeric"){
-    ## each element in p_ikList is a vector (of variable length, possibly length 1) corresponding to a question item 
-    ##    (the output of the probability function for each question item)
-    ## each vector will be of length k_i, where k_i is the number of possible response
-    ##    categories to question i, and each value in the vector is the probability of
-    ##    the respondent giving a response in a category strictly higher than k
+    ##identifying indices of question items that have been answered
+    ## (equivalent of "applicable rows" in cpp)
     answered_indices<-which(!is.na(catPoly@answers), arr.ind=T)
+    
+    ##storing answers for question items that have been answered
+    ansVec<-catPoly@answers[answered_indices]
+    
+   
+    
+    ## only calculate likelihood if at least one question has been answered...
+    ## (if no questions have been answered, likelihood is 1)
+    
     if(length(answered_indices)>0){
+      
+      ## each element in p_ikList is a vector (of variable length, possibly length 1) corresponding to a question item 
+      ##    (the output of the probability function for each question item)
+      ## each vector will be of length (k_i - 1), where k_i is the number of possible response
+      ##    categories to question i (and thus (k_i - 1) is the number of difficulty parameters for that question item), 
+      ##    and each value in the vector is the probability of the respondent giving a response in a category strictly higher than k
+      
       p_ikList<-lapply(answered_indices, function(i){
         probability(catPoly, theta, i)$all.probabilities$probabilities
       })
@@ -109,22 +120,34 @@ test_that("polytomous likelihood calculates correctly",{
       
       p_ikListExact<-p_ikList ##copy list, for dimensions
       
+      
       for (i in 1:length(p_ikList)){ ##iterating over items...
-        for(k in 1:length(p_ikList[[i]])){ ##iterating over response categories
+        p_ikListExact[[i]]<-c(p_ikList[[i]],0) ## append one response category slot to the end of each question item's vector of probabilities
+        ## BECAUSE: the probability values are "the probability of a response in category strictly higher than k"
+        ## so, the probability vectors did not include a value for category k_i: a response could be in exactly category
+        ## k_i, but never a category higher than k_i, so that value would have been zero
+        ## BUT, here we want to include the probability of a response in category EXACTLY k_i
+        for(k in 1:length(p_ikListExact[[i]])){ ##iterating over response categories
           if(k==1){ ## p_ikListExact[[i]][k] = p_ikList[[i]][k-1] - p_ikList[[i]][k]...
             ## ...but p_ikList[[i]][0] = 1, as no responses are in category k=0 (so all responses are above k=0)
             ##  (see note in 3.1.2, between equations (4) and (5))
             p_ikListExact[[i]][k]<-1-p_ikList[[i]][k]
           }
           else {  ## for all answers in response category higher than 1...
-            p_ikListExact[[i]][k]<-p_ikList[[i]][k-1]-p_ikList[[i]][k]
+            if (k!=length(p_ikListExact[[i]])){ ## for all categories other than the highest response category
+              p_ikListExact[[i]][k]<-p_ikList[[i]][k-1]-p_ikList[[i]][k]
+            }
+            else {
+              p_ikListExact[[i]][k]<-p_ikList[[i]][k-1] ## probability of response in category k is the same as
+              ## the probability of a response in a category strictly higher than k-1
+            }
+            
           }
         }
       }
       
       
-      ##storing answers for question items that have been answered
-      ansVec<-catPoly@answers[answered_indices]
+      
       
       ## creating a list of vectors of (P_ijk)^I(y_ij = k) values... 
       ## ... each element of the list is a vector, corresponding to question item i, of length k_i
