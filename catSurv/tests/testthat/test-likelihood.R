@@ -154,7 +154,7 @@ test_that("polytomous likelihood calculates correctly",{
       ## ... and each element of each (length k_i) vector is the value of (P_ijk)^I(y_ij = k)
       probExpList<-p_ikListExact ##copying, for dimensions
       for(i in 1:length(probExpList)){
-        for(k in 1:length(i)){
+        for(k in 1:length(probExpList[[i]])){
           probExpList[[i]][k]<-(p_ikListExact[[i]][k])^(ansVec[i]==k)
         }
       }

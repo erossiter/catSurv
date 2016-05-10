@@ -55,6 +55,10 @@ test_that("binary probability calculates correctly", {
 })
 
 rm(list=ls())
+
+
+
+
 ###### POLYTOMOUS PROBABILITY TEST ########
 
 test_that("polytomous probability calculates correctly", {
@@ -74,7 +78,7 @@ test_that("polytomous probability calculates correctly", {
     difficulty = cat@difficulty[[question]]
     probVec <- c()
     for(k in 1:length(difficulty)){
-      exp_prob = exp(abs(discrimination) * (theta - difficulty[k]))
+      exp_prob = exp((discrimination) * (theta - difficulty[k]))
       probK<-(exp_prob/(1+exp_prob))
       probVec<-c(probVec, probK)
     }
