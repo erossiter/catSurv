@@ -2,57 +2,68 @@ catSurv
 Erin, Alex, Matt, Minhee
 4/29/16
 
+************
+S4 Cat Class
+************
+Slots:
+guessing, discrimination, answers, priorName, priorParams, lowerBound, upperBound, quadPoints, difficulty, X, Theta.et, poly, integration, estimation, selection, coverage, points
 
-The following functions in the catSurv package have been implemented in C++ and have been tested in R:
-- …
-- …
+Prototype:
+A binary Cat object with three questions. (see Cat-class.R for more info)
+(“initialize” method includes validity check)
 
-All of the above tests are robust to variation in the following slots of the Cat object:
-- …
-- …
-(With the following exceptions…)
+Validity checks:
+- guessing, discrimination, answers, and difficulty must all be the same length (and of length greater than 1)
+- discrimination and guessing are not NA
+Additional checks for polygamous Cats:
+- difficulty slot must be a list (each element of the list corresponds to a question item)
+- difficulty values for a given question item must be strictly increasing, and not NA
 
-The class structure of the C++ Cat object has been modified as follows:
-…
-
-The class structure of the S4 Cat object has been modified as follows:
-…
-
-
-
-Functions we currently have working (c++) and tested (R)
-Section 2 – probability
-Section 3 – likelihood
-Section 5 – estimateTheta (EAP)
-Section 10 – estimateSE
-Section 11 – expectedPV
-Section 12 – nextItemEPV
-Adding data to package
-Writing “get” methods
-Fixing validity check
-Section 6 – dLL
-Section 7 – d2LL
-
-Functions we are currently working on and testing
-Adding randomization to the above methods, for more robust testing
-Section 5 – estimateTheta (MAP)
-Section 13 – nextItemMFI
-Section 18 – MLWI “next item” function likelihoodWI
-
-Other package tasks we are currently working on:
-Getting a demo running
-	
-Functions we plan to have working and tested when the semester concludes
-Section 8 – ObsInf
-Section 9 – FisherInf
+Getters and Setters:
+Getters and setters have been included for the following slots: 
+- guessing, discrimination, priorParam, priorName, lowerBound, upperBound, quadPoints, difficulty, poly, integration, estimation, selection, coverage, points
+All setters include an argument of “valid” which determines whether to run a validity check on the modified Cat object. Default to TRUE.
+All setters take the format: setSlot(object, valid=T)<-value
 
 
-Erin is doing:
-Section 19 – MPWI
-		—> changing this name to nextItemMPWI
-		—> adding a function called priorWI
-Section 20 - expectedObsInf
-Section 21 – nextItemMEI
+*********************
+Cat Creator Functions
+*********************
+
+Functions catBiCreator and catPolyCreator have been included in the package. These functions created lists of Cat objects with randomly assigned values, to allow for robust function testing. (see catBiCreator.R and catPolyCreator.R for more info)
+
+TO DO: randomize priorName, estimation, and priorParams, and possibly other slots
+
+
+**********
+Help files
+**********
+
+Help files have been included for the following functions in the package:
+- probability, likelihood, estimateTheta, estimateSE, prior, catBiCreator, catPolyCreator, setGuessing, setDiscrimination, (other setters)
+
+TO DO: add help files to rest of functions
+TO DO: get help files to link to each other (under “See Also”)
+
+
+*************
+Documentation 
+*************
+
+The following updates need to be made to the master documentation file:
+—definitions of applicable_rows and non_applicable rows - needs to be reversed
+—polytomous probability - is actually ‘probability of a response in category strictly higher than k (currently says k or higher)
+—polytomous likelihood (3.1.2 paragraph 1) - says ‘discrimination’ parameters, should say ‘difficulty’/‘threshold’
+—9.1 FisherInf: there is an alpha where it should just be an ‘a’
+—estimation_method (p2) says only current valid value is EAP
+—polytomous likelihood - says P*_ijC_i, should say P*_ijK_i
+-for polytomous likelihood: we have dropped the ‘D’ value; and we are now using the absolute value of ‘a’ (discrimination)
+-likelihood no longer takes an ‘items’ argument; instead, it runs on all question items that have been answered (ie. that are not NA)
+
+
+***********
+Probability
+***********
 
 
 

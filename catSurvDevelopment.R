@@ -13,6 +13,7 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+?prior
 
 ?catBiCreator
 myFifteenBiCats<-catBiCreator(1, fillAnswers=.8)
