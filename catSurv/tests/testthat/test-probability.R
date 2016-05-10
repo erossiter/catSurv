@@ -7,7 +7,7 @@ test_that("binary probability calculates correctly", {
   
   ## Creating a lot of cat objects and filling in needed slots
   ## ADJUST THIS INPUT IF YOU WANT A SHORTER OR LONGER TEST
-  allTheCats<-catBiCreator(10,seed=78)
+  allTheCats<-catBiCreator(10,seed=7896)
 
   ## setting the question and theta values for each Cat, to be used in the probability function...
   
@@ -54,6 +54,7 @@ test_that("binary probability calculates correctly", {
   
 })
 
+rm(list=ls())
 ###### POLYTOMOUS PROBABILITY TEST ########
 
 test_that("polytomous probability calculates correctly", {
@@ -104,15 +105,7 @@ test_that("polytomous probability calculates correctly", {
     return(probability(allPolyCats[[x]], thetaVec[x], questionVec[x])$all.probabilities$probabilities)
   })
 
-asdf<-sapply(c(1:26), function(x){
-  return(probability(allPolyCats[[3]], 1.4, x)$all.probabilities$probabilities)
-} ) 
 
-class(asdf)
-indices<-c(which(allPolyCats[[3]]@discrimination<0, arr.ind=T))
-for (i in indices){
-  print(asdf[[i]])
-}
   
   ##calculating values from the test probability function (created above)
   testFunValues<-lapply(1:length(allPolyCats), function(x){

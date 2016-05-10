@@ -7,7 +7,7 @@ context("obsInf")
 test_that("binary obsInf calculates correctly", {
   ## creating cats
   
-  allTheCats<-catBiCreator(10)
+  allTheCats<-catBiCreator(10, seed=343434)
   
   ## setting the question and theta values for each Cat, to be used in the obsInf function...
   
@@ -29,7 +29,7 @@ test_that("binary obsInf calculates correctly", {
   test_obsInf_bi<-function(cat="Cat", theta="numeric", item="numeric"){
     discrim = cat@discrimination[item]
     guess<-cat@guessing[item]
-    probs<-probability(cat, theta, item)
+    probs<-probability(cat, theta, item)$all.probabilities$probabilities
     return((discrim^2)* (( (probs-guess)/(1-guess) )^2)* (1-probs)/probs )
   }
   
@@ -47,6 +47,8 @@ test_that("binary obsInf calculates correctly", {
   
 })
 
+
+rm(list=ls())
 
 ######## POLYTOMOUS OBSINF TEST ###########
 
@@ -69,11 +71,12 @@ test_that("polytomous obsInf calculates correctly", {
   questionList<-lapply(allTheCats, function(x){
     #drawing a question/item number randomly from the number of questions stored in each Cat:
     ##  (number of quesitons corresponds to the length of a Cat's discrimination vector)
-    return(sample(length(x@discrimination), 1))
+    ## ...and only selecting from question indices for which an answer has been given
+    return(sample(length(x@discrimination[!is.na(x@answers)]), 1))
   })
   questionVec<-unlist(questionList)
   
-  test_obsInf_bi<-function(cat="Cat", theta="numeric", item="numeric"){
+  test_obsInf_poly<-function(cat="Cat", theta="numeric", item="numeric"){
     discrim = cat@discrimination[item]
     guess<-cat@guessing[item]
     probs<-probability(cat, theta, item)
