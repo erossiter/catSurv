@@ -15,6 +15,9 @@
 #' \item \code{discrimination} a vector of disrimination parameter for each question/item.
 #' \item \code{answers} a vector of answers to questions as given by the survey respondent. Default to a vector of half NA values and half filled values (randomly chosen) whose length is the number of questions (same length as difficulty, guessing, and discrimination)
 #' Filled values correspond to response categories. Response categories range from 1 to (k+1), where k is the number of difficulty parameters for a given question item.
+#' \item \code{priorName}
+#' \item \code{estimation}
+#' \item \code{priorParams}
 #' }
 #' and prototype (default) values for components:
 #' \itemize{
@@ -37,7 +40,7 @@ setMethod(f="catPolyCreator", signature="numeric",
             for(i in 1:numCats){
               numQuestions<-3+floor(abs(50*(rnorm(1))))
               newCat<-new("Cat",
-                          discrimination=abs((spread*rnorm(numQuestions))),
+                          discrimination=((spread*rnorm(numQuestions))),
                           difficulty=lapply(1:numQuestions, function(x){
                             ## questions can have anywhere from 1 to 10 possible answers...
                             ## spread sets the probable range for the difficulty values (default to ~(-4, 4))

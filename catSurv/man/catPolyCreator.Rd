@@ -26,6 +26,9 @@ A list of length \code{numCats} containing objects of class \code{Cat} with rand
 \item \code{discrimination} a vector of disrimination parameter for each question/item.
 \item \code{answers} a vector of answers to questions as given by the survey respondent. Default to a vector of half NA values and half filled values (randomly chosen) whose length is the number of questions (same length as difficulty, guessing, and discrimination)
 Filled values correspond to response categories. Response categories range from 1 to (k+1), where k is the number of difficulty parameters for a given question item.
+\item \code{priorName}
+\item \code{estimation}
+\item \code{priorParams}
 }
 and prototype (default) values for components:
 \itemize{
