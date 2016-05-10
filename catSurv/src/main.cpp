@@ -3,6 +3,13 @@
 #include <boost/variant.hpp>
 using namespace Rcpp;
 
+/**
+ * To enable the usage of R-style methods (i.e. functions that take their object as their first parameter),
+ * this file contains a direct mapping from the functions called by RCpp to methods of the Cat class.
+ * In other words, every method in this file converts an S4 Cat object to a C++ Cat object, then calls the appropriate
+ * method of the C++ Cat object.
+ */
+
 // [[Rcpp::plugins(cpp11)]]
 
 //' Probabilities of the responses to a question given theta

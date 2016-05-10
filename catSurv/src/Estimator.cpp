@@ -31,6 +31,8 @@ double Estimator::polytomous_likelihood(double theta) {
 		// TODO: Determine what should happen when a negative answer is given
 		// TODO: that is, when a user doesn't respond, the value will be negative
 		// TODO: Which will result in an out-of-bounds array access
+
+		// TODO: Absolute value and reserve array, if needed.
 		int index = questionSet.answers.at(unsigned_question);
 		L *= question_cdf.at(((size_t) index) - 1) - question_cdf.at((size_t) index);
 	}
@@ -182,6 +184,10 @@ double Estimator::fisherInf(double theta, int item) {
 	return output;
 }
 
+/**
+ * Computes the probability for a given theta and question number,
+ * then pads it with a 1.0 at the beginning, and a 0.0 at the end.
+ */
 std::vector<double> Estimator::paddedProbability(double theta, size_t question) {
 	std::vector<double> probabilities = probability(theta, question);
 	std::vector<double> padded{1.0};
