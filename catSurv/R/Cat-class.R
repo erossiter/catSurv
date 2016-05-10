@@ -444,15 +444,15 @@ setMethod("getdiscrimination", "Cat",
           })
 
 #' @export
-setGeneric("getpriorParam",
+setGeneric("getpriorParams",
            function(object="Cat")  {
-             standardGeneric("getpriorParam")
+             standardGeneric("getpriorParams")
            })
 
 #' @export
-setMethod("getpriorParam", "Cat",
+setMethod("getpriorParams", "Cat",
           function(object){
-            return(object@priorParam)
+            return(object@priorParams)
           })
 
 #' @export

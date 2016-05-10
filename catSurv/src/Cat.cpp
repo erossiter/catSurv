@@ -10,8 +10,8 @@ using namespace Rcpp;
 
 Cat::Cat(S4 cat_df) : questionSet(cat_df),
                       integrator(Integrator()),
-                      estimator(createEstimator(cat_df, integrator, questionSet)),
                       prior(cat_df),
+                      estimator(createEstimator(cat_df, integrator, questionSet)),
                       selector(createSelector(cat_df.slot("selection"), questionSet, *estimator, prior)) {
 	theta_est = Rcpp::as<std::vector<double> >(cat_df.slot("Theta.est"));
 }
@@ -70,6 +70,10 @@ double Cat::obsInf(double theta, int item) {
  */
 std::unique_ptr<Estimator> Cat::createEstimator(S4 &cat_df, Integrator &integrator, QuestionSet &questionSet) {
 	std::string estimation_type = cat_df.slot("estimation");
+
+	// Note that this comparison is only legal because std::string, which overrides ==, is being used.
+	// If, for some reason, C-style strings are ever used here, strncmp will have to be inserted.
+
 	if (estimation_type == "EAP") {
 		return std::unique_ptr<EAPEstimator>(new EAPEstimator(integrator, questionSet));
 	}

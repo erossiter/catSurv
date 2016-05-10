@@ -3,6 +3,9 @@
 #include <vector>
 #include <Rcpp.h>
 
+/**
+ * Represents the prior model used in other calculations.
+ */
 class Prior {
 private:
 	double dt(double x, int df, double mu);
