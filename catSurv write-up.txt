@@ -80,6 +80,11 @@ Binary and polygamous likelihood functions both pass robust test.
 
 TO DO: For polytomous Cats, for question items for which discrimination is negative, need to reverse the order of the “exact probability” vector (the vector of probabilities of a response in exactly response category k; see equation (4) in the documentation)
 
+******
+ObsInf
+******
+
+Tests do not pass. We don’t know why. On a very basic Cat object, we get a ‘vector indexing out of bounds’ error.
 
 **********
 C++
