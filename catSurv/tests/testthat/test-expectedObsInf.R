@@ -46,6 +46,14 @@ test_that("expectedObsInf calculates correctly", {
 })
 
 
+for(i in 1:length(testCats)){
+   ##picking the first item that is NA
+   item <- min(which(is.na(testCats[[i]]@answers)))
+   print(expectedObsInf(testCats[[i]], item) - expectedObsInf_test(testCats[[i]], item))
+}
 
-expectedObsInf(testCats[[1]], min(which(is.na(testCats[[1]]@answers))))
-expectedObsInf_test(testCats[[1]], min(which(is.na(testCats[[1]]@answers))))
+item <- min(which(is.na(testCats[[2]]@answers)))
+expectedObsInf(testCats[[2]], item) 
+expectedObsInf_test(testCats[[7]], item)
+
+

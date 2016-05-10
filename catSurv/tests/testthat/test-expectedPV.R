@@ -49,14 +49,13 @@ test_that("expectedPV calculates correctly", {
     return(item_EPV)
   }
   
+
+    for(i in 1:length(testCats)){
+      ##picking the first item that is NA
+      item <- min(which(is.na(testCats[[i]]@answers)))
+      print(expectedPV(testCats[[i]], item) - expectedPV_test(testCats[[i]], item))
+  }
   
-     equal_test <- function(cat){
-       item <- which(is.na(cat@answers))[2]
-       #expect_equal(expectedPV(cat, item), expectedPV_test(cat, item), tolerance = .01)
-       print(expectedPV(cat, item) - expectedPV_test(cat, item))
-     }
-     ## won't work on 6th cat
-     lapply(c(catBiCreator(5), catPolyCreator(5)), equal_test)
 })
 
 

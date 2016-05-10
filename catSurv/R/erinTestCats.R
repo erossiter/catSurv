@@ -20,3 +20,12 @@ testCats[[7]]@estimation <- "MAP"
 testCats[[9]]@estimation <- "MAP"
 testCats[[11]]@estimation <- "MAP"
 
+
+testCats[[1]]@estimation <- "MAP"
+testCats[[3]]@estimation <- "MAP"
+testCats[[5]]@estimation <- "MAP"
+testCats[[7]]@estimation <- "MAP"
+testCats[[9]]@estimation <- "MAP"
+testCats[[11]]@estimation <- "MAP"
+
+
