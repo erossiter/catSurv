@@ -1,6 +1,7 @@
 library(catSurv)
 context("obsInf")
 
+rm(list=ls())
 
 ######## BINARY OBSINF TEST ###########
 
@@ -11,18 +12,19 @@ test_that("binary obsInf calculates correctly", {
   
   ## setting the question and theta values for each Cat, to be used in the obsInf function...
   
-  setThetas<-function(seed="numeric"){
+  setThetas<-function(seed=1000){
     set.seed(seed)
     thetas<-c(2*rnorm(length(allTheCats))) # drawing one theta value for each Cat (number of draws = length(allTheCats))... 
     ## ...and multiplying by 2 so the values cover a range of ~(-4,4)
   }
-  thetaVec<-setThetas(1000)
+  thetaVec<-setThetas()
   
   set.seed(2222)
   questionList<-lapply(allTheCats, function(x){
     #drawing a question/item number randomly from the number of questions stored in each Cat:
     ##  (number of quesitons corresponds to the length of a Cat's discrimination vector)
-    return(sample(length(x@discrimination), 1))
+    ## ...more specifically, drawing question numbers from the questions which have been answered
+    return(sample(length(x@discrimination[!is.na(x@answers)]), 1))
   })
   questionVec<-unlist(questionList)
   
@@ -132,7 +134,8 @@ test_that("polytomous obsInf calculates correctly", {
     probs<-probability(cat, theta, item)
     return((discrim^2)* (( (probs-guess)/(1-guess) )^2)* (1-probs)/probs )
   }
-  
+  }
+    
   ## creating list of values as calculated by the real function
   realObsValues<-lapply(1:length(allTheCats), function(x){
     obsInf(allTheCats[[x]], thetaVec[x], questionVec[x])
