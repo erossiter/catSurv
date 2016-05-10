@@ -99,5 +99,46 @@ Prior is responsible for computations related to prior distributions, for instan
 
 QuestionSet contains the raw data used to make computations ñ the status of each question, the discrimination values, and whether or not the data is polytomous, among other data points. It contains no methods other than a constructor.
 
+****************
+Additional Tests
+****************
 
+I test the following functions using all combinations of the following: binary/categorical Cats, normal/student's t distribution, MAP/EAP estimation type.
+
+
+prior()
+*******
+is returning answers.  Test function shows it returns correct values for all test Cats. We need to make sure documentation & is consistent with how those strings are written ("NORMAL" and "STUDENT_T" or something different).
+
+estimateTheta()
+***************
+is returning answers.  Test function shows it returns correct values except for 1 test Cat, a binary, EAP, student's t Cat.  Difference in answers is .15  
+
+estimateSE()
+************
+is returning answers.  Test function shows it returns correct values except for 3 test where the differences are  .04, .14, and .07 between the test and c++ function.   These Cats are a mix of binary/poly and EAP/MAP.  They are all student's t distribution.
+
+expectedPV()
+************
+is only returning answers for binary Cats.  It is throwing "Error: vector" for categorical Cats, so it is trying to access something out of bounds.  For binary Cats, the 2 largest differences between test and c++ functions are .01 and .07.
+
+nextItem()
+**********
+EPV: is not returning any values.  It won't work for categorical Cats because expectedPV() isn't working for them.  For binary Cats, it throws  "Error: vector" for EAP estimation (and will sometimes crash R), so it is trying to access something out of bounds.  For MAP estimation type, it runs forever...  Test function is written.
+
+MEI: it is accessing something out of bounds for all EAP Cats.  It runs forever for MAP cats.  This wasn't a super systematic check of which Cats cause which problems, though.  Test function is written.
+
+MPWI: Test function is written.  It throws an error: “MPWI is not a valid selection type”.. so we need to add that to c++ code.
+
+expectedObsInf()
+***************
+is returning values for all MAP Cats (binary and categorical); however, these values are different from the test function.  It is returning values for all EAP Cats except 2:  it crashes for one EAP, binary, student's t distribution Cat, and it is trying to access something out of bounds for one EAP, binary, normal distribution Cat.  The test function needs work for categorical Cats.
+
+
+
+
+
+
+
+ 
 
