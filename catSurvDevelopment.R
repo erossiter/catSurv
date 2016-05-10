@@ -13,6 +13,12 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+testCats <- c(catBiCreator(5), catPolyCreator(5))
+llply(testCats, getestimation)
+llply(testCats, getpriorName)
+llply(testCats, getpriorParams)
+
+
 
 ?catBiCreator
 myFifteenBiCats<-catBiCreator(1, fillAnswers=.8)
