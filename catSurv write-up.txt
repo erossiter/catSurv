@@ -80,3 +80,24 @@ Binary likelihood function passes robust test. Polytomous does not, for reasons 
 
 TO DO: For question items for which discrimination is negative, need to reverse the order of the “exact probability” vector (the vector of probabilities of a response in exactly response category k; see equation (4) in the documentation)
 
+
+**********
+C++
+**********
+
+In general, the refactoring of Cat and the classes it relies on is done. The main goal was to break Cat into severaly smaller, resuable components that could be replaced, changed, and used independently of one another, and that goal was largely achieved. However, there are a number of bugs in the implementation. We suspect that most of the errors are either mistakes in the underlying math, or off-by-one errors resulting from transitioning between R-style and C++-style indexing. 
+
+In terms of structure, main.cpp contains the functions that are exposed to Rcpp, but, instead of actually implementing any of their logic, it delegates that task to the class Cat. Cat, in turn, contains five main instance variables which handle its various tasks: Estimator, Integrator,  Selector, Prior, and QuestionSet.
+
+Estimator is the parent class of EAPEstimator and MAPEstimator, responsible for computing the estimations (e.g. likelihood, theta) necessary for the Cat using various strategies. It is an abstract class, which both its children concretize.
+
+Integrator computes the integral of a function, using GSL's adaptive quadrature method. To enable easy interaction with GSL, it uses GSLFunctionWrapper, which wraps C++ functions and lambdas in a way that allows them to be passed to GSL's functions as arguments.
+
+Selector is the parent class of MWPISelector, MFISelector, EPVSelector, and MEISelector, responsible for both determining what the next item to be selected should be and returning an object containing that information. The information returned by a Selector is represented by the Selection object, in order to decrease coupling between the C++ and R data structures generated during a selection, as well as to avoid repeating the very generic code that generates an R List from a selection.
+
+Prior is responsible for computations related to prior distributions, for instance, the pdf of a non-central t-distribution. It relies on Boost's statistical distribution header.
+
+QuestionSet contains the raw data used to make computations ñ the status of each question, the discrimination values, and whether or not the data is polytomous, among other data points. It contains no methods other than a constructor.
+
+
+
