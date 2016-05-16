@@ -26,25 +26,24 @@ test_that("expectedPV calculates correctly", {
   
   
     if(cat@poly == TRUE){
-      pr_item_correct <- function(cat){
-      ## temporarily changing cat to just have this question's info
-        setDifficulty(cat) <- cat@difficulty[[item]]
-        setDiscrimination(cat) <- cat@discrimination[item]
-        setGuessing(cat) <- cat@guessing[item]
-        result <- probability(cat, estimateTheta(cat), item)$all.probabilities$probabilities
-        return(result)
-      }
-      pr_item_incorrect <- 1 - pr_item_correct(cat)
-    
+      # pr_item <- function(cat){
+      # ## temporarily changing cat to just have this question's info
+      #   setDifficulty(cat) <- cat@difficulty[[item]]
+      #   setDiscrimination(cat) <- cat@discrimination[item]
+      #   setGuessing(cat) <- cat@guessing[item]
+      #   result <- probability(cat, estimateTheta(cat), item)$all.probabilities$probabilities
+      #   return(result)
+      # }
       item_thetas <- rep(NA, length(cat@difficulty[[item]]))
       item_vars <- rep(NA, length(cat@difficulty[[item]]))
       for(i in 1:length(item_thetas)){
-        cat@answers <- i
+        item_probabilities <- probability(cat, estimateTheta(cat), item)$all.probabilities$probabilities
+        cat@answers[item] <- i
         item_vars[i] <- estimateSE(cat)^2
       }
       cat@answers[item] <- NA
     
-      itemEPV <- sum(item_probabilities * item_vars)
+      item_EPV <- sum(item_probabilities * item_vars)
     }
     return(item_EPV)
   }
@@ -54,8 +53,10 @@ test_that("expectedPV calculates correctly", {
       ##picking the first item that is NA
       item <- min(which(is.na(testCats[[i]]@answers)))
       print(expectedPV(testCats[[i]], item) - expectedPV_test(testCats[[i]], item))
-  }
+    }
   
+  expectedPV_test(testCats[[5]], min(which(is.na(testCats[[5]]@answers))))
+  expectedPV(testCats[[5]], min(which(is.na(testCats[[5]]@answers))))
 })
 
 

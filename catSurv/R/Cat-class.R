@@ -76,10 +76,10 @@ setClass("Cat",
            selection="EPV",
            coverage=0.9,
            points=40,
-           answers=c(NA, NA,NA),
-           discrimination=c(0,0,0),
-           guessing=c(0,0,0),
-           difficulty=c(0,0,0)
+           answers=rep(NA, 10),
+           discrimination=rep(0, 10),
+           guessing=rep(0, 10),
+           difficulty=rep(0, 10)
          )
 )
 
@@ -99,16 +99,16 @@ setValidity("Cat", function(object){
   #... and that length must be greater than 1
   test0<-(length(object@discrimination)>1)
   if(!test0){return("discrimination needs length greater than 1")}
-      
-  test1<-(length(object@discrimination)==length(object@guessing))  
+
+  test1<-(length(object@discrimination)==length(object@guessing))
   if(!test1){return("discrimination and guessing not same length")}
-  
-  test2<-(length(object@discrimination)==length(object@answers))  
+
+  test2<-(length(object@discrimination)==length(object@answers))
   if(!test2){return("discrimination and answers not same length")}
-  
-  test3<-(length(object@discrimination)==length(object@difficulty))  
+
+  test3<-(length(object@discrimination)==length(object@difficulty))
   if(!test3){return("discrimination and difficulty not same length")}
-  
+
   ## If the Cat is polytomous, the difficulty needs to be list
   if(object@poly==T){
     if(class(object@difficulty)!="list"){return("Cat object is polytomous, but difficulty slot is not a list")}
@@ -116,7 +116,7 @@ setValidity("Cat", function(object){
   else{
     if(class(object@difficulty)!="numeric"){return("Cat object is binary, but difficulty slot is not a numeric vector")}
   }
-  
+
   
   ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING, and not NA
   if(object@poly==T){

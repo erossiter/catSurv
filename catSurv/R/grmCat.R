@@ -28,6 +28,7 @@ setMethod(f="grmCat", signature="data.frame",
             if(!is.null(object)) if(class(object)!="Cat") stop("object is not class Cat")
             fit <- grm(data=data, IRT.param = TRUE,...)
             coefficient <- coef(fit)
+            ## back to original code
             answer <- rep(NA,nrow(coefficient))
             discrimination <- coefficient[,"Dscrmn"]
             difficulty <- lapply(1:nrow(coefficient), function(i) coefficient[i,-ncol(coefficient)])
