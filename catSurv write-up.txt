@@ -139,6 +139,13 @@ expectedObsInf()
 ***************
 is returning values for all MAP Cats (binary and categorical); however, these values are different from the test function.  It is returning values for all EAP Cats except 2:  it crashes for one EAP, binary, student's t distribution Cat, and it is trying to access something out of bounds for one EAP, binary, normal distribution Cat.  The test function needs work for categorical Cats.
 
+dLL()
+*****
+is returning values.  Test function is written.
+
+d2LL()
+******
+is returning values.  Test function is written.
 
 
 
