@@ -9,6 +9,7 @@ test_that("nextItemEPV calculates correctly", {
     questions_EPV <- rep(NA, length(unanswered_questions))
     for(i in 1:length(unanswered_questions)){
       questions_EPV[i] <- expectedPV(cat, unanswered_questions[i])
+      #print(questions_EPV[i])
       }
     next_item <- which(min(questions_EPV))
     return(next_item)
@@ -17,9 +18,10 @@ test_that("nextItemEPV calculates correctly", {
   #lapply(c(catBiCreator(5), catPolyCreator(5)),
   #       function(x) expect_equal(nextItem(x), nextItemEPV_test(x), tolerance = .1))
   
-  # for(i in 1:length(testCats)){
-  #   ##picking the first item that is NA
-  #   item <- min(which(is.na(testCats[[i]]@answers)))
-  #   print(nextItem(testCats[[i]]) - expectedPV_test(testCats[[i]], item))
-  # }
+  for(i in 1:length(testCats)){
+    print(nextItem(testCats[[i]]) - nextItemEPV_test(testCats[[1]]))
+  }
+  nextItemEPV_test(testCats[[1]])
 })
+
+#std::cout << probability_incorrect << std::endl;

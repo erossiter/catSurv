@@ -7,9 +7,12 @@ double Estimator::likelihood(double theta) {
 
 std::vector<double> Estimator::probability(double theta, size_t question) {
 
+  //auto used to initialize variable to tell the compiler to infer the
+  //variable’s type from the assignment’s type
 	auto calculate = [&](double difficulty) {
 		double guess = questionSet.guessing.at(question);
-		double exp_prob = exp(questionSet.discrimination.at(question) * (theta - difficulty));
+		//double exp_prob = exp(questionSet.discrimination.at(question) * (theta - difficulty));
+		double exp_prob = exp(difficulty + (questionSet.discrimination.at(question) * theta));
 		double base_probability = exp_prob / (1 + exp_prob);
 		return questionSet.poly ? base_probability : guess + (1 - guess) * base_probability;
 	};
@@ -86,9 +89,10 @@ double Estimator::integralQuotient(integrableFunction const &numerator,
 
 double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 	std::vector<double> variances;
-	for (size_t i = 0; i <= questionSet.difficulty[item].size(); ++i) {
-		questionSet.answers[item] = (int) i;
+	for (size_t i = 0; i <= questionSet.difficulty[item].size() - 1; ++i) { //Erin added -1 here.
+		questionSet.answers[item] = (int) i+1; //Erin added +1 here
 		variances.push_back(pow(estimateSE(prior), 2));
+    std::cout << i+1 << std::endl;
 	}
 
 	auto question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
@@ -101,13 +105,14 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 }
 
 double Estimator::binary_posterior_variance(int item, Prior &prior) {
-	questionSet.answers[item] = 1;
+  const double probability_incorrect = probability(estimateTheta(prior), (size_t) item)[0];
+  
+	questionSet.answers[item] = 1; //Erin added -1
 	double variance_correct = pow(estimateSE(prior), 2);
 
-	questionSet.answers[item] = 0;
+	questionSet.answers[item] = 0; //Erin added -1
 	double variance_incorrect = pow(estimateSE(prior), 2);
 
-	const double probability_incorrect = probability(estimateTheta(prior), (size_t) item)[0];
 	return (probability_incorrect * variance_correct) + ((1.0 - probability_incorrect) * variance_incorrect);
 }
 
@@ -116,7 +121,7 @@ double Estimator::expectedPV(int item, Prior &prior) {
 
 	double result = questionSet.poly ? polytomous_posterior_variance(item, prior) : binary_posterior_variance(item,
 	                                                                                                          prior);
-	questionSet.answers[item] = NA_INTEGER; // remove answer
+	questionSet.answers[item] = NA_INTEGER; // remove answer //Erin added -1
 	questionSet.applicable_rows.pop_back();
 	return result;
 }

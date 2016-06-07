@@ -1,5 +1,8 @@
 #include "EPVSelector.h"
 
+#include <iostream>
+ 
+using namespace std;
 
 Selection EPVSelector::nextItem() {
 	// For every unanswered item, calculate the epv of that item
@@ -7,7 +10,7 @@ Selection EPVSelector::nextItem() {
 	selection.name = getSelectionName();
 	selection.values.reserve(questionSet.nonapplicable_rows.size());
 	selection.questions = questionSet.nonapplicable_rows;
-
+	
 	int min_item = -1;
 	double min_epv = INFINITY;
 

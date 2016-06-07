@@ -26,7 +26,10 @@ test_that("estimateSE calculates correctly", {
    # lapply(c(catBiCreator(5), catPolyCreator(5)),
    #        function(x) expect_equal(estimateSE(x), estimateSE_test(x), tolerance = .1))
   for(i in 1:length(testCats)){
+    print(estimateSE(testCats[[i]]))
+    print(estimateSE_test(testCats[[i]]))
     print(round(estimateSE(testCats[[i]]) - estimateSE_test(testCats[[i]]), 5))
+    print("")
   }
   
   ## testCats 1, 2, and 9 are not very close.

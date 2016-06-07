@@ -34,29 +34,33 @@ test_that("expectedPV calculates correctly", {
       #   result <- probability(cat, estimateTheta(cat), item)$all.probabilities$probabilities
       #   return(result)
       # }
-      item_thetas <- rep(NA, length(cat@difficulty[[item]]))
-      item_vars <- rep(NA, length(cat@difficulty[[item]]))
-      for(i in 1:length(item_thetas)){
-        item_probabilities <- probability(cat, estimateTheta(cat), item)$all.probabilities$probabilities
+      
+      item_probabilities <- probability(cat, estimateTheta(cat), item)$all.probabilities$probabilities
+      #item_thetas <- rep(NA, length(item_probabilities))
+      item_vars <- rep(NA, length(item_probabilities))
+      for(i in 1:length(item_probabilities)){
         cat@answers[item] <- i
         item_vars[i] <- estimateSE(cat)^2
       }
       cat@answers[item] <- NA
-    
+      #print(item_vars)
+      
       item_EPV <- sum(item_probabilities * item_vars)
     }
     return(item_EPV)
   }
   
 
-    for(i in 1:length(testCats)){
+    for(i in 1:4){
       ##picking the first item that is NA
-      item <- min(which(is.na(testCats[[i]]@answers)))
+      item <- min(which(is.na(testCats[[1]]@answers)))
       print(expectedPV(testCats[[i]], item) - expectedPV_test(testCats[[i]], item))
+      #print(expectedPV(testCats[[i]], item))
+      #print(expectedPV_test(testCats[[i]], item))
+      print("")
     }
-  
-  expectedPV_test(testCats[[5]], min(which(is.na(testCats[[5]]@answers))))
-  expectedPV(testCats[[5]], min(which(is.na(testCats[[5]]@answers))))
+  expectedPV(testCats[[1]], 10)
+  expectedPV_test(testCats[[1]], 8)
 })
 
 
