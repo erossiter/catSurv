@@ -15,6 +15,18 @@ document(current.code)
 
 
 
+probability(testCats[[1]], 1, 1)
+probability_test_bi(testCats[[1]], 1, 1)
+
+probability(testCats[[6]], 1, 1)
+probability_test_poly(testCats[[6]], 1, 1)
+
+likelihood(testCats[[1]], 1)
+likelihood_test_bi(testCats[[1]], 1)
+
+likelihood(testCats[[6]], 2)
+likelihood_test_poly(testCats[[6]], 2)
+
 
 ## Making Cats with data in package
 library(ltm) ## need to add as dependency

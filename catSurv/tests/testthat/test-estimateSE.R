@@ -44,6 +44,8 @@ test_that("estimateSE calculates correctly", {
   testCats[[1]]@priorName
   testCats[[2]]@priorName
   testCats[[9]]@priorName
+  
+  expect_equal(estimateSE(x), estimateSE_test(x), tolerance = .1)
 })
 
 

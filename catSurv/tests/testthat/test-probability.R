@@ -32,7 +32,7 @@ test_that("binary probability calculates correctly", {
     discrimination = cat@discrimination[question]
     difficulty = cat@difficulty[question]
     guessing = cat@guessing[question]
-    exp_prob = exp(discrimination * (theta - difficulty))
+    exp_prob = exp(difficulty + (theta * discrimination))
     probability <- guessing + (1-guessing) * (exp_prob / (1 + exp_prob))
     return(probability)
   }
@@ -78,9 +78,9 @@ test_that("polytomous probability calculates correctly", {
     difficulty = cat@difficulty[[question]]
     probVec <- c()
     for(k in 1:length(difficulty)){
-      exp_prob = exp((discrimination) * (theta - difficulty[k]))
-      probK<-(exp_prob/(1+exp_prob))
-      probVec<-c(probVec, probK)
+      exp_prob = exp((difficulty[k]) - (theta * discrimination))
+      probK <- (exp_prob/(1+exp_prob))
+      probVec <- c(probVec, probK)
     }
     return((probVec))
   }

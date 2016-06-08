@@ -118,35 +118,19 @@ test_that("polytomous likelihood calculates correctly",{
       ##  ...from "the probability of a response in a category strictly higher than k"...
       ##  ...to, "the probability of a response in exactly category k"
       
-      p_ikListExact<-p_ikList ##copy list, for dimensions
+      #p_ikListExact<-p_ikList ##copy list, for dimensions
       
-      
-      for (i in 1:length(p_ikList)){ ##iterating over items...
-        p_ikListExact[[i]]<-c(p_ikList[[i]],0) ## append one response category slot to the end of each question item's vector of probabilities
+      p_ikListExact <- vector("list", length(p_ikList))
+      for (i in 1:length(p_ikList)){ ##iterating over question
+        p_ikList[[i]]<-c(0,p_ikList[[i]],1) ## append one response category slot to the end of each question item's vector of probabilities
         ## BECAUSE: the probability values are "the probability of a response in category strictly higher than k"
         ## so, the probability vectors did not include a value for category k_i: a response could be in exactly category
         ## k_i, but never a category higher than k_i, so that value would have been zero
         ## BUT, here we want to include the probability of a response in category EXACTLY k_i
-        for(k in 1:length(p_ikListExact[[i]])){ ##iterating over response categories
-          if(k==1){ ## p_ikListExact[[i]][k] = p_ikList[[i]][k-1] - p_ikList[[i]][k]...
-            ## ...but p_ikList[[i]][0] = 1, as no responses are in category k=0 (so all responses are above k=0)
-            ##  (see note in 3.1.2, between equations (4) and (5))
-            p_ikListExact[[i]][k]<-1-p_ikList[[i]][k]
-          }
-          else {  ## for all answers in response category higher than 1...
-            if (k!=length(p_ikListExact[[i]])){ ## for all categories other than the highest response category
-              p_ikListExact[[i]][k]<-p_ikList[[i]][k-1]-p_ikList[[i]][k]
-            }
-            else {
-              p_ikListExact[[i]][k]<-p_ikList[[i]][k-1] ## probability of response in category k is the same as
-              ## the probability of a response in a category strictly higher than k-1
-            }
-            
-          }
+        for(k in 2:length(p_ikList[[i]])){ ##iterating over response categories
+              p_ikListExact[[i]][k-1] <- p_ikList[[i]][k] - p_ikList[[i]][k-1]
         }
       }
-      
-      
       
       
       ## creating a list of vectors of (P_ijk)^I(y_ij = k) values... 
@@ -164,7 +148,7 @@ test_that("polytomous likelihood calculates correctly",{
       ##multiplying over question items
       likelihood<-prod(productVec)
       return(likelihood)
-    }
+      }
     else return(1)
   }
   

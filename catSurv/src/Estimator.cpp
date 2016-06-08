@@ -11,10 +11,9 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
   //variable’s type from the assignment’s type
 	auto calculate = [&](double difficulty) {
 		double guess = questionSet.guessing.at(question);
-		//double exp_prob = exp(questionSet.discrimination.at(question) * (theta - difficulty));
-		double exp_prob = exp(difficulty + (questionSet.discrimination.at(question) * theta));
-		double base_probability = exp_prob / (1 + exp_prob);
-		return questionSet.poly ? base_probability : guess + (1 - guess) * base_probability;
+		double exp_prob_bi = exp(difficulty + (questionSet.discrimination.at(question) * theta));
+		double exp_prob_poly = exp(difficulty - (questionSet.discrimination.at(question) * theta));
+		return questionSet.poly ? exp_prob_poly / (1 + exp_prob_poly) : guess + (1 - guess) * exp_prob_bi / (1 + exp_prob_bi);
 	};
 
 	std::vector<double> probabilities;
@@ -37,7 +36,7 @@ double Estimator::polytomous_likelihood(double theta) {
 
 		// TODO: Absolute value and reserve array, if needed.
 		int index = questionSet.answers.at(unsigned_question);
-		L *= question_cdf.at(((size_t) index) - 1) - question_cdf.at((size_t) index);
+		L *= question_cdf.at((size_t) index) - question_cdf.at(((size_t) index) - 1) ;
 	}
 	return L;
 }
@@ -193,11 +192,14 @@ double Estimator::fisherInf(double theta, int item) {
  * Computes the probability for a given theta and question number,
  * then pads it with a 1.0 at the beginning, and a 0.0 at the end.
  */
+// Erin changed this so it has a 0.0 at beginning and 1.0 at end??
 std::vector<double> Estimator::paddedProbability(double theta, size_t question) {
 	std::vector<double> probabilities = probability(theta, question);
-	std::vector<double> padded{1.0};
+	std::vector<double> padded{0.0};
 	padded.insert(padded.end(), probabilities.begin(), probabilities.end());
-	padded.push_back(0.0);
+	padded.push_back(1.0);
+	//for (auto i: padded)
+	//  std::cout << i << ' ';
 	return padded;
 }
 
