@@ -66,7 +66,7 @@ double MAPEstimator::dLL(double theta, bool use_prior, Prior &prior) {
 	if (questionSet.applicable_rows.empty()) {
 		return prior_shift;
 	}
-	double l_theta = questionSet.poly ? polytomous_dLL(theta) : binary_dLL(theta);
+	double l_theta = questionSet.poly[0] ? polytomous_dLL(theta) : binary_dLL(theta);
 	return use_prior ? l_theta - prior_shift : l_theta;
 }
 
@@ -75,7 +75,7 @@ double MAPEstimator::d2LL(double theta, bool use_prior, Prior &prior) {
 	if (questionSet.applicable_rows.empty()) {
 		return -prior_shift;
 	}
-	double lambda_theta = questionSet.poly ? polytomous_d2LL(theta) : binary_d2LL(theta);
+	double lambda_theta = questionSet.poly[0] ? polytomous_d2LL(theta) : binary_d2LL(theta);
 	return use_prior ? lambda_theta - prior_shift : lambda_theta;
 }
 

@@ -2,21 +2,21 @@
 #include "GSLFunctionWrapper.h"
 
 double Estimator::likelihood(double theta) {
-	return questionSet.poly ? polytomous_likelihood(theta) : binary_likelihood(theta);
+	return questionSet.poly[0] ? polytomous_likelihood(theta) : binary_likelihood(theta);
 }
 
 std::vector<double> Estimator::probability(double theta, size_t question) {
-
+  
   //auto used to initialize variable to tell the compiler to infer the
   //variable’s type from the assignment’s type
 	auto calculate = [&](double difficulty) {
 		double guess = questionSet.guessing.at(question);
 		double prob_bi = guess + (1 - guess) * exp(difficulty + (questionSet.discrimination.at(question) * theta)) / (1 + exp(difficulty + (questionSet.discrimination.at(question) * theta)));
-		//std::cout << guess << std::endl;
-		//std::cout << exp_prob_bi << std::endl;
+		std::cout << guess << std::endl;
+		std::cout << prob_bi << std::endl;
 		double prob_poly = exp(difficulty - (questionSet.discrimination.at(question) * theta)) / (1 + exp(difficulty - (questionSet.discrimination.at(question) * theta)));
-		return questionSet.poly ? prob_poly : prob_bi;
-		//return questionSet.poly ? exp_prob_poly / (1 + exp_prob_poly) : guess + (1 - guess) * exp_prob_bi / (1 + exp_prob_bi);
+		return questionSet.poly[0] ? prob_poly : prob_bi;
+		//return questionSet.poly[0] ? exp_prob_poly / (1 + exp_prob_poly) : guess + (1 - guess) * exp_prob_bi / (1 + exp_prob_bi);
 	};
 
 	std::vector<double> probabilities;
@@ -121,7 +121,7 @@ double Estimator::binary_posterior_variance(int item, Prior &prior) {
 double Estimator::expectedPV(int item, Prior &prior) {
 	questionSet.applicable_rows.push_back(item); // add item to set of answered items
 
-	double result = questionSet.poly ? polytomous_posterior_variance(item, prior) : binary_posterior_variance(item,
+	double result = questionSet.poly[0] ? polytomous_posterior_variance(item, prior) : binary_posterior_variance(item,
 	                                                                                                          prior);
 	questionSet.answers[item] = NA_INTEGER; // remove answer //Erin added -1
 	questionSet.applicable_rows.pop_back();
@@ -158,7 +158,7 @@ double Estimator::obsInf(double theta, int item) {
 	size_t index = (size_t) item;
 	double discrimination = questionSet.discrimination.at(index);
 
-	if (questionSet.poly) {
+	if (questionSet.poly[0]) {
 		return -pow(discrimination, 2) * partial_second_derivative(theta, index);
 	}
 
@@ -171,7 +171,7 @@ double Estimator::obsInf(double theta, int item) {
 
 double Estimator::fisherInf(double theta, int item) {
 
-	if (!questionSet.poly) {
+	if (!questionSet.poly[0]) {
 		return obsInf(theta, item);
 	}
 
@@ -208,7 +208,7 @@ std::vector<double> Estimator::paddedProbability(double theta, size_t question) 
 
 double Estimator::expectedObsInf(int item, Prior &prior) {
 	questionSet.applicable_rows.push_back(item);
-	if (questionSet.poly){
+	if (questionSet.poly[0]){
 		double sum = 0.0;
 		std::vector<double> obsInfs;
 		for (size_t i = 0; i <= questionSet.difficulty[item].size(); ++i){

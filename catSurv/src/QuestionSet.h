@@ -21,7 +21,8 @@ struct QuestionSet {
 	 * The user's answer to each question.
 	 */
 	std::vector<int> answers;
-	bool poly;
+	std::vector<bool> poly;
+	//bool poly;
 
 	QuestionSet(Rcpp::S4 &cat_df);
 };
