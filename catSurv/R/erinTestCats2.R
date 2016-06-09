@@ -1,3 +1,5 @@
+#useless change
+
 testCats <- vector("list", 8)
 testCats[[1]] <- new("Cat", poly = F, priorName = "NORMAL", estimation = "MAP",
                      guessing = abs(rnorm(10)),
