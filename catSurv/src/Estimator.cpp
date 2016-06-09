@@ -11,9 +11,12 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
   //variable’s type from the assignment’s type
 	auto calculate = [&](double difficulty) {
 		double guess = questionSet.guessing.at(question);
-		double exp_prob_bi = exp(difficulty + (questionSet.discrimination.at(question) * theta));
-		double exp_prob_poly = exp(difficulty - (questionSet.discrimination.at(question) * theta));
-		return questionSet.poly ? exp_prob_poly / (1 + exp_prob_poly) : guess + (1 - guess) * exp_prob_bi / (1 + exp_prob_bi);
+		double prob_bi = guess + (1 - guess) * exp(difficulty + (questionSet.discrimination.at(question) * theta)) / (1 + exp(difficulty + (questionSet.discrimination.at(question) * theta)));
+		//std::cout << guess << std::endl;
+		//std::cout << exp_prob_bi << std::endl;
+		double prob_poly = exp(difficulty - (questionSet.discrimination.at(question) * theta)) / (1 + exp(difficulty - (questionSet.discrimination.at(question) * theta)));
+		return questionSet.poly ? prob_poly : prob_bi;
+		//return questionSet.poly ? exp_prob_poly / (1 + exp_prob_poly) : guess + (1 - guess) * exp_prob_bi / (1 + exp_prob_bi);
 	};
 
 	std::vector<double> probabilities;
@@ -91,7 +94,7 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 	for (size_t i = 0; i <= questionSet.difficulty[item].size() - 1; ++i) { //Erin added -1 here.
 		questionSet.answers[item] = (int) i+1; //Erin added +1 here
 		variances.push_back(pow(estimateSE(prior), 2));
-    std::cout << i+1 << std::endl;
+    //std::cout << i+1 << std::endl;
 	}
 
 	auto question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);

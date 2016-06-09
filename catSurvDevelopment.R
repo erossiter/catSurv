@@ -14,8 +14,6 @@ load_all(current.code)
 document(current.code)
 
 
-
-
 probability(testCats[[1]], 1, 1)
 probability_test_bi(testCats[[1]], 1, 1)
 
