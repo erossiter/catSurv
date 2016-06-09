@@ -17,11 +17,11 @@ document(current.code)
 probability(testCats[[1]], 1, 1)
 probability_test_bi(testCats[[1]], 1, 1)
 
-probability(testCats[[6]], 1, 1)
-probability_test_poly(testCats[[6]], 1, 1)
+probability(testCats[[5]], 1, 1)
+probability_test_poly(testCats[[5]], 1, 1)
 
-likelihood(testCats[[1]], 1)
-likelihood_test_bi(testCats[[1]], 1)
+likelihood(testCats[[4]], 1)
+likelihood_test_bi(testCats[[4]], 1)
 
 likelihood(testCats[[6]], 2)
 likelihood_test_poly(testCats[[6]], 2)
