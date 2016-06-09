@@ -1,5 +1,3 @@
-#useless change
-
 testCats <- vector("list", 8)
 testCats[[1]] <- new("Cat", poly = F, priorName = "NORMAL", estimation = "MAP",
                      guessing = abs(rnorm(10)),
@@ -24,7 +22,6 @@ testCats[[4]] <- new("Cat", poly = F, priorName = "STUDENT_T", estimation = "EAP
                      discrimination = abs(rnorm(10)),
                      difficulty = abs(rnorm(10)),
                      answers = c(0,1,1,1,0,NA,NA,NA,NA,NA))
-
 
 testCats[[5]] <- new("Cat", poly = T, priorName = "NORMAL", estimation = "MAP",
                      ## 4 options for each question
