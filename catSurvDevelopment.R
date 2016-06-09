@@ -13,18 +13,21 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+showCppCat(testCats[[1]])
 
+##binary
 probability(testCats[[1]], 1, 1)
-probability_test_bi(testCats[[1]], 1, 1)
-
+probability_test(testCats[[1]], 1, 1)
+##poly
 probability(testCats[[5]], 1, 1)
-probability_test_poly(testCats[[5]], 1, 1)
+probability_test(testCats[[5]], 1, 1)
 
+##binary
 likelihood(testCats[[4]], 1)
-likelihood_test_bi(testCats[[4]], 1)
-
+likelihood_test(testCats[[4]], 1)
+##poly
 likelihood(testCats[[6]], 2)
-likelihood_test_poly(testCats[[6]], 2)
+likelihood_test(testCats[[6]], 2)
 
 
 ## Making Cats with data in package

@@ -22,7 +22,6 @@ struct QuestionSet {
 	 */
 	std::vector<int> answers;
 	std::vector<bool> poly;
-	//bool poly;
 
 	QuestionSet(Rcpp::S4 &cat_df);
 };

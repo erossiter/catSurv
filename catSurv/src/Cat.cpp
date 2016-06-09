@@ -44,6 +44,45 @@ List Cat::nextItem() {
 	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(selection.item));
 }
 
+void Cat::showCppCat() {
+  std::cout << "poly: " << questionSet.poly[0] << std::endl;
+  
+  std::cout << "discrimination: " << ' ';
+  for (auto i: questionSet.discrimination){
+    std::cout << i << ' ';
+  }
+
+  // //not liking this b/c difficulty is a list
+  // std::cout << "\ndifficulty: " << ' ';
+  // for (auto i: questionSet.difficulty){
+  //   std::cout << i << ' ';
+  // }
+
+  std::cout << "\n";
+  std::cout << "nonapplicable_rows: " << ' ';
+  for (auto i: questionSet.nonapplicable_rows){
+    std::cout << i << ' ';
+  }
+
+  std::cout << "\napplicable_rows: " << ' ';
+  for (auto i: questionSet.applicable_rows){
+    std::cout << i << ' ';
+  }
+
+  std::cout << "\nanswers: " << ' ';
+  for (auto i: questionSet.answers){
+    std::cout << i << ' ';
+  }
+
+  std::cout << "\npriorName: " << prior.name << std::endl;
+  
+  std::cout << "parameters: " << ' ';
+  for (auto i: prior.parameters){
+    std::cout << i << ' ';
+  }
+  
+}
+
 double Cat::dLL(double theta, bool use_prior) {
 	if (typeid(estimator) == typeid(MAPEstimator)) {
 		stop("Error: dLL is only available when using MAP estimation.");

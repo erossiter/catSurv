@@ -26,6 +26,11 @@ probability <- function(cat_df, t, q) {
     .Call('catSurv_probability', PACKAGE = 'catSurv', cat_df, t, q)
 }
 
+#' @export
+showCppCat <- function(cat_df) {
+    invisible(.Call('catSurv_showCppCat', PACKAGE = 'catSurv', cat_df))
+}
+
 #' Likelihood of offering specific response
 #'
 #' This function returns the value of likelihood of a person with ability parameter \eqn{\theta} having offered the specific response profile stored in answers conditional on the item-level parameters.

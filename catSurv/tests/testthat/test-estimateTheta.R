@@ -36,7 +36,7 @@ test_that("estimateTheta calculates correctly", {
   
    # lapply(c(catBiCreator(5), catPolyCreator(5)),
    #        function(x) expect_equal(estimateTheta(x), estimateTheta_test(x), tolerance = .01))
-  for(i in 1:length(testCats)){
+  for(i in 1:4){
     print(estimateTheta(testCats[[i]]))
     print(estimateTheta_test(testCats[[i]]))
     print(round(estimateTheta(testCats[[i]]) - estimateTheta_test(testCats[[i]]), 5))

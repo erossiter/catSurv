@@ -42,6 +42,13 @@ List probability(S4 cat_df, NumericVector t, IntegerVector q) {
 	return List::create(Named("all.probabilities") = question_probs);
 }
 
+
+//' @export
+// [[Rcpp::export]]
+void showCppCat(S4 cat_df) {
+	return Cat(cat_df).showCppCat();
+}
+
 //' Likelihood of offering specific response
 //'
 //' This function returns the value of likelihood of a person with ability parameter \eqn{\theta} having offered the specific response profile stored in answers conditional on the item-level parameters.

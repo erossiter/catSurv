@@ -19,6 +19,16 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// showCppCat
+void showCppCat(S4 cat_df);
+RcppExport SEXP catSurv_showCppCat(SEXP cat_dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    showCppCat(cat_df);
+    return R_NilValue;
+END_RCPP
+}
 // likelihood
 double likelihood(S4 cat_df, double t);
 RcppExport SEXP catSurv_likelihood(SEXP cat_dfSEXP, SEXP tSEXP) {
