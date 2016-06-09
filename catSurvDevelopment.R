@@ -6,6 +6,7 @@ library(testthat)
 setwd("/Users/iramalis/Desktop/gitstuff/CATSurv")
 setwd("/Users/erinrossiter/Dropbox/Spring2016/Rclass/CATsurv")
 setwd("~/Dropbox/2016Spring_Programming/CATSurv")
+setwd("~/Dropbox/CATSurv")
 
 ## Loading the package
 current.code <- as.package("catSurv")
