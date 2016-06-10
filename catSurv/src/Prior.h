@@ -13,7 +13,6 @@ private:
 public:
 	const std::string name;
 	const std::vector<double> parameters;
-	std::vector<double> values;
 
 	double prior(double x);
 

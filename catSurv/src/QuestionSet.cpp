@@ -17,6 +17,6 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 	for (auto item : (Rcpp::List) cat_df.slot("difficulty")) {
 		difficulty.push_back(Rcpp::as<std::vector<double> >(item));
 	}
-	//poly = cat_df.slot("poly");
+
 	poly = Rcpp::as<std::vector<bool> >(cat_df.slot("poly"));
 }

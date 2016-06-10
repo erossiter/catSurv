@@ -51,14 +51,20 @@ void Cat::showCppCat() {
   for (auto i: questionSet.discrimination){
     std::cout << i << ' ';
   }
+  
+  std::cout << "\nguessing: " << ' ';
+  for (auto i: questionSet.guessing){
+    std::cout << i << ' ';
+  }
 
-  // //not liking this b/c difficulty is a list
-  // std::cout << "\ndifficulty: " << ' ';
-  // for (auto i: questionSet.difficulty){
-  //   std::cout << i << ' ';
-  // }
+  std::cout << "\ndifficulty: " << ' ';
+  for ( std::vector<std::vector<int>>::size_type i = 0; i < questionSet.difficulty.size(); i++ ){
+    for ( std::vector<int>::size_type j = 0; j < questionSet.difficulty[i].size(); j++ ){
+      std::cout << questionSet.difficulty[i][j] << ' ';
+    }
+    std::cout << std::endl;
+  }
 
-  std::cout << "\n";
   std::cout << "nonapplicable_rows: " << ' ';
   for (auto i: questionSet.nonapplicable_rows){
     std::cout << i << ' ';

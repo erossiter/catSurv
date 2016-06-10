@@ -16,8 +16,7 @@ double Prior::prior(double x) {
 }
 
 Prior::Prior(Rcpp::S4 cat_df) : name(Rcpp::as<std::string>(cat_df.slot("priorName"))),
-                                parameters(Rcpp::as<std::vector<double> >(cat_df.slot("priorParams"))),
-                                values(Rcpp::as<std::vector<double> >(cat_df.slot("X"))) { }
+                                parameters(Rcpp::as<std::vector<double> >(cat_df.slot("priorParams"))) { }
 
 Prior::Prior(const std::string &prior_name, const std::vector<double> &distribution_parameters) : name(
 		prior_name), parameters(distribution_parameters) { }
