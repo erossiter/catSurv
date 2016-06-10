@@ -26,7 +26,6 @@ setClassUnion("numericORlist", c("numeric","list"))
 #' \item \code{quadPoints} Desired number of points to be used in approximating integral. The default value is \code{43}.
 #' \item \code{difficulty} A named list consisting of a vector of difficulty parameters for each item. (vector will be length=1 for binary Cats)
 #' \item \code{poly} A logical containing the type of answers. The default is set for questions with binary answers.
-#' \item \code{integration} FIX ME!!!!!!
 #' \item \code{estimation} FIX ME!!!!!!
 #' \item \code{selection} FIX ME!!!!!!
 #' \item \code{coverage} FIX ME!!!!!!
@@ -54,7 +53,6 @@ setClass("Cat",
            quadPoints="numeric",
            difficulty="numericORlist",
            poly="logical",
-           integration="character",
            estimation="character",
            selection="character",
            coverage="numeric",
@@ -67,7 +65,6 @@ setClass("Cat",
            upperBound=4.5,
            quadPoints=43,
            poly=FALSE,
-           integration="trapezoid",
            estimation="EAP",
            selection="EPV",
            coverage=0.9,
@@ -318,20 +315,6 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setIntegration<-",
-		   function(object, valid=T, value){
-		   	standardGeneric("setIntegration<-")
-		   	})
-setReplaceMethod(
-	f = "setIntegration",
-	signature = "Cat",
-	definition = function(object, valid, value){
-		object@integration <- value
-		if(valid){validObject(object)}
-		return(object)
-		})
-
-#' @export
 setGeneric("setEstimation<-",
 		   function(object, valid=T, value){
 		   	standardGeneric("setEstimation<-")
@@ -523,18 +506,6 @@ setGeneric("getpoly",
 setMethod("getpoly", "Cat",
           function(object){
             return(object@poly)
-          })
-
-#' @export
-setGeneric("getintegration",
-           function(object="Cat")  {
-             standardGeneric("getintegration")
-           })
-
-#' @export
-setMethod("getintegration", "Cat",
-          function(object){
-            return(object@integration)
           })
 
 #' @export
