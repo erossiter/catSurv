@@ -12,10 +12,7 @@ Cat::Cat(S4 cat_df) : questionSet(cat_df),
                       integrator(Integrator()),
                       prior(cat_df),
                       estimator(createEstimator(cat_df, integrator, questionSet)),
-                      selector(createSelector(cat_df.slot("selection"), questionSet, *estimator, prior)) {
-	theta_est = Rcpp::as<std::vector<double> >(cat_df.slot("Theta.est"));
-}
-
+                      selector(createSelector(cat_df.slot("selection"), questionSet, *estimator, prior)) {}
 
 double Cat::likelihood(double theta) {
 	return estimator->likelihood(theta);

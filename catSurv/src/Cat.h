@@ -39,12 +39,7 @@ public:
 
 	std::vector<double> probability(double theta, int question);
 
-	std::vector<double> get_theta_est() { return theta_est; }
 private:
-	/**
-	 * It is unclear what this variable is used for, and this may be a candidate for deletion.
-	 */
-	std::vector<double> theta_est;
 
 	QuestionSet questionSet;
 	Integrator integrator;

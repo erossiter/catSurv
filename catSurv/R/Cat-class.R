@@ -25,7 +25,6 @@ setClassUnion("numericORlist", c("numeric","list"))
 #' \item \code{upperBound} The upper bound of the interval of the latent scale used in estimation. The default value is \code{4.5}.
 #' \item \code{quadPoints} Desired number of points to be used in approximating integral. The default value is \code{43}.
 #' \item \code{difficulty} A named list consisting of a vector of difficulty parameters for each item. (vector will be length=1 for binary Cats)
-#' \item \code{Theta.est} A scalar value containing an estimate of a respondent's position on the latent trait.  Generally, this is the output of the \code{\link{estimateTheta}} funciton.
 #' \item \code{poly} A logical containing the type of answers. The default is set for questions with binary answers.
 #' \item \code{integration} FIX ME!!!!!!
 #' \item \code{estimation} FIX ME!!!!!!
@@ -53,7 +52,6 @@ setClass("Cat",
            lowerBound="numeric",
            upperBound="numeric",
            quadPoints="numeric",
-           Theta.est="numeric",
            difficulty="numericORlist",
            poly="logical",
            integration="character",
