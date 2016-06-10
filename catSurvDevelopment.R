@@ -13,7 +13,7 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
-showCppCat(testCats[[1]])
+showCppCat(testCats[[6]])
 
 ##binary
 probability(testCats[[1]], 1, 1)
