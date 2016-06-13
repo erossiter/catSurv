@@ -8,7 +8,7 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 
 	for (size_t i = 0; i < answers.size(); i++) {
 		if (answers[i] == NA_INTEGER) {
-			nonapplicable_rows.push_back((int) i); // + 1
+			nonapplicable_rows.push_back((int) i); // +1 problems here...
 		} else {
 			applicable_rows.push_back((int) i);
 		}

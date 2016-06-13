@@ -2,31 +2,16 @@
 % Please edit documentation in R/iccPlots.R
 \name{icc}
 \alias{icc}
-\title{ICC plot}
+\title{Plotting Item Characteristic Curves (ICC)}
 \usage{
 icc(object, theta_range, question, ...)
 }
 \arguments{
-\item{object}{an object of class \code{Cat} to be populated. If omitted, a new object of class \code{Cat} is created.}
+\item{object}{A \code{Cat} object}
 
-\item{...}{arguments to be passed to methods. For more details about the arguments, see \code{\link{tpm}}.
-
- @return An object of class \code{Cat} with components,
-\itemize{
-\item \code{difficulty} a named vector of difficulty parameters for use with dichotomous questions/items.  Each element's name tells the question/item to which it applies.
-\item \code{guessing} a vector of guessing parameter for each item.
-\item \code{discrimination} a vector of disrimination parameter for each item.
-\item \code{answers} a vector of answers to questions as given by the survey respondent.
-\item \code{priorName} a character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{normal} for the normal distirbution, \code{cauchy} for the Cauchy distribution, are \code{t} for the t-distribution. Defaults to \code{normal}.
-\item \code{priorParams} a numeric vector of parameters for the distribution specified in the \code{priorName} slot. See the details section for more infomration.  Defaults to \code{c(0,1)}.
-}}
-
-\item{data}{a \code{data.frame} or a numeric \code{matrix} of manifest variables.}
+\item{theta_range}{A numerical vector of thetas at which the probabilities are to be calculated}
 }
 \description{
-This function fits the latent trait model for binary data and populates the fitted values for discimination, difficulty, and guessing parameters to an object of class \code{Cat}.
-}
-\note{
-In case the Hessian matrix at convergence is not positive definite try to use \code{start.val="random"}.
+This function plots the item characteristic curves for an object of class \code{Cat}.
 }
 

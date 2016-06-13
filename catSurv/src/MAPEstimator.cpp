@@ -56,7 +56,7 @@ double MAPEstimator::binary_dLL(double theta) {
 		const double guess = questionSet.guessing[question];
 		const double answer = questionSet.answers[question];
 		const double discrimination = questionSet.discrimination[question];
-		l_theta += discrimination * (P - guess) / (P * (1 - guess)) * (answer - P);
+		l_theta += discrimination * ((P - guess) / (P * (1 - guess))) * (answer - P);
 	}
 	return l_theta;
 }

@@ -14,7 +14,7 @@ load_all(current.code)
 document(current.code)
 
 ## new things 
-icc(testCats[[6]], theta_range = seq(-3,3,.1), 1)
+testPlot <- icc(testCats[[6]], theta_range = seq(-3,3,.1), 1)
 showCppCat(testCats[[6]])
 
 ##binary
