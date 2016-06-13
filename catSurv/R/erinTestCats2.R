@@ -32,9 +32,9 @@ testCats[[5]] <- new("Cat", poly = T, priorName = "NORMAL", estimation = "MAP",
 
 testCats[[6]] <- new("Cat", poly = T, priorName = "NORMAL", estimation = "EAP",
                      ## 5 options for each question
-                     guessing = runif(10),
-                     discrimination = rnorm(10),
-                     difficulty = lapply(1:10, function(x) sort(rnorm(5))),
+                     guessing = rep(0, 10),
+                     discrimination = rep(1, 10),
+                     difficulty = list(c(-2, -1, 1, 2.5),c(-3, 1, 1.5, 2),c(-2, -1, 1, 2.5),c(-2, -1, 1, 2.5),c(-2, -1, 1, 2.5),c(-2, -1, 1, 2.5),c(-2, -1, 1, 2.5),c(-2, -1, 1, 2.5),c(-2, -1, 1, 2.5),c(-2, -1, 1, 2.5)),
                      answers = c(1,5,3,4,4,4,3,5, NA, NA))
 
 
