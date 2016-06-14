@@ -27,12 +27,13 @@ setMethod(f="grmCat", signature="data.frame",
           definition=function(data, object,...){
             if(!is.null(object)) if(class(object)!="Cat") stop("object is not class Cat")
             fit <- grm(data=data, IRT.param = TRUE,...)
-            coefficient <- coef(fit)
+            coefficient <- fit$coef
             ## back to original code
-            answer <- rep(NA,nrow(coefficient))
-            discrimination <- coefficient[,"Dscrmn"]
-            difficulty <- lapply(1:nrow(coefficient), function(i) coefficient[i,-ncol(coefficient)])
-            names(difficulty) <- rownames(coefficient)
+            answer <- rep(NA,length(objects(coefficient)))
+            discrimination <- sapply(1:length(objects(coefficient)), function(i) coefficient[[i]][length(coefficient[[i]])])
+            names(discrimination) <- names(coefficient)
+            difficulty <- lapply(1:length(objects(coefficient)), function(i) coefficient[[i]][-length(coefficient[[i]])])
+            names(difficulty) <- names(coefficient)
             guessing <- rep(0, length(discrimination))
             #             if(is.null(object)){
             #               return(new("Cat", discrimination=discrimination, difficulty=difficulty, poly=TRUE, guessing=guessing, answers=answer))
