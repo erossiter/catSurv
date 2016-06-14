@@ -2,8 +2,7 @@ library(catSurv)
 context("Likelihood")
 
 test_that("likelihood calculates correctly", {
-  
-  # R test function
+
   likelihood_test <- function(cat = "Cat", theta = "numeric"){
     
     # Identifies answered questions and combines them in vector
@@ -34,6 +33,7 @@ test_that("likelihood calculates correctly", {
       for (i in 1:length(pList)) {  # Iterating over question
         # Append 0 and 1 to front and back or each vector of probabilties
         pList[[i]] <- c(0, pList[[i]], 1)
+        print(pList[[i]])
         for (k in 2:length(pList[[i]])) { #  iterating over response categories
           pListFinal[[i]][k - 1] <- pList[[i]][k] - pList[[i]][k - 1]
         }
@@ -48,6 +48,10 @@ test_that("likelihood calculates correctly", {
       
       # Multiplying over response categories
       productVec <- sapply(probExpList, prod)
+      #print(productVec)
+      # if(any(productVec < 0)){
+      #   stop("P_ijk shouldn't be negative?")
+      # }
       # Multiplying over question items
       likelihood <- prod(productVec)
       } 

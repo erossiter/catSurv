@@ -3,7 +3,6 @@ context("Probability")
 
 test_that("probability calculates correctly", {
   
-  # R test function
   probability_test <- function(cat = "Cat", theta = "numeric", question = "numeric"){
     discrimination = cat@discrimination[question]
     difficulty = cat@difficulty[[question]]

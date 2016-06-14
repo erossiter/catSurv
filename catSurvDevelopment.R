@@ -25,12 +25,23 @@ probability(testCats[[5]], 1, 1)
 probability_test(testCats[[5]], 1, 1)
 
 ##binary
-likelihood(testCats[[4]], 1)
-likelihood_test(testCats[[4]], 1)
+likelihood(testCats[[3]], 2)
+likelihood_test(testCats[[3]], 2)
 ##poly
-likelihood(testCats[[6]], 2)
-likelihood_test(testCats[[6]], 2)
+likelihood(testCats[[8]], 1)
+likelihood_test(testCats[[8]], 1)
 
+
+
+cat_binary@answers <- unlist(c(npi[2,1:10], rep(NA, 10)))
+cat_binary@guessing <- rep(0, 40)
+cat_binary@poly <- FALSE
+likelihood(cat_binary, 1)
+likelihood_test(cat_binary, 1)
+
+cat_poly@answers <- unlist(c(nfc[2,1:5], rep(NA, 18-5)))
+likelihood(cat_poly,1)
+likelihood_test(cat_poly,1)
 
 ## Making Cats with data in package
 library(ltm) ## need to add as dependency
@@ -41,7 +52,6 @@ cat_binary <- ltmCat(data = npi[1:4000, ])
 # Does grmCat work only if each question has the same number of possible answers??
 data("nfc") ## categorical
 cat_poly <- grmCat(data = nfc)
-
 
 
 
@@ -70,10 +80,6 @@ setdiscrimination(test_cat, valid=F)<-c(0,3,.8)
 probability(test_cat, 1, 1)
 
 
-?Cat
-?setters
-?setDiscrimination
-
 
 
 ## Checking the "set" methods.
@@ -89,18 +95,5 @@ test_cat@Discrimination
 
 validObject(test_cat)
 
-
 setDifficulty(test_cat)<-c(0,1,2,3)
 
-
-
-
-
-test_dir("/Users/iramalis/Desktop/gitstuff/CATSurv/catSurv/tests/testthat/probs")
-
-
-?probability
-?likelihood
-warnings()
-?estimateSE
-?estimateTheta

@@ -53,7 +53,7 @@ test_that("expectedPV calculates correctly", {
 
     for(i in 1:4){
       ##picking the first item that is NA
-      item <- min(which(is.na(testCats[[1]]@answers)))
+      item <- min(which(is.na(testCats[[i]]@answers)))
       print(expectedPV(testCats[[i]], item) - expectedPV_test(testCats[[i]], item))
       #print(expectedPV(testCats[[i]], item))
       #print(expectedPV_test(testCats[[i]], item))

@@ -1,5 +1,6 @@
 #include "EAPEstimator.h"
 #include "GSLFunctionWrapper.h"
+#include <valarray>
 
 double Estimator::likelihood(double theta) {
 	return questionSet.poly[0] ? polytomous_likelihood(theta) : binary_likelihood(theta);
@@ -24,7 +25,7 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
 }
 
 double Estimator::polytomous_likelihood(double theta) {
-	double L = 1.0;
+	double L = 0.0;
 
 	for (auto question : questionSet.applicable_rows) {
 		size_t unsigned_question = (size_t) question;
@@ -36,20 +37,21 @@ double Estimator::polytomous_likelihood(double theta) {
 
 		// TODO: Absolute value and reserve array, if needed.
 		int index = questionSet.answers.at(unsigned_question);
-		L *= question_cdf.at((size_t) index) - question_cdf.at(((size_t) index) - 1) ;
+		L = log(question_cdf.at((size_t) index) - question_cdf.at(((size_t) index) - 1)) ;
+		std::cout<<L<<std::endl;
 	}
-	return L;
+	return exp(L);
 }
 
 double Estimator::binary_likelihood(double theta) {
-	double L = 1.0;
+	double L = 0.0;
 	for (auto question : questionSet.applicable_rows) {
 		size_t index = (size_t) question;
 		double prob = probability(theta, index)[0];
 		int this_answer = questionSet.answers.at(index);
-		L *= pow(prob, this_answer) * pow(1 - prob, 1 - this_answer);
+		L += (this_answer * log(prob)) + ((1 - this_answer) * log(1 - prob));
 	}
-	return L;
+	return exp(L);
 }
 
 Estimator::Estimator(Integrator &integration, QuestionSet &question) : integrator(integration), questionSet(question) { }
@@ -120,7 +122,7 @@ double Estimator::expectedPV(int item, Prior &prior) {
 
 	double result = questionSet.poly[0] ? polytomous_posterior_variance(item, prior) : binary_posterior_variance(item,
 	                                                                                                          prior);
-	questionSet.answers[item] = NA_INTEGER; // remove answer //Erin added -1
+	questionSet.answers[item] = NA_INTEGER; // remove answer
 	questionSet.applicable_rows.pop_back();
 	return result;
 }
@@ -192,14 +194,12 @@ double Estimator::fisherInf(double theta, int item) {
  * Computes the probability for a given theta and question number,
  * then pads it with a 1.0 at the beginning, and a 0.0 at the end.
  */
-// Erin changed this so it has a 0.0 at beginning and 1.0 at end??
+// Erin changed this so it has a 0.0 at beginning and 1.0 at end
 std::vector<double> Estimator::paddedProbability(double theta, size_t question) {
 	std::vector<double> probabilities = probability(theta, question);
 	std::vector<double> padded{0.0};
 	padded.insert(padded.end(), probabilities.begin(), probabilities.end());
 	padded.push_back(1.0);
-	//for (auto i: padded)
-	//  std::cout << i << ' ';
 	return padded;
 }
 
