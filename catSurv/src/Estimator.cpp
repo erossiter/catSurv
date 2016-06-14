@@ -1,26 +1,31 @@
 #include "EAPEstimator.h"
 #include "GSLFunctionWrapper.h"
-#include <valarray>
+#include <limits>
 
 double Estimator::likelihood(double theta) {
 	return questionSet.poly[0] ? polytomous_likelihood(theta) : binary_likelihood(theta);
 }
 
 std::vector<double> Estimator::probability(double theta, size_t question) {
+  // double check this is the eps value Jacob wants
+  double eps = std::numeric_limits<double>::min();
   
-  //auto used to initialize variable to tell the compiler to infer the
-  //variable’s type from the assignment’s type
 	auto calculate = [&](double difficulty) {
 		double guess = questionSet.guessing.at(question);
 		double exp_prob_bi = exp(difficulty + (questionSet.discrimination.at(question) * theta));
 		double exp_prob_poly = exp(difficulty - (questionSet.discrimination.at(question) * theta));
-		return questionSet.poly[0] ? exp_prob_poly / (1 + exp_prob_poly) : guess + (1 - guess) * exp_prob_bi / (1 + exp_prob_bi);
+		double result = questionSet.poly[0] ? exp_prob_poly / (1 + exp_prob_poly) : guess + (1 - guess) * exp_prob_bi / (1 + exp_prob_bi);
+		if(result < pow(eps, 1.0/3.0)){
+		  result = eps;
+		}
+		return result;
 	};
 
 	std::vector<double> probabilities;
 	for (auto term : questionSet.difficulty.at(question)) {
 		probabilities.push_back(calculate(term));
 	}
+
 	return probabilities;
 }
 
@@ -37,8 +42,7 @@ double Estimator::polytomous_likelihood(double theta) {
 
 		// TODO: Absolute value and reserve array, if needed.
 		int index = questionSet.answers.at(unsigned_question);
-		L = log(question_cdf.at((size_t) index) - question_cdf.at(((size_t) index) - 1)) ;
-		std::cout<<L<<std::endl;
+		L += log(question_cdf.at((size_t) index) - question_cdf.at(((size_t) index) - 1)) ;
 	}
 	return exp(L);
 }

@@ -1,6 +1,8 @@
 library(catSurv)
 context("Likelihood")
 
+## should we keep error message below about weird proabbilities??
+
 test_that("likelihood calculates correctly", {
 
   likelihood_test <- function(cat = "Cat", theta = "numeric"){
@@ -23,6 +25,7 @@ test_that("likelihood calculates correctly", {
           (pList[[i]]^(ansVec[i])) * ((1 - pList[[i]])^(1 - ansVec[i]))
         })
         # Apply product function over this vector
+        print(pqVec)
         likelihood <- prod(pqVec) 
       } 
       
@@ -48,10 +51,9 @@ test_that("likelihood calculates correctly", {
       
       # Multiplying over response categories
       productVec <- sapply(probExpList, prod)
-      #print(productVec)
-      # if(any(productVec < 0)){
-      #   stop("P_ijk shouldn't be negative?")
-      # }
+      if(any(productVec < 0)){
+        stop("P_ijk shouldn't be negative?")
+      }
       # Multiplying over question items
       likelihood <- prod(productVec)
       } 

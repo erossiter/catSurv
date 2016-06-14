@@ -1,24 +1,24 @@
 testCats <- vector("list", 8)
 testCats[[1]] <- new("Cat", poly = F, priorName = "NORMAL", estimation = "MAP",
-                     guessing = rep(0, 10),
+                     guessing = c(.1,.2,.1,0,0,0,.5,0,0,0),
                      discrimination = c(1, -1, 1, 1, -1, 1, 1, 1, -1, 1),
                      difficulty = abs(rnorm(10)),
                      answers = c(1,1,0,0,0,1,1,NA, NA, NA))
 
 testCats[[2]] <- new("Cat", poly = F, priorName = "NORMAL", estimation = "EAP",
-                     guessing = rep(c(0,1), 5),
+                     guessing = rep(.1, 10),
                      discrimination = (rnorm(10)),
-                     difficulty = rnorm(10),
-                     answers = c(1,1,1,1,1,1,0,0,NA,NA))
+                     difficulty = abs(rnorm(10)),
+                     answers = c(1,1,0,0,1,1,0,0,NA,NA))
 
 testCats[[3]] <- new("Cat", poly = F, priorName = "STUDENT_T", estimation = "MAP",
-                     guessing = abs(rnorm(10)),
+                     guessing = rep(0, 10),
                      discrimination = abs(rnorm(10)),
                      difficulty = abs(rnorm(10)),
                      answers = c(0,1,1,1,0,NA,NA,NA,NA,NA))
 
 testCats[[4]] <- new("Cat", poly = F, priorName = "STUDENT_T", estimation = "EAP",
-                     guessing = abs(rnorm(10)),
+                     guessing = rep(0, 10),
                      discrimination = abs(rnorm(10)),
                      difficulty = abs(rnorm(10)),
                      answers = c(0,1,1,1,0,NA,NA,NA,NA,NA))

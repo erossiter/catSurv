@@ -17,29 +17,33 @@ document(current.code)
 testPlot <- icc(testCats[[6]], theta_range = seq(-3,3,.1), 1)
 showCppCat(testCats[[6]])
 
+
+
 ##binary
-probability(testCats[[1]], 1, 1)
-probability_test(testCats[[1]], 1, 1)
+probability(testCats[[2]], -1000, 2)
+probability_test(testCats[[2]], -1000, 2)
 ##poly
-probability(testCats[[5]], 1, 1)
+probability(testCats[[8]], 1000000, 1)
 probability_test(testCats[[5]], 1, 1)
 
 ##binary
-likelihood(testCats[[3]], 2)
-likelihood_test(testCats[[3]], 2)
+likelihood(testCats[[2]], 1)
+likelihood_test(testCats[[2]], 1)
+
 ##poly
-likelihood(testCats[[8]], 1)
-likelihood_test(testCats[[8]], 1)
+likelihood(testCats[[5]], 1)
+likelihood_test(testCats[[7]], 1)
 
 
 
-cat_binary@answers <- unlist(c(npi[2,1:10], rep(NA, 10)))
-cat_binary@guessing <- rep(0, 40)
-cat_binary@poly <- FALSE
-likelihood(cat_binary, 1)
-likelihood_test(cat_binary, 1)
+# cat_binary@answers <- unlist(c(npi[2,1:10], rep(NA, 10)))
+# cat_binary@guessing <- rep(0, 40)
+# cat_binary@poly <- FALSE
+# likelihood(cat_binary, 1)
+# likelihood_test(cat_binary, 1)
 
 cat_poly@answers <- unlist(c(nfc[2,1:5], rep(NA, 18-5)))
+cat_poly@guessing <- rep(0, length(cat_poly@discrimination))
 likelihood(cat_poly,1)
 likelihood_test(cat_poly,1)
 
@@ -53,6 +57,7 @@ cat_binary <- ltmCat(data = npi[1:4000, ])
 data("nfc") ## categorical
 cat_poly <- grmCat(data = nfc)
 
+nfc <- NULL
 
 
 
