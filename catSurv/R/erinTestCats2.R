@@ -6,10 +6,11 @@ testCats[[1]] <- new("Cat", poly = F, priorName = "NORMAL", estimation = "MAP",
                      answers = c(1,1,0,0,0,1,1,NA, NA, NA))
 
 testCats[[2]] <- new("Cat", poly = F, priorName = "NORMAL", estimation = "EAP",
+                     priorParams = c(0,10000000),
                      guessing = rep(.1, 10),
-                     discrimination = (rnorm(10)),
-                     difficulty = abs(rnorm(10)),
-                     answers = c(1,1,0,0,1,1,0,0,NA,NA))
+                     discrimination = rnorm(10),
+                     difficulty = rnorm(10),
+                     answers = c(1,0,1,1,0,0,NA,NA,NA,NA))
 
 testCats[[3]] <- new("Cat", poly = F, priorName = "STUDENT_T", estimation = "MAP",
                      guessing = rep(0, 10),
