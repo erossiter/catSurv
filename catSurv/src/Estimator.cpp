@@ -9,22 +9,20 @@ double Estimator::likelihood(double theta) {
 std::vector<double> Estimator::probability(double theta, size_t question) {
   // double check this is the eps value Jacob wants
   double eps = std::numeric_limits<double>::min();
+  double max = std::numeric_limits<double>::max();
   
 	auto calculate = [&](double difficulty) {
 		double guess = questionSet.guessing.at(question);
 		double exp_prob_bi = exp(difficulty + (questionSet.discrimination.at(question) * theta));
 		double exp_prob_poly = exp(difficulty - (questionSet.discrimination.at(question) * theta));
 		double result = questionSet.poly[0] ? exp_prob_poly / (1 + exp_prob_poly) : guess + (1 - guess) * exp_prob_bi / (1 + exp_prob_bi);
-		//if(result < pow(eps, 1.0/3.0)){
-		std::cout<<exp_prob_poly<<std::endl;
-		std::cout<<exp_prob_bi<<std::endl;
 		std::cout<<result<<std::endl;
-		// if(result == -inf){
-		//   result = sqrt(eps);
-		// }
-		if(std::isinf(exp_prob_bi)){
-		  result = 0.999; //1.0 - sqrt(eps);
-		}
+		std::cout<<exp_prob_bi<<std::endl;
+		std::cout<<(exp_prob_bi + 1)<<std::endl;
+		//if(result < pow(eps, 1.0/3.0)){
+		//if(std::isinf(exp_prob_bi)){
+		//  result = 1.0 - sqrt(eps);
+		//}
 		return result;
 	};
 
@@ -60,7 +58,8 @@ double Estimator::binary_likelihood(double theta) {
 		size_t index = (size_t) question;
 		double prob = probability(theta, index)[0];
 		int this_answer = questionSet.answers.at(index);
-		L += (this_answer * log(prob)) + ((1 - this_answer) * log(1 - prob));
+		L = (this_answer * log(prob)) + ((1 - this_answer) * log(1 - prob));
+		std::cout<<L<<std::endl;
 	}
 	return exp(L);
 }
