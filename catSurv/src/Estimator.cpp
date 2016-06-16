@@ -9,20 +9,29 @@ double Estimator::likelihood(double theta) {
 std::vector<double> Estimator::probability(double theta, size_t question) {
   // double check this is the eps value Jacob wants
   double eps = std::numeric_limits<double>::min();
-  double max = std::numeric_limits<double>::max();
+  eps = sqrt(eps);
   
 	auto calculate = [&](double difficulty) {
 		double guess = questionSet.guessing.at(question);
 		double exp_prob_bi = exp(difficulty + (questionSet.discrimination.at(question) * theta));
 		double exp_prob_poly = exp(difficulty - (questionSet.discrimination.at(question) * theta));
 		double result = questionSet.poly[0] ? exp_prob_poly / (1 + exp_prob_poly) : guess + (1 - guess) * exp_prob_bi / (1 + exp_prob_bi);
-		std::cout<<result<<std::endl;
-		std::cout<<exp_prob_bi<<std::endl;
-		std::cout<<(exp_prob_bi + 1)<<std::endl;
-		//if(result < pow(eps, 1.0/3.0)){
-		//if(std::isinf(exp_prob_bi)){
-		//  result = 1.0 - sqrt(eps);
-		//}
+		std::cout<<"numerator: "<<exp_prob_bi<<std::endl;
+		// handling numerator == Inf
+		if(std::isinf(exp_prob_bi)){
+		 result = 1.0 - eps;
+		}
+		if(std::isinf(exp_prob_poly)){
+		 result = 1.0 - eps;
+		}
+		// handling really large results
+		if(result > (1.0 - eps)){
+		  result = 1.0 - eps;
+		}
+		// handling really small results
+		if(result < eps){
+		  result = eps;
+		}
 		return result;
 	};
 
@@ -59,7 +68,7 @@ double Estimator::binary_likelihood(double theta) {
 		double prob = probability(theta, index)[0];
 		int this_answer = questionSet.answers.at(index);
 		L = (this_answer * log(prob)) + ((1 - this_answer) * log(1 - prob));
-		std::cout<<L<<std::endl;
+		std::cout<<"each L: "<<L<<std::endl;
 	}
 	return exp(L);
 }

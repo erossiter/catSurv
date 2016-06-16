@@ -1,8 +1,8 @@
 testCats <- vector("list", 8)
 testCats[[1]] <- new("Cat", poly = F, priorName = "NORMAL", estimation = "MAP",
                      guessing = c(.1,.2,.1,0,0,0,.5,0,0,0),
-                     discrimination = c(1, -1, 1, 1, -1, 1, 1, 1, -1, 1),
-                     difficulty = abs(rnorm(10)),
+                     discrimination = c(1, -1, 1, 1, -30, 1, 1, 1, -1, 1),
+                     difficulty = c(1, -1, 1, 1, -30, 1, 1, 1, -1, 1),
                      answers = c(1,1,0,0,0,1,1,NA, NA, NA))
 
 testCats[[2]] <- new("Cat", poly = F, priorName = "NORMAL", estimation = "EAP",

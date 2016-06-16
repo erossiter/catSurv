@@ -26,20 +26,22 @@ document(current.code)
 ## Related... then probability would print as 1,
 ## but computer was remembering it as something like .9999999
 
-
-
 ## new things 
 testPlot <- icc(testCats[[6]], theta_range = seq(-3,3,.1), 1)
 showCppCat(testCats[[6]])
 
+prob_bi <- function(theta, c, a, b){
+  c + ((1-c) * (exp(a + (b*theta)) / (1 + exp(a + (b*theta)))))
+  numerator <- (exp(a + b*theta))
+  return(numerator)
+}
+
+prob_bi(-100, 0, -30, -30)
 
 
 ##binary
-probability(testCats[[2]], -1000, 5)
-
-likelihood(testCats[[2]], -1000)
-
-
+probability(testCats[[1]], -5, 5)
+likelihood(testCats[[1]], -5)
 
 probability_test(testCats[[2]], -1000, 2)
 ##poly
