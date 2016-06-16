@@ -40,11 +40,11 @@ double MAPEstimator::polytomous_dLL(double theta) {
 		double Q_star1 = 1.0 - P_star1;
 		double P_star2 = probs[answer_k - 1];
 		double Q_star2 = 1 - P_star2;
-		double P = P_star2 - P_star1;
+		double P = P_star1 - P_star2;
 		double w2 = P_star2 * Q_star2;
 		double w1 = P_star1 * Q_star1;
 
-		l_theta += questionSet.discrimination[question] * ((w2 - w1) / P);
+		l_theta += (-1.0*questionSet.discrimination[question]) * ((w1 - w2) / P);
 	}
 	return l_theta;
 }
