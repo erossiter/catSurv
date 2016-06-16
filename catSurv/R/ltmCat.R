@@ -28,7 +28,7 @@ setGeneric("ltmCat", function(data, object=NULL, ...){standardGeneric("ltmCat")}
 setMethod(f="ltmCat", signature="data.frame",
           definition=function(data, object,...){
             if(!is.null(object)) if(class(object)!="Cat") stop("object is not class Cat")
-            fit <- ltm(data ~ z1,...)
+            fit <- ltm(data ~ z1, control = list(GHk = 100), ...)
             answer <- rep(NA,dim(fit$coef)[1])
             discrimination <- fit$coef[,"z1"]
             difficulty <- fit$coef[,"(Intercept)"]
