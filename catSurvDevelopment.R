@@ -13,30 +13,11 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
-## c++ Probability NUMERATOR returns Inf sometimes...
-## so then Inf/Inf returned nan.
-## we need to find biggest number in computer and
-## somehow deal with this...
-
-## c++ Probability numerator was a really big number
-## and printing the numerator and denominator
-## seemed to show the same number, but when the math
-## played out, the computer really was remembering them
-## as different...
-## Related... then probability would print as 1,
-## but computer was remembering it as something like .9999999
 
 ## new things 
 testPlot <- icc(testCats[[6]], theta_range = seq(-3,3,.1), 1)
 showCppCat(testCats[[6]])
 
-prob_bi <- function(theta, c, a, b){
-  c + ((1-c) * (exp(a + (b*theta)) / (1 + exp(a + (b*theta)))))
-  numerator <- (exp(a + b*theta))
-  return(numerator)
-}
-
-prob_bi(-100, 0, -30, -30)
 
 
 ##binary
