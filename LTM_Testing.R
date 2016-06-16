@@ -1,7 +1,7 @@
 library(ltm)
 
 # binary
-data.bi <- npi[1:100,]
+data.bi <- npi[1:1000,]
 
 ###### ltm
 trial.l <- ltm(data.bi ~ z1, control = list(GHk = 100))
