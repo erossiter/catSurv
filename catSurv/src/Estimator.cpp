@@ -7,9 +7,8 @@ double Estimator::likelihood(double theta) {
 }
 
 std::vector<double> Estimator::probability(double theta, size_t question) {
-  //double eps = std::numeric_limits<double>::min();
-  //eps = pow(eps, 9.0/10.0);
-  double eps = sqrt(pow(2, -40));
+  double eps = pow(2, -52);
+  eps = pow(eps, 1.0/3.0);
   
 	auto calculate = [&](double difficulty) {
 		double guess = questionSet.guessing.at(question);
@@ -21,7 +20,6 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
 		// std::cout<<"eps: "<<eps<<std::endl;
 		// std::cout<<"1 - eps: "<< 1.0 - eps<<std::endl;
 		// std::cout<<"initial result: "<<result<<std::endl;
-		// std::cout<<"\n"<<std::endl;
 		
 		if(std::isinf(exp_prob_bi)){
 		  result = 1.0 - eps;
@@ -71,12 +69,6 @@ double Estimator::binary_likelihood(double theta) {
 		double prob = probability(theta, index)[0];
 		int this_answer = questionSet.answers.at(index);
 		L += (this_answer * log(prob)) + ((1 - this_answer) * log(1 - prob));
-		// std::cout<<"\nquestion: "<<question+1<<std::endl;
-		// std::cout<<"prob: "<<prob<<std::endl;
-		// std::cout<<"this answer: "<<this_answer<<std::endl;
-		// std::cout<<"log(prob): "<<log(prob)<<std::endl;
-		// std::cout<<"log (1-prob): "<<log(1-prob)<<std::endl;
-		// std::cout<<"each L: "<<L<<std::endl;
 	}
 	return exp(L);
 }

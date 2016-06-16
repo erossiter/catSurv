@@ -1,0 +1,3 @@
+- Machine tolerance is currently hard coded in probability as the cubed root of .Machine$double.eps = e^-52.  We need to test this on other computers to make sure this number isn’t still too small.  If it is too small, probability has the chance of equaling 1, which introduces many problems down the line of functions.
+
+- 
