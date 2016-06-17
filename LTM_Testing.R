@@ -1,14 +1,15 @@
 library(ltm)
 library(catR)
+library(microbenchmark)
 
-# binary
-data.bi <- npi[1:1000,]
+########## binary
+data.bi <- npi[1:10,]
 
-###### ltm
+##### ltm
 trial.l <- ltm(data.bi ~ z1, control = list(GHk = 100))
 ltm.test <- factor.scores.ltm(trial.l, method = "EAP")$score.dat
 
-# ltmCat 
+## ltmCat 
 
 #Cat.l <- ltmCat(data.bi)
 Cat.l <- ltmCat(object = trial.l)
@@ -28,7 +29,7 @@ comparison.ltm
 summary(comparison.ltm)
 
 
-# Cat probability test
+## Cat probability test
 trialCat <- Cat.l
 trialCat@answers <- as.numeric(as.vector(ltm.test[1,1:40]))
 
@@ -46,7 +47,7 @@ Catlik
 estimateTheta(trialCat)
 estimateTheta_test(trialCat)
 
-# ltm probability test
+## ltm probability test
 betas <- trial.l$coef
 Z <- trial.l$GH$Z
 Z[,2] <- rep(0, dim(Z)[1])
@@ -74,13 +75,52 @@ p.xz[1,1]
 
 
 
+##### catR - thetaEst
+
+# note that the discrimination and difference parameters are taken from coef() of an ltm object
+params <- matrix(c(coef(trial.l)[,2], coef(trial.l)[,1], 
+                   rep(0,length(Cat.l@discrimination)), 
+                   rep(1, length(Cat.l@discrimination))),
+                 ncol= 4, byrow = F)
+
+estimates.catR.ltm <- rep(NA, dim(ltm.test)[1])
+for (i in 1:dim(ltm.test)[1]){
+estimates.catR.ltm[i] <- thetaEst(it = params,
+                     x = as.numeric(as.vector(ltm.test[i,1:40])),
+                     model = NULL,
+                     #D = 1,
+                     method = "EAP",
+                     priorDist = "norm",
+                     priorPar = c(0,1),
+                     parInt = c(-6,6,43),
+                    #constantPatt = "EAP",
+                     current.th = 0)
+}
+
+comparison.catR.ltm <- data.frame(estimates.l, estimates.catR)
+comparison.catR$differences <- abs(comparison.catR.ltm[,1] - comparison.catR.ltm[,2])
+colnames(comparison.catR.ltm) <- c("estimateTheta", "thetaEst", "differences")
+comparison.catR.ltm
+summary(comparison.catR.ltm)
 
 
-###### tpm
+
+## catR - Probability / Likelihood test
+Pi(0, params)$Pi
+
+L<-function(theta,parametermatrix,answervector) prod(Pi(th,it,D=1)$Pi^x*(1-Pi(th,it,D=1)$Pi)^(1-x))
+L(0,params,Cat.test@answers)
+
+
+
+
+
+
+##### tpm
 trial.t <- tpm(data.bi, control = list(GHk = 100))
 tpm.test <- factor.scores.tpm.correct(trial.t, method="EAP")$score.dat
 
-# tpmCat
+## tpmCat
 Cat.t <- tpmCat(data.bi)
 
 estimates.t <- rep(NA,dim(tpm.test)[1])
@@ -100,15 +140,16 @@ summary(comparison.t)
 
 
 
-#polytomous
+########## polytomous
 data.poly <- nfc[1:100,]
 
-### grm
+##### grm
 trial.g <- grm(data.poly, control=list(GHk = 100))
-grm.test <- factor.scores.grm(trial.poly, method = "EAP")$score.dat
+grm.test <- factor.scores.grm(trial.g, method = "EAP")$score.dat
 
 #Cat.g <- grmCat(data = data.poly)
 Cat.g <- grmCat(object = trial.g)
+Cat.g@answers <- as.numeric(as.vector(grm.test[1,1:length(Cat.g@answers)]))
 
 estimates.g <- rep(NA,dim(grm.test)[1])
 for (i in 1:dim(grm.test)[1]) {
@@ -123,3 +164,41 @@ colnames(comparison.grm) <- c("estimateTheta", "factor.scores.grm", "differences
 comparison.grm
 summary(comparison.grm)
 
+## catR - thetaEst - grm
+estimates.catR.grm <- rep(NA, dim(ltm.test)[1])
+for (i in 1:dim(grm.test)[1]){
+  estimates.catR.grm[i] <- thetaEst(it = coef(trial.g)[,c(5,1:4)], # discrimination must be the first column
+                                x = as.numeric(as.vector(grm.test[i,1:length(Cat.g@answers)])) - 1,
+                                # note that 1 is subtracted from above answers for function to process correctly
+                                model = "GRM",
+                                method = "EAP",
+                                priorDist = "norm",
+                                priorPar = c(0,1),
+                                parInt = c(-6,6,43),
+                                constantPatt = "EAP",
+                                current.th = 0)
+}
+
+comparison.catR.grm <- data.frame(estimates.l, estimates.catR)
+comparison.catR.grm$differences <- abs(comparison.catR.grm[,1] - comparison.catR.grm[,2])
+colnames(comparison.catR.grm) <- c("estimateTheta", "thetaEst", "differences")
+comparison.catR.grm
+summary(comparison.catR.grm)
+
+
+
+
+microbenchmark(
+  estimateTheta(Cat.g),
+  thetaEst(it = coef(trial.g)[,c(5,1:4)], # discrimination must be the first column
+           x = as.numeric(as.vector(grm.test[1,1:length(Cat.g@answers)])) - 1,
+           # note that 1 is subtracted from above answers for function to process correctly
+           model = "GRM",
+           method = "EAP",
+           priorDist = "norm",
+           priorPar = c(0,1),
+           parInt = c(-6,6,43),
+           constantPatt = "EAP",
+           current.th = 0),
+  times = 1000
+)
