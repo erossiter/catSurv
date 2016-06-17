@@ -153,7 +153,7 @@ double Estimator::partial_second_derivative(double theta, size_t question) {
 
 	double P_star1 = probabilities.at(answer_k);
 	double P_star2 = probabilities.at(answer_k - 1);
-	double P = P_star2 - P_star1;
+	double P = P_star1 - P_star2;
 
 	double Q_star1 = 1 - P_star1;
 	double Q_star2 = 1 - P_star2;

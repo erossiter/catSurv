@@ -44,7 +44,7 @@ double MAPEstimator::polytomous_dLL(double theta) {
 		double w2 = P_star2 * Q_star2;
 		double w1 = P_star1 * Q_star1;
 
-		l_theta += questionSet.discrimination[question] * ((w1 - w2) / P);
+		l_theta += (-1*questionSet.discrimination[question] * ((w1 - w2) / P));
 	}
 	return l_theta;
 }
@@ -87,7 +87,6 @@ double MAPEstimator::estimateTheta(Prior prior) {
 
 	double difference = std::abs(theta_hat_new - theta_hat_old);
 	
-	//usePrior is hard coded in as true!
 	while (difference > tolerance) {
 		theta_hat_new = theta_hat_old - dLL(theta_hat_old, true, prior) / d2LL(theta_hat_old, true, prior);
 		difference = std::abs(theta_hat_new - theta_hat_old);
