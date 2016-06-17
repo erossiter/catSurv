@@ -25,15 +25,24 @@
 setGeneric("ltmCat", function(data, object=NULL, ...){standardGeneric("ltmCat")})
 
 #' @export
-setMethod(f="ltmCat", signature="data.frame",
+setMethod(f="ltmCat", signature("data.frame"),
           definition=function(data, object,...){
-            if(!is.null(object)) if(class(object)!="Cat") stop("object is not class Cat")
-            fit <- ltm(data ~ z1, control = list(GHk = 100), ...)
+            if(is.null(object)){
+              fit <- ltm(data ~ z1, control = list(GHk = 100), ...)
+            }
+            if(!is.null(object)){ 
+              if(class(object)!="Cat"){ 
+                stop("object is not class Cat")
+              } else { 
+                fit <- object
+              }}
+            
             answer <- rep(NA,dim(fit$coef)[1])
             discrimination <- fit$coef[,"z1"]
             difficulty <- fit$coef[,"(Intercept)"]
             names(difficulty) <- rownames(fit$coef)
             guessing <- rep(0, length(discrimination))
+            
             if(is.null(object)){
               object<-new("Cat")
             }
@@ -85,3 +94,32 @@ setMethod(f="ltmCat", signature="data.frame",
             #               }
             #             }
           })
+
+
+setMethod(f="ltmCat", signature("missing"),
+          definition=function(data, object,...){
+            if(is.null(object)){
+              fit <- ltm(data ~ z1, control = list(GHk = 100), ...)
+            }
+            if(!is.null(object)){ 
+              if(class(object)!="ltm"){ 
+                stop("object is not class ltm")
+              } else { 
+                fit <- object
+                }}
+          
+            answer <- rep(NA,dim(fit$coef)[1])
+            discrimination <- fit$coef[,"z1"]
+            difficulty <- fit$coef[,"(Intercept)"]
+            names(difficulty) <- rownames(fit$coef)
+            guessing <- rep(0, length(discrimination))
+            
+            object <- new("Cat")
+            object@guessing <- guessing
+            object@discrimination <- discrimination
+            object@difficulty <- difficulty
+            object@poly <- FALSE
+            object@answers <- answer
+            return(object)
+          })
+

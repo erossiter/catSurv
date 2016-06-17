@@ -38,7 +38,7 @@ test_that("estimateTheta calculates correctly", {
   test.ltm <- ltm(data ~ z1, control = list(GHk = 100))
   ltm.scores <- factor.scores.ltm(test.ltm, method = "EAP")$score.dat
   
-  Cat.ltm <- ltmCat(data)
+  Cat.ltm <- ltmCat(object = test.ltm)
   
   estimates.ltm <- rep(NA,dim(ltm.scores)[1])
   for (i in 1:dim(ltm.scores)[1]) {
@@ -50,7 +50,11 @@ test_that("estimateTheta calculates correctly", {
   comparison.ltm <- data.frame(estimates.ltm, ltm.scores[1:length(estimates.ltm),43])
   comparison.ltm$difference <- abs(comparison.ltm[,1] - comparison.ltm[,2])
   #colnames(comparison.ltm) <- c("estimateTheta", "factor.scores.ltm", "differences")
-  return(comparison.ltm[,3])
+  if(any(comparison.ltm[,3] > 0.01)){
+    return("Max estimate difference greater than 0.1")
+  } else {
+    return("Estimates ok.")
+  }
   }
   
   

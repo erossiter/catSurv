@@ -1,4 +1,5 @@
 library(ltm)
+library(catR)
 
 # binary
 data.bi <- npi[1:1000,]
@@ -8,7 +9,10 @@ trial.l <- ltm(data.bi ~ z1, control = list(GHk = 100))
 ltm.test <- factor.scores.ltm(trial.l, method = "EAP")$score.dat
 
 # ltmCat 
-Cat.l <- ltmCat(data.bi)
+
+#Cat.l <- ltmCat(data.bi)
+Cat.l <- ltmCat(object = trial.l)
+
 
 estimates.l <- rep(NA,dim(ltm.test)[1])
 for (i in 1:dim(ltm.test)[1]) {
@@ -17,13 +21,11 @@ for (i in 1:dim(ltm.test)[1]) {
   estimates.l[i] <- estimateTheta(trialCat.l)
 }
 
-comparison.l <- data.frame(estimates.l, ltm.test[1:length(estimates.l),43])
-comparison.l$differences <- abs(comparison.l[,1] - comparison.l[,2])
-colnames(comparison.l) <- c("estimateTheta", "factor.scores.ltm", "differences")
-comparison.l
-summary(comparison.l)
-
-comparison.l[which(comparison.l$differences > 0.1),]
+comparison.ltm <- data.frame(estimates.l, ltm.test[,"z1"])
+comparison.ltm$differences <- abs(comparison.ltm[,1] - comparison.ltm[,2])
+colnames(comparison.ltm) <- c("estimateTheta", "factor.scores.ltm", "differences")
+comparison.ltm
+summary(comparison.ltm)
 
 
 # Cat probability test
@@ -94,28 +96,30 @@ colnames(comparison.t) <- c("estimateTheta", "factor.scores.tpm", "differences")
 comparison.t
 summary(comparison.t)
 
-comparison.t[which(comparison.t$differences > 1),]
+
+
+
 
 #polytomous
 data.poly <- nfc[1:100,]
-trial.poly <- grm(data.poly)
+
+### grm
+trial.g <- grm(data.poly, control=list(GHk = 100))
 grm.test <- factor.scores.grm(trial.poly, method = "EAP")$score.dat
 
-trialCat.poly <- grmCat(data = data.poly)
-trialCat.poly@guessing <- rep(0,length(trialCat.poly@answers))
-trialCat.poly@priorParams <- c(0,9999999999)
+#Cat.g <- grmCat(data = data.poly)
+Cat.g <- grmCat(object = trial.g)
 
-estimates.poly <- rep(NA,dim(grm.test)[1])
+estimates.g <- rep(NA,dim(grm.test)[1])
 for (i in 1:dim(grm.test)[1]) {
-  trialCat.poly <- trialCat.poly
-  trialCat.poly@answers <- as.numeric(as.vector(grm.test[i,1:18]))
-  estimates.poly[i] <- estimateTheta(trialCat.poly)
+  trialCat.g <- Cat.g
+  trialCat.g@answers <- as.numeric(as.vector(grm.test[i,1:18]))
+  estimates.g[i] <- estimateTheta(trialCat.g)
 }
 
-comparison.poly <- data.frame(estimates.poly, grm.test[1:length(estimates.poly),21])
-comparison.poly$differences <- abs(comparison.poly[,1] - comparison.poly[,2])
-colnames(comparison.poly) <- c("estimateTheta", "factor.scores", "differences")
-comparison.poly
-summary(comparison.poly)
+comparison.grm <- data.frame(estimates.g, grm.test[,"z1"])
+comparison.grm$differences <- abs(comparison.grm[,1] - comparison.grm[,2])
+colnames(comparison.grm) <- c("estimateTheta", "factor.scores.grm", "differences")
+comparison.grm
+summary(comparison.grm)
 
-comparison.poly[which(comparison.poly$differences > 1),]
