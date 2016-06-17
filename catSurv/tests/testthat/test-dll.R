@@ -40,7 +40,7 @@ test_that("dLL calculates correctly", {
         P <- Pstar1 - Pstar2
         W2 <- Pstar2 * Qstar2
         W1 <- Pstar1 * Qstar1
-        sum_this[i] <- -1*cat@discrimination[item] * ((W1 - W2)/P)
+        sum_this[i] <- -1*cat@discrimination[i] * ((W1 - W2)/P)
       }
       L_theta <- sum(sum_this)
     }

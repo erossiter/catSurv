@@ -160,9 +160,9 @@ double Estimator::partial_second_derivative(double theta, size_t question) {
 
 	double w2 = P_star2 * Q_star2;
 	double w1 = P_star1 * Q_star1;
-	double w = w2 - w1;
+	double w = w1 - w2;
 
-	double first_term = (-w1 * (Q_star1 - P_star1) + w2 * (Q_star2 - P_star2)) / P;
+	double first_term = (-w2 * (Q_star2 - P_star2) + w1 * (Q_star1 - P_star1)) / P;
 	double second_term = pow(w, 2) / pow(P, 2);
 
 	return first_term - second_term;
