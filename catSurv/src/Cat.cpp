@@ -2,6 +2,7 @@
 #include "Cat.h"
 #include "EAPEstimator.h"
 #include "MAPEstimator.h"
+#include "MLEEstimator.h"
 #include "EPVSelector.h"
 #include "MEISelector.h"
 #include "MFISelector.h"
@@ -122,6 +123,10 @@ std::unique_ptr<Estimator> Cat::createEstimator(S4 &cat_df, Integrator &integrat
 
 	if (estimation_type == "MAP") {
 		return std::unique_ptr<MAPEstimator>(new MAPEstimator(integrator, questionSet));
+	}
+	
+	if (estimation_type == "MLE") {
+		return std::unique_ptr<MLEEstimator>(new MLEEstimator(integrator, questionSet));
 	}
 
 	stop("%s is not a valid estimation type.", estimation_type);
