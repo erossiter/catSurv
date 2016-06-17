@@ -12,7 +12,7 @@ double MAPEstimator::polytomous_d2LL(double theta) {
 }
 
 double MAPEstimator::binary_d2LL(double theta) {
-	double lambda_theta = 0;
+	double lambda_theta = 0.0;
 	for (auto question : questionSet.applicable_rows) {
 		const double P = probability(theta, (size_t) question)[0];
 		const double guess = questionSet.guessing[question];
@@ -20,9 +20,9 @@ double MAPEstimator::binary_d2LL(double theta) {
 		const double lambda_temp = (P - guess) / (1.0 - guess);
 		const double discrimination = questionSet.discrimination[question];
 
-		lambda_theta -= pow(discrimination, 2) * pow(lambda_temp, 2) * (Q / P);
+		lambda_theta += pow(discrimination, 2) * pow(lambda_temp, 2) * (Q / P);
 	}
-	return lambda_theta;
+	return -lambda_theta;
 }
 
 
@@ -44,7 +44,7 @@ double MAPEstimator::polytomous_dLL(double theta) {
 		double w2 = P_star2 * Q_star2;
 		double w1 = P_star1 * Q_star1;
 
-		l_theta += (-1.0*questionSet.discrimination[question]) * ((w1 - w2) / P);
+		l_theta += questionSet.discrimination[question] * ((w1 - w2) / P);
 	}
 	return l_theta;
 }
@@ -86,7 +86,8 @@ double MAPEstimator::estimateTheta(Prior prior) {
 	const double tolerance = 0.0000001;
 
 	double difference = std::abs(theta_hat_new - theta_hat_old);
-
+	
+	//usePrior is hard coded in as true!
 	while (difference > tolerance) {
 		theta_hat_new = theta_hat_old - dLL(theta_hat_old, true, prior) / d2LL(theta_hat_old, true, prior);
 		difference = std::abs(theta_hat_new - theta_hat_old);
