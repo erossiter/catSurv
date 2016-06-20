@@ -16,23 +16,54 @@ test_that("estimateTheta calculates correctly", {
       cat_Cat <- ltmCat(binary_data)
       cat_Cat@estimation <- "MLE"
       
-      xx <- rbind(factor_scores[9,1:(ncol(factor_scores)-4)], cat_Cat@discrimination)
-      
-      for(i in 1:ncol(xx)){
-        if(xx[1,i] < 1){
-          if(xx[2,i] < 2){
-            print("true")
-          }
-        }
-      }
+      ## if MLE was not the method used because of certain contingencies
+      ## we need to know which rows so we can throw them out of the
+      ## expect_equal() test and maybe they will have their own test
+      max_response <- 1
+      min_response <- 0
       
       cat_Cat_theta <- rep(NA, length(cat_ltm_theta))
-      for(i in 9:9){
+      for(i in 1:length(cat_Cat_theta)){
         cat_Cat@answers <- c(as.numeric(cat_ltm_data[i, ]))
-        cat_Cat_theta[i] <- estimateTheta(cat_Cat)
+    
+        minAnswer_negDiscrim <- maxAnswer_negDiscrim <- minAnswer_posDiscrim <- maxAnswer_posDiscrim <- ans_not_extreme <- c()
+        for(i in 1:length(cat_Cat@answers)){
+          if(cat_Cat@discrimination[i] < 0 & cat_Cat@answers[i] == min_response) append(minAnswer_negDiscrim, i)
+          else if(cat_Cat@discrimination[i] < 0 & cat_Cat@answers[i] == max_response) append(maxAnswer_negDiscrim, i)
+          else if(cat_Cat@discrimination[i] > 0 & cat_Cat@answers[i] == min_response) append(minAnswer_posDiscrim, i)
+          else if(cat_Cat@discrimination[i] > 0 & cat_Cat@answers[i] == max_response) append(maxAnswer_posDiscrim, i)
+          else ans_not_extreme <- append(ans_not_extreme, i)
+        }
+      
+      	  if(length(minAnswer_posDiscrim) != 0 &
+      	    length(maxAnswer_negDiscrim) != 0 &
+      	    length(minAnswer_negDiscrim) == 0 &
+      	    length(maxAnswer_posDiscrim) == 0 &
+      	    length(ans_not_extreme) == 0){
+      	    all_extreme = TRUE
+      	  } else if(length(minAnswer_posDiscrim) == 0 &
+      	            length(maxAnswer_negDiscrim) == 0 &
+      	            length(minAnswer_negDiscrim) != 0 &
+      	            length(maxAnswer_posDiscrim) != 0 &
+      	            length(ans_not_extreme) == 0){
+      	    all_extreme = TRUE
+      	  } else {
+      	    all_extreme = FALSE
+      	  }
+      
+        if(all_extreme){
+          cat_Cat_theta[i] <- NA
+        } else {
+          cat_Cat_theta[i] <- estimateTheta(cat_Cat)
+        }
       }
-      differences <- abs(cat_Cat_theta[-c(9,82)] - cat_ltm_theta)
+      differences <- abs(cat_Cat_theta - cat_ltm_theta)
     }
+    
+    
+    
+    
+    
     
     if(poly == TRUE){
       cat_grm <- grm(data, control=list(GHk = 100))
