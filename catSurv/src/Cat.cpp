@@ -43,18 +43,14 @@ List Cat::nextItem() {
 }
 
 void Cat::showCppCat() {
-  std::cout << "poly: " << questionSet.poly[0] << std::endl;
-  
   std::cout << "discrimination: " << ' ';
   for (auto i: questionSet.discrimination){
     std::cout << i << ' ';
   }
-  
   std::cout << "\nguessing: " << ' ';
   for (auto i: questionSet.guessing){
     std::cout << i << ' ';
   }
-
   std::cout << "\ndifficulty: " << ' ';
   for ( std::vector<std::vector<int>>::size_type i = 0; i < questionSet.difficulty.size(); i++ ){
     for ( std::vector<int>::size_type j = 0; j < questionSet.difficulty[i].size(); j++ ){
@@ -62,29 +58,26 @@ void Cat::showCppCat() {
     }
     std::cout << std::endl;
   }
-
   std::cout << "nonapplicable_rows: " << ' ';
   for (auto i: questionSet.nonapplicable_rows){
     std::cout << i << ' ';
   }
-
   std::cout << "\napplicable_rows: " << ' ';
   for (auto i: questionSet.applicable_rows){
     std::cout << i << ' ';
   }
-
   std::cout << "\nanswers: " << ' ';
   for (auto i: questionSet.answers){
     std::cout << i << ' ';
   }
-
   std::cout << "\npriorName: " << prior.name << std::endl;
-  
   std::cout << "parameters: " << ' ';
   for (auto i: prior.parameters){
     std::cout << i << ' ';
   }
-  
+  std::cout<<std::boolalpha;
+  std::cout << "\nall_extreme: " << questionSet.all_extreme << std::endl;
+  std::cout << "poly: " << questionSet.poly[0] << std::endl;
 }
 
 double Cat::dLL(double theta, bool use_prior) {
@@ -113,7 +106,8 @@ double Cat::obsInf(double theta, int item) {
  */
 std::unique_ptr<Estimator> Cat::createEstimator(S4 &cat_df, Integrator &integrator, QuestionSet &questionSet) {
 	std::string estimation_type = cat_df.slot("estimation");
-
+  std::string estimation_default = cat_df.slot("estimationDefault");
+  
 	// Note that this comparison is only legal because std::string, which overrides ==, is being used.
 	// If, for some reason, C-style strings are ever used here, strncmp will have to be inserted.
 
@@ -126,7 +120,12 @@ std::unique_ptr<Estimator> Cat::createEstimator(S4 &cat_df, Integrator &integrat
 	}
 	
 	if (estimation_type == "MLE") {
-		return std::unique_ptr<MLEEstimator>(new MLEEstimator(integrator, questionSet));
+	  if (questionSet.applicable_rows.size() == 0 || questionSet.all_extreme){
+	    if (estimation_default == "MAP") return std::unique_ptr<MAPEstimator>(new MAPEstimator(integrator, questionSet));
+	    if (estimation_default == "EAP") return std::unique_ptr<EAPEstimator>(new EAPEstimator(integrator, questionSet));
+	  } else {
+	    return std::unique_ptr<MLEEstimator>(new MLEEstimator(integrator, questionSet));
+	  }
 	}
 
 	stop("%s is not a valid estimation type.", estimation_type);

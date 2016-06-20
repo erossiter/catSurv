@@ -61,7 +61,7 @@ likelihood <- function(cat_df, t) {
 #' where \eqn{L}(\theta_j) is the likelihood function and \pi(\theta_j) is the prior distribution for \eqn{\theta_j}
 #'
 #'
-#'  Note: For the moment, this function implements only the expected a posteriori (EAP) approach
+#'  Note: When MLE would not work, estimateTheta is calculated according to the estimationDefault slot in Cat object.
 #'
 #'  Note: This method will only be available using the normal prior distribution
 #'

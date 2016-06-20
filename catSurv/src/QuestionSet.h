@@ -22,6 +22,10 @@ struct QuestionSet {
 	 */
 	std::vector<int> answers;
 	std::vector<bool> poly;
+	/**
+	 * Keeping track of extreme answers for MLEEstimator.
+	 */	
+	bool all_extreme;
 
 	QuestionSet(Rcpp::S4 &cat_df);
 };

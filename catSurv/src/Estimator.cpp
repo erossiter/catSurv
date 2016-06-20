@@ -16,11 +16,6 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
 		double exp_prob_poly = exp(difficulty - (questionSet.discrimination.at(question) * theta));
 		double result = questionSet.poly[0] ? exp_prob_poly / (1 + exp_prob_poly) : guess + (1 - guess) * exp_prob_bi / (1 + exp_prob_bi);
 		
-		// std::cout<<"numerator: "<<exp_prob_bi<<std::endl;
-		// std::cout<<"eps: "<<eps<<std::endl;
-		// std::cout<<"1 - eps: "<< 1.0 - eps<<std::endl;
-		// std::cout<<"initial result: "<<result<<std::endl;
-		
 		if(std::isinf(exp_prob_bi)){
 		  result = 1.0 - eps;
 		}
