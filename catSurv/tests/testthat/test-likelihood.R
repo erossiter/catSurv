@@ -25,7 +25,7 @@ test_that("likelihood calculates correctly", {
           (pList[[i]]^(ansVec[i])) * ((1 - pList[[i]])^(1 - ansVec[i]))
         })
         # Apply product function over this vector
-        print(pqVec)
+        #print(pqVec)
         likelihood <- prod(pqVec) 
       } 
       
@@ -36,7 +36,7 @@ test_that("likelihood calculates correctly", {
       for (i in 1:length(pList)) {  # Iterating over question
         # Append 0 and 1 to front and back or each vector of probabilties
         pList[[i]] <- c(0, pList[[i]], 1)
-        print(pList[[i]])
+        #print(pList[[i]])
         for (k in 2:length(pList[[i]])) { #  iterating over response categories
           pListFinal[[i]][k - 1] <- pList[[i]][k] - pList[[i]][k - 1]
         }

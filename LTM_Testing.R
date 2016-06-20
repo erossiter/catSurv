@@ -5,6 +5,7 @@ library(microbenchmark)
 ########## binary
 data.bi <- npi[1:10,]
 
+
 ##### ltm
 trial.l <- ltm(data.bi ~ z1, control = list(GHk = 100))
 ltm.test <- factor.scores.ltm(trial.l, method = "EAP")$score.dat
@@ -13,7 +14,6 @@ ltm.test <- factor.scores.ltm(trial.l, method = "EAP")$score.dat
 
 #Cat.l <- ltmCat(data.bi)
 Cat.l <- ltmCat(object = trial.l)
-
 
 estimates.l <- rep(NA,dim(ltm.test)[1])
 for (i in 1:dim(ltm.test)[1]) {
@@ -29,49 +29,54 @@ comparison.ltm
 summary(comparison.ltm)
 
 
+
 ## Cat probability test
-trialCat <- Cat.l
-trialCat@answers <- as.numeric(as.vector(ltm.test[1,1:40]))
 
-Catprobs <- rep(NA, length(trialCat@answers))
-for (i in 1:length(trialCat@answers)) {
-  Catprobs[i] <- probability(trialCat, 0, i)
-}
+# trialCat <- Cat.l
+# trialCat@answers <- as.numeric(as.vector(ltm.test[1,1:40]))
+# 
+# Catprobs <- rep(NA, length(trialCat@answers))
+# for (i in 1:length(trialCat@answers)) {
+#   Catprobs[i] <- probability(trialCat, 0, i)
+# }
+# 
+# Catprobs <- as.numeric(unlist(Catprobs))
+# Catprobs
+# 
+# Catlik <- likelihood(trialCat, 0) 
+# Catlik
+# 
+# estimateTheta(trialCat)
+# estimateTheta_test(trialCat)
 
-Catprobs <- as.numeric(unlist(Catprobs))
-Catprobs
 
-Catlik <- likelihood(trialCat, 0) 
-Catlik
-
-estimateTheta(trialCat)
-estimateTheta_test(trialCat)
 
 ## ltm probability test
-betas <- trial.l$coef
-Z <- trial.l$GH$Z
-Z[,2] <- rep(0, dim(Z)[1])
 
-probs <-
-  function (x) {
-    pr <- plogis(x)
-    if (any(ind <- pr == 1))
-      pr[ind] <- 1 - sqrt(.Machine$double.eps)
-    if (any(ind <- pr == 0))
-      pr[ind] <- sqrt(.Machine$double.eps)
-    pr
-  }
-
-pr <- probs(Z %*% t(betas))
-pr[1,]
-
-fits <- fitted(trial.l, resp.patterns = NULL)
-X <- fits[, -ncol(fits), drop = FALSE]
-mX <- 1 - X
-if (any(na.ind <- is.na(X)))
-  X[na.ind] <- mX[na.ind] <- 0
-p.xz <- exp(X %*% t(log(pr)) + mX %*% t(log(1 - pr)))
-p.xz[1,1]
+# betas <- trial.l$coef
+# Z <- trial.l$GH$Z
+# Z[,2] <- rep(0, dim(Z)[1])
+# 
+# probs <-
+#   function (x) {
+#     pr <- plogis(x)
+#     if (any(ind <- pr == 1))
+#       pr[ind] <- 1 - sqrt(.Machine$double.eps)
+#     if (any(ind <- pr == 0))
+#       pr[ind] <- sqrt(.Machine$double.eps)
+#     pr
+#   }
+# 
+# pr <- probs(Z %*% t(betas))
+# pr[1,]
+# 
+# fits <- fitted(trial.l, resp.patterns = NULL)
+# X <- fits[, -ncol(fits), drop = FALSE]
+# mX <- 1 - X
+# if (any(na.ind <- is.na(X)))
+#   X[na.ind] <- mX[na.ind] <- 0
+# p.xz <- exp(X %*% t(log(pr)) + mX %*% t(log(1 - pr)))
+# p.xz[1,1]
 
 
 
@@ -106,13 +111,11 @@ summary(comparison.catR.ltm)
 
 
 ## catR - Probability / Likelihood test
-Pi(0, params)$Pi
 
-L<-function(theta,parametermatrix,answervector) prod(Pi(th,it,D=1)$Pi^x*(1-Pi(th,it,D=1)$Pi)^(1-x))
-L(0,params,Cat.test@answers)
-
-
-
+# Pi(0, params)$Pi
+# 
+# L<-function(theta,parametermatrix,answervector) prod(Pi(th,it,D=1)$Pi^x*(1-Pi(th,it,D=1)$Pi)^(1-x))
+# L(0,params,Cat.test@answers)
 
 
 
@@ -122,13 +125,14 @@ trial.t <- tpm(data.tpm, control = list(GHk = 100))
 tpm.test <- factor.scores.tpm.correct(trial.t, method="EAP")$score.dat
 
 ## tpmCat
+
 #Cat.t <- tpmCat(data.tpm)
 Cat.t <- tpmCat(object = trial.t)
 
 estimates.t <- rep(NA,dim(tpm.test)[1])
 for (i in 1:dim(tpm.test)[1]) {
   trialCat.t <- Cat.t
-  trialCat.t@answers <- as.numeric(as.vector(tpm.test[i,1:length(Cat.t@answers) - 1]))
+  trialCat.t@answers <- as.numeric(as.vector(tpm.test[i,1:length(Cat.t@answers)]))
   estimates.t[i] <- estimateTheta(trialCat.t)
 }
 
@@ -138,7 +142,27 @@ colnames(comparison.t) <- c("estimateTheta", "factor.scores.tpm", "differences")
 comparison.t
 summary(comparison.t)
 
-which(comparison.t[,3] > 0.1)
+
+
+# probability/likelihood tests for tpm
+
+# tpm.Cat <- Cat.t
+# tpm.Cat@answers <- as.numeric(as.vector(tpm.test[94,1:length(tpm.Cat@answers)]))
+# 
+# Catprobs <- rep(NA, length(tpm.Cat@answers))
+# for (i in 1:length(tpm.Cat@answers)) {
+#   Catprobs[i] <- probability(tpm.Cat, 0, i)
+# }
+# 
+# Catprobs <- as.numeric(unlist(Catprobs))
+# Catprobs
+# sum(Catprobs - pr[94,])
+# 
+# Catlik <- likelihood(tpm.Cat, 0) 
+# Catlik
+# p.xz[94,1]
+# 
+# estimateTheta(tpm.Cat)
 
 
 
@@ -166,6 +190,8 @@ colnames(comparison.grm) <- c("estimateTheta", "factor.scores.grm", "differences
 comparison.grm
 summary(comparison.grm)
 
+
+
 ## catR - thetaEst - grm
 estimates.catR.grm <- rep(NA, dim(ltm.test)[1])
 for (i in 1:dim(grm.test)[1]){
@@ -186,9 +212,6 @@ comparison.catR.grm$differences <- abs(comparison.catR.grm[,1] - comparison.catR
 colnames(comparison.catR.grm) <- c("estimateTheta", "thetaEst", "differences")
 comparison.catR.grm
 summary(comparison.catR.grm)
-
-
-
 
 microbenchmark(
   estimateTheta(Cat.g),
