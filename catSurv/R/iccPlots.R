@@ -10,7 +10,7 @@
 #' \itemize{
 #' \item \code{iccPlot} a named vector of difficulty parameters for use with dichotomous questions/items.  Each element's name tells the question/item to which it applies.
 #' \item \code{x} A matrix of probabilities calculated at each theta from which the curves were drawn.
-#'
+#'}
 #' @rdname icc
 #' @export
 setGeneric("icc", function(object, theta_range, question, ...){standardGeneric("icc")})

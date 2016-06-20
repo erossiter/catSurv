@@ -117,26 +117,28 @@ L(0,params,Cat.test@answers)
 
 
 ##### tpm
-trial.t <- tpm(data.bi, control = list(GHk = 100))
+data.tpm <- AMTknowledge[1:100,]
+trial.t <- tpm(data.tpm, control = list(GHk = 100))
 tpm.test <- factor.scores.tpm.correct(trial.t, method="EAP")$score.dat
 
 ## tpmCat
-Cat.t <- tpmCat(data.bi)
+#Cat.t <- tpmCat(data.tpm)
+Cat.t <- tpmCat(object = trial.t)
 
 estimates.t <- rep(NA,dim(tpm.test)[1])
 for (i in 1:dim(tpm.test)[1]) {
   trialCat.t <- Cat.t
-  trialCat.t@answers <- as.numeric(as.vector(tpm.test[i,1:dim(tpm.test)[1]]))
-  estimates.t[i] <- estimateTheta_test(trialCat.t)
+  trialCat.t@answers <- as.numeric(as.vector(tpm.test[i,1:length(Cat.t@answers) - 1]))
+  estimates.t[i] <- estimateTheta(trialCat.t)
 }
 
-comparison.t <- data.frame(estimates.t, tpm.test[1:length(estimates.t),43])
+comparison.t <- data.frame(estimates.t, tpm.test[1:length(estimates.t),ncol(tpm.test) - 1])
 comparison.t$differences <- abs(comparison.t[,1] - comparison.t[,2])
 colnames(comparison.t) <- c("estimateTheta", "factor.scores.tpm", "differences")
 comparison.t
 summary(comparison.t)
 
-
+which(comparison.t[,3] > 0.1)
 
 
 

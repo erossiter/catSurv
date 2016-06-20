@@ -35,7 +35,8 @@ setMethod(f="ltmCat", signature("data.frame"),
                 stop("object is not class Cat")
               } else { 
                 fit <- object
-              }}
+                }
+            }
             
             answer <- rep(NA,dim(fit$coef)[1])
             discrimination <- fit$coef[,"z1"]
@@ -106,7 +107,8 @@ setMethod(f="ltmCat", signature("missing"),
                 stop("object is not class ltm")
               } else { 
                 fit <- object
-                }}
+                }
+            }
           
             answer <- rep(NA,dim(fit$coef)[1])
             discrimination <- fit$coef[,"z1"]

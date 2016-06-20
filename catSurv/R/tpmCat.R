@@ -27,13 +27,23 @@ setGeneric("tpmCat", function(data, object=NULL, ...){standardGeneric("tpmCat")}
 #' @export
 setMethod(f="tpmCat", signature="data.frame",
           definition=function(data, object,...){
-            if(!is.null(object)) if(class(object)!="Cat") stop("object is not class Cat")
-            fit <- tpm(data,...)
+            if(is.null(object)){
+              fit <- tpm(data, control = list(GHk = 100), ...)
+            } 
+            if(!is.null(object)){
+              if(class(object)!="Cat"){ 
+                stop("object is not class Cat")
+              } else {
+                fit <- object
+                }
+            }
+           
             answer <- rep(NA,dim(fit$coef)[1])
             discrimination <- fit$coef[,"beta.2i"]
             difficulty <- fit$coef[,"beta.1i"]
             guessing <- coef(fit)[,"Gussng"]
             names(difficulty) <- rownames(fit$coef)
+            
             if(is.null(object)){
               object<-new("Cat")
             }
@@ -84,4 +94,31 @@ setMethod(f="tpmCat", signature="data.frame",
 #                 if(!test8){stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
 #               }
 #             }
+          })
+setMethod(f="tpmCat", signature="missing",
+          definition=function(data, object,...){
+            if(is.null(object)){
+              fit <- tpm(data, control = list(GHk = 100), ...)
+            } 
+            if(!is.null(object)){
+              if(class(object)!="tpm"){ 
+                stop("object is not class tpm")
+              } else {
+                fit <- object
+              }
+            }
+            
+            answer <- rep(NA,dim(fit$coef)[1])
+            discrimination <- fit$coef[,"beta.2i"]
+            difficulty <- fit$coef[,"beta.1i"]
+            guessing <- coef(fit)[,"Gussng"]
+            names(difficulty) <- rownames(fit$coef)
+            
+            object<-new("Cat")
+            object@discrimination <- discrimination
+            object@difficulty <- difficulty
+            object@poly <- FALSE
+            object@guessing <- guessing
+            object@answers <- answer
+            return(object)
           })

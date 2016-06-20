@@ -10,6 +10,14 @@ icc(object, theta_range, question, ...)
 \item{object}{A \code{Cat} object}
 
 \item{theta_range}{A numerical vector of thetas at which the probabilities are to be calculated}
+
+\item{question}{A single numeric indicating the question/item for which the curves are to be drawn.
+
+ @return A list with components,
+\itemize{
+\item \code{iccPlot} a named vector of difficulty parameters for use with dichotomous questions/items.  Each element's name tells the question/item to which it applies.
+\item \code{x} A matrix of probabilities calculated at each theta from which the curves were drawn.
+}}
 }
 \description{
 This function plots the item characteristic curves for an object of class \code{Cat}.
