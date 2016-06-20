@@ -80,7 +80,7 @@ summary(comparison.ltm)
 
 
 
-##### catR - thetaEst
+##### catR - thetaEst:ltm
 
 # note that the discrimination and difference parameters are taken from coef() of an ltm object
 params <- matrix(c(coef(trial.l)[,2], coef(trial.l)[,1], 
@@ -102,15 +102,15 @@ estimates.catR.ltm[i] <- thetaEst(it = params,
                      current.th = 0)
 }
 
-comparison.catR.ltm <- data.frame(estimates.l, estimates.catR)
-comparison.catR$differences <- abs(comparison.catR.ltm[,1] - comparison.catR.ltm[,2])
+comparison.catR.ltm <- data.frame(estimates.l, estimates.catR.ltm)
+comparison.catR.ltm$differences <- abs(comparison.catR.ltm[,1] - comparison.catR.ltm[,2])
 colnames(comparison.catR.ltm) <- c("estimateTheta", "thetaEst", "differences")
 comparison.catR.ltm
 summary(comparison.catR.ltm)
 
 
 
-## catR - Probability / Likelihood test
+## catR - ltm Probability / Likelihood test
 
 # Pi(0, params)$Pi
 # 
@@ -163,6 +163,35 @@ summary(comparison.t)
 # p.xz[94,1]
 # 
 # estimateTheta(tpm.Cat)
+
+
+
+##### catR - thetaEst:tpm
+
+# note that the discrimination and difference parameters are taken from coef() of an tpm object
+params.tpm <- matrix(c(coef(trial.t)[,3], coef(trial.t)[,2], coef(trial.t)[,1], 
+                   rep(1, length(Cat.t@discrimination))),
+                 ncol= 4, byrow = F)
+
+estimates.catR.tpm <- rep(NA, dim(tpm.test)[1])
+for (i in 1:dim(tpm.test)[1]){
+  estimates.catR.tpm[i] <- thetaEst(it = params.tpm,
+                                    x = as.numeric(as.vector(tpm.test[i,1:64])),
+                                    model = NULL,
+                                    #D = 1,
+                                    method = "EAP",
+                                    priorDist = "norm",
+                                    priorPar = c(0,1),
+                                    parInt = c(-6,6,43),
+                                    #constantPatt = "EAP",
+                                    current.th = 0)
+}
+
+comparison.catR.tpm <- data.frame(estimates.t, estimates.catR.tpm)
+comparison.catR.tpm$differences <- abs(comparison.catR.tpm[,1] - comparison.catR.tpm[,2])
+colnames(comparison.catR.tpm) <- c("estimateTheta", "thetaEst", "differences")
+comparison.catR.tpm
+summary(comparison.catR.tpm)
 
 
 
