@@ -193,7 +193,7 @@ double Estimator::fisherInf(double theta, int item) {
 
 
 	double discrimination_squared = pow(questionSet.discrimination[item], 2);
-	for (size_t i = 1; i <= questionSet.difficulty[item].size(); ++i) {
+	for (size_t i = 1; i <= questionSet.difficulty[item].size() + 1; ++i) {
 		double P_star1 = probabilities[i];
 		double P_star2 = probabilities[i - 1];
 		double w1 = P_star1 * (1.0 - P_star1);
