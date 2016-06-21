@@ -209,7 +209,6 @@ double Estimator::fisherInf(double theta, int item) {
  * Computes the probability for a given theta and question number,
  * then pads it with a 1.0 at the beginning, and a 0.0 at the end.
  */
-// Erin changed this so it has a 0.0 at beginning and 1.0 at end
 std::vector<double> Estimator::paddedProbability(double theta, size_t question) {
 	std::vector<double> probabilities = probability(theta, question);
 	std::vector<double> padded{0.0};
