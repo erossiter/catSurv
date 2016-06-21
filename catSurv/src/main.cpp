@@ -156,12 +156,14 @@ double expectedPV(S4 cat_df, int item) {
 //' @export
 // [[Rcpp::export]]
 double obsInf(S4 cat_df, double theta, int item) {
+  item = item - 1;
 	return Cat(cat_df).obsInf(theta, item);
 }
 
 //' @export
 // [[Rcpp::export]]
 double fisherInf(S4 cat_df, double theta, int item) {
+  item = item - 1;
 	return Cat(cat_df).fisherInf(theta, item);
 }
 

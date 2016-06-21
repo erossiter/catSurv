@@ -27,8 +27,9 @@ test_that("fisherInf calculates correctly", {
   cat <- grmCat(poly_data)
   cat_coefs <- coef(grm(poly_data))
 
+  our_fisherInf <- c()
   for(i in 1:5){
-    print(fisherInf(cat,1,i))
+    our_fisherInf <- append(our_fisherInf, fisherInf(cat,1,i))
   }
                 
   it <- matrix(c(cat@discrimination,
@@ -37,9 +38,10 @@ test_that("fisherInf calculates correctly", {
                  cat_coefs[,3],
                  cat_coefs[,4]),
                ncol = 5)
-  Ii(1, it, model = "GRM")$Ii[1:5]
+  Ii(1, it, model = "GRM")$Ii[1]
   
-  Pi(1, it, "GRM")$Pi[1,]
-  probability(cat, 1, 1)
+  their_fisherInf <- Ii(1, it, model = "GRM")$Ii[1:5]
+  
+  round(our_fisherInf - their_fisherInf, 5)
 
 })

@@ -164,6 +164,7 @@ double Estimator::partial_second_derivative(double theta, size_t question) {
 }
 
 double Estimator::obsInf(double theta, int item) {
+  
 	if (questionSet.applicable_rows.empty()) {
 		throw std::domain_error("ObsInf should not be called if no items have been answered.");
 	}
