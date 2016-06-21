@@ -101,7 +101,7 @@ double Cat::obsInf(double theta, int item) {
 }
 
 double Cat::fisherInf(double theta, int item) {
-	return estimator->obsInf(theta, item);
+	return estimator->fisherInf(theta, item);
 }
 
 /**

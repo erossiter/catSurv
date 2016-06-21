@@ -198,7 +198,7 @@ double Estimator::fisherInf(double theta, int item) {
 		double P_star2 = probabilities[i - 1];
 		double w1 = P_star1 * (1.0 - P_star1);
 		double w2 = P_star2 * (1.0 - P_star2);
-
+		
 		output += discrimination_squared * (pow(w1 - w2, 2) / (P_star1 - P_star2));
 	}
 	return output;
