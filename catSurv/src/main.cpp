@@ -161,6 +161,12 @@ double obsInf(S4 cat_df, double theta, int item) {
 
 //' @export
 // [[Rcpp::export]]
+double fisherInf(S4 cat_df, double theta, int item) {
+	return Cat(cat_df).fisherInf(theta, item);
+}
+
+//' @export
+// [[Rcpp::export]]
 double expectedObsInf(S4 cat_df, int item) {
 	return Cat(cat_df).expectedObsInf(item);
 }

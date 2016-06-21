@@ -100,6 +100,10 @@ double Cat::obsInf(double theta, int item) {
 	return estimator->obsInf(theta, item);
 }
 
+double Cat::fisherInf(double theta, int item) {
+	return estimator->obsInf(theta, item);
+}
+
 /**
  * A fairly naive implementation of a factory method for Estimators. Ideally, this will be refactored
  * into a separate factory with registration.

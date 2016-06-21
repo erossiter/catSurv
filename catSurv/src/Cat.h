@@ -30,6 +30,8 @@ public:
 	double d2LL(double theta, bool use_prior);
 
 	double obsInf(double theta, int item);
+	
+	double fisherInf(double theta, int item);
 
 	double expectedObsInf(int item);
 

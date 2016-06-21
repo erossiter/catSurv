@@ -79,7 +79,7 @@ estimateTheta <- function(cat_df) {
 #' @return The posterior standard error for \eqn{\theta_j}
 #'
 #' @details The posterior variance for \eqn{\theta_j} is:
-#' \eqn{\hat{\theta}_j = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{}\int\pi(\theta_j)L(\theta_j)d\theta_j},
+#' \eqn{\hat{\theta}_j = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{}\int\pi(\theta_j)L(\theta_j)d\theta_j}},
 #' where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then \sqrt{\mbox{Var}(\hat{\theta}_j)}
 #'
 #'
@@ -126,6 +126,11 @@ expectedPV <- function(cat_df, item) {
 #' @export
 obsInf <- function(cat_df, theta, item) {
     .Call('catSurv_obsInf', PACKAGE = 'catSurv', cat_df, theta, item)
+}
+
+#' @export
+fisherInf <- function(cat_df, theta, item) {
+    .Call('catSurv_fisherInf', PACKAGE = 'catSurv', cat_df, theta, item)
 }
 
 #' @export

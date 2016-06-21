@@ -199,7 +199,7 @@ double Estimator::fisherInf(double theta, int item) {
 		double w1 = P_star1 * (1.0 - P_star1);
 		double w2 = P_star2 * (1.0 - P_star2);
 
-		output += discrimination_squared * (pow(w2 - w1, 2) / (P_star2 - P_star1));
+		output += discrimination_squared * (pow(w1 - w2, 2) / (P_star1 - P_star2));
 	}
 	return output;
 }
