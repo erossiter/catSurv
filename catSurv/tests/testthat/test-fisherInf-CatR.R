@@ -11,6 +11,7 @@ test_that("fisherInf calculates correctly", {
   poly_data <- nfc[1:100, ]
   
   fisherInf_test_CatR <- function(){
+    
     ## Categorical
     cat <- grmCat(poly_data)
     cat_coefs <- coef(grm(poly_data))

@@ -42,6 +42,10 @@ List Cat::nextItem() {
 	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(selection.item));
 }
 
+void Cat::solve_root() {
+  integrator.solve_root();
+}
+
 void Cat::showCppCat() {
   std::cout << "discrimination: " << ' ';
   for (auto i: questionSet.discrimination){

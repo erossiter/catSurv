@@ -1,4 +1,5 @@
 #include "MLEEstimator.h"
+#include "GSLFunctionWrapper.h"
 
 double MLEEstimator::polytomous_d2LL(double theta) {
 	double lambda_theta = 0.0;
@@ -62,11 +63,11 @@ double MLEEstimator::binary_dLL(double theta) {
 }
 
 
-double MLEEstimator::dLL(double theta, bool use_prior, Prior &prior) {
+double MLEEstimator::dLL(double theta) {
   return questionSet.poly[0] ? polytomous_dLL(theta) : binary_dLL(theta);
 }
 
-double MLEEstimator::d2LL(double theta, bool use_prior, Prior &prior) {
+double MLEEstimator::d2LL(double theta) {
   return questionSet.poly[0] ? polytomous_d2LL(theta) : binary_d2LL(theta);
 }
 
@@ -80,10 +81,20 @@ double MLEEstimator::estimateTheta(Prior prior) {
 	double difference = std::abs(theta_hat_new - theta_hat_old);
 	
 	while (difference > tolerance) {
-		theta_hat_new = theta_hat_old - dLL(theta_hat_old, true, prior) / d2LL(theta_hat_old, true, prior);
+		theta_hat_new = theta_hat_old - dLL(theta_hat_old) / d2LL(theta_hat_old);
 		difference = std::abs(theta_hat_new - theta_hat_old);
 		theta_hat_old = theta_hat_new;
 	}
+
+	// std::function<double (double)> test_function = [&](double x) {
+	//   return x;
+	// };
+	// 
+	// gsl_function *this_function = GSLFunctionWrapper(test_function).asGSLFunction();
+	// const double result = integrator.solve_root(this_function, -3.0, 3.0);
+	// std::cout<<result<<std::endl;
+	
+	
 	return theta_hat_new;
 }
   

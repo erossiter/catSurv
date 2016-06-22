@@ -173,6 +173,12 @@ double expectedObsInf(S4 cat_df, int item) {
 	return Cat(cat_df).expectedObsInf(item);
 }
 
+//' @export
+// [[Rcpp::export]]
+void solve_root(S4 cat_df) {
+	Cat(cat_df).solve_root();
+}
+
 
 //
 //List nextItemMLWI(Cat &cat) {

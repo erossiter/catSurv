@@ -38,6 +38,8 @@ public:
 	Rcpp::List nextItem();
 	
 	void showCppCat();
+	
+	void solve_root();
 
 	std::vector<double> probability(double theta, int question);
 

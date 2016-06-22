@@ -13,6 +13,62 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+y = function(x){
+  x^3
+}
+
+plot(y=sapply(seq(-3,3,.1), y), x=seq(-3,3,.1))
+
+uniroot(y, c(-3,3))
+
+library(ltm)
+poly_data <- nfc[1:100, ]
+cat_grm <- grm(poly_data, control=list(GHk = 100))
+factor_scores <- factor.scores.grm(cat_grm, method = "EB", prior = FALSE)$score.dat
+cat_grm_theta <- factor_scores[ , "z1"]
+cat_grm_data <- factor_scores[ ,1:(ncol(factor_scores)-4)]
+
+cat <- grmCat(poly_data)
+
+cat@answers <- unlist(cat_grm_data[1,])
+cat@estimation <- "MLE"
+estimateTheta(cat)
+
+plot_likelihood <- function(theta){
+  likelihood(cat, theta)
+}
+
+uniroot(plot_likelihood, c(-5,5))
+
+plot_likelihood(-5)
+plot_likelihood(-5)
+
+plot_likelihood(0)
+plot_likelihood(4)
+plot_likelihood(-1)
+
+plot_likelihood <- function(theta){
+  dLL(cat, theta, FALSE)
+}
+abline(h=0)
+abline(v=uniroot(plot_likelihood, c(-5, 5))$root)
+
+
+plot(y=sapply(seq(-3,3,.1), plot_likelihood), x=seq(-3,3,.1), type = "l")
+
+cbind(cat@answers, cat@discrimination)
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## new things 
 testPlot <- icc(testCats[[6]], theta_range = seq(-3,3,.1), 1)

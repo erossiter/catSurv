@@ -9,9 +9,9 @@ class MLEEstimator : public Estimator {
 
 public:
   
-	double dLL(double theta, bool use_prior, Prior &prior);
+	double dLL(double theta);
 
-	double d2LL(double theta, bool use_prior, Prior &prior);
+	double d2LL(double theta);
 
 	MLEEstimator(Integrator &integrator, QuestionSet &questionSet);
 

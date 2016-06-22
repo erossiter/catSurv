@@ -138,3 +138,8 @@ expectedObsInf <- function(cat_df, item) {
     .Call('catSurv_expectedObsInf', PACKAGE = 'catSurv', cat_df, item)
 }
 
+#' @export
+solve_root <- function(cat_df) {
+    invisible(.Call('catSurv_solve_root', PACKAGE = 'catSurv', cat_df))
+}
+
