@@ -122,11 +122,11 @@ setValidity("Cat", function(object){
       sorted<-sort(item)
       uniques<-unique(item)
       test4<-(isTRUE(all.equal(item,uniques)))
-      if(!test4){return(paste("Repeated difficulty values for question ", which(object@difficulty==item, arr.ind=T)))}
-      test5<-(isTRUE(all.equal(i,sorted)))
-      if(!test5){return(paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " are not increasing"))}
-      test6<-(all(!is.na(item)))
-      if(!test6){return(paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " include NAs"))}
+      # if(!test4){return(paste("Repeated difficulty values for question ", which(object@difficulty==item, arr.ind=T)))}
+      # test5<-(isTRUE(all.equal(i,sorted)))
+      # if(!test5){return(paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " are not increasing"))}
+      # test6<-(all(!is.na(item)))
+      # if(!test6){return(paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " include NAs"))}
       
     }
   }
