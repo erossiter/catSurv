@@ -163,13 +163,13 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// solve_root
-void solve_root(S4 cat_df);
-RcppExport SEXP catSurv_solve_root(SEXP cat_dfSEXP) {
+// findRoot
+void findRoot(S4 cat_df);
+RcppExport SEXP catSurv_findRoot(SEXP cat_dfSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
-    solve_root(cat_df);
+    findRoot(cat_df);
     return R_NilValue;
 END_RCPP
 }

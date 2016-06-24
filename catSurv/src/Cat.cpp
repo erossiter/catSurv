@@ -42,8 +42,8 @@ List Cat::nextItem() {
 	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(selection.item));
 }
 
-void Cat::solve_root() {
-  integrator.solve_root();
+double Cat::findRoot() {
+  estimator->findRoot();
 }
 
 void Cat::showCppCat() {

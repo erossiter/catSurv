@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <gsl/gsl_math.h>
 #include "Integrator.h"
 #include "QuestionSet.h"
 #include "Prior.h"
@@ -36,6 +37,8 @@ public:
 	virtual double expectedPV(int item, Prior &prior);
 
 	double expectedObsInf(int item, Prior &prior);
+	
+	double findRoot();
 
 protected:
 	const Integrator &integrator;
@@ -61,6 +64,8 @@ protected:
 	*/
 	double integralQuotient(const integrableFunction &numerator,
 	                        const integrableFunction &denominator);
+	
+	double brentMethod(const integrableFunction &function);
 
 private:
 	/**
@@ -73,6 +78,7 @@ private:
 	double polytomous_posterior_variance(int item, Prior &prior);
 
 	double binary_posterior_variance(int item, Prior &prior);
-
-
+	
 };
+
+

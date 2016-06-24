@@ -1,6 +1,8 @@
 #include "EAPEstimator.h"
 #include "GSLFunctionWrapper.h"
 #include <limits>
+#include <gsl/gsl_roots.h>
+#include <gsl/gsl_errno.h>
 
 double Estimator::likelihood(double theta) {
 	return questionSet.poly[0] ? polytomous_likelihood(theta) : binary_likelihood(theta);
@@ -247,6 +249,97 @@ double Estimator::expectedObsInf(int item, Prior &prior) {
 		double prob_one = probability(estimateTheta(prior), (size_t) item)[0];
 		return prob_one + obsInfZero - (prob_one * obsInfZero) + obsInfOne;
 }
+
+
+double Estimator::findRoot (){
+  
+  integrableFunction dLL = [&](double theta) {
+    double l_theta = 0.0;
+	  for (auto question : questionSet.applicable_rows) {
+		  const int answer_k = questionSet.answers[question];
+
+		  auto probabilities = probability(theta, (size_t) question);
+		  std::vector<double> probs{0.0};
+		  probs.insert(probs.end(), probabilities.begin(), probabilities.end());
+		  probs.push_back(1.0);
+
+		  double P_star1 = probs[answer_k];
+		  double Q_star1 = 1.0 - P_star1;
+		  double P_star2 = probs[answer_k - 1];
+		  double Q_star2 = 1 - P_star2;
+		  double P = P_star1 - P_star2;
+		  double w2 = P_star2 * Q_star2;
+		  double w1 = P_star1 * Q_star1;
+
+		  l_theta += (-1*questionSet.discrimination[question] * ((w1 - w2) / P));
+		  }
+	  return l_theta;
+	  };
+  
+  return brentMethod(dLL);
+}
+
+double Estimator::brentMethod(integrableFunction const &function) {
+  int status;
+  int iter = 0;
+  int max_iter = 100;
+  
+  const gsl_root_fsolver_type *T;
+  gsl_root_fsolver *s;
+  
+  double r = 0;
+  double r_expected = sqrt (5.0);
+  double x_lo = 0.0;
+  double x_hi = 5.0;
+  
+	gsl_function *F = GSLFunctionWrapper(function).asGSLFunction();
+	
+	T = gsl_root_fsolver_brent;
+  s = gsl_root_fsolver_alloc (T);
+  gsl_root_fsolver_set (s, F, x_lo, x_hi);
+
+  printf ("using %s method\n", 
+          gsl_root_fsolver_name (s));
+
+  printf ("%5s [%9s, %9s] %9s %10s %9s\n",
+          "iter", "lower", "upper", "root", 
+          "err", "err(est)");
+
+  do
+    {
+      iter++;
+      status = gsl_root_fsolver_iterate (s);
+      r = gsl_root_fsolver_root (s);
+      x_lo = gsl_root_fsolver_x_lower (s);
+      x_hi = gsl_root_fsolver_x_upper (s);
+      status = gsl_root_test_interval (x_lo, x_hi,
+                                       0, 0.001);
+
+      if (status == GSL_SUCCESS)
+        printf ("Converged:\n");
+
+      printf ("%5d [%.7f, %.7f] %.7f %+.7f %.7f\n",
+              iter, x_lo, x_hi,
+              r, r - r_expected, 
+              x_hi - x_lo);
+    }
+  while (status == GSL_CONTINUE && iter < max_iter);
+
+  gsl_root_fsolver_free (s);
+
+  return status;
+}
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  
 
 
 

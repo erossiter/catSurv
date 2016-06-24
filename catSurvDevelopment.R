@@ -13,13 +13,14 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
-y = function(x){
-  x^3
-}
 
-plot(y=sapply(seq(-3,3,.1), y), x=seq(-3,3,.1))
+## I need to make MLEEstimator a child of MAPEstimator
+## and then make the functions "virtual ... = 0" in MAP
+## and then "... override" them in MLE.  I need to do this
+## for dLL and d2LL and the while loop??
 
-uniroot(y, c(-3,3))
+## I should definitely do the root finding thing in Estimator
+## and then its available to all the children of estimator.
 
 library(ltm)
 poly_data <- nfc[1:100, ]
@@ -33,6 +34,7 @@ cat <- grmCat(poly_data)
 cat@answers <- unlist(cat_grm_data[1,])
 cat@estimation <- "MLE"
 estimateTheta(cat)
+findRoot(cat)
 
 plot_likelihood <- function(theta){
   likelihood(cat, theta)

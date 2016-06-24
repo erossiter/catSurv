@@ -39,7 +39,7 @@ public:
 	
 	void showCppCat();
 	
-	void solve_root();
+	double findRoot();
 
 	std::vector<double> probability(double theta, int question);
 
