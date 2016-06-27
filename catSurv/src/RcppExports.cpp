@@ -164,12 +164,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // findRoot
-void findRoot(S4 cat_df);
+double findRoot(S4 cat_df);
 RcppExport SEXP catSurv_findRoot(SEXP cat_dfSEXP) {
 BEGIN_RCPP
+    Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
-    findRoot(cat_df);
-    return R_NilValue;
+    __result = Rcpp::wrap(findRoot(cat_df));
+    return __result;
 END_RCPP
 }

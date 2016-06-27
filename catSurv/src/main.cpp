@@ -175,7 +175,7 @@ double expectedObsInf(S4 cat_df, int item) {
 
 //' @export
 // [[Rcpp::export]]
-void findRoot(S4 cat_df) {
+double findRoot(S4 cat_df) {
 	Cat(cat_df).findRoot();
 }
 

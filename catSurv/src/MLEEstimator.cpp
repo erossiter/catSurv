@@ -73,27 +73,27 @@ double MLEEstimator::d2LL(double theta) {
 
 
 double MLEEstimator::estimateTheta(Prior prior) {
-  double theta_hat_old = 0.0;
+  int iter = 0;
+  int max_iter = 100;
+  
+	double theta_hat_old = 0.0;
 	double theta_hat_new = 1.0;
 
 	const double tolerance = 0.0000001;
 
 	double difference = std::abs(theta_hat_new - theta_hat_old);
 	
-	while (difference > tolerance) {
+	while (difference > tolerance && iter < max_iter) {
+	  iter++;
 		theta_hat_new = theta_hat_old - dLL(theta_hat_old) / d2LL(theta_hat_old);
 		difference = std::abs(theta_hat_new - theta_hat_old);
 		theta_hat_old = theta_hat_new;
+		if(isnan(theta_hat_old)){
+		  theta_hat_new = findRoot();
+		  break;
+		}
 	}
 
-	// std::function<double (double)> test_function = [&](double x) {
-	//   return x;
-	// };
-	// 
-	// gsl_function *this_function = GSLFunctionWrapper(test_function).asGSLFunction();
-	// const double result = integrator.solve_root(this_function, -3.0, 3.0);
-	// std::cout<<result<<std::endl;
-	
 	
 	return theta_hat_new;
 }

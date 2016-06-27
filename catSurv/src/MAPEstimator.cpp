@@ -80,6 +80,9 @@ double MAPEstimator::d2LL(double theta, bool use_prior, Prior &prior) {
 }
 
 double MAPEstimator::estimateTheta(Prior prior) {
+  int iter = 0;
+  int max_iter = 100;
+  
 	double theta_hat_old = 0.0;
 	double theta_hat_new = 1.0;
 
@@ -87,11 +90,13 @@ double MAPEstimator::estimateTheta(Prior prior) {
 
 	double difference = std::abs(theta_hat_new - theta_hat_old);
 	
-	while (difference > tolerance) {
+	while (difference > tolerance && iter < max_iter) {
+	  iter++;
 		theta_hat_new = theta_hat_old - dLL(theta_hat_old, true, prior) / d2LL(theta_hat_old, true, prior);
 		difference = std::abs(theta_hat_new - theta_hat_old);
 		theta_hat_old = theta_hat_new;
 	}
+	
 	return theta_hat_new;
 }
 

@@ -140,6 +140,6 @@ expectedObsInf <- function(cat_df, item) {
 
 #' @export
 findRoot <- function(cat_df) {
-    invisible(.Call('catSurv_findRoot', PACKAGE = 'catSurv', cat_df))
+    .Call('catSurv_findRoot', PACKAGE = 'catSurv', cat_df)
 }
 

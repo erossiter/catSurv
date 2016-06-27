@@ -22,7 +22,7 @@ test_that("estimateTheta calculates correctly", {
       cat_Cat_theta <- rep(NA, length(cat_ltm_theta))
       for(i in 1:length(cat_Cat_theta)){
         cat_Cat@answers <- c(as.numeric(cat_ltm_data[i, ]))
-        cat_Cat_theta[i] <- estimateTheta(cat_Cat)
+        cat_Cat_theta[i] <-estimateTheta(cat_Cat)
       }
       differences <- abs(cat_Cat_theta - cat_ltm_theta)
     }
@@ -42,11 +42,6 @@ test_that("estimateTheta calculates correctly", {
         cat_Cat_theta[i] <- estimateTheta(cat_Cat)
       }
       
-      ## their MAP answer matches our MAP answer
-      ## they produce an MLE answer, but we produce NaN
-      cat_Cat@answers <- c(as.numeric(cat_grm_data[92, ]))
-      estimateTheta(cat_Cat)
-      
       differences <- abs(cat_Cat_theta - cat_grm_theta)
     }
     return(differences)
@@ -61,6 +56,12 @@ test_that("estimateTheta calculates correctly", {
   ## dafault to MAP for.
   expect_equal(estimateTheta_test_MLE(binary_data, FALSE)[-c(9,82)],
                rep(0, nrow(binary_data)-2),
+               tolerance = .001)
+  
+  ## in row 92, this test is breaking out of the while loop
+  ## and doing the Brent method of evalation
+  expect_equal(estimateTheta_test_MLE(poly_data, TRUE),
+               rep(0, nrow(poly_data)),
                tolerance = .001)
   }
 )

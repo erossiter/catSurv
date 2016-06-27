@@ -251,7 +251,7 @@ double Estimator::expectedObsInf(int item, Prior &prior) {
 }
 
 
-double Estimator::findRoot (){
+double Estimator::findRoot(){
   
   integrableFunction dLL = [&](double theta) {
     double l_theta = 0.0;
@@ -288,46 +288,39 @@ double Estimator::brentMethod(integrableFunction const &function) {
   gsl_root_fsolver *s;
   
   double r = 0;
-  double r_expected = sqrt (5.0);
-  double x_lo = 0.0;
+  double x_lo = -5.0;
   double x_hi = 5.0;
   
 	gsl_function *F = GSLFunctionWrapper(function).asGSLFunction();
 	
 	T = gsl_root_fsolver_brent;
   s = gsl_root_fsolver_alloc (T);
+  
+  // This function initializes, or reinitializes, an existing solver s
+  // to use the function f and the initial search interval [x_lower, x_upper].
   gsl_root_fsolver_set (s, F, x_lo, x_hi);
 
-  printf ("using %s method\n", 
-          gsl_root_fsolver_name (s));
-
-  printf ("%5s [%9s, %9s] %9s %10s %9s\n",
-          "iter", "lower", "upper", "root", 
-          "err", "err(est)");
-
-  do
-    {
+  do {
       iter++;
       status = gsl_root_fsolver_iterate (s);
       r = gsl_root_fsolver_root (s);
       x_lo = gsl_root_fsolver_x_lower (s);
       x_hi = gsl_root_fsolver_x_upper (s);
-      status = gsl_root_test_interval (x_lo, x_hi,
-                                       0, 0.001);
-
-      if (status == GSL_SUCCESS)
-        printf ("Converged:\n");
-
-      printf ("%5d [%.7f, %.7f] %.7f %+.7f %.7f\n",
-              iter, x_lo, x_hi,
-              r, r - r_expected, 
-              x_hi - x_lo);
-    }
+      
+      // This function tests for the convergence of the interval [x_lower, x_upper]
+      // with absolute error epsabs and relative error epsrel. 
+      // The test returns GSL_SUCCESS if the following condition is achieved,
+      // |a - b| < epsabs + epsrel min(|a|,|b|) 
+      double epsabs = 0;
+      double epsrel = 0.0000001;
+      
+      status = gsl_root_test_interval (x_lo, x_hi, epsabs, epsrel);
+    } 
   while (status == GSL_CONTINUE && iter < max_iter);
 
   gsl_root_fsolver_free (s);
-
-  return status;
+  
+  return r;
 }
   
   
