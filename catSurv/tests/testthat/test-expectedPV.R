@@ -59,8 +59,8 @@ test_that("expectedPV calculates correctly", {
       #print(expectedPV_test(testCats[[i]], item))
       print("")
     }
-  expectedPV(testCats[[1]], 10)
-  expectedPV_test(testCats[[1]], 8)
+  expectedPV(testCats[[2]], 7)
+  expectedPV_test(testCats[[1]], 10)
 })
 
 

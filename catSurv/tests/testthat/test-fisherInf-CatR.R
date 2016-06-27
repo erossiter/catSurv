@@ -34,6 +34,6 @@ test_that("fisherInf calculates correctly", {
   }
 
   expect_equal(fisherInf_test_CatR(),
-               rep(0,length(cat@answers)),
+               rep(0,ncol(poly_data)),
                tolerance = .01)
 })

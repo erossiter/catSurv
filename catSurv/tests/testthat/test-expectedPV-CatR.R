@@ -1,30 +1,41 @@
 library(catSurv)
 library(catR)
 library(ltm)
-context("obsInf")
+context("expectedPV")
 
-test_that("obsInf calculates correctly", {
+test_that("expectedPV calculates correctly", {
   
-  obsInf_test_CatR <- function(data, poly){
+  expectedPV_test_CatR <- function(data, poly){
+    
+  data("npi")
+  data("nfc")
+  binary_data <- npi[1:100, ]
+  poly_data <- nfc[1:100, ]
+  data = binary_data 
     
     if(poly == FALSE){
       cat <- ltmCat(data)
       ltm_cat <- ltm(data ~ z1, control = list(GHk = 100))
       cat_coefs <- coef(ltm_cat)
+      
+      cat@answers <- rep(NA, length(cat@guessing))
+      cat@answers[1:5] <- unlist(binary_data[1, 1:5])
+      
 
-      # obsInf for one person, for all items
-      cat@answers <- unlist(data[1,])
-      our_obsInf <- c()
-      for(i in 1:ncol(data)){
-        our_obsInf <- append(our_obsInf, obsInf(cat,1,i))
-      }
-
-      it <- matrix(c(cat_coefs[,1],
+      itemBank <- matrix(c(cat_coefs[,1],
                      cat@difficulty,
                      cat@guessing,
                      rep(1, length(cat@guessing))), ncol = 4)
-      their_obsInf <- OIi(th = 1, it = it, x = cat@answers, model = NULL)
       
+      EPV(itemBank = itemBank,
+          it.given = itemBank[1:5, ],
+          theta = 1,
+          x = cat@answers[1:5],
+          item = 3)
+      
+      expectedPV(cat, 6)
+      
+      print(summary(abs(our_obsInf - their_obsInf)))
       return(abs(our_obsInf - their_obsInf))
     }
     
@@ -38,7 +49,7 @@ test_that("obsInf calculates correctly", {
                  cat_coefs[,3],
                  cat_coefs[,4]),
                  ncol = 5)
-      
+      #trial_data <- genPattern(1, it, "GRM")
       trial_data <- unlist(data[1,])
       their_obsInf <- OIi(th = 1, it = it, x = trial_data-1, model = "GRM")
       
@@ -49,14 +60,12 @@ test_that("obsInf calculates correctly", {
         our_obsInf <- append(our_obsInf, obsInf(cat,1,i))
       }
               
+      print(summary(abs(our_obsInf - their_obsInf)))
       return(abs(our_obsInf - their_obsInf))
     }
   }
 
-  data("npi")
-  data("nfc")
-  binary_data <- npi[1:100, ]
-  poly_data <- nfc[1:100, ]
+
   
   expect_equal(obsInf_test_CatR(binary_data, F),
                rep(0,ncol(binary_data)),

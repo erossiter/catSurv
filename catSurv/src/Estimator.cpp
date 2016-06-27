@@ -105,41 +105,44 @@ double Estimator::integralQuotient(integrableFunction const &numerator,
 }
 
 double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
+  auto question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
+  
+  questionSet.applicable_rows.push_back(item); // add item to set of answered items
+  
 	std::vector<double> variances;
-	for (size_t i = 0; i <= questionSet.difficulty[item].size() - 1; ++i) { //Erin added -1 here.
-		questionSet.answers[item] = (int) i+1; //Erin added +1 here
+	for (size_t i = 0; i <= questionSet.difficulty[item].size(); ++i) {
+		questionSet.answers[item] = (int) i + 1.0; 
 		variances.push_back(pow(estimateSE(prior), 2));
-    //std::cout << i+1 << std::endl;
 	}
-
-	auto question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
 
 	double sum = 0;
 	for (size_t i = 0; i < question_cdf.size() - 1; ++i) {
 		sum += variances[i] * (question_cdf[i] - question_cdf[i + 1]);
 	}
+	
+	questionSet.applicable_rows.pop_back();
 	return sum;
 }
 
 double Estimator::binary_posterior_variance(int item, Prior &prior) {
   const double probability_incorrect = probability(estimateTheta(prior), (size_t) item)[0];
   
-	questionSet.answers[item] = 1; //Erin added -1
+  questionSet.applicable_rows.push_back(item); // add item to set of answered items
+  
+	questionSet.answers[item] = 1;
 	double variance_correct = pow(estimateSE(prior), 2);
 
-	questionSet.answers[item] = 0; //Erin added -1
+	questionSet.answers[item] = 0;
 	double variance_incorrect = pow(estimateSE(prior), 2);
+	
+	questionSet.applicable_rows.pop_back();
 
 	return (probability_incorrect * variance_correct) + ((1.0 - probability_incorrect) * variance_incorrect);
 }
 
 double Estimator::expectedPV(int item, Prior &prior) {
-	questionSet.applicable_rows.push_back(item); // add item to set of answered items
-
-	double result = questionSet.poly[0] ? polytomous_posterior_variance(item, prior) : binary_posterior_variance(item,
-	                                                                                                          prior);
+  double result = questionSet.poly[0] ? polytomous_posterior_variance(item, prior) : binary_posterior_variance(item, prior);
 	questionSet.answers[item] = NA_INTEGER; // remove answer
-	questionSet.applicable_rows.pop_back();
 	return result;
 }
 

@@ -1,11 +1,12 @@
 library(catSurv)
 library(testthat)
+library(ltm)
+library(stats)
 context("estimateSE")
 
 test_that("estimateSE calculates correctly", {
   
   estimateSE_test <- function(cat){
-    library(stats)
     numerator <- function(theta){
       theta_hat <- estimateTheta(cat)
       diff <- (theta - theta_hat)^2
@@ -23,14 +24,26 @@ test_that("estimateSE calculates correctly", {
     return(sqrt(results))
   }
   
-   lapply(c(catBiCreator(5), catPolyCreator(5)),
-          function(x) expect_equal(estimateSE(x), estimateSE_test(x), tolerance = .001))
-  # for(i in 1:length(testCats)){
-  #   print(estimateSE(testCats[[i]]))
-  #   print(estimateSE_test(testCats[[i]]))
-  #   print(round(estimateSE(testCats[[i]]) - estimateSE_test(testCats[[i]]), 5))
-  #   print("")
-  # }
+  data("npi")
+  data("nfc")
+  binary_data <- npi[1:100, ]
+  poly_data <- nfc[1:100, ]
+  
+  binary_cat <- ltmCat(binary_data)
+  poly_cat <- grmCat(poly_data)
+  
+  differences <- numeric(nrow(binary_data))
+  for(i in 1:nrow(binary_data)){
+    binary_cat@answers <- as.numeric(binary_data[i, ])
+    differences[i] <- estimateSE(binary_cat) - estimateSE_test(binary_cat)
+  }
+  
+  differences <- numeric(nrow(poly_data))
+  for(i in 1:nrow(poly_data)){
+    poly_cat@answers <- as.numeric(poly_data[i, ])
+    differences[i] <- estimateSE(poly_cat) - estimateSE_test(poly_cat)
+  }
+  
 })
 
 
