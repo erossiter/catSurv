@@ -69,13 +69,12 @@ test_that("expectedPV calculates correctly", {
   
   expect_equal(obsInf_test_CatR(binary_data, F),
                rep(0,ncol(binary_data)),
-               tolerance = .9)
+               tolerance = .1)
   
   expect_equal(obsInf_test_CatR(poly_data, T),
                rep(0,ncol(poly_data)),
-               tolerance = .9)
+               tolerance = .1)
 })
-
 
 
 ####### WORK FROM THIS ###########
