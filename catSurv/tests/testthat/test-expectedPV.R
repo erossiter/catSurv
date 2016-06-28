@@ -1,5 +1,6 @@
 library(catSurv)
 library(testthat)
+library(ltm)
 context("expectedPV")
 
 test_that("expectedPV calculates correctly", {
@@ -51,16 +52,28 @@ test_that("expectedPV calculates correctly", {
   }
   
 
-    for(i in 1:4){
-      ##picking the first item that is NA
-      item <- min(which(is.na(testCats[[i]]@answers)))
-      print(expectedPV(testCats[[i]], item) - expectedPV_test(testCats[[i]], item))
-      #print(expectedPV(testCats[[i]], item))
-      #print(expectedPV_test(testCats[[i]], item))
-      print("")
-    }
-  expectedPV(testCats[[2]], 7)
-  expectedPV_test(testCats[[1]], 10)
+  data("npi")
+  data("nfc")
+  binary_data <- npi[1:100, ]
+  poly_data <- nfc[1:100, ]
+  
+  binary_cat <- ltmCat(binary_data)
+  poly_cat <- grmCat(poly_data)
+  
+  binary_cat@answers <- as.numeric(binary_data[1,])
+  binary_cat@answers[35:40] <- NA
+  for(i in which(is.na(binary_cat@answers))){
+    expectedPV(binary_cat, 34)
+  }
+  
+  
+  differences <- numeric(nrow(poly_data))
+  for(i in 1:nrow(poly_data)){
+    poly_cat@answers <- as.numeric(poly_data[i, ])
+    differences[i] <- estimateSE(poly_cat) - estimateSE_test(poly_cat)
+  }
+  
+  
 })
 
 

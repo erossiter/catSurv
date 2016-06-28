@@ -75,3 +75,47 @@ test_that("expectedPV calculates correctly", {
                rep(0,ncol(poly_data)),
                tolerance = .9)
 })
+
+
+
+####### WORK FROM THIS ###########
+library(ltm)
+library(catR)
+
+  data("npi")
+  data("nfc")
+  binary_data <- npi[1:100, ]
+  poly_data <- nfc[1:100, ]
+  
+  binary_cat <- ltmCat(binary_data)
+  ltm_cat <- ltm(binary_data ~ z1, control = list(GHk = 100))
+  cat_coefs <- coef(ltm_cat)
+
+  
+  bank <- matrix(c(cat_coefs[,1],
+                  binary_cat@difficulty,
+                  binary_cat@guessing,
+                  rep(1, length(binary_cat@guessing))), ncol = 4)
+  
+  EPV(itemBank = bank,
+      it.given <- bank[1:5,],
+      x = unlist(binary_data[1,1:5]),
+      item = 10,
+      theta = 1)
+  
+  binary_cat@answers[1:5] <- unlist(binary_data[1,1:5])
+  expectedPV(binary_cat, 10)
+  
+  
+  binary_cat@answers[35:40] <- NA
+  for(i in which(is.na(binary_cat@answers))){
+    expectedPV(binary_cat, 0)
+    probability(binary_cat, 1, 1)
+  }
+  
+  
+  differences <- numeric(nrow(poly_data))
+  for(i in 1:nrow(poly_data)){
+    poly_cat@answers <- as.numeric(poly_data[i, ])
+    differences[i] <- estimateSE(poly_cat) - estimateSE_test(poly_cat)
+  }

@@ -178,7 +178,7 @@ double Estimator::obsInf(double theta, int item) {
 	double discrimination = questionSet.discrimination.at(index);
 
 	if (questionSet.poly[0]) {
-		return -pow(discrimination, 2) * partial_second_derivative(theta, index);
+	  return -pow(discrimination, 2) * partial_second_derivative(theta, index);
 	}
 
 	double guess = questionSet.guessing.at(index);

@@ -13,49 +13,24 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
-library(ltm)
-data("npi")
-binary_data <- npi[1:100, ]
-cat <- ltmCat(binary_data)
-cat@answers[1:10] <- unlist(binary_data[1, 1:10])
+obsInf(cat, 1, 1)
+probability(cat, 1, 1)
 
-expectedPV(cat, 13)
-expectedPV_test(cat, 13)
 
-probability(cat, 1, 2)
+## fix tests:
+# - binary obsInf, CatR
+# - poly obsInf, CatR
+# - poly fisherInf, CatR
+# - binary, fisherInf, CatR??
+# - binary, obsInf, catIrt
+# - poly, obsInf, catIrt??
 
-showCppCat(cat)
+
 
 ## I need to make MLEEstimator a child of MAPEstimator
 ## and then make the functions "virtual ... = 0" in MAP
 ## and then "... override" them in MLE.  I need to do this
 ## for dLL and d2LL and the while loop??
-
-## I should definitely do the root finding thing in Estimator
-## and then its available to all the children of estimator.
-
-library(ltm)
-poly_data <- nfc[1:100, ]
-cat_grm <- grm(poly_data, control=list(GHk = 100))
-factor_scores <- factor.scores.grm(cat_grm, method = "EB", prior = FALSE)$score.dat
-cat_grm_theta <- factor_scores[ , "z1"]
-cat_grm_data <- factor_scores[ ,1:(ncol(factor_scores)-4)]
-
-cat <- grmCat(poly_data)
-
-
-cat@answers[1:10] <- unlist(poly_data[1, 1:10])
-
-expectedPV(cat, 15)
-expectedPV_test(cat, 13)
-
-
-cat@answers <- unlist(cat_grm_data[1,])
-cat@estimation <- "MLE"
-estimateTheta(cat)
-findRoot(cat)
-
-
 
 
 
