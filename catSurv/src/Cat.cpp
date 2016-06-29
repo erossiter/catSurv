@@ -35,10 +35,11 @@ double Cat::expectedPV(int item) {
 	return estimator->expectedPV(item, prior);
 }
 
-List Cat::nextItem() {
-	Selection selection = selector->nextItem();
-	DataFrame all_estimates = Rcpp::DataFrame::create(Named("questions") = selection.questions,
-	                                                  Named(selection.name) = selection.values);
+List Cat::selectItem() {
+	Selection selection = selector->selectItem();
+	DataFrame all_estimates = Rcpp::DataFrame::create(Named("row.name") = selection.questions,
+                                                   Named("questions") = selection.questions,
+	                                                 Named(selection.name) = selection.values);
 	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(selection.item));
 }
 

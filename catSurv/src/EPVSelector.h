@@ -6,7 +6,7 @@ class EPVSelector : public Selector {
 public:
 	virtual SelectionType getSelectionType();
 
-	virtual Selection nextItem();
+	virtual Selection selectItem();
 
 	EPVSelector(QuestionSet &questions, Estimator &estimation, Prior &priorModel);
 private:

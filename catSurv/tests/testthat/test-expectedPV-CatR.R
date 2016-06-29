@@ -5,116 +5,81 @@ context("expectedPV")
 
 test_that("expectedPV calculates correctly", {
   
-  expectedPV_test_CatR <- function(data, poly){
-    
-  data("npi")
-  data("nfc")
-  binary_data <- npi[1:100, ]
-  poly_data <- nfc[1:100, ]
-  data = binary_data 
-    
+  expectedPV_test_CatR <- function(poly){
+  
     if(poly == FALSE){
-      cat <- ltmCat(data)
-      ltm_cat <- ltm(data ~ z1, control = list(GHk = 100))
-      cat_coefs <- coef(ltm_cat)
-      
-      cat@answers <- rep(NA, length(cat@guessing))
-      cat@answers[1:5] <- unlist(binary_data[1, 1:5])
-      
-
-      itemBank <- matrix(c(cat_coefs[,1],
-                     cat@difficulty,
-                     cat@guessing,
-                     rep(1, length(cat@guessing))), ncol = 4)
-      
-      EPV(itemBank = itemBank,
-          it.given = itemBank[1:5, ],
-          theta = 1,
-          x = cat@answers[1:5],
-          item = 3)
-      
-      expectedPV(cat, 6)
-      
-      print(summary(abs(our_obsInf - their_obsInf)))
-      return(abs(our_obsInf - their_obsInf))
+        binary_cat <- ltmCat(binary_data)
+        ltm_cat <- ltm(binary_data ~ z1, control = list(GHk = 100))
+        cat_coefs <- coef(ltm_cat)
+        
+        bank <- matrix(c(binary_cat@discrimination,
+                  cat_coefs[,1],
+                  binary_cat@guessing,
+                  rep(1, length(binary_cat@guessing))), ncol = 4)
+        
+        ## looping over each person.. all answered the first 5 questions
+        ## calculating EPV for question 6
+        binary_differences <- numeric(100)
+        for(i in 1:nrow(binary_data)){
+          binary_cat@answers[1:5] <- unlist(binary_data[i,1:5])
+        
+          theirEPV <- EPV(itemBank = bank,
+                        it.given <- bank[1:5, ],
+                        x = unlist(binary_data[i,1:5]),
+                        item = 6,
+                        theta = estimateTheta(binary_cat),
+                        parInt = c(-5,5,101))
+        
+          ourEPV <- expectedPV(binary_cat, 6)
+          
+          binary_differences[i] <- abs(theirEPV - ourEPV)
+        }
+        
+        return(round(binary_differences, 3))
     }
-    
+
     if(poly == TRUE){
-      cat <- grmCat(data)
-      cat_coefs <- coef(grm(data))
+      poly_cat <- grmCat(poly_data)
+      cat_coefs <- coef(grm(poly_data, IRT.param=TRUE, control = list(GHk = 100)))
       
-      it <- matrix(c(as.numeric(cat@discrimination),
+      bank <- matrix(c(poly_cat@discrimination,
                  cat_coefs[,1],
                  cat_coefs[,2],
                  cat_coefs[,3],
                  cat_coefs[,4]),
                  ncol = 5)
-      #trial_data <- genPattern(1, it, "GRM")
-      trial_data <- unlist(data[1,])
-      their_obsInf <- OIi(th = 1, it = it, x = trial_data-1, model = "GRM")
       
-      our_obsInf <- c()
-      cat@answers <- trial_data
-
-      for(i in 1:ncol(data)){
-        our_obsInf <- append(our_obsInf, obsInf(cat,1,i))
-      }
-              
-      print(summary(abs(our_obsInf - their_obsInf)))
-      return(abs(our_obsInf - their_obsInf))
+      ## looping over each person.. all answered the first 5 questions
+      ## calculating EPV for question 6
+      poly_differences <- numeric(100)
+      for(j in 1:nrow(poly_data)){
+        poly_cat@answers[1:length(poly_cat@guessing)] <- rep(NA, length(poly_cat@guessing))
+        poly_cat@answers[1:5] <- unlist(poly_data[j, 1:5]) 
+        theirEPV <- EPV(itemBank = bank,
+                        it.given <- bank[1:5, ],
+                        x = unlist(poly_data[j, 1:5]) -1,
+                        item = 6,
+                        theta = estimateTheta(poly_cat),
+                        model = "GRM",
+                        parInt = c(-5,5,101))
+        ourEPV <- expectedPV(poly_cat, 6)
+        
+        poly_differences[j] <- abs(theirEPV - ourEPV)
+        }
+        
+        return(round(poly_differences, 3))
     }
+    
   }
-
-
   
-  expect_equal(obsInf_test_CatR(binary_data, F),
-               rep(0,ncol(binary_data)),
-               tolerance = .1)
-  
-  expect_equal(obsInf_test_CatR(poly_data, T),
-               rep(0,ncol(poly_data)),
-               tolerance = .1)
-})
-
-
-####### WORK FROM THIS ###########
-library(ltm)
-library(catR)
-
   data("npi")
   data("nfc")
   binary_data <- npi[1:100, ]
   poly_data <- nfc[1:100, ]
-  
-  binary_cat <- ltmCat(binary_data)
-  ltm_cat <- ltm(binary_data ~ z1, control = list(GHk = 100))
-  cat_coefs <- coef(ltm_cat)
+
+  expect_equal(expectedPV_test_CatR(FALSE)[-49], rep(0, 99))
+  expect_equal(expectedPV_test_CatR(TRUE), rep(0, 100))
+})
 
   
-  bank <- matrix(c(cat_coefs[,1],
-                  binary_cat@difficulty,
-                  binary_cat@guessing,
-                  rep(1, length(binary_cat@guessing))), ncol = 4)
-  
-  EPV(itemBank = bank,
-      it.given <- bank[1:5,],
-      x = unlist(binary_data[1,1:5]),
-      item = 10,
-      theta = 1)
-  
-  binary_cat@answers[1:5] <- unlist(binary_data[1,1:5])
-  expectedPV(binary_cat, 10)
-  
-  
-  binary_cat@answers[35:40] <- NA
-  for(i in which(is.na(binary_cat@answers))){
-    expectedPV(binary_cat, 0)
-    probability(binary_cat, 1, 1)
-  }
-  
-  
-  differences <- numeric(nrow(poly_data))
-  for(i in 1:nrow(poly_data)){
-    poly_cat@answers <- as.numeric(poly_data[i, ])
-    differences[i] <- estimateSE(poly_cat) - estimateSE_test(poly_cat)
-  }
+

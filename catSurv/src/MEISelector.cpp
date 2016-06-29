@@ -8,7 +8,7 @@ SelectionType MEISelector::getSelectionType() {
 	return SelectionType::MEI;
 }
 
-Selection MEISelector::nextItem() {
+Selection MEISelector::selectItem() {
 	Selection selection;
 	selection.questions = questionSet.nonapplicable_rows;
 	selection.values.reserve(questionSet.nonapplicable_rows.size());

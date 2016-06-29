@@ -107,17 +107,24 @@ double Estimator::integralQuotient(integrableFunction const &numerator,
 double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
   auto question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
   
+  //std::cout << 	"original answer: " << questionSet.answers[item] << std::endl;
+  
   questionSet.applicable_rows.push_back(item); // add item to set of answered items
   
 	std::vector<double> variances;
 	for (size_t i = 0; i <= questionSet.difficulty[item].size(); ++i) {
+	  //std::cout << "\nitem index: " << item << std::endl;
+	  //std::cout << "QS size: " << questionSet.difficulty[item].size() << std::endl;
+	  
 		questionSet.answers[item] = (int) i + 1.0; 
+		//std::cout << 	"answer: " << questionSet.answers[item] << std::endl;
 		variances.push_back(pow(estimateSE(prior), 2));
 	}
 
 	double sum = 0;
-	for (size_t i = 0; i < question_cdf.size() - 1; ++i) {
-		sum += variances[i] * (question_cdf[i] - question_cdf[i + 1]);
+	for (size_t i = 1; i < question_cdf.size(); ++i) {
+	  // filling in variances[i-1] for indexing purposes
+		sum += variances[i-1] * (question_cdf[i] - question_cdf[i - 1]);
 	}
 	
 	questionSet.applicable_rows.pop_back();

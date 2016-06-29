@@ -4,7 +4,7 @@ SelectionType MFISelector::getSelectionType() {
 	return SelectionType::MFI;
 }
 
-Selection MFISelector::nextItem() {
+Selection MFISelector::selectItem() {
 	Selection selection;
 	selection.questions = questionSet.nonapplicable_rows;
 	selection.values.reserve(questionSet.nonapplicable_rows.size());

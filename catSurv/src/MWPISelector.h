@@ -8,7 +8,7 @@ public:
 
 	virtual SelectionType getSelectionType() override;
 
-	virtual Selection nextItem() override;
+	virtual Selection selectItem() override;
 };
 
 

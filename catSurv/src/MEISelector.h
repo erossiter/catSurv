@@ -10,6 +10,6 @@ public:
 
 	virtual SelectionType getSelectionType();
 
-	virtual Selection nextItem();
+	virtual Selection selectItem();
 };
 

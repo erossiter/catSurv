@@ -5,7 +5,7 @@ SelectionType MWPISelector::getSelectionType() {
 	return SelectionType::MWPI;
 }
 
-Selection MWPISelector::nextItem() {
+Selection MWPISelector::selectItem() {
 	Selection selection;
 	selection.name = "MWPI";
 	selection.questions = questionSet.nonapplicable_rows;

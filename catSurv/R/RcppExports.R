@@ -114,8 +114,8 @@ d2LL <- function(cat_df, theta, use_prior) {
 }
 
 #' @export
-nextItem <- function(cat_df) {
-    .Call('catSurv_nextItem', PACKAGE = 'catSurv', cat_df)
+selectItem <- function(cat_df) {
+    .Call('catSurv_selectItem', PACKAGE = 'catSurv', cat_df)
 }
 
 #' @export

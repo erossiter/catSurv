@@ -7,6 +7,6 @@ public:
 	MFISelector(QuestionSet &questions, Estimator &estimation, Prior &priorModel);
 	virtual SelectionType getSelectionType();
 
-	virtual Selection nextItem();
+	virtual Selection selectItem();
 };
 

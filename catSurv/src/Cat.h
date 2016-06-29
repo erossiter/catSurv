@@ -35,7 +35,7 @@ public:
 
 	double expectedObsInf(int item);
 
-	Rcpp::List nextItem();
+	Rcpp::List selectItem();
 	
 	void showCppCat();
 	

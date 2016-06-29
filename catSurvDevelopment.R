@@ -13,17 +13,15 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
-obsInf(cat, 1, 1)
-probability(cat, 1, 1)
 
 
 ## fix tests:
-# - binary obsInf, CatR
-# - poly obsInf, CatR
-# - poly fisherInf, CatR
-# - binary, fisherInf, CatR??
-# - binary, obsInf, catIrt
-# - poly, obsInf, catIrt??
+# - binary obsInf, CatR  -- DONE
+# - poly obsInf, CatR -- DONE
+# - poly fisherInf, CatR -- DONE
+# - binary, obsInf, catIrt -- their package is annoying
+# - poly, obsInf, catIrt?? -- their package is annoying
+# - fisherInf, catIrt??
 
 
 

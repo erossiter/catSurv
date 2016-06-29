@@ -5,28 +5,28 @@ context("obsInf")
 
 test_that("obsInf calculates correctly", {
   
-  obsInf_test_CatR <- function(data, poly){
+  obsInf_test_CatR <- function(poly){
     
     if(poly == FALSE){
-      cat <- ltmCat(data)
-      ltm_cat <- ltm(data ~ z1, control = list(GHk = 100))
+      cat <- ltmCat(binary_data)
+      ltm_cat <- ltm(binary_data ~ z1, control = list(GHk = 100))
       cat_coefs <- coef(ltm_cat)
 
       # obsInf for one person, for all items
-      cat@answers <- unlist(data[9,])
+      cat@answers <- unlist(binary_data[1,])
       cat@answers 
       our_obsInf <- c()
-      for(i in 1:ncol(data)){
+      for(i in 1:ncol(binary_data)){
         our_obsInf <- append(our_obsInf, obsInf(cat,1,i))
       }
 
       it <- matrix(c(cat@discrimination,
-                     cat@difficulty,
+                     cat_coefs[,1],
                      cat@guessing,
                      rep(1, length(cat@guessing))), ncol = 4)
       their_obsInf <- OIi(th = 1, it = it, x = cat@answers, model = NULL)
       
-      return(abs(our_obsInf - their_obsInf))
+      return(round(abs(our_obsInf - their_obsInf), 4))
     }
     
     if(poly == TRUE){
@@ -40,26 +40,15 @@ test_that("obsInf calculates correctly", {
                  cat_coefs[,4]),
                  ncol = 5)
       
-      trial_data <- unlist(poly_data[1,])
-      their_obsInf <- OIi(th = 1, it = it, x = trial_data-1, model = "GRM")
-    
-      for(j in 1:nrow(poly_data)){
-        cat@answers <- unlist(poly_data[j,])  
-        print(estimateSE(cat))
-      }
-      
-      
-      
-      #cat@answers <- trial_data
+      cat@answers <- unlist(poly_data[1,])
+      their_obsInf <- OIi(th = 1, it = it, x = cat@answers-1, model = "GRM")
       
       our_obsInf <- c()
       for(i in 1:(ncol(poly_data))){
         our_obsInf <- append(our_obsInf, obsInf(cat,1,i))
       }
       
-      
-      print(round(abs(our_obsInf - their_obsInf), 5))
-      return(abs(our_obsInf - their_obsInf))
+      return(round(abs(our_obsInf - their_obsInf), 3))
     }
   }
 
@@ -68,8 +57,8 @@ test_that("obsInf calculates correctly", {
   binary_data <- npi[1:100, ]
   poly_data <- nfc[1:100, ]
   
-  #expec(obsInf_test_CatR(binary_data, F), rep(.0001, ncol(binary_data)))
+  expect_equal(obsInf_test_CatR(F), rep(0, ncol(binary_data)))
   
-  #expect_less_than(obsInf_test_CatR(poly_data, T), rep(.0001, ncol(poly_data)))
+  expect_equal(obsInf_test_CatR(T), rep(0, ncol(poly_data)))
 }
 )

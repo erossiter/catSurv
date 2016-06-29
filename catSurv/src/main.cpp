@@ -143,9 +143,10 @@ double d2LL(S4 &cat_df, double theta, bool use_prior){
 
 //' @export
 // [[Rcpp::export]]
-List nextItem(S4 cat_df) {
-	return Cat(cat_df).nextItem();
+List selectItem(S4 cat_df) {
+  return Cat(cat_df).selectItem();
 }
+
 
 //' @export
 // [[Rcpp::export]]

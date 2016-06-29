@@ -5,16 +5,11 @@ context("fisherInf")
 
 test_that("fisherInf calculates correctly", {
 
-  data("npi")
-  data("nfc")
-  binary_data <- npi[1:100, ]
-  poly_data <- nfc[1:100, ]
-  
   fisherInf_test_CatR <- function(){
     
     ## Categorical
     cat <- grmCat(poly_data)
-    cat_coefs <- coef(grm(poly_data))
+    cat_coefs <- coef(grm(poly_data, IRT.param=TRUE, control = list(GHk = 100)))
 
     our_fisherInf <- c()
     for(i in 1:18){
@@ -30,10 +25,13 @@ test_that("fisherInf calculates correctly", {
   
     their_fisherInf <- Ii(1, it, model = "GRM")$Ii
   
-    return(abs(our_fisherInf - their_fisherInf))
+    return(round(abs(our_fisherInf - their_fisherInf),3))
   }
-
-  expect_equal(fisherInf_test_CatR(),
-               rep(0,ncol(poly_data)),
-               tolerance = .01)
+  
+  data("npi")
+  data("nfc")
+  binary_data <- npi[1:100, ]
+  poly_data <- nfc[1:100, ]
+  
+  expect_equal(fisherInf_test_CatR(), rep(0,ncol(poly_data)))
 })
