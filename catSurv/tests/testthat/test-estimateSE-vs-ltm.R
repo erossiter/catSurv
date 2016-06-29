@@ -4,11 +4,11 @@ library(ltm)
 context("estimateSE")
 
 
-test_that("our estimateSE function is consistent with ltm package"){
+test_that("our estimateSE function is consistent with ltm package", {
   estimateSE_test_vs_ltm<-function(data, poly){
     if(poly==F){
       ### ltm package:
-      data = binary_data
+      #data = binary_data
       cat_ltm<-ltm(data~z1, control = list(GHk = 100))  ## run ltm's ltm method on the data
       factor_scores <- factor.scores.ltm(cat_ltm, method = "EB", prior = T)$score.dat ## store all of the output
       ## note: ltm package's 'method = "EB" ' corresponds to our 'estimation = 'MAP' "
@@ -18,6 +18,11 @@ test_that("our estimateSE function is consistent with ltm package"){
       
       ### catSurv package:
       cat_Cat <- ltmCat(data) ## run our ltm method on the data
+      #print("here's the cat")
+      #print(cat_Cat@discrimination)
+      #print(cat_Cat@guessing)
+      #print(cat_Cat@difficulty)
+      
       cat_Cat@estimation <- "MAP" 
       
       #cat_Cat_theta<-rep(NA, length(cat_ltm_theta)) ## empty vector of theta values
@@ -77,11 +82,10 @@ test_that("our estimateSE function is consistent with ltm package"){
   
   data("npi")
   data("nfc")
-  binary_data<-npi[c(8000:8020),]
+  binary_data<-npi[8000:8020,]
   poly_data<-nfc[c(760:780),]
   
   expect_equal(estimateSE_test_vs_ltm(binary_data, F), rep(0, nrow(binary_data)), tolerance = 0.001)
-  estimateSE_test_vs_ltm(poly_data, T)
-}
 
-cat_grmX <- grm(poly_data)
+})
+
