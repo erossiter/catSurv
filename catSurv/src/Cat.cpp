@@ -37,10 +37,14 @@ double Cat::expectedPV(int item) {
 
 List Cat::selectItem() {
 	Selection selection = selector->selectItem();
+  // Adding 1 to each row index so it prints the correct 
+	// question number for user
+	std::transform(selection.questions.begin(), selection.questions.end(), selection.questions.begin(),
+                bind2nd(std::plus<int>(), 1.0));
 	DataFrame all_estimates = Rcpp::DataFrame::create(Named("row.name") = selection.questions,
                                                    Named("questions") = selection.questions,
 	                                                 Named(selection.name) = selection.values);
-	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(selection.item));
+	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(selection.item + 1));
 }
 
 double Cat::findRoot() {

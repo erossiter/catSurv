@@ -12,11 +12,6 @@ Selection EPVSelector::selectItem() {
 	selection.values.reserve(questionSet.nonapplicable_rows.size());
 	selection.questions = questionSet.nonapplicable_rows;
 	
-	// Adding 1 to each row index so it prints the correct 
-	// question number for user
-	transform(selection.questions.begin(), selection.questions.end(),
-           selection.questions.begin(), bind2nd(std::plus<int>(), 1.0));
-	
 	int min_item = -1;
 	double min_epv = INFINITY;
 
@@ -29,7 +24,7 @@ Selection EPVSelector::selectItem() {
 			min_epv = epv;
 		}
 	}
-	selection.item = min_item + 1; // +1 so that it prints the right number for user
+	selection.item = min_item;
 	return selection;
 }
 

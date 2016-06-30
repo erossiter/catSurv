@@ -1,5 +1,7 @@
 #include "MFISelector.h"
 
+using namespace std;
+
 SelectionType MFISelector::getSelectionType() {
 	return SelectionType::MFI;
 }
@@ -25,6 +27,7 @@ Selection MFISelector::selectItem() {
 	}
 
 	selection.item = max_item;
+	selection.item = selection.item;
 	return selection;
 
 }

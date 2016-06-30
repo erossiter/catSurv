@@ -11,7 +11,7 @@ test_that("obsInf calculates correctly", {
       cat <- ltmCat(binary_data)
       ltm_cat <- ltm(binary_data ~ z1, control = list(GHk = 100))
       cat_coefs <- coef(ltm_cat)
-
+      
       # obsInf for one person, for all items
       cat@answers <- unlist(binary_data[1,])
       cat@answers 
@@ -25,6 +25,7 @@ test_that("obsInf calculates correctly", {
                      cat@guessing,
                      rep(1, length(cat@guessing))), ncol = 4)
       their_obsInf <- OIi(th = 1, it = it, x = cat@answers, model = NULL)
+      names(their_obsInf) <- NULL
       
       return(round(abs(our_obsInf - their_obsInf), 4))
     }
