@@ -27,6 +27,7 @@ test_that("nextItemMFI calculates correctly", {
           binary_cat@answers <- rep(NA, length(binary_cat@guessing))
           binary_cat@answers[13:40] <- unlist(binary_data[these_people[j],13:40])
           binary_cat@estimation <- "MAP"
+          binary_cat@selection <- "MPWI"
 
           ours[j] <- selectItem(binary_cat)$next.item
         
@@ -34,12 +35,11 @@ test_that("nextItemMFI calculates correctly", {
                                 theta = estimateTheta(binary_cat),
                                 out = 13:40,
                                 x = unlist(binary_data[these_people[j],13:40]),
-                                criterion = "MEI", 
+                                criterion = "MPWI", 
                                 parInt = c(-5,5,101)
                                 )$item
         }
       
-        ## 8 not equal   
         return(which(ours != theirs))
     }
     
@@ -54,19 +54,19 @@ test_that("nextItemMFI calculates correctly", {
                  cat_coefs[,4]),
                  ncol = 5)
       
-      ours <- theirs <- numeric(8)
+      ours <- theirs <- numeric(100)
         for(j in 1:length(ours)){
           poly_cat@answers <- rep(NA, length(poly_cat@guessing))
           poly_cat@answers[3:14] <- unlist(poly_data[j, 3:14])
           poly_cat@estimation <- "MAP"
-          poly_cat@selection <- "MEI"
+          poly_cat@selection <- "MPWI"
           
           ours[j] <- selectItem(poly_cat)$next.item
           theirs[j] <- nextItem(itemBank = bank,
                                 theta = estimateTheta(poly_cat),
                                 out = 3:14,
                                 x = unlist(poly_data[j, 3:14])-1,
-                                criterion = "MEI", 
+                                criterion = "MPWI", 
                                 model = "GRM",
                                 parInt = c(-5,5,101)
                                 )$item
@@ -80,7 +80,7 @@ test_that("nextItemMFI calculates correctly", {
   binary_data <- npi[1:100, ]
   poly_data <- nfc[1:100, ]
   
-  expect_equal( nextItemMFI_catR(TRUE), c(43, 58, 61, 63, 69, 72))
+  expect_equal( nextItemMFI_catR(TRUE))
   expect_null( nextItemMFI_catR(FALSE))
   
 }

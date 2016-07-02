@@ -85,7 +85,6 @@ double Estimator::estimateSE(Prior prior) {
 	};
 
 	return sqrt(integralQuotient(numerator, denominator));
-
 }
 
 double Estimator::integralQuotient(integrableFunction const &numerator,
@@ -333,6 +332,24 @@ double Estimator::brentMethod(integrableFunction const &function) {
   return r;
 }
   
+// now I need a function that will define the pwi and
+// then do the for loop to calculate it for each j
+double Estimator::pwi(int item, Prior prior) {
+
+	integrableFunction pwi_j = [&](double theta) {
+		return likelihood(theta) * prior.prior(theta) * fisherInf(theta, item);
+	};
+
+	return integrate_pwi(pwi_j);
+
+}
+
+  
+double Estimator::integrate_pwi(const integrableFunction &function){
+  gsl_function *f = GSLFunctionWrapper(function).asGSLFunction();
+	const double answer_j = integrator.integrate(f, integrationSubintervals);
+	return answer_j;
+}
   
   
   

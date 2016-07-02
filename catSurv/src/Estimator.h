@@ -39,6 +39,8 @@ public:
 	double expectedObsInf(int item, Prior &prior);
 	
 	double findRoot();
+	
+	double pwi(int item, Prior prior);
 
 protected:
 	const Integrator &integrator;
@@ -66,6 +68,8 @@ protected:
 	                        const integrableFunction &denominator);
 	
 	double brentMethod(const integrableFunction &function);
+	
+	double integrate_pwi(const integrableFunction &function);
 
 private:
 	/**

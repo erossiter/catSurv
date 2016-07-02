@@ -1,10 +1,10 @@
 #pragma once
 #include "Selector.h"
 
-class MWPISelector : public Selector {
+class MPWISelector : public Selector {
 
 public:
-	MWPISelector(QuestionSet &questions, Estimator &estimation, Prior &priorModel);
+	MPWISelector(QuestionSet &questions, Estimator &estimation, Prior &priorModel);
 
 	virtual SelectionType getSelectionType() override;
 
