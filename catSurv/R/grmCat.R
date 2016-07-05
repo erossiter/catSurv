@@ -20,87 +20,120 @@
 #' @seealso \code{\link{ltmCat}},\code{\link{nextItem}}, \code{\link{question.path}}
 #' @rdname grmCat
 #' @export
-setGeneric("grmCat", function(data, object=NULL, ...){standardGeneric("grmCat")})
+setGeneric("grmCat", function(data, object=NULL, quadraturePoints = 15 ...){standardGeneric("grmCat")})
 
 #' @export
 setMethod(f="grmCat", signature="data.frame",
-          definition=function(data, object,...){
-            if(is.null(object)){
-              fit <- grm(data=data, IRT.param = TRUE, control = list(GHk = 100),...)
-            }
-            if(!is.null(object)){
-              if(class(object)!="Cat"){
-                stop("object is not class Cat")
-              } else {
-                  fit <- object
-                }}
-              
-            coefficient <- fit$coef
-            answer <- rep(NA,length(objects(coefficient)))
-            discrimination <- sapply(1:length(objects(coefficient)), function(i) coefficient[[i]][length(coefficient[[i]])])
-            names(discrimination) <- names(coefficient)
-            difficulty <- lapply(1:length(objects(coefficient)), function(i) coefficient[[i]][-length(coefficient[[i]])])
-            names(difficulty) <- names(coefficient)
-            guessing <- rep(0, length(discrimination))
-            #             if(is.null(object)){
-            #               return(new("Cat", discrimination=discrimination, difficulty=difficulty, poly=TRUE, guessing=guessing, answers=answer))
-            #             }
-            #            else {
-            if(is.null(object)){
+          definition=function(data, object, quadraturePoints,...){
+            if(is.null(object)){ ## if no Cat object provided, create a new Cat
               object<-new("Cat")
             }
-
+            else  if(class(object)!="Cat"){ ## if the object provided is not a Cat, error
+              stop("object is not class Cat")
+            } 
+            
+            ## run grm function on the data
+            fit <- grm(data=data, control = list(GHk = quadraturePoints))
+            
+            ## extract the parameters
+            coefficients <- fit$coef
+            ## coefficients is a list of parameter vectors, one vector for each question item
+            ## the last element of each vector is discrimination; all elements before that are difficulty
+            discrimination <- sapply(1:length(objects(coefficients)), function(i){
+              return(coefficients[[i]][length(coefficient[[i]])])
+            })
+            names(discrimination)<-names(coefficients)
+            
+            difficulty <- sapply(1:length(objects(coefficients)), function(i){
+              return(coefficients[[i]][-length(coefficient[[i]])])
+            })
+            names(difficulty)<-names(coefficients)
+            
+            
+            
+            ## check if parameters are out of expected range
+            if any(discimination< -5) || any(discrimination>5){
+              stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+            }
+            for (i in difficulty){
+              if any(i< -5) || any(i>5){
+                stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
+              }}
+            
+            ## store those extracted parameters in the Cat
             object@discrimination <- discrimination
             object@difficulty <- difficulty
+            
+            ## by default (for grmCat), the Cat is polytomous with no guessing parameter
             object@poly <- TRUE
-            object@guessing <- guessing
-            object@answers <- answer
+            object@guessing <- rep(0, length(discrimination))
+            
+            ## fill the answers slot with NAs
+            object@answers <- rep(NA,length(objects(coefficients)))
+            
+            ## Cat is complete! Send it back
             return(object)
-
-#             #guessing, discrimination, answers, difficulty should all be same length
-#             test1<-(length(object@discrimination)==length(object@guessing))
-#             if(!test1){stop("discrimination and guessing not same length")}
-#
-#             test2<-(length(object@discrimination)==length(object@answers))
-#             if(!test2){stop("discrimination and answers not same length")}
-#
-#             test3<-(length(object@discrimination)==length(object@difficulty))
-#             if(!test3){stop("discrimination and difficulty not same length")}
-#
-#             ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING, and not NA
-#             if(object@poly==T){
-#               for(i in object@difficulty){
-#                 if (is.list(i)){
-#                   i<-unlist(i)
-#                 }
-#                 sorted<-sort(i)
-#                 uniques<-unique(i)
-#                 test4<-(isTRUE(all.equal(i,uniques)))
-#                 if(!test4){stop(paste("Repeated difficulty values for question ", which(object@difficulty==i, arr.ind=T)))}
-#                 test5<-(isTRUE(all.equal(i,sorted)))
-#                 if(!test5){stop(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " are not increasing"))}
-#                 test6<-(all(!is.na(i)))
-#                 if(!test6){stop(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " include NAs"))}
-#
-#               }
-#             }
-#
-#             ## test that discrimination and guessing are not NA
-#             for(i in object@discrimination){
-#               test7<-!is.na(i)
-#               if(!test7){stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
-#             }
-#             if(!object@poly){
-#               for(i in object@guessing){
-#                 test8<-!is.na(i)
-#                 if(!test8){stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
-#               }
-#             }
-
+        
           }
+          
+)
 
-          )
 
+setMethod(f="grmCat", signature="grm",
+          definition=function(data, object, quadraturePoints,...){
+            if(is.null(object)){ ## if no Cat object provided, create a new Cat
+              object<-new("Cat")
+            }
+            else  if(class(object)!="Cat"){ ## if the object provided is not a Cat, error
+              stop("object is not class Cat")
+            } 
+            
+            ## data is of class 'grm'
+            ## extract the parameters
+            coefficients <- data$coef
+            ## coefficients is a list of parameter vectors, one vector for each question item
+            ## the last element of each vector is discrimination; all elements before that are difficulty
+            discrimination <- sapply(1:length(objects(coefficients)), function(i){
+              return(coefficients[[i]][length(coefficient[[i]])])
+            })
+            names(discrimination)<-names(coefficients)
+            
+            difficulty <- sapply(1:length(objects(coefficients)), function(i){
+              return(coefficients[[i]][-length(coefficient[[i]])])
+            })
+            names(difficulty)<-names(coefficients)
+            
+            
+            
+            ## check if parameters are out of expected range
+            if any(discimination< -5) || any(discrimination>5){
+              stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+            }
+            for (i in difficulty){
+              if any(i< -5) || any(i>5){
+                stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
+              }}
+            
+            ## store those extracted parameters in the Cat
+            object@discrimination <- discrimination
+            object@difficulty <- difficulty
+            
+            ## by default (for grmCat), the Cat is polytomous with no guessing parameter
+            object@poly <- TRUE
+            object@guessing <- rep(0, length(discrimination))
+            
+            ## fill the answers slot with NAs
+            object@answers <- rep(NA,length(objects(coefficients)))
+            
+            ## Cat is complete! Send it back
+            return(object)
+            
+          }
+          
+)
+
+
+## i don't know what's going on here
 setMethod(f="grmCat", signature="missing",
           definition=function(data, object,...){
             if(is.null(object)){
@@ -124,7 +157,7 @@ setMethod(f="grmCat", signature="missing",
             #               return(new("Cat", discrimination=discrimination, difficulty=difficulty, poly=TRUE, guessing=guessing, answers=answer))
             #             }
             #            else {
-
+            
             object<-new("Cat")
             object@discrimination <- discrimination
             object@difficulty <- difficulty

@@ -22,101 +22,79 @@
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
 #' @rdname tpmCat
 #' @export
-setGeneric("tpmCat", function(data, object=NULL, quadraturePoints = 15, ...){standardGeneric("tpmCat")})
+setGeneric("tpmCat", function(data, object=NULL, ...){standardGeneric("tpmCat")})
 
 #' @export
 setMethod(f="tpmCat", signature="data.frame",
-          definition=function(data, object, quadraturePoints,...){
-            if(is.null(object)){ ## if no Cat object provided, create a new Cat
-              object<-new("Cat")
-            }
-            else  if(class(object)!="Cat"){ ## if the object provided is not a Cat, error
-              stop("object is not class Cat")
+          definition=function(data, object,...){
+            if(is.null(object)){
+              fit <- tpm(data, control = list(GHk = 100), ...)
             } 
-            
-            ## run tpm function on the data
-            fit<-tpm(data~z1, control=list(GHk = quadraturePoints))
-            
-            ## extract the parameters
+            if(!is.null(object)){
+              if(class(object)!="Cat"){ 
+                stop("object is not class Cat")
+              } else {
+                fit <- object
+                }
+            }
+           
+            answer <- rep(NA,dim(fit$coef)[1])
             discrimination <- fit$coef[,"beta.2i"]
             difficulty <- fit$coef[,"beta.1i"]
             guessing <- coef(fit)[,"Gussng"]
             names(difficulty) <- rownames(fit$coef)
             
-            ## check if any parameters out of expected range:
-            if any(discimination< -5) || any(discrimination>5){
-              stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-            }
-            if any(difficulty< -5) || any(difficulty>5){
-              stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-            }
-            if any(guessing< 0) || any(guessing>1){
-              stop("Measurement model poorly estimated: guessing values outside of [0, 1]")
-            }
-            
-            ## store those extracted parameters in the Cat
-            object@discrimination <- discrimination
-            object@difficulty <- difficulty
-            object@guessing<- guessing
-            
-            ## by default (for tpmCat), the Cat is binary 
-            object@poly <- FALSE
-            
-            ## fill the answers slot with NAs
-            object@answers <- rep(NA,length(discrimination))
-            
-            ## Cat is complete! Send it back
-            return(object)
-
-          })
-
-setMethod(f="tpmCat", signature="tpm",
-          definition=function(data, object, quadraturePoints,...){
-            if(is.null(object)){ ## if no Cat object provided, create a new Cat
+            if(is.null(object)){
               object<-new("Cat")
             }
-            else  if(class(object)!="Cat"){ ## if the object provided is not a Cat, error
-              stop("object is not class Cat")
-            } 
-            
-            ## data is of class 'tpm'
-            ## extract the parameters
-            discrimination <- data$coef[,"beta.2i"]
-            difficulty <- data$coef[,"beta.1i"]
-            guessing <- coef(data)[,"Gussng"]
-            names(difficulty) <- rownames(data$coef)
-            
-            
-            ## check if any parameters out of expected range:
-            if any(discimination< -5) || any(discrimination>5){
-              stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-            }
-            if any(difficulty< -5) || any(difficulty>5){
-              stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-            }
-            if any(guessing< 0) || any(guessing>1){
-              stop("Measurement model poorly estimated: guessing values outside of [0, 1]")
-            }
-            
-            ## store those extracted parameters in the Cat
+
             object@discrimination <- discrimination
             object@difficulty <- difficulty
-            object@guessing<- guessing
-            
-            ## by default (for tpmCat), the Cat is binary 
             object@poly <- FALSE
-            
-            ## fill the answers slot with NAs
-            object@answers <- rep(NA,length(discrimination))
-            
-            ## Cat is complete! Send it back
+            object@guessing <- guessing
+            object@answers <- answer
             return(object)
-            
+
+#             # guessing, discrimination, answers, difficulty should all be same length
+#             test1<-(length(object@discrimination)==length(object@guessing))
+#             if(!test1){stop("discrimination and guessing not same length")}
+#
+#             test2<-(length(object@discrimination)==length(object@answers))
+#             if(!test2){stop("discrimination and answers not same length")}
+#
+#             test3<-(length(object@discrimination)==length(object@difficulty))
+#             if(!test3){stop("discrimination and difficulty not same length")}
+#
+#             ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING, and not NA
+#             if(object@poly==T){
+#               for(i in object@difficulty){
+#                 if (is.list(i)){
+#                   i<-unlist(i)
+#                 }
+#                 sorted<-sort(i)
+#                 uniques<-unique(i)
+#                 test4<-(isTRUE(all.equal(i,uniques)))
+#                 if(!test4){stop(paste("Repeated difficulty values for question ", which(object@difficulty==i, arr.ind=T)))}
+#                 test5<-(isTRUE(all.equal(i,sorted)))
+#                 if(!test5){stop(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " are not increasing"))}
+#                 test6<-(all(!is.na(i)))
+#                 if(!test6){stop(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " include NAs"))}
+#
+#               }
+#             }
+#
+#             ## test that discrimination and guessing are not NA
+#             for(i in object@discrimination){
+#               test7<-!is.na(i)
+#               if(!test7){stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+#             }
+#             if(!object@poly){
+#               for(i in object@guessing){
+#                 test8<-!is.na(i)
+#                 if(!test8){stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+#               }
+#             }
           })
-
-
-
-## i don't know what's going on here
 setMethod(f="tpmCat", signature="missing",
           definition=function(data, object,...){
             if(is.null(object)){

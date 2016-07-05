@@ -22,93 +22,81 @@
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
 #' @rdname ltmCat
 #' @export
-setGeneric("ltmCat", function(data, object=NULL, quadraturePoints = 15,...){standardGeneric("ltmCat")})
+setGeneric("ltmCat", function(data, object=NULL, ...){standardGeneric("ltmCat")})
 
 #' @export
-setMethod(f="ltmCat", signature("data.frame"), ## if 'data' is class 'data.frame'...
-          definition=function(data, object, quadraturePoints,...){
-            if(is.null(object)){ ## if no Cat object provided, create a new Cat
-              object<-new("Cat")
+setMethod(f="ltmCat", signature("data.frame"),
+          definition=function(data, object,...){
+            if(is.null(object)){
+              fit <- ltm(data ~ z1, control = list(GHk = 100), ...)
             }
-            else  if(class(object)!="Cat"){ ## if the object provided is not a Cat, error
+            if(!is.null(object)){ 
+              if(class(object)!="Cat"){ 
                 stop("object is not class Cat")
-              } 
+              } else { 
+                fit <- object
+                }
+            }
             
-            ## run ltm function on the data
-            fit<-ltm(data~z1, control=list(GHk = quadraturePoints))
-            
-            ## extract the parameters
+            answer <- rep(NA,dim(fit$coef)[1])
             discrimination <- fit$coef[,"z1"]
             difficulty <- fit$coef[,"(Intercept)"]
             names(difficulty) <- rownames(fit$coef)
+            guessing <- rep(0, length(discrimination))
             
-            ## check if parameters are out of expected range
-            if any(discimination< -5) || any(discrimination>5){
-              stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-            }
-            if any(difficulty< -5) || any(difficulty>5){
-              stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-            }
-            
-            ## store those extracted parameters in the Cat
-            object@discrimination <- discrimination
-            object@difficulty <- difficulty
-            
-            ## by default (for ltmCat), the Cat is binary with no guessing parameter
-            object@poly <- FALSE
-            object@guessing <- rep(0, length(discrimination))
-            
-            ## fill the answers slot with NAs
-            object@answers <- rep(NA,length(discrimination))
-            
-            ## Cat is complete! Send it back
-            return(object)
-          })
-
-## if 'data' is class 'ltm'...
-setMethod(f="ltmCat", signature("ltm"),
-          definition=function(data, object, quadraturePoints...){
-       
-            if(is.null(object)){ ## if no Cat object provided, create a new Cat
+            if(is.null(object)){
               object<-new("Cat")
             }
-            else  if(class(object)!="Cat"){ ## if the object provided is not a Cat, error
-              stop("object is not class Cat")
-            } 
-        
-            ## data is a fitted ltm object
-            ## extract the parameters
-            discrimination <- data$coef[,"z1"]
-            difficulty <- data$coef[,"(Intercept)"]
-            names(difficulty) <- rownames(fit$coef)
             
-            ## check if parameters are out of expected range
-            if any(discimination< -5) || any(discrimination>5){
-              stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-            }
-            if any(difficulty< -5) || any(difficulty>5){
-              stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-            }
-            
-            ## store those extracted parameters in the Cat
+            object@guessing <- guessing
             object@discrimination <- discrimination
             object@difficulty <- difficulty
-            
-            ## by default (for ltmCat), the Cat is binary with no guessing parameter
             object@poly <- FALSE
-            object@guessing <- rep(0, length(discrimination))
-            
-            ## fill the answers slot with NAs
-            object@answers <- rep(NA,length(discrimination))
-            
-            ## Cat is complete! Send it back
+            object@answers <- answer
             return(object)
+            
+            #             # guessing, discrimination, answers, difficulty should all be same length
+            #             test1<-(length(object@discrimination)==length(object@guessing))
+            #             if(!test1){stop("discrimination and guessing not same length")}
+            #
+            #             test2<-(length(object@discrimination)==length(object@answers))
+            #             if(!test2){stop("discrimination and answers not same length")}
+            #
+            #             test3<-(length(object@discrimination)==length(object@difficulty))
+            #             if(!test3){stop("discrimination and difficulty not same length")}
+            #
+            #             ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING, and not NA
+            #             if(object@poly==T){
+            #               for(i in object@difficulty){
+            #                 if (is.list(i)){
+            #                   i<-unlist(i)
+            #                 }
+            #                 sorted<-sort(i)
+            #                 uniques<-unique(i)
+            #                 test4<-(isTRUE(all.equal(i,uniques)))
+            #                 if(!test4){stop(paste("Repeated difficulty values for question ", which(object@difficulty==i, arr.ind=T)))}
+            #                 test5<-(isTRUE(all.equal(i,sorted)))
+            #                 if(!test5){stop(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " are not increasing"))}
+            #                 test6<-(all(!is.na(i)))
+            #                 if(!test6){stop(paste("Diffulty values for question ", which(object@difficulty==i, arr.ind=T), " include NAs"))}
+            #
+            #               }
+            #             }
+            #
+            #             ## test that discrimination and guessing are not NA
+            #             for(i in object@discrimination){
+            #               test7<-!is.na(i)
+            #               if(!test7){stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+            #             }
+            #             if(!object@poly){
+            #               for(i in object@guessing){
+            #                 test8<-!is.na(i)
+            #                 if(!test8){stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+            #               }
+            #             }
           })
 
 
-
-
-## i don't know what's going on here
 setMethod(f="ltmCat", signature("missing"),
           definition=function(data, object,...){
             if(is.null(object)){
@@ -119,9 +107,9 @@ setMethod(f="ltmCat", signature("missing"),
                 stop("object is not class ltm")
               } else { 
                 fit <- object
-              }
+                }
             }
-            
+          
             answer <- rep(NA,dim(fit$coef)[1])
             discrimination <- fit$coef[,"z1"]
             difficulty <- fit$coef[,"(Intercept)"]
@@ -136,5 +124,4 @@ setMethod(f="ltmCat", signature("missing"),
             object@answers <- answer
             return(object)
           })
-
 
