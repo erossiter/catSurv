@@ -38,8 +38,11 @@ test_that("nextItemMFI calculates correctly", {
                                 parInt = c(-5,5,101)
                                 )$item
         }
-      ## all match!!  
-      return(which(ours != theirs))
+      if(length(which(ours != theirs)) == 0){
+        return_this <- NULL
+      }
+      
+      return(return_this)
     }
     
     if(poly == TRUE){
@@ -70,8 +73,11 @@ test_that("nextItemMFI calculates correctly", {
                                 parInt = c(-5,5,101)
                                 )$item
         }
-      ##all match!  
-      return(which(ours != theirs))
+      if(length(which(ours != theirs)) == 0){
+        return_this <- NULL
+      }
+      
+      return(return_this)
     }
   }
   
@@ -80,8 +86,8 @@ test_that("nextItemMFI calculates correctly", {
   binary_data <- npi[1:100, ]
   poly_data <- nfc[1:100, ]
   
-  expect_identical( nextItemMFI_catR(TRUE), integer(0))
-  expect_identical( nextItemMFI_catR(FALSE), integer(0))
+  expect_null( nextItemMFI_catR(TRUE))
+  expect_null( nextItemMFI_catR(FALSE))
   
 }
 )

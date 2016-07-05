@@ -106,17 +106,11 @@ double Estimator::integralQuotient(integrableFunction const &numerator,
 double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
   auto question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
   
-  //std::cout << 	"original answer: " << questionSet.answers[item] << std::endl;
-  
   questionSet.applicable_rows.push_back(item); // add item to set of answered items
   
 	std::vector<double> variances;
 	for (size_t i = 0; i <= questionSet.difficulty[item].size(); ++i) {
-	  //std::cout << "\nitem index: " << item << std::endl;
-	  //std::cout << "QS size: " << questionSet.difficulty[item].size() << std::endl;
-	  
-		questionSet.answers[item] = (int) i + 1.0; 
-		//std::cout << 	"answer: " << questionSet.answers[item] << std::endl;
+		questionSet.answers[item] = (int) i + 1.0;
 		variances.push_back(pow(estimateSE(prior), 2));
 	}
 
@@ -229,8 +223,11 @@ std::vector<double> Estimator::paddedProbability(double theta, size_t question) 
 }
 
 double Estimator::expectedObsInf(int item, Prior &prior) {
-	questionSet.applicable_rows.push_back(item);
+  // for the categorical case
 	if (questionSet.poly[0]){
+	  std::vector<double> question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
+	  questionSet.applicable_rows.push_back(item);
+	  
 		double sum = 0.0;
 		std::vector<double> obsInfs;
 		for (size_t i = 0; i <= questionSet.difficulty[item].size(); ++i){
@@ -241,22 +238,26 @@ double Estimator::expectedObsInf(int item, Prior &prior) {
 		questionSet.answers[item] = NA_INTEGER;
 		questionSet.applicable_rows.pop_back();
 
-		std::vector<double> question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
-		for(size_t i = 0; i < question_cdf.size() -1; ++i){
-			sum += obsInfs[i] * (question_cdf[i] - question_cdf[i + 1]);
+	//for(size_t i = 0; i < question_cdf.size() -1; ++i){
+	for (size_t i = 1; i < question_cdf.size(); ++i) {
+			sum += obsInfs[i-1] * (question_cdf[i] - question_cdf[i - 1]);
 		}
 		return sum;
 	}
+	
+	// for the binary case
+	double prob_one = probability(estimateTheta(prior), (size_t) item)[0];
+	questionSet.applicable_rows.push_back(item);
+	
+	questionSet.answers[item] = 0;
+	double obsInfZero = obsInf(estimateTheta(prior), item);
+	questionSet.answers[item] = 1;
+	double obsInfOne = obsInf(estimateTheta(prior), item);
+	
+	questionSet.applicable_rows.pop_back();
+	questionSet.answers[item] = NA_INTEGER;
 
-		questionSet.answers[item] = 0;
-		double obsInfZero = obsInf(estimateTheta(prior), item);
-		questionSet.answers[item] = 1;
-		double obsInfOne = obsInf(estimateTheta(prior), item);
-		questionSet.applicable_rows.pop_back();
-		questionSet.answers[item] = NA_INTEGER;
-
-		double prob_one = probability(estimateTheta(prior), (size_t) item)[0];
-		return prob_one + obsInfZero - (prob_one * obsInfZero) + obsInfOne;
+	return (prob_one * obsInfOne) + ((1 - prob_one) * obsInfZero);
 }
 
 
@@ -332,20 +333,32 @@ double Estimator::brentMethod(integrableFunction const &function) {
   return r;
 }
   
-// now I need a function that will define the pwi and
-// then do the for loop to calculate it for each j
+
+/**
+ * pwi() and lwi() define the integration that needs to be
+ * performed for each question, their respective selectItem()
+ * function will call in a loop
+ */
 double Estimator::pwi(int item, Prior prior) {
 
 	integrableFunction pwi_j = [&](double theta) {
 		return likelihood(theta) * prior.prior(theta) * fisherInf(theta, item);
 	};
 
-	return integrate_pwi(pwi_j);
+	return integrate_selectItem(pwi_j);
+}
 
+double Estimator::lwi(int item) {
+
+	integrableFunction lwi_j = [&](double theta) {
+		return likelihood(theta) * fisherInf(theta, item);
+	};
+
+	return integrate_selectItem(lwi_j);
 }
 
   
-double Estimator::integrate_pwi(const integrableFunction &function){
+double Estimator::integrate_selectItem(const integrableFunction &function){
   gsl_function *f = GSLFunctionWrapper(function).asGSLFunction();
 	const double answer_j = integrator.integrate(f, integrationSubintervals);
 	return answer_j;

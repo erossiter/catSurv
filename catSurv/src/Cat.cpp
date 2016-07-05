@@ -7,6 +7,7 @@
 #include "MEISelector.h"
 #include "MFISelector.h"
 #include "MPWISelector.h"
+#include "MLWISelector.h"
 
 using namespace Rcpp;
 
@@ -167,6 +168,10 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 	
 	if (selection_type == "MPWI") {
 		return std::unique_ptr<MPWISelector>(new MPWISelector(questionSet, estimator, prior));
+	}
+	
+	if (selection_type == "MLWI") {
+		return std::unique_ptr<MLWISelector>(new MLWISelector(questionSet, estimator, prior));
 	}
 
 	stop("%s is not a valid selection type.", selection_type);

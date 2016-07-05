@@ -41,6 +41,8 @@ public:
 	double findRoot();
 	
 	double pwi(int item, Prior prior);
+	
+	double lwi(int item);
 
 protected:
 	const Integrator &integrator;
@@ -69,7 +71,7 @@ protected:
 	
 	double brentMethod(const integrableFunction &function);
 	
-	double integrate_pwi(const integrableFunction &function);
+	double integrate_selectItem(const integrableFunction &function);
 
 private:
 	/**

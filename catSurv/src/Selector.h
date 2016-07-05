@@ -5,7 +5,7 @@
 #include "Estimator.h"
 
 enum class SelectionType {
-	NONE, EPV, MFI, MEI, MPWI
+	NONE, EPV, MFI, MEI, MPWI, MLWI
 };
 
 

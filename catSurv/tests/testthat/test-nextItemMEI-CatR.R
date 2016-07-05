@@ -27,6 +27,7 @@ test_that("nextItemMFI calculates correctly", {
           binary_cat@answers <- rep(NA, length(binary_cat@guessing))
           binary_cat@answers[13:40] <- unlist(binary_data[these_people[j],13:40])
           binary_cat@estimation <- "MAP"
+          binary_cat@selection <- "MEI"
 
           ours[j] <- selectItem(binary_cat)$next.item
         

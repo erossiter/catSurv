@@ -1,11 +1,11 @@
 library(catSurv)
 library(catR)
 library(ltm)
-context("nextItemMPWI")
+context("nextItemMLWI")
 
-test_that("nextItemMPWI calculates correctly", {
+test_that("nextItemMLWI calculates correctly", {
   
-  nextItemMPWI_catR <- function(poly){
+  nextItemMLWI_catR <- function(poly){
   
     if(poly == FALSE){
         binary_cat <- ltmCat(binary_data)
@@ -27,7 +27,7 @@ test_that("nextItemMPWI calculates correctly", {
           binary_cat@answers <- rep(NA, length(binary_cat@guessing))
           binary_cat@answers[13:40] <- unlist(binary_data[these_people[j],13:40])
           binary_cat@estimation <- "MAP"
-          binary_cat@selection <- "MPWI"
+          binary_cat@selection <- "MLWI"
 
           ours[j] <- selectItem(binary_cat)$next.item
         
@@ -35,7 +35,7 @@ test_that("nextItemMPWI calculates correctly", {
                                 theta = estimateTheta(binary_cat),
                                 out = 13:40,
                                 x = unlist(binary_data[these_people[j],13:40]),
-                                criterion = "MPWI", 
+                                criterion = "MLWI", 
                                 parInt = c(-5,5,101)
                                 )$item
         }
@@ -63,21 +63,21 @@ test_that("nextItemMPWI calculates correctly", {
           poly_cat@answers <- rep(NA, length(poly_cat@guessing))
           poly_cat@answers[3:14] <- unlist(poly_data[j, 3:14])
           poly_cat@estimation <- "MAP"
-          poly_cat@selection <- "MPWI"
+          poly_cat@selection <- "MLWI"
           
           ours[j] <- selectItem(poly_cat)$next.item
           theirs[j] <- nextItem(itemBank = bank,
                                 theta = estimateTheta(poly_cat),
                                 out = 3:14,
                                 x = unlist(poly_data[j, 3:14])-1,
-                                criterion = "MPWI", 
+                                criterion = "MLWI", 
                                 model = "GRM",
                                 parInt = c(-5,5,101)
                                 )$item
         }
-        
+      
       if(length(which(ours != theirs)) == 0){
-          return_this <- NULL
+        return_this <- NULL
       }
       
       return(return_this)
@@ -89,8 +89,8 @@ test_that("nextItemMPWI calculates correctly", {
   binary_data <- npi[1:100, ]
   poly_data <- nfc[1:100, ]
   
-  expect_null( nextItemMPWI_catR(FALSE))
-  expect_null( nextItemMPWI_catR(TRUE))
+  expect_null( nextItemMLWI_catR(FALSE))
+  expect_null( nextItemMLWI_catR(TRUE))
   
 }
 )
