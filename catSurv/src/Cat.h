@@ -37,11 +37,14 @@ public:
 
 	Rcpp::List selectItem();
 	
+	Rcpp::List lookAhead(int item);
+	
 	void showCppCat();
 	
 	double findRoot();
 
 	std::vector<double> probability(double theta, int question);
+	
 
 private:
 

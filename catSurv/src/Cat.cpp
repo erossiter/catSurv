@@ -1,4 +1,5 @@
 #include "Rcpp.h"
+#include <algorithm>
 #include "Cat.h"
 #include "EAPEstimator.h"
 #include "MAPEstimator.h"
@@ -39,8 +40,7 @@ double Cat::expectedPV(int item) {
 
 List Cat::selectItem() {
 	Selection selection = selector->selectItem();
-  // Adding 1 to each row index so it prints the correct 
-	// question number for user
+  // Adding 1 to each row index so it prints the correct question number for user
 	std::transform(selection.questions.begin(), selection.questions.end(), selection.questions.begin(),
                 bind2nd(std::plus<int>(), 1.0));
 	DataFrame all_estimates = Rcpp::DataFrame::create(Named("row.name") = selection.questions,
@@ -48,6 +48,31 @@ List Cat::selectItem() {
 	                                                 Named(selection.name) = selection.values);
 	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(selection.item + 1));
 }
+
+List Cat::lookAhead(int item) {
+  questionSet.nonapplicable_rows.erase(std::remove(questionSet.nonapplicable_rows.begin(),
+                                                   questionSet.nonapplicable_rows.end(),
+                                                   item), questionSet.nonapplicable_rows.end());
+  questionSet.applicable_rows.push_back(item);
+
+  std::vector<int> items;
+  std::vector<int> response_options;
+  for (size_t i = 1; i <= questionSet.difficulty[item].size()+1; ++i) {
+      questionSet.poly[0] ? questionSet.answers[item] = i : questionSet.answers[item] = i - 1;
+      Selection selection = selector->selectItem();
+      items.push_back(selection.item + 1);
+      response_options.push_back(questionSet.answers[item]);
+	}
+  
+  questionSet.nonapplicable_rows.push_back(item); // add item back to unanswered q's
+	questionSet.applicable_rows.pop_back(); // remove item from answered q's
+	questionSet.answers[item] = NA_INTEGER; // remove answer
+	  
+	DataFrame all_estimates = Rcpp::DataFrame::create(Named("response.option") = response_options,
+                                                   Named("next.item") = items);
+	return Rcpp::List::create(Named("all.estimates") = all_estimates);
+}
+
 
 double Cat::findRoot() {
   estimator->findRoot();
@@ -181,6 +206,9 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 double Cat::expectedObsInf(int item) {
 	return estimator->expectedObsInf(item, prior);
 }
+
+
+
 
 
 

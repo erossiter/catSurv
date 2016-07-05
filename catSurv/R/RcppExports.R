@@ -119,6 +119,11 @@ selectItem <- function(cat_df) {
 }
 
 #' @export
+lookAhead <- function(cat_df, item) {
+    .Call('catSurv_lookAhead', PACKAGE = 'catSurv', cat_df, item)
+}
+
+#' @export
 expectedPV <- function(cat_df, item) {
     .Call('catSurv_expectedPV', PACKAGE = 'catSurv', cat_df, item)
 }

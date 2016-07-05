@@ -367,8 +367,7 @@ double Estimator::integrate_selectItem(const integrableFunction &function){
   
   
   
-  
-  
+
   
 
 

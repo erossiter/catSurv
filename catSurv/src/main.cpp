@@ -147,6 +147,13 @@ List selectItem(S4 cat_df) {
   return Cat(cat_df).selectItem();
 }
 
+//' @export
+// [[Rcpp::export]]
+List lookAhead(S4 cat_df, int item) {
+  item = item - 1.0;
+  return Cat(cat_df).lookAhead(item);
+}
+
 
 //' @export
 // [[Rcpp::export]]
@@ -181,6 +188,7 @@ double expectedObsInf(S4 cat_df, int item) {
 double findRoot(S4 cat_df) {
 	Cat(cat_df).findRoot();
 }
+
 
 
 //

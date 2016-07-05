@@ -13,6 +13,22 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+library(ltm)
+data("npi")
+binary_data <- npi[1:100,]
+binary_cat <- ltmCat(binary_data)
+binary_cat@answers <- rep(NA, length(binary_cat@guessing))
+binary_cat@answers[1:5] <- unlist(binary_data[1,1:5])
+binary_cat@selection <- "EPV"
+
+showCppCat(binary_cat)
+
+selectItem(binary_cat)
+lookAhead(binary_cat, 11)
+lookAhead(poly_cat, 1)
+
+ans_two
+ans_one
 
 
 ## fix tests:

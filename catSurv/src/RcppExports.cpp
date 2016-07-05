@@ -113,6 +113,18 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// lookAhead
+List lookAhead(S4 cat_df, int item);
+RcppExport SEXP catSurv_lookAhead(SEXP cat_dfSEXP, SEXP itemSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    Rcpp::traits::input_parameter< int >::type item(itemSEXP);
+    __result = Rcpp::wrap(lookAhead(cat_df, item));
+    return __result;
+END_RCPP
+}
 // expectedPV
 double expectedPV(S4 cat_df, int item);
 RcppExport SEXP catSurv_expectedPV(SEXP cat_dfSEXP, SEXP itemSEXP) {
