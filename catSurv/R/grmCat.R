@@ -40,25 +40,26 @@ setMethod(f="grmCat", signature="data.frame",
             ## coefficients is a list of parameter vectors, one vector for each question item
             ## the last element of each vector is discrimination; all elements before that are difficulty
             discrimination <- sapply(1:length(objects(coefficients)), function(i){
-              return(coefficients[[i]][length(coefficient[[i]])])
+              return(coefficients[[i]][length(coefficients[[i]])])
             })
             names(discrimination)<-names(coefficients)
             
-            difficulty <- sapply(1:length(objects(coefficients)), function(i){
-              return(coefficients[[i]][-length(coefficient[[i]])])
+            difficulty <- lapply(1:length(objects(coefficients)), function(i){
+              return(coefficients[[i]][-length(coefficients[[i]])])
             })
             names(difficulty)<-names(coefficients)
             
             
             
             ## check if parameters are out of expected range
-            if (any(discimination< -5) || any(discrimination>5)){
-              stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+            if (any(discrimination< -5) || any(discrimination>5)){
+              warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
             }
-            for (i in difficulty){
-              if (any(i< -5) || any(i>5)){
-                stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-              }}
+            for (i in 1:length(difficulty)){
+              if (any(difficulty[[i]]< -5) || any(difficulty[[i]]>5)){
+                warning(paste("Measurement model poorly estimated: difficulty values outside of [-5, 5];
+                        See question item: ", names(difficulty)[i]))
+                }}
             
             ## store those extracted parameters in the Cat
             object@discrimination <- discrimination
@@ -94,24 +95,25 @@ setMethod(f="grmCat", signature="grm",
             ## coefficients is a list of parameter vectors, one vector for each question item
             ## the last element of each vector is discrimination; all elements before that are difficulty
             discrimination <- sapply(1:length(objects(coefficients)), function(i){
-              return(coefficients[[i]][length(coefficient[[i]])])
+              return(coefficients[[i]][length(coefficients[[i]])])
             })
             names(discrimination)<-names(coefficients)
             
-            difficulty <- sapply(1:length(objects(coefficients)), function(i){
-              return(coefficients[[i]][-length(coefficient[[i]])])
+            difficulty <- lapply(1:length(objects(coefficients)), function(i){
+              return(coefficients[[i]][-length(coefficients[[i]])])
             })
             names(difficulty)<-names(coefficients)
             
             
             
             ## check if parameters are out of expected range
-            if (any(discimination< -5) || any(discrimination>5)){
-              stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+            if (any(discrimination< -5) || any(discrimination>5)){
+              warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
             }
-            for (i in difficulty){
-              if (any(i< -5) || any(i>5)){
-                stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
+            for (i in 1:length(difficulty)){
+              if (any(difficulty[[i]]< -5) || any(difficulty[[i]]>5)){
+                warning(paste("Measurement model poorly estimated: difficulty values outside of [-5, 5];
+                        See question item: ", names(difficulty)[i]))
               }}
             
             ## store those extracted parameters in the Cat

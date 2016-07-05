@@ -35,7 +35,7 @@ setMethod(f="tpmCat", signature="data.frame",
             } 
             
             ## run tpm function on the data
-            fit<-tpm(data~z1, control=list(GHk = quadraturePoints))
+            fit<-tpm(data, control=list(GHk = quadraturePoints))
             
             ## extract the parameters
             discrimination <- fit$coef[,"beta.2i"]
@@ -44,14 +44,14 @@ setMethod(f="tpmCat", signature="data.frame",
             names(difficulty) <- rownames(fit$coef)
             
             ## check if any parameters out of expected range:
-            if (any(discimination< -5) || any(discrimination>5)){
-              stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+            if (any(discrimination< -5) || any(discrimination>5)){
+              warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
             }
             if (any(difficulty< -5) || any(difficulty>5)){
-              stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
+              warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
             }
             if (any(guessing< 0) || any(guessing>1)){
-              stop("Measurement model poorly estimated: guessing values outside of [0, 1]")
+              warning("Measurement model poorly estimated: guessing values outside of [0, 1]")
             }
             
             ## store those extracted parameters in the Cat
@@ -88,14 +88,14 @@ setMethod(f="tpmCat", signature="tpm",
             
             
             ## check if any parameters out of expected range:
-            if (any(discimination< -5) || any(discrimination>5)){
-              stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+            if (any(discrimination< -5) || any(discrimination>5)){
+              warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
             }
             if (any(difficulty< -5) || any(difficulty>5)){
-              stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
+              warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
             }
             if (any(guessing< 0) || any(guessing>1)){
-              stop("Measurement model poorly estimated: guessing values outside of [0, 1]")
+              warning("Measurement model poorly estimated: guessing values outside of [0, 1]")
             }
             
             ## store those extracted parameters in the Cat
