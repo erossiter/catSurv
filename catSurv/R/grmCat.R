@@ -20,7 +20,7 @@
 #' @seealso \code{\link{ltmCat}},\code{\link{nextItem}}, \code{\link{question.path}}
 #' @rdname grmCat
 #' @export
-setGeneric("grmCat", function(data, object=NULL, quadraturePoints = 15 ...){standardGeneric("grmCat")})
+setGeneric("grmCat", function(data, object=NULL, quadraturePoints = 15, ...){standardGeneric("grmCat")})
 
 #' @export
 setMethod(f="grmCat", signature="data.frame",
@@ -52,11 +52,11 @@ setMethod(f="grmCat", signature="data.frame",
             
             
             ## check if parameters are out of expected range
-            if any(discimination< -5) || any(discrimination>5){
+            if (any(discimination< -5) || any(discrimination>5)){
               stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
             }
             for (i in difficulty){
-              if any(i< -5) || any(i>5){
+              if (any(i< -5) || any(i>5)){
                 stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
               }}
             
@@ -106,11 +106,11 @@ setMethod(f="grmCat", signature="grm",
             
             
             ## check if parameters are out of expected range
-            if any(discimination< -5) || any(discrimination>5){
+            if (any(discimination< -5) || any(discrimination>5)){
               stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
             }
             for (i in difficulty){
-              if any(i< -5) || any(i>5){
+              if (any(i< -5) || any(i>5)){
                 stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
               }}
             

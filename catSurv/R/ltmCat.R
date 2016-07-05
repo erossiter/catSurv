@@ -43,10 +43,10 @@ setMethod(f="ltmCat", signature("data.frame"), ## if 'data' is class 'data.frame
             names(difficulty) <- rownames(fit$coef)
             
             ## check if parameters are out of expected range
-            if any(discimination< -5) || any(discrimination>5){
+            if (any(discimination< -5) || any(discrimination>5)){
               stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
             }
-            if any(difficulty< -5) || any(difficulty>5){
+            if (any(difficulty< -5) || any(difficulty>5)){
               stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
             }
             
@@ -83,10 +83,10 @@ setMethod(f="ltmCat", signature("ltm"),
             names(difficulty) <- rownames(fit$coef)
             
             ## check if parameters are out of expected range
-            if any(discimination< -5) || any(discrimination>5){
+            if (any(discimination< -5) || any(discrimination>5)){
               stop("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
             }
-            if any(difficulty< -5) || any(difficulty>5){
+            if (any(difficulty< -5) || any(difficulty>5)){
               stop("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
             }
             
