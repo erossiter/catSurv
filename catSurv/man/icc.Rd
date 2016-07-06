@@ -4,7 +4,7 @@
 \alias{icc}
 \title{Plotting Item Characteristic Curves (ICC)}
 \usage{
-icc(object, theta_range, question, ...)
+icc(object, theta_range = seq(-3, 3, 0.1), question, ...)
 }
 \arguments{
 \item{object}{A \code{Cat} object}

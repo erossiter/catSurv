@@ -13,11 +13,11 @@
 #'}
 #' @rdname icc
 #' @export
-setGeneric("icc", function(object, theta_range, question, ...){standardGeneric("icc")})
+setGeneric("icc", function(object, theta_range = seq(-3, 3, .1), question, ...){standardGeneric("icc")})
 
 #' @export
 setMethod(f="icc", signature="Cat",
-          definition=function(object, theta_range = seq(-3, 3, .1), question, ...){
+          definition=function(object, theta_range, question, ...){
             if(!is.null(object)) if(class(object)!="Cat") stop("object is not class Cat")
             
             prob_given_theta <- function(i){
