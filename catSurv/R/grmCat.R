@@ -82,6 +82,7 @@ setMethod(f="grmCat", signature="data.frame",
 
 setMethod(f="grmCat", signature="grm",
           definition=function(data, object, quadraturePoints,...){
+            require(ltm)
             if(is.null(object)){ ## if no Cat object provided, create a new Cat
               object<-new("Cat")
             }
