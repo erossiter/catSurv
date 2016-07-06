@@ -4,12 +4,12 @@
 \alias{grmCat}
 \title{Computerized Adaptive Testing Graded Response Model}
 \usage{
-grmCat(data, object = NULL, quadraturePoints = 15, ...)
+grmCat(data, quadraturePoints = 15, ...)
 }
 \arguments{
 \item{data}{a \code{data.frame} or a numeric \code{matrix} of manifest variables.}
 
-\item{object}{an object of class \code{Cat} to be populated. If omitted, a new object of class \code{Cat} is created.}
+\item{quadraturePoints}{a single numeric value to be passed into the grm function}
 
 \item{...}{arguments to be passed to methods. For more details about the arguments, see \code{\link{grm}}.
 
