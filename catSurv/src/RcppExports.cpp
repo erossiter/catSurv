@@ -175,15 +175,37 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// kl
-double kl(S4 cat_df, int item);
-RcppExport SEXP catSurv_kl(SEXP cat_dfSEXP, SEXP itemSEXP) {
+// expectedKL
+double expectedKL(S4 cat_df, int item);
+RcppExport SEXP catSurv_expectedKL(SEXP cat_dfSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
     Rcpp::traits::input_parameter< int >::type item(itemSEXP);
-    __result = Rcpp::wrap(kl(cat_df, item));
+    __result = Rcpp::wrap(expectedKL(cat_df, item));
+    return __result;
+END_RCPP
+}
+// observedTestInfo
+double observedTestInfo(S4 cat_df);
+RcppExport SEXP catSurv_observedTestInfo(SEXP cat_dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    __result = Rcpp::wrap(observedTestInfo(cat_df));
+    return __result;
+END_RCPP
+}
+// fisherTestInfo
+double fisherTestInfo(S4 cat_df);
+RcppExport SEXP catSurv_fisherTestInfo(SEXP cat_dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    __result = Rcpp::wrap(fisherTestInfo(cat_df));
     return __result;
 END_RCPP
 }

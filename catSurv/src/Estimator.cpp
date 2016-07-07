@@ -116,7 +116,7 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 
 	double sum = 0;
 	for (size_t i = 1; i < question_cdf.size(); ++i) {
-	  // filling in variances[i-1] for indexing purposes
+	  // getting variances[i-1] for indexing purposes
 		sum += variances[i-1] * (question_cdf[i] - question_cdf[i - 1]);
 	}
 	
@@ -238,7 +238,6 @@ double Estimator::expectedObsInf(int item, Prior &prior) {
 		questionSet.answers[item] = NA_INTEGER;
 		questionSet.applicable_rows.pop_back();
 
-	//for(size_t i = 0; i < question_cdf.size() -1; ++i){
 	for (size_t i = 1; i < question_cdf.size(); ++i) {
 			sum += obsInfs[i-1] * (question_cdf[i] - question_cdf[i - 1]);
 		}
@@ -333,6 +332,27 @@ double Estimator::brentMethod(integrableFunction const &function) {
   return r;
 }
   
+  
+double Estimator::fisherTestInfo(Prior prior) {
+  double theta = estimateTheta(prior);
+  double sum = 0.0;
+  for (auto item : questionSet.applicable_rows) {
+    sum += fisherInf(theta, item);
+  }
+  return sum;
+}
+
+double Estimator::observedTestInfo(Prior prior) {
+  double theta = estimateTheta(prior);
+  double sum = 0.0;
+  for (auto item : questionSet.applicable_rows) {
+    sum += obsInf(theta, item);
+  }
+  return sum;
+}
+  
+    
+
 
 /**
  * pwi(), lwi(), and expectedKL() define the integration that needs to be
@@ -358,33 +378,23 @@ double Estimator::lwi(int item) {
 }
 
 
+double Estimator::expectedKL(int item, Prior prior) {
+	
+	integrableFunction kl_poly = [&](double theta_not) {
+	  auto cdf_theta_not = paddedProbability(theta_not, (size_t) item);
+	  auto cdf_theta_hat = paddedProbability(estimateTheta(prior), (size_t) item);
+	  
+	  double sum = 0.0;
+	  for (size_t i = 1; i < cdf_theta_hat.size(); ++i) {
+	    double prob_theta_not = cdf_theta_not[i] - cdf_theta_not[i - 1];
+	    double prob_theta_hat = cdf_theta_hat[i] - cdf_theta_hat[i - 1];
+	    sum += prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
+	  }
+	   return sum; 
+  };
 
-double Estimator::kl(int item, Prior prior) {
-  // // this would test against catIrt KL()
-  // double theta_one = estimateTheta(prior) + .1;
-  // double theta_two = estimateTheta(prior) - .1;
-  // 
-  // const double prob_theta_two = probability(theta_two, (size_t) item)[0];
-  // const double prob_theta_one = probability(theta_one, (size_t) item)[0];
-  //   
-  // double first_term = prob_theta_two * (log(prob_theta_two) - log(prob_theta_one));
-  // double second_term = (1 - prob_theta_two) * (log(1 - prob_theta_two) - log(1 - prob_theta_one));
-  // 
-  // return first_term + second_term;
-  
-  // // This is what I think ours should be
-  // integrableFunction kl_j = [&](double theta_not) {
-  //   const double prob_theta_not = probability(theta_not, (size_t) item)[0];
-  //   const double prob_theta_hat = probability(estimateTheta(prior), (size_t) item)[0];
-  // 
-  //   double first_term = prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
-  //   double second_term = (1 - prob_theta_not) * (log(1 - prob_theta_not) - log(1 - prob_theta_hat));
-  // 
-  //   return first_term + second_term;
-  // };
-  
-  // This is an attempt to replicate theirs
-  integrableFunction kl_j = [&](double theta_not) {
+	
+  integrableFunction kl_binary = [&](double theta_not) {
     const double prob_theta_not = probability(theta_not, (size_t) item)[0];
     const double prob_theta_hat = probability(estimateTheta(prior), (size_t) item)[0];
 
@@ -393,84 +403,32 @@ double Estimator::kl(int item, Prior prior) {
 
     return first_term + second_term;
   };
+  
+  //double delta = questionSet.z[0]; //finish this
+  
+  const double lower = -4.0; //estimateTheta(prior) - delta;
+  const double upper = 4.0; //estimateTheta(prior) + delta;
 
-  integrate_selectItem(kl_j);
+  return questionSet.poly[0] ? integrate_selectItem_bounds(kl_poly, lower, upper) :
+    integrate_selectItem_bounds(kl_binary, lower, upper);
 }
-  
-  
-  
-//   integrableFunction kl = [&](double true_theta) {
-// 		return log(likelihood(true_theta));
-// 	};
-// 
-//   const double probability_correct = probability(estimateTheta(prior), (size_t) item)[0];
-//   questionSet.applicable_rows.push_back(item);
-// 
-//   questionSet.answers[item] = 1;
-//   double ans_one = integrate_selectItem(kl);
-// 
-//   questionSet.answers[item] = 0;
-//   double ans_zero = integrate_selectItem(kl);
-// 
-// 	questionSet.applicable_rows.pop_back();
-// 	questionSet.answers[item] = NA_INTEGER;
-// 
-// 	double first_term = probability_correct * (ans_one - log(likelihood(estimateTheta(prior))));
-// 	double second_term = (1 - probability_correct) * (ans_zero - log(likelihood(estimateTheta(prior))));
-// 
-// 	return first_term + second_term;
-// }
-  
-  
-  
-  
-//   const double probability_correct = probability(estimateTheta(prior), (size_t) item)[0];
-//   questionSet.applicable_rows.push_back(item); // add item to set of answered items
-// 
-// 	integrableFunction kl_one = [&](double true_theta) {
-// 	  questionSet.answers[item] = 1;
-// 		return log(likelihood(true_theta));
-// 	};
-// 
-// 	integrableFunction kl_zero = [&](double true_theta) {
-// 	  questionSet.answers[item] = 0;
-// 		return log(likelihood(true_theta));
-// 	};
-// 
-// 	questionSet.applicable_rows.pop_back();
-// 	questionSet.answers[item] = NA_INTEGER;
-// 
-// 	double first_term = (probability_correct * integrate_selectItem(kl_one)) - log(likelihood(estimateTheta(prior)));
-// 	double second_term = ((1 - probability_correct) * integrate_selectItem(kl_zero)) - log(likelihood(estimateTheta(prior)));
-// 
-// 	return first_term + second_term;
 
-//   integrableFunction kl_j = [&](double true_theta) {
-//     const double probability_correct = probability(estimateTheta(prior), (size_t) item)[0];
-//     questionSet.applicable_rows.push_back(item);
-// 
-// 	  questionSet.answers[item] = 1;
-// 		double ans_one = log(likelihood(true_theta));
-// 
-// 	  questionSet.answers[item] = 0;
-// 		double ans_zero = log(likelihood(true_theta));
-// 
-//   	questionSet.applicable_rows.pop_back();
-// 	  questionSet.answers[item] = NA_INTEGER;
-// 
-// 	  double first_term = (probability_correct * ans_one) - log(likelihood(estimateTheta(prior)));
-// 	  double second_term = ((1 - probability_correct) * ans_zero) - log(likelihood(estimateTheta(prior)));
-// 
-// 	  return first_term + second_term;
-//   };
-// 
-//   return integrate_selectItem(kl_j);
+
+
+
+
 
 
   
 double Estimator::integrate_selectItem(const integrableFunction &function){
   gsl_function *f = GSLFunctionWrapper(function).asGSLFunction();
 	const double answer_j = integrator.integrate(f, integrationSubintervals);
+	return answer_j;
+}
+
+double Estimator::integrate_selectItem_bounds(const integrableFunction &function, const double lower, const double upper){
+  gsl_function *f = GSLFunctionWrapper(function).asGSLFunction();
+	const double answer_j = integrator.integrate(f, integrationSubintervals, lower, upper);
 	return answer_j;
 }
   

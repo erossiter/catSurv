@@ -144,8 +144,18 @@ expectedObsInf <- function(cat_df, item) {
 }
 
 #' @export
-kl <- function(cat_df, item) {
-    .Call('catSurv_kl', PACKAGE = 'catSurv', cat_df, item)
+expectedKL <- function(cat_df, item) {
+    .Call('catSurv_expectedKL', PACKAGE = 'catSurv', cat_df, item)
+}
+
+#' @export
+observedTestInfo <- function(cat_df) {
+    .Call('catSurv_observedTestInfo', PACKAGE = 'catSurv', cat_df)
+}
+
+#' @export
+fisherTestInfo <- function(cat_df) {
+    .Call('catSurv_fisherTestInfo', PACKAGE = 'catSurv', cat_df)
 }
 
 #' @export

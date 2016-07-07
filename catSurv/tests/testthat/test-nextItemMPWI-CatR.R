@@ -16,7 +16,7 @@ test_that("nextItemMPWI calculates correctly", {
                   cat_coefs[,1],
                   binary_cat@guessing,
                   rep(1, length(binary_cat@guessing))), ncol = 4)
-        
+
       
         ## excluding people that have a question with NA
         exclude_people <- which(sapply(1:100, function(x) any(is.na(binary_data[x, ]))))

@@ -45,7 +45,11 @@ public:
 
 	std::vector<double> probability(double theta, int question);
 	
-	double kl(int item);
+	double expectedKL(int item);
+	
+	double fisherTestInfo();
+	
+	double observedTestInfo();
 
 private:
 

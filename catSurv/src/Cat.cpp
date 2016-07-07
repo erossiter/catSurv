@@ -207,8 +207,16 @@ double Cat::expectedObsInf(int item) {
 	return estimator->expectedObsInf(item, prior);
 }
 
-double Cat::kl(int item) {
-	return estimator->kl(item, prior);
+double Cat::expectedKL(int item) {
+	return estimator->expectedKL(item, prior);
+}
+
+double Cat::fisherTestInfo() {
+	return estimator->fisherTestInfo(prior);
+}
+
+double Cat::observedTestInfo() {
+	return estimator->observedTestInfo(prior);
 }
 
 

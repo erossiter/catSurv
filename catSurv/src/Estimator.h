@@ -40,11 +40,15 @@ public:
 	
 	double findRoot();
 	
+	double fisherTestInfo(Prior prior);
+	
+	double observedTestInfo(Prior prior);
+	
 	double pwi(int item, Prior prior);
 	
 	double lwi(int item);
 	
-	double kl(int item, Prior prior);
+	double expectedKL(int item, Prior prior);
 
 protected:
 	const Integrator &integrator;
@@ -74,6 +78,8 @@ protected:
 	double brentMethod(const integrableFunction &function);
 	
 	double integrate_selectItem(const integrableFunction &function);
+	
+	double integrate_selectItem_bounds(const integrableFunction &function, const double lower, const double upper);
 
 private:
 	/**

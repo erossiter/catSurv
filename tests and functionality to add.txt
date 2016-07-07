@@ -2,6 +2,12 @@
 
 - We need to make it possible that when an answer says -1 (vs NA) the software recognizes that as the person chose not to answer the question.
 
+- We need to deal with what happens for many of these functions when no item has been asked yet.
+
+- Need to make sure all the while loops have a max number of iterations.. 200 would be good
+
+- Need to work through MAP estimates and SE using alternative priors
+
 
 Debug for Alex:
 - Right now the Brent method has initial search interval set at [-5,5] because it was crashing R on the test dataset when set at [-6,6].  We need it to send an error/not crash when set at [-6,6].

@@ -185,10 +185,23 @@ double expectedObsInf(S4 cat_df, int item) {
 
 //' @export
 // [[Rcpp::export]]
-double kl(S4 cat_df, int item) {
+double expectedKL(S4 cat_df, int item) {
   item = item - 1;
-	return Cat(cat_df).kl(item);
+	return Cat(cat_df).expectedKL(item);
 }
+
+//' @export
+// [[Rcpp::export]]
+double observedTestInfo(S4 cat_df) {
+	return Cat(cat_df).observedTestInfo();
+}
+
+//' @export
+// [[Rcpp::export]]
+double fisherTestInfo(S4 cat_df) {
+	return Cat(cat_df).fisherTestInfo();
+}
+
 
 //' @export
 // [[Rcpp::export]]
