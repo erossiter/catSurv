@@ -89,7 +89,6 @@ double Estimator::estimateSE(Prior prior) {
 
 double Estimator::integralQuotient(integrableFunction const &numerator,
                                    integrableFunction const &denominator) {
-
 	/*
 	 * Because GSL is a C library, not a C++ library, it is not easy to pass arbitrary
 	 * C++ functions to GSL's integration routine. To solve this, wrap the arbitrary functions
@@ -106,7 +105,7 @@ double Estimator::integralQuotient(integrableFunction const &numerator,
 double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
   auto question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
   
-  questionSet.applicable_rows.push_back(item); // add item to set of answered items
+  questionSet.applicable_rows.push_back(item);
   
 	std::vector<double> variances;
 	for (size_t i = 0; i <= questionSet.difficulty[item].size(); ++i) {
@@ -116,7 +115,6 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 
 	double sum = 0;
 	for (size_t i = 1; i < question_cdf.size(); ++i) {
-	  // getting variances[i-1] for indexing purposes
 		sum += variances[i-1] * (question_cdf[i] - question_cdf[i - 1]);
 	}
 	
@@ -127,7 +125,7 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 double Estimator::binary_posterior_variance(int item, Prior &prior) {
   const double probability_incorrect = probability(estimateTheta(prior), (size_t) item)[0];
   
-  questionSet.applicable_rows.push_back(item); // add item to set of answered items
+  questionSet.applicable_rows.push_back(item);
   
 	questionSet.answers[item] = 1;
 	double variance_correct = pow(estimateSE(prior), 2);
@@ -142,7 +140,7 @@ double Estimator::binary_posterior_variance(int item, Prior &prior) {
 
 double Estimator::expectedPV(int item, Prior &prior) {
   double result = questionSet.poly[0] ? polytomous_posterior_variance(item, prior) : binary_posterior_variance(item, prior);
-	questionSet.answers[item] = NA_INTEGER; // remove answer
+	questionSet.answers[item] = NA_INTEGER;
 	return result;
 }
 
@@ -197,7 +195,6 @@ double Estimator::fisherInf(double theta, int item) {
 	double output = 0.0;
 	auto probabilities = paddedProbability(theta, (size_t) item);
 
-
 	double discrimination_squared = pow(questionSet.discrimination[item], 2);
 	for (size_t i = 1; i <= questionSet.difficulty[item].size() + 1; ++i) {
 		double P_star1 = probabilities[i];
@@ -223,7 +220,7 @@ std::vector<double> Estimator::paddedProbability(double theta, size_t question) 
 }
 
 double Estimator::expectedObsInf(int item, Prior &prior) {
-  // for the categorical case
+
 	if (questionSet.poly[0]){
 	  std::vector<double> question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
 	  questionSet.applicable_rows.push_back(item);
@@ -243,8 +240,7 @@ double Estimator::expectedObsInf(int item, Prior &prior) {
 		}
 		return sum;
 	}
-	
-	// for the binary case
+
 	double prob_one = probability(estimateTheta(prior), (size_t) item)[0];
 	questionSet.applicable_rows.push_back(item);
 	
@@ -341,22 +337,10 @@ double Estimator::fisherTestInfo(Prior prior) {
   }
   return sum;
 }
-
-double Estimator::observedTestInfo(Prior prior) {
-  double theta = estimateTheta(prior);
-  double sum = 0.0;
-  for (auto item : questionSet.applicable_rows) {
-    sum += obsInf(theta, item);
-  }
-  return sum;
-}
   
-    
-
-
 /**
- * pwi(), lwi(), and expectedKL() define the integration that needs to be
- * performed for each question, their respective selectItem()
+ * pwi(), lwi(), and all kl functions define the integration that needs to be
+ * performed for each question that their respective selectItem()
  * function will call in a loop
  */
 double Estimator::pwi(int item, Prior prior) {
@@ -378,10 +362,10 @@ double Estimator::lwi(int item) {
 }
 
 
-double Estimator::expectedKL(int item, Prior prior) {
-	
-	integrableFunction kl_poly = [&](double theta_not) {
-	  auto cdf_theta_not = paddedProbability(theta_not, (size_t) item);
+double Estimator::kl(double theta_not, int item, Prior prior){
+  
+  if(questionSet.poly[0]){
+    auto cdf_theta_not = paddedProbability(theta_not, (size_t) item);
 	  auto cdf_theta_hat = paddedProbability(estimateTheta(prior), (size_t) item);
 	  
 	  double sum = 0.0;
@@ -390,59 +374,60 @@ double Estimator::expectedKL(int item, Prior prior) {
 	    double prob_theta_hat = cdf_theta_hat[i] - cdf_theta_hat[i - 1];
 	    sum += prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
 	  }
-	   return sum; 
-  };
-
-	
-  integrableFunction kl_binary = [&](double theta_not) {
-    const double prob_theta_not = probability(theta_not, (size_t) item)[0];
-    const double prob_theta_hat = probability(estimateTheta(prior), (size_t) item)[0];
-
-    double first_term = prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
-    double second_term = (1 - prob_theta_not) * (log(1 - prob_theta_not) - log(1 - prob_theta_hat));
-
-    return first_term + second_term;
-  };
+	  return sum; 
+	}
   
-  //double delta = questionSet.z[0]; //finish this
-  
-  const double lower = -4.0; //estimateTheta(prior) - delta;
-  const double upper = 4.0; //estimateTheta(prior) + delta;
+  const double prob_theta_not = probability(theta_not, (size_t) item)[0];
+  const double prob_theta_hat = probability(estimateTheta(prior), (size_t) item)[0];
 
-  return questionSet.poly[0] ? integrate_selectItem_bounds(kl_poly, lower, upper) :
-    integrate_selectItem_bounds(kl_binary, lower, upper);
+  double first_term = prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
+  double second_term = (1 - prob_theta_not) * (log(1 - prob_theta_not) - log(1 - prob_theta_hat));
+
+  return first_term + second_term;
 }
 
 
-
-
-
-
-
+double Estimator::expectedKL(int item, Prior prior) {
+	
+	integrableFunction kl_fctn = [&](double theta_not) {
+	  return kl(theta_not, item, prior);
+  };
   
+  double delta = questionSet.z[0] * pow(fisherTestInfo(prior), 0.5);
+  
+  const double lower = estimateTheta(prior) - delta;
+  const double upper = estimateTheta(prior) + delta;
+
+  return integrate_selectItem_bounds(kl_fctn, lower, upper);
+}
+
+
+double Estimator::likelihoodKL(int item, Prior prior) {
+	
+	integrableFunction kl_fctn = [&](double theta_not) {
+	  return likelihood(theta_not) * kl(theta_not, item, prior);
+  };
+
+  return integrate_selectItem(kl_fctn);
+}
+
+
+double Estimator::posteriorKL(int item, Prior prior) {
+	
+	integrableFunction kl_fctn = [&](double theta_not) {
+	  return prior.prior(theta_not) * likelihood(theta_not) * kl(theta_not, item, prior);
+  };
+
+  return integrate_selectItem(kl_fctn);
+}
+
+
 double Estimator::integrate_selectItem(const integrableFunction &function){
   gsl_function *f = GSLFunctionWrapper(function).asGSLFunction();
-	const double answer_j = integrator.integrate(f, integrationSubintervals);
-	return answer_j;
+	return integrator.integrate(f, integrationSubintervals);
 }
 
 double Estimator::integrate_selectItem_bounds(const integrableFunction &function, const double lower, const double upper){
   gsl_function *f = GSLFunctionWrapper(function).asGSLFunction();
-	const double answer_j = integrator.integrate(f, integrationSubintervals, lower, upper);
-	return answer_j;
+  return integrator.integrate(f, integrationSubintervals, lower, upper);
 }
-  
-  
-  
-  
-
-  
-
-
-  
-
-
-
-
-
-

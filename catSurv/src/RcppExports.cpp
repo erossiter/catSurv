@@ -187,14 +187,27 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// observedTestInfo
-double observedTestInfo(S4 cat_df);
-RcppExport SEXP catSurv_observedTestInfo(SEXP cat_dfSEXP) {
+// likelihoodKL
+double likelihoodKL(S4 cat_df, int item);
+RcppExport SEXP catSurv_likelihoodKL(SEXP cat_dfSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
-    __result = Rcpp::wrap(observedTestInfo(cat_df));
+    Rcpp::traits::input_parameter< int >::type item(itemSEXP);
+    __result = Rcpp::wrap(likelihoodKL(cat_df, item));
+    return __result;
+END_RCPP
+}
+// posteriorKL
+double posteriorKL(S4 cat_df, int item);
+RcppExport SEXP catSurv_posteriorKL(SEXP cat_dfSEXP, SEXP itemSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    Rcpp::traits::input_parameter< int >::type item(itemSEXP);
+    __result = Rcpp::wrap(posteriorKL(cat_df, item));
     return __result;
 END_RCPP
 }

@@ -47,9 +47,11 @@ public:
 	
 	double expectedKL(int item);
 	
-	double fisherTestInfo();
+	double likelihoodKL(int item);
 	
-	double observedTestInfo();
+	double posteriorKL(int item);
+	
+	double fisherTestInfo();
 
 private:
 

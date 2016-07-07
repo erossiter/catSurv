@@ -192,9 +192,18 @@ double expectedKL(S4 cat_df, int item) {
 
 //' @export
 // [[Rcpp::export]]
-double observedTestInfo(S4 cat_df) {
-	return Cat(cat_df).observedTestInfo();
+double likelihoodKL(S4 cat_df, int item) {
+  item = item - 1;
+	return Cat(cat_df).likelihoodKL(item);
 }
+
+//' @export
+// [[Rcpp::export]]
+double posteriorKL(S4 cat_df, int item) {
+  item = item - 1;
+	return Cat(cat_df).posteriorKL(item);
+}
+
 
 //' @export
 // [[Rcpp::export]]
@@ -211,196 +220,3 @@ double findRoot(S4 cat_df) {
 
 
 
-
-//
-//List nextItemMLWI(Cat &cat) {
-//	std::vector<double> LWI;
-//	std::vector<double> Like_X;
-//	double max_LWI = 0.0;
-//	int max_item = -1;
-//
-//	for (unsigned int i = 0; i < cat.X.size(); ++i) {
-//		Like_X.push_back(likelihood(cat, cat.X[i], cat.applicable_rows));
-//	}
-//	for (unsigned int i = 0; i < cat.nonapplicable_rows.size(); ++i) {
-//		int item = cat.nonapplicable_rows[i];
-//		std::vector<double> Like_FI;
-//
-//		for (unsigned int j = 0; j < cat.X.size(); ++j) {
-//			Like_FI.push_back(Like_X[j] * fisherInf(cat, item - 1, cat.X[j]));
-//		}
-//		double this_LWI = trapezoidal_integration(cat.X, Like_FI);
-//		if (this_LWI > max_LWI) {
-//			max_LWI = this_LWI;
-//			max_item = item;
-//		}
-//		LWI.push_back(this_LWI);
-//	}
-//
-//	DataFrame all_estimates = DataFrame::create(Named("questions") = cat.nonapplicable_rows, Named("LWI") = LWI);
-//	NumericVector next_item = wrap(max_item);
-//	return List::create(Named("all.estimates") = all_estimates, Named("next.item") = next_item);
-//}
-//
-//List nextItemMPWI(Cat &cat) {
-//	std::vector<double> PWI, Like_X, Prior_X;
-//	double max_PWI = 0.0;
-//	int max_item = -1;
-//
-//	Rcpp::Rcout << "before" << std::endl;
-//	for (unsigned int i = 0; i < cat.X.size(); ++i) {
-//		Like_X.push_back(likelihood(cat, cat.X[i], cat.applicable_rows));
-//		Prior_X.push_back(prior(cat.X[i], cat.priorEnumToString(), cat.prior_params));
-//	}
-//	Rcpp::Rcout << "after" << std::endl;
-//
-//	for (unsigned int i = 0; i < cat.nonapplicable_rows.size(); ++i) {
-//		int item = cat.nonapplicable_rows[i];
-//		std::vector<double> Prior_Like_FI;
-//
-//		for (unsigned int j = 0; j < cat.X.size(); ++j) {
-//			Prior_Like_FI.push_back(Prior_X[j] * Like_X[j] * fisherInf(cat, item - 1, cat.X[j]));
-//		}
-//
-//		double this_PWI = trapezoidal_integration(cat.X, Prior_Like_FI);
-//		if (this_PWI > max_PWI) {
-//			max_PWI = this_PWI;
-//			max_item = item;
-//		}
-//		PWI.push_back(this_PWI);
-//	}
-//
-//	DataFrame all_estimates = DataFrame::create(Named("questions") = cat.nonapplicable_rows, Named("PWI") = PWI);
-//	NumericVector next_item = wrap(max_item);
-//	return List::create(Named("all.estimates") = all_estimates, Named("next.item") = next_item);
-//}
-//
-//List nextItemMEI(Cat &cat) {
-//	std::vector<double> EI;
-//	double max_EI = 0.0;
-//	int max_item = -1;
-//	for (unsigned int i = 0; i < cat.nonapplicable_rows.size(); ++i) {
-//		int item = cat.nonapplicable_rows[i];
-//		double this_EI = expectedObsInf(cat, item - 1);
-//		if (this_EI > max_EI) {
-//			max_EI = this_EI;
-//			max_item = item;
-//		}
-//		EI.push_back(this_EI);
-//	}
-//
-//	DataFrame all_estimates = DataFrame::create(Named("questions") = cat.nonapplicable_rows, Named("EI") = EI);
-//	NumericVector next_item = wrap(max_item);
-//	return List::create(Named("all.estimates") = all_estimates, Named("next.item") = next_item);
-//
-//}
-//
-//double expectedObsInf(Cat & cat, int item){
-//	double sum = 0.0;
-//	cat.applicable_rows.push_back(item);
-//	if(cat.poly){
-//		std::vector<double> obsInfs;
-//		for(unsigned int i = 0; i <= cat.poly_difficulty[item].size(); ++i){
-//			cat.answers[item] = i + 1;
-//			obsInfs.push_back(obsInf(cat, item, estimateTheta(cat)));
-//		}
-//		cat.answers[item] = NA_INTEGER;
-//		cat.applicable_rows.pop_back();
-//
-//		std::vector<double> question_cdf;
-//		question_cdf.push_back(1.0);
-//		probability(cat, estimateTheta(cat), item, question_cdf);
-//		question_cdf.push_back(0.0);
-//		for(unsigned int i = 0; i < question_cdf.size() -1; ++i){
-//			sum += obsInfs[i] * (question_cdf[i] - question_cdf[i+1]);
-//		}
-//	}
-//	else{
-//		cat.answers[item] = 0;
-//		double obsInfZero = obsInf(cat, item, estimateTheta(cat));
-//		cat.answers[item] = 1;
-//		double obsInfOne = obsInf(cat, item, estimateTheta(cat));
-//		cat.applicable_rows.pop_back();
-//		cat.answers[item] = NA_INTEGER;
-//		double prob_one = probability(cat, estimateTheta(cat), item);
-//		sum = ((1.0 - prob_one) * obsInfZero) + (prob_one + obsInfOne);
-//	}
-//	return sum;
-//}
-
-//double obsInf(Cat & cat, int item, double theta){
-//	if(cat.applicable_rows.size() == 0){
-//		Rcpp::Rcout << "ObsInf should not be called if no items have been answered." << std::endl;
-//		throw -1;
-//	}
-//	double output = 0.0;
-//	if(cat.poly){
-//		int index_k = cat.answers[item];
-//		std::vector<double> probs;
-//		probs.push_back(1.0);
-//		probability(cat, theta, item, probs);
-//		probs.push_back(0.0);
-//		double P_star1 = probs[index_k];
-//		double Q_star1 = 1.0 - P_star1;
-//		double P_star2 = probs[index_k-1];
-//		double Q_star2 = 1.0 - P_star2;
-//		double P = P_star2 - P_star1;
-//		double w2 = P_star2 * Q_star2;
-//		double w1 = P_star1 * Q_star1;
-//		output = -(cat.discrimination[item] * cat.discrimination[item]) * (((-w1 * (Q_star1 - P_star1)
-//		                                                                     + w2 * (Q_star2 - P_star2)) / P) - (((w2 - w1) * (w2 - w1)) / (P*P)));
-//	}
-//	else{
-//		double P = probability(cat, theta, item);
-//		double Q = 1.0 - P;
-//		double temp = ((P - cat.guessing[item]) / (1.0 - cat.guessing[item]));
-//		temp *= temp;
-//		output = (cat.discrimination[item] * cat.discrimination[item]) * temp * (Q / P);
-//	}
-//	return output;
-//}
-//
-//double fisherInf(Cat & cat, int item, double theta){
-//	double output = 0.0;
-//	if(cat.poly){
-//		std::vector<double> probs;
-//		probs.push_back(1.0);
-//		probability(cat, theta, item, probs);
-//		probs.push_back(0.0);
-//		for(unsigned int i = 1; i <= cat.poly_difficulty[item].size(); ++i){
-//			double P_star1 = probs[i];
-//			double Q_star1 = 1.0 - P_star1;
-//			double P_star2 = probs[i-1];
-//			double Q_star2 = 1.0 - P_star2;
-//			double w2 = P_star2 * Q_star2;
-//			double w1 = P_star1 * Q_star1;
-//			output += (cat.discrimination[item] * cat.discrimination[item]) *(((w2 - w1) * (w2 - w1))
-//			                                                                  / (P_star2- P_star1));
-//		}
-//	}
-//	else{
-//		double P = probability(cat, theta, item);
-//		double Q = 1.0 - P;
-//		double temp = (P - cat.guessing[item]) / (1.0 - cat.guessing[item]);
-//		temp *= temp;
-//		output = (cat.discrimination[item] * cat.discrimination[item]) * temp * (Q / P);
-//	}
-//	return output;
-//}
-//
-
-// TODO
-//// [[Rcpp::export]]
-//double obsInf(S4 cat_df, int item, double theta){
-//	//Cat cat = Cat(cat_df);
-//	//return obsInf(cat, item, theta);
-//	return 0;
-//}
-//
-//// TODO
-//// [[Rcpp::export]]
-//double fisherInf(S4 cat_df, int item, double theta){
-////	Cat cat = Cat(cat_df);
-////	return fisherInf(cat, item, theta);
-//	return 0;
-//}

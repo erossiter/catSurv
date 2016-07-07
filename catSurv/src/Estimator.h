@@ -42,13 +42,15 @@ public:
 	
 	double fisherTestInfo(Prior prior);
 	
-	double observedTestInfo(Prior prior);
-	
 	double pwi(int item, Prior prior);
 	
 	double lwi(int item);
 	
 	double expectedKL(int item, Prior prior);
+	
+	double likelihoodKL(int item, Prior prior);
+	
+	double posteriorKL(int item, Prior prior);
 
 protected:
 	const Integrator &integrator;
@@ -59,6 +61,8 @@ protected:
 	double polytomous_likelihood(double theta);
 
 	double binary_likelihood(double theta);
+	
+	double kl(double theta_not, int item, Prior prior);
 
 	/**
 	 * GSL's integration library requires a function taking a double (and, optionally, a void pointer),

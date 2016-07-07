@@ -9,6 +9,9 @@
 #include "MFISelector.h"
 #include "MPWISelector.h"
 #include "MLWISelector.h"
+#include "KLSelector.h"
+#include "LKLSelector.h"
+#include "PKLSelector.h"
 
 using namespace Rcpp;
 
@@ -198,6 +201,18 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 	if (selection_type == "MLWI") {
 		return std::unique_ptr<MLWISelector>(new MLWISelector(questionSet, estimator, prior));
 	}
+	
+	if (selection_type == "KL") {
+		return std::unique_ptr<KLSelector>(new KLSelector(questionSet, estimator, prior));
+	}
+	
+	if (selection_type == "LKL") {
+		return std::unique_ptr<LKLSelector>(new LKLSelector(questionSet, estimator, prior));
+	}
+	
+	if (selection_type == "PKL") {
+		return std::unique_ptr<PKLSelector>(new PKLSelector(questionSet, estimator, prior));
+	}
 
 	stop("%s is not a valid selection type.", selection_type);
 	throw std::invalid_argument("Invalid selection type");
@@ -211,14 +226,17 @@ double Cat::expectedKL(int item) {
 	return estimator->expectedKL(item, prior);
 }
 
+double Cat::likelihoodKL(int item) {
+	return estimator->likelihoodKL(item, prior);
+}
+
+double Cat::posteriorKL(int item) {
+	return estimator->posteriorKL(item, prior);
+}
+
 double Cat::fisherTestInfo() {
 	return estimator->fisherTestInfo(prior);
 }
-
-double Cat::observedTestInfo() {
-	return estimator->observedTestInfo(prior);
-}
-
 
 
 

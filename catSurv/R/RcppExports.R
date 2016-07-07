@@ -149,8 +149,13 @@ expectedKL <- function(cat_df, item) {
 }
 
 #' @export
-observedTestInfo <- function(cat_df) {
-    .Call('catSurv_observedTestInfo', PACKAGE = 'catSurv', cat_df)
+likelihoodKL <- function(cat_df, item) {
+    .Call('catSurv_likelihoodKL', PACKAGE = 'catSurv', cat_df, item)
+}
+
+#' @export
+posteriorKL <- function(cat_df, item) {
+    .Call('catSurv_posteriorKL', PACKAGE = 'catSurv', cat_df, item)
 }
 
 #' @export
