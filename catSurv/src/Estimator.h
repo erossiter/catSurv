@@ -43,6 +43,8 @@ public:
 	double pwi(int item, Prior prior);
 	
 	double lwi(int item);
+	
+	double kl(int item, Prior prior);
 
 protected:
 	const Integrator &integrator;
@@ -79,7 +81,7 @@ private:
 	 * as a temporary measure during a meeting. It is possible to use infinite subintervals, but
 	 * requires a change in the GSL integration function used in Integrator.
 	 */
-	constexpr static int integrationSubintervals = 10;
+	constexpr static double integrationSubintervals = 10;
 
 	double polytomous_posterior_variance(int item, Prior &prior);
 

@@ -17,6 +17,8 @@ struct QuestionSet {
 	std::vector<int> nonapplicable_rows;
 	std::vector<double> guessing;
 	std::vector<double> discrimination;
+	std::vector<double> coverage;
+	
 	/**
 	 * The user's answer to each question.
 	 */

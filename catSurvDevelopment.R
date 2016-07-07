@@ -14,6 +14,10 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+
+
+
+
 library(ltm)
 data("npi")
 binary_data <- npi[1:100,]
@@ -26,11 +30,12 @@ showCppCat(binary_cat)
 
 selectItem(binary_cat)
 lookAhead(binary_cat, 11)
-lookAhead(poly_cat, 1)
+lookAhead(binary_cat, 1)
 
-ans_two
-ans_one
 
+kl(binary_cat)
+
+binary_cat@discrimination
 
 ## fix tests:
 # - binary obsInf, CatR  -- DONE

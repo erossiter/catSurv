@@ -185,9 +185,17 @@ double expectedObsInf(S4 cat_df, int item) {
 
 //' @export
 // [[Rcpp::export]]
+double kl(S4 cat_df, int item) {
+  item = item - 1;
+	return Cat(cat_df).kl(item);
+}
+
+//' @export
+// [[Rcpp::export]]
 double findRoot(S4 cat_df) {
 	Cat(cat_df).findRoot();
 }
+
 
 
 

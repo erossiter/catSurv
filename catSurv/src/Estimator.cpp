@@ -335,7 +335,7 @@ double Estimator::brentMethod(integrableFunction const &function) {
   
 
 /**
- * pwi() and lwi() define the integration that needs to be
+ * pwi(), lwi(), and expectedKL() define the integration that needs to be
  * performed for each question, their respective selectItem()
  * function will call in a loop
  */
@@ -356,6 +356,116 @@ double Estimator::lwi(int item) {
 
 	return integrate_selectItem(lwi_j);
 }
+
+
+
+double Estimator::kl(int item, Prior prior) {
+  // // this would test against catIrt KL()
+  // double theta_one = estimateTheta(prior) + .1;
+  // double theta_two = estimateTheta(prior) - .1;
+  // 
+  // const double prob_theta_two = probability(theta_two, (size_t) item)[0];
+  // const double prob_theta_one = probability(theta_one, (size_t) item)[0];
+  //   
+  // double first_term = prob_theta_two * (log(prob_theta_two) - log(prob_theta_one));
+  // double second_term = (1 - prob_theta_two) * (log(1 - prob_theta_two) - log(1 - prob_theta_one));
+  // 
+  // return first_term + second_term;
+  
+  // // This is what I think ours should be
+  // integrableFunction kl_j = [&](double theta_not) {
+  //   const double prob_theta_not = probability(theta_not, (size_t) item)[0];
+  //   const double prob_theta_hat = probability(estimateTheta(prior), (size_t) item)[0];
+  // 
+  //   double first_term = prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
+  //   double second_term = (1 - prob_theta_not) * (log(1 - prob_theta_not) - log(1 - prob_theta_hat));
+  // 
+  //   return first_term + second_term;
+  // };
+  
+  // This is an attempt to replicate theirs
+  integrableFunction kl_j = [&](double theta_not) {
+    const double prob_theta_not = probability(theta_not, (size_t) item)[0];
+    const double prob_theta_hat = probability(estimateTheta(prior), (size_t) item)[0];
+
+    double first_term = prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
+    double second_term = (1 - prob_theta_not) * (log(1 - prob_theta_not) - log(1 - prob_theta_hat));
+
+    return first_term + second_term;
+  };
+
+  integrate_selectItem(kl_j);
+}
+  
+  
+  
+//   integrableFunction kl = [&](double true_theta) {
+// 		return log(likelihood(true_theta));
+// 	};
+// 
+//   const double probability_correct = probability(estimateTheta(prior), (size_t) item)[0];
+//   questionSet.applicable_rows.push_back(item);
+// 
+//   questionSet.answers[item] = 1;
+//   double ans_one = integrate_selectItem(kl);
+// 
+//   questionSet.answers[item] = 0;
+//   double ans_zero = integrate_selectItem(kl);
+// 
+// 	questionSet.applicable_rows.pop_back();
+// 	questionSet.answers[item] = NA_INTEGER;
+// 
+// 	double first_term = probability_correct * (ans_one - log(likelihood(estimateTheta(prior))));
+// 	double second_term = (1 - probability_correct) * (ans_zero - log(likelihood(estimateTheta(prior))));
+// 
+// 	return first_term + second_term;
+// }
+  
+  
+  
+  
+//   const double probability_correct = probability(estimateTheta(prior), (size_t) item)[0];
+//   questionSet.applicable_rows.push_back(item); // add item to set of answered items
+// 
+// 	integrableFunction kl_one = [&](double true_theta) {
+// 	  questionSet.answers[item] = 1;
+// 		return log(likelihood(true_theta));
+// 	};
+// 
+// 	integrableFunction kl_zero = [&](double true_theta) {
+// 	  questionSet.answers[item] = 0;
+// 		return log(likelihood(true_theta));
+// 	};
+// 
+// 	questionSet.applicable_rows.pop_back();
+// 	questionSet.answers[item] = NA_INTEGER;
+// 
+// 	double first_term = (probability_correct * integrate_selectItem(kl_one)) - log(likelihood(estimateTheta(prior)));
+// 	double second_term = ((1 - probability_correct) * integrate_selectItem(kl_zero)) - log(likelihood(estimateTheta(prior)));
+// 
+// 	return first_term + second_term;
+
+//   integrableFunction kl_j = [&](double true_theta) {
+//     const double probability_correct = probability(estimateTheta(prior), (size_t) item)[0];
+//     questionSet.applicable_rows.push_back(item);
+// 
+// 	  questionSet.answers[item] = 1;
+// 		double ans_one = log(likelihood(true_theta));
+// 
+// 	  questionSet.answers[item] = 0;
+// 		double ans_zero = log(likelihood(true_theta));
+// 
+//   	questionSet.applicable_rows.pop_back();
+// 	  questionSet.answers[item] = NA_INTEGER;
+// 
+// 	  double first_term = (probability_correct * ans_one) - log(likelihood(estimateTheta(prior)));
+// 	  double second_term = ((1 - probability_correct) * ans_zero) - log(likelihood(estimateTheta(prior)));
+// 
+// 	  return first_term + second_term;
+//   };
+// 
+//   return integrate_selectItem(kl_j);
+
 
   
 double Estimator::integrate_selectItem(const integrableFunction &function){

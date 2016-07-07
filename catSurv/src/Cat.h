@@ -45,6 +45,7 @@ public:
 
 	std::vector<double> probability(double theta, int question);
 	
+	double kl(int item);
 
 private:
 

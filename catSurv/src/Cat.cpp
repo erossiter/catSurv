@@ -207,6 +207,10 @@ double Cat::expectedObsInf(int item) {
 	return estimator->expectedObsInf(item, prior);
 }
 
+double Cat::kl(int item) {
+	return estimator->kl(item, prior);
+}
+
 
 
 

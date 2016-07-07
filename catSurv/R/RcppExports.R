@@ -144,6 +144,11 @@ expectedObsInf <- function(cat_df, item) {
 }
 
 #' @export
+kl <- function(cat_df, item) {
+    .Call('catSurv_kl', PACKAGE = 'catSurv', cat_df, item)
+}
+
+#' @export
 findRoot <- function(cat_df) {
     .Call('catSurv_findRoot', PACKAGE = 'catSurv', cat_df)
 }
