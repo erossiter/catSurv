@@ -20,8 +20,13 @@ using namespace Rcpp;
 Cat::Cat(S4 cat_df) : questionSet(cat_df),
                       integrator(Integrator()),
                       prior(cat_df),
+                      checkRules(cat_df, questionSet, *estimator, prior),
                       estimator(createEstimator(cat_df, integrator, questionSet)),
-                      selector(createSelector(cat_df.slot("selection"), questionSet, *estimator, prior)) {}
+                      selector(createSelector(cat_df.slot("selection"), questionSet, *estimator, prior)){}
+
+bool Cat::checkStopRules() {
+  return checkRules.checkRules(prior);
+}
 
 double Cat::likelihood(double theta) {
 	return estimator->likelihood(theta);
@@ -243,6 +248,7 @@ double Cat::posteriorKL(int item) {
 double Cat::fisherTestInfo() {
 	return estimator->fisherTestInfo(prior);
 }
+
 
 
 

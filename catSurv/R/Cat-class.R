@@ -53,7 +53,13 @@ setClass("Cat",
            estimationDefault="character",
            selection="character",
            z="numeric",
-           points="numeric"
+           points="numeric",
+           lengthThreshold = "logicalORnumeric",
+           seThreshold = "logicalORnumeric",
+           infoThreshold = "logicalORnumeric",
+           gainThreshold = "logicalORnumeric",
+           lengthOverride = "logicalORnumeric",
+           gainOverride = "logicalORnumeric"
          ),
          prototype=prototype(
            priorName="NORMAL",

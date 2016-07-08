@@ -4,6 +4,7 @@
 #include "QuestionSet.h"
 #include "Estimator.h"
 #include "Selector.h"
+#include "CheckRules.h"
 #include "MAPEstimator.h"
 using namespace Rcpp;
 
@@ -39,6 +40,8 @@ public:
 	
 	Rcpp::List lookAhead(int item);
 	
+	bool checkStopRules();
+	
 	void showCppCat();
 	
 	double findRoot();
@@ -58,6 +61,8 @@ private:
 	QuestionSet questionSet;
 	Integrator integrator;
 	Prior prior;
+	CheckRules checkRules;
+
 
 	/**
 	 * In C++, an object of abstract type may not be used an an instance variable. This is because, by virtue of

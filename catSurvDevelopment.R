@@ -14,6 +14,19 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+binary_cat@lengthThreshold <- 5
+binary_cat@seThreshold <- .5
+binary_cat@infoThreshold <- 1
+binary_cat@gainThreshold <- .3
+binary_cat@gainOverride <- 1
+binary_cat@lengthOverride <- 4
+
+checkStopRules(binary_cat)
+sum(!is.na(binary_cat@answers))
+
+
+
+
 binary_cat@estimation <- "EAP"
 estimateSE(binary_cat)
 

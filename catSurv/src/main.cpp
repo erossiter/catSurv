@@ -218,5 +218,13 @@ double findRoot(S4 cat_df) {
 	Cat(cat_df).findRoot();
 }
 
+//' @export
+// [[Rcpp::export]]
+bool checkStopRules(S4 cat_df) {
+	Cat(cat_df).checkStopRules();
+}
+
+
+
 
 

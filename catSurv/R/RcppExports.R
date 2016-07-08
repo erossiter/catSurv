@@ -168,3 +168,8 @@ findRoot <- function(cat_df) {
     .Call('catSurv_findRoot', PACKAGE = 'catSurv', cat_df)
 }
 
+#' @export
+checkStopRules <- function(cat_df) {
+    .Call('catSurv_checkStopRules', PACKAGE = 'catSurv', cat_df)
+}
+

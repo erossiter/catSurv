@@ -233,3 +233,14 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// checkStopRules
+bool checkStopRules(S4 cat_df);
+RcppExport SEXP catSurv_checkStopRules(SEXP cat_dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    __result = Rcpp::wrap(checkStopRules(cat_df));
+    return __result;
+END_RCPP
+}
