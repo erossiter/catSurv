@@ -7,11 +7,13 @@
 #include "EPVSelector.h"
 #include "MEISelector.h"
 #include "MFISelector.h"
+#include "MFIISelector.h"
 #include "MPWISelector.h"
 #include "MLWISelector.h"
 #include "KLSelector.h"
 #include "LKLSelector.h"
 #include "PKLSelector.h"
+
 
 using namespace Rcpp;
 
@@ -212,6 +214,10 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 	
 	if (selection_type == "PKL") {
 		return std::unique_ptr<PKLSelector>(new PKLSelector(questionSet, estimator, prior));
+	}
+	
+	if (selection_type == "MFII") {
+		return std::unique_ptr<MFIISelector>(new MFIISelector(questionSet, estimator, prior));
 	}
 
 	stop("%s is not a valid selection type.", selection_type);

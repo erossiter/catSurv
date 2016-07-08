@@ -26,6 +26,9 @@ public:
 
 	std::vector<double> probability(double theta, size_t question);
 
+	// make estimateSE virtual double ... = 0;
+	// so that all estimation methods must
+	// have their own estimateSE
 	double estimateSE(Prior prior);
 
 	double obsInf(double theta, int item);
@@ -45,6 +48,8 @@ public:
 	double pwi(int item, Prior prior);
 	
 	double lwi(int item);
+	
+	double fii(int item, Prior prior);
 	
 	double expectedKL(int item, Prior prior);
 	

@@ -14,6 +14,8 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+binary_cat@selection <- "MFII"
+selectItem(binary_cat)
 
 
 

@@ -72,6 +72,7 @@ double Estimator::binary_likelihood(double theta) {
 
 Estimator::Estimator(Integrator &integration, QuestionSet &question) : integrator(integration), questionSet(question) { }
 
+// this is EAP's estimateSE... move it to that file??
 double Estimator::estimateSE(Prior prior) {
 	const double theta_hat = estimateTheta(prior);
 
@@ -359,6 +360,20 @@ double Estimator::lwi(int item) {
 	};
 
 	return integrate_selectItem(lwi_j);
+}
+
+double Estimator::fii(int item, Prior prior) {
+  
+	integrableFunction fii_j = [&](double theta_not) {
+		return fisherInf(theta_not, item);
+	};
+	  
+  double delta = questionSet.z[0] * pow(fisherTestInfo(prior), 0.5);
+  
+  const double lower = estimateTheta(prior) - delta;
+  const double upper = estimateTheta(prior) + delta;
+
+	return integrate_selectItem_bounds(fii_j, lower, upper);
 }
 
 
