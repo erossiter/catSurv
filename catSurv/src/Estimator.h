@@ -22,14 +22,11 @@ public:
 
 	virtual double estimateTheta(Prior prior) = 0;
 
+	virtual double estimateSE(Prior prior) = 0;
+
 	double likelihood(double theta);
 
 	std::vector<double> probability(double theta, size_t question);
-
-	// make estimateSE virtual double ... = 0;
-	// so that all estimation methods must
-	// have their own estimateSE
-	double estimateSE(Prior prior);
 
 	double obsInf(double theta, int item);
 
@@ -81,8 +78,8 @@ protected:
 	* Computes the quotient of the integrals of the functions provided
 	* - that is, it computes: ∫(numerator) / ∫(denominator).
 	*/
-	double integralQuotient(const integrableFunction &numerator,
-	                        const integrableFunction &denominator);
+	// double integralQuotient(const integrableFunction &numerator,
+	//                         const integrableFunction &denominator);
 	
 	double brentMethod(const integrableFunction &function);
 	

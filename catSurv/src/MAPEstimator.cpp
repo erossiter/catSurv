@@ -100,6 +100,11 @@ double MAPEstimator::estimateTheta(Prior prior) {
 	return theta_hat_new;
 }
 
+double MAPEstimator::estimateSE(Prior prior) {
+  double var = 1.0 / (fisherTestInfo(prior)); // minus 1/sigma squared?
+  return pow(var, 0.5);
+}
+
 EstimationType MAPEstimator::getEstimationType() const {
 	return EstimationType::MAP;
 }

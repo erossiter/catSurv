@@ -97,6 +97,11 @@ double MLEEstimator::estimateTheta(Prior prior) {
 	
 	return theta_hat_new;
 }
+
+double MLEEstimator::estimateSE(Prior prior) {
+  double var = 1.0 / fisherTestInfo(prior);
+  return pow(var, 0.5);
+}
   
 
 EstimationType MLEEstimator::getEstimationType() const {

@@ -19,6 +19,8 @@ public:
 
 	virtual double estimateTheta(Prior prior) override;
 	
+	virtual double estimateSE(Prior prior) override;
+	
 	double polytomous_dLL(double theta);
 
 	double binary_dLL(double theta);

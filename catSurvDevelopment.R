@@ -14,8 +14,16 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
-binary_cat@selection <- "MFII"
-selectItem(binary_cat)
+binary_cat@estimation <- "EAP"
+estimateSE(binary_cat)
+
+binary_cat@estimation <- "MLE"
+estimateSE(binary_cat)
+sqrt(1/fisherTestInfo(binary_cat))
+
+binary_cat@estimation <- "MAP"
+estimateSE(binary_cat)
+sqrt(1/fisherTestInfo(binary_cat))
 
 
 

@@ -72,36 +72,6 @@ double Estimator::binary_likelihood(double theta) {
 
 Estimator::Estimator(Integrator &integration, QuestionSet &question) : integrator(integration), questionSet(question) { }
 
-// this is EAP's estimateSE... move it to that file??
-double Estimator::estimateSE(Prior prior) {
-	const double theta_hat = estimateTheta(prior);
-
-	integrableFunction denominator = [&](double theta) {
-		return likelihood(theta) * prior.prior(theta);
-	};
-
-	integrableFunction numerator = [&](double theta) {
-		const double theta_difference = theta - theta_hat;
-		return theta_difference * theta_difference * denominator(theta);
-	};
-
-	return sqrt(integralQuotient(numerator, denominator));
-}
-
-double Estimator::integralQuotient(integrableFunction const &numerator,
-                                   integrableFunction const &denominator) {
-	/*
-	 * Because GSL is a C library, not a C++ library, it is not easy to pass arbitrary
-	 * C++ functions to GSL's integration routine. To solve this, wrap the arbitrary functions
-	 * in a GSLFunctionWrapper, which is integrable.
-	 */
-	gsl_function *numeratorFunction = GSLFunctionWrapper(numerator).asGSLFunction();
-	gsl_function *denominatorFunction = GSLFunctionWrapper(denominator).asGSLFunction();
-
-	const double top = integrator.integrate(numeratorFunction, integrationSubintervals);
-	const double bottom = integrator.integrate(denominatorFunction, integrationSubintervals);
-	return top / bottom;
-}
 
 double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
   auto question_cdf = paddedProbability(estimateTheta(prior), (size_t) item);
