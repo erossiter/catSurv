@@ -22,18 +22,17 @@
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
 #' @rdname ltmCat
 #' @export
-setGeneric("ltmCat", function(data, object=NULL, quadraturePoints = 15,...){standardGeneric("ltmCat")})
+
+ltmCat<-function(data, quadraturePoints = 15){
+  UseMethod("ltmCat", data)
+}
+#setGeneric("ltmCat", function(data, object=NULL, quadraturePoints = 15,...){standardGeneric("ltmCat")})
 
 #' @export
-setMethod(f="ltmCat", signature("data.frame"), ## if 'data' is class 'data.frame'...
-          definition=function(data, object, quadraturePoints,...){
-            if(is.null(object)){ ## if no Cat object provided, create a new Cat
-              object<-new("Cat")
-            }
-            else  if(class(object)!="Cat"){ ## if the object provided is not a Cat, error
-                stop("object is not class Cat")
-              } 
+#setMethod(f="ltmCat", signature("data.frame"), ## if 'data' is class 'data.frame'...
+#          definition=function(data, object, quadraturePoints,...){
             
+ltmCat.data.frame<-function(data, quadraturePoints = 15){         
             ## run ltm function on the data
             fit<-ltm(data~z1, control=list(GHk = quadraturePoints))
             
@@ -50,6 +49,9 @@ setMethod(f="ltmCat", signature("data.frame"), ## if 'data' is class 'data.frame
               warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
             }
             
+            ## create a new Cat
+            object = new("Cat")
+            
             ## store those extracted parameters in the Cat
             object@discrimination <- discrimination
             object@difficulty <- difficulty
@@ -63,19 +65,14 @@ setMethod(f="ltmCat", signature("data.frame"), ## if 'data' is class 'data.frame
             
             ## Cat is complete! Send it back
             return(object)
-          })
+          }
 
 ## if 'data' is class 'ltm'...
-setMethod(f="ltmCat", signature("ltm"),
-          definition=function(data, object, quadraturePoints...){
-       
-            if(is.null(object)){ ## if no Cat object provided, create a new Cat
-              object<-new("Cat")
-            }
-            else  if(class(object)!="Cat"){ ## if the object provided is not a Cat, error
-              stop("object is not class Cat")
-            } 
-        
+
+#setMethod(f="ltmCat", signature("ltm"),
+#          definition=function(data, object, quadraturePoints...){
+
+ltmCat.ltm<-function(data, quadraturePoints = 15){       
             ## data is a fitted ltm object
             ## extract the parameters
             discrimination <- data$coef[,"z1"]
@@ -90,6 +87,9 @@ setMethod(f="ltmCat", signature("ltm"),
               warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
             }
             
+            ## create a new Cat
+            object = new("Cat")
+            
             ## store those extracted parameters in the Cat
             object@discrimination <- discrimination
             object@difficulty <- difficulty
@@ -103,38 +103,6 @@ setMethod(f="ltmCat", signature("ltm"),
             
             ## Cat is complete! Send it back
             return(object)
-          })
-
-
-
-
-## i don't know what's going on here
-setMethod(f="ltmCat", signature("missing"),
-          definition=function(data, object,...){
-            if(is.null(object)){
-              fit <- ltm(data ~ z1, control = list(GHk = 100), ...)
-            }
-            if(!is.null(object)){ 
-              if(class(object)!="ltm"){ 
-                stop("object is not class ltm")
-              } else { 
-                fit <- object
-              }
-            }
-            
-            answer <- rep(NA,dim(fit$coef)[1])
-            discrimination <- fit$coef[,"z1"]
-            difficulty <- fit$coef[,"(Intercept)"]
-            names(difficulty) <- rownames(fit$coef)
-            guessing <- rep(0, length(discrimination))
-            
-            object <- new("Cat")
-            object@guessing <- guessing
-            object@discrimination <- discrimination
-            object@difficulty <- difficulty
-            object@poly <- FALSE
-            object@answers <- answer
-            return(object)
-          })
+          }
 
 

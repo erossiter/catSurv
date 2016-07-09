@@ -22,125 +22,98 @@
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
 #' @rdname tpmCat
 #' @export
-setGeneric("tpmCat", function(data, object=NULL, quadraturePoints = 15, ...){standardGeneric("tpmCat")})
+
+tpmCat<-function(data, quadraturePoints=15,...){
+  UseMethod("tpmCat", data)
+}
+#setGeneric("tpmCat", function(data, object=NULL, quadraturePoints = 15, ...){standardGeneric("tpmCat")})
 
 #' @export
-setMethod(f="tpmCat", signature="data.frame",
-          definition=function(data, object, quadraturePoints,...){
-            if(is.null(object)){ ## if no Cat object provided, create a new Cat
-              object<-new("Cat")
-            }
-            else  if(class(object)!="Cat"){ ## if the object provided is not a Cat, error
-              stop("object is not class Cat")
-            } 
-            
-            ## run tpm function on the data
-            fit<-tpm(data, control=list(GHk = quadraturePoints))
-            
-            ## extract the parameters
-            discrimination <- fit$coef[,"beta.2i"]
-            difficulty <- fit$coef[,"beta.1i"]
-            guessing <- coef(fit)[,"Gussng"]
-            names(difficulty) <- rownames(fit$coef)
-            
-            ## check if any parameters out of expected range:
-            if (any(discrimination< -5) || any(discrimination>5)){
-              warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-            }
-            if (any(difficulty< -5) || any(difficulty>5)){
-              warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-            }
-            if (any(guessing< 0) || any(guessing>1)){
-              warning("Measurement model poorly estimated: guessing values outside of [0, 1]")
-            }
-            
-            ## store those extracted parameters in the Cat
-            object@discrimination <- discrimination
-            object@difficulty <- difficulty
-            object@guessing<- guessing
-            
-            ## by default (for tpmCat), the Cat is binary 
-            object@poly <- FALSE
-            
-            ## fill the answers slot with NAs
-            object@answers <- rep(NA,length(discrimination))
-            
-            ## Cat is complete! Send it back
-            return(object)
+#setMethod(f="tpmCat", signature="data.frame",
+#          definition=function(data, object, quadraturePoints,...){
 
-          })
+tpmCat.data.frame<-function(data, quadraturePoints=15,...){
+  
+  ## run tpm function on the data
+  fit<-tpm(data, control=list(GHk = quadraturePoints))
+  
+  ## extract the parameters
+  discrimination <- fit$coef[,"beta.2i"]
+  difficulty <- fit$coef[,"beta.1i"]
+  guessing <- coef(fit)[,"Gussng"]
+  names(difficulty) <- rownames(fit$coef)
+  
+  ## check if any parameters out of expected range:
+  if (any(discrimination< -5) || any(discrimination>5)){
+    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+  }
+  if (any(difficulty< -5) || any(difficulty>5)){
+    warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
+  }
+  if (any(guessing< 0) || any(guessing>1)){
+    warning("Measurement model poorly estimated: guessing values outside of [0, 1]")
+  }
+  
+  ## create a new Cat
+  object = new("Cat")
+  
+  ## store those extracted parameters in the Cat
+  object@discrimination <- discrimination
+  object@difficulty <- difficulty
+  object@guessing<- guessing
+  
+  ## by default (for tpmCat), the Cat is binary 
+  object@poly <- FALSE
+  
+  ## fill the answers slot with NAs
+  object@answers <- rep(NA,length(discrimination))
+  
+  ## Cat is complete! Send it back
+  return(object)
+  
+}
 
-setMethod(f="tpmCat", signature="tpm",
-          definition=function(data, object, quadraturePoints,...){
-            if(is.null(object)){ ## if no Cat object provided, create a new Cat
-              object<-new("Cat")
-            }
-            else  if(class(object)!="Cat"){ ## if the object provided is not a Cat, error
-              stop("object is not class Cat")
-            } 
-            
-            ## data is of class 'tpm'
-            ## extract the parameters
-            discrimination <- data$coef[,"beta.2i"]
-            difficulty <- data$coef[,"beta.1i"]
-            guessing <- coef(data)[,"Gussng"]
-            names(difficulty) <- rownames(data$coef)
-            
-            
-            ## check if any parameters out of expected range:
-            if (any(discrimination< -5) || any(discrimination>5)){
-              warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-            }
-            if (any(difficulty< -5) || any(difficulty>5)){
-              warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-            }
-            if (any(guessing< 0) || any(guessing>1)){
-              warning("Measurement model poorly estimated: guessing values outside of [0, 1]")
-            }
-            
-            ## store those extracted parameters in the Cat
-            object@discrimination <- discrimination
-            object@difficulty <- difficulty
-            object@guessing<- guessing
-            
-            ## by default (for tpmCat), the Cat is binary 
-            object@poly <- FALSE
-            
-            ## fill the answers slot with NAs
-            object@answers <- rep(NA,length(discrimination))
-            
-            ## Cat is complete! Send it back
-            return(object)
-            
-          })
+#setMethod(f="tpmCat", signature="tpm",
+#          definition=function(data, object, quadraturePoints,...){
+
+tpmCat.tpm<-function(data, quadraturePoints = 15){
+  
+  ## data is of class 'tpm'
+  ## extract the parameters
+  discrimination <- data$coef[,"beta.2i"]
+  difficulty <- data$coef[,"beta.1i"]
+  guessing <- coef(data)[,"Gussng"]
+  names(difficulty) <- rownames(data$coef)
+  
+  
+  ## check if any parameters out of expected range:
+  if (any(discrimination< -5) || any(discrimination>5)){
+    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+  }
+  if (any(difficulty< -5) || any(difficulty>5)){
+    warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
+  }
+  if (any(guessing< 0) || any(guessing>1)){
+    warning("Measurement model poorly estimated: guessing values outside of [0, 1]")
+  }
+  
+  ## create a new Cat
+  object<-new("Cat")
+  
+  ## store those extracted parameters in the Cat
+  object@discrimination <- discrimination
+  object@difficulty <- difficulty
+  object@guessing<- guessing
+  
+  ## by default (for tpmCat), the Cat is binary 
+  object@poly <- FALSE
+  
+  ## fill the answers slot with NAs
+  object@answers <- rep(NA,length(discrimination))
+  
+  ## Cat is complete! Send it back
+  return(object)
+  
+}
 
 
-
-## i don't know what's going on here
-setMethod(f="tpmCat", signature="missing",
-          definition=function(data, object,...){
-            if(is.null(object)){
-              fit <- tpm(data, control = list(GHk = 100), ...)
-            } 
-            if(!is.null(object)){
-              if(class(object)!="tpm"){ 
-                stop("object is not class tpm")
-              } else {
-                fit <- object
-              }
-            }
-            
-            answer <- rep(NA,dim(fit$coef)[1])
-            discrimination <- fit$coef[,"beta.2i"]
-            difficulty <- fit$coef[,"beta.1i"]
-            guessing <- coef(fit)[,"Gussng"]
-            names(difficulty) <- rownames(fit$coef)
-            
-            object<-new("Cat")
-            object@discrimination <- discrimination
-            object@difficulty <- difficulty
-            object@poly <- FALSE
-            object@guessing <- guessing
-            object@answers <- answer
-            return(object)
-          })

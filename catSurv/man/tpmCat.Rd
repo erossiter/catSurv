@@ -4,12 +4,10 @@
 \alias{tpmCat}
 \title{Computerized Adaptive Testing Latent Trait Model with Binary Data}
 \usage{
-tpmCat(data, object = NULL, quadraturePoints = 15, ...)
+tpmCat(data, quadraturePoints = 15, ...)
 }
 \arguments{
 \item{data}{a \code{data.frame} or a numeric \code{matrix} of manifest variables.}
-
-\item{object}{an object of class \code{Cat} to be populated. If omitted, a new object of class \code{Cat} is created.}
 
 \item{...}{arguments to be passed to methods. For more details about the arguments, see \code{\link{tpm}}.
 
@@ -22,6 +20,8 @@ tpmCat(data, object = NULL, quadraturePoints = 15, ...)
 \item \code{priorName} a character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{normal} for the normal distirbution, \code{cauchy} for the Cauchy distribution, are \code{t} for the t-distribution. Defaults to \code{normal}.
 \item \code{priorParams} a numeric vector of parameters for the distribution specified in the \code{priorName} slot. See the details section for more infomration.  Defaults to \code{c(0,1)}.
 }}
+
+\item{object}{an object of class \code{Cat} to be populated. If omitted, a new object of class \code{Cat} is created.}
 }
 \description{
 This function fits the latent trait model for binary data and populates the fitted values for discimination, difficulty, and guessing parameters to an object of class \code{Cat}.
