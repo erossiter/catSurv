@@ -3,6 +3,7 @@
 #include "Selection.h"
 #include "QuestionSet.h"
 #include "Estimator.h"
+#include "CheckRules.h"
 
 enum class SelectionType {
 	NONE, EPV, MFI, MEI, MPWI, MLWI, KL, LKL, PKL

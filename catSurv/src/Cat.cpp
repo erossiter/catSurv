@@ -1,5 +1,6 @@
 #include "Rcpp.h"
 #include <algorithm>
+#include <math.h>
 #include "Cat.h"
 #include "EAPEstimator.h"
 #include "MAPEstimator.h"
@@ -20,12 +21,80 @@ using namespace Rcpp;
 Cat::Cat(S4 cat_df) : questionSet(cat_df),
                       integrator(Integrator()),
                       prior(cat_df),
-                      checkRules(cat_df, questionSet, *estimator, prior),
+                      checkRules(cat_df),
                       estimator(createEstimator(cat_df, integrator, questionSet)),
                       selector(createSelector(cat_df.slot("selection"), questionSet, *estimator, prior)){}
 
-bool Cat::checkStopRules() {
-  return checkRules.checkRules(prior);
+std::vector<bool> Cat::checkStopRules() {
+  std::vector<bool> all_thresholds;
+  std::vector<bool> all_overrides;
+  
+  double SE_est = estimator->estimateSE(prior);
+  double theta_est = estimator->estimateTheta(prior);
+  
+  // Checking whether or not user wants each rule implemented, then performing the check
+  if (! isnan(checkRules.lengthThreshold)){
+    bool answer_lengthTheshold = questionSet.applicable_rows.size() >= checkRules.lengthThreshold ? true : false;
+    all_thresholds.push_back(answer_lengthTheshold);
+  } else { }
+
+  if (! isnan(checkRules.lengthOverride)){
+    bool answer_lengthOverride = questionSet.applicable_rows.size() <= checkRules.lengthOverride ? true : false;
+    all_overrides.push_back(answer_lengthOverride);
+  } else { }
+
+  if (! isnan(checkRules.seThreshold)){
+    bool answer_seThreshold = SE_est < checkRules.seThreshold ? true : false;
+    all_thresholds.push_back(answer_seThreshold);
+  } else { }
+
+  if (! isnan(checkRules.gainThreshold)){
+    std::vector<bool> all_gainThreshold;
+    for (auto item : questionSet.applicable_rows) {
+      double gain = SE_est - pow(expectedPV(item), 0.5);
+      bool item_threshold = gain < checkRules.gainThreshold ? true : false;
+      all_gainThreshold.push_back(item_threshold);
+    }
+    bool answer_gainThreshold = std::all_of(all_gainThreshold.begin(), all_gainThreshold.end(), [](bool v) { return v; });
+    all_thresholds.push_back(answer_gainThreshold);
+  } else { }
+
+  if (! isnan(checkRules.gainOverride)){
+    std::vector<bool> all_gainOverride;
+    for (auto item : questionSet.applicable_rows) {
+      double gain = SE_est - pow(expectedPV(item), 0.5);
+      bool item_override = gain < checkRules.gainOverride ? true : false;
+      all_gainOverride.push_back(item_override);
+    }
+    bool answer_gainOverride  = std::all_of(all_gainOverride.begin(), all_gainOverride.end(), [](bool v) { return v; });
+    all_overrides.push_back(answer_gainOverride);
+  } else { }
+
+  if (! isnan(checkRules.infoThreshold)){
+    std::vector<bool> all_infoThreshold;
+    for (auto item : questionSet.applicable_rows) {
+      double info = estimator->fisherInf(theta_est, item);
+      bool item_answer = info < checkRules.infoThreshold ? true : false;
+      all_infoThreshold.push_back(item_answer);
+    }
+    bool answer_infoThreshold  = std::all_of(all_infoThreshold.begin(), all_infoThreshold.end(), [](bool v) { return v; });
+    all_thresholds.push_back(answer_infoThreshold);
+  } else { }
+  
+
+  //had to do these excessive measures to get return value into a vector
+  std::vector<bool> stop;
+  
+  if(all_thresholds.empty() && all_overrides.empty()){
+    stop.push_back(false);
+  } else {
+    bool all_thresholds_true = std::all_of(all_thresholds.begin(), all_thresholds.end(), [](bool v) { return v; });
+    bool all_overrides_false = std::all_of(all_overrides.begin(), all_overrides.end(), [](bool v) { return !v; });
+  
+    bool answer = all_thresholds_true && all_overrides_false ? true : false;
+    stop.push_back(answer);
+  }
+  return stop; 
 }
 
 double Cat::likelihood(double theta) {
@@ -228,6 +297,7 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 	stop("%s is not a valid selection type.", selection_type);
 	throw std::invalid_argument("Invalid selection type");
 }
+
 
 double Cat::expectedObsInf(int item) {
 	return estimator->expectedObsInf(item, prior);
