@@ -9,6 +9,7 @@
 class Prior {
 private:
 	double dt(double x, int df, double mu);
+  double uniform(double x, double min, double max);
 
 public:
 	const std::string name;
