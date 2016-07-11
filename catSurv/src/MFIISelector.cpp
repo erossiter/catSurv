@@ -15,7 +15,6 @@ Selection MFIISelector::selectItem() {
 	double max_mfii = 0.0;
 	int max_item = -1;
 
-	double theta = estimator.estimateTheta(prior);
 	for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
 		int question = questionSet.nonapplicable_rows.at(i);
 		selection.values.push_back(estimator.fii(question, prior));

@@ -101,7 +101,7 @@ double MAPEstimator::estimateTheta(Prior prior) {
 }
 
 double MAPEstimator::estimateSE(Prior prior) {
-  double var = 1.0 / (fisherTestInfo(prior)); // minus 1/sigma squared?
+  double var = 1.0 / (fisherTestInfo(prior) - (1 / pow(prior.parameters[1], 2)));
   return pow(var, 0.5);
 }
 

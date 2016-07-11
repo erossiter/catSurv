@@ -76,7 +76,13 @@ setClass("Cat",
            answers=rep(NA, 10),
            discrimination=rep(0, 10),
            guessing=rep(0, 10),
-           difficulty=rep(0, 10)
+           difficulty=rep(0, 10),
+           lengthThreshold = NA,
+           seThreshold = NA,
+           infoThreshold = NA,
+           gainThreshold = NA,
+           lengthOverride = NA,
+           gainOverride = NA
          )
 )
 
