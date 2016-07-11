@@ -9,7 +9,7 @@ poly_data <- nfc[1:100,]
 row = 100
 
 ## setting up binary cat
-binary_cat <- ltmCat(binary_data)
+binary_cat <- ltmCat(binary_data, quadraturePoints = 100)
 ltm_cat <- ltm(binary_data ~ z1, control = list(GHk = 100))
 binary_coefs <- coef(ltm_cat)
 binary_bank <- matrix(c(binary_cat@discrimination,
@@ -21,7 +21,7 @@ binary_cat@answers[13:40] <- unlist(binary_data[row,13:40])
 binary_cat@estimation <- "MAP"
 
 ## setting up poly cat
-poly_cat <- grmCat(poly_data)
+poly_cat <- grmCat(poly_data, quadraturePoints = 100)
 poly_coefs <- coef(grm(poly_data, IRT.param=TRUE, control = list(GHk = 100)))
 poly_bank <- matrix(c(poly_cat@discrimination,
                  poly_coefs[,1],
@@ -175,4 +175,103 @@ MFI_benchmark
 MEI_benchmark
 MPWI_benchmark
 MLWI_benchmark
+
+
+#### LKL ####
+binary_cat@selection <- "LKL"
+poly_cat@selection <- "LKL"
+
+LKL_benchmark <- microbenchmark("catSurv binary" = selectItem(binary_cat)$next.item,
+               "catR binary" = nextItem(itemBank = binary_bank,
+                                theta = estimateTheta(binary_cat),
+                                out = 13:40,
+                                x = unlist(binary_data[row,13:40]),
+                                criterion = "KL", 
+                                parInt = c(-5,5,101)
+                                )$item,
+               "catSurv poly" = selectItem(poly_cat)$next.item,
+               "catR poly" = nextItem(itemBank = poly_bank,
+                                theta = estimateTheta(poly_cat),
+                                out = 3:14,
+                                x = unlist(poly_data[row, 3:14])-1,
+                                criterion = "KL", 
+                                model = "GRM",
+                                parInt = c(-5,5,101)
+                                )$item,
+               times = 20,
+               unit = "s")
+        
+    
+
+
+
+# Binary: person 100, 28/40 questions answered
+# Poly: person 100, 12/18 questions answered
+EPV_benchmark
+MFI_benchmark
+MEI_benchmark
+MPWI_benchmark
+MLWI_benchmark
+
+
+#### PKL ####
+binary_cat@selection <- "PKL"
+poly_cat@selection <- "PKL"
+
+PKL_benchmark <- microbenchmark("catSurv binary" = selectItem(binary_cat)$next.item,
+               "catR binary" = nextItem(itemBank = binary_bank,
+                                theta = estimateTheta(binary_cat),
+                                out = 13:40,
+                                x = unlist(binary_data[row,13:40]),
+                                criterion = "KLP", 
+                                parInt = c(-5,5,101)
+                                )$item,
+               "catSurv poly" = selectItem(poly_cat)$next.item,
+               "catR poly" = nextItem(itemBank = poly_bank,
+                                theta = estimateTheta(poly_cat),
+                                out = 3:14,
+                                x = unlist(poly_data[row, 3:14])-1,
+                                criterion = "KLP", 
+                                model = "GRM",
+                                parInt = c(-5,5,101)
+                                )$item,
+               times = 20,
+               unit = "s")
+        
+    
+
+
+
+# Binary: person 100, 28/40 questions answered
+# Poly: person 100, 12/18 questions answered
+EPV_benchmark
+MFI_benchmark
+MEI_benchmark
+MPWI_benchmark
+MLWI_benchmark
+
+
+#### MFII ####
+binary_cat@selection <- "MFII"
+poly_cat@selection <- "MFII"
+
+MFII_benchmark <- microbenchmark("catSurv binary" = selectItem(binary_cat)$next.item,
+                                 "catSurv poly" = selectItem(poly_cat)$next.item,
+                                 times = 20, unit = "s")
+        
+    
+
+
+
+#### Answers ####
+# Binary: person 100, 28/40 questions answered
+# Poly: person 100, 12/18 questions answered
+EPV_benchmark
+MFI_benchmark
+MEI_benchmark
+MPWI_benchmark
+MLWI_benchmark
+LKL_benchmark
+PKL_benchmark
+MFII_benchmark
 
