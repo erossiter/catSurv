@@ -12,8 +12,8 @@ ltm.test <- factor.scores.ltm(trial.l, method = "EAP")$score.dat
 
 ## ltmCat 
 
-#Cat.l <- ltmCat(data.bi)
-Cat.l <- ltmCat(object = trial.l)
+#Cat.l <- ltmCat(data.bi, quadraturePoints = 100)
+Cat.l <- ltmCat(trial.l, quadraturePoints = 100)
 
 estimates.l <- rep(NA,dim(ltm.test)[1])
 for (i in 1:dim(ltm.test)[1]) {
@@ -127,7 +127,7 @@ tpm.test <- factor.scores.tpm.correct(trial.t, method="EAP")$score.dat
 ## tpmCat
 
 #Cat.t <- tpmCat(data.tpm)
-Cat.t <- tpmCat(object = trial.t)
+Cat.t <- tpmCat(trial.t, quadraturePoints = 100)
 
 estimates.t <- rep(NA,dim(tpm.test)[1])
 for (i in 1:dim(tpm.test)[1]) {
@@ -203,7 +203,7 @@ trial.g <- grm(data.poly, control=list(GHk = 100))
 grm.test <- factor.scores.grm(trial.g, method = "EAP")$score.dat
 
 #Cat.g <- grmCat(data = data.poly)
-Cat.g <- grmCat(object = trial.g)
+Cat.g <- grmCat(trial.g, quadraturePoints = 100)
 Cat.g@answers <- as.numeric(as.vector(grm.test[1,1:length(Cat.g@answers)]))
 
 estimates.g <- rep(NA,dim(grm.test)[1])
