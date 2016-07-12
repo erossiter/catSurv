@@ -14,6 +14,7 @@
 #include "KLSelector.h"
 #include "LKLSelector.h"
 #include "PKLSelector.h"
+#include "RANDOMSelector.h"
 
 
 using namespace Rcpp;
@@ -118,13 +119,14 @@ double Cat::expectedPV(int item) {
 }
 
 List Cat::selectItem() {
-	Selection selection = selector->selectItem();
+  Selection selection = selector->selectItem();
+  
   // Adding 1 to each row index so it prints the correct question number for user
 	std::transform(selection.questions.begin(), selection.questions.end(), selection.questions.begin(),
                 bind2nd(std::plus<int>(), 1.0));
-	DataFrame all_estimates = Rcpp::DataFrame::create(Named("row.name") = selection.questions,
-                                                   Named("questions") = selection.questions,
+	DataFrame all_estimates = Rcpp::DataFrame::create(Named("questions") = selection.questions,
 	                                                 Named(selection.name) = selection.values);
+                                                     
 	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(selection.item + 1));
 }
 
@@ -292,6 +294,10 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 	
 	if (selection_type == "MFII") {
 		return std::unique_ptr<MFIISelector>(new MFIISelector(questionSet, estimator, prior));
+	}
+	
+	if (selection_type == "RANDOM") {
+		return std::unique_ptr<RANDOMSelector>(new RANDOMSelector(questionSet, estimator, prior));
 	}
 
 	stop("%s is not a valid selection type.", selection_type);

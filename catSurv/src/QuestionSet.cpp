@@ -5,6 +5,7 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 	guessing = Rcpp::as<std::vector<double> >(cat_df.slot("guessing"));
 	discrimination = Rcpp::as<std::vector<double> >(cat_df.slot("discrimination"));
 	z = Rcpp::as<std::vector<double> >(cat_df.slot("z"));
+	strata = Rcpp::as<std::vector<int> >(cat_df.slot("strata"));
 	
 	for (size_t i = 0; i < answers.size(); i++) {
 		if (answers[i] == NA_INTEGER) {

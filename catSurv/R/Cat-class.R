@@ -59,7 +59,8 @@ setClass("Cat",
            infoThreshold = "logicalORnumeric",
            gainThreshold = "logicalORnumeric",
            lengthOverride = "logicalORnumeric",
-           gainOverride = "logicalORnumeric"
+           gainOverride = "logicalORnumeric",
+           strata = "logicalORnumeric"
          ),
          prototype=prototype(
            priorName="NORMAL",
@@ -82,7 +83,8 @@ setClass("Cat",
            infoThreshold = NA,
            gainThreshold = NA,
            lengthOverride = NA,
-           gainOverride = NA
+           gainOverride = NA,
+           strata = rep(NA, 10)
          )
 )
 
