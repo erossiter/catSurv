@@ -7,6 +7,10 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 	z = Rcpp::as<std::vector<double> >(cat_df.slot("z"));
 	strata = Rcpp::as<std::vector<int> >(cat_df.slot("strata"));
 	
+	Rcpp::NumericVector discrim_names = cat_df.slot("discrimination");
+  Rcpp::CharacterVector names = discrim_names.names();
+  question_names = Rcpp::as<std::vector<std::string> >(names);
+
 	for (size_t i = 0; i < answers.size(); i++) {
 		if (answers[i] == NA_INTEGER) {
 			nonapplicable_rows.push_back((int) i);

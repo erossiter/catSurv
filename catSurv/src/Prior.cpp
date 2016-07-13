@@ -13,14 +13,14 @@ double Prior::uniform(double x, double min, double max) {
 }
 
 double Prior::prior(double x) {
-	if (name == "NORMAL") {
-		return dnorm4(Rcpp::NumericVector::create(x), parameters[0], parameters[1], 0)[0];
-	}
-	if (name == "STUDENT_T") {
+  if (name == "STUDENT_T") {
 	  return dt(x, (int) parameters[1], parameters[0]);
 	}
-	if (name == "UNIFORM") {
+	else if (name == "UNIFORM") {
 	  return uniform(x, parameters[0], parameters[1]);
+	}
+	else {
+		return dnorm4(Rcpp::NumericVector::create(x), parameters[0], parameters[1], 0)[0];
 	}
 }
 

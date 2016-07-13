@@ -36,6 +36,8 @@ public:
 
 	double expectedObsInf(int item);
 
+	// Rcpp::List selectItem(int strata_choice);
+	
 	Rcpp::List selectItem();
 	
 	Rcpp::List lookAhead(int item);

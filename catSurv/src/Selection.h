@@ -8,4 +8,5 @@ struct Selection {
 	std::vector<double> values;
 	std::string name;
 	int item;
+	std::vector<std::string> question_names;
 };

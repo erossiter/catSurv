@@ -10,8 +10,10 @@ Selection RANDOMSelector::selectItem() {
 	selection.name = "RANDOM";
 	selection.questions = questionSet.nonapplicable_rows;
 	selection.values.reserve(questionSet.nonapplicable_rows.size());
+	selection.question_names.reserve(questionSet.nonapplicable_rows.size());
 	
 	for (int item : questionSet.nonapplicable_rows) {
+	  selection.question_names.push_back(questionSet.question_names[item]);
 	  item = 0;
 		selection.values.push_back(item);
 	}
@@ -19,7 +21,6 @@ Selection RANDOMSelector::selectItem() {
 	int random_index = rand() % selection.questions.size();
 	
 	selection.item = selection.questions[random_index];
-		std::cout << random_index << std::endl;
 	return selection;
 }
 

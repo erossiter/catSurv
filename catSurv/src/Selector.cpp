@@ -7,18 +7,18 @@ Selector::Selector(QuestionSet &questions, Estimator &estimation, Prior &priorMo
 		: questionSet(questions), estimator(estimation), prior(priorModel) {}
 
 Selection Selector::selectItem_strata(int strata_choice) {
-  std::vector<int> original_applicable_rows = questionSet.applicable_rows;
-  questionSet.applicable_rows.clear();
+  std::vector<int> original_nonapplicable_rows = questionSet.nonapplicable_rows;
+  questionSet.nonapplicable_rows.clear();
 
-  for (auto item : original_applicable_rows) {
+  for (auto item : original_nonapplicable_rows) {
     if (questionSet.strata[item] == strata_choice) {
-      questionSet.applicable_rows.push_back(item);
+      questionSet.nonapplicable_rows.push_back(item);
     }
   }
   Selection answer = selectItem();
   
-  questionSet.applicable_rows.clear();
-  questionSet.applicable_rows = original_applicable_rows;
+  questionSet.nonapplicable_rows.clear();
+  questionSet.nonapplicable_rows = original_nonapplicable_rows;
   
   return answer;
 }

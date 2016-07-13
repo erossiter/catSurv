@@ -141,6 +141,12 @@ double d2LL(S4 &cat_df, double theta, bool use_prior){
 	return Cat(cat_df).d2LL(theta, use_prior);
 }
 
+// //' @export
+// // [[Rcpp::export]]
+// List selectItem(S4 cat_df, int strata_choice = 1) {
+//   return Cat(cat_df).selectItem(strata_choice);
+// }
+
 //' @export
 // [[Rcpp::export]]
 List selectItem(S4 cat_df) {
@@ -215,7 +221,7 @@ double fisherTestInfo(S4 cat_df) {
 //' @export
 // [[Rcpp::export]]
 double findRoot(S4 cat_df) {
-	Cat(cat_df).findRoot();
+	return Cat(cat_df).findRoot();
 }
 
 //' @export

@@ -6,6 +6,7 @@
  * Contains the various lists of values necessary for a Cat.
  */
 struct QuestionSet {
+  std::vector<std::string> question_names;
 	std::vector<std::vector<double> > difficulty;
 	/**
 	 * The questions which have not yet been answered;
