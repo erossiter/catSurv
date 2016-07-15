@@ -40,6 +40,6 @@ setMethod(f="icc", signature="Cat",
             for(i in 2:(nrow(x))){
               lines(x = theta_range, y = (x[i, ] - x[(i-1), ]), lty = i)
             }
-            return(list(plot = return_plot, x = x))
+            return(x)
           })
           

@@ -6,37 +6,40 @@
 \alias{initialize,Cat-method}
 \title{A Computerized Adaptive Testing Survey (catSurv) Object}
 \description{
-Objects of class \code{Cat} are used in administering Computerized Adaptive Testing (CAT) Surveys.  These objects contain several pieces of information relevent for CAT surveys, and are used as input in the main functions of the \code{catSurv} package, \code{\link{nextItem}} and \code{\link{storeAnswer}}. They are created using the \code{initialize} function.
+Objects of class \code{Cat} are used in administering Computerized Adaptive Testing (CAT) Surveys.  These objects contain several pieces of information relevent for CAT surveys, and are used as input in the main functions of the \code{catSurv} package. They are created using the \code{initialize} function.
 }
 \details{
-An object of the class `Cat' has the following slots:
+Assume we have a survey battery with \code{I} questions.  An object of the class `Cat' has the following slots:
 \itemize{
-\item \code{guessing} A named vector of guessing parameters
-\item \code{discrimination} A named vector of disrimination parameters including a numeric value per question/item.
-\item \code{answers} A named vector of answers to questions as given by the survey respondent.
-\item \code{priorName} A character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{normal} for the normal distirbution, \code{cauchy} for the Cauchy distribution, are \code{t} for the t-distribution. Defaults to \code{normal}.
-\item \code{priorParams} A numeric vector of parameters for the distribution specified in the \code{priorName} slot. See the details section for more infomration.  Defaults to \code{c(0,1)}.
-\item \code{lowerBound} The lower bound of the interval of the latent scale used in estimation. The default value is \code{-4.5}.
-\item \code{upperBound} The upper bound of the interval of the latent scale used in estimation. The default value is \code{4.5}.
-\item \code{quadPoints} Desired number of points to be used in approximating integral. The default value is \code{43}.
-\item \code{difficulty} A named list consisting of a vector of difficulty parameters for each item. (vector will be length=1 for binary Cats)
-\item \code{poly} A logical containing the type of answers. The default is set for questions with binary answers.
-\item \code{estimation} FIX ME!!!!!!
-\item \code{selection} FIX ME!!!!!!
-\item \code{coverage} FIX ME!!!!!!
-\item \code{points} FIX ME!!!!!!
+\item \code{guessing} A named vector of length \code{I} of guessing parameters.  Note: guessing parameters are only applicable for binary Cat objects. 
+\item \code{discrimination} A named vector of length \code{I} of disrimination parameters.
+\item \code{difficulty} A named vector or list of length \code{I} of difficulty parameters. For binary Cat objects, the vector will contain difficulty parameters for each item.  For categorical Cat objects, a list will constain a vector for each item, and each vector will contain a difficulty parameter for each response option.  
+\item \code{answers} A named vector of length \code{I} of answers to questions as given by the survey respondent.  Unanswered questions have the value \code{NA}.
+\item \code{priorName} A character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{NORMAL} for the normal distirbution, \code{STUDENT_T} for the student's t distribution, and \code{UNIFORM} for the uniform distribution.  
+\item \code{priorParams} A numeric vector of length two of parameters for the distribution specified in the \code{priorName} slot. See 'details' for more information.
+\item \code{lowerBound} A numeric indicating the lower bound of the interval of the latent scale used in estimation. The default value is \code{-4.5}.
+\item \code{upperBound} A numeric indicating the upper bound of the interval of the latent scale used in estimation. The default value is \code{4.5}.
+\item \code{poly} A logical containing the type of answers.  TRUE indicates categorical response options, FALSE indicates binary response options.  Default is TRUE.
+\item \code{estimation} A character vector of length one indicating the choice of approach to estimate ability parameters.  The options are \code{EAP}, \code{MAP}, and \code{MLE}.
+\item \code{estimationDefault} A character vector of length one indicating the choice of approach to estimate ability parameters when the primary estimation choice indicating in the \code{estimation} slot fails to converge.  The options are \code{EAP} and \code{MAP}.
+\item \code{selection} A character vector of length one indicating the choice of approach select the next item.  The options are \code{EPV}, \code{MEI}, \code{MFI}, \code{MPWI}, \code{MLWI}, \code{KL}, \code{LKL}, \code{PKL}, \code{MFII}, and \code{RANDOM}.
+\item \code{z} A numeric.  Used in calculating delta, which is used in calculating the bounds of integration for some selectItem methods.  See 'details' for more information.
+\item \code{lengthThreshold} A numeric.  The number of questions answered must be greater than or equal to this threshold.
+\item \code{seThreshold} A numeric.  The standard error estimate of the latent trait must be less than this threshold.
+\item \code{infoThreshold} A numeric.  The Fisher's information for all remaining items must be less than this threshold.
+\item \code{gainThreshold} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this threshold.
+\item \code{lengthOverride} A numeric.  The number of questions answered must be less than this override.
+\item \code{gainOverride} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this override.
+
+\item \code{points} ????
+\item \code{quadPoints} ????
 }
 
-When priorName is set to "normal", the first priorParam is the mean, the second is the standard deviation.  When priorName is set to "Cauchy", the first priorParam is the location, and the second is the scale.  When priorName is set to "t", the first priorParam is mu, a location parameter, the second is sigma, a scale parameter, and the third is nu, the degrees of freedom parameter.
+When priorName is set to "NORMAL", the first element of priorParams is the mean, the second element is the standard deviation.  When priorName is set to "STUDENT_T", the first element of priorParam is mu, a location parameter, the second is degrees of freedom.  When priorName is set to "UNIFORM", the elements of priorParams are lower and upper, respectively.  Note that the uniform distribution is only applicable for the "EAP" estimation method.  
+
+Talk about 'z' and how it's used to calculate delta.
 }
 \author{
 Josh W. Cutler: \email{josh@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@wustl.edu}
-}
-\seealso{
-\code{\link{nextItem}}
-
-\code{\link{storeAnswer}}
-
-\code{\link{setGuessing}}, \code{\link{setDiscrimination}}
 }
 

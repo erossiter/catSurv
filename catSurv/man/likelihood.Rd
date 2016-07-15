@@ -9,7 +9,7 @@ likelihood(cat_df, t)
 \arguments{
 \item{cat_df}{An object of \code{Cat} class}
 
-\item{t}{A numeric for possible value of theta (position on the latent scale of interest)}
+\item{theta}{A numeric for possible value of theta (position on the latent scale of interest)}
 }
 \value{
 A value of the likelihood of each respondent having offered the provided response profile

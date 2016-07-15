@@ -14,6 +14,15 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+?checkStopRules
+
+
+icc(poly_cat, question = 1)
+iic(poly_cat, question = 1)
+
+
+
+
 binary_cat@strata <- rep(c(1,2), 5)
 binary_cat@selection <- "RANDOM"
 selectItem(binary_cat)

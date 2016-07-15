@@ -17,11 +17,10 @@ using namespace Rcpp;
 //' This function calculates the probabilities of a specific set of responses to a specific question for a specific value of \eqn{\theta}.
 //'
 //' @param cat_df An object of \code{Cat} class
-//' @param t A double indicating the potential value for \eqn{\theta_j}
-//' @param q An integer indicating the index of the question
-//' @param ret_prob (For polytonomous implementation only) A double-vector where the calculations carried out by this function will be stored.
+//' @param theta A double indicating the potential value for \eqn{\theta_j}
+//' @param question An integer indicating the index of the question
 //'
-//' @return A vector consisting of the probability of a correct response for each respondent on item \eqn{i}.
+//' @return A numeric vector consisting of the probability of a correct response (binary) or the probability of being less than each element of the item \eqn{i}'s difficulty parameter.
 //'
 //' @details The probability of a correct response for respondent \eqn{j} on item \eqn{i} is ....
 //' where \eqn{\theta_j} is respondent \eqn{j}'s position on the latent scale of interest, \eqn{a_i} is item \eqn{i}'s discrimination parameter,
@@ -34,19 +33,12 @@ using namespace Rcpp;
 //'
 //' @export
 // [[Rcpp::export]]
-List probability(S4 cat_df, NumericVector t, IntegerVector q) {
+List probability(S4 cat_df, NumericVector theta, IntegerVector question) {
 	Cat cat = Cat(cat_df);
-	double theta = t[0];
-	int question = q[0];
-	DataFrame question_probs = DataFrame::create(Named("probabilities") = cat.probability(theta, question));
+	double t = theta[0];
+	int q = question[0];
+	DataFrame question_probs = DataFrame::create(Named("probabilities") = cat.probability(t, q));
 	return List::create(Named("all.probabilities") = question_probs);
-}
-
-
-//' @export
-// [[Rcpp::export]]
-void showCppCat(S4 cat_df) {
-	return Cat(cat_df).showCppCat();
 }
 
 //' Likelihood of offering specific response
@@ -54,7 +46,7 @@ void showCppCat(S4 cat_df) {
 //' This function returns the value of likelihood of a person with ability parameter \eqn{\theta} having offered the specific response profile stored in answers conditional on the item-level parameters.
 //'
 //' @param cat_df An object of \code{Cat} class
-//' @param t A numeric for possible value of theta (position on the latent scale of interest)
+//' @param theta A numeric for possible value of theta (position on the latent scale of interest)
 //'
 //' @return A value of the likelihood of each respondent having offered the provided response profile
 //'
@@ -110,36 +102,6 @@ double estimateSE(S4 cat_df) {
 }
 
 
-//' The possible prior distribution functions
-//'
-//' This function returns the prior value for each respondent's position on the latent scale of interest
-//'
-//' @param x A numeric value where we want to evaluate the prior name
-//'
-//' @return A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
-//'
-//' @details \eqn{x} needs to be either NORMAL or STUDENT_T params, which are parameters controlling the shape of the prior
-//'
-//' @export
-// [[Rcpp::export]]
-double prior(NumericVector x, CharacterVector c, NumericVector p) {
-	std::string name = Rcpp::as<std::string>(c);
-	std::vector<double> params = Rcpp::as<std::vector<double> >(p);
-	return Prior(name, params).prior(x[0]);
-}
-
-
-//' @export
-// [[Rcpp::export]]
-double dLL(S4 &cat_df, double theta, bool use_prior){
-	return Cat(cat_df).dLL(theta, use_prior);
-}
-
-//' @export
-// [[Rcpp::export]]
-double d2LL(S4 &cat_df, double theta, bool use_prior){
-	return Cat(cat_df).d2LL(theta, use_prior);
-}
 
 // //' @export
 // // [[Rcpp::export]]
@@ -153,6 +115,15 @@ List selectItem(S4 cat_df) {
   return Cat(cat_df).selectItem();
 }
 
+
+
+//' Look Ahead to Select Next Item
+//'
+//' This function returns the next item that should be asked for all possible response options of the question the respondent is currently answering.
+//'
+//' @param cat_df  An object of \code{Cat} class
+//' @param item A numeric indicating the item the respondent is currently answering.
+//'
 //' @export
 // [[Rcpp::export]]
 List lookAhead(S4 cat_df, int item) {
@@ -160,6 +131,48 @@ List lookAhead(S4 cat_df, int item) {
   return Cat(cat_df).lookAhead(item);
 }
 
+
+
+
+
+//' Check if Stop and/or Override Rules are Met
+//'
+//' This function returns a boolean indicating if the respondent should not be asked futher questions after evaluating the specified stopping and/or override rules
+//'
+//' @param cat_df  An object of \code{Cat} class
+//'
+//' @return A boolean, where TRUE indicates the the stopping rules are met and FALSE indicates the stoppings rules are not met
+//'
+//' @details The stopping rule thresholds are stored in the following Cat object slots: lengthThreshold, seThreshold, infoThreshold, and gainThreshold.
+//' The override thresholds are stored in the following Cat object slots: lengthOverride, gainOverride.  A value of NA indicates the rule should not be used.
+//' 
+//' A return value of TRUE indicates that additional questions should be asked; FALSE indicates no additional questions should be asked.
+//' 
+//' A user can specify any combination of stopping rules and/or overrides.  The function returns TRUE if all specified stopping rules are met
+//' and no specified overrides are met.  The function returns FALSE if at least one specified stopping rule is not met, or if any specified override threshold is met.
+//' 
+//' @export
+// [[Rcpp::export]]
+bool checkStopRules(S4 cat_df) {
+	std::vector<bool> answer = Cat(cat_df).checkStopRules();
+  return answer[0];
+}
+
+
+
+
+
+/**
+ * These are the functions I think we eventually do not want exposed to R/the user.  Therefore, I
+ * am not documenting them just yet.
+ */
+
+
+//' @export
+// [[Rcpp::export]]
+double findRoot(S4 cat_df) {
+	return Cat(cat_df).findRoot();
+}
 
 //' @export
 // [[Rcpp::export]]
@@ -218,20 +231,44 @@ double fisherTestInfo(S4 cat_df) {
 }
 
 
+
+//' The possible prior distribution functions
+//'
+//' This function returns the prior value for each respondent's position on the latent scale of interest
+//'
+//' @param x A numeric value where we want to evaluate the prior name
+//'
+//' @return A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
+//'
+//' @details \eqn{x} needs to be either NORMAL or STUDENT_T params, which are parameters controlling the shape of the prior
+//'
 //' @export
 // [[Rcpp::export]]
-double findRoot(S4 cat_df) {
-	return Cat(cat_df).findRoot();
+double prior(NumericVector x, CharacterVector c, NumericVector p) {
+	std::string name = Rcpp::as<std::string>(c);
+	std::vector<double> params = Rcpp::as<std::vector<double> >(p);
+	return Prior(name, params).prior(x[0]);
+}
+
+
+//' @export
+// [[Rcpp::export]]
+double dLL(S4 &cat_df, double theta, bool use_prior){
+	return Cat(cat_df).dLL(theta, use_prior);
+}
+
+
+//' @export
+// [[Rcpp::export]]
+double d2LL(S4 &cat_df, double theta, bool use_prior){
+	return Cat(cat_df).d2LL(theta, use_prior);
 }
 
 //' @export
 // [[Rcpp::export]]
-bool checkStopRules(S4 cat_df) {
-	std::vector<bool> answer = Cat(cat_df).checkStopRules();
-  return answer[0];
+void showCppCat(S4 cat_df) {
+	return Cat(cat_df).showCppCat();
 }
-
-
 
 
 

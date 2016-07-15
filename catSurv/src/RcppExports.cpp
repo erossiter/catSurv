@@ -7,26 +7,16 @@
 using namespace Rcpp;
 
 // probability
-List probability(S4 cat_df, NumericVector t, IntegerVector q);
-RcppExport SEXP catSurv_probability(SEXP cat_dfSEXP, SEXP tSEXP, SEXP qSEXP) {
+List probability(S4 cat_df, NumericVector theta, IntegerVector question);
+RcppExport SEXP catSurv_probability(SEXP cat_dfSEXP, SEXP thetaSEXP, SEXP questionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type q(qSEXP);
-    __result = Rcpp::wrap(probability(cat_df, t, q));
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type question(questionSEXP);
+    __result = Rcpp::wrap(probability(cat_df, theta, question));
     return __result;
-END_RCPP
-}
-// showCppCat
-void showCppCat(S4 cat_df);
-RcppExport SEXP catSurv_showCppCat(SEXP cat_dfSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
-    showCppCat(cat_df);
-    return R_NilValue;
 END_RCPP
 }
 // likelihood
@@ -63,45 +53,6 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// prior
-double prior(NumericVector x, CharacterVector c, NumericVector p);
-RcppExport SEXP catSurv_prior(SEXP xSEXP, SEXP cSEXP, SEXP pSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type c(cSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type p(pSEXP);
-    __result = Rcpp::wrap(prior(x, c, p));
-    return __result;
-END_RCPP
-}
-// dLL
-double dLL(S4& cat_df, double theta, bool use_prior);
-RcppExport SEXP catSurv_dLL(SEXP cat_dfSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< S4& >::type cat_df(cat_dfSEXP);
-    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type use_prior(use_priorSEXP);
-    __result = Rcpp::wrap(dLL(cat_df, theta, use_prior));
-    return __result;
-END_RCPP
-}
-// d2LL
-double d2LL(S4& cat_df, double theta, bool use_prior);
-RcppExport SEXP catSurv_d2LL(SEXP cat_dfSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< S4& >::type cat_df(cat_dfSEXP);
-    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< bool >::type use_prior(use_priorSEXP);
-    __result = Rcpp::wrap(d2LL(cat_df, theta, use_prior));
-    return __result;
-END_RCPP
-}
 // selectItem
 List selectItem(S4 cat_df);
 RcppExport SEXP catSurv_selectItem(SEXP cat_dfSEXP) {
@@ -122,6 +73,28 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
     Rcpp::traits::input_parameter< int >::type item(itemSEXP);
     __result = Rcpp::wrap(lookAhead(cat_df, item));
+    return __result;
+END_RCPP
+}
+// checkStopRules
+bool checkStopRules(S4 cat_df);
+RcppExport SEXP catSurv_checkStopRules(SEXP cat_dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    __result = Rcpp::wrap(checkStopRules(cat_df));
+    return __result;
+END_RCPP
+}
+// findRoot
+double findRoot(S4 cat_df);
+RcppExport SEXP catSurv_findRoot(SEXP cat_dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    __result = Rcpp::wrap(findRoot(cat_df));
     return __result;
 END_RCPP
 }
@@ -222,25 +195,52 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// findRoot
-double findRoot(S4 cat_df);
-RcppExport SEXP catSurv_findRoot(SEXP cat_dfSEXP) {
+// prior
+double prior(NumericVector x, CharacterVector c, NumericVector p);
+RcppExport SEXP catSurv_prior(SEXP xSEXP, SEXP cSEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
-    __result = Rcpp::wrap(findRoot(cat_df));
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type c(cSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type p(pSEXP);
+    __result = Rcpp::wrap(prior(x, c, p));
     return __result;
 END_RCPP
 }
-// checkStopRules
-bool checkStopRules(S4 cat_df);
-RcppExport SEXP catSurv_checkStopRules(SEXP cat_dfSEXP) {
+// dLL
+double dLL(S4& cat_df, double theta, bool use_prior);
+RcppExport SEXP catSurv_dLL(SEXP cat_dfSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
-    __result = Rcpp::wrap(checkStopRules(cat_df));
+    Rcpp::traits::input_parameter< S4& >::type cat_df(cat_dfSEXP);
+    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type use_prior(use_priorSEXP);
+    __result = Rcpp::wrap(dLL(cat_df, theta, use_prior));
     return __result;
+END_RCPP
+}
+// d2LL
+double d2LL(S4& cat_df, double theta, bool use_prior);
+RcppExport SEXP catSurv_d2LL(SEXP cat_dfSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4& >::type cat_df(cat_dfSEXP);
+    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type use_prior(use_priorSEXP);
+    __result = Rcpp::wrap(d2LL(cat_df, theta, use_prior));
+    return __result;
+END_RCPP
+}
+// showCppCat
+void showCppCat(S4 cat_df);
+RcppExport SEXP catSurv_showCppCat(SEXP cat_dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
+    showCppCat(cat_df);
+    return R_NilValue;
 END_RCPP
 }

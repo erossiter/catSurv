@@ -4,19 +4,17 @@
 \alias{probability}
 \title{Probabilities of the responses to a question given theta}
 \usage{
-probability(cat_df, t, q)
+probability(cat_df, theta, question)
 }
 \arguments{
 \item{cat_df}{An object of \code{Cat} class}
 
-\item{t}{A double indicating the potential value for \eqn{\theta_j}}
+\item{theta}{A double indicating the potential value for \eqn{\theta_j}}
 
-\item{q}{An integer indicating the index of the question}
-
-\item{ret_prob}{(For polytonomous implementation only) A double-vector where the calculations carried out by this function will be stored.}
+\item{question}{An integer indicating the index of the question}
 }
 \value{
-A vector consisting of the probability of a correct response for each respondent on item \eqn{i}.
+A numeric vector consisting of the probability of a correct response (binary) or the probability of being less than each element of the item \eqn{i}'s difficulty parameter.
 }
 \description{
 This function calculates the probabilities of a specific set of responses to a specific question for a specific value of \eqn{\theta}.
