@@ -60,6 +60,7 @@ test_that("estimateSE calculates correctly for MLE", {
   binary_ltm.ltm <- ltm(ltm_data ~ z1, control = list(GHk = 100))
   
   ltm.scores <- factor.scores.ltm(binary_ltm.ltm, method = "EB", prior = FALSE)$score.dat
+  ltm.scores <- ltm.scores[-c(9,82),]
   
   binary_cat.ltm <- ltmCat(binary_ltm.ltm)
   binary_cat.ltm@estimation <- "MLE"
@@ -69,7 +70,6 @@ test_that("estimateSE calculates correctly for MLE", {
     expect_equal(estimateSE(binary_cat.ltm),
                  ltm.scores[j,"se.z1"],
                  tolerance = .0001)
-    # test fails at 3 decimal places
   }
   
   # binary (tpm)
@@ -101,7 +101,7 @@ test_that("estimateSE calculates correctly for MLE", {
     expect_equal(estimateSE(poly_cat),
                  grm.scores[j,"se.z1"],
                  tolerance = .0001)
-    # test fails at 3 decimal places
+    # test fails at 2 decimal places
   }
   
   detach(package:ltm)
