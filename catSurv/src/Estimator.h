@@ -73,19 +73,10 @@ protected:
 	 * be), then this should be moved as well, and made public.
 	 */
 	typedef std::function<double(double)> integrableFunction;
-
-	/**
-	* Computes the quotient of the integrals of the functions provided
-	* - that is, it computes: ∫(numerator) / ∫(denominator).
-	*/
-	// double integralQuotient(const integrableFunction &numerator,
-	//                         const integrableFunction &denominator);
 	
 	double brentMethod(const integrableFunction &function);
 	
-	double integrate_selectItem(const integrableFunction &function);
-	
-	double integrate_selectItem_bounds(const integrableFunction &function, const double lower, const double upper);
+	double integrate_selectItem(const integrableFunction &function, const double lower, const double upper);
 
 private:
 	/**

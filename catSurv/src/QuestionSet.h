@@ -30,6 +30,9 @@ struct QuestionSet {
 	 * Keeping track of extreme answers for MLEEstimator.
 	 */	
 	bool all_extreme;
+	
+	double lowerBound;
+	double upperBound;
 
 	QuestionSet(Rcpp::S4 &cat_df);
 };

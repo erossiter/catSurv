@@ -35,8 +35,6 @@ public:
 	double fisherInf(double theta, int item);
 
 	double expectedObsInf(int item);
-
-	// Rcpp::List selectItem(int strata_choice);
 	
 	Rcpp::List selectItem();
 	

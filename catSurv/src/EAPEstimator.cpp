@@ -21,7 +21,9 @@ double EAPEstimator::estimateTheta(Prior prior) {
 		return theta * denominator(theta);
 	};
 
-	return integralQuotient(numerator, denominator);
+	std::cout << questionSet.lowerBound << std::endl;
+	
+	return integralQuotient(numerator, denominator, questionSet.lowerBound, questionSet.upperBound);
 }
 
 double EAPEstimator::estimateSE(Prior prior) {
@@ -36,11 +38,12 @@ double EAPEstimator::estimateSE(Prior prior) {
 		return theta_difference * theta_difference * denominator(theta);
 	};
 
-	return sqrt(integralQuotient(numerator, denominator));
+	return sqrt(integralQuotient(numerator, denominator, questionSet.lowerBound, questionSet.upperBound));
 }
 
 double EAPEstimator::integralQuotient(integrableFunction const &numerator,
-                                   integrableFunction const &denominator) {
+                                   integrableFunction const &denominator,
+                                   const double lower, const double upper) {
 	/*
 	 * Because GSL is a C library, not a C++ library, it is not easy to pass arbitrary
 	 * C++ functions to GSL's integration routine. To solve this, wrap the arbitrary functions
@@ -49,8 +52,8 @@ double EAPEstimator::integralQuotient(integrableFunction const &numerator,
 	gsl_function *numeratorFunction = GSLFunctionWrapper(numerator).asGSLFunction();
 	gsl_function *denominatorFunction = GSLFunctionWrapper(denominator).asGSLFunction();
 
-	const double top = integrator.integrate(numeratorFunction, integrationSubintervals);
-	const double bottom = integrator.integrate(denominatorFunction, integrationSubintervals);
+	const double top = integrator.integrate(numeratorFunction, integrationSubintervals, lower, upper);
+	const double bottom = integrator.integrate(denominatorFunction, integrationSubintervals, lower, upper);
 	return top / bottom;
 }
 

@@ -25,7 +25,8 @@ protected:
 	* - that is, it computes: ∫(numerator) / ∫(denominator).
 	*/
 	double integralQuotient(const integrableFunction &numerator,
-	                        const integrableFunction &denominator);
+	                        const integrableFunction &denominator,
+                          const double lower, const double upper);
 	
 private:
 	/**

@@ -15,10 +15,23 @@ load_all(current.code)
 document(current.code)
 
 
-binary_cat@priorName <- "UNIFORM"
+binary_cat@estimation <- "EAP"
+binary_cat@priorName <- "NORMAL"
 binary_cat@priorParams <- c(-1,2)
+binary_cat@lowerBound <- -1
+binary_cat@upperBound <- 1
+binary_cat@answers[1:5] <- c(0,1,0,1,0)
+
+estimateTheta(binary_cat)
+
+
+
+
+selectItem(binary_cat)
 
 prior(x = 1, c = binary_cat@priorName, p = binary_cat@priorParams)
+
+
 
 ?checkStopRules
 

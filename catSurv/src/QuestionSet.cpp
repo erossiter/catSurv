@@ -7,6 +7,9 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 	z = Rcpp::as<std::vector<double> >(cat_df.slot("z"));
 	strata = Rcpp::as<std::vector<int> >(cat_df.slot("strata"));
 	
+	lowerBound = Rcpp::as<double >(cat_df.slot("lowerBound"));
+	upperBound = Rcpp::as<double >(cat_df.slot("upperBound"));
+	
 	Rcpp::NumericVector discrim_names = cat_df.slot("discrimination");
   Rcpp::CharacterVector names = discrim_names.names();
   question_names = Rcpp::as<std::vector<std::string> >(names);

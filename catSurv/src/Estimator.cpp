@@ -320,7 +320,7 @@ double Estimator::pwi(int item, Prior prior) {
 		return likelihood(theta) * prior.prior(theta) * fisherInf(theta, item);
 	};
 
-	return integrate_selectItem(pwi_j);
+	return integrate_selectItem(pwi_j, questionSet.lowerBound, questionSet.upperBound);
 }
 
 double Estimator::lwi(int item) {
@@ -329,7 +329,7 @@ double Estimator::lwi(int item) {
 		return likelihood(theta) * fisherInf(theta, item);
 	};
 
-	return integrate_selectItem(lwi_j);
+	return integrate_selectItem(lwi_j, questionSet.lowerBound, questionSet.upperBound);
 }
 
 double Estimator::fii(int item, Prior prior) {
@@ -343,7 +343,7 @@ double Estimator::fii(int item, Prior prior) {
   const double lower = estimateTheta(prior) - delta;
   const double upper = estimateTheta(prior) + delta;
 
-	return integrate_selectItem_bounds(fii_j, lower, upper);
+	return integrate_selectItem(fii_j, lower, upper);
 }
 
 
@@ -383,7 +383,7 @@ double Estimator::expectedKL(int item, Prior prior) {
   const double lower = estimateTheta(prior) - delta;
   const double upper = estimateTheta(prior) + delta;
 
-  return integrate_selectItem_bounds(kl_fctn, lower, upper);
+  return integrate_selectItem(kl_fctn, lower, upper);
 }
 
 
@@ -393,7 +393,7 @@ double Estimator::likelihoodKL(int item, Prior prior) {
 	  return likelihood(theta_not) * kl(theta_not, item, prior);
   };
 
-  return integrate_selectItem(kl_fctn);
+  return integrate_selectItem(kl_fctn, questionSet.lowerBound, questionSet.upperBound);
 }
 
 
@@ -403,16 +403,15 @@ double Estimator::posteriorKL(int item, Prior prior) {
 	  return prior.prior(theta_not) * likelihood(theta_not) * kl(theta_not, item, prior);
   };
 
-  return integrate_selectItem(kl_fctn);
+  return integrate_selectItem(kl_fctn, questionSet.lowerBound, questionSet.upperBound);
 }
 
 
-double Estimator::integrate_selectItem(const integrableFunction &function){
-  gsl_function *f = GSLFunctionWrapper(function).asGSLFunction();
-	return integrator.integrate(f, integrationSubintervals);
-}
-
-double Estimator::integrate_selectItem_bounds(const integrableFunction &function, const double lower, const double upper){
+double Estimator::integrate_selectItem(const integrableFunction &function,
+                                              const double lower, const double upper){
   gsl_function *f = GSLFunctionWrapper(function).asGSLFunction();
   return integrator.integrate(f, integrationSubintervals, lower, upper);
 }
+
+
+

@@ -120,9 +120,6 @@ double Cat::expectedPV(int item) {
 
 List Cat::selectItem() {
   Selection selection = selector->selectItem();
-// List Cat::selectItem(int strata_choice) {
-//   Selection selection = selector->selectItem_strata(strata_choice);
-  
   // Adding 1 to each row index so it prints the correct question number for user
 	std::transform(selection.questions.begin(), selection.questions.end(), selection.questions.begin(),
                 bind2nd(std::plus<int>(), 1.0));

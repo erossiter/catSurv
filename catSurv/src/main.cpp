@@ -102,13 +102,6 @@ double estimateSE(S4 cat_df) {
 }
 
 
-
-// //' @export
-// // [[Rcpp::export]]
-// List selectItem(S4 cat_df, int strata_choice = 1) {
-//   return Cat(cat_df).selectItem(strata_choice);
-// }
-
 //' @export
 // [[Rcpp::export]]
 List selectItem(S4 cat_df) {

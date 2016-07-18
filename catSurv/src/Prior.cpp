@@ -19,7 +19,7 @@ double Prior::prior(double x) {
 	if (name == "UNIFORM") {
 	  return uniform(x, parameters[0], parameters[1]);
 	}
-	if (name == "STUDENT_T"){
+	if (name == "NORMAL"){
 		return dnorm4(Rcpp::NumericVector::create(x), parameters[0], parameters[1], 0)[0];
 	}
 	
