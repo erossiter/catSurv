@@ -161,11 +161,7 @@ bool checkStopRules(S4 cat_df) {
  */
 
 
-//' @export
-// [[Rcpp::export]]
-double findRoot(S4 cat_df) {
-	return Cat(cat_df).findRoot();
-}
+
 
 //' @export
 // [[Rcpp::export]]
@@ -244,18 +240,18 @@ double prior(NumericVector x, CharacterVector c, NumericVector p) {
 }
 
 
-//' @export
-// [[Rcpp::export]]
-double dLL(S4 &cat_df, double theta, bool use_prior){
-	return Cat(cat_df).dLL(theta, use_prior);
-}
-
-
-//' @export
-// [[Rcpp::export]]
-double d2LL(S4 &cat_df, double theta, bool use_prior){
-	return Cat(cat_df).d2LL(theta, use_prior);
-}
+// //' @export
+// // [[Rcpp::export]]
+// double dLL(S4 &cat_df, double theta, bool use_prior){
+// 	return Cat(cat_df).dLL(theta, use_prior);
+// }
+// 
+// 
+// //' @export
+// // [[Rcpp::export]]
+// double d2LL(S4 &cat_df, double theta, bool use_prior){
+// 	return Cat(cat_df).d2LL(theta, use_prior);
+// }
 
 //' @export
 // [[Rcpp::export]]

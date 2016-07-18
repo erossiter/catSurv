@@ -14,15 +14,18 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
-
-binary_cat@estimation <- "EAP"
+data(npi)
+binary_cat <- ltmCat(npi[1:100, ], 100)
 binary_cat@priorName <- "NORMAL"
-binary_cat@priorParams <- c(-1,2)
+binary_cat@priorParams <- c(0,1)
 binary_cat@lowerBound <- 0
 binary_cat@upperBound <- 1
-binary_cat@answers[1:5] <- c(0,1,0,1,0)
+binary_cat@answers[1:35] <- unlist(npi[1,1:35])
 
-estimateTheta(binary_cat)
+
+trialCat@estimation <- "WLE"
+estimateTheta(trialCat)
+
 
 
 

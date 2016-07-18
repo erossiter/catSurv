@@ -1,17 +1,11 @@
 #pragma once
 #include "Estimator.h"
 #include "Prior.h"
-#include "MAPEstimator.h"
 
 
 class MLEEstimator : public Estimator {
 
-
 public:
-  
-	double dLL(double theta);
-
-	double d2LL(double theta);
 
 	MLEEstimator(Integrator &integrator, QuestionSet &questionSet);
 
@@ -20,13 +14,9 @@ public:
 	virtual double estimateTheta(Prior prior) override;
 	
 	virtual double estimateSE(Prior prior) override;
-	
-	double polytomous_dLL(double theta);
 
-	double binary_dLL(double theta);
+protected:
+  
+  double dLL_root();
 	
-	double polytomous_d2LL(double theta);
-	
-	double binary_d2LL(double theta);
-
 };

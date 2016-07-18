@@ -38,8 +38,6 @@ public:
 
 	double expectedObsInf(int item, Prior &prior);
 	
-	double findRoot();
-	
 	double fisherTestInfo(Prior prior);
 	
 	double pwi(int item, Prior prior);
@@ -53,6 +51,10 @@ public:
 	double likelihoodKL(int item, Prior prior);
 	
 	double posteriorKL(int item, Prior prior);
+	
+	double dLL(double theta, bool use_prior, Prior &prior);
+	double d2LL(double theta, bool use_prior, Prior &prior);
+	
 
 protected:
 	const Integrator &integrator;
@@ -87,8 +89,13 @@ private:
 	constexpr static double integrationSubintervals = 10;
 
 	double polytomous_posterior_variance(int item, Prior &prior);
-
 	double binary_posterior_variance(int item, Prior &prior);
+	
+	double polytomous_dLL(double theta);
+	double binary_dLL(double theta);
+	
+	double polytomous_d2LL(double theta);
+	double binary_d2LL(double theta);
 	
 };
 

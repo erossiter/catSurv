@@ -26,9 +26,9 @@ public:
 
 	double expectedPV(int item);
 
-	double dLL(double theta, bool use_prior);
-
-	double d2LL(double theta, bool use_prior);
+	// double dLL(double theta, bool use_prior);
+	// 
+	// double d2LL(double theta, bool use_prior);
 
 	double obsInf(double theta, int item);
 	
@@ -43,8 +43,6 @@ public:
 	std::vector<bool> checkStopRules();
 	
 	void showCppCat();
-	
-	double findRoot();
 
 	std::vector<double> probability(double theta, int question);
 	

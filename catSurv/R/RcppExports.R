@@ -121,11 +121,6 @@ checkStopRules <- function(cat_df) {
 }
 
 #' @export
-findRoot <- function(cat_df) {
-    .Call('catSurv_findRoot', PACKAGE = 'catSurv', cat_df)
-}
-
-#' @export
 expectedPV <- function(cat_df, item) {
     .Call('catSurv_expectedPV', PACKAGE = 'catSurv', cat_df, item)
 }
@@ -178,16 +173,6 @@ fisherTestInfo <- function(cat_df) {
 #' @export
 prior <- function(x, c, p) {
     .Call('catSurv_prior', PACKAGE = 'catSurv', x, c, p)
-}
-
-#' @export
-dLL <- function(cat_df, theta, use_prior) {
-    .Call('catSurv_dLL', PACKAGE = 'catSurv', cat_df, theta, use_prior)
-}
-
-#' @export
-d2LL <- function(cat_df, theta, use_prior) {
-    .Call('catSurv_d2LL', PACKAGE = 'catSurv', cat_df, theta, use_prior)
 }
 
 #' @export
