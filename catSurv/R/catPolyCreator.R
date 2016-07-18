@@ -49,6 +49,10 @@ setMethod(f="catPolyCreator", signature="numeric",
                           guessing=maxGuessing*runif(numQuestions),
                           poly=T,
                           answers=rep(NA, numQuestions))
+              ## some functions want discrimination parameters to have names...
+              for(i in 1:length(newCat@discrimination)){
+                names(newCat@discrimination)[i]<-paste0("Q", as.character(i))
+              }
               ## randomly selecting the question items that will be filled with answers
               toBeFilled<-sample(length(newCat@answers), floor(fillAnswers*length(newCat@answers)), replace=F)
               ## filling those selected questions with a response value, which is randomly drawn from (the number of difficulty parameters + 1)

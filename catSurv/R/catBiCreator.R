@@ -35,11 +35,15 @@ setMethod(f="catBiCreator", signature="numeric",
             for(i in 1:numCats){
               numQuestions<-3+floor(abs(50*(rnorm(1))))
               newCat<-new("Cat",
-                          discrimination=abs((spread*rnorm(numQuestions))),
+                          discrimination=((spread*rnorm(numQuestions))),
                           difficulty=(spread*rnorm(numQuestions)),
                           guessing=maxGuessing*runif(numQuestions),
                           poly=F,
                           answers=rep(NA, numQuestions))
+              ## some functions want discrimination parameters to have names...
+              for(i in 1:length(newCat@discrimination)){
+                names(newCat@discrimination)[i]<-paste0("Q", as.character(i))
+              }
               
               ## randomly selecting the question items that will be filled with answers
               toBeFilled<-sample(1:length(newCat@answers), floor(fillAnswers*length(newCat@answers)), replace=F)
