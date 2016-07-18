@@ -5,7 +5,6 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 	guessing = Rcpp::as<std::vector<double> >(cat_df.slot("guessing"));
 	discrimination = Rcpp::as<std::vector<double> >(cat_df.slot("discrimination"));
 	z = Rcpp::as<std::vector<double> >(cat_df.slot("z"));
-	strata = Rcpp::as<std::vector<int> >(cat_df.slot("strata"));
 	
 	lowerBound = Rcpp::as<double >(cat_df.slot("lowerBound"));
 	upperBound = Rcpp::as<double >(cat_df.slot("upperBound"));

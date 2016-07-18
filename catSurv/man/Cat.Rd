@@ -17,8 +17,8 @@ Assume we have a survey battery with \code{I} questions.  An object of the class
 \item \code{answers} A named vector of length \code{I} of answers to questions as given by the survey respondent.  Unanswered questions have the value \code{NA}.
 \item \code{priorName} A character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{NORMAL} for the normal distirbution, \code{STUDENT_T} for the student's t distribution, and \code{UNIFORM} for the uniform distribution.  
 \item \code{priorParams} A numeric vector of length two of parameters for the distribution specified in the \code{priorName} slot. See 'details' for more information.
-\item \code{lowerBound} A numeric indicating the lower bound of the interval of the latent scale used in estimation. The default value is \code{-4.5}.
-\item \code{upperBound} A numeric indicating the upper bound of the interval of the latent scale used in estimation. The default value is \code{4.5}.
+\item \code{lowerBound} A numeric indicating the lower bound of the interval of the latent scale used in estimation. The default value is \code{-6}.
+\item \code{upperBound} A numeric indicating the upper bound of the interval of the latent scale used in estimation. The default value is \code{6}.
 \item \code{poly} A logical containing the type of answers.  TRUE indicates categorical response options, FALSE indicates binary response options.  Default is TRUE.
 \item \code{estimation} A character vector of length one indicating the choice of approach to estimate ability parameters.  The options are \code{EAP}, \code{MAP}, and \code{MLE}.
 \item \code{estimationDefault} A character vector of length one indicating the choice of approach to estimate ability parameters when the primary estimation choice indicating in the \code{estimation} slot fails to converge.  The options are \code{EAP} and \code{MAP}.
