@@ -16,12 +16,15 @@ double Prior::prior(double x) {
   if (name == "STUDENT_T") {
 	  return dt(x, (int) parameters[1], parameters[0]);
 	}
-	else if (name == "UNIFORM") {
+	if (name == "UNIFORM") {
 	  return uniform(x, parameters[0], parameters[1]);
 	}
-	else {
+	if (name == "STUDENT_T"){
 		return dnorm4(Rcpp::NumericVector::create(x), parameters[0], parameters[1], 0)[0];
 	}
+	
+	Rcpp::stop("%s is not a valid prior name.", name);
+	throw std::invalid_argument("Invalid prior name"); 
 }
 
 Prior::Prior(Rcpp::S4 cat_df) : name(Rcpp::as<std::string>(cat_df.slot("priorName"))),

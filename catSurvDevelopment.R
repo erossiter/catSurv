@@ -14,6 +14,12 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 
+
+binary_cat@priorName <- "UNIFORM"
+binary_cat@priorParams <- c(-1,2)
+
+prior(x = 1, c = binary_cat@priorName, p = binary_cat@priorParams)
+
 ?checkStopRules
 
 
