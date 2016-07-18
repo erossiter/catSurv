@@ -30,7 +30,9 @@ struct QuestionSet {
 	 * Keeping track of extreme answers for MLEEstimator.
 	 */	
 	bool all_extreme;
-	
+	/**
+	 * Bounds for integration.
+	 */		
 	double lowerBound;
 	double upperBound;
 

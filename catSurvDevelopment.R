@@ -18,7 +18,7 @@ document(current.code)
 binary_cat@estimation <- "EAP"
 binary_cat@priorName <- "NORMAL"
 binary_cat@priorParams <- c(-1,2)
-binary_cat@lowerBound <- -1
+binary_cat@lowerBound <- 0
 binary_cat@upperBound <- 1
 binary_cat@answers[1:5] <- c(0,1,0,1,0)
 

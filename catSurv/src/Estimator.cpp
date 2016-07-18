@@ -407,8 +407,7 @@ double Estimator::posteriorKL(int item, Prior prior) {
 }
 
 
-double Estimator::integrate_selectItem(const integrableFunction &function,
-                                              const double lower, const double upper){
+double Estimator::integrate_selectItem(const integrableFunction &function, const double lower, const double upper){
   gsl_function *f = GSLFunctionWrapper(function).asGSLFunction();
   return integrator.integrate(f, integrationSubintervals, lower, upper);
 }

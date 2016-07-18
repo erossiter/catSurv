@@ -20,8 +20,6 @@ double EAPEstimator::estimateTheta(Prior prior) {
 	integrableFunction numerator = [&](double theta) {
 		return theta * denominator(theta);
 	};
-
-	std::cout << questionSet.lowerBound << std::endl;
 	
 	return integralQuotient(numerator, denominator, questionSet.lowerBound, questionSet.upperBound);
 }
