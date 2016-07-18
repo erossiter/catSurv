@@ -62,7 +62,7 @@ test_that("estimateSE calculates correctly for MLE", {
   ltm.scores <- factor.scores.ltm(binary_ltm.ltm, method = "EB", prior = FALSE)$score.dat
   ltm.scores <- ltm.scores[-c(9,82),]
   
-  binary_cat.ltm <- ltmCat(binary_ltm.ltm)
+  binary_cat.ltm <- ltmCat(binary_ltm.ltm, 100)
   binary_cat.ltm@estimation <- "MLE"
   
   for(j in 1:dim(ltm.scores)[1]){
@@ -77,7 +77,7 @@ test_that("estimateSE calculates correctly for MLE", {
   
   tpm.scores <- factor.scores.tpm(binary_ltm.tpm, method = "EB", prior = FALSE)$score.dat
   
-  binary_cat.tpm <- tpmCat(binary_ltm.tpm)
+  binary_cat.tpm <- tpmCat(binary_ltm.tpm, 100)
   binary_cat.tpm@estimation <- "MLE"  
   
   for(j in 1:dim(tpm.scores)[1]){
