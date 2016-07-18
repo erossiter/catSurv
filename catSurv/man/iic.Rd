@@ -4,7 +4,7 @@
 \alias{iic}
 \title{Plotting Item Information Curves (IIC)}
 \usage{
-iic(object, theta_range = seq(-5, 5, 0.1), question, ...)
+iic(object, theta_range = seq(-3, 3, 0.1), question, ...)
 }
 \arguments{
 \item{object}{A \code{Cat} object}

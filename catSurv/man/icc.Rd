@@ -16,7 +16,7 @@ icc(object, theta_range = seq(-3, 3, 0.1), question, ...)
  @return A list with components,
 \itemize{
 \item \code{iccPlot} a named vector of difficulty parameters for use with dichotomous questions/items.  Each element's name tells the question/item to which it applies.
-\item \code{x} A matrix of probabilities calculated at each theta from which the curves were drawn.
+\item \code{iccInfo} A matrix of theta values, and the probabilities calculated at each theta value from which the curves were drawn.
 }}
 }
 \description{
