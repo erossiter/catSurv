@@ -111,23 +111,23 @@ setValidity("Cat", function(object){
   # guessing, discrimination, answers, difficulty should all be same length
   #... and that length must be greater than 1
   test0<-(length(object@discrimination)>1)
-  if(!test0){return("discrimination needs length greater than 1")}
+  if(!test0) stop("discrimination needs length greater than 1")}
 
   test1<-(length(object@discrimination)==length(object@guessing))
-  if(!test1){return("discrimination and guessing not same length")}
+  if(!test1) stop("discrimination and guessing not same length")}
 
   test2<-(length(object@discrimination)==length(object@answers))
-  if(!test2){return("discrimination and answers not same length")}
+  if(!test2) stop("discrimination and answers not same length")}
 
   test3<-(length(object@discrimination)==length(object@difficulty))
-  if(!test3){return("discrimination and difficulty not same length")}
+  if(!test3) stop("discrimination and difficulty not same length")}
 
   ## If the Cat is polytomous, the difficulty needs to be list
   if(object@poly==T){
-    if(class(object@difficulty)!="list"){return("Cat object is polytomous, but difficulty slot is not a list")}
+    if(class(object@difficulty)!="list") stop("Cat object is polytomous, but difficulty slot is not a list")}
   }
   else{
-    if(class(object@difficulty)!="numeric"){return("Cat object is binary, but difficulty slot is not a numeric vector")}
+    if(class(object@difficulty)!="numeric") stop("Cat object is binary, but difficulty slot is not a numeric vector")}
   }
 
   
@@ -139,9 +139,9 @@ setValidity("Cat", function(object){
       }
       item<-i #don't want to change the value stored in the object itself...
       sorted<-sort(item)
-      uniques<-unique(item)
-      test4<-(isTRUE(all.equal(item,uniques)))
-      # if(!test4){return(paste("Repeated difficulty values for question ", which(object@difficulty==item, arr.ind=T)))}
+      uniques<-unique(sorted)
+      test4<-(isTRUE(all.equal(sorted,uniques)))
+      if(!test4) stop(paste("Repeated difficulty values for question ", which(object@difficulty==item, arr.ind=T)))}
       # test5<-(isTRUE(all.equal(i,sorted)))
       # if(!test5){return(paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " are not increasing"))}
       # test6<-(all(!is.na(item)))
@@ -153,14 +153,24 @@ setValidity("Cat", function(object){
   ## test that discrimination and guessing are not NA
   for(i in object@discrimination){
     test7<-!is.na(i)
-    if(!test7){return(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+    if(!test7) stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
   }
   if(!object@poly){
     for(i in object@guessing){
       test8<-!is.na(i)
-      if(!test8){return(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+      if(!test8) stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
     }
   }
+  
+  ## checks for priorName = 'uniform'...
+  if(object@priorName=='UNIFORM'){
+    test9<- (object@estimation=='EAP')
+    if(!test9) stop("priorName is UNIFORM, but estimation is not EAP")
+    test10<- (object@lower<=object@priorParam[1])
+    test11<- (object@upper>=object@priorParam[2])
+    if(!test10||!test11) stop("priorName is UNIFORM but priorParam values not bounded by lower and upper bounds")
+  }
+  
 })
 
 
