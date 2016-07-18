@@ -7,7 +7,7 @@
 #include "Prior.h"
 
 enum class EstimationType {
-	EAP, MAP, MLE
+	EAP, MAP, MLE, WLE
 };
 
 

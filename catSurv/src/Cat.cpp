@@ -5,6 +5,7 @@
 #include "EAPEstimator.h"
 #include "MAPEstimator.h"
 #include "MLEEstimator.h"
+#include "WLEEstimator.h"
 #include "EPVSelector.h"
 #include "MEISelector.h"
 #include "MFISelector.h"
@@ -238,6 +239,10 @@ std::unique_ptr<Estimator> Cat::createEstimator(S4 &cat_df, Integrator &integrat
 
 	if (estimation_type == "MAP") {
 		return std::unique_ptr<MAPEstimator>(new MAPEstimator(integrator, questionSet));
+	}
+	
+	if (estimation_type == "WLE") {
+		return std::unique_ptr<WLEEstimator>(new WLEEstimator(integrator, questionSet));
 	}
 	
 	if (estimation_type == "MLE") {
