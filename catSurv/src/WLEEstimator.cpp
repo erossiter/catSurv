@@ -57,7 +57,7 @@ double WLEEstimator::poly_estimateTheta(Prior prior){
         P_prime.push_back(P_prime_k);
       }
 
-      for (size_t k = 1; k < P_prime.size(); ++k) {
+      for (size_t k = 1; k <= P_prime.size(); ++k) {
         double P_prime1 = P_prime[k];
         double P_prime2 = P_prime[k-1];
 
@@ -68,10 +68,9 @@ double WLEEstimator::poly_estimateTheta(Prior prior){
         P_doub_prime.push_back(P_doub_prime_k);
       }
 
-      for (auto k : P_prime) {
+      for (size_t k = 0; k < P_prime.size(); ++k) {
         B += (P_prime[k] * P_doub_prime[k]) / P[k];
       }
-      std::cout << B << std::endl;
     }
     double L_theta = dLL(theta, false, prior);
     return L_theta + (B / (2 * I));
