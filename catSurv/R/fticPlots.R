@@ -8,7 +8,7 @@
 #'  @return A list with components,
 #' \itemize{
 #' \item The \code{Cat} object from which the fisherInf values were calculated
-#' \item \code{fticInfo} A matrix of theta values and their corresponding fisherInf values
+#' \item \code{fticInfo} A matrix of theta values and their corresponding fisherTestInfo values
 #'}
 #' @rdname ftic
 #' @export
@@ -21,8 +21,20 @@ setMethod(f="ftic", signature="Cat",
             if(is.null(object)) stop("object is null!")
             if(class(object)!="Cat") stop("object is not class Cat")
             
-            fishers <- sapply(theta_range, function(i){
-              return(fisherTestInfo(object, i))
+            ## exract indices for question items that thave been answered
+            answered<-which(!is.na(object@answers),arr.ind=T)
+            
+            ## function for summing fisherInf values over all answered questions
+            fisherSum<-function(obj="Cat",items="numeric", theta="numeric"){
+              sum = 0
+              for (i in items){
+                sum = sum+fisherInf(obj,theta,i)
+              }
+              return(sum)
+            }
+            
+            fishers <- sapply(theta_range, function(t){
+              return(fisherSum(object, answered,t))
             })
             
             plot.new()
@@ -31,9 +43,9 @@ setMethod(f="ftic", signature="Cat",
             else maxFish=max(fishers)
             
             plot.window(c(min(theta_range), max(theta_range)), c(0, 1.1*maxFish))
-            title(main = paste0("Item Information Curves for Question ", question),
+            title(main = paste0("Fisher Test Information Curve"),
                   xlab = "Theta",
-                  ylab = "Fisher Information")
+                  ylab = "Fisher Test Information")
             axis(1, at = seq(min(theta_range), max(theta_range),1), labels = seq(min(theta_range), max(theta_range),1))
             ifelse(maxFish<0.5,
                    ifelse(maxFish<.05,
@@ -45,8 +57,8 @@ setMethod(f="ftic", signature="Cat",
             
           
             lines(x = theta_range, y = fishers, lty = 1)
-            legend("topright", paste("Fisher Test\nInformation\ngiven theta"),bty='n',cex=.6)
+            #legend("topright", paste("Fisher Test\nInformation\ngiven theta"),bty='n',cex=.6)
          
-            iicInfo<-cbind(theta_range, fishers)
-            return(list(object, question, iicInfo))
+            fticInfo<-cbind(theta_range, fishers)
+            return(list(object, fticInfo))
           })

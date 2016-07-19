@@ -14,7 +14,7 @@ ftic(object, theta_range = seq(-3, 3, 0.1), ...)
  @return A list with components,
 \itemize{
 \item The \code{Cat} object from which the fisherInf values were calculated
-\item \code{fticInfo} A matrix of theta values and their corresponding fisherInf values
+\item \code{fticInfo} A matrix of theta values and their corresponding fisherTestInfo values
 }}
 }
 \description{
