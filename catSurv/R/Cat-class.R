@@ -133,20 +133,19 @@ setValidity("Cat", function(object){
   
   ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING, and not NA
   if(object@poly==T){
-    for(i in object@difficulty){
-      if (is.list(i)){
-        item<-unlist(i)
-      }
-      item<-i #don't want to change the value stored in the object itself...
+    for(i in 1:length(object@difficulty)){
+      if (is.list(object@difficulty[[i]])){
+        item<-object@difficulty[[i]]
+      } else(item<-object@difficulty[[i]]) #don't want to change the value stored in the object itself...
       sorted<-sort(item)
       uniques<-unique(sorted)
-      test4<-(all.equal(item,uniques))
-      if(!test4) stop(paste("Repeated difficulty values for question ", which(object@difficulty==item, arr.ind=T)))
-      test5<-(all.equal(item,sorted))
-      if(!test5) stop(paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " are not increasing"))
-      test6<-(all(!is.na(item)))
-      if(!test6) stop (paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " include NAs"))
-      
+       test6<-(all(!is.na(item)))
+      if(!test6) stop (paste("Diffulty values for question", i, " include NAs"))
+     test5<-(isTRUE(all.equal(item,sorted)))
+      if(!test5) stop(paste("Diffulty values for question", i, " are not increasing"))
+       test4<-(isTRUE(all.equal(item,uniques)))
+       if(!test4) stop(paste("Repeated difficulty values for question", i))
+        
     }
   }
   
