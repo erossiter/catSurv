@@ -2,14 +2,6 @@ library(catSurv)
 library(testthat)
 context("CheckRules")
 
-obj<-new("Cat")
-obj
-obj@answers[3]<-1
-names(obj@discrimination)<-rep("Q", length(obj@discrimination))
-(isTRUE(all(fishAll==0)))
-
-
-expect
 
 test_that("CheckRules functions correctly", {
   ### TEST FUNCTION
@@ -91,11 +83,12 @@ test_that("CheckRules functions correctly", {
   }
   
   ### MAKE SOME RANDOM CATS
-  biCats = catBiCreator(100, seed = 555)
-  polyCats = catPolyCreator(100, seed = 888)
+  biCats = catBiCreator(10, seed = 555)
+  polyCats = catPolyCreator(10, seed = 888)
   allCats = c(biCats, polyCats)
  
   ## assign threshold/override values
+
   for (i in 1:length(allCats)){
     allCats[[i]]@lengthThreshold <- sample(c(round(100*runif(1)),NA,NA),size = 1)
     allCats[[i]]@seThreshold <- sample(c(2*runif(1),NA,NA),size = 1)
@@ -107,10 +100,8 @@ test_that("CheckRules functions correctly", {
   
   
   ### COMPARE THE TEST FUNCTION TO THE REAL FUNCTION
-  realFunValues<-sapply(1:length(allCats), function(i){ return (checkRules(allCats[[i]]))})
+  realFunValues<-sapply(1:length(allCats), function(i){ return (checkStopRules(allCats[[i]]))})
   testFunValues<-sapply(1:length(allCats), function(i){ return (checkRules_test_fun(allCats[[i]]))})
   expect_equal(realFunValues, testFunValues)
   
 })
-
-
