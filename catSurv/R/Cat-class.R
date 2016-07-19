@@ -111,24 +111,24 @@ setValidity("Cat", function(object){
   # guessing, discrimination, answers, difficulty should all be same length
   #... and that length must be greater than 1
   test0<-(length(object@discrimination)>1)
-  if(!test0) stop("discrimination needs length greater than 1")}
+  if(!test0) stop("discrimination needs length greater than 1")
 
   test1<-(length(object@discrimination)==length(object@guessing))
-  if(!test1) stop("discrimination and guessing not same length")}
+  if(!test1) stop("discrimination and guessing not same length")
 
   test2<-(length(object@discrimination)==length(object@answers))
-  if(!test2) stop("discrimination and answers not same length")}
+  if(!test2) stop("discrimination and answers not same length")
 
   test3<-(length(object@discrimination)==length(object@difficulty))
-  if(!test3) stop("discrimination and difficulty not same length")}
+  if(!test3) stop("discrimination and difficulty not same length")
 
   ## If the Cat is polytomous, the difficulty needs to be list
   if(object@poly==T){
-    if(class(object@difficulty)!="list") stop("Cat object is polytomous, but difficulty slot is not a list")}
+    if(class(object@difficulty)!="list") stop("Cat object is polytomous, but difficulty slot is not a list")
   }
   else{
     if(class(object@difficulty)!="numeric") stop("Cat object is binary, but difficulty slot is not a numeric vector")}
-  }
+  
 
   
   ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING, and not NA
@@ -140,12 +140,12 @@ setValidity("Cat", function(object){
       item<-i #don't want to change the value stored in the object itself...
       sorted<-sort(item)
       uniques<-unique(sorted)
-      test4<-(isTRUE(all.equal(sorted,uniques)))
-      if(!test4) stop(paste("Repeated difficulty values for question ", which(object@difficulty==item, arr.ind=T)))}
-      # test5<-(isTRUE(all.equal(i,sorted)))
-      # if(!test5){return(paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " are not increasing"))}
-      # test6<-(all(!is.na(item)))
-      # if(!test6){return(paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " include NAs"))}
+      test4<-(all.equal(item,uniques))
+      if(!test4) stop(paste("Repeated difficulty values for question ", which(object@difficulty==item, arr.ind=T)))
+      test5<-(all.equal(item,sorted))
+      if(!test5) stop(paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " are not increasing"))
+      test6<-(all(!is.na(item)))
+      if(!test6) stop (paste("Diffulty values for question ", which(object@difficulty==item, arr.ind=T), " include NAs"))
       
     }
   }
@@ -153,12 +153,12 @@ setValidity("Cat", function(object){
   ## test that discrimination and guessing are not NA
   for(i in object@discrimination){
     test7<-!is.na(i)
-    if(!test7) stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+    if(!test7) stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))
   }
   if(!object@poly){
     for(i in object@guessing){
       test8<-!is.na(i)
-      if(!test8) stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))}
+      if(!test8) stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))
     }
   }
   
