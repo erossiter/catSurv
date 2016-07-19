@@ -174,13 +174,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // fisherTestInfo
-double fisherTestInfo(S4 cat_df);
-RcppExport SEXP catSurv_fisherTestInfo(SEXP cat_dfSEXP) {
+double fisherTestInfo(S4 cat_df, double theta);
+RcppExport SEXP catSurv_fisherTestInfo(SEXP cat_dfSEXP, SEXP thetaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
-    __result = Rcpp::wrap(fisherTestInfo(cat_df));
+    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
+    __result = Rcpp::wrap(fisherTestInfo(cat_df, theta));
     return __result;
 END_RCPP
 }

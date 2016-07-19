@@ -38,8 +38,8 @@ public:
 
 	double expectedObsInf(int item, Prior &prior);
 	
-	double fisherTestInfo(Prior prior);
-	
+	//double fisherTestInfo(Prior prior);
+	double fisherTestInfo(double theta);
 	double pwi(int item, Prior prior);
 	
 	double lwi(int item);
