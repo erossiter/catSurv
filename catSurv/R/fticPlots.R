@@ -39,8 +39,9 @@ setMethod(f="ftic", signature="Cat",
             
             plot.new()
             return_plot <- recordPlot()
-            if(max(fishers)>100) maxFish=100
-            else maxFish=max(fishers)
+            if(max(fishers)>100) {
+              maxFish=100 
+              }else maxFish=max(fishers)
             
             plot.window(c(min(theta_range), max(theta_range)), c(0, 1.1*maxFish))
             title(main = paste0("Fisher Test Information Curve"),
