@@ -22,18 +22,30 @@ binary_cat@lowerBound <- 0
 binary_cat@upperBound <- 1
 binary_cat@answers[1:35] <- unlist(npi[1,1:35])
 
-
 binary_cat@estimation <- "WLE"
 estimateTheta(binary_cat)
+estimateSE(binary_cat)
 
+binary_cat@estimation <- "MAP"
+estimateTheta(binary_cat)
+estimateSE(binary_cat)
 
 data(nfc)
 poly_cat <- grmCat(nfc[1:100, ], 100)
 poly_cat@estimation <- "WLE"
-poly_cat@lowerBound <- -6
-poly_cat@upperBound <- 6
-poly_cat@answers[1:11] <- unlist(nfc[1,1:11])
-estimateTheta(poly_cat)
+poly_cat@lowerBound <- -4
+poly_cat@upperBound <- 4
+
+our_estimates <- rep(0, 10)
+their_estimates <- rep(0, 10)
+for(i in 1:10){
+  poly_cat@answers[1:11] <- unlist(nfc[i,1:11])
+  our_estimates[i] <- estimateTheta(poly_cat)
+  their_estimates[i] <- WLtest.poly(poly_cat)
+}
+
+our_estimates - their_estimates
+
 
 
 
