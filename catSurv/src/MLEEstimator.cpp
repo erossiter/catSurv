@@ -55,9 +55,7 @@ double MLEEstimator::estimateTheta(Prior prior) {
 }
 
 double MLEEstimator::estimateSE(Prior prior) {
-  double theta = estimateTheta(prior);
-  //double var = 1.0 / fisherTestInfo(prior);
-  double var = 1.0 / fisherTestInfo(theta);
+  double var = 1.0 / fisherTestInfo(prior);
   return pow(var, 0.5);
 }
   

@@ -215,8 +215,8 @@ double posteriorKL(S4 cat_df, int item) {
 
 //' @export
 // [[Rcpp::export]]
-double fisherTestInfo(S4 cat_df, double theta) {
-	return Cat(cat_df).fisherTestInfo(theta);
+double fisherTestInfo(S4 cat_df) {
+	return Cat(cat_df).fisherTestInfo();
 }
 
 

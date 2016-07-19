@@ -52,7 +52,7 @@ public:
 	
 	double posteriorKL(int item);
 	
-	double fisherTestInfo(double theta);
+	double fisherTestInfo();
 
 private:
 

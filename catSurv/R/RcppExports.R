@@ -156,8 +156,8 @@ posteriorKL <- function(cat_df, item) {
 }
 
 #' @export
-fisherTestInfo <- function(cat_df, theta) {
-    .Call('catSurv_fisherTestInfo', PACKAGE = 'catSurv', cat_df, theta)
+fisherTestInfo <- function(cat_df) {
+    .Call('catSurv_fisherTestInfo', PACKAGE = 'catSurv', cat_df)
 }
 
 #' The possible prior distribution functions

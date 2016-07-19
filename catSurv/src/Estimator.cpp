@@ -271,22 +271,16 @@ double Estimator::brentMethod(integrableFunction const &function) {
   
   return r;
 }
-
-double Estimator::fisherTestInfo(double theta) {
-    double sum = 0.0;
-    for (auto item : questionSet.applicable_rows) {
-      sum += fisherInf(theta, item);
-    }
-    return sum;
-  }  
-// double Estimator::fisherTestInfo(Prior prior) {
-//   double theta = estimateTheta(prior);
-//   double sum = 0.0;
-//   for (auto item : questionSet.applicable_rows) {
-//     sum += fisherInf(theta, item);
-//   }
-//   return sum;
-// }
+  
+  
+double Estimator::fisherTestInfo(Prior prior) {
+  double theta = estimateTheta(prior);
+  double sum = 0.0;
+  for (auto item : questionSet.applicable_rows) {
+    sum += fisherInf(theta, item);
+  }
+  return sum;
+}
   
 /**
  * pwi(), lwi(), and all kl functions define the integration that needs to be
@@ -316,11 +310,8 @@ double Estimator::fii(int item, Prior prior) {
 	integrableFunction fii_j = [&](double theta_not) {
 		return fisherInf(theta_not, item);
 	};
-	 
-  //double delta = questionSet.z[0] * pow(fisherTestInfo(prior), 0.5);
-  //replacing with lines below:
-  double theta = estimateTheta(prior);
-  double delta = questionSet.z[0] * pow(fisherTestInfo(theta), 0.5);
+	  
+  double delta = questionSet.z[0] * pow(fisherTestInfo(prior), 0.5);
   
   const double lower = estimateTheta(prior) - delta;
   const double upper = estimateTheta(prior) + delta;
@@ -360,10 +351,7 @@ double Estimator::expectedKL(int item, Prior prior) {
 	  return kl(theta_not, item, prior);
   };
   
-  //added things here
-  double theta = estimateTheta(prior);
-  double delta = questionSet.z[0] * pow(fisherTestInfo(theta), 0.5);
-  //double delta = questionSet.z[0] * pow(fisherTestInfo(prior), 0.5);
+  double delta = questionSet.z[0] * pow(fisherTestInfo(prior), 0.5);
   
   const double lower = estimateTheta(prior) - delta;
   const double upper = estimateTheta(prior) + delta;
