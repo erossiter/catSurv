@@ -53,7 +53,7 @@ std::vector<bool> Cat::checkStopRules() {
   if (! isnan(checkRules.gainThreshold)){
     std::vector<bool> all_gainThreshold;
     for (auto item : questionSet.applicable_rows) {
-      double gain = SE_est - pow(expectedPV(item), 0.5);
+      double gain = std::abs(SE_est - pow(expectedPV(item), 0.5));
       bool item_threshold = gain < checkRules.gainThreshold ? true : false;
       all_gainThreshold.push_back(item_threshold);
     }
@@ -64,7 +64,7 @@ std::vector<bool> Cat::checkStopRules() {
   if (! isnan(checkRules.gainOverride)){
     std::vector<bool> all_gainOverride;
     for (auto item : questionSet.applicable_rows) {
-      double gain = SE_est - pow(expectedPV(item), 0.5);
+      double gain = std::abs(SE_est - pow(expectedPV(item), 0.5));
       bool item_override = gain < checkRules.gainOverride ? true : false;
       all_gainOverride.push_back(item_override);
     }
@@ -90,10 +90,10 @@ std::vector<bool> Cat::checkStopRules() {
   if(all_thresholds.empty() && all_overrides.empty()){
     stop.push_back(false);
   } else {
-    bool all_thresholds_true = std::all_of(all_thresholds.begin(), all_thresholds.end(), [](bool v) { return v; });
+    bool any_thresholds_true = std::any_of(all_thresholds.begin(), all_thresholds.end(), [](bool v) { return v; });
     bool all_overrides_false = std::all_of(all_overrides.begin(), all_overrides.end(), [](bool v) { return !v; });
   
-    bool answer = all_thresholds_true && all_overrides_false ? true : false;
+    bool answer = any_thresholds_true && all_overrides_false ? true : false;
     stop.push_back(answer);
   }
   return stop; 
