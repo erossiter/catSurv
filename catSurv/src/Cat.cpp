@@ -195,21 +195,13 @@ void Cat::showCppCat() {
   std::cout << "poly: " << questionSet.poly[0] << std::endl;
 }
 
-// double Cat::dLL(double theta, bool use_prior) {
-// 	if (typeid(estimator) == typeid(MAPEstimator)) {
-// 		stop("Error: dLL is only available when using MAP estimation.");
-// 	}
-// 	MAPEstimator &mapEstimator = static_cast<MAPEstimator &>(*estimator);
-// 	return mapEstimator.dLL(theta, use_prior, prior);
-// }
-// 
-// double Cat::d2LL(double theta, bool use_prior) {
-// 	if (typeid(estimator) == typeid(MAPEstimator)) {
-// 		stop("Error: d2LL is only available when using MAP estimation.");
-// 	}
-// 	MAPEstimator &mapEstimator = static_cast<MAPEstimator &>(*estimator);
-// 	return mapEstimator.d2LL(theta, use_prior, prior);
-// }
+double Cat::dLL(double theta, bool use_prior) {
+	return estimator->dLL(theta, use_prior, prior);
+}
+
+double Cat::d2LL(double theta, bool use_prior) {
+	return estimator->d2LL(theta, use_prior, prior);
+}
 
 double Cat::obsInf(double theta, int item) {
 	return estimator->obsInf(theta, item);

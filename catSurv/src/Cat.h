@@ -26,9 +26,9 @@ public:
 
 	double expectedPV(int item);
 
-	// double dLL(double theta, bool use_prior);
-	// 
-	// double d2LL(double theta, bool use_prior);
+	double dLL(double theta, bool use_prior);
+
+	double d2LL(double theta, bool use_prior);
 
 	double obsInf(double theta, int item);
 	

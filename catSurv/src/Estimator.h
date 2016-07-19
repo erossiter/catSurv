@@ -53,6 +53,7 @@ public:
 	double posteriorKL(int item, Prior prior);
 	
 	double dLL(double theta, bool use_prior, Prior &prior);
+	
 	double d2LL(double theta, bool use_prior, Prior &prior);
 	
 

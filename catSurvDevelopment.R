@@ -23,10 +23,17 @@ binary_cat@upperBound <- 1
 binary_cat@answers[1:35] <- unlist(npi[1,1:35])
 
 
-trialCat@estimation <- "WLE"
-estimateTheta(trialCat)
+binary_cat@estimation <- "WLE"
+estimateTheta(binary_cat)
 
 
+data(nfc)
+poly_cat <- grmCat(nfc[1:100, ], 100)
+poly_cat@estimation <- "WLE"
+poly_cat@lowerBound <- -6
+poly_cat@upperBound <- 6
+poly_cat@answers[1:11] <- unlist(nfc[1,1:11])
+estimateTheta(poly_cat)
 
 
 

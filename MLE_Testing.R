@@ -14,7 +14,7 @@ data.ltm <- npi[1:100,]
 trial.ltm <- ltm(data.ltm ~ z1, control = list(GHk = 100))
 fscores <- factor.scores.ltm(trial.ltm)$score.dat
 
-trialCat <- ltmCat(object = trial.ltm)
+trialCat <- ltmCat(trial.ltm)
 trialCat@answers <- as.numeric(as.vector(fscores[1,1:(dim(fscores)[2] - 4)]))
 
 ##############################
@@ -136,7 +136,7 @@ data.grm <- nfc[1:100,]
 trial.grm <- grm(data.grm, control = list(GHk = 100))
 fscores.grm <- factor.scores.grm(trial.grm)$score.dat
 
-trialCat.grm <- grmCat(object = trial.grm)
+trialCat.grm <- grmCat(trial.grm)
 trialCat.grm@answers <- as.numeric(as.vector(fscores.grm[1,1:(dim(fscores.grm)[2] - 4)]))
 
 #################################
@@ -277,7 +277,6 @@ comparison.poly
 summary(comparison.poly)
 
 detach(package:catR)
-
 
 
 

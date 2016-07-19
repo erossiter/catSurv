@@ -197,6 +197,32 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// dLL
+double dLL(S4& cat_df, double theta, bool use_prior);
+RcppExport SEXP catSurv_dLL(SEXP cat_dfSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4& >::type cat_df(cat_dfSEXP);
+    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type use_prior(use_priorSEXP);
+    __result = Rcpp::wrap(dLL(cat_df, theta, use_prior));
+    return __result;
+END_RCPP
+}
+// d2LL
+double d2LL(S4& cat_df, double theta, bool use_prior);
+RcppExport SEXP catSurv_d2LL(SEXP cat_dfSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< S4& >::type cat_df(cat_dfSEXP);
+    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< bool >::type use_prior(use_priorSEXP);
+    __result = Rcpp::wrap(d2LL(cat_df, theta, use_prior));
+    return __result;
+END_RCPP
+}
 // showCppCat
 void showCppCat(S4 cat_df);
 RcppExport SEXP catSurv_showCppCat(SEXP cat_dfSEXP) {

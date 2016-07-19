@@ -176,6 +176,16 @@ prior <- function(x, c, p) {
 }
 
 #' @export
+dLL <- function(cat_df, theta, use_prior) {
+    .Call('catSurv_dLL', PACKAGE = 'catSurv', cat_df, theta, use_prior)
+}
+
+#' @export
+d2LL <- function(cat_df, theta, use_prior) {
+    .Call('catSurv_d2LL', PACKAGE = 'catSurv', cat_df, theta, use_prior)
+}
+
+#' @export
 showCppCat <- function(cat_df) {
     invisible(.Call('catSurv_showCppCat', PACKAGE = 'catSurv', cat_df))
 }
