@@ -13,8 +13,6 @@ test_that("CheckRules functions correctly", {
                   is.na(obj@infoThreshold), is.na(obj@gainThreshold)))){
       
       ### IF NO THRESHOLD VALUES PROVIDED -- error, or return false?
-      
-      #stop("No threshold values provided. Survey will never end.")
       return(FALSE)
     }
     ## set stopNow boolean
@@ -43,7 +41,7 @@ test_that("CheckRules functions correctly", {
     }
     ## seThreshold
     if(!is.na(obj@seThreshold)){
-      if(seHat>obj@seThreshold){
+      if(seHat<obj@seThreshold){
         stopNow = TRUE
       }
     }
@@ -83,8 +81,8 @@ test_that("CheckRules functions correctly", {
   }
   
   ### MAKE SOME RANDOM CATS
-  biCats = catBiCreator(10, seed = 555)
-  polyCats = catPolyCreator(10, seed = 888)
+  biCats = catBiCreator(20, seed = 456)
+  polyCats = catPolyCreator(20, seed = 789)
   allCats = c(biCats, polyCats)
  
   ## assign threshold/override values

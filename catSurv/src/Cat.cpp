@@ -41,7 +41,7 @@ std::vector<bool> Cat::checkStopRules() {
   } else { }
 
   if (! isnan(checkRules.lengthOverride)){
-    bool answer_lengthOverride = questionSet.applicable_rows.size() <= checkRules.lengthOverride ? true : false;
+    bool answer_lengthOverride = questionSet.applicable_rows.size() < checkRules.lengthOverride ? true : false;
     all_overrides.push_back(answer_lengthOverride);
   } else { }
 
@@ -65,7 +65,7 @@ std::vector<bool> Cat::checkStopRules() {
     std::vector<bool> all_gainOverride;
     for (auto item : questionSet.nonapplicable_rows) {
       double gain = std::abs(SE_est - pow(expectedPV(item), 0.5));
-      bool item_override = gain < checkRules.gainOverride ? true : false;
+      bool item_override = gain >= checkRules.gainOverride ? true : false;
       all_gainOverride.push_back(item_override);
     }
     bool answer_gainOverride  = std::all_of(all_gainOverride.begin(), all_gainOverride.end(), [](bool v) { return v; });
