@@ -33,19 +33,22 @@ estimateSE(binary_cat)
 data(nfc)
 poly_cat <- grmCat(nfc[1:100, ], 100)
 poly_cat@estimation <- "WLE"
-poly_cat@lowerBound <- -4
-poly_cat@upperBound <- 4
+poly_cat@lowerBound <- -5
+poly_cat@upperBound <- 5
 
-our_estimates <- rep(0, 10)
-their_estimates <- rep(0, 10)
-for(i in 1:10){
-  poly_cat@answers[1:11] <- unlist(nfc[i,1:11])
+our_estimates <- rep(0, 100)
+their_estimates <- rep(0, 100)
+for(i in 1:100){
+  poly_cat@answers[1:18] <- unlist(rep(NA, 18))
+  poly_cat@answers[1:10] <- unlist(nfc[i,1:10])
   our_estimates[i] <- estimateTheta(poly_cat)
   their_estimates[i] <- WLtest.poly(poly_cat)
 }
 
-our_estimates - their_estimates
-
+summary(abs(our_estimates - their_estimates))
+which(abs(our_estimates - their_estimates) > 1)
+poly_cat@answers[1:10] <- unlist(nfc[27,1:10])
+showCppCat(poly_cat)
 
 
 

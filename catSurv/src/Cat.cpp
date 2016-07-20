@@ -230,16 +230,17 @@ std::unique_ptr<Estimator> Cat::createEstimator(S4 &cat_df, Integrator &integrat
 		return std::unique_ptr<MAPEstimator>(new MAPEstimator(integrator, questionSet));
 	}
 	
-	if (estimation_type == "WLE") {
-		return std::unique_ptr<WLEEstimator>(new WLEEstimator(integrator, questionSet));
-	}
 	
-	if (estimation_type == "MLE") {
+	if (estimation_type == "MLE" || estimation_type == "WLE") {
 	  if (questionSet.applicable_rows.size() == 0 || questionSet.all_extreme){
 	    if (estimation_default == "MAP") return std::unique_ptr<MAPEstimator>(new MAPEstimator(integrator, questionSet));
 	    if (estimation_default == "EAP") return std::unique_ptr<EAPEstimator>(new EAPEstimator(integrator, questionSet));
-	  } else {
+	  } 
+	  else if (estimation_type == "MLE") {
 	    return std::unique_ptr<MLEEstimator>(new MLEEstimator(integrator, questionSet));
+	  }
+	  else if (estimation_type == "WLE") {
+	    return std::unique_ptr<WLEEstimator>(new WLEEstimator(integrator, questionSet));
 	  }
 	}
 
