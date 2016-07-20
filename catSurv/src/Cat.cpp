@@ -52,7 +52,7 @@ std::vector<bool> Cat::checkStopRules() {
 
   if (! isnan(checkRules.gainThreshold)){
     std::vector<bool> all_gainThreshold;
-    for (auto item : questionSet.applicable_rows) {
+    for (auto item : questionSet.nonapplicable_rows) {
       double gain = std::abs(SE_est - pow(expectedPV(item), 0.5));
       bool item_threshold = gain < checkRules.gainThreshold ? true : false;
       all_gainThreshold.push_back(item_threshold);
@@ -63,7 +63,7 @@ std::vector<bool> Cat::checkStopRules() {
 
   if (! isnan(checkRules.gainOverride)){
     std::vector<bool> all_gainOverride;
-    for (auto item : questionSet.applicable_rows) {
+    for (auto item : questionSet.nonapplicable_rows) {
       double gain = std::abs(SE_est - pow(expectedPV(item), 0.5));
       bool item_override = gain < checkRules.gainOverride ? true : false;
       all_gainOverride.push_back(item_override);
@@ -74,7 +74,7 @@ std::vector<bool> Cat::checkStopRules() {
 
   if (! isnan(checkRules.infoThreshold)){
     std::vector<bool> all_infoThreshold;
-    for (auto item : questionSet.applicable_rows) {
+    for (auto item : questionSet.nonapplicable_rows) {
       double info = estimator->fisherInf(theta_est, item);
       bool item_answer = info < checkRules.infoThreshold ? true : false;
       all_infoThreshold.push_back(item_answer);
