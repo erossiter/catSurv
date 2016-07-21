@@ -16,8 +16,10 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 	for (size_t i = 0; i < answers.size(); i++) {
 		if (answers[i] == NA_INTEGER) {
 			nonapplicable_rows.push_back((int) i);
-		} else {
+		} else if (answers[i] != -1) {
 			applicable_rows.push_back((int) i);
+		} else {
+		  skipped.push_back((int) i);
 		}
 	}
 	

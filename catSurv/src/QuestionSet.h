@@ -8,14 +8,11 @@
 struct QuestionSet {
   std::vector<std::string> question_names;
 	std::vector<std::vector<double> > difficulty;
-	/**
-	 * The questions which have not yet been answered;
-	 */
+
 	std::vector<int> applicable_rows;
-	/**
-	 * The questions which have been answered.
-	 */
 	std::vector<int> nonapplicable_rows;
+	std::vector<int> skipped;
+	
 	std::vector<double> guessing;
 	std::vector<double> discrimination;
 	std::vector<double> z;
