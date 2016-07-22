@@ -1,4 +1,6 @@
 library(catSurv)
+library(testthat)
+library(ltm)
 context("Likelihood")
 
 ## should we keep error message below about weird proabbilities??
@@ -68,47 +70,53 @@ test_that("likelihood calculates correctly", {
   tpm_data <- AMTknowledge[1:100, ]
   poly_data <- nfc[1:100, ]
   
+  ###------------- Only use if introducing extra NAs --------------------
+  # bi.options <- c(NA, 0, 1)
+  # for(a in 1:nrow(ltm_data)){
+  #   ltm_data[a,] <- sample(bi.options,ncol(ltm_data), replace=TRUE)
+  # }
+  # for(a in 1:nrow(tpm_data)){
+  #   tpm_data[a,] <- sample(bi.options,ncol(tpm_data), replace=TRUE)
+  # }
+  # poly.options <- c(NA, 1:5)
+  # for(a in 1:nrow(poly_data)){
+  #   poly_data[a,] <- sample(poly.options,ncol(poly_data), replace=TRUE)
+  # }
+  ###--------------------------------------------------------------------
+
   ### Test Cat likelihood against equation in R
   
   # binary (ltm)
   binary_cat.ltm <- ltmCat(ltm_data, quadraturePoints = 100)
   
-  for(i in 1:100){
+  for(i in 1:nrow(ltm_data)){
     binary_cat.ltm@answers <- as.numeric(ltm_data[i,])
-    expect_equal(likelihood(binary_cat.ltm, 0),
-                 likelihood_test(binary_cat.ltm, 0),
-                 tolerance = .0001)
+    CatLik <- likelihood(binary_cat.ltm, 0)
+    RLik <- likelihood_test(binary_cat.ltm, 0)
+    expect_equal(abs(CatLik - RLik)/CatLik, 0, tolerance = .001)
   }
   
   # binary (tpm)
   binary_cat.tpm <- tpmCat(tpm_data, quadraturePoints = 100)
   
-  for(i in 1:100){
+  for(i in 1:nrow(tpm_data)){
     binary_cat.tpm@answers <- as.numeric(tpm_data[i,])
-    expect_equal(likelihood(binary_cat.tpm, 0),
-                 likelihood_test(binary_cat.tpm, 0),
-                 tolerance = .0001)
+    CatLik <- likelihood(binary_cat.tpm, 0)
+    RLik <- likelihood_test(binary_cat.tpm, 0)
+    expect_equal(abs(CatLik - RLik)/CatLik, 0, tolerance = .001)
   }
   
   # poly (grm)
   poly_cat <- grmCat(poly_data, quadraturePoints = 100)  
   
-  for(i in 1:100){
+  for(i in 1:nrow(poly_data)){
     poly_cat@answers <- as.numeric(poly_data[i,])
-    expect_equal(likelihood(poly_cat, 0),
-                 likelihood_test(poly_cat, 0),
-                 tolerance = .0001)
+    CatLik <- likelihood(poly_cat, 0)
+    RLik <- likelihood_test(poly_cat, 0)
+    expect_equal(abs(CatLik - RLik)/CatLik, 0, tolerance = .001)
   }
   
   ### Test Cat likelihood against ltm package
-  
-  library(ltm)
-  
-  binary_ltm.ltm <- ltm(ltm_data ~ z1, control = list(GHk = 100))
-  
-  binary_ltm.tpm <- tpm(tpm_data, control = list(GHk = 100))
-  
-  poly_ltm <- grm(poly_data, control = list(GHk = 100))
   
   ltm.lik <- function(object) {
     fits <- fitted(object)
@@ -175,38 +183,45 @@ test_that("likelihood calculates correctly", {
   }
   
   # binary (ltm)
+  binary_ltm.ltm <- ltm(ltm_data ~ z1, control = list(GHk = 100))
+  binary_cat.ltm <- ltmCat(binary_ltm.ltm, 100)
+  
   fits <- fitted(binary_ltm.ltm)
   X <- fits[, -ncol(fits), drop = FALSE]
+  
   for(j in 1:100){
     binary_cat.ltm@answers <- as.numeric(X[j,])
-    expect_equal(likelihood(binary_cat.ltm, 0),
-                 ltm.lik(binary_ltm.ltm)[j],
-                 tolerance = 1e-10)
-    # what is an appropriate tolerance here?
+    CatLik <- likelihood(binary_cat.ltm, 0)
+    ltmLik <- ltm.lik(binary_ltm.ltm)[j]
+    expect_equal(abs(CatLik - ltmLik)/CatLik, 0, tolerance = .001)
   }
   
   # binary (tpm)
+  binary_ltm.tpm <- tpm(tpm_data, control = list(GHk = 100))
+  binary_cat.tpm <- tpmCat(binary_ltm.tpm, 100)
+  
   fits <- fitted(binary_ltm.tpm)
   X <- fits[, -ncol(fits), drop = FALSE]
+  
   for(j in 1:100){
     binary_cat.tpm@answers <- as.numeric(X[j,])
-    expect_equal(likelihood(binary_cat.tpm, 0),
-                 ltm.lik(binary_ltm.tpm)[j],
-                 tolerance = 1e-10)
-    # what is an appropriate tolerance here?
+    CatLik <- likelihood(binary_cat.tpm, 0)
+    ltmLik <- ltm.lik(binary_ltm.tpm)[j]
+    expect_equal(abs(CatLik - ltmLik)/CatLik, 0, tolerance = .001)
   }
   
   # binary (grm)
+  poly_ltm <- grm(poly_data, control = list(GHk = 100))
+  poly_cat <- grmCat(poly_ltm, 100)
+  
   fits <- fitted(poly_ltm)
   X <- fits[, -ncol(fits), drop = FALSE]
+  
   for(j in 1:100){
     poly_cat@answers <- as.numeric(X[j,])
-    expect_equal(likelihood(poly_cat, 0),
-                 ltm.lik(poly_ltm)[j],
-                 tolerance = 1e-10)
-    # what is an appropriate tolerance here?
+    CatLik <- likelihood(poly_cat,0)
+    ltmLik <- ltm.lik(poly_ltm)[j]
+    expect_equal(abs(CatLik - ltmLik)/CatLik, 0, tolerance = .001)
   }
-  
-  detach(package:ltm)  
   
 })

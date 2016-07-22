@@ -20,14 +20,26 @@ test_that("prior calculates correctly", {
     return(prior_values)
   }
   
-  x.val <- sample(1:10, 1)
 
   data("npi")
   data("nfc")
   data("AMTknowledge")
   ltm_data <- npi[1:100, ]
+  bi.options <- c(NA, 0, 1)
+  for(a in 1:nrow(ltm_data)){
+    ltm_data[a,] <- sample(bi.options,ncol(ltm_data), replace=TRUE)
+  }
   tpm_data <- AMTknowledge[1:100, ]
+  for(a in 1:nrow(tpm_data)){
+    tpm_data[a,] <- sample(bi.options,ncol(tpm_data), replace=TRUE)
+  }
   poly_data <- nfc[1:100, ]
+  poly.options <- c(NA, 1:5)
+  for(a in 1:nrow(poly_data)){
+    poly_data[a,] <- sample(poly.options,ncol(poly_data), replace=TRUE)
+  }
+  
+  x.val <- sample(1:10, 1)
   
   binary_cat.ltm <- ltmCat(ltm_data, 100)
   binary_cat.tpm <- tpmCat(tpm_data, 100)
