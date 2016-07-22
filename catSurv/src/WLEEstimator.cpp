@@ -71,9 +71,18 @@ double WLEEstimator::poly_estimateTheta(Prior prior){
     }
     
     double L_theta = dLL(theta, false, prior);
+    
+
+      std::cout << "\ntheta: " << theta << std::endl;
+      std::cout << "L_theta: " << L_theta << std::endl;
+      std::cout << "B: " << B << std::endl;
+      std::cout << "2*I: " << (2 * I) << std::endl;
+      std::cout << "W: " << (L_theta + (B / (2 * I))) << std::endl;
+
+
     return L_theta + (B / (2 * I));
   };
-
+  
   return brentMethod(W);
 }
 
