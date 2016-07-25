@@ -36,37 +36,42 @@ double WLEEstimator::poly_estimateTheta(Prior prior){
       I += fisherInf(theta, item);
       
       double beta = questionSet.discrimination.at(item);
-      std::vector<double> P_star = paddedProbability(theta, item);
+      std::vector<double> P_stars = paddedProbability(theta, item);
+      
       std::vector<double> P;
-      std::vector<double> dP;
-      std::vector<double> d2P;
+      for (size_t i = 1; i < P_stars.size(); ++i) {
+        double P1 = P_stars.at(i);
+        double P2 = P_stars.at(i-1);
+        P.push_back(P1 - P2);
+      }
+    
+      std::vector<double> P_star_prime;
+      std::vector<double> P_star_2prime;
+      std::vector<double> P_prime;
+      std::vector<double> P_2prime;
 
-      for (size_t k = 1; k < P_star.size(); ++k) {
-        double P_star1 = P_star.at(k);
-        double P_star2 = P_star.at(k-1);
-        P.push_back(P_star1 - P_star2);
+      for (size_t k = 0; k < P_stars.size()-1; ++k) {
+        double P_star = P_stars.at(k);
+        double Q_star = 1 - P_star;
+        double P_star_p = -1 * beta * P_star * Q_star;
+        P_star_prime.push_back(P_star_p);
         
-        double Q_star1 = 1 - P_star1;
-        double Q_star2 = 1 - P_star2;
-
-        double first_term = -1 * beta * P_star1 * Q_star1;
-        double second_term = -1 * beta * P_star2 * Q_star2;
-
-        dP.push_back(first_term - second_term);
+        double P_star_2p = -1 * beta * (P_star_p - (2 * P_star * P_star_p));
+        P_star_2prime.push_back(P_star_2p);
       }
       
-      for (size_t k = 1; k < dP.size(); ++k) {
-        double P_prime1 = dP.at(k);
-        double P_prime2 = dP.at(k-1);
-
-        double first_term = -1 * beta * (P_prime1 - 2 * P_star[k] * P_prime1);
-        double second_term = -1 * beta * (P_prime2 - 2 * P_star[k - 1] * P_prime2);
-
-        d2P.push_back(first_term - second_term);
-      }
+      for (size_t j = 1; j < P_star_prime.size(); ++j) {
+        double P_prime1 = P_star_prime.at(j);
+        double P_prime2 = P_star_prime.at(j-1);
+        P_prime.push_back(P_prime1 - P_prime2);
       
-      for (size_t k = 0; k < dP.size() - 1; ++k) {
-        B += (dP.at(k) * d2P.at(k)) / P.at(k);
+        double P_2prime1 = P_star_2prime.at(j);
+        double P_2prime2 = P_star_2prime.at(j-1);
+        P_2prime.push_back(P_2prime1 - P_2prime2);
+      }
+    
+      for (size_t k = 0; k < P.size() - 1; ++k) {
+        B += (P_prime.at(k) * P_2prime.at(k)) / P.at(k);
       }
     }
     
