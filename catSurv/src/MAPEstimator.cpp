@@ -2,7 +2,7 @@
 
 double MAPEstimator::estimateTheta(Prior prior) {
   int iter = 0;
-  int max_iter = 100;
+  int max_iter = 200;
   
 	double theta_hat_old = 0.0;
 	double theta_hat_new = 1.0;

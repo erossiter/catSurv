@@ -20,11 +20,14 @@ binary_cat@priorName <- "NORMAL"
 binary_cat@priorParams <- c(0,1)
 binary_cat@lowerBound <- 0
 binary_cat@upperBound <- 1
-binary_cat@answers[1:35] <- unlist(npi[1,1:35])
+binary_cat@answers[1:40] <- rep(NA, 40) #unlist(npi[1,1:40])
+
+
 
 binary_cat@estimation <- "WLE"
 estimateTheta(binary_cat)
 estimateSE(binary_cat)
+selectItem(binary_cat)
 
 binary_cat@estimation <- "MAP"
 estimateTheta(binary_cat)

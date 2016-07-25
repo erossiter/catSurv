@@ -9,6 +9,7 @@ double Estimator::likelihood(double theta) {
 }
 
 std::vector<double> Estimator::probability(double theta, size_t question) {
+  
   double eps = pow(2, -52);
   eps = pow(eps, 1.0/3.0);
   
@@ -416,7 +417,6 @@ double Estimator::binary_d2LL(double theta) {
 	return -lambda_theta;
 }
 
-
 double Estimator::polytomous_dLL(double theta) {
 	double l_theta = 0.0;
 	for (auto question : questionSet.applicable_rows) {
@@ -451,7 +451,6 @@ double Estimator::binary_dLL(double theta) {
 	}
 	return l_theta;
 }
-
 
 double Estimator::dLL(double theta, bool use_prior, Prior &prior) {
 	const double prior_shift = (theta - prior.parameters[0]) / pow(prior.parameters[1], 2);

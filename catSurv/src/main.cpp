@@ -105,6 +105,7 @@ double estimateSE(S4 cat_df) {
 //' @export
 // [[Rcpp::export]]
 List selectItem(S4 cat_df) {
+  
   return Cat(cat_df).selectItem();
 }
 

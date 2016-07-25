@@ -120,6 +120,10 @@ double Cat::expectedPV(int item) {
 }
 
 List Cat::selectItem() {
+  if(questionSet.nonapplicable_rows.empty()){
+    throw std::domain_error("selectItem should not be called if all items have been answered.");
+  }
+  
   Selection selection = selector->selectItem();
   // Adding 1 to each row index so it prints the correct question number for user
 	std::transform(selection.questions.begin(), selection.questions.end(), selection.questions.begin(),
