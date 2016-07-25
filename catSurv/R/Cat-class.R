@@ -168,6 +168,26 @@ setValidity("Cat", function(object){
       stop (paste("Guessing parameter for item ", i, "is out of bounds: value is ", object@guessing[i], ", but should be within [0,1]"))
     }
   }
+  
+  ## values for estimation:
+  estimationOptions = c("EAP", "MAP", "MLE", "WLE")
+  if(!object@estimation %in% estimationOptions){
+    stop ("dstimation value invalid. See ?Cat documentation for valid options.")
+  }
+  
+  ## values for estimationDefault:
+  estimationDefaultOptions = c("EAP", "MAP")
+  if(!object@estimationDefault %in% estimationDefaultOptions){
+    stop ("estimationDefault value invalid. See ?Cat documentation for valid options.")
+  }
+  
+  ## values for selection:
+  selectionOptions = c("EPV", "MEI", "MFI", "MPWI", "MLWI", "KL", "LKL", "PKL", "MFII", "RANDOM")
+  if(!object@selection %in% selectionOptions){
+    stop ("selection value invalid. See ?Cat documentation for valid options.")
+  }
+  
+  
 })
 
 
