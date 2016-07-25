@@ -73,6 +73,10 @@ double WLEEstimator::poly_estimateTheta(Prior prior){
       for (size_t k = 0; k < P.size() - 1; ++k) {
         B += (P_prime.at(k) * P_2prime.at(k)) / P.at(k);
       }
+      std::cout << "\nP: " << std::endl;
+      for(auto i: P){
+        std::cout << i << std::endl;
+      }
     }
     
     double L_theta = dLL(theta, false, prior);
