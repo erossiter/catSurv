@@ -31,10 +31,6 @@ setClassUnion("numericORlist", c("numeric","list"))
 #' \item \code{gainThreshold} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this threshold.
 #' \item \code{lengthOverride} A numeric.  The number of questions answered must be less than this override.
 #' \item \code{gainOverride} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this override.  
-#' 
-#' 
-#' \item \code{points} ????
-#' \item \code{quadPoints} ????
 #' }
 #'
 #'@details When priorName is set to "NORMAL", the first element of priorParams is the mean, the second element is the standard deviation.  When priorName is set to "STUDENT_T", the first element of priorParam is mu, a location parameter, the second is degrees of freedom.  When priorName is set to "UNIFORM", the elements of priorParams are lower and upper, respectively.  Note that the uniform distribution is only applicable for the "EAP" estimation method.  
@@ -57,14 +53,12 @@ setClass("Cat",
            priorParams="numeric",
            lowerBound="numeric",
            upperBound="numeric",
-           quadPoints="numeric",
            difficulty="numericORlist",
            poly="logical",
            estimation="character",
            estimationDefault="character",
            selection="character",
            z="numeric",
-           points="numeric",
            lengthThreshold = "logicalORnumeric",
            seThreshold = "logicalORnumeric",
            infoThreshold = "logicalORnumeric",
@@ -77,13 +71,11 @@ setClass("Cat",
            priorParams=c(0,1),
            lowerBound=-6,
            upperBound=6,
-           quadPoints=43,
            poly=FALSE,
            estimation="EAP",
            estimationDefault="MAP",
            selection="EPV",
            z=0.9,
-           points=40,
            answers=rep(NA, 10),
            discrimination=rep(0, 10),
            guessing=rep(0, 10),
@@ -309,20 +301,6 @@ setReplaceMethod(
 		})
 
 #' @export
-setGeneric("setQuadPoints<-",
-		   function(object, valid=T, value){
-		   	standardGeneric("setQuadPoints<-")
-		   	})
-setReplaceMethod(
-	f = "setQuadPoints",
-	signature = "Cat",
-	definition = function(object, valid, value){
-		object@quadPoints <- value
-		if(valid){validObject(object)}
-		return(object)
-		})
-
-#' @export
 setGeneric("setDifficulty<-",
 		   function(object, valid=T, value){
 		   	standardGeneric("setDifficulty<-")
@@ -374,22 +352,6 @@ setReplaceMethod(
 	signature = "Cat",
 	definition = function(object, valid, value){
 		object@selection <- value
-		if(valid){validObject(object)}
-		return(object)
-		})
-
-
-
-#' @export
-setGeneric("setPoints<-",
-		   function(object, valid=T, value){
-		   	standardGeneric("setPoints<-")
-		   	})
-setReplaceMethod(
-	f = "setPoints",
-	signature = "Cat",
-	definition = function(object, valid, value){
-		object@points <- value
 		if(valid){validObject(object)}
 		return(object)
 		})
@@ -495,18 +457,6 @@ setMethod("getupperBound", "Cat",
             return(object@upperBound)
           })
 
-#' @export
-setGeneric("getquadPoints",
-           function(object="Cat")  {
-             standardGeneric("getquadPoints")
-           })
-
-#' @export
-setMethod("getquadPoints", "Cat",
-          function(object){
-            return(object@quadPoints)
-          })
-
 
 #' @export
 setGeneric("getdifficulty",
@@ -556,18 +506,5 @@ setMethod("getselection", "Cat",
             return(object@selection)
           })
 
-
-
-#' @export
-setGeneric("getpoints",
-           function(object="Cat")  {
-             standardGeneric("getpoints")
-           })
-
-#' @export
-setMethod("getpoints", "Cat",
-          function(object){
-            return(object@points)
-          })
 
 
