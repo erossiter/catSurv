@@ -194,20 +194,38 @@ setValidity("Cat", function(object){
 ########### SETTERS  ##############
 
 
-#' Setter for guessing slot within Cat class objects
+#' Setters for slots within Cat class objects
 #'
-#' This functions replaces the values currently stored in the guessing slot of an object of class \code{Cat} with the user-provided values.  
+#' This functions replaces the values currently stored in a specified slot of an object of class \code{Cat} with the user-provided values.  
 #'
-#' @param object An object of class \code{Cat} to be updated
+#' @param object An object of class \code{Cat} to be modified
 #' @param valid Boolean for whether to check validity of object before allowing setter method to execute, default to TRUE
-#' @param value The value to replace the current value stored in the guessing slot of the \code{Cat}
+#' @param value The value to replace the current value stored in the specified slot of the \code{Cat}
 #' 
-#' @return Updates the \code{Cat} object that was provided by the user, and returns the updated object 
+#' @return Modifies the \code{Cat} object that was provided by the user, and returns the modified object 
 #' 
-#' @note There are setters for every slot in \code{Cat} objects, all following the format \code{setSlot}
+#' @note There are setters for every slot in \code{Cat} objects, all following the format \code{setSlot}: 
+#' eg. \code{setDiscrimination}, \code{setEstimationDefault}, \code{setSeThreshold}, etc.
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
-#' @seealso \code{\link{Cat}}, \code{\link{setDiscrimination}}, \code{\link{setPriorParam}}
-#' @rdname setGuessing
+#' @seealso \code{\link{Cat}}, \code{\link{getters}}
+#' @rdname setters
+#' @aliases setGuessing setDiscrimination setDifficulty setAnswers setPriorName setPriorParams
+#' setUpperBound setLowerBound setPoly setEstimation setEstimationDefault setSelection setZ
+#' setLengthThreshold setSeThreshold setInfoThreshold setGainThreshold setLengthOverride setGainOverride
+#' @export
+setGeneric("setSlot<-",
+           function(object, valid=T, value){
+             standardGeneric("setSlot<-")
+           })
+setReplaceMethod(
+  f = "setSlot",
+  signature = "Cat",
+  definition = function(object, valid, value){
+    object <- value
+    if(valid){validObject(object)}
+    return(object)
+  })
+
 #' @export
 setGeneric("setGuessing<-",
 		   function(object, valid=T, value){
@@ -222,20 +240,6 @@ setReplaceMethod(
 		return(object)
 		})
 
-#' Setter for discrimination slot within Cat class objects
-#'
-#' This functions replaces the values currently stored in the discrimination slot of an object of class \code{Cat} with the user-provided values.  
-#'
-#' @param object An object of class \code{Cat} to be updated
-#' @param valid Boolean for whether to check validity of object before allowing setter method to execute, default to TRUE
-#' @param value The value to replace the current value stored in the discrimination slot of the \code{Cat}
-#' 
-#' @return Updates the \code{Cat} object that was provided by the user, and returns the updated object 
-#' 
-#' @note There are setters for every slot in \code{Cat} objects, all following the format \code{setSlot}
-#' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
-#' @seealso \code{\link{Cat}}, \code{\link{setDiscrimination}}, \code{\link{setPriorParam}}
-#' @rdname setDiscrimination
 #' @export
 setGeneric("setDiscrimination<-",
 		   function(object, valid=T, value){
@@ -292,21 +296,6 @@ setReplaceMethod(
     return(object)
   })
 
-
-#' Setter for priorParams slot within Cat class objects
-#'
-#' This functions replaces the values currently stored in the priorParam slot of an object of class \code{Cat} with the user-provided values.  
-#'
-#' @param object An object of class \code{Cat} to be updated
-#' @param valid Boolean for whether to check validity of object before allowing setter method to execute, default to TRUE
-#' @param value The value to replace the current value stored in the priorParam slot of the \code{Cat}
-#' 
-#' @return Updates the \code{Cat} object that was provided by the user, and returns the updated object 
-#' 
-#' @note There are setters for every slot in \code{Cat} objects, all following the format \code{setSlot}
-#' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
-#' @seealso \code{\link{Cat}}, \code{\link{setDiscrimination}}, \code{\link{setGuessing}}
-#' @rdname setPriorParams
 #' @export
 setGeneric("setPriorParams<-",
 		   function(object, valid=T, value){
@@ -515,21 +504,34 @@ setReplaceMethod(
 
 
 
+################# GETTERS ################# 
 
-#' Getters: access slots within Cat class objects
+#' Getters for slots within Cat class objects
 #'
-#' These functions allow us to access to the values currently stored in a given slot of an object of class \code{Cat} with the user-provided values.  
+#' These functions access and return the values currently stored in a specified slot of an object of class \code{Cat}.  
 #'
-#' @param object An object of class \code{Cat} with a slot to be changed
+#' @param object An object of class \code{Cat} to be modified
+
+#' @return The value stored in the specified slot of the \code{Cat} object. 
 #' 
-#' @return A value of an object of class \code{Cat} with an updated slot
-#' 
-#' @note Notes
+#' @note There are getters for every slot in \code{Cat} objects, all following the format \code{getSlot}: 
+#' eg. \code{getDiscrimination}, \code{getEstimationDefault}, \code{getSeThreshold}, etc.
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
-#' @seealso \code{\link{Cat}}
+#' @seealso {\link{Cat}} {\link{setters}}
 #' @rdname getters
-#' @export 
-
+#' @aliases getGuessing getDiscrimination getDifficulty getAnswers getPriorName getPriorParams
+#' getUpperBound getLowerBound setPoly getEstimation getEstimationDefault getSelection getZ
+#' getLengthThreshold getSeThreshold getInfoThreshold getGainThreshold getLengthOverride getGainOverride
+#' @export
+setGeneric("getSlot",
+           function(object){
+             standardGeneric("getSlot")
+           })
+#' @export
+setMethod("getSlot", "Cat",
+          function(object){
+            return(object)
+          })
 
 #' @export
 setGeneric("getGuessing",
