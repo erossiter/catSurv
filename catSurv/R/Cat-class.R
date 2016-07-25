@@ -170,6 +170,12 @@ setValidity("Cat", function(object){
     if(!test10||!test11) stop("priorName is UNIFORM but priorParam values not bounded by lower and upper bounds")
   }
   
+  ## range for guessing within [0,1]
+  for (i in 1:length(object@guessing)){
+    if (object@guessing[i] <0 || object@guessing[i] >1){
+      stop (paste("Guessing parameter for item ", i, "is out of bounds: value is ", object@guessing[i], ", but should be within [0,1]"))
+    }
+  }
 })
 
 
