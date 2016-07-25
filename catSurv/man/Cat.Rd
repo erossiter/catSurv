@@ -20,7 +20,7 @@ Assume we have a survey battery with \code{I} questions.  An object of the class
 \item \code{lowerBound} A numeric indicating the lower bound of the interval of the latent scale used in estimation. The default value is \code{-6}.
 \item \code{upperBound} A numeric indicating the upper bound of the interval of the latent scale used in estimation. The default value is \code{6}.
 \item \code{poly} A logical containing the type of answers.  TRUE indicates categorical response options, FALSE indicates binary response options.  Default is TRUE.
-\item \code{estimation} A character vector of length one indicating the choice of approach to estimate ability parameters.  The options are \code{EAP}, \code{MAP}, and \code{MLE}.
+\item \code{estimation} A character vector of length one indicating the choice of approach to estimate ability parameters.  The options are \code{EAP}, \code{MAP}, \code{MLE}, and \code{WLE}.
 \item \code{estimationDefault} A character vector of length one indicating the choice of approach to estimate ability parameters when the primary estimation choice indicating in the \code{estimation} slot fails to converge.  The options are \code{EAP} and \code{MAP}.
 \item \code{selection} A character vector of length one indicating the choice of approach select the next item.  The options are \code{EPV}, \code{MEI}, \code{MFI}, \code{MPWI}, \code{MLWI}, \code{KL}, \code{LKL}, \code{PKL}, \code{MFII}, and \code{RANDOM}.
 \item \code{z} A numeric.  Used in calculating delta, which is used in calculating the bounds of integration for some selectItem methods.  See 'details' for more information.
@@ -29,10 +29,7 @@ Assume we have a survey battery with \code{I} questions.  An object of the class
 \item \code{infoThreshold} A numeric.  The Fisher's information for all remaining items must be less than this threshold.
 \item \code{gainThreshold} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this threshold.
 \item \code{lengthOverride} A numeric.  The number of questions answered must be less than this override.
-\item \code{gainOverride} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this override.
-
-\item \code{points} ????
-\item \code{quadPoints} ????
+\item \code{gainOverride} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this override.  
 }
 
 When priorName is set to "NORMAL", the first element of priorParams is the mean, the second element is the standard deviation.  When priorName is set to "STUDENT_T", the first element of priorParam is mu, a location parameter, the second is degrees of freedom.  When priorName is set to "UNIFORM", the elements of priorParams are lower and upper, respectively.  Note that the uniform distribution is only applicable for the "EAP" estimation method.  
