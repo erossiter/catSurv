@@ -50,7 +50,7 @@ double WLEEstimator::poly_estimateTheta(Prior prior){
       std::vector<double> P_prime;
       std::vector<double> P_2prime;
 
-      for (size_t k = 0; k < P_stars.size()-1; ++k) {
+      for (size_t k = 0; k < P_stars.size(); ++k) {
         double P_star = P_stars.at(k);
         double Q_star = 1 - P_star;
         double P_star_p = -1 * beta * P_star * Q_star;
@@ -70,24 +70,12 @@ double WLEEstimator::poly_estimateTheta(Prior prior){
         P_2prime.push_back(P_2prime1 - P_2prime2);
       }
     
-      for (size_t k = 0; k < P.size() - 1; ++k) {
+      for (size_t k = 0; k < P.size(); ++k) {
         B += (P_prime.at(k) * P_2prime.at(k)) / P.at(k);
-      }
-      std::cout << "\nP: " << std::endl;
-      for(auto i: P){
-        std::cout << i << std::endl;
       }
     }
     
     double L_theta = dLL(theta, false, prior);
-    
-
-      std::cout << "\ntheta: " << theta << std::endl;
-      std::cout << "L_theta: " << L_theta << std::endl;
-      std::cout << "B: " << B << std::endl;
-      std::cout << "2*I: " << (2 * I) << std::endl;
-      std::cout << "W: " << (L_theta + (B / (2 * I))) << std::endl;
-
 
     return L_theta + (B / (2 * I));
   };
@@ -103,7 +91,7 @@ double WLEEstimator::estimateTheta(Prior prior) {
 
 double WLEEstimator::estimateSE(Prior prior) {
   double I_theta = fisherTestInfo(prior);
-  double var = I_theta / pow(I_theta, 2.0);
+  double var = 1 / I_theta;
   return pow(var, 0.5);
 }
 

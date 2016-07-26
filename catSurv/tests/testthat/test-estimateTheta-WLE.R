@@ -76,27 +76,14 @@ test_that("estimateTheta calculates correctly for WLE", {
   
   it.poly <- matrix(c(coef(poly_ltm)[,5], coef(poly_ltm)[,1:4]),
                     ncol= 5, byrow = F)
-  
-  diff <- matrix(NA, ncol=4, nrow = 100)
+
   for(j in 1:nrow(poly_data)){
     poly_cat@answers <- as.numeric(poly_data[j,])
     poly_cat@estimation <- "WLE"
-    CatTheta.wle <- estimateTheta(poly_cat)
-    poly_cat@estimation <- "MAP"
-    CatTheta.map <- estimateTheta(poly_cat)
+    CatTheta <- estimateTheta(poly_cat)
     RTheta <- thetaEst(it = it.poly, x = (poly_cat@answers - 1), model = "GRM", method = "WL",
                        priorDist = "norm", priorPar = c(0,1), range = c(-5,5))
-    diff[j,1] <- CatTheta.wle
-    diff[j,2] <- CatTheta.map
-    diff[j,3] <- RTheta
-    diff[j,4] <- abs(CatTheta.wle - RTheta)/CatTheta.wle
-    #expect_equal(abs(CatTheta - RTheta)/CatTheta, 0, tolerance = .03)
+    expect_equal(abs(CatTheta - RTheta)/CatTheta, 0, tolerance = .01)
   }
-  
-  theta: -5
-  L_theta: 9.63975          9.641026
-  B: -0.384272              0.4859431
-  2*I: 1.01472              1.014847
-  W: 9.26105                10.11986
   
 })

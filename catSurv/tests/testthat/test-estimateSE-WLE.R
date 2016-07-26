@@ -74,7 +74,6 @@ test_that("estimateSE calculates correctly for WLE", {
   it.poly <- matrix(c(coef(poly_ltm)[,5], coef(poly_ltm)[,1:4]),
                     ncol= 5, byrow = F)
   
-  diff <- matrix(NA, nrow = 100, ncol =3)
   for(j in 1:nrow(poly_data)){
     poly_cat@answers <- as.numeric(poly_data[j,])
     theta.poly <- estimateTheta(poly_cat)
@@ -82,10 +81,7 @@ test_that("estimateSE calculates correctly for WLE", {
     RSE <- semTheta(thEst = theta.poly, it = it.poly, x = as.numeric(poly_data[j,] - 1), 
                     model = "GRM", method = "WL", priorDist = "norm", priorPar = c(0,1), 
                     parInt = c(-10, 10, 100))
-    diff[j,1] <- CatSE
-    diff[j,2] <- RSE
-    diff[j,3] <- abs(CatSE - RSE)/CatSE
-    #expect_equal(abs(CatSE - RSE)/CatSE, 0, tolerance = .25)
+    expect_equal(abs(CatSE - RSE)/CatSE, 0, tolerance = .001)
   }
   
 })
