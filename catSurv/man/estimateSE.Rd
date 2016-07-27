@@ -16,8 +16,51 @@ The posterior standard error for \eqn{\theta_j}
 This function estimates the standard error for the posterior estimate for the position \eqn{\theta_j} of a person on the latent scale
 }
 \details{
-The posterior variance for \eqn{\theta_j} is:
-\eqn{\hat{\theta}_j = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{}\int\pi(\theta_j)L(\theta_j)d\theta_j},
-where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then \sqrt{\mbox{Var}(\hat{\theta}_j)}
+Details for MLE  estimator:
+
+  The variance of \deqn{\theta^{(MLE)}_j}{\theta^{MLE}_j} is defined as:
+
+  \deqn{\mbox{Var}(\hat{\theta}_j)=\frac{1}{I(\hat{\theta_j})}}{Var(\hat{\theta}_j) = 1/(I(\hat{\theta_j}))}
+
+  where \eqn{T(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}}.The standard error is then 
+
+  \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
+
+  Details for WLE estimator:
+
+  The variance of \deqn{\theta^{(WLE)}_j}{\theta^{WLE}_j} is defined as:
+
+  \deqn{\mbox{Var}(\hat{\theta}_j)\approx\frac{1}{I(\hat{\theta})}}{Var(\hat{\theta}_j)\approx 1/(I(\hat{\theta}))}
+
+  where \deqn{I(\hat{\theta_j})}{I(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}} and \eqn{B(\theta)} is defined in \code{estimateTheta}.The standard error is then 
+
+ \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
+
+
+
+  Details for MAP estimator:
+
+  Note: This is currently implemented only for the normal prior.
+
+  The variance of \deqn{\theta^{(MAP)}_j}{\theta^{MAP}_j} is defined as:
+
+  \deqn{\mbox{Var}(\hat{\theta}_j)=\frac{1}{I(\hat{\theta_j})+\frac{1}{\sigma_\theta^2}}}{Var(\hat{\theta}_j) = 1/(I(\hat{\theta_j}) + 1/(\sigma_\theta^2))}
+
+  where \eqn{I(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}}.The standard error is then 
+
+  \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
+
+
+
+  Details for EAP estimator:
+  
+  The posterior variance for \deqn{\theta^{(EAP)}_j}{\theta^{EAP}_j} is:
+
+  \deqn{\mbox{Var}(\hat{\theta}_j) = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{\int\pi(\theta_j)L(\theta_j)d\theta_j}}
+  {Var(\hat{\theta}_j) = E[(\theta_j - \hat{\theta_j})^2] = (\int(\theta_j - \hat{\theta_j})^2 \pi(\theta_j) L(\theta_j) d\theta_j)/(\int \pi(\theta_j) L(\theta_j) d\theta_j)}
+
+  where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then 
+
+  \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
 }
 

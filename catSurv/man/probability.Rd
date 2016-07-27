@@ -14,18 +14,28 @@ probability(cat_df, theta, question)
 \item{question}{An integer indicating the index of the question}
 }
 \value{
-A numeric vector consisting of the probability of a correct response (binary) or the probability of being less than each element of the item \eqn{i}'s difficulty parameter.
+A numeric vector consisting of the probability of a correct response (binary) or the probability of being less than each element of the item \eqn{i} 's difficulty parameter.
 }
 \description{
 This function calculates the probabilities of a specific set of responses to a specific question for a specific value of \eqn{\theta}.
 }
 \details{
-The probability of a correct response for respondent \eqn{j} on item \eqn{i} is ....
-where \eqn{\theta_j} is respondent \eqn{j}'s position on the latent scale of interest, \eqn{a_i} is item \eqn{i}'s discrimination parameter,
- \eqn{b_i} is item i's difficulty parameter, and \eqn{c_i} is item \eqn{i}'s guessing parameter.
-
- Note: this function is overloaded, due to different output types of binary vs polytomous implementations (outputs single value for binary implementation,
+Note: this function is overloaded, due to different output types of binary vs polytomous implementations (outputs single value for binary implementation,
  vector of values for polytomous implementation)
+
+ For the binary case, the probability of a correct response for respondent \eqn{j} on item \eqn{i} is
+ 
+ \deqn{Pr(y_{ij}=1|\theta_j)=c_i+(1-c_i)\frac{\exp(a_i + b_i \theta_j)}{1+\exp(a_i + b_i \theta_j)}}{Pr(y_ij = 1| \theta_j) = c_i + (1 - c_i)(exp(a_i + b_i \theta_j))/(1 + exp(a_i + b_i \theta_j))}
+
+ where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{a_i} is item \eqn{i} 's discrimination parameter,
+ \eqn{b_i} is item \eqn{i} 's difficulty parameter, and \eqn{c_i} is item \eqn{i} 's guessing parameter.
+
+ For categorical questions, the probability of a response in category \eqn{k} or lower for respondent \eqn{j} on item \eqn{i} is
+
+ \deqn{Pr(y_{ij} <  k|\theta_j)=\frac{\exp(\alpha_{ik} - \beta_i \theta_{ij})}{1+\exp(\alpha_{ik} - \beta_i \theta_{ij})}}{Pr(y_ij < k| \theta_j) = (exp(\alpha_ik - \beta_i \theta_ij))/(1 + exp(\alpha_ik - \beta_i \theta_ij))}
+
+ where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_ik} the \eqn{k}-th element of item \eqn{i} 's difficulty parameter, 
+ \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Note (1) the inequality on the left side and (2) that the guessing parameters are irrelevant here.
 
  Note: the function for polytomous implementation does not return values, but rather alters the object ret_prob in memory
 }

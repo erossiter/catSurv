@@ -7,22 +7,76 @@
 estimateTheta(cat_df)
 }
 \arguments{
-\item{cat}{An object of \code{Cat} class}
+\item{cat_df}{An object of \code{Cat} class}
 }
 \value{
 A vector consisting of the expected value of the ability parameter
 }
 \description{
-This function takes a Cat object and returns the expected value of the ability parameter conditioned on the observed answers and the item calibrations.
+This function takes a \code{Cat} object and returns the expected value of the ability parameter conditioned on the observed answers and the item calibrations.
 }
 \details{
-The expected value of \eqn{\theta_j} is:
-\eqn{\frac{\int_{-\infty}^\infty \theta_j \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \eqn{L}(\theta_j) \pi(\theta_j) d\theta_j}},
-where \eqn{L}(\theta_j) is the likelihood function and \pi(\theta_j) is the prior distribution for \eqn{\theta_j}
+For the expected a posteriori (EAP) approach:
+
+  The expected value of \eqn{\theta_j} is:
+
+  \deqn{\frac{\int_{-\infty}^\infty \theta_j \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}}{{\int_{-\infty}^\infty \theta_j L(\theta_j) \pi(\theta_j) d\theta_j}/{\int_{-\infty}^\infty L(\theta_j) \pi(\theta_j) d\theta_j}}
+
+  Where \eqn{L(\theta_j)} is defined in \code{Likelihood}, and \eqn{\pi(\theta_j)} is the prior distribution for \eqn{\theta_j}.  
+
+  For the modal a posteriori (MAP) approach:
+
+  Note: This method is only available using the normal prior distribution.
+
+  To estimate \eqn{\theta_j}, we solve the following equation iteratively, beginning with an initial value of \eqn{\theta_j}, and continue until the change in the estimate is below some pre-specified tolerance. Note that \eqn{t} here indexes the iteration.
+
+  \deqn{[\hat{\theta_j}]_{(t+1)} &= [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{[\hat{\theta_j}]_{(t + 1)} = [\hat{\theta_j}]_{(t)} - [((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))]}
+
+  where the derivatives are calculated for at \eqn{[\hat{\theta_j}]_{(t)}}.
+
+  For the maximum likelihood (MLE) approach:
+
+  Note: When MLE will not work, estimateTheta is calculated according to the estimationDefault slot in Cat object.
+
+  To estimate \eqn{\theta_j}, we solve the following equation iteratively, beginning with an initial value of \eqn{\theta_j}, and continue until the change in the estimate is below some pre-specified tolerance. Note that \eqn{t} here indexes the iteration.
+
+  \deqn{[\hat{\theta_j}]_{(t+1)} &= [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{[\hat{\theta_j}]_{(t + 1)} = [\hat{\theta_j}]_{(t)} - [ ((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))]}
+
+  where the derivatives are calculated for at \eqn{[\hat{\theta_j}]_{(t)}}.
+
+  For the weighted maximum likelihood approach (WLE) approach:
+
+  To estimate \eqn{\theta_j}, we find the root of the following function using the ``Brent'' method in the \code{gsl} library.
+
+  \deqn{W = L_\theta + \frac{B(\theta)}{2I(\theta)}}{W = L_\theta + B(\theta)/(2 I(\theta))}
+
+  Where \eqn{L_\theta} is defined without use of the prior, and \eqn{I(\theta)} is the test information for respondent \eqn{j}.
+
+  For the dichotomous case, 
+
+  \deqn{B(\theta)=\sum_i \frac{P_{ij}^\prime P_{ij}^{\prime\prime} }{P_{ij}Q_{ij}}}{B(\theta) = \sum_i (P'_{ij} P''_{ij})/(P_{ij} Q_{ij})}
+
+  \eqn{P_{ij}} and \eqn{Q_{ij}} are as defined in \code{Probability} and \code{Likelihood}, and
+
+  \deqn{P^{\prime}_{ij} = b_i (1 - c_i) \frac{\exp{(a_i+b_i\theta_j)}}{(1 + \exp{(a_i+b_i\theta_j)})^2}}{P'_{ij} = b_i (1 - c_i) (exp(a_i + b_i \theta_j))/(1 + exp(a_i + b_i\theta_j))^2}
+  
+  \deqn{P^{\prime\prime}_{ij}=b^2  \exp{(a_i+b_i\theta_j)}  (1 - \exp{(a_i+b_i\theta_j)})  \frac{(1 - c)}{(1 + \exp{(a_i+b_i\theta_j)})^3}}{P''_{ij} = b^2  exp(a_i + b_i \theta_j)(1 - exp(a_i + b_i\theta_j)) ((1 - c)/(1 + exp(a_i + b_i \theta_j))^3)}
+ 
+  For the categorical case, 
+
+  \deqn{B=\sum_i \sum_k \frac{P_{ijk}^\prime P_{ijk}^{\prime\prime}}{P_{ijk}}}{B = \sum_i \sum_k (P'_{ijk} P''_{ijk})/(P_{ijk})}
+
+  where, \eqn{P_{ijk}} is defined as above and \deqn{P^\ast_{ijk}}{P*_{ijk}} is defined as above with one and zero at the extremes.
 
 
- Note: When MLE would not work, estimateTheta is calculated according to the estimationDefault slot in Cat object.
+  \deqn{P^{\ast \prime}_{ijk}=-\beta P^\ast_{ijk}  Q^\ast_{ijk}}{P*'_{ijk} = -\beta P*_{ijk}  Q^*_{ijk}}
+  
+  \deqn{P^{\ast \prime \prime}_{ijk} = -\beta  (P^{\ast \prime}_{ijk} - 2  P^{\ast} _{ijk}  P^{\ast \prime}_{ijk})}{P*''_{ijk} = -\beta  (P*'_{ijk} - 2  P* _{ijk}  P*'_{ijk})}
 
- Note: This method will only be available using the normal prior distribution
+  Finally,
+
+  \deqn{P^{\prime}_{ijk}=P^{\ast \prime}_{ij,k+1}-P^{\ast \prime}_{ij,k}}{P'_{ijk} = P*'_{ij,k+1} - P*'_{ij,k}}
+                    
+  \deqn{P^{\prime\prime}_{ijk}=P^{\ast \prime\prime}_{ij,k+1}-P^{\ast \prime\prime}_{ij,k}}{P''_{ijk} = P*''_{ij,k+1} - P*''_{ij,k}}
 }
 

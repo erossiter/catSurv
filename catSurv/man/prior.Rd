@@ -8,6 +8,10 @@ prior(x, c, p)
 }
 \arguments{
 \item{x}{A numeric value where we want to evaluate the prior name}
+
+\item{c}{The @priorName slot of a \code{Cat} object}
+
+\item{p}{The @priorParams slot of a \code{Cat} object}
 }
 \value{
 A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
@@ -16,6 +20,6 @@ A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
 This function returns the prior value for each respondent's position on the latent scale of interest
 }
 \details{
-\eqn{x} needs to be either NORMAL or STUDENT_T params, which are parameters controlling the shape of the prior
+Note: \eqn{x} needs to be either UNIFORM, NORMAL, or STUDENT_T parameters, which control the shape of the prior.
 }
 

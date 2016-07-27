@@ -17,11 +17,27 @@ This function returns a boolean indicating if the respondent should not be asked
 }
 \details{
 The stopping rule thresholds are stored in the following Cat object slots: lengthThreshold, seThreshold, infoThreshold, and gainThreshold.
-The override thresholds are stored in the following Cat object slots: lengthOverride, gainOverride.  A value of NA indicates the rule should not be used.
+  The override thresholds are stored in the following Cat object slots: lengthOverride, gainOverride.  A value of NA indicates the rule should not be used.
 
-A return value of TRUE indicates that additional questions should be asked; FALSE indicates no additional questions should be asked.
+  A return value of TRUE indicates that additional questions should be asked; FALSE indicates no additional questions should be asked.
 
-A user can specify any combination of stopping rules and/or overrides.  The function returns TRUE if all specified stopping rules are met
-and no specified overrides are met.  The function returns FALSE if at least one specified stopping rule is not met, or if any specified override threshold is met.
+  A user can specify any combination of stopping rules and/or overrides.  The function returns TRUE if all specified stopping rules are met
+  and no specified overrides are met.  The function returns FALSE if at least one specified stopping rule is not met, or if any specified override threshold is met.
+
+  Stopping Rules:
+
+  lengthThreshold: Number of question's answered >= a
+ 
+  seThreshold: \eqn{SE(\hat{\theta}) < a}
+ 
+  infoThreshold: \deqn{FI < a \forall}{FI < a \forall} remaining items
+
+  gainThreshold: \deqn{SE(\hat{\theta}) - \sqrt{EPV} | < a \forall}{SE(\hat{\theta}) - \sqrt{EPV} | < a \forall} remaining items
+
+  Overrides:
+
+  lengthOverride: Number of question's answered < a
+
+  gainOverride: \deqn{|SE(\hat{\theta}) - \sqrt{EPV} | >= a \forall}{|SE(\hat{\theta}) - \sqrt{EPV} | >= a \forall} remaining items
 }
 

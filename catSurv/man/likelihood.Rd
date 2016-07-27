@@ -9,7 +9,7 @@ likelihood(cat_df, t)
 \arguments{
 \item{cat_df}{An object of \code{Cat} class}
 
-\item{theta}{A numeric for possible value of theta (position on the latent scale of interest)}
+\item{t}{A numeric for possible value of theta (position on the latent scale of interest)}
 }
 \value{
 A value of the likelihood of each respondent having offered the provided response profile
@@ -18,7 +18,25 @@ A value of the likelihood of each respondent having offered the provided respons
 This function returns the value of likelihood of a person with ability parameter \eqn{\theta} having offered the specific response profile stored in answers conditional on the item-level parameters.
 }
 \details{
-Letting \eqn{q_i(\theta_j)=1-p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is..
-\eqn{L(\theta_j|\mathbf{y}_{j})=\prod^{j}_{i=1}p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij}}}, where \eqn{y_j} is evaluated based only on the questions the respondent has actually had the opportunity to answer
+For binary \code{Cats}, letting \eqn{q_i(\theta_j) = 1 - p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is
+
+ \deqn{L(\theta_j|\mathbf{y}_{j})=\prod^{J}_{i=1}\Big(p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij})}\Big)= \exp\Big[ \sum^{J}_{i=1}\Big(y_{ij} \log(p_i(\theta_j)) + (1-y_{ij})\log(q_i(\theta_j))\Big) \Big]}{L(\theta_j| y_j) = \prod^{J}_{i = 1}(p_i(\theta_j)^{y_ij} q_i(\theta_j)^{1 - y_ij}) = exp(\sum^{J}_{i = 1} (y_ij log(p_i(\theta_j)) + (1 - y_ij) log(q_i(\theta_j))))}
+
+ where \eqn{y_j} is evaluated based only on the questions the respondent has actually had the opportunity to answer.
+
+ For the polytomous implementation, for each item \eqn{i} we assume that there are \eqn{K_i} response options and that the number of response options may differ across items.  
+ There is therefore vector of threshold parameters defined as \deqn{\mathbf{\alpha}_i=(\alpha_{i,0}, \alpha_{i,1}, \ldots, \alpha_{i,K_i})}{\alpha_i = \alpha_{i,0}, \alpha_{i,1}, ... , \alpha_{i,K_i}}, 
+ with \deqn{\alpha_{i,0} < \alpha_{i,1} \le \alpha_{i,2} \le \ldots, < \alpha_{i,K_i}}{\alpha_{i,0} < \alpha_{i,1} \le \alpha_{i,2} \le \ldots, < \alpha_{i,K_i}} , \deqn{\alpha_{i,0} = -\infty}{\alpha_{i,0} = -\infty}, and \deqn{\alpha_{i,K_i} = \infty}{\alpha_{i,K_i} = \infty}.  
+ Note that this means that for a categorical question with \eqn{K} possible answers, we will need \eqn{K-1} difficulty parameters (since \eqn{\alpha_{i,0}} and \eqn{\alpha_{i,K}} are known).  
+ In addition, each item is associated with a \emph{discrimination} parameter \eqn{\beta_i}, which indicates how well each item corresponds to the underlying trait in question. 
+ To calculate the likelihood function, we need to estimate \deqn{P^*_{ijk} = Pr(y_{ij} < k| \theta_j)}{P*_ijk = Pr(y_ij < k| \theta_j)} for each response option. The probability of observing each possible response can then be calculated as, 
+                                                                                 
+ \deqn{P_{ijk} = P^\ast_{ij, k} - P^\ast_{ij, k-1}}{P_ijk = P*_{ij,k} - P*_{ij,k-1}}. 
+
+ Note that \deqn{P^\ast_{ij0} =0 }{P*_{ij,0} = 0} and \deqn{P^\ast_{ijK+1} = 1}{P*_{ij,K+1} = 1} in all cases. The likelihood function is therefore,
+
+ \deqn{L(\theta_j) = \prod_{i=1}^n\prod_{k=1}^{K_i} P_{ijk}^{I(y_{ij}=k)} = \exp \Big[ \sum_{i=1}^n\sum_{k=1}^{K_i} \log \Big( P_{ijk}^{I(y_{ij}=k)} \Big) \Big]}{L(\theta_j) = \prod_{i = 1}^n \prod_{k = 1}^{K_i} P_{ijk}^{I(y_{ij} = k)} = exp[\sum_{i = 1}^n \sum_{k = 1}^{K_i} log(P_{ijk}^{I(y_{ij} = k)})]},
+
+ where \deqn{I(\cdot)}{I(.)} is the usual indicator function that evaluates to 1 when the equatliy holds and zero otherwise.
 }
 
