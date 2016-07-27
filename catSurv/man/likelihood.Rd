@@ -35,8 +35,38 @@ For binary \code{Cats}, letting \eqn{q_i(\theta_j) = 1 - p_i(\theta_j)}, the lik
 
  Note that \deqn{P^\ast_{ij0} =0 }{P*_{ij,0} = 0} and \deqn{P^\ast_{ijK+1} = 1}{P*_{ij,K+1} = 1} in all cases. The likelihood function is therefore,
 
- \deqn{L(\theta_j) = \prod_{i=1}^n\prod_{k=1}^{K_i} P_{ijk}^{I(y_{ij}=k)} = \exp \Big[ \sum_{i=1}^n\sum_{k=1}^{K_i} \log \Big( P_{ijk}^{I(y_{ij}=k)} \Big) \Big]}{L(\theta_j) = \prod_{i = 1}^n \prod_{k = 1}^{K_i} P_{ijk}^{I(y_{ij} = k)} = exp[\sum_{i = 1}^n \sum_{k = 1}^{K_i} log(P_{ijk}^{I(y_{ij} = k)})]},
+ \deqn{L(\theta_j) = \prod_{i=1}^n\prod_{k=1}^{K_i} P_{ijk}^{I(y_{ij}=k)} = \exp \Big[ \sum_{i=1}^n\sum_{k=1}^{K_i} \log \Big( P_{ijk}^{I(y_{ij}=k)} \Big) \Big]}{L(\theta_j) = \prod_{i = 1}^n \prod_{k = 1}^{K_i} P_ijk^{I(y_ij = k)} = exp[\sum_{i = 1}^n \sum_{k = 1}^{K_i} log(P_ijk^{I(y_ij = k)})]},
 
  where \deqn{I(\cdot)}{I(.)} is the usual indicator function that evaluates to 1 when the equatliy holds and zero otherwise.
+}
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ 
+ likelihood(ltm_cat, 0)
+
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ 
+ likelihood(tpm_cat, 0)
+
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ 
+ likelihood(poly_cat, 0)
+ 
+}
+\seealso{
+\code{\link{probability}} for individual probability calculations
 }
 

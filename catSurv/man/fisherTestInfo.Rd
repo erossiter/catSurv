@@ -21,4 +21,39 @@ This function calculates the total information gained for a respondent \eqn{j} f
 
 \deqn{I(\theta_j) = \sum_i^n I_i(\theta_j)}{I(\theta_j) = \sum_i^n I_i(\theta_j)}
 }
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ ltm_cat@answers <- as.numeric(ltm_data[1,])
+ 
+ fisherTestInfo(ltm_cat)
+ 
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ tpm_cat@answers <- as.numeric(tpm_data[1,])
+ 
+ fisherTestInfo(tpm_cat)
+ 
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ poly_cat@answers <- as.numeric(poly_data[1,])
+ 
+ fisherTestInfo(poly_cat)
+
+}
+\seealso{
+\code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
+  \code{\link{estimateTheta}} for calculation of \eqn{\theta};
+  \code{\link{fisherInf}} for further calculation of Fisher's information
+}
 

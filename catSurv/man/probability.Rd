@@ -39,4 +39,31 @@ Note: this function is overloaded, due to different output types of binary vs po
 
  Note: the function for polytomous implementation does not return values, but rather alters the object ret_prob in memory
 }
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ 
+ probability(ltm_cat, 0, 1)
+
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ 
+ probability(tpm_cat, 0, 1)
+
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ 
+ probability(poly_cat, 0, 1)
+ 
+}
 

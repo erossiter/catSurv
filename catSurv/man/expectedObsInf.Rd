@@ -20,10 +20,45 @@ This function calculates the expected information, which is the observed informa
 \details{
 Binary details:
 
-  \deqn{EI=P(y_{ij} = 1)J_{y_{ij}=1} + P(y_{ij} = 0)J_{y_{ij}=0}}{EI = P(y_ij = 1)J_{y_ij = 1} + P(y_ij = 0)J_{y_ij = 0}} 
+  \deqn{EI=P(y_{ij} = 1)J_{y_{ij}=1} + P(y_{ij} = 0)J_{y_{ij}=0}}{EI = P(y_ij = 1)J_{y_ij = 1} + P(y_ij = 0) J_{y_ij = 0}} 
 
   Categorical details:
 
-  \deqn{EI = \sum_k^K P(y_{ij} = k)J_{y_{ij}=k}}{EI = \sum_k^K P(y_ij = k)J_{y_ij = k}}
+  \deqn{EI = \sum_k^K P(y_{ij} = k)J_{y_{ij}=k}}{EI = \sum_k^K P(y_ij = k) J_{y_ij = k}}
+}
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ ltm_cat@answers <- as.numeric(ltm_data[1,])
+ 
+ expectedObsInf(ltm_cat, 1)
+ 
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ tpm_cat@answers <- as.numeric(tpm_data[1,])
+ 
+ expectedObsInf(tpm_cat, 1)
+ 
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ poly_cat@answers <- as.numeric(poly_data[1,])
+ 
+ expectedObsInf(poly_cat, 1)
+ 
+}
+\seealso{
+\code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
+  \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
+  \code{\link{obsInf}} for observed information calculation
 }
 

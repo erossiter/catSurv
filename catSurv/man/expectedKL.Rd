@@ -53,4 +53,38 @@ The KL item information for item \eqn{k} is:
     P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}{\int_{\hat{\theta} - \delta}^{\hat{\theta} + \delta} 
     \sum_k(P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
 }
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ ltm_cat@answers <- as.numeric(ltm_data[1,])
+ 
+ expectedKL(ltm_cat, 1)
+ 
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ tpm_cat@answers <- as.numeric(tpm_data[1,])
+ 
+ expectedKL(tpm_cat, 1)
+
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ poly_cat@answers <- as.numeric(poly_data[1,])
+ 
+ expectedKL(poly_cat, 1)
+
+}
+\seealso{
+\code{\link{estimateTheta}} for calculation of \eqn{\theta};
+  \code{\link{likelihoodKL}} and/or \code{\link{posteriorKL}} for alternative KL methods
+}
 

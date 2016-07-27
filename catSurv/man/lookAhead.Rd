@@ -14,4 +14,37 @@ lookAhead(cat_df, item)
 \description{
 This function returns the next item that should be asked for all possible response options of the question the respondent is currently answering.
 }
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ ltm_cat@answers[c(13,27)] <- c(1,1)
+ 
+ lookAhead(ltm_cat, 8)
+ 
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ tpm_cat@answers[c(13,27)] <- c(1,1)
+ 
+ lookAhead(tpm_cat, 8)
+
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ poly_cat@answers[c(13,17)] <- c(1,1)
+ 
+ lookAhead(poly_cat, 8)
+
+}
+\seealso{
+\code{\link{selectItem}} for selection method information
+}
 

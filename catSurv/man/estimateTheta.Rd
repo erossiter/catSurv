@@ -16,35 +16,35 @@ A vector consisting of the expected value of the ability parameter
 This function takes a \code{Cat} object and returns the expected value of the ability parameter conditioned on the observed answers and the item calibrations.
 }
 \details{
-For the expected a posteriori (EAP) approach:
+The expected a posteriori (EAP) approach:
 
   The expected value of \eqn{\theta_j} is:
 
-  \deqn{\frac{\int_{-\infty}^\infty \theta_j \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}}{{\int_{-\infty}^\infty \theta_j L(\theta_j) \pi(\theta_j) d\theta_j}/{\int_{-\infty}^\infty L(\theta_j) \pi(\theta_j) d\theta_j}}
+  \deqn{\frac{\int_{-\infty}^\infty \theta_j \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}}{(\int_{-\infty}^\infty \theta_j L(\theta_j) \pi(\theta_j) d\theta_j)/(\int_{-\infty}^\infty L(\theta_j) \pi(\theta_j) d\theta_j)}
 
-  Where \eqn{L(\theta_j)} is defined in \code{Likelihood}, and \eqn{\pi(\theta_j)} is the prior distribution for \eqn{\theta_j}.  
+  where \eqn{L(\theta_j)} is defined in \code{Likelihood}, and \eqn{\pi(\theta_j)} is the prior distribution for \eqn{\theta_j}.  
 
-  For the modal a posteriori (MAP) approach:
+  The modal a posteriori (MAP) approach:
 
   Note: This method is only available using the normal prior distribution.
 
   To estimate \eqn{\theta_j}, we solve the following equation iteratively, beginning with an initial value of \eqn{\theta_j}, and continue until the change in the estimate is below some pre-specified tolerance. Note that \eqn{t} here indexes the iteration.
 
-  \deqn{[\hat{\theta_j}]_{(t+1)} &= [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{[\hat{\theta_j}]_{(t + 1)} = [\hat{\theta_j}]_{(t)} - [((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))]}
+  \deqn{[\hat{\theta_j}]_{(t+1)} = [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{\hat{\theta_j}_{(t + 1)} = \hat{\theta_j}_{(t)} - ((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))}
 
-  where the derivatives are calculated for at \eqn{[\hat{\theta_j}]_{(t)}}.
+  where the derivatives are calculated for at \eqn{\hat{\theta_j}_{(t)}}.
 
-  For the maximum likelihood (MLE) approach:
+  The maximum likelihood (MLE) approach:
 
-  Note: When MLE will not work, estimateTheta is calculated according to the estimationDefault slot in Cat object.
+  Note: When MLE will not work, \code{estimateTheta} is calculated according to the \code{estimationDefault} slot in \code{Cat} object.
 
   To estimate \eqn{\theta_j}, we solve the following equation iteratively, beginning with an initial value of \eqn{\theta_j}, and continue until the change in the estimate is below some pre-specified tolerance. Note that \eqn{t} here indexes the iteration.
 
-  \deqn{[\hat{\theta_j}]_{(t+1)} &= [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{[\hat{\theta_j}]_{(t + 1)} = [\hat{\theta_j}]_{(t)} - [ ((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))]}
+  \deqn{[\hat{\theta_j}]_{(t+1)} = [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{\hat{\theta_j}_{(t + 1)} = \hat{\theta_j}_{(t)} - ((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))}
 
-  where the derivatives are calculated for at \eqn{[\hat{\theta_j}]_{(t)}}.
+  where the derivatives are calculated for at \eqn{\hat{\theta_j}_{(t)}}.
 
-  For the weighted maximum likelihood approach (WLE) approach:
+  The weighted maximum likelihood approach (WLE) approach:
 
   To estimate \eqn{\theta_j}, we find the root of the following function using the ``Brent'' method in the \code{gsl} library.
 
@@ -54,29 +54,93 @@ For the expected a posteriori (EAP) approach:
 
   For the dichotomous case, 
 
-  \deqn{B(\theta)=\sum_i \frac{P_{ij}^\prime P_{ij}^{\prime\prime} }{P_{ij}Q_{ij}}}{B(\theta) = \sum_i (P'_{ij} P''_{ij})/(P_{ij} Q_{ij})}
+  \deqn{B(\theta)=\sum_i \frac{P_{ij}^\prime P_{ij}^{\prime\prime} }{P_{ij}Q_{ij}}}{B(\theta) = \sum_i (P'_ij P''_ij)/(P_ij Q_ij)}
 
-  \eqn{P_{ij}} and \eqn{Q_{ij}} are as defined in \code{Probability} and \code{Likelihood}, and
+  \deqn{P_{ij}}{P_ij} and \deqn{Q_{ij}}{Q_ij} are as defined in \code{Probability} and \code{Likelihood}, and
 
-  \deqn{P^{\prime}_{ij} = b_i (1 - c_i) \frac{\exp{(a_i+b_i\theta_j)}}{(1 + \exp{(a_i+b_i\theta_j)})^2}}{P'_{ij} = b_i (1 - c_i) (exp(a_i + b_i \theta_j))/(1 + exp(a_i + b_i\theta_j))^2}
+  \deqn{P^{\prime}_{ij} = b_i (1 - c_i) \frac{\exp{(a_i+b_i\theta_j)}}{(1 + \exp{(a_i+b_i\theta_j)})^2}}{P'_ij = b_i (1 - c_i) (exp(a_i + b_i \theta_j))/(1 + exp(a_i + b_i\theta_j))^2}
   
-  \deqn{P^{\prime\prime}_{ij}=b^2  \exp{(a_i+b_i\theta_j)}  (1 - \exp{(a_i+b_i\theta_j)})  \frac{(1 - c)}{(1 + \exp{(a_i+b_i\theta_j)})^3}}{P''_{ij} = b^2  exp(a_i + b_i \theta_j)(1 - exp(a_i + b_i\theta_j)) ((1 - c)/(1 + exp(a_i + b_i \theta_j))^3)}
+  \deqn{P^{\prime\prime}_{ij}=b^2  \exp{(a_i+b_i\theta_j)}  (1 - \exp{(a_i+b_i\theta_j)})  \frac{(1 - c)}{(1 + \exp{(a_i+b_i\theta_j)})^3}}{P''_ij = b^2  exp(a_i + b_i \theta_j)(1 - exp(a_i + b_i\theta_j)) ((1 - c)/(1 + exp(a_i + b_i \theta_j))^3)}
  
   For the categorical case, 
 
-  \deqn{B=\sum_i \sum_k \frac{P_{ijk}^\prime P_{ijk}^{\prime\prime}}{P_{ijk}}}{B = \sum_i \sum_k (P'_{ijk} P''_{ijk})/(P_{ijk})}
+  \deqn{B=\sum_i \sum_k \frac{P_{ijk}^\prime P_{ijk}^{\prime\prime}}{P_{ijk}}}{B = \sum_i \sum_k (P'_ijk P''_ijk)/(P_ijk)}
 
-  where, \eqn{P_{ijk}} is defined as above and \deqn{P^\ast_{ijk}}{P*_{ijk}} is defined as above with one and zero at the extremes.
+  where, \deqn{P_{ijk}}{P_ijk} is defined as above and \deqn{P^\ast_{ijk}}{P*_ijk} is defined as above with one and zero at the extremes.
 
 
-  \deqn{P^{\ast \prime}_{ijk}=-\beta P^\ast_{ijk}  Q^\ast_{ijk}}{P*'_{ijk} = -\beta P*_{ijk}  Q^*_{ijk}}
+  \deqn{P^{\ast \prime}_{ijk}=-\beta P^\ast_{ijk}  Q^\ast_{ijk}}{P*'_ijk = -\beta P*_ijk  Q*_ijk}
   
-  \deqn{P^{\ast \prime \prime}_{ijk} = -\beta  (P^{\ast \prime}_{ijk} - 2  P^{\ast} _{ijk}  P^{\ast \prime}_{ijk})}{P*''_{ijk} = -\beta  (P*'_{ijk} - 2  P* _{ijk}  P*'_{ijk})}
+  \deqn{P^{\ast \prime \prime}_{ijk} = -\beta  (P^{\ast \prime}_{ijk} - 2  P^{\ast} _{ijk}  P^{\ast \prime}_{ijk})}{P*''_ijk = -\beta  (P*'_ijk - 2  P* _ijk  P*'_ijk)}
 
   Finally,
 
   \deqn{P^{\prime}_{ijk}=P^{\ast \prime}_{ij,k+1}-P^{\ast \prime}_{ij,k}}{P'_{ijk} = P*'_{ij,k+1} - P*'_{ij,k}}
                     
   \deqn{P^{\prime\prime}_{ijk}=P^{\ast \prime\prime}_{ij,k+1}-P^{\ast \prime\prime}_{ij,k}}{P''_{ijk} = P*''_{ij,k+1} - P*''_{ij,k}}
+}
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ ltm_cat@answers <- as.numeric(ltm_data[1,])
+ 
+ ltm_cat@estimation <- "EAP"
+ estimateTheta(ltm_cat)
+ 
+ ltm_cat@estimation <- "MAP"
+ estimateTheta(ltm_cat)
+ 
+ ltm_cat@estimation <- "MLE"
+ estimateTheta(ltm_cat)
+ 
+ ltm_cat@estimation <- "WLE"
+ estimateTheta(ltm_cat)
+ 
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ tpm_cat@answers <- as.numeric(tpm_data[1,])
+ 
+ tpm_cat@estimation <- "EAP"
+ estimateTheta(tpm_cat)
+ 
+ tpm_cat@estimation <- "MAP"
+ estimateTheta(tpm_cat)
+ 
+ tpm_cat@estimation <- "MLE"
+ estimateTheta(tpm_cat)
+ 
+ tpm_cat@estimation <- "WLE"
+ estimateTheta(tpm_cat)
+ 
+
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ poly_cat@answers <- as.numeric(poly_data[1,])
+ 
+ poly_cat@estimation <- "EAP"
+ estimateTheta(poly_cat)
+ 
+ poly_cat@estimation <- "MAP"
+ estimateTheta(poly_cat)
+ 
+ poly_cat@estimation <- "MLE"
+ estimateTheta(poly_cat)
+ 
+ poly_cat@estimation <- "WLE"
+ estimateTheta(poly_cat)
+ 
+}
+\seealso{
+\code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*
 }
 

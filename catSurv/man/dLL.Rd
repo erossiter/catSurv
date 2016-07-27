@@ -21,9 +21,9 @@ When \code{usePrior = FALSE}, this function evaluates the first derivative of th
 When \code{usePrior = TRUE}, this function evaluates the first derivative of the log-posterior evaluated at point \eqn{\theta}.
 }
 \details{
-For the dichotomous case, \eqn{P_{ij}} is the probability that person \eqn{j} will answer question \eqn{i} correctly conditioned on their ability parameter \eqn{\theta_j}.  
+For the dichotomous case, \deqn{P_{ij}}{P_ij} is the probability that person \eqn{j} will answer question \eqn{i} correctly conditioned on their ability parameter \eqn{\theta_j}.  
   Let \eqn{\mu_\theta} be the prior mean and \eqn{\sigma_\theta} be the prior standard deviation.  
-  Further, let \eqn{Q_{ij} = 1 - P_{ij}}. Using this notation, the first derivative of the log-likelihood is given by:
+  Further, let \deqn{Q_{ij} = 1 - P_{ij}}{Q_ij = 1 - P_ij}. Using this notation, the first derivative of the log-likelihood is given by:
 
   \deqn{L_\theta = \sum_{i=1}^n b_i\Big(\frac{P_{ij} - c_i}{P_{ij}(1-c_i)} \Big)(y_{ij} - P_{ij}) }{L_\theta = \sum_{i = 1}^n b_i ((P_ij - c_i)/(P_ij (1 - c_i)))(y_ij - P_ij)} 
 
@@ -31,7 +31,7 @@ For the dichotomous case, \eqn{P_{ij}} is the probability that person \eqn{j} wi
 
   \deqn{L_\theta = \sum_{i=1}^n \Big [ b_i\Big(\frac{P_{ij} - c_i}{P_{ij}(1-c_i)} \Big)(y_{ij} - P_{ij}) \Big ] -  \Big(\frac{\theta_j - \mu_\theta}{\sigma^2_\theta} \Big)}{L_\theta = \sum_{i = 1}^n [ b_i ((P_ij - c_i)/(P_ij (1 - c_i)))(y_ij - P_ij)] - ((\theta_j - \mu_\theta)(\sigma^2_\theta))}
 
-  For the polytomous case, \deqn{P_{ijk} = P^*_{ij,k} - P^*_{ij,k-1}}{P_ijk = P*_{ij,k} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_{ijk} = Pr(y_{ij}<k| \theta_j)} and \deqn{Q_{ijk}^*= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk} The log-likelihood is then given by:
+  For the polytomous case, \deqn{P_{ijk} = P^*_{ij,k} - P^*_{ij,k-1}}{P_ijk = P*_{ij,k} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)} and \deqn{Q_{ijk}^*= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk} The log-likelihood is then given by:
 
   \deqn{L = \sum^n_{i=1}\sum^{m_i}_{k=1}I(y_{ijk}=k)\log P_{ijk}}{L = \sum^n_{i = 1} \sum^{m_i}_{k = 1} I(y_ijk = k) log P_ijk},
 
@@ -40,12 +40,51 @@ For the dichotomous case, \eqn{P_{ij}} is the probability that person \eqn{j} wi
 
   \deqn{\frac{\partial L}{\partial \theta_j} &= \sum_{i=1}^n\sum^{m_i}_{k=1} I(y_{ijk}=k)\Big[- \beta_i \Big ( \frac{w_{ik}-w_{i,k-1}}{P_{ik}} \Big )\Big]}{{\partial L}/{\partial \theta_j} = \sum_{i = 1}^n \sum^{m_i}_{k = 1} I(y_ijk = k)[-\beta_i ((w_{ik} - w_{i,k-1})/(P_ik))]}
 
-  where \deqn{w_{i,k-1} = P^*_{i,k-1}Q^*_{i,k-1}$ and $w_{ik}=P^*_{ik}Q^*_{ik}}{w_{i,k-1} = P*_{i,k-1} Q*_{i,k-1}} and \eqn{w_{ik} = P*_{ik} Q*_{ik}}.
+  where \deqn{w_{i,k-1} = P^*_{i,k-1}Q^*_{i,k-1}}{w_{i,k-1} = P*_{i,k - 1}Q*_{i,k - 1}} and \deqn{w_{ik}=P^*_{ik}Q^*_{ik}}{w_ik = P*_ik Q*_ik}.
 
   The log posterior, however, is:
 
-  \deqn{\frac{\partial L}{\partial \theta_j} &= \sum_{i=1}^n\sum^{m_i}_{k=1} I(y_{ijk}=k)\Big[- \beta_i \Big ( \frac{w_{ik}-w_{i,k-1}}{P_{ik}} \Big ) \Big] - \Big(\frac{\theta_j - \mu_\theta}{\sigma^2_\theta} \Big) \Big]}{{\partial L}/{\partial \theta_j} = \sum_{i = 1}^n \sum^{m_i}_{k = 1} I(y_ijk = k)[-\beta_i ((w_{ik} - w_{i,k-1})/(P_{ik})) - ((\theta_j - \mu_\theta)/(\sigma^2_\theta))]}
+  \deqn{\frac{\partial L}{\partial \theta_j} &= \sum_{i=1}^n\sum^{m_i}_{k=1} I(y_{ijk}=k)\Big[- \beta_i \Big ( \frac{w_{ik}-w_{i,k-1}}{P_{ik}} \Big ) \Big] - \Big(\frac{\theta_j - \mu_\theta}{\sigma^2_\theta} \Big) \Big]}{(\partial L)/(\partial \theta_j) = \sum_{i = 1}^n \sum^{m_i}_{k = 1} I(y_ijk = k)[-\beta_i ((w_{ik} - w_{i,k-1})/(P_{ik})) - ((\theta_j - \mu_\theta)/(\sigma^2_\theta))]}
 
 Note: These method will only be available using the normal prior distribution
+}
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ ltm_cat@answers <- as.numeric(ltm_data[1,])
+ ltm_cat@priorParams <- c(1,5)
+ 
+ dLL(ltm_cat, 1, TRUE)
+ dLL(ltm_cat, 1, FALSE)
+ 
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ tpm_cat@answers <- as.numeric(tpm_data[1,])
+ tpm_cat@priorParams <- c(1,5)
+ 
+ dLL(tpm_cat, 1, TRUE)
+ dLL(tpm_cat, 1, FALSE)
+
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ poly_cat@answers <- as.numeric(poly_data[1,])
+ poly_cat@priorParams <- c(1,5)
+ 
+ dLL(poly_cat, 1, TRUE)
+ dLL(poly_cat, 1, FALSE)
+ 
+}
+\seealso{
+\code{\link{Cat}} and/or \code{\link{prior}} for information on priors
 }
 

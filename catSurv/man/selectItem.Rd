@@ -20,7 +20,7 @@ Select the next item in the question set based on the specified method
 \details{
 This function takes in a \code{Cat} object from \code{R} and constructs the \code{C++} representation.
 
-  For the EPV method:
+  The EPV method:
   
   This function takes in a \code{Cat} object from \code{R} and constructs the \code{C++} representation. It then calculates the expected posterior variance for each unanswered item. 
   
@@ -31,7 +31,7 @@ This function takes in a \code{Cat} object from \code{R} and constructs the \cod
   
   See \code{expectedPV} for mathematical details.
   
-  For the MFI method:
+  The MFI method:
   
   This function takes a \code{Cat} object and calculates Fisher's information for each unanswered item. It then finds the one item that maximizes Fisher's information, based on the respondent's position on the latent trait from the answered items. 
   
@@ -42,16 +42,174 @@ This function takes in a \code{Cat} object from \code{R} and constructs the \cod
 
   See \code{fisherInf} for mathematical details.
   
-  For the MLWI method:
+  The MLWI method:
   
-  For the MPWI method:
+  This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
+  Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
+ 
+ \deqn{i_j = \underset{j}{\operatorname{argmax}}\int_{-\infty}^{\infty} L(\theta_j)I_i(\theta_j)d\theta_j}{i_j = argmax_j \int_{-\infty}^{\infty} L(\theta_j) I_i(\theta_j) d\theta_j}
   
-  For the MEI method:
+  The MPWI method:
   
-  For the KL method:
+  This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
+  Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
+
+  \deqn{i_j = \underset{j}{\operatorname{argmax}}\int_{-\infty}^{\infty} \pi(\theta) L(\theta_j)I_i(\theta_j)d\theta_j}{i_j = argmax_j \int_{-\infty}^{\infty} \pi(\theta) L(\theta_j) I_i(\theta_j) d\theta_j}
+
+  The MEI method:
   
-  For the MFII method:
+  This function estimates the expected observed information for a respondent’s estimated
+  position on the latent trait on an unanswered item based on the
+  respondent’s position on the latent trait calculated from answered items.
   
-  For the random method:
+  The output should be a single numeric value.
+
+  Binary details:
+
+  \deqn{i_j = \underset{j}{\operatorname{argmax}}\{P(y_{ij} = 1)J_{y_{ij}=1} + P(y_{ij} = 0)J_{y_{ij}=0} \}}{i_j = argmax_j {P(y_ij = 1) J_{y_ij = 1} + P(y_ij = 0) J_(y_ij = 0)}}
+
+  Categorical details:
+  
+  \deqn{i_j = \underset{j}{\operatorname{argmax}}\{\sum_k^K P(y_{ij} = k)J_{y_{ij}=k} \}}{i_j = argmax_j {\sum_k^K P(y_ij = k) J_{y_ij = k}}}
+  
+  The KL method:
+  
+  This procedure chooses the next item with the largest KL value.
+  
+  See \code{expectedKL}, \code{likelihoodKL}, and/or \code{posteriorKL} for mathematical details.
+  
+  The MFII method:
+  
+  This approach chooses items based on the Fisher's information in an interval near the current estimate \eqn{\hat{\theta}}.
+  
+  \deqn{FII_i = \int^{\hat{\theta}+\delta}_{\hat{\theta}-\delta}I_i(\theta_0) d\theta_0}{FII_i = \int^{\hat{\theta} + \delta}_{\hat{\theta} - \delta} I_i(\theta_0) d\theta_0}
+
+  where \deqn{\delta = z(I(\hat{\theta}))^{-1/2}}{\delta = z(I(\hat{\theta}))^{-1/2}},  \eqn{I(\hat{\theta})} is the test information for respondent \eqn{j} evaluated at \eqn{\hat{\theta}},  \deqn{I_i(\cdot)}{I_i(.)} is the Fisher's information for item \eqn{i}, and \eqn{z} is a user specified z-value.
+  
+  The random method:
+  
+  This routine serves as a baseline for comparison. The routine simply selects an unanswered question at random.
+}
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ ltm_cat@answers[c(13,27)] <- c(1,1)
+ 
+ ltm_cat@selection <- "EPV"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MFI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MLWI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MPWI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MEI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "KL"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "LKL"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "PKL"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MFII"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "RANDOM"
+ selectItem(ltm_cat)
+ 
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ tpm_cat@answers[c(13,27)] <- c(1,1)
+ 
+ ltm_cat@selection <- "EPV"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MFI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MLWI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MPWI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MEI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "KL"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "LKL"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "PKL"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MFII"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "RANDOM"
+ selectItem(ltm_cat)
+ 
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ ltm_cat@answers[c(13,17)] <- c(1,1)
+ 
+ ltm_cat@selection <- "EPV"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MFI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MLWI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MPWI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MEI"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "KL"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "LKL"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "PKL"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "MFII"
+ selectItem(ltm_cat)
+ 
+ ltm_cat@selection <- "RANDOM"
+ selectItem(ltm_cat)
+ 
+}
+\seealso{
+\code{\link{estimateTheta}} for calculation of \eqn{\theta};  
+  \code{\link{obsInf}} for observed information calculation;
+  \code{\link{fisherTestInfo}} for Fisher's information calculation;
+  \code{\link{expctedKL}} for expected Kullback-Leibeler calculation;
+  \code{\link{likelihoodKL}} for likelihood Kullback-Leibeler calculation;  
+  \code{\link{posteriorKL}} for posterior Kullback-Leibeler calculation;
 }
 

@@ -16,29 +16,17 @@ The posterior standard error for \eqn{\theta_j}
 This function estimates the standard error for the posterior estimate for the position \eqn{\theta_j} of a person on the latent scale
 }
 \details{
-Details for MLE  estimator:
+The EAP estimator:
+  
+  The posterior variance for \deqn{\theta^{(EAP)}_j}{\theta^{EAP}_j} is:
 
-  The variance of \deqn{\theta^{(MLE)}_j}{\theta^{MLE}_j} is defined as:
+  \deqn{\mbox{Var}(\hat{\theta}_j) = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{\int\pi(\theta_j)L(\theta_j)d\theta_j}}{Var(\hat{\theta}_j) = E[(\theta_j - \hat{\theta_j})^2] = (\int(\theta_j - \hat{\theta_j})^2 \pi(\theta_j) L(\theta_j) d\theta_j)/(\int \pi(\theta_j) L(\theta_j) d\theta_j)}
 
-  \deqn{\mbox{Var}(\hat{\theta}_j)=\frac{1}{I(\hat{\theta_j})}}{Var(\hat{\theta}_j) = 1/(I(\hat{\theta_j}))}
-
-  where \eqn{T(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}}.The standard error is then 
+  where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then 
 
   \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
 
-  Details for WLE estimator:
-
-  The variance of \deqn{\theta^{(WLE)}_j}{\theta^{WLE}_j} is defined as:
-
-  \deqn{\mbox{Var}(\hat{\theta}_j)\approx\frac{1}{I(\hat{\theta})}}{Var(\hat{\theta}_j)\approx 1/(I(\hat{\theta}))}
-
-  where \deqn{I(\hat{\theta_j})}{I(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}} and \eqn{B(\theta)} is defined in \code{estimateTheta}.The standard error is then 
-
- \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
-
-
-
-  Details for MAP estimator:
+  The MAP estimator:
 
   Note: This is currently implemented only for the normal prior.
 
@@ -50,17 +38,88 @@ Details for MLE  estimator:
 
   \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
 
+  The MLE  estimator:
 
+  The variance of \deqn{\theta^{(MLE)}_j}{\theta^{MLE}_j} is defined as:
 
-  Details for EAP estimator:
-  
-  The posterior variance for \deqn{\theta^{(EAP)}_j}{\theta^{EAP}_j} is:
+  \deqn{\mbox{Var}(\hat{\theta}_j)=\frac{1}{I(\hat{\theta_j})}}{Var(\hat{\theta}_j) = 1/(I(\hat{\theta_j}))}
 
-  \deqn{\mbox{Var}(\hat{\theta}_j) = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{\int\pi(\theta_j)L(\theta_j)d\theta_j}}
-  {Var(\hat{\theta}_j) = E[(\theta_j - \hat{\theta_j})^2] = (\int(\theta_j - \hat{\theta_j})^2 \pi(\theta_j) L(\theta_j) d\theta_j)/(\int \pi(\theta_j) L(\theta_j) d\theta_j)}
-
-  where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then 
+  where \eqn{T(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}}.The standard error is then 
 
   \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
+
+  The WLE estimator:
+
+  The variance of \deqn{\theta^{(WLE)}_j}{\theta^{WLE}_j} is defined as:
+
+  \deqn{\mbox{Var}(\hat{\theta}_j)\approx\frac{1}{I(\hat{\theta})}}{Var(\hat{\theta}_j)\approx 1/(I(\hat{\theta}))}
+
+  where \deqn{I(\hat{\theta_j})}{I(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}} and \eqn{B(\theta)} is defined in \code{estimateTheta}.The standard error is then 
+
+ \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
+}
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ ltm_cat@answers <- as.numeric(ltm_data[1,])
+ 
+ ltm_cat@estimation <- "EAP"
+ estimateSE(ltm_cat)
+ 
+ ltm_cat@estimation <- "MAP"
+ estimateSE(ltm_cat)
+ 
+ ltm_cat@estimation <- "MLE"
+ estimateSE(ltm_cat)
+ 
+ ltm_cat@estimation <- "WLE"
+ estimateSE(ltm_cat)
+ 
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ tpm_cat@answers <- as.numeric(tpm_data[1,])
+ 
+ tpm_cat@estimation <- "EAP"
+ estimateSE(tpm_cat)
+ 
+ tpm_cat@estimation <- "MAP"
+ estimateSE(tpm_cat)
+ 
+ tpm_cat@estimation <- "MLE"
+ estimateSE(tpm_cat)
+ 
+ tpm_cat@estimation <- "WLE"
+ estimateSE(tpm_cat)
+ 
+
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ poly_cat@answers <- as.numeric(poly_data[1,])
+ 
+ poly_cat@estimation <- "EAP"
+ estimateSE(poly_cat)
+ 
+ poly_cat@estimation <- "MAP"
+ estimateSE(poly_cat)
+ 
+ poly_cat@estimation <- "MLE"
+ estimateSE(poly_cat)
+ 
+ poly_cat@estimation <- "WLE"
+ estimateSE(poly_cat)
+ 
+}
+\seealso{
+\code{\link{estimateTheta}} for calculation of \eqn{\theta}
 }
 

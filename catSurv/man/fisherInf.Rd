@@ -23,10 +23,46 @@ This function calculated the expected value of the observed information of the l
 For the dichotomous case, this is equivalent to the observed information.  
   For the graded response model, requires additional calculations.
 
-  The equation for the likelihood is given in \code{Likelihood}, where \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_ijk = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_{ij} < k| \theta_j)}. 
+  The equation for the likelihood is given in \code{Likelihood}, where \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_ijk = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)}. 
   \code{dLL} also defines \deqn{Q_{ijk}^\ast= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk}, and \deqn{w_{ij,k}=P^\ast_{ij,k}Q^\ast_{ij,k}}{w_{ij,k} = P*_{ij,k} Q*_{ij,k}}.
   Fisher information is therefore calculated (by equation 8.23 in Baker and Kim):
 
   \deqn{I_i(\theta_j) = \sum_k^K\beta^2_i\frac{(w_{ijk} - w_{i,k-1})^2}{P^\ast_{ijk} - P^\ast_{ij,k-1}}}{I_i(\theta_j) = \sum_k^K \beta^2_i ((w_{ijk} - w_{i,k-1})^2)/(P*_{ijk} - P*_{ij,k-1})}
+}
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ ltm_cat@answers <- as.numeric(ltm_data[1,])
+ 
+ fisherInf(ltm_cat, 1, 1)
+ 
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ tpm_cat@answers <- as.numeric(tpm_data[1,])
+ 
+ fisherInf(tpm_cat, 1, 1)
+ 
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ poly_cat@answers <- as.numeric(poly_data[1,])
+ 
+ fisherInf(poly_cat, 1, 1)
+ 
+}
+\seealso{
+\code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
+  \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
+  \code{\link{obsInf}} for observed information calculation;
+  \code{\link{fisherTestInfo}} for further application of Fisher's information
 }
 

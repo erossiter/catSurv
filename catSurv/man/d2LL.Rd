@@ -21,7 +21,7 @@ When \code{usePrior = FALSE}, this function evaluates the second derivative of t
 When \code{usePrior = TRUE}, this function evaluates the second derivative of the log-posterior evaluated at point \eqn{\theta}.
 }
 \details{
-For the dichotomous case, the  value (in terms of \eqn{y_{ij}}) of the second derivative of the log-likelihood is:
+For the dichotomous case, the  value (in terms of \deqn{y_{ij}}{y_ij}) of the second derivative of the log-likelihood is:
 
 
   \deqn{\lambda_{\theta \theta} = - \sum_{i=1}^n b_i^2\Big(\frac{P_{ij} - c_i}{1-c_i} \Big)^2\frac{Q_{ij}}{P_{ij}}}{\lambda_{\theta \theta} = - \sum_{i = 1}^n b_i^2 ((P_ij - c_i)/(1 - c_i))^2 (Q_ij)/(P_ij)}
@@ -34,12 +34,51 @@ For the dichotomous case, the  value (in terms of \eqn{y_{ij}}) of the second de
 
   For the polytomous case, the second derivative of \eqn{L} with respect to \eqn{\theta_j} is:
 
-  \deqn{\frac{\partial^2L}{\partial\theta_j^2} = \sum_{i=1}^n -\beta_i^2 \sum_{k=1}^{m_i} I(y_{ijk}=k) \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{i}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ]}{{\partial^2L}/{\partial\theta_j^2} = \sum_{i = 1}^n -\beta_i^2 \sum_{k = 1}^{m_i} I(y_ijk = k) [ (-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_i) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)]}
+  \deqn{\frac{\partial^2L}{\partial\theta_j^2} = \sum_{i=1}^n -\beta_i^2 \sum_{k=1}^{m_i} I(y_{ijk}=k) \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{i}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ]}{(\partial^2L)/(\partial\theta_j^2) = \sum_{i = 1}^n -\beta_i^2 \sum_{k = 1}^{m_i} I(y_ijk = k) [ (-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_i) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)]}
 
   The second derivative of the log-posterior is:
 
-  \deqn{\frac{\partial^2L}{\partial\theta_j^2} = \sum_{i=1}^n -\beta_i^2 \sum_{k=1}^{m_i} I(y_{ijk}=k)  \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{i}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ] - \frac{1}{\sigma_\theta^2} }{{\partial^2L}/{\partial\theta_j^2} = \sum_{i = 1}^n -\beta_i^2 \sum_{k = 1}^{m_i} I(y_ijk = k) [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_i) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)] - 1/(\sigma_\theta^2)} 
+  \deqn{\frac{\partial^2L}{\partial\theta_j^2} = \sum_{i=1}^n -\beta_i^2 \sum_{k=1}^{m_i} I(y_{ijk}=k)  \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{i}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ] - \frac{1}{\sigma_\theta^2} }{(\partial^2L)/(\partial\theta_j^2) = \sum_{i = 1}^n -\beta_i^2 \sum_{k = 1}^{m_i} I(y_ijk = k) [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_i) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)] - 1/(\sigma_\theta^2)} 
 
   Note: This methods will only be available using the normal prior distribution
+}
+\examples{
+
+## binary (ltm)
+
+ data("npi")
+ ltm_data <- npi[1:100, ]
+ ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+ ltm_cat@answers <- as.numeric(ltm_data[1,])
+ ltm_cat@priorParams <- c(1,5)
+ 
+ d2LL(ltm_cat, 1, TRUE)
+ d2LL(ltm_cat, 1, FALSE)
+ 
+## binary (tpm)
+
+ data("AMTknowledge")
+ tpm_data <- AMTknowledge[1:100, ]
+ tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+ tpm_cat@answers <- as.numeric(tpm_data[1,])
+ tpm_cat@priorParams <- c(1,5)
+ 
+ d2LL(tpm_cat, 1, TRUE)
+ d2LL(tpm_cat, 1, FALSE)
+
+## categorical (grm) 
+
+ data("nfc")
+ poly_data <- nfc[1:100, ]
+ poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+ poly_cat@answers <- as.numeric(poly_data[1,])
+ poly_cat@priorParams <- c(1,5)
+ 
+ d2LL(poly_cat, 1, TRUE)
+ d2LL(poly_cat, 1, FALSE)
+ 
+}
+\seealso{
+\code{\link{Cat}} and/or \code{\link{prior}} for information on priors
 }
 

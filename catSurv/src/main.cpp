@@ -42,6 +42,32 @@ using namespace Rcpp;
 //'
 //'  Note: the function for polytomous implementation does not return values, but rather alters the object ret_prob in memory
 //'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  
+//'  probability(ltm_cat, 0, 1)
+//' 
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  
+//'  probability(tpm_cat, 0, 1)
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  
+//'  probability(poly_cat, 0, 1)
+//'  
 //' @export
 // [[Rcpp::export]]
 List probability(S4 cat_df, NumericVector theta, IntegerVector question) {
@@ -78,9 +104,37 @@ List probability(S4 cat_df, NumericVector theta, IntegerVector question) {
 //'
 //'  Note that \deqn{P^\ast_{ij0} =0 }{P*_{ij,0} = 0} and \deqn{P^\ast_{ijK+1} = 1}{P*_{ij,K+1} = 1} in all cases. The likelihood function is therefore,
 //'
-//'  \deqn{L(\theta_j) = \prod_{i=1}^n\prod_{k=1}^{K_i} P_{ijk}^{I(y_{ij}=k)} = \exp \Big[ \sum_{i=1}^n\sum_{k=1}^{K_i} \log \Big( P_{ijk}^{I(y_{ij}=k)} \Big) \Big]}{L(\theta_j) = \prod_{i = 1}^n \prod_{k = 1}^{K_i} P_{ijk}^{I(y_{ij} = k)} = exp[\sum_{i = 1}^n \sum_{k = 1}^{K_i} log(P_{ijk}^{I(y_{ij} = k)})]},
+//'  \deqn{L(\theta_j) = \prod_{i=1}^n\prod_{k=1}^{K_i} P_{ijk}^{I(y_{ij}=k)} = \exp \Big[ \sum_{i=1}^n\sum_{k=1}^{K_i} \log \Big( P_{ijk}^{I(y_{ij}=k)} \Big) \Big]}{L(\theta_j) = \prod_{i = 1}^n \prod_{k = 1}^{K_i} P_ijk^{I(y_ij = k)} = exp[\sum_{i = 1}^n \sum_{k = 1}^{K_i} log(P_ijk^{I(y_ij = k)})]},
 //'
 //'  where \deqn{I(\cdot)}{I(.)} is the usual indicator function that evaluates to 1 when the equatliy holds and zero otherwise.
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  
+//'  likelihood(ltm_cat, 0)
+//' 
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  
+//'  likelihood(tpm_cat, 0)
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  
+//'  likelihood(poly_cat, 0)
+//'  
+//' @seealso \code{\link{probability}} for individual probability calculations
+//'  
 //' @export
 // [[Rcpp::export]]
 double likelihood(S4 cat_df, double t) {
@@ -92,13 +146,62 @@ double likelihood(S4 cat_df, double t) {
 //' This function returns the prior value for each respondent's position on the latent scale of interest
 //'
 //' @param x A numeric value where we want to evaluate the prior name
-//' @param c The @priorName slot of a \code{Cat} object
-//' @param p The @priorParams slot of a \code{Cat} object
+//' @param c The \code{priorName} slot of a \code{Cat} object
+//' @param p The \code{priorParams} slot of a \code{Cat} object
 //'
 //' @return A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
 //'
 //' @details Note: \eqn{x} needs to be either UNIFORM, NORMAL, or STUDENT_T parameters, which control the shape of the prior.
-//'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  
+//'  ltm_cat@priorName <- "NORMAL"
+//'  prior(1, ltm_cat@priorName, ltm_cat@priorParams)
+//'  
+//'  ltm_cat@priorName <- "UNIFORM"
+//'  prior(1, ltm_cat@priorName, ltm_cat@priorParams)
+//'  
+//'  ltm_cat@priorName <- "STUDENT_T"
+//'  prior(1, ltm_cat@priorName, ltm_cat@priorParams)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  
+//'  tpm_cat@priorName <- "NORMAL"
+//'  prior(1, tpm_cat@priorName, tpm_cat@priorParams)
+//'  
+//'  tpm_cat@priorName <- "UNIFORM"
+//'  prior(1, tpm_cat@priorName, tpm_cat@priorParams)
+//'  
+//'  tpm_cat@priorName <- "STUDENT_T"
+//'  prior(1, tpm_cat@priorName, tpm_cat@priorParams)
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  
+//'  poly_cat@priorName <- "NORMAL"
+//'  prior(1, poly_cat@priorName, poly_cat@priorParams)
+//'  
+//'  poly_cat@priorName <- "UNIFORM"
+//'  prior(1, poly_cat@priorName, poly_cat@priorParams)
+//'  
+//'  poly_cat@priorName <- "STUDENT_T"
+//'  prior(1, poly_cat@priorName, poly_cat@priorParams)
+//'  
+//' @seealso \code{\link{Cat}} for additional information on priors; 
+//'  \code{\link{dLL}} and/or \code{\link{d2LL}} for application of priors
+//'  
 //' @export
 // [[Rcpp::export]]
 double prior(NumericVector x, CharacterVector c, NumericVector p) {
@@ -118,9 +221,9 @@ double prior(NumericVector x, CharacterVector c, NumericVector p) {
 //' 
 //' @return A value indicating the derivative of the log-likelihood (or log-posterior) for a respondent's answer profile.
 //' 
-//' @details For the dichotomous case, \eqn{P_{ij}} is the probability that person \eqn{j} will answer question \eqn{i} correctly conditioned on their ability parameter \eqn{\theta_j}.  
+//' @details For the dichotomous case, \deqn{P_{ij}}{P_ij} is the probability that person \eqn{j} will answer question \eqn{i} correctly conditioned on their ability parameter \eqn{\theta_j}.  
 //'   Let \eqn{\mu_\theta} be the prior mean and \eqn{\sigma_\theta} be the prior standard deviation.  
-//'   Further, let \eqn{Q_{ij} = 1 - P_{ij}}. Using this notation, the first derivative of the log-likelihood is given by:
+//'   Further, let \deqn{Q_{ij} = 1 - P_{ij}}{Q_ij = 1 - P_ij}. Using this notation, the first derivative of the log-likelihood is given by:
 //' 
 //'   \deqn{L_\theta = \sum_{i=1}^n b_i\Big(\frac{P_{ij} - c_i}{P_{ij}(1-c_i)} \Big)(y_{ij} - P_{ij}) }{L_\theta = \sum_{i = 1}^n b_i ((P_ij - c_i)/(P_ij (1 - c_i)))(y_ij - P_ij)} 
 //' 
@@ -128,7 +231,7 @@ double prior(NumericVector x, CharacterVector c, NumericVector p) {
 //' 
 //'   \deqn{L_\theta = \sum_{i=1}^n \Big [ b_i\Big(\frac{P_{ij} - c_i}{P_{ij}(1-c_i)} \Big)(y_{ij} - P_{ij}) \Big ] -  \Big(\frac{\theta_j - \mu_\theta}{\sigma^2_\theta} \Big)}{L_\theta = \sum_{i = 1}^n [ b_i ((P_ij - c_i)/(P_ij (1 - c_i)))(y_ij - P_ij)] - ((\theta_j - \mu_\theta)(\sigma^2_\theta))}
 //'
-//'   For the polytomous case, \deqn{P_{ijk} = P^*_{ij,k} - P^*_{ij,k-1}}{P_ijk = P*_{ij,k} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_{ijk} = Pr(y_{ij}<k| \theta_j)} and \deqn{Q_{ijk}^*= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk} The log-likelihood is then given by:
+//'   For the polytomous case, \deqn{P_{ijk} = P^*_{ij,k} - P^*_{ij,k-1}}{P_ijk = P*_{ij,k} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)} and \deqn{Q_{ijk}^*= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk} The log-likelihood is then given by:
 //'
 //'   \deqn{L = \sum^n_{i=1}\sum^{m_i}_{k=1}I(y_{ijk}=k)\log P_{ijk}}{L = \sum^n_{i = 1} \sum^{m_i}_{k = 1} I(y_ijk = k) log P_ijk},
 //'
@@ -137,14 +240,51 @@ double prior(NumericVector x, CharacterVector c, NumericVector p) {
 //'
 //'   \deqn{\frac{\partial L}{\partial \theta_j} &= \sum_{i=1}^n\sum^{m_i}_{k=1} I(y_{ijk}=k)\Big[- \beta_i \Big ( \frac{w_{ik}-w_{i,k-1}}{P_{ik}} \Big )\Big]}{{\partial L}/{\partial \theta_j} = \sum_{i = 1}^n \sum^{m_i}_{k = 1} I(y_ijk = k)[-\beta_i ((w_{ik} - w_{i,k-1})/(P_ik))]}
 //'
-//'   where \deqn{w_{i,k-1} = P^*_{i,k-1}Q^*_{i,k-1}$ and $w_{ik}=P^*_{ik}Q^*_{ik}}{w_{i,k-1} = P*_{i,k-1} Q*_{i,k-1}} and \eqn{w_{ik} = P*_{ik} Q*_{ik}}.
+//'   where \deqn{w_{i,k-1} = P^*_{i,k-1}Q^*_{i,k-1}}{w_{i,k-1} = P*_{i,k - 1}Q*_{i,k - 1}} and \deqn{w_{ik}=P^*_{ik}Q^*_{ik}}{w_ik = P*_ik Q*_ik}.
 //'
 //'   The log posterior, however, is:
 //'
-//'   \deqn{\frac{\partial L}{\partial \theta_j} &= \sum_{i=1}^n\sum^{m_i}_{k=1} I(y_{ijk}=k)\Big[- \beta_i \Big ( \frac{w_{ik}-w_{i,k-1}}{P_{ik}} \Big ) \Big] - \Big(\frac{\theta_j - \mu_\theta}{\sigma^2_\theta} \Big) \Big]}{{\partial L}/{\partial \theta_j} = \sum_{i = 1}^n \sum^{m_i}_{k = 1} I(y_ijk = k)[-\beta_i ((w_{ik} - w_{i,k-1})/(P_{ik})) - ((\theta_j - \mu_\theta)/(\sigma^2_\theta))]}
+//'   \deqn{\frac{\partial L}{\partial \theta_j} &= \sum_{i=1}^n\sum^{m_i}_{k=1} I(y_{ijk}=k)\Big[- \beta_i \Big ( \frac{w_{ik}-w_{i,k-1}}{P_{ik}} \Big ) \Big] - \Big(\frac{\theta_j - \mu_\theta}{\sigma^2_\theta} \Big) \Big]}{(\partial L)/(\partial \theta_j) = \sum_{i = 1}^n \sum^{m_i}_{k = 1} I(y_ijk = k)[-\beta_i ((w_{ik} - w_{i,k-1})/(P_{ik})) - ((\theta_j - \mu_\theta)/(\sigma^2_\theta))]}
 //'
 //' Note: These method will only be available using the normal prior distribution 
+//'
+//' @examples
 //' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  ltm_cat@priorParams <- c(1,5)
+//'  
+//'  dLL(ltm_cat, 1, TRUE)
+//'  dLL(ltm_cat, 1, FALSE)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  tpm_cat@priorParams <- c(1,5)
+//'  
+//'  dLL(tpm_cat, 1, TRUE)
+//'  dLL(tpm_cat, 1, FALSE)
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  poly_cat@priorParams <- c(1,5)
+//'  
+//'  dLL(poly_cat, 1, TRUE)
+//'  dLL(poly_cat, 1, FALSE)
+//'  
+//' @seealso \code{\link{Cat}} and/or \code{\link{prior}} for information on priors 
+//'  
 //' @export
 // [[Rcpp::export]]
 double dLL(S4 &cat_df, double theta, bool use_prior){
@@ -162,7 +302,7 @@ double dLL(S4 &cat_df, double theta, bool use_prior){
 //' 
 //' @return A value indicating the second derivative of the log-likelihood (or log-posterior) for a respondent's answer profile.
 //' 
-//' @details For the dichotomous case, the  value (in terms of \eqn{y_{ij}}) of the second derivative of the log-likelihood is:
+//' @details For the dichotomous case, the  value (in terms of \deqn{y_{ij}}{y_ij}) of the second derivative of the log-likelihood is:
 //'
 //'
 //'   \deqn{\lambda_{\theta \theta} = - \sum_{i=1}^n b_i^2\Big(\frac{P_{ij} - c_i}{1-c_i} \Big)^2\frac{Q_{ij}}{P_{ij}}}{\lambda_{\theta \theta} = - \sum_{i = 1}^n b_i^2 ((P_ij - c_i)/(1 - c_i))^2 (Q_ij)/(P_ij)}
@@ -175,14 +315,51 @@ double dLL(S4 &cat_df, double theta, bool use_prior){
 //' 
 //'   For the polytomous case, the second derivative of \eqn{L} with respect to \eqn{\theta_j} is:
 //'
-//'   \deqn{\frac{\partial^2L}{\partial\theta_j^2} = \sum_{i=1}^n -\beta_i^2 \sum_{k=1}^{m_i} I(y_{ijk}=k) \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{i}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ]}{{\partial^2L}/{\partial\theta_j^2} = \sum_{i = 1}^n -\beta_i^2 \sum_{k = 1}^{m_i} I(y_ijk = k) [ (-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_i) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)]}
+//'   \deqn{\frac{\partial^2L}{\partial\theta_j^2} = \sum_{i=1}^n -\beta_i^2 \sum_{k=1}^{m_i} I(y_{ijk}=k) \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{i}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ]}{(\partial^2L)/(\partial\theta_j^2) = \sum_{i = 1}^n -\beta_i^2 \sum_{k = 1}^{m_i} I(y_ijk = k) [ (-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_i) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)]}
 //'
 //'   The second derivative of the log-posterior is:
 //'
-//'   \deqn{\frac{\partial^2L}{\partial\theta_j^2} = \sum_{i=1}^n -\beta_i^2 \sum_{k=1}^{m_i} I(y_{ijk}=k)  \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{i}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ] - \frac{1}{\sigma_\theta^2} }{{\partial^2L}/{\partial\theta_j^2} = \sum_{i = 1}^n -\beta_i^2 \sum_{k = 1}^{m_i} I(y_ijk = k) [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_i) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)] - 1/(\sigma_\theta^2)} 
+//'   \deqn{\frac{\partial^2L}{\partial\theta_j^2} = \sum_{i=1}^n -\beta_i^2 \sum_{k=1}^{m_i} I(y_{ijk}=k)  \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{i}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ] - \frac{1}{\sigma_\theta^2} }{(\partial^2L)/(\partial\theta_j^2) = \sum_{i = 1}^n -\beta_i^2 \sum_{k = 1}^{m_i} I(y_ijk = k) [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_i) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)] - 1/(\sigma_\theta^2)} 
 //' 
 //'   Note: This methods will only be available using the normal prior distribution
 //'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  ltm_cat@priorParams <- c(1,5)
+//'  
+//'  d2LL(ltm_cat, 1, TRUE)
+//'  d2LL(ltm_cat, 1, FALSE)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  tpm_cat@priorParams <- c(1,5)
+//'  
+//'  d2LL(tpm_cat, 1, TRUE)
+//'  d2LL(tpm_cat, 1, FALSE)
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  poly_cat@priorParams <- c(1,5)
+//'  
+//'  d2LL(poly_cat, 1, TRUE)
+//'  d2LL(poly_cat, 1, FALSE)
+//'  
+//' @seealso \code{\link{Cat}} and/or \code{\link{prior}} for information on priors 
+//'  
 //' @export
 // [[Rcpp::export]]
 double d2LL(S4 &cat_df, double theta, bool use_prior){
@@ -197,35 +374,36 @@ double d2LL(S4 &cat_df, double theta, bool use_prior){
 //'
 //' @return A vector consisting of the expected value of the ability parameter
 //'
-//' @details For the expected a posteriori (EAP) approach:
+//' @details 
+//'   The expected a posteriori (EAP) approach:
 //'
 //'   The expected value of \eqn{\theta_j} is:
 //'
-//'   \deqn{\frac{\int_{-\infty}^\infty \theta_j \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}}{{\int_{-\infty}^\infty \theta_j L(\theta_j) \pi(\theta_j) d\theta_j}/{\int_{-\infty}^\infty L(\theta_j) \pi(\theta_j) d\theta_j}}
+//'   \deqn{\frac{\int_{-\infty}^\infty \theta_j \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}}{(\int_{-\infty}^\infty \theta_j L(\theta_j) \pi(\theta_j) d\theta_j)/(\int_{-\infty}^\infty L(\theta_j) \pi(\theta_j) d\theta_j)}
 //'
-//'   Where \eqn{L(\theta_j)} is defined in \code{Likelihood}, and \eqn{\pi(\theta_j)} is the prior distribution for \eqn{\theta_j}.  
+//'   where \eqn{L(\theta_j)} is defined in \code{Likelihood}, and \eqn{\pi(\theta_j)} is the prior distribution for \eqn{\theta_j}.  
 //'
-//'   For the modal a posteriori (MAP) approach:
+//'   The modal a posteriori (MAP) approach:
 //'
 //'   Note: This method is only available using the normal prior distribution.
 //'
 //'   To estimate \eqn{\theta_j}, we solve the following equation iteratively, beginning with an initial value of \eqn{\theta_j}, and continue until the change in the estimate is below some pre-specified tolerance. Note that \eqn{t} here indexes the iteration.
 //'
-//'   \deqn{[\hat{\theta_j}]_{(t+1)} &= [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{[\hat{\theta_j}]_{(t + 1)} = [\hat{\theta_j}]_{(t)} - [((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))]}
+//'   \deqn{[\hat{\theta_j}]_{(t+1)} = [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{\hat{\theta_j}_{(t + 1)} = \hat{\theta_j}_{(t)} - ((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))}
 //'
-//'   where the derivatives are calculated for at \eqn{[\hat{\theta_j}]_{(t)}}.
+//'   where the derivatives are calculated for at \eqn{\hat{\theta_j}_{(t)}}.
 //' 
-//'   For the maximum likelihood (MLE) approach:
+//'   The maximum likelihood (MLE) approach:
 //'
-//'   Note: When MLE will not work, estimateTheta is calculated according to the estimationDefault slot in Cat object.
+//'   Note: When MLE will not work, \code{estimateTheta} is calculated according to the \code{estimationDefault} slot in \code{Cat} object.
 //'
 //'   To estimate \eqn{\theta_j}, we solve the following equation iteratively, beginning with an initial value of \eqn{\theta_j}, and continue until the change in the estimate is below some pre-specified tolerance. Note that \eqn{t} here indexes the iteration.
 //'
-//'   \deqn{[\hat{\theta_j}]_{(t+1)} &= [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{[\hat{\theta_j}]_{(t + 1)} = [\hat{\theta_j}]_{(t)} - [ ((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))]}
+//'   \deqn{[\hat{\theta_j}]_{(t+1)} = [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{\hat{\theta_j}_{(t + 1)} = \hat{\theta_j}_{(t)} - ((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))}
 //'
-//'   where the derivatives are calculated for at \eqn{[\hat{\theta_j}]_{(t)}}.
+//'   where the derivatives are calculated for at \eqn{\hat{\theta_j}_{(t)}}.
 //' 
-//'   For the weighted maximum likelihood approach (WLE) approach:
+//'   The weighted maximum likelihood approach (WLE) approach:
 //'
 //'   To estimate \eqn{\theta_j}, we find the root of the following function using the ``Brent'' method in the \code{gsl} library.
 //'
@@ -235,24 +413,24 @@ double d2LL(S4 &cat_df, double theta, bool use_prior){
 //'
 //'   For the dichotomous case, 
 //'
-//'   \deqn{B(\theta)=\sum_i \frac{P_{ij}^\prime P_{ij}^{\prime\prime} }{P_{ij}Q_{ij}}}{B(\theta) = \sum_i (P'_{ij} P''_{ij})/(P_{ij} Q_{ij})}
+//'   \deqn{B(\theta)=\sum_i \frac{P_{ij}^\prime P_{ij}^{\prime\prime} }{P_{ij}Q_{ij}}}{B(\theta) = \sum_i (P'_ij P''_ij)/(P_ij Q_ij)}
 //'
-//'   \eqn{P_{ij}} and \eqn{Q_{ij}} are as defined in \code{Probability} and \code{Likelihood}, and
+//'   \deqn{P_{ij}}{P_ij} and \deqn{Q_{ij}}{Q_ij} are as defined in \code{Probability} and \code{Likelihood}, and
 //'
-//'   \deqn{P^{\prime}_{ij} = b_i (1 - c_i) \frac{\exp{(a_i+b_i\theta_j)}}{(1 + \exp{(a_i+b_i\theta_j)})^2}}{P'_{ij} = b_i (1 - c_i) (exp(a_i + b_i \theta_j))/(1 + exp(a_i + b_i\theta_j))^2}
+//'   \deqn{P^{\prime}_{ij} = b_i (1 - c_i) \frac{\exp{(a_i+b_i\theta_j)}}{(1 + \exp{(a_i+b_i\theta_j)})^2}}{P'_ij = b_i (1 - c_i) (exp(a_i + b_i \theta_j))/(1 + exp(a_i + b_i\theta_j))^2}
 //'   
-//'   \deqn{P^{\prime\prime}_{ij}=b^2  \exp{(a_i+b_i\theta_j)}  (1 - \exp{(a_i+b_i\theta_j)})  \frac{(1 - c)}{(1 + \exp{(a_i+b_i\theta_j)})^3}}{P''_{ij} = b^2  exp(a_i + b_i \theta_j)(1 - exp(a_i + b_i\theta_j)) ((1 - c)/(1 + exp(a_i + b_i \theta_j))^3)}
+//'   \deqn{P^{\prime\prime}_{ij}=b^2  \exp{(a_i+b_i\theta_j)}  (1 - \exp{(a_i+b_i\theta_j)})  \frac{(1 - c)}{(1 + \exp{(a_i+b_i\theta_j)})^3}}{P''_ij = b^2  exp(a_i + b_i \theta_j)(1 - exp(a_i + b_i\theta_j)) ((1 - c)/(1 + exp(a_i + b_i \theta_j))^3)}
 //'  
 //'   For the categorical case, 
 //'
-//'   \deqn{B=\sum_i \sum_k \frac{P_{ijk}^\prime P_{ijk}^{\prime\prime}}{P_{ijk}}}{B = \sum_i \sum_k (P'_{ijk} P''_{ijk})/(P_{ijk})}
+//'   \deqn{B=\sum_i \sum_k \frac{P_{ijk}^\prime P_{ijk}^{\prime\prime}}{P_{ijk}}}{B = \sum_i \sum_k (P'_ijk P''_ijk)/(P_ijk)}
 //'
-//'   where, \eqn{P_{ijk}} is defined as above and \deqn{P^\ast_{ijk}}{P*_{ijk}} is defined as above with one and zero at the extremes.
+//'   where, \deqn{P_{ijk}}{P_ijk} is defined as above and \deqn{P^\ast_{ijk}}{P*_ijk} is defined as above with one and zero at the extremes.
 //'
 //'
-//'   \deqn{P^{\ast \prime}_{ijk}=-\beta P^\ast_{ijk}  Q^\ast_{ijk}}{P*'_{ijk} = -\beta P*_{ijk}  Q^*_{ijk}}
+//'   \deqn{P^{\ast \prime}_{ijk}=-\beta P^\ast_{ijk}  Q^\ast_{ijk}}{P*'_ijk = -\beta P*_ijk  Q*_ijk}
 //'   
-//'   \deqn{P^{\ast \prime \prime}_{ijk} = -\beta  (P^{\ast \prime}_{ijk} - 2  P^{\ast} _{ijk}  P^{\ast \prime}_{ijk})}{P*''_{ijk} = -\beta  (P*'_{ijk} - 2  P* _{ijk}  P*'_{ijk})}
+//'   \deqn{P^{\ast \prime \prime}_{ijk} = -\beta  (P^{\ast \prime}_{ijk} - 2  P^{\ast} _{ijk}  P^{\ast \prime}_{ijk})}{P*''_ijk = -\beta  (P*'_ijk - 2  P* _ijk  P*'_ijk)}
 //'
 //'   Finally,
 //'
@@ -260,6 +438,68 @@ double d2LL(S4 &cat_df, double theta, bool use_prior){
 //'                     
 //'   \deqn{P^{\prime\prime}_{ijk}=P^{\ast \prime\prime}_{ij,k+1}-P^{\ast \prime\prime}_{ij,k}}{P''_{ijk} = P*''_{ij,k+1} - P*''_{ij,k}}
 //'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  
+//'  ltm_cat@estimation <- "EAP"
+//'  estimateTheta(ltm_cat)
+//'  
+//'  ltm_cat@estimation <- "MAP"
+//'  estimateTheta(ltm_cat)
+//'  
+//'  ltm_cat@estimation <- "MLE"
+//'  estimateTheta(ltm_cat)
+//'  
+//'  ltm_cat@estimation <- "WLE"
+//'  estimateTheta(ltm_cat)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  
+//'  tpm_cat@estimation <- "EAP"
+//'  estimateTheta(tpm_cat)
+//'  
+//'  tpm_cat@estimation <- "MAP"
+//'  estimateTheta(tpm_cat)
+//'  
+//'  tpm_cat@estimation <- "MLE"
+//'  estimateTheta(tpm_cat)
+//'  
+//'  tpm_cat@estimation <- "WLE"
+//'  estimateTheta(tpm_cat)
+//'  
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  
+//'  poly_cat@estimation <- "EAP"
+//'  estimateTheta(poly_cat)
+//'  
+//'  poly_cat@estimation <- "MAP"
+//'  estimateTheta(poly_cat)
+//'  
+//'  poly_cat@estimation <- "MLE"
+//'  estimateTheta(poly_cat)
+//'  
+//'  poly_cat@estimation <- "WLE"
+//'  estimateTheta(poly_cat)
+//'  
+//' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*  
+//'  
 //' @export
 // [[Rcpp::export]]
 double estimateTheta(S4 cat_df) {
@@ -281,17 +521,50 @@ double estimateTheta(S4 cat_df) {
 //'
 //'   For the binary case:
 //'
-//'   \deqn{\lambda_{\theta \theta} = b_i^2\Big(\frac{P_{ij} - c_i}{1-c_i} \Big)^2\frac{Q_{ij}}{P_{ij}}}{\lambda_{\theta \theta} = b_i^2 ((P_{ij} - c_i)/(1 - c_i))^2 (Q_{ij})/(P_{ij})}
+//'   \deqn{\lambda_{\theta \theta} = b_i^2\Big(\frac{P_{ij} - c_i}{1-c_i} \Big)^2\frac{Q_{ij}}{P_{ij}}}{\lambda_{\theta \theta} = b_i^2 ((P_ij - c_i)/(1 - c_i))^2 (Q_ij)/(P_ij)}
 //'
 //'   For the categorical case:
 //'
-//'   \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_{ijk} = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_{ijk} = Pr(y_{ij} < k |\theta_j)} as defined in \code{Likelihood}. 
-//'   \deqn{Q_{ijk}^*= 1- P^*_{ijk}}{Q*_{ijk} = 1 - P*_{ijk}}, \deqn{w_{i,k-1} = P^*_{i,k-1}Q^*_{i,k-1}}{w_{i,k-1} = P*_{i,k-1} Q*_{i,k-1}}, and \deqn{w_{ik}=P^*_{ik}Q^*_{ik}}{w_{ik} = P*_{ik} Q*_{ik}} as defined in \code{dLL}.
+//'   \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_{ijk} = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)} as defined in \code{Likelihood}. 
+//'   \deqn{Q_{ijk}^*= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk}, \deqn{w_{i,k-1} = P^*_{i,k-1}Q^*_{i,k-1}}{w_{i,k-1} = P*_{i,k-1} Q*_{i,k-1}}, and \deqn{w_{ik}=P^*_{ik}Q^*_{ik}}{w_ik = P*_ik Q*_ik} as defined in \code{dLL}.
 //'
 //'   In the categorical case, we need to calculate this quantity based on the actual response that was recorded for the item we are analyzing. So for question \eqn{i}, assuming response \eqn{k} we get:  
 //'
-//'   \deqn{\frac{\partial^2L}{\partial\theta_j^2} &=-\beta_i^2 \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{ik}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ]}{{\partial^2L}/{\partial\theta_j^2} = -\beta_i^2 [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_{ik}) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)]}
+//'   \deqn{\frac{\partial^2L}{\partial\theta_j^2} &-\beta_i^2 \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{ik}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ]}{(\partial^2L)/(\partial\theta_j^2) = -\beta_i^2 [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_{ik}) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)]}
 //'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  
+//'  obsInf(ltm_cat, 1, 1)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  
+//'  obsInf(tpm_cat, 1, 1)
+//'  
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  
+//'  obsInf(poly_cat, 1, 1)
+//'  
+//' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
+//'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
+//'   \code{\link{expectedObsInf}} for further application of observed information
+//'  
 //' @export
 // [[Rcpp::export]]
 double obsInf(S4 cat_df, double theta, int item) {
@@ -310,12 +583,45 @@ double obsInf(S4 cat_df, double theta, int item) {
 //' 
 //' @details Binary details:
 //'
-//'   \deqn{EI=P(y_{ij} = 1)J_{y_{ij}=1} + P(y_{ij} = 0)J_{y_{ij}=0}}{EI = P(y_ij = 1)J_{y_ij = 1} + P(y_ij = 0)J_{y_ij = 0}} 
+//'   \deqn{EI=P(y_{ij} = 1)J_{y_{ij}=1} + P(y_{ij} = 0)J_{y_{ij}=0}}{EI = P(y_ij = 1)J_{y_ij = 1} + P(y_ij = 0) J_{y_ij = 0}} 
 //'
 //'   Categorical details:
 //'
-//'   \deqn{EI = \sum_k^K P(y_{ij} = k)J_{y_{ij}=k}}{EI = \sum_k^K P(y_ij = k)J_{y_ij = k}}
+//'   \deqn{EI = \sum_k^K P(y_{ij} = k)J_{y_{ij}=k}}{EI = \sum_k^K P(y_ij = k) J_{y_ij = k}}
 //'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  
+//'  expectedObsInf(ltm_cat, 1)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  
+//'  expectedObsInf(tpm_cat, 1)
+//'  
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  
+//'  expectedObsInf(poly_cat, 1)
+//'  
+//' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
+//'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
+//'   \code{\link{obsInf}} for observed information calculation
+//'  
 //' @export
 // [[Rcpp::export]]
 double expectedObsInf(S4 cat_df, int item) {
@@ -336,12 +642,46 @@ double expectedObsInf(S4 cat_df, int item) {
 //' @details For the dichotomous case, this is equivalent to the observed information.  
 //'   For the graded response model, requires additional calculations.
 //'
-//'   The equation for the likelihood is given in \code{Likelihood}, where \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_ijk = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_{ij} < k| \theta_j)}. 
+//'   The equation for the likelihood is given in \code{Likelihood}, where \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_ijk = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)}. 
 //'   \code{dLL} also defines \deqn{Q_{ijk}^\ast= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk}, and \deqn{w_{ij,k}=P^\ast_{ij,k}Q^\ast_{ij,k}}{w_{ij,k} = P*_{ij,k} Q*_{ij,k}}.
 //'   Fisher information is therefore calculated (by equation 8.23 in Baker and Kim):
 //'
 //'   \deqn{I_i(\theta_j) = \sum_k^K\beta^2_i\frac{(w_{ijk} - w_{i,k-1})^2}{P^\ast_{ijk} - P^\ast_{ij,k-1}}}{I_i(\theta_j) = \sum_k^K \beta^2_i ((w_{ijk} - w_{i,k-1})^2)/(P*_{ijk} - P*_{ij,k-1})}
 //' 
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  
+//'  fisherInf(ltm_cat, 1, 1)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  
+//'  fisherInf(tpm_cat, 1, 1)
+//'  
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  
+//'  fisherInf(poly_cat, 1, 1)
+//'  
+//' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
+//'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
+//'   \code{\link{obsInf}} for observed information calculation;
+//'   \code{\link{fisherTestInfo}} for further application of Fisher's information
+//'  
 //' @export
 // [[Rcpp::export]]
 double fisherInf(S4 cat_df, double theta, int item) {
@@ -362,6 +702,40 @@ double fisherInf(S4 cat_df, double theta, int item) {
 //'
 //' \deqn{I(\theta_j) = \sum_i^n I_i(\theta_j)}{I(\theta_j) = \sum_i^n I_i(\theta_j)}
 //' 
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  
+//'  fisherTestInfo(ltm_cat)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  
+//'  fisherTestInfo(tpm_cat)
+//'  
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  
+//'  fisherTestInfo(poly_cat)
+//' 
+//' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
+//'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};
+//'   \code{\link{fisherInf}} for further calculation of Fisher's information
+//'  
+//' 
 //' @export
 // [[Rcpp::export]]
 double fisherTestInfo(S4 cat_df) {
@@ -376,29 +750,18 @@ double fisherTestInfo(S4 cat_df) {
 //'
 //' @return The posterior standard error for \eqn{\theta_j}
 //'
-//' @details Details for MLE  estimator:
+//' @details 
+//'   The EAP estimator:
+//'   
+//'   The posterior variance for \deqn{\theta^{(EAP)}_j}{\theta^{EAP}_j} is:
 //'
-//'   The variance of \deqn{\theta^{(MLE)}_j}{\theta^{MLE}_j} is defined as:
+//'   \deqn{\mbox{Var}(\hat{\theta}_j) = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{\int\pi(\theta_j)L(\theta_j)d\theta_j}}{Var(\hat{\theta}_j) = E[(\theta_j - \hat{\theta_j})^2] = (\int(\theta_j - \hat{\theta_j})^2 \pi(\theta_j) L(\theta_j) d\theta_j)/(\int \pi(\theta_j) L(\theta_j) d\theta_j)}
 //'
-//'   \deqn{\mbox{Var}(\hat{\theta}_j)=\frac{1}{I(\hat{\theta_j})}}{Var(\hat{\theta}_j) = 1/(I(\hat{\theta_j}))}
-//'
-//'   where \eqn{T(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}}.The standard error is then 
-//'
+//'   where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then 
+//' 
 //'   \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
 //'
-//'   Details for WLE estimator:
-//'
-//'   The variance of \deqn{\theta^{(WLE)}_j}{\theta^{WLE}_j} is defined as:
-//'
-//'   \deqn{\mbox{Var}(\hat{\theta}_j)\approx\frac{1}{I(\hat{\theta})}}{Var(\hat{\theta}_j)\approx 1/(I(\hat{\theta}))}
-//'
-//'   where \deqn{I(\hat{\theta_j})}{I(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}} and \eqn{B(\theta)} is defined in \code{estimateTheta}.The standard error is then 
-//'
-//'  \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
-//'
-//'
-//'
-//'   Details for MAP estimator:
+//'   The MAP estimator:
 //'
 //'   Note: This is currently implemented only for the normal prior.
 //'
@@ -410,19 +773,88 @@ double fisherTestInfo(S4 cat_df) {
 //'
 //'   \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
 //'
+//'   The MLE  estimator:
 //'
+//'   The variance of \deqn{\theta^{(MLE)}_j}{\theta^{MLE}_j} is defined as:
 //'
-//'   Details for EAP estimator:
-//'   
-//'   The posterior variance for \deqn{\theta^{(EAP)}_j}{\theta^{EAP}_j} is:
+//'   \deqn{\mbox{Var}(\hat{\theta}_j)=\frac{1}{I(\hat{\theta_j})}}{Var(\hat{\theta}_j) = 1/(I(\hat{\theta_j}))}
 //'
-//'   \deqn{\mbox{Var}(\hat{\theta}_j) = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{\int\pi(\theta_j)L(\theta_j)d\theta_j}}
-//'   {Var(\hat{\theta}_j) = E[(\theta_j - \hat{\theta_j})^2] = (\int(\theta_j - \hat{\theta_j})^2 \pi(\theta_j) L(\theta_j) d\theta_j)/(\int \pi(\theta_j) L(\theta_j) d\theta_j)}
+//'   where \eqn{T(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}}.The standard error is then 
 //'
-//'   where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then 
-//' 
 //'   \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
 //'
+//'   The WLE estimator:
+//'
+//'   The variance of \deqn{\theta^{(WLE)}_j}{\theta^{WLE}_j} is defined as:
+//'
+//'   \deqn{\mbox{Var}(\hat{\theta}_j)\approx\frac{1}{I(\hat{\theta})}}{Var(\hat{\theta}_j)\approx 1/(I(\hat{\theta}))}
+//'
+//'   where \deqn{I(\hat{\theta_j})}{I(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}} and \eqn{B(\theta)} is defined in \code{estimateTheta}.The standard error is then 
+//'
+//'  \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
+//'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  
+//'  ltm_cat@estimation <- "EAP"
+//'  estimateSE(ltm_cat)
+//'  
+//'  ltm_cat@estimation <- "MAP"
+//'  estimateSE(ltm_cat)
+//'  
+//'  ltm_cat@estimation <- "MLE"
+//'  estimateSE(ltm_cat)
+//'  
+//'  ltm_cat@estimation <- "WLE"
+//'  estimateSE(ltm_cat)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  
+//'  tpm_cat@estimation <- "EAP"
+//'  estimateSE(tpm_cat)
+//'  
+//'  tpm_cat@estimation <- "MAP"
+//'  estimateSE(tpm_cat)
+//'  
+//'  tpm_cat@estimation <- "MLE"
+//'  estimateSE(tpm_cat)
+//'  
+//'  tpm_cat@estimation <- "WLE"
+//'  estimateSE(tpm_cat)
+//'  
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  
+//'  poly_cat@estimation <- "EAP"
+//'  estimateSE(poly_cat)
+//'  
+//'  poly_cat@estimation <- "MAP"
+//'  estimateSE(poly_cat)
+//'  
+//'  poly_cat@estimation <- "MLE"
+//'  estimateSE(poly_cat)
+//'  
+//'  poly_cat@estimation <- "WLE"
+//'  estimateSE(poly_cat)
+//'  
+//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta}
+//'  
 //' @export
 // [[Rcpp::export]]
 double estimateSE(S4 cat_df) {
@@ -446,6 +878,39 @@ double estimateSE(S4 cat_df) {
 //'
 //'   \deqn{\sum_{i=k}^k P(y_{ij} = k | \hat{\theta})Var(\hat{\theta} | y_{ij} = k)}{\sum_{i = k}^k P(y_ij = k | \hat{\theta}) Var(\hat{\theta} | y_ij = k)}
 //'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  
+//'  expectedPV(ltm_cat, 1)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  
+//'  expectedPV(tpm_cat, 1)
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  
+//'  expectedPV(poly_cat, 1)
+//' 
+//' @seealso \code{\link{probability}} for calculation of P;  
+//'   \code{\link{estimateTheta}} for calculation of \eqn{\theta}
+//'  
+//' 
 //' @export
 // [[Rcpp::export]]
 double expectedPV(S4 cat_df, int item) {
@@ -465,7 +930,7 @@ double expectedPV(S4 cat_df, int item) {
 //'
 //' @details This function takes in a \code{Cat} object from \code{R} and constructs the \code{C++} representation.
 //'
-//'   For the EPV method:
+//'   The EPV method:
 //'   
 //'   This function takes in a \code{Cat} object from \code{R} and constructs the \code{C++} representation. It then calculates the expected posterior variance for each unanswered item. 
 //'   
@@ -476,7 +941,7 @@ double expectedPV(S4 cat_df, int item) {
 //'   
 //'   See \code{expectedPV} for mathematical details.
 //'   
-//'   For the MFI method:
+//'   The MFI method:
 //'   
 //'   This function takes a \code{Cat} object and calculates Fisher's information for each unanswered item. It then finds the one item that maximizes Fisher's information, based on the respondent's position on the latent trait from the answered items. 
 //'   
@@ -487,24 +952,177 @@ double expectedPV(S4 cat_df, int item) {
 //'
 //'   See \code{fisherInf} for mathematical details.
 //'   
-//'   For the MLWI method:
+//'   The MLWI method:
 //'   
-//'   For the MPWI method:
+//'   This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
+//'   Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
+//'  
+//'  \deqn{i_j = \underset{j}{\operatorname{argmax}}\int_{-\infty}^{\infty} L(\theta_j)I_i(\theta_j)d\theta_j}{i_j = argmax_j \int_{-\infty}^{\infty} L(\theta_j) I_i(\theta_j) d\theta_j}
 //'   
-//'   For the MEI method:
+//'   The MPWI method:
 //'   
-//'   For the KL method:
-//'   
-//'   For the MFII method:
-//'   
-//'   For the random method:
-//'   
-//'   
+//'   This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
+//'   Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
 //'
+//'   \deqn{i_j = \underset{j}{\operatorname{argmax}}\int_{-\infty}^{\infty} \pi(\theta) L(\theta_j)I_i(\theta_j)d\theta_j}{i_j = argmax_j \int_{-\infty}^{\infty} \pi(\theta) L(\theta_j) I_i(\theta_j) d\theta_j}
+//' 
+//'   The MEI method:
+//'   
+//'   This function estimates the expected observed information for a respondent’s estimated
+//'   position on the latent trait on an unanswered item based on the
+//'   respondent’s position on the latent trait calculated from answered items.
+//'   
+//'   The output should be a single numeric value.
+//'
+//'   Binary details:
+//'
+//'   \deqn{i_j = \underset{j}{\operatorname{argmax}}\{P(y_{ij} = 1)J_{y_{ij}=1} + P(y_{ij} = 0)J_{y_{ij}=0} \}}{i_j = argmax_j {P(y_ij = 1) J_{y_ij = 1} + P(y_ij = 0) J_(y_ij = 0)}}
+//'
+//'   Categorical details:
+//'   
+//'   \deqn{i_j = \underset{j}{\operatorname{argmax}}\{\sum_k^K P(y_{ij} = k)J_{y_{ij}=k} \}}{i_j = argmax_j {\sum_k^K P(y_ij = k) J_{y_ij = k}}}
+//'   
+//'   The KL method:
+//'   
+//'   This procedure chooses the next item with the largest KL value.
+//'   
+//'   See \code{expectedKL}, \code{likelihoodKL}, and/or \code{posteriorKL} for mathematical details.
+//'   
+//'   The MFII method:
+//'   
+//'   This approach chooses items based on the Fisher's information in an interval near the current estimate \eqn{\hat{\theta}}.
+//'   
+//'   \deqn{FII_i = \int^{\hat{\theta}+\delta}_{\hat{\theta}-\delta}I_i(\theta_0) d\theta_0}{FII_i = \int^{\hat{\theta} + \delta}_{\hat{\theta} - \delta} I_i(\theta_0) d\theta_0}
+//'
+//'   where \deqn{\delta = z(I(\hat{\theta}))^{-1/2}}{\delta = z(I(\hat{\theta}))^{-1/2}},  \eqn{I(\hat{\theta})} is the test information for respondent \eqn{j} evaluated at \eqn{\hat{\theta}},  \deqn{I_i(\cdot)}{I_i(.)} is the Fisher's information for item \eqn{i}, and \eqn{z} is a user specified z-value.
+//'   
+//'   The random method:
+//'   
+//'   This routine serves as a baseline for comparison. The routine simply selects an unanswered question at random.
+//'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers[c(13,27)] <- c(1,1)
+//'  
+//'  ltm_cat@selection <- "EPV"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MFI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MLWI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MPWI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MEI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "KL"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "LKL"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "PKL"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MFII"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "RANDOM"
+//'  selectItem(ltm_cat)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers[c(13,27)] <- c(1,1)
+//'  
+//'  ltm_cat@selection <- "EPV"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MFI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MLWI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MPWI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MEI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "KL"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "LKL"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "PKL"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MFII"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "RANDOM"
+//'  selectItem(ltm_cat)
+//'  
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  ltm_cat@answers[c(13,17)] <- c(1,1)
+//'  
+//'  ltm_cat@selection <- "EPV"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MFI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MLWI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MPWI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MEI"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "KL"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "LKL"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "PKL"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "MFII"
+//'  selectItem(ltm_cat)
+//'  
+//'  ltm_cat@selection <- "RANDOM"
+//'  selectItem(ltm_cat)
+//'  
+//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
+//'   \code{\link{obsInf}} for observed information calculation;
+//'   \code{\link{fisherTestInfo}} for Fisher's information calculation;
+//'   \code{\link{expctedKL}} for expected Kullback-Leibeler calculation;
+//'   \code{\link{likelihoodKL}} for likelihood Kullback-Leibeler calculation;  
+//'   \code{\link{posteriorKL}} for posterior Kullback-Leibeler calculation; 
+//'  
 //' @export
 // [[Rcpp::export]]
 List selectItem(S4 cat_df) {
-  
   return Cat(cat_df).selectItem();
 }
 
@@ -552,6 +1170,38 @@ List selectItem(S4 cat_df) {
 //'     P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}{\int_{\hat{\theta} - \delta}^{\hat{\theta} + \delta} 
 //'     \sum_k(P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
 //'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  
+//'  expectedKL(ltm_cat, 1)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  
+//'  expectedKL(tpm_cat, 1)
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  
+//'  expectedKL(poly_cat, 1)
+//'
+//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};
+//'   \code{\link{likelihoodKL}} and/or \code{\link{posteriorKL}} for alternative KL methods
+//'
 //' @export
 // [[Rcpp::export]]
 double expectedKL(S4 cat_df, int item) {
@@ -588,6 +1238,38 @@ double expectedKL(S4 cat_df, int item) {
 //'   \deqn{\int \sum_k\Big(L(\theta_0|\mathbf{y}_{k-1})P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}
 //'   {\int \sum_k(L(\theta_0| \mathbf{y}_{k-1})P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
 //'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  
+//'  likelihoodKL(ltm_cat, 1)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  
+//'  likelihoodKL(tpm_cat, 1)
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  
+//'  likelihoodKL(poly_cat, 1)
+//'  
+//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};
+//'   \code{\link{expectedKL}} and/or \code{\link{posteriorKL}} for alternative KL methods 
+//'  
 //' @export
 // [[Rcpp::export]]
 double likelihoodKL(S4 cat_df, int item) {
@@ -625,6 +1307,38 @@ double likelihoodKL(S4 cat_df, int item) {
 //'   \deqn{\int \sum_k\Big(\pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1})P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}
 //'   {\int \sum_k(\pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1})P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
 //' 
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
+//'  
+//'  posteriorKL(ltm_cat, 1)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
+//'  
+//'  posteriorKL(tpm_cat, 1)
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers <- as.numeric(poly_data[1,])
+//'  
+//'  posteriorKL(poly_cat, 1)
+//' 
+//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};
+//'   \code{\link{likelihoodKL}} and/or \code{\link{expectedKL}} for alternative KL methods
+//' 
 //' @export
 // [[Rcpp::export]]
 double posteriorKL(S4 cat_df, int item) {
@@ -638,6 +1352,37 @@ double posteriorKL(S4 cat_df, int item) {
 //'
 //' @param cat_df  An object of \code{Cat} class
 //' @param item A numeric indicating the item the respondent is currently answering.
+//'
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  ltm_cat@answers[c(13,27)] <- c(1,1)
+//'  
+//'  lookAhead(ltm_cat, 8)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  tpm_cat@answers[c(13,27)] <- c(1,1)
+//'  
+//'  lookAhead(tpm_cat, 8)
+//' 
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  poly_cat@answers[c(13,17)] <- c(1,1)
+//'  
+//'  lookAhead(poly_cat, 8)
+//'
+//' @seealso \code{\link{selectItem}} for selection method information
 //'
 //' @export
 // [[Rcpp::export]]
@@ -677,6 +1422,46 @@ List lookAhead(S4 cat_df, int item) {
 //'   lengthOverride: Number of question's answered < a
 //'
 //'   gainOverride: \deqn{|SE(\hat{\theta}) - \sqrt{EPV} | >= a \forall}{|SE(\hat{\theta}) - \sqrt{EPV} | >= a \forall} remaining items
+//' 
+//' @examples
+//' 
+//' ## binary (ltm)
+//' 
+//'  data("npi")
+//'  ltm_data <- npi[1:100, ]
+//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
+//'  
+//'  checkStopRules(ltm_cat)
+//'  
+//'  ltm_cat@lengthThreshold <- 5
+//'  
+//'  checkStopRules(ltm_cat)
+//'  
+//' ## binary (tpm)
+//' 
+//'  data("AMTknowledge")
+//'  tpm_data <- AMTknowledge[1:100, ]
+//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
+//'  
+//'  checkStopRules(tpm_cat)
+//' 
+//'  tpm_cat@seThreshold <- 4
+//'  
+//'  checkStopRules(tpm_cat)
+//'  
+//' ## categorical (grm) 
+//' 
+//'  data("nfc")
+//'  poly_data <- nfc[1:100, ]
+//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
+//'  
+//'  checkStopRules(poly_cat)
+//'  
+//'  poly_cat@gainThreshold <- 3
+//'  
+//'  checkStopRules(poly_cat)
+//'
+//' @seealso \code{\link{Cat}} for additional information on stopping rules
 //' 
 //' @export
 // [[Rcpp::export]]
