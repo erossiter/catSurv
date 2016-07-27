@@ -2,14 +2,14 @@
 % Please edit documentation in R/RcppExports.R
 \name{prior}
 \alias{prior}
-\title{The possible prior distribution functions}
+\title{The prior value for the respondent, conditional on theta}
 \usage{
 prior(x, c, p)
 }
 \arguments{
-\item{x}{A numeric value where we want to evaluate the prior name}
+\item{x}{A numeric value at which to evaluate the prior}
 
-\item{c}{The \code{priorName} slot of a \code{Cat} object}
+\item{c}{The \code{priorName} slot of a \code{Cat} object; indicates the distribution}
 
 \item{p}{The \code{priorParams} slot of a \code{Cat} object}
 }
@@ -17,7 +17,7 @@ prior(x, c, p)
 A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
 }
 \description{
-This function returns the prior value for each respondent's position on the latent scale of interest
+Calculates the prior value for a respondent's position on the latent scale of interest
 }
 \details{
 Note: \eqn{x} needs to be either UNIFORM, NORMAL, or STUDENT_T parameters, which control the shape of the prior.

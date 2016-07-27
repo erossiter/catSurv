@@ -18,10 +18,9 @@ A value indicating the posterior KL information for the desired item, given the 
 Calculate the expected Kullback-Leibeler information, weighted by the posterior
 }
 \details{
-We will follow the same procedure as \texttt{expectedKL}, except we will weight the different potential values of $\theta_0$ by the posterior. Thus, we replace Equation~\ref{kl} with
+We will follow the same procedure as \code{expectedKL}, except we will weight the different potential values of \eqn{\theta_0} by the posterior.
 
-  \deqn{KL_k(\hat{\theta};\theta_0) = \int \pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1}) \log\Big[\frac{L(\theta_0|\mathbf{y}_{k-1}, y_k)}{L(\hat{\theta}|\mathbf{y}_{k-1})} \Big] d\theta_0}
-  {KL_k(\hat{\theta};\theta_0) = \int \pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1}) log[(L(\theta_0| {y}_{k-1}, y_k)/(L(\hat{\theta}| \mathbf{y}_{k-1}))] d\theta_0}
+  \deqn{KL_k(\hat{\theta};\theta_0) = \int \pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1}) \log\Big[\frac{L(\theta_0|\mathbf{y}_{k-1}, y_k)}{L(\hat{\theta}|\mathbf{y}_{k-1})} \Big] d\theta_0}{KL_k(\hat{\theta};\theta_0) = \int \pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1}) log[(L(\theta_0| {y}_{k-1}, y_k)/(L(\hat{\theta}| \mathbf{y}_{k-1}))] d\theta_0}
   
   Binary details:
 
@@ -29,15 +28,12 @@ We will follow the same procedure as \texttt{expectedKL}, except we will weight 
 
   \deqn{\int \pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1})\Big[ \Big( P(y_{ij} =
   1|\theta_0)\big(\log(P(y_{ij}=1|\theta_0)) - \log(P(y_{ij}=1|\hat{\theta}))\big) \Big) \\~~~~~~~ + \Big( P(y_{ij} =
-  0|\theta_0)\big(\log(P(y_{ij}=0|\theta_0)) - \log(P(y_{ij}=0|\hat{\theta}))\big) \Big) \Big]d\theta_0}
-  {\int \pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1}) [(P(y_ij =
-  1| \theta_0) (log(P(y_ij = 1| \theta_0)) - log(P(y_ij = 1| \hat{\theta})))) + (P(y_ij =
-  0| \theta_0) (log(P(y_ij = 0| \theta_0)) - log(P(y_ij = 0| \hat{\theta}))))] d\theta_0}
+  0|\theta_0)\big(\log(P(y_{ij}=0|\theta_0)) - \log(P(y_{ij}=0|\hat{\theta}))\big) \Big) \Big]d\theta_0}{\int \pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1}) [(P(y_ij =
+  1| \theta_0) (log(P(y_ij = 1| \theta_0)) - log(P(y_ij = 1| \hat{\theta})))) + (P(y_ij = 0| \theta_0) (log(P(y_ij = 0| \theta_0)) - log(P(y_ij = 0| \hat{\theta}))))] d\theta_0}
 
   Categorical details:
 
-  \deqn{\int \sum_k\Big(\pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1})P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}
-  {\int \sum_k(\pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1})P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
+  \deqn{\int \sum_k\Big(\pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1})P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}{\int \sum_k(\pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1})P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
 }
 \examples{
 

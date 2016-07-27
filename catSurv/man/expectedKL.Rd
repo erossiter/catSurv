@@ -36,8 +36,7 @@ The KL item information for item \eqn{k} is:
 
  \deqn{\int_{\hat{\theta}-\delta}^{\hat{\theta}+\delta} \Big( P(y_{ij} =
   1|\theta_0)\log\Big[\frac{P(y_{ij}=1|\theta_0)}{P(y_{ij}=1|\hat{\theta})} \Big] + P(y_{ij} =
-  0|\theta_0)\log\Big[\frac{P(y_{ij}=0|\theta_0)}{P(y_{ij}=0|\hat{\theta})} \Big] \Big) d\theta_0}
-  {\int_{\hat{\theta} - \delta}^{\hat{\theta} + \delta} (P(y_ij =
+  0|\theta_0)\log\Big[\frac{P(y_{ij}=0|\theta_0)}{P(y_{ij}=0|\hat{\theta})} \Big] \Big) d\theta_0}{\int_{\hat{\theta} - \delta}^{\hat{\theta} + \delta} (P(y_ij =
   1| \theta_0) log[(P(y_ij = 1| \theta_0))/(P(y_ij = 1| \hat{\theta}))] + P(y_ij =
   0| \theta_0) log[(P(y_ij = 0| \theta_0))/(P(y_ij = 0| \hat{\theta}))]) d\theta_0}
 

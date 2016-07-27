@@ -50,7 +50,8 @@ The stopping rule thresholds are stored in the following Cat object slots: lengt
  
  checkStopRules(ltm_cat)
  
- ltm_cat@lengthThreshold <- 5
+ ltm_cat@answers[1:2] <- c(1,0)
+ ltm_cat@lengthThreshold <- 2
  
  checkStopRules(ltm_cat)
  

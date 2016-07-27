@@ -35,8 +35,7 @@ The LKL calculation follows the same procedure as \code{expectedKL}, except it r
 
  Categorical details:
 
-  \deqn{\int \sum_k\Big(L(\theta_0|\mathbf{y}_{k-1})P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}
-  {\int \sum_k(L(\theta_0| \mathbf{y}_{k-1})P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
+  \deqn{\int \sum_k\Big(L(\theta_0|\mathbf{y}_{k-1})P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}{\int \sum_k(L(\theta_0| \mathbf{y}_{k-1})P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
 }
 \examples{
 
