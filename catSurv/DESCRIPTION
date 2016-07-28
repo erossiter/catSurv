@@ -4,9 +4,9 @@ Version: 0.0.0.9000
 Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 Depends:
-    R (>= 3.1.2), ltm
+    R (>= 3.2.4), ltm(>= 1.0-0)
 License: What license is it under?
-Imports: Rcpp (>= 0.11.6), RcppGSL, BH, ltm
+Imports: Rcpp (>= 0.12.4), RcppGSL(>= 0.3.0), BH(>= 1.60.0-1), ltm(>= 1.0-0)
 LinkingTo: Rcpp, RcppGSL, BH
 LazyData: true
 RoxygenNote: 5.0.1
