@@ -82,30 +82,27 @@ test_that("makeTree calculates/formats correctly", {
 
   # categorical(grm)
   poly_cat <- grmCat(poly_data, 100)
-  poly_cat@lengthThreshold <- 5
-  poly_cat@answers <- rep(NA, length(poly_cat@answers))
+  poly_cat@lengthThreshold <- 3
 
   poly.list <- makeTree(poly_cat)
   poly.flat <- makeTree(poly_cat, flat = TRUE)
   
-  samp.resp <- matrix(NA, ncol=2, nrow = 6)
-  for(i in 1:6){
+  samp.resp <- matrix(NA, ncol=2, nrow = 4)
+  for(i in 1:4){
     samp.resp[i,1] <- names(poly_cat@discrimination)[selectItem(poly_cat)$next.item]
-    samp.resp[i,2] <- sample(c(1:5), 1, T)
+    samp.resp[i,2] <- sample(c(-1,1:5), 1, T)
     poly_cat@answers[selectItem(poly_cat)$next.item] <- as.numeric(samp.resp[i,2])
   }
   
   
-  list.Q<- poly.list[[samp.resp[1,2]]][[samp.resp[2,2]]][[samp.resp[3,2]]][[samp.resp[4,2]]][[samp.resp[5,2]]]$Next
+  list.Q<- poly.list[[samp.resp[1,2]]][[samp.resp[2,2]]][[samp.resp[3,2]]]$Next
   
-  expect_equal(list.Q, samp.resp[6,1], 0.001)
+  expect_equal(list.Q, samp.resp[4,1], 0.001)
   
   flat.Q <- poly.flat[which(poly.flat[,samp.resp[1,1]] == as.numeric(samp.resp[1,2]) &
                               poly.flat[,samp.resp[2,1]] == as.numeric(samp.resp[2,2]) &
-                              poly.flat[,samp.resp[3,1]] == as.numeric(samp.resp[3,2]) &
-                              poly.flat[,samp.resp[4,1]] == as.numeric(samp.resp[4,2]) &
-                              poly.flat[,samp.resp[5,1]] == as.numeric(samp.resp[5,2])), "NextItem"]
+                              poly.flat[,samp.resp[3,1]] == as.numeric(samp.resp[3,2])), "NextItem"]
   
-  expect_equal(flat.Q, samp.resp[6,1], 0.001)
+  expect_equal(flat.Q, samp.resp[4,1], 0.001)
   
 })

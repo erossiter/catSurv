@@ -7,13 +7,13 @@
 fisherTestInfo(cat_df)
 }
 \arguments{
-\item{cat_df}{An object of \code{Cat} class}
+\item{cat_df}{An object of class \code{Cat}}
 }
 \value{
-The total information gained for a respondent, given a specific answer profile and a value of \eqn{theta}.
+The total information gained for a respondent, given a specific answer set and a value of \eqn{theta}.
 }
 \description{
-This function calculates the total information gained for a respondent \eqn{j} for all answered items, conditioned on some value of \eqn{theta}.
+This function calculates the total information gained for a respondent \eqn{j} for all answered items, conditioned on \eqn{theta}.
 }
 \details{
 \deqn{I_i(\theta_j)}{I_i(\theta_j)} is the Fisher's information for item \eqn{i} specific to \eqn{\theta_j} (see \code{FisherInf}). 

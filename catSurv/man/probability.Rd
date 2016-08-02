@@ -2,22 +2,22 @@
 % Please edit documentation in R/RcppExports.R
 \name{probability}
 \alias{probability}
-\title{Probability of a question's response, given theta}
+\title{Probability of a Response, conditional on \eqn{\theta}.}
 \usage{
 probability(cat_df, theta, question)
 }
 \arguments{
 \item{cat_df}{An object of class \code{Cat}}
 
-\item{theta}{A double indicating the potential value for \eqn{\theta_j}}
+\item{theta}{A double indicating the value for \eqn{\theta_j}}
 
 \item{question}{An integer indicating the index of the question}
 }
 \value{
-A numeric vector consisting of the probability of a correct response (binary) or the probability of being less than each element of the item \eqn{i} 's difficulty parameter.
+A numeric vector consisting of the probability of a correct response (binary) or the probability of being less than each element of item \eqn{i} 's difficulty parameter.
 }
 \description{
-This function calculates the probability, conditional on \eqn{\theta}, of a response to a specific question.
+\code{probability} calculates the probability of an observed response to a specific question, conditional on \eqn{\theta}.
 }
 \details{
 Note: this function is overloaded, due to different output types of dichotomous vs. polytomous implementations (outputs single value for binary implementation,
@@ -35,7 +35,7 @@ Note: this function is overloaded, due to different output types of dichotomous 
  \deqn{Pr(y_{ij} <  k|\theta_j)=\frac{\exp(\alpha_{ik} - \beta_i \theta_{ij})}{1+\exp(\alpha_{ik} - \beta_i \theta_{ij})}}{Pr(y_ij < k | \theta_j) = (exp(\alpha_ik - \beta_i \theta_ij))/(1 + exp(\alpha_ik - \beta_i \theta_ij))}
 
  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_ik} the \eqn{k}-th element of item \eqn{i} 's difficulty parameter, 
- \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Note (1) the inequality on the left side and (2) that the guessing parameters are irrelevant here.
+ \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Notice (1) the inequality on the left side and (2) the absence of guessing parameters.
 
  Note: the function for polytomous implementation does not return values, but rather alters the object \code{ret_prob} in memory
 }

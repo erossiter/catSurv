@@ -21,7 +21,7 @@
 \alias{getUpperBound}
 \alias{getZ}
 \alias{setPoly}
-\title{Getters for slots within Cat class objects}
+\title{Getters for slots within \code{Cat} class objects}
 \usage{
 getSlot(object)
 }

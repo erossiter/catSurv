@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{prior}
 \alias{prior}
-\title{The prior value for the respondent, conditional on theta}
+\title{The prior value for the respondent's position on the latent trait scale}
 \usage{
 prior(x, c, p)
 }

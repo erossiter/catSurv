@@ -2,12 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{estimateTheta}
 \alias{estimateTheta}
-\title{Estimate of the ability parameter}
+\title{Estimate of the respondent's ability parameter}
 \usage{
 estimateTheta(cat_df)
 }
 \arguments{
-\item{cat_df}{An object of \code{Cat} class}
+\item{cat_df}{An object of class \code{Cat}}
 }
 \value{
 A vector consisting of the expected value of the ability parameter
@@ -28,25 +28,25 @@ The expected a posteriori (EAP) approach:
 
   Note: This method is only available using the normal prior distribution.
 
-  To estimate \eqn{\theta_j}, we solve the following equation iteratively, beginning with an initial value of \eqn{\theta_j}, and continue until the change in the estimate is below some pre-specified tolerance. Note that \eqn{t} here indexes the iteration.
+  To estimate \eqn{\theta_j}, the following equation is iteratively solved, beginning with an initial value of \eqn{\theta_j}, and continuing until the change in the estimate is below the pre-specified tolerance. Note that \eqn{t} indexes the iteration.
 
   \deqn{[\hat{\theta_j}]_{(t+1)} = [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{\hat{\theta_j}_{(t + 1)} = \hat{\theta_j}_{(t)} - ((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))}
 
-  where the derivatives are calculated for at \eqn{\hat{\theta_j}_{(t)}}.
+  where the derivatives are evaluated at \eqn{\hat{\theta_j}_{(t)}}.
 
   The maximum likelihood (MLE) approach:
 
   Note: When MLE will not work, \code{estimateTheta} is calculated according to the \code{estimationDefault} slot in \code{Cat} object.
 
-  To estimate \eqn{\theta_j}, we solve the following equation iteratively, beginning with an initial value of \eqn{\theta_j}, and continue until the change in the estimate is below some pre-specified tolerance. Note that \eqn{t} here indexes the iteration.
+  To estimate \eqn{\theta_j}, the following equation is iteratively solved, beginning with an initial value of \eqn{\theta_j}, and continuing until the change in the estimate is below the pre-specified tolerance. Note that \eqn{t} indexes the iteration.
 
   \deqn{[\hat{\theta_j}]_{(t+1)} = [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{\hat{\theta_j}_{(t + 1)} = \hat{\theta_j}_{(t)} - ((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))}
 
-  where the derivatives are calculated for at \eqn{\hat{\theta_j}_{(t)}}.
+  where the derivatives are evaluated at \eqn{\hat{\theta_j}_{(t)}}.
 
   The weighted maximum likelihood approach (WLE) approach:
 
-  To estimate \eqn{\theta_j}, we find the root of the following function using the ``Brent'' method in the \code{gsl} library.
+  Estimating \eqn{\theta_j} requires finding the root of the following function using the ``Brent'' method in the \code{gsl} library.
 
   \deqn{W = L_\theta + \frac{B(\theta)}{2I(\theta)}}{W = L_\theta + B(\theta)/(2 I(\theta))}
 

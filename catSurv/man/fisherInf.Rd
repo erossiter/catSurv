@@ -7,7 +7,7 @@
 fisherInf(cat_df, theta, item)
 }
 \arguments{
-\item{cat_df}{An object of \code{Cat} class}
+\item{cat_df}{An object of class \code{Cat}}
 
 \item{theta}{A double indicating the potential value for \eqn{\theta_j}}
 
@@ -17,11 +17,11 @@ fisherInf(cat_df, theta, item)
 The expected value of the observed information.
 }
 \description{
-This function calculated the expected value of the observed information of the likelihood evaluated at the input value \eqn{theta}.
+This function calculates the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}.
 }
 \details{
 For the dichotomous case, this is equivalent to the observed information.  
-  For the graded response model, requires additional calculations.
+  The graded response model requires additional calculations.
 
   The equation for the likelihood is given in \code{Likelihood}, where \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_ijk = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)}. 
   \code{dLL} also defines \deqn{Q_{ijk}^\ast= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk}, and \deqn{w_{ij,k}=P^\ast_{ij,k}Q^\ast_{ij,k}}{w_{ij,k} = P*_{ij,k} Q*_{ij,k}}.

@@ -7,9 +7,12 @@
 lookAhead(cat_df, item)
 }
 \arguments{
-\item{cat_df}{An object of \code{Cat} class}
+\item{cat_df}{An object of class \code{Cat}}
 
 \item{item}{A numeric indicating the item the respondent is currently answering.}
+}
+\value{
+A vector of values indicating the possible subsequent questions
 }
 \description{
 This function returns the next item that should be asked for all possible response options of the question the respondent is currently answering.

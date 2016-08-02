@@ -2,12 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{estimateSE}
 \alias{estimateSE}
-\title{Estimate of standard error for the posterior estimate}
+\title{Estimate of the standard error for the posterior estimate}
 \usage{
 estimateSE(cat_df)
 }
 \arguments{
-\item{cat}{An object of \code{Cat} class}
+\item{cat}{An object of class \code{Cat}}
 }
 \value{
 The posterior standard error for \eqn{\theta_j}
@@ -28,7 +28,7 @@ The EAP estimator:
 
   The MAP estimator:
 
-  Note: This is currently implemented only for the normal prior.
+  Note: This is implemented only for the normal prior.
 
   The variance of \deqn{\theta^{(MAP)}_j}{\theta^{MAP}_j} is defined as:
 

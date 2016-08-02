@@ -7,7 +7,7 @@
 expectedObsInf(cat_df, item)
 }
 \arguments{
-\item{cat_df}{An object of \code{Cat} class}
+\item{cat_df}{An object of class \code{Cat}}
 
 \item{item}{An integer indicating the index of the question}
 }
@@ -15,7 +15,7 @@ expectedObsInf(cat_df, item)
 A value of the expected information
 }
 \description{
-This function calculates the expected information, which is the observed information attained from a specific response profile times the probability of that profile occurring.
+This function calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring.
 }
 \details{
 Binary details:

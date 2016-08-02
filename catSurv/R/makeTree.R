@@ -78,17 +78,15 @@ makeTree <- function(cat, flat = FALSE){
   n <- length(varNames)
   q <- selectItem(cat)$next.item
   this <- list()
-  for (i in 1:(numPossibleAnswers[q]-1)){
+  for (i in 1:(numPossibleAnswers[q])){
     this[[paste(i)]] <- NA
   }
   this[[i+1]] <- varNames[q]
   if(cat@poly == FALSE){
-    names(this)   <- c(1:(numPossibleAnswers[q]-1)-1, "Next")
+    names(this)   <- c(-1:(numPossibleAnswers[q]-2), "Next")
   } else {
-    names(this)   <- c(1:(numPossibleAnswers[q]-1), "Next")
+    names(this)   <- c(-1,1:(numPossibleAnswers[q]-1), "Next")
   }
-  #this[["-1"]]<-NA
-  this
 
 
 
@@ -105,18 +103,14 @@ makeTree <- function(cat, flat = FALSE){
           thisQ <- which(varNames==x[["Next"]])
           catNew <- storeAnswer(cat, thisQ, as.integer(names(x)[i]))
           q <- selectItem(catNew)$next.item
-          for (j in 1:(numPossibleAnswers[q])){
+          for (j in 1:(numPossibleAnswers[q]+1)){
             x[[namVar[i]]][[j]] <- NA
           }
           x[[namVar[i]]][[j]] <- varNames[q]
           if(cat@poly == FALSE){
-          names(x[[namVar[i]]])   <- c(1:(numPossibleAnswers[q]-1)-1,
-                                       #-1,
-                                       "Next")
+          names(x[[namVar[i]]])   <- c(-1:(numPossibleAnswers[q]-2), "Next")
           } else {
-            names(x[[namVar[i]]])   <- c(1:(numPossibleAnswers[q]-1),
-                                         #-1,
-                                         "Next")
+            names(x[[namVar[i]]])   <- c(-1, 1:(numPossibleAnswers[q]-1), "Next")
           }
           x[[namVar[i]]] <- as.list(x[[namVar[i]]])
 
@@ -142,45 +136,34 @@ makeTree <- function(cat, flat = FALSE){
     flattenTree <- function(tree) {
       
       flatTree <- unlist(tree)
-      names(flatTree) <- sub("Next", "", names(flatTree))
+      names(flatTree) <- gsub("Next", "", names(flatTree))
       flatTree <- flatTree[order(nchar(names(flatTree)))]
       
       if(cat@poly == FALSE){
-        for(i in 1:length(flatTree)){
-          if(substring(names(flatTree[i]), 1,1) == 1){
-            flatTree <- c(flatTree, flatTree[i])
-          }
-        }
-        remove <- which(substring(names(flatTree), 1,1) == 1)
-        remove <- remove[1:(length(remove)/2)]
-        flatTree <- flatTree[-c(remove)]
+        answerChoices <- c("-", 0:(numPossibleAnswers[1] - 2))
       } else {
-        answerChoices <- length(unique(substring(names(flatTree), 1,1))) - 1
-        orderedTree <- flatTree[1]
-        for(i in 1:answerChoices){
-          answers <- rep(NA, (length(orderedTree)-1)/answerChoices)
-          answers <- flatTree[substring(names(flatTree), 1,1) == i]
-          orderedTree <- c(orderedTree, answers)
-        }
-        flatTree <- orderedTree
+        answerChoices <- c("-", 1:(numPossibleAnswers[1] - 1))
       }
+      orderedTree <- flatTree[1]
+      for(i in answerChoices[1:length(answerChoices)]){
+        answers <- rep(NA, (length(flatTree)-1)/length(answerChoices))
+        answers <- flatTree[substring(names(flatTree), 1,1) == i]
+        orderedTree <- c(orderedTree, answers)
+      }
+      flatTree <- orderedTree
+      
+      response.list <- strsplit(names(flatTree), "[.]")
       output <- matrix(data = NA, nrow = length(flatTree), ncol = length(cat@answers) + 1)
       colnames(output) <- c(names(cat@difficulty), "NextItem")
       
       for(i in 1:length(flatTree)){
         output[i,ncol(output)] <- flatTree[i]
-        if(i > 1){
-          if(nchar(names(flatTree[i])) == 2){
-            output[i, output[1,ncol(output)]] <- substring(names(flatTree[i]),
-                                                           nchar(names(flatTree[i]))-1,
-                                                           nchar(names(flatTree[i]))-1)
-          } else {
-            for(j in 1:((nchar(names(flatTree[i]))/2)-1)){
-              output[i, flatTree[substring(names(flatTree[i]), 1, nchar(names(flatTree[i]))-2*j)]] <- substring(names(flatTree[i]),
-                                                                                                                nchar(names(flatTree[i]))-((j*2) - 1),
-                                                                                                                nchar(names(flatTree[i]))-((j*2) - 1))
+        if(i > 1){ 
+          output[i, output[1, ncol(output)]] <- response.list[[i]][1]
+          if(length(response.list[[i]]) > 1){
+            for(j in 1:(length(response.list[[i]])-1)){
+              output[i, flatTree[which(sapply(1:length(response.list), function(f) identical(response.list[[f]], response.list[[i]][1:j])))]]  <- response.list[[i]][j+1]
             }
-            output[i, output[1,ncol(output)]] <- substring(names(flatTree[i]), 1,1)
           }
         }
       }

@@ -2,29 +2,29 @@
 % Please edit documentation in R/RcppExports.R
 \name{likelihood}
 \alias{likelihood}
-\title{Likelihood of a specific response profile}
+\title{Likelihood of the Specified Response Set}
 \usage{
 likelihood(cat_df, t)
 }
 \arguments{
-\item{cat_df}{An object of \code{Cat} class}
+\item{cat_df}{An object of class \code{Cat}}
 
-\item{t}{A numeric for possible value of theta (position on the latent scale of interest)}
+\item{t}{A numeric for the value of theta (position on the latent scale of interest)}
 }
 \value{
-A numeric value of the likelihood of the respondent having offered the provided response profile
+A numeric value of the likelihood of the respondent having offered the provided response profile.
 }
 \description{
-The likelihood of a person with ability parameter \eqn{\theta} having offered the specific response profile stored in the \code{answers} slot, conditional on the item-level parameters.
+The likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot, conditional on the item-level parameters.
 }
 \details{
-For binary \code{Cats}, letting \eqn{q_i(\theta_j) = 1 - p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is
+For binary \code{Cats}, letting \deqn{q_i(\theta_j) = 1-p_i(\theta_j)}{q_i(\theta_j) = 1 - p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is
 
  \deqn{L(\theta_j|\mathbf{y}_{j})=\prod^{J}_{i=1}\Big(p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij})}\Big)= \exp\Big[ \sum^{J}_{i=1}\Big(y_{ij} \log(p_i(\theta_j)) + (1-y_{ij})\log(q_i(\theta_j))\Big) \Big]}{L(\theta_j| y_j) = \prod^{J}_{i = 1}(p_i(\theta_j)^{y_ij} q_i(\theta_j)^{1 - y_ij}) = exp(\sum^{J}_{i = 1} (y_ij log(p_i(\theta_j)) + (1 - y_ij) log(q_i(\theta_j))))}
 
  where \eqn{y_j} is evaluated based only on the questions the respondent has answered.
 
- In the polytomous implementation, for each item \eqn{i} there are \eqn{K_i} response options and that may differ across items.  
+ In the polytomous implementation, for each item \eqn{i} there are \eqn{K_i} response options, which may differ across items.  
  There is therefore a vector of threshold parameters defined as \deqn{\mathbf{\alpha}_i=(\alpha_{i,0}, \alpha_{i,1}, \ldots, \alpha_{i,K_i})}{\alpha_i = \alpha_{i,0}, \alpha_{i,1}, ... , \alpha_{i,K_i}}, 
  with \deqn{\alpha_{i,0} < \alpha_{i,1} \le \alpha_{i,2} \le \ldots, < \alpha_{i,K_i}}{\alpha_{i,0} < \alpha_{i,1} \le \alpha_{i,2} \le \ldots, < \alpha_{i,K_i}} , \deqn{\alpha_{i,0} = -\infty}{\alpha_{i,0} = -\infty}, and \deqn{\alpha_{i,K_i} = \infty}{\alpha_{i,K_i} = \infty}.  
  Thus for a categorical question with \eqn{K} possible answers, \eqn{K-1} difficulty parameters are calculated (since \eqn{\alpha_{i,0}} and \eqn{\alpha_{i,K}} are known).  

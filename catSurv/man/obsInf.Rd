@@ -7,14 +7,14 @@
 obsInf(cat_df, theta, item)
 }
 \arguments{
-\item{cat_df}{An object of \code{Cat} class}
+\item{cat_df}{An object of class \code{Cat}}
 
-\item{theta}{A double indicating the potential value for \eqn{\theta_j}}
+\item{theta}{A double indicating the value of \eqn{\theta_j}}
 
 \item{item}{An integer indicating the index of the question}
 }
 \value{
-The value of the observed information of the likelihood, given \eqn{theta}, for a specific question.
+The value of the observed information of the likelihood, given \eqn{\theta}, for a specific question.
 }
 \description{
 This function calculates the observed information of the likelihood evaluated at the input value \eqn{\theta} for a specific item.
@@ -32,9 +32,9 @@ The observed information is equivalent to the negative second derivative of the 
   \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_{ijk} = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)} as defined in \code{Likelihood}. 
   \deqn{Q_{ijk}^*= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk}, \deqn{w_{i,k-1} = P^*_{i,k-1}Q^*_{i,k-1}}{w_{i,k-1} = P*_{i,k-1} Q*_{i,k-1}}, and \deqn{w_{ik}=P^*_{ik}Q^*_{ik}}{w_ik = P*_ik Q*_ik} as defined in \code{dLL}.
 
-  In the categorical case, we need to calculate this quantity based on the actual response that was recorded for the item we are analyzing. So for question \eqn{i}, assuming response \eqn{k} we get:  
+  To calculate the categorical observed information requires evaluating the below equation for question \eqn{i}, assuming response \eqn{k}:  
 
-  \deqn{\frac{\partial^2L}{\partial\theta_j^2} &-\beta_i^2 \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{ik}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ]}{(\partial^2L)/(\partial\theta_j^2) = -\beta_i^2 [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_{ik}) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)]}
+  \deqn{\frac{\partial^2L}{\partial\theta_j^2} & -\beta_i^2 \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{ik}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ]}{(\partial^2L)/(\partial\theta_j^2) = -\beta_i^2 [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_{ik}) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)]}
 }
 \examples{
 

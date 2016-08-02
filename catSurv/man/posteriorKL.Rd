@@ -7,7 +7,7 @@
 posteriorKL(cat_df, item)
 }
 \arguments{
-\item{cat_df}{An object of \code{Cat} class}
+\item{cat_df}{An object of class \code{Cat}}
 
 \item{item}{An integer indicating the index of the question}
 }

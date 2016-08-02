@@ -21,7 +21,7 @@
 \alias{setSlot<-}
 \alias{setUpperBound}
 \alias{setZ}
-\title{Setters for slots within Cat class objects}
+\title{Setters for slots within \code{Cat} class objects}
 \usage{
 setSlot(object, valid = T) <- value
 }

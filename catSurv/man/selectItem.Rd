@@ -7,7 +7,7 @@
 selectItem(cat_df)
 }
 \arguments{
-\item{cat_df}{An object of \code{Cat} class}
+\item{cat_df}{An object of class \code{Cat}}
 }
 \value{
 It returns a list with two elements: 

@@ -7,14 +7,14 @@
 d2LL(cat_df, theta, use_prior)
 }
 \arguments{
-\item{cat_df}{An object of \code{Cat} class}
+\item{cat_df}{An object of class \code{Cat}}
 
 \item{theta}{A double indicating the potential value for \eqn{\theta_j}}
 
 \item{use_prior}{A logical indicating whether to use the prior parameters in estimation}
 }
 \value{
-A value indicating the second derivative of the log-likelihood (or log-posterior) for a respondent's answer profile.
+A double value of the second derivative of the log-likelihood (or log-posterior) for a respondent's answer profile.
 }
 \description{
 When \code{usePrior = FALSE}, this function evaluates the second derivative of the log-likelihood evaluated at point \eqn{\theta}.  
@@ -23,14 +23,13 @@ When \code{usePrior = TRUE}, this function evaluates the second derivative of th
 \details{
 For the dichotomous case, the  value (in terms of \deqn{y_{ij}}{y_ij}) of the second derivative of the log-likelihood is:
 
-
   \deqn{\lambda_{\theta \theta} = - \sum_{i=1}^n b_i^2\Big(\frac{P_{ij} - c_i}{1-c_i} \Big)^2\frac{Q_{ij}}{P_{ij}}}{\lambda_{\theta \theta} = - \sum_{i = 1}^n b_i^2 ((P_ij - c_i)/(1 - c_i))^2 (Q_ij)/(P_ij)}
 
   The second derivative of the log-posterior is:
 
   \deqn{\lambda_{\theta \theta} = - \sum_{i=1}^n \Big [ b_i^2\Big(\frac{P_{ij} - c_i}{1-c_i} \Big)^2\frac{Q_{ij}}{P_{ij}} \Big ] - \frac{1}{\sigma^2_\theta}}{\lambda_{\theta \theta} = - \sum_{i = 1}^n [b_i^2 ((P_ij - c_i)/(1 - c_i))^2 (Q_ij)/(P_ij)] - 1/(\sigma^2_\theta)}
 
-  Note: In the binary case, the observed and expected information is identical.
+  Note: In the binary case, the observed and expected information are identical.
 
   For the polytomous case, the second derivative of \eqn{L} with respect to \eqn{\theta_j} is:
 
@@ -40,7 +39,7 @@ For the dichotomous case, the  value (in terms of \deqn{y_{ij}}{y_ij}) of the se
 
   \deqn{\frac{\partial^2L}{\partial\theta_j^2} = \sum_{i=1}^n -\beta_i^2 \sum_{k=1}^{m_i} I(y_{ijk}=k)  \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{i}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ] - \frac{1}{\sigma_\theta^2} }{(\partial^2L)/(\partial\theta_j^2) = \sum_{i = 1}^n -\beta_i^2 \sum_{k = 1}^{m_i} I(y_ijk = k) [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_i) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)] - 1/(\sigma_\theta^2)} 
 
-  Note: This methods will only be available using the normal prior distribution
+  Note: This method is only be available using the normal prior distribution
 }
 \examples{
 

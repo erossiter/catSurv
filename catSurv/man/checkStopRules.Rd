@@ -7,7 +7,7 @@
 checkStopRules(cat_df)
 }
 \arguments{
-\item{cat_df}{An object of \code{Cat} class}
+\item{cat_df}{An object of class \code{Cat}}
 }
 \value{
 A boolean, where TRUE indicates the the stopping rules are met and FALSE indicates the stoppings rules are not met
@@ -17,12 +17,12 @@ This function returns a boolean indicating if the respondent should not be asked
 }
 \details{
 The stopping rule thresholds are stored in the following Cat object slots: lengthThreshold, seThreshold, infoThreshold, and gainThreshold.
-  The override thresholds are stored in the following Cat object slots: lengthOverride, gainOverride.  A value of NA indicates the rule should not be used.
+  The override thresholds are stored in the following Cat object slots: lengthOverride, gainOverride. A value of NA indicates the rule should not be used.
 
   A return value of TRUE indicates that additional questions should be asked; FALSE indicates no additional questions should be asked.
 
   A user can specify any combination of stopping rules and/or overrides.  The function returns TRUE if all specified stopping rules are met
-  and no specified overrides are met.  The function returns FALSE if at least one specified stopping rule is not met, or if any specified override threshold is met.
+  and no specified overrides are met. The function returns FALSE if at least one specified stopping rule is not met, or if any specified override threshold is met.
 
   Stopping Rules:
 
