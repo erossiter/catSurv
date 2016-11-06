@@ -15,6 +15,7 @@ load_all(current.code)
 document(current.code)
 
 
+
 data(npi)
 binary_cat <- ltmCat(npi[1:100, ], 100)
 binary_cat@priorName <- "NORMAL"
