@@ -133,10 +133,10 @@ setValidity("Cat", function(object){
       uniques<-unique(sorted)
        test6<-(all(!is.na(item)))
       if(!test6) stop (paste("Diffulty values for question", i, " include NAs"))
-     test5<-(isTRUE(all.equal(item,sorted)))
-      if(!test5) stop(paste("Diffulty values for question", i, " are not increasing"))
-       test4<-(isTRUE(all.equal(item,uniques)))
-       if(!test4) stop(paste("Repeated difficulty values for question", i))
+     #test5<-(isTRUE(all.equal(item,sorted)))
+      #if(!test5) stop(paste("Diffulty values for question", i, " are not increasing"))
+       #test4<-(isTRUE(all.equal(item,uniques)))
+       #if(!test4) stop(paste("Repeated difficulty values for question", i))
         
     }
   }

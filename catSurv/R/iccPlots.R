@@ -36,8 +36,8 @@ setMethod(f="icc", signature="Cat",
             axis(1, at = seq(floor(min(theta_range)),ceiling(max(theta_range)),1), labels = seq(floor(min(theta_range)),ceiling(max(theta_range)),1))
             axis(2, at = seq(0,1,.25), labels = seq(0,1,.25), las = 1)
             if(object@poly){
-              legend(x=1.6,y=.9, legend=c(1:(nrow(probs)+1)), lty = 1:(nrow(probs)+1), bty = "n", cex=.7)
-              legend(x=1.4, y=1, legend="Response\nCategory",bty = "n",cex=.7)
+              legend("top", legend=c(1:(nrow(probs)+1)), lty = 1:(nrow(probs)+1), bty = "n", cex=.8,
+                     title = "Response Category")
               lines(x = theta_range, y = (probs[1, ] - 0), lty = 1)
               lines(x = theta_range, y = (1 - probs[nrow(probs), ]), lty = nrow(probs)+1)
               for(i in 2:(nrow(probs))){

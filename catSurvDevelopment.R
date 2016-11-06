@@ -5,7 +5,7 @@ library(Rcpp)
 library(testthat)
 library(ltm)
 setwd("/Users/iramalis/Desktop/gitstuff/CATSurv")
-setwd("/Users/erinrossiter/Dropbox/Spring2016/Rclass/CATsurv")
+setwd("~/Dropbox/Spring2016/Rclass/CATsurv")
 setwd("~/Dropbox/2016Spring_Programming/CATSurv")
 setwd("~/Dropbox/CATSurv")
 
@@ -13,6 +13,7 @@ setwd("~/Dropbox/CATSurv")
 current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
+
 
 data(npi)
 binary_cat <- ltmCat(npi[1:100, ], 100)
