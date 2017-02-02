@@ -22,6 +22,7 @@ struct QuestionSet {
 	 */
 	std::vector<int> answers;
 	std::vector<bool> poly;
+	std::string model_fit;
 	/**
 	 * Keeping track of extreme answers for MLEEstimator.
 	 */	

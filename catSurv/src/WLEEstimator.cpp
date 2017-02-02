@@ -36,7 +36,7 @@ double WLEEstimator::poly_estimateTheta(Prior prior){
       I += fisherInf(theta, item);
       
       double beta = questionSet.discrimination.at(item);
-      std::vector<double> P_stars = paddedProbability(theta, item);
+      std::vector<double> P_stars = probability(theta, item);
       
       std::vector<double> P;
       for (size_t i = 1; i < P_stars.size(); ++i) {

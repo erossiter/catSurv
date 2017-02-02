@@ -32,8 +32,6 @@ public:
 
 	double fisherInf(double theta, int item);
 
-	double partial_second_derivative(double theta, size_t question);
-
 	virtual double expectedPV(int item, Prior &prior);
 
 	double expectedObsInf(int item, Prior &prior);
@@ -60,12 +58,6 @@ public:
 protected:
 	const Integrator &integrator;
 	QuestionSet &questionSet;
-
-	std::vector<double> paddedProbability(double theta, size_t question);
-
-	double polytomous_likelihood(double theta);
-
-	double binary_likelihood(double theta);
 	
 	double kl(double theta_not, int item, Prior prior);
 
@@ -88,16 +80,33 @@ private:
 	 * requires a change in the GSL integration function used in Integrator.
 	 */
 	constexpr static double integrationSubintervals = 10;
+  
+  std::vector<double> prob_ltm(double theta, size_t question);
+  std::vector<double> prob_grm(double theta, size_t question);
+  std::vector<double> prob_gpcm(double theta, size_t question);
+  
+  double likelihood_ltm(double theta);
+	double likelihood_grm(double theta);
+	double likelihood_gpcm(double theta);
+  
+  std::vector<double> prob_derivs_gpcm(double theta, size_t question, bool first);
+  
+  double grm_dLL(double theta);
+	double gpcm_dLL(double theta);
+	double ltm_dLL(double theta);
+	
+	double grm_partial_d2LL(double theta, size_t question);	
+	double gpcm_partial_d2LL(double theta, size_t question);	
+	double gpcm_partial_dLL(double theta, size_t question);	
+
+  double grm_d2LL(double theta);
+	double gpcm_d2LL(double theta);
+	double ltm_d2LL(double theta);
 
 	double polytomous_posterior_variance(int item, Prior &prior);
 	double binary_posterior_variance(int item, Prior &prior);
 	
-	double polytomous_dLL(double theta);
-	double binary_dLL(double theta);
-	
-	double polytomous_d2LL(double theta);
-	double binary_d2LL(double theta);
-	
+
 };
 
 

@@ -55,6 +55,7 @@ grmCat.data.frame<-function(data, quadraturePoints=15,...){
             
             ## create a new Cat
             object<-new("Cat")
+            object@modelFit <- "grm"
             
             ## store those extracted parameters in the Cat
             object@discrimination <- discrimination
@@ -101,6 +102,7 @@ grmCat.grm<-function(data, quadraturePoints=15,...){
               
               ## create a new Cat
               object<-new("Cat")
+              object@modelFit <- "grm"
               
               ## store those extracted parameters in the Cat
               object@discrimination <- discrimination

@@ -28,7 +28,7 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 	}
 
 	poly = Rcpp::as<std::vector<bool> >(cat_df.slot("poly"));
-	
+	model_fit = Rcpp::as<std::string >(cat_df.slot("modelFit"));
 	
 	// Added all this in to check if its appropriate to use MLE
 	std::vector<double> minAnswer_posDiscrim;
