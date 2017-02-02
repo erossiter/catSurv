@@ -19,8 +19,10 @@ public:
 
 private:
   
-  double binary_estimateTheta(Prior prior);
+  double ltm_estimateTheta(Prior prior);
   
-  double poly_estimateTheta(Prior prior);
+  double grm_estimateTheta(Prior prior);
+
+  double gpcm_estimateTheta(Prior prior);
 
 };

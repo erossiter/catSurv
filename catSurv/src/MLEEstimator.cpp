@@ -8,10 +8,10 @@ double MLEEstimator::dLL_root(){
 	  for (auto question : questionSet.applicable_rows) {
 		  const int answer_k = questionSet.answers[question];
 
-		  auto probabilities = probability(theta, (size_t) question);
-		  std::vector<double> probs{0.0};
-		  probs.insert(probs.end(), probabilities.begin(), probabilities.end());
-		  probs.push_back(1.0);
+		  auto probs = probability(theta, (size_t) question);
+		  //std::vector<double> probs{0.0};
+		  //probs.insert(probs.end(), probabilities.begin(), probabilities.end());
+		  //probs.push_back(1.0);
 
 		  double P_star1 = probs[answer_k];
 		  double Q_star1 = 1.0 - P_star1;

@@ -54,6 +54,9 @@ public:
 	
 	double d2LL(double theta, bool use_prior, Prior &prior);
 	
+	//public for WLEEstimator
+	std::vector<double> prob_derivs_gpcm(double theta, size_t question, bool first);
+
 
 protected:
 	const Integrator &integrator;
@@ -88,8 +91,6 @@ private:
   double likelihood_ltm(double theta);
 	double likelihood_grm(double theta);
 	double likelihood_gpcm(double theta);
-  
-  std::vector<double> prob_derivs_gpcm(double theta, size_t question, bool first);
   
   double grm_dLL(double theta);
 	double gpcm_dLL(double theta);

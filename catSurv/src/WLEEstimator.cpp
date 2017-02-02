@@ -1,7 +1,7 @@
 #include "WLEEstimator.h"
 
 
-double WLEEstimator::binary_estimateTheta(Prior prior){
+double WLEEstimator::ltm_estimateTheta(Prior prior){
   
   integrableFunction W = [&](double theta) {
     double B = 0.0;
@@ -26,7 +26,32 @@ double WLEEstimator::binary_estimateTheta(Prior prior){
   return brentMethod(W);
 }
 
-double WLEEstimator::poly_estimateTheta(Prior prior){
+double WLEEstimator::gpcm_estimateTheta(Prior prior){
+  
+  integrableFunction W = [&](double theta) {
+    double B = 0.0;
+    double I = 0.0;
+  
+    for (auto item : questionSet.applicable_rows) {
+      I += fisherInf(theta, item);
+      
+      std::vector<double> p = probability(theta, item);
+      std::vector<double> p_prime = prob_derivs_gpcm(theta, item, true);
+      std::vector<double> p_primeprime = prob_derivs_gpcm(theta, item, false);
+      
+      for (size_t k = 0; k < p.size(); ++k) {
+        B += (p_prime.at(k) * p_primeprime.at(k)) / p.at(k);
+      }
+    }
+    double L_theta = dLL(theta, false, prior);
+    return L_theta + (B / (2 * I));
+  };
+  
+  return brentMethod(W);
+}
+
+
+double WLEEstimator::grm_estimateTheta(Prior prior){
   
   integrableFunction W = [&](double theta) {
     double B = 0.0;
@@ -85,7 +110,19 @@ double WLEEstimator::poly_estimateTheta(Prior prior){
 
 
 double WLEEstimator::estimateTheta(Prior prior) {
-  return questionSet.poly[0] ? poly_estimateTheta(prior) : binary_estimateTheta(prior);
+  double theta;
+
+  if (questionSet.model_fit == "ltm") {
+	  theta = ltm_estimateTheta(prior);
+	}
+	if (questionSet.model_fit == "grm") {
+	  theta = grm_estimateTheta(prior);
+	}
+	if (questionSet.model_fit == "gpcm"){
+		theta = gpcm_estimateTheta(prior);
+	}
+	
+	return theta;
 }
 
 

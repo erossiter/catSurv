@@ -14,13 +14,20 @@ document(current.code)
 
 
 # ## GRM
-# data("nfc")
-# grmcat <- grmCat(nfc[1:100, ])
-# grmcat@estimation <- "MAP"
-# estimateTheta(grmcat)
-# probability(grmcat, 1, 1)
-# grmcat@answers[1:5] <- as.numeric(nfc[2,1:5])
-# likelihood(grmcat, 1)
+data("nfc")
+grm_ltm <- grm(nfc[1:100, ])
+grmcat <- grmCat(nfc[1:100, ])
+#grmcat@estimation <- "MAP"
+#estimateTheta(grmcat)
+probability(grmcat, 1, 1)
+it_poly <- cbind(grmcat@discrimination, matrix(unlist(grmcat@difficulty),
+                                                ncol = 4, byrow = T))
+grmcat@answers[1:5] <- as.numeric(nfc[2,1:5])
+likelihood(grmcat, 1)
+dLL(grmcat, 1, FALSE)
+d2LL(grmcat, 1, FALSE)
+
+
 
 ## GPCM
 gpcm_ltm <- gpcm(nfc[1:100, ])
@@ -107,6 +114,17 @@ fisherInf(gpcmcat, theta = 1, item = 3)
 MEI(theta = estimateTheta(gpcmcat), item = 10, itemBank = it_poly,
     it.given = it_poly[1:9,], x = gpcmcat@answers[1:9]-1, model = "GPCM")
 expectedObsInf(gpcmcat, 10)
+
+## estimateTheta WLE -- yay same!!
+gpcmcat@estimation <- "WLE"
+it_poly <- cbind(gpcmcat@discrimination, matrix(unlist(gpcmcat@difficulty),
+                                                ncol = 4, byrow = T))
+gpcmcat@answers[1:18] <- as.numeric(nfc[3,1:18])
+gpcmcat@answers[10:18] <- NA
+estimateTheta(gpcmcat)
+thetaEst(it = it_poly, x = (gpcmcat@answers - 1), model = "GPCM", method = "WL")
+
+
 
 
 

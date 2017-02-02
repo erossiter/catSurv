@@ -319,13 +319,13 @@ double Estimator::grm_dLL(double theta) {
 		const int answer_k = questionSet.answers[question];
 
 		auto probabilities = probability(theta, (size_t) question);
-		std::vector<double> probs{0.0};
-		probs.insert(probs.end(), probabilities.begin(), probabilities.end());
-		probs.push_back(1.0);
+		//std::vector<double> probs{0.0};
+		//probs.insert(probs.end(), probabilities.begin(), probabilities.end());
+		//probs.push_back(1.0);
 
-		double P_star1 = probs[answer_k];
+		double P_star1 = probabilities[answer_k];
 		double Q_star1 = 1.0 - P_star1;
-		double P_star2 = probs[answer_k - 1];
+		double P_star2 = probabilities[answer_k - 1];
 		double Q_star2 = 1 - P_star2;
 		double P = P_star1 - P_star2;
 		double w2 = P_star2 * Q_star2;
@@ -631,8 +631,9 @@ double Estimator::fii(int item, Prior prior) {
 }
 
 double Estimator::kl(double theta_not, int item, Prior prior){
+  double sum = 0.0;
   
-  if(questionSet.poly[0]){
+  if(questionSet.model_fit == "grm"){
     auto cdf_theta_not = probability(theta_not, (size_t) item);
 	  auto cdf_theta_hat = probability(estimateTheta(prior), (size_t) item);
 	  
@@ -642,16 +643,29 @@ double Estimator::kl(double theta_not, int item, Prior prior){
 	    double prob_theta_hat = cdf_theta_hat[i] - cdf_theta_hat[i - 1];
 	    sum += prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
 	  }
-	  return sum; 
 	}
   
-  const double prob_theta_not = probability(theta_not, (size_t) item)[0];
-  const double prob_theta_hat = probability(estimateTheta(prior), (size_t) item)[0];
+  if(questionSet.model_fit == "gpcm"){
+    auto prob_theta_not = probability(theta_not, (size_t) item);
+	  auto prob_theta_hat = probability(estimateTheta(prior), (size_t) item);
+	  
+	  double sum = 0.0;
+	  for (size_t i = 0; i < prob_theta_not.size(); ++i) {
+	    sum += prob_theta_not[i] * (log(prob_theta_not[i]) - log(prob_theta_hat[i]));
+	  }
+  }
+  
+  if(questionSet.model_fit == "ltm"){
+    const double prob_theta_not = probability(theta_not, (size_t) item)[0];
+    const double prob_theta_hat = probability(estimateTheta(prior), (size_t) item)[0];
 
-  double first_term = prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
-  double second_term = (1 - prob_theta_not) * (log(1 - prob_theta_not) - log(1 - prob_theta_hat));
+    double first_term = prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
+    double second_term = (1 - prob_theta_not) * (log(1 - prob_theta_not) - log(1 - prob_theta_hat));
 
-  return first_term + second_term;
+    sum = first_term + second_term;
+  }
+  
+  return sum;
 }
 
 double Estimator::expectedKL(int item, Prior prior) {
