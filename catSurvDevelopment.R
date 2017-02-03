@@ -11,21 +11,57 @@ setwd("~/Dropbox/Spring2016/Rclass/CATsurv")
 current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
+#use_testthat(current.code)
+test(current.code)
+
+load("catSurv/tests/testthat/cat_objects.Rdata")
 
 
-# ## GRM
-data("nfc")
-grm_ltm <- grm(nfc[1:100, ])
+
+
+
+## GRM is wonky.... not sure if changing probability to be bound by 0,1
+## messed things up....
+# # ## GRM
+# data("nfc")
+# grm_ltm <- grm(nfc[1:100, ])
 grmcat <- grmCat(nfc[1:100, ])
-#grmcat@estimation <- "MAP"
-#estimateTheta(grmcat)
-probability(grmcat, 1, 1)
+grmcat@estimation <- "MAP"
+estimateTheta(grmcat)
 it_poly <- cbind(grmcat@discrimination, matrix(unlist(grmcat@difficulty),
-                                                ncol = 4, byrow = T))
-grmcat@answers[1:5] <- as.numeric(nfc[2,1:5])
+                                                  ncol = 4, byrow = T))
+Pi(th = 1, model = "GRM", it = it_poly)$Pi[1,]
+# probability(grmcat, 1, 1)$all.probabilities$probabilities
+# 
+# 
+#   conform.Pi <- function(th, it, model = NULL, D = 1, qu){
+#     Probs <- Pi(th, it, model, D)$Pi[qu,]
+#     Probs <- Probs[-length(Probs)]
+#     for(i in 2:length(Probs))
+#       Probs[i] <- Probs[i-1] + Probs[i]
+#     return(Probs)
+#   }
+#   conform.Pi(1, it_poly, "GRM", 1, 1)
+
+
+grmcat@answers[1:10] <- as.numeric(nfc[2,1:10])
 likelihood(grmcat, 1)
 dLL(grmcat, 1, FALSE)
 d2LL(grmcat, 1, FALSE)
+
+dLL_test(grmcat, 1, FALSE)
+d2LL_test(grmcat, 1, FALSE)
+sum(OIi(th = 1, it = it_poly, x=c(grmcat@answers[1:10])-1, model = "GRM", D = 1))
+# # 
+# # ## using EAP to check if likelihoods are working
+# # library(catR)
+grmcat@answers[1:18] <- as.numeric(nfc[2,1:18])
+# grmcat@estimation <- "MAP"
+# estimateTheta(grmcat)
+# thetaEst(as.matrix(it_poly), x = c(grmcat@answers)-1, model = "GRM", method = "BM")
+# factor.scores.grm(grm_ltm, resp.patterns = matrix(grmcat@answers, ncol=18, nrow=1),
+#                     method = "EB", parInt = c(-5, 5, 100))
+
 
 
 
@@ -124,9 +160,10 @@ gpcmcat@answers[10:18] <- NA
 estimateTheta(gpcmcat)
 thetaEst(it = it_poly, x = (gpcmcat@answers - 1), model = "GPCM", method = "WL")
 
-
-
-
+## estimateTheta MLE -- yay same!!
+thetaEst(it = it_poly, x = (gpcmcat@answers - 1), model = "GPCM", method = "ML")
+gpcmcat@estimation <- "MLE"
+estimateTheta(gpcmcat)
 
 # ## LTM
 # data("npi")

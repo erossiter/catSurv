@@ -264,8 +264,8 @@
 #'
 #' @docType data
 #' @keywords datasets
-#' @name AMTknowledge
-#' @usage data(AMTknowledge)
+#' @name polknow
+#' @usage data(polknow)
 #'
 #' @references Jacob M. Montgomery and Joshua Cutler. 2013. 
 #' "Computerized Adaptive Testing for Public Opinion Surveys." 
@@ -274,6 +274,6 @@
 #' @source \url{https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/19381}
 #'
 #' @examples
-#' data(AMTknowledge)
-#' head(AMTknowledge)
-"AMTknowledge"
+#' data(polknow)
+#' head(polknow)
+NULL

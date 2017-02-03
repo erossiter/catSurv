@@ -1,4 +1,0 @@
-Debug for Alex:
-- Right now the Brent method has initial search interval set at [-5,5] because it was crashing R on the test dataset when set at [-6,6].  We need it to send an error/not crash when set at [-6,6].
-
-

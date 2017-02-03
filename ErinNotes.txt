@@ -1,0 +1,14 @@
+## Dataset Documentation
+I suspect when we remade the package in the R class, the .Rd files for ‘nfc’ and ’npi’ were copies, instead of properly made through roxygen.  So, there is no proper way to edit them.  What needs to be done: the documentation for these datasets needs to be added to the R/datasets.R file, following the example of the ‘polknow’ dataset documentation already in that file.
+
+## GRM probability
+Is it alright to print the probability bounded by 0 and 1?  I did it to streamline functionality in c++ code.  I think it helps make clear that these are outpoints and NOT actually category probabilities.
+
+## GPCM dataset/convergence warning
+Do we want to add a different dataset to the package for gpcm?  Right now I use nfc to create a gpcm cat to test with.  Along those lines, the ltm package’s gpcm() function never converges, but I just have these objects already made and load them in, instead of sourcing in the code… it takes way too long to do so.
+
+## Tests
+We need to think of weird things that might happen to probability and add test for those. Right now its basic tests.
+
+## Old problems
+Right now the Brent method has initial search interval set at [-5,5] because it was crashing R on the test dataset when set at [-6,6].  We need it to send an error/not crash when set at [-6,6].

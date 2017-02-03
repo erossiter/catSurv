@@ -72,12 +72,14 @@ using namespace Rcpp;
 //'  
 //' @export
 // [[Rcpp::export]]
-List probability(S4 cat_df, NumericVector theta, IntegerVector question) {
+std::vector<double> probability(S4 cat_df, NumericVector theta, IntegerVector question) {
 	Cat cat = Cat(cat_df);
 	double t = theta[0];
 	int q = question[0];
-	DataFrame question_probs = DataFrame::create(Named("probabilities") = cat.probability(t, q));
-	return List::create(Named("all.probabilities") = question_probs);
+	if(q == 0){
+	  throw std::domain_error("Must use a question number applicable to Cat object.");
+	}
+	return cat.probability(t, q);
 }
 
 //' Likelihood of the Specified Response Set

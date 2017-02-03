@@ -7,7 +7,7 @@
 using namespace Rcpp;
 
 // probability
-List probability(S4 cat_df, NumericVector theta, IntegerVector question);
+std::vector<double> probability(S4 cat_df, NumericVector theta, IntegerVector question);
 RcppExport SEXP catSurv_probability(SEXP cat_dfSEXP, SEXP thetaSEXP, SEXP questionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

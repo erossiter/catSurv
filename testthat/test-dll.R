@@ -29,7 +29,7 @@ test_that("dLL calculates correctly", {
       for(i in 1:length(answered_questions)){
         item <- answered_questions[i]
         answer_k <- cat@answers[item]
-        probs <- probability(cat, theta, item)$all.probabilities$probabilities
+        probs <- probability(cat, theta, item)$all.probabilities$probabilities[c(2:5)]
         Pstar1 <- probs[answer_k]
         Qstar1 <- 1-Pstar1
         Pstar2 <- probs[answer_k-1]

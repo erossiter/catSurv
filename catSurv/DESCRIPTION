@@ -11,3 +11,4 @@ LinkingTo: Rcpp, RcppGSL, BH
 LazyData: true
 RoxygenNote: 5.0.1
 SystemRequirements: C++11
+Suggests: testthat

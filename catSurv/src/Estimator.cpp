@@ -135,6 +135,10 @@ std::vector<double> Estimator::prob_derivs_gpcm(double theta, size_t question, b
 }
 
 std::vector<double> Estimator::probability(double theta, size_t question) {
+  if (question > questionSet.answers.size() ) {
+    throw std::domain_error("Must use a question number applicable to Cat object.");
+  }
+  
   std::vector<double> probabilities;
 
   if (questionSet.model_fit == "ltm") {
@@ -319,9 +323,6 @@ double Estimator::grm_dLL(double theta) {
 		const int answer_k = questionSet.answers[question];
 
 		auto probabilities = probability(theta, (size_t) question);
-		//std::vector<double> probs{0.0};
-		//probs.insert(probs.end(), probabilities.begin(), probabilities.end());
-		//probs.push_back(1.0);
 
 		double P_star1 = probabilities[answer_k];
 		double Q_star1 = 1.0 - P_star1;
