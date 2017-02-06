@@ -11,8 +11,13 @@ Do we want to add a different dataset to the package for gpcm?  Right now I use 
 - We need to think of weird things that might happen to probability and add test for those. Right now its basic tests.
 - usePrior in dLL and d2LL is not being tested yet
 - dLL and d2LL are only very basic tests so far
+- this is not a problem with catSurv… calculating the standard error with the ltm package and MAP is very different (might be something wrong with their math)
 
+## Other things I’m realizing while testing
+- Make ‘prior’ function private? Has no need to be visible
+- make answers stay length it should be… you shouldn’t be able to change the length.
 
 
 ## Old problems
 Right now the Brent method has initial search interval set at [-5,5] because it was crashing R on the test dataset when set at [-6,6].  We need it to send an error/not crash when set at [-6,6].
+

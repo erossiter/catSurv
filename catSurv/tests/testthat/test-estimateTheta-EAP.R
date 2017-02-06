@@ -1,4 +1,3 @@
-library(stats)
 context("estimateTheta-EAP")
 load("cat_objects.Rdata")
 
@@ -10,7 +9,7 @@ test_that("ltm EAP estimation calculates correctly", {
   ltm_eap <- factor.scores(ltm_fit, matrix(c(ltm_cat@answers, rep(NA, 35)), nrow = 1),
                            method = "EAP")$score.dat$z1
     
-  expect_equal(round(package_eap, 5), round(catR_eap), 5)
+  expect_equal(round(package_eap, 5), round(catR_eap, 5))
   expect_equal(package_eap, ltm_eap)
 })
 
@@ -23,7 +22,7 @@ test_that("grm EAP estimation calculates correctly", {
   ltm_eap <- factor.scores(grm_fit, matrix(c(grm_cat@answers, rep(NA, 13)), nrow = 1),
                            method = "EAP")$score.dat$z1
 
-  expect_equal(round(package_eap, 3), round(catR_eap), 3)
+  expect_equal(round(package_eap, 3), round(catR_eap, 3))
   expect_equal(package_eap, ltm_eap)
 })
 
@@ -36,6 +35,6 @@ test_that("gpcm EAP estimation calculates correctly", {
   ltm_eap <- factor.scores(gpcm_fit, matrix(c(gpcm_cat@answers, rep(NA, 13)), nrow = 1),
                            method = "EAP")$score.dat$z1
     
-  expect_equal(round(package_eap, 5), round(catR_eap), 5)
-  expect_equal(round(package_eap, 5), round(ltm_eap), 5)
+  expect_equal(round(package_eap, 5), round(catR_eap, 5))
+  expect_equal(round(package_eap, 5), round(ltm_eap, 5))
 })

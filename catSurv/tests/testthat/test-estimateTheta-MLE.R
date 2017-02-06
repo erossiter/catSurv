@@ -8,7 +8,7 @@ test_that("ltm MLE estimation calculates correctly", {
   package_mle <- estimateTheta(ltm_cat)
   catR_mle <- thetaEst(it_ltm, x = ltm_cat@answers, method = "ML")
     
-  expect_equal(round(package_mle, 5), round(catR_mle), 5)
+  expect_equal(round(package_mle, 5), round(catR_mle, 5))
 })
 
 test_that("grm MLE estimation calculates correctly", {
@@ -18,7 +18,7 @@ test_that("grm MLE estimation calculates correctly", {
   catR_mle <- thetaEst(it_grm, x = c(grm_cat@answers)-1, model = "GRM",
                        method = "ML")
 
-  expect_equal(round(package_mle, 3), round(catR_mle), 3)
+  expect_equal(round(package_mle, 3), round(catR_mle, 3))
 })
 
 test_that("gpcm MLE estimation calculates correctly", {
@@ -28,7 +28,7 @@ test_that("gpcm MLE estimation calculates correctly", {
   catR_mle <- thetaEst(it_gpcm, x = c(gpcm_cat@answers)-1, model = "GPCM",
                        method = "ML")
     
-  expect_equal(round(package_mle, 4), round(catR_mle), 4)
+  expect_equal(round(package_mle, 4), round(catR_mle, 4))
 })
 
 test_that("MLE with all extreme answers defaults correctly", {
