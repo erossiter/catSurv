@@ -8,7 +8,11 @@ Is it alright to print the probability bounded by 0 and 1?  I did it to streamli
 Do we want to add a different dataset to the package for gpcm?  Right now I use nfc to create a gpcm cat to test with.  Along those lines, the ltm package’s gpcm() function never converges, but I just have these objects already made and load them in, instead of sourcing in the code… it takes way too long to do so.
 
 ## Tests
-We need to think of weird things that might happen to probability and add test for those. Right now its basic tests.
+- We need to think of weird things that might happen to probability and add test for those. Right now its basic tests.
+- usePrior in dLL and d2LL is not being tested yet
+- dLL and d2LL are only very basic tests so far
+
+
 
 ## Old problems
 Right now the Brent method has initial search interval set at [-5,5] because it was crashing R on the test dataset when set at [-6,6].  We need it to send an error/not crash when set at [-6,6].

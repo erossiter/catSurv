@@ -1,6 +1,6 @@
-context("Probability")
+library(catR)
+context("probability")
 load("cat_objects.Rdata")
-
 
 probability_test <- function(cat, theta, question){
   discrimination = cat@discrimination[question]
@@ -33,28 +33,37 @@ probability_test <- function(cat, theta, question){
   return(probabilities)
 }
 
-
 test_that("ltm probability calculates correctly", {
   package_prob <- probability(ltm_cat, 1, 1)
   test_prob <- probability_test(ltm_cat, 1, 1)
+  catR_prob <- Pi(th = 1, it = it_ltm)$Pi[1]
+    
   expect_equal(package_prob, test_prob)
+  expect_equal(package_prob, catR_prob)
 })
 
 test_that("grm probability calculates correctly", {
   package_prob <- probability(grm_cat, 1, 1)
   test_prob <- probability_test(grm_cat, 1, 1)
+  catR_prob <- Pi(th = 1, it = it_grm, model = "GRM")$Pi[1,]
+  catR_prob <- cumsum(c(0, catR_prob))
+  names(catR_prob) <- NULL
+    
   expect_equal(package_prob, test_prob)
+  expect_equal(round(package_prob, 5), round(catR_prob), 5)
 })
 
 test_that("gpcm probability calculates correctly", {
   package_prob <- probability(gpcm_cat, 1, 1)
   test_prob <- probability_test(gpcm_cat, 1, 1)
+  catR_prob <- Pi(th = 1, it = it_gpcm, model = "GPCM")$Pi[1,]
+  names(catR_prob) <- NULL
+  
   expect_equal(package_prob, test_prob)
+  expect_equal(round(package_prob, 5), round(catR_prob), 5)
 })
 
 test_that("probability throws error when indexing beyond questions", {
   expect_error(probability(ltm_cat, 1, 0))
   expect_error(probability(ltm_cat, 1, 41))
 })
-
-

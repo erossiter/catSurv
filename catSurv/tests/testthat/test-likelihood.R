@@ -1,4 +1,4 @@
-context("Likelihood")
+context("likelihood")
 load("cat_objects.Rdata")
 
 likelihood_test <- function(cat, theta){
@@ -47,6 +47,7 @@ test_that("ltm likelihood calculates correctly", {
   ltm_cat@answers[1:5] <- c(0, 1, 0, 0, 1)
   package_lk <- likelihood(ltm_cat, 1)
   test_lk <- likelihood_test(ltm_cat, 1)
+  
   expect_equal(package_lk, test_lk)
 })
 
@@ -54,6 +55,7 @@ test_that("grm likelihood calculates correctly", {
   grm_cat@answers[1:5] <- c(4, 5, 2, 4, 4)
   package_lk <- likelihood(grm_cat, 1)
   test_lk <- likelihood_test(grm_cat, 1)
+  
   expect_equal(package_lk, test_lk)
 })
 
@@ -61,6 +63,7 @@ test_that("gpcm likelihood calculates correctly", {
   gpcm_cat@answers[1:5] <- c(4, 5, 2, 4, 4) 
   package_lk <- likelihood(gpcm_cat, 1)
   test_lk <- likelihood_test(gpcm_cat, 1)
+  
   expect_equal(package_lk, test_lk)
 })
 
@@ -68,6 +71,7 @@ test_that("likelihood calculates to 1 when no questions answered", {
   ltm_cat@answers[1:5] <- rep(NA, 5)
   grm_cat@answers[1:5] <- rep(NA, 5)
   gpcm_cat@answers[1:5] <- rep(NA, 5)
+  
   expect_equal(likelihood(ltm_cat, 5), 1)
   expect_equal(likelihood(grm_cat, 5), 1)
   expect_equal(likelihood(gpcm_cat, 5), 1)

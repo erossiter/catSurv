@@ -15,5 +15,18 @@ grm_cat <- grmCat(grm_fit)
 gpcm_fit <- gpcm(nfc[1:500, ], control = list(GHk = 100))
 gpcm_cat <- gpcmCat(gpcm_fit)
 
-# save(ltm_fit, ltm_cat, grm_fit, grm_cat, gpcm_fit, gpcm_cat,
-#      file = "CATsurv/catSurv/tests/testthat/cat_objects.Rdata")
+
+## Setting up for tests against catR package
+## (different parameterization, so need params from ltm fits)
+it_ltm <- matrix(c(ltm_cat@discrimination, coef(ltm_fit)[,1],
+                   rep(0, length(ltm_cat@discrimination)),
+                   rep(1, length(ltm_cat@discrimination))),
+                   ncol = 4, byrow = F)
+it_grm <- matrix(c(grm_cat@discrimination, coef(grm_fit)[,1:4]),
+                    ncol= 5, byrow = F)
+it_gpcm <- cbind(gpcm_cat@discrimination,
+                 matrix(unlist(gpcm_cat@difficulty), ncol = 4, byrow = T))
+
+save(ltm_fit, ltm_cat, grm_fit, grm_cat, gpcm_fit, gpcm_cat,
+     it_ltm, it_grm, it_gpcm,
+     file = "CATsurv/catSurv/tests/testthat/cat_objects.Rdata")

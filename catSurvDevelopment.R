@@ -10,8 +10,7 @@ setwd("~/Dropbox/Spring2016/Rclass/CATsurv")
 ## Loading the package
 current.code <- as.package("catSurv")
 load_all(current.code)
-document(current.code)
-#use_testthat(current.code)
+#document(current.code)
 test(current.code)
 
 load("catSurv/tests/testthat/cat_objects.Rdata")
@@ -19,29 +18,6 @@ load("catSurv/tests/testthat/cat_objects.Rdata")
 
 
 
-
-## GRM is wonky.... not sure if changing probability to be bound by 0,1
-## messed things up....
-# # ## GRM
-# data("nfc")
-# grm_ltm <- grm(nfc[1:100, ])
-grmcat <- grmCat(nfc[1:100, ])
-grmcat@estimation <- "MAP"
-estimateTheta(grmcat)
-it_poly <- cbind(grmcat@discrimination, matrix(unlist(grmcat@difficulty),
-                                                  ncol = 4, byrow = T))
-Pi(th = 1, model = "GRM", it = it_poly)$Pi[1,]
-# probability(grmcat, 1, 1)$all.probabilities$probabilities
-# 
-# 
-#   conform.Pi <- function(th, it, model = NULL, D = 1, qu){
-#     Probs <- Pi(th, it, model, D)$Pi[qu,]
-#     Probs <- Probs[-length(Probs)]
-#     for(i in 2:length(Probs))
-#       Probs[i] <- Probs[i-1] + Probs[i]
-#     return(Probs)
-#   }
-#   conform.Pi(1, it_poly, "GRM", 1, 1)
 
 
 grmcat@answers[1:10] <- as.numeric(nfc[2,1:10])
