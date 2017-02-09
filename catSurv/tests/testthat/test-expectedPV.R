@@ -8,7 +8,7 @@ test_that("ltm expectedPV calculates correctly", {
   package_epv <- expectedPV(ltm_cat, item = 6)
   catR_epv <- EPV(itemBank = it_ltm, item = 6, x = ltm_cat@answers[1:5],
                   theta = estimateTheta(ltm_cat), it.given = it_ltm[1:5, ])
-    
+  
   expect_equal(round(package_epv, 5), round(catR_epv, 5))
 })
 
@@ -18,7 +18,7 @@ test_that("grm expectedPV calculates correctly", {
   package_epv <- expectedPV(grm_cat, item = 6)
   catR_epv <- EPV(itemBank = it_grm, item = 6, x = c(grm_cat@answers[1:5]) - 1,
                   model = "GRM", theta = estimateTheta(grm_cat), it.given = it_grm[1:5, ])
-
+  
   expect_equal(round(package_epv, 4), round(catR_epv, 4))
 })
 

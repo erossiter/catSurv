@@ -19,6 +19,7 @@ Do we want to add a different dataset to the package for gpcm?  Right now I use 
 - expectedKL is not working!! test against catIrt — when testing, change delta in the Estimator.cpp file
 - catIrt is a dependency for testing purposes… need to have it installed
 - fisherInf and obsInf… when is fisherInf called? Is the obsInf error inappropriate?
+- what catR returns for ltm nextItem ‘info’ (what the estimate for that item is) is wrong for EPV.  It doesn’t match the EPV function.
 
 ## Old problems
 Right now the Brent method has initial search interval set at [-5,5] because it was crashing R on the test dataset when set at [-6,6].  We need it to send an error/not crash when set at [-6,6].

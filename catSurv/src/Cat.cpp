@@ -128,11 +128,11 @@ List Cat::selectItem() {
   // Adding 1 to each row index so it prints the correct question number for user
 	std::transform(selection.questions.begin(), selection.questions.end(), selection.questions.begin(),
                 bind2nd(std::plus<int>(), 1.0));
-	DataFrame all_estimates = Rcpp::DataFrame::create(Named("question_number") = selection.questions,
-                                                   Named("question_names") = selection.question_names,
+	DataFrame all_estimates = Rcpp::DataFrame::create(Named("q_number") = selection.questions,
+                                                   Named("q_name") = selection.question_names,
 	                                                 Named(selection.name) = selection.values);
                                                      
-	return Rcpp::List::create(Named("all.estimates") = all_estimates, Named("next.item") = wrap(selection.item + 1));
+	return Rcpp::List::create(Named("estimates") = all_estimates, Named("next_item") = wrap(selection.item + 1));
 }
 
 List Cat::lookAhead(int item) {
