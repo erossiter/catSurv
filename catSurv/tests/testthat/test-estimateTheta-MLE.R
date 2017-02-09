@@ -1,3 +1,4 @@
+library(catR)
 context("estimateTheta-MLE")
 load("cat_objects.Rdata")
 

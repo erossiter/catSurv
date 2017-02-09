@@ -1,3 +1,4 @@
+library(catR)
 context("estimateSE-MAP")
 load("cat_objects.Rdata")
 

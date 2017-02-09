@@ -1,3 +1,4 @@
+library(catR)
 context("estimateTheta-MAP")
 load("cat_objects.Rdata")
 

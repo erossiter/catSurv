@@ -16,7 +16,9 @@ Do we want to add a different dataset to the package for gpcm?  Right now I use 
 ## Other things I’m realizing while testing
 - Make ‘prior’ function private? Has no need to be visible
 - make answers stay length it should be… you shouldn’t be able to change the length.
-
+- expectedKL is not working!! test against catIrt — when testing, change delta in the Estimator.cpp file
+- catIrt is a dependency for testing purposes… need to have it installed
+- fisherInf and obsInf… when is fisherInf called? Is the obsInf error inappropriate?
 
 ## Old problems
 Right now the Brent method has initial search interval set at [-5,5] because it was crashing R on the test dataset when set at [-6,6].  We need it to send an error/not crash when set at [-6,6].

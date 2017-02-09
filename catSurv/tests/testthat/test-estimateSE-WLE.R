@@ -1,3 +1,4 @@
+library(catR)
 context("estimateSE-WLE")
 load("cat_objects.Rdata")
 

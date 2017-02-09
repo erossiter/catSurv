@@ -208,6 +208,9 @@ double Cat::d2LL(double theta, bool use_prior) {
 }
 
 double Cat::obsInf(double theta, int item) {
+	if (questionSet.applicable_rows.empty()) {
+		throw std::domain_error("ObsInf should not be called if no items have been answered.");
+	}
 	return estimator->obsInf(theta, item);
 }
 

@@ -1,3 +1,4 @@
+library(catR)
 context("estimateSE-EAP")
 load("cat_objects.Rdata")
 

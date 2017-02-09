@@ -225,6 +225,7 @@ double Estimator::grm_partial_d2LL(double theta, size_t question) {
 
 	double P_star1 = probabilities.at(answer_k);
 	double P_star2 = probabilities.at(answer_k - 1);
+
 	double P = P_star1 - P_star2;
 
 	double Q_star1 = 1 - P_star1;
@@ -236,7 +237,6 @@ double Estimator::grm_partial_d2LL(double theta, size_t question) {
 
 	double first_term = (-w2 * (Q_star2 - P_star2) + w1 * (Q_star1 - P_star1)) / P;
 	double second_term = pow(w, 2) / pow(P, 2);
-
 	return first_term - second_term;
 }
 
@@ -443,11 +443,6 @@ double Estimator::expectedPV(int item, Prior &prior) {
 }
 
 double Estimator::obsInf(double theta, int item) {
-  
-	if (questionSet.applicable_rows.empty()) {
-		throw std::domain_error("ObsInf should not be called if no items have been answered.");
-	}
-
 	double discrimination = questionSet.discrimination.at(item);
 
 	if (questionSet.poly[0]) {
@@ -638,7 +633,6 @@ double Estimator::kl(double theta_not, int item, Prior prior){
     auto cdf_theta_not = probability(theta_not, (size_t) item);
 	  auto cdf_theta_hat = probability(estimateTheta(prior), (size_t) item);
 	  
-	  double sum = 0.0;
 	  for (size_t i = 1; i < cdf_theta_hat.size(); ++i) {
 	    double prob_theta_not = cdf_theta_not[i] - cdf_theta_not[i - 1];
 	    double prob_theta_hat = cdf_theta_hat[i] - cdf_theta_hat[i - 1];
@@ -650,7 +644,6 @@ double Estimator::kl(double theta_not, int item, Prior prior){
     auto prob_theta_not = probability(theta_not, (size_t) item);
 	  auto prob_theta_hat = probability(estimateTheta(prior), (size_t) item);
 	  
-	  double sum = 0.0;
 	  for (size_t i = 0; i < prob_theta_not.size(); ++i) {
 	    sum += prob_theta_not[i] * (log(prob_theta_not[i]) - log(prob_theta_hat[i]));
 	  }

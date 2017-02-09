@@ -1,3 +1,4 @@
+library(catR)
 context("expectedPV")
 load("cat_objects.Rdata")
 
