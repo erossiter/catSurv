@@ -29,3 +29,6 @@ test_that("gpcm expectedKL calculates correctly", {
   # 
   # expect_equal(round(package_epv, 4), round(catR_epv, 4))
 })
+
+detach("package:catIrt", unload = TRUE)
+

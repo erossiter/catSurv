@@ -4,11 +4,18 @@ Version: 0.0.0.9000
 Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 Depends:
-    R (>= 3.2.4), ltm(>= 1.0-0)
+	R(>= 3.3.2)
 License: What license is it under?
-Imports: Rcpp (>= 0.12.4), RcppGSL(>= 0.3.0), BH(>= 1.60.0-1), ltm(>= 1.0-0)
-LinkingTo: Rcpp, RcppGSL, BH
+Imports:
+	ltm(>= 1.0.0)
+LinkingTo:
+	BH(>= 1.60.0.2),
+	Rcpp(>= 0.12.7),
+	RcppGSL(>= 0.3.1) 
 LazyData: true
 RoxygenNote: 5.0.1
 SystemRequirements: C++11
-Suggests: testthat
+Suggests:
+	catIrt(>= 0.5.0),
+	catR(>= 3.10),
+	testthat(>= 1.0.2)
