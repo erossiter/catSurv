@@ -4,17 +4,18 @@ library(devtools)
 library(roxygen2)
 setwd("~/Dropbox/Spring2016/Rclass/CATsurv")
 
-## Loading the package
+## loading the package
 current.code <- as.package("catSurv")
 load_all(current.code)
-document(current.code)
-test(current.code)
+#document(current.code)
+#test(current.code)
 
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")
 
-## checking what version of packages I have installed
-## to update DESCRIPTION when needed
+## checking what version of packages I have installed to update
+## DESCRIPTION when needed (comments are what's currently 
+## in description file)
 library(utils)
 version #3.3.2
 packageVersion("Rcpp") #‘0.12.7’

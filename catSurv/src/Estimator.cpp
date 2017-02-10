@@ -2,6 +2,7 @@
 #include "GSLFunctionWrapper.h"
 #include <limits>
 #include <numeric>
+#include <algorithm>
 #include <gsl/gsl_roots.h>
 #include <gsl/gsl_errno.h>
 
@@ -57,9 +58,18 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
 	for (auto term : questionSet.difficulty.at(question)) {
 		probabilities.push_back(calculate(term));
 	}
+	// padding probabilities with 0,1
 	std::vector<double> padded{0.0};
 	padded.insert(padded.end(), probabilities.begin(), probabilities.end());
 	padded.push_back(1.0);
+	
+	// checking for repeated elements
+	std::vector<double>::iterator it;
+  it = std::adjacent_find(padded.begin(), padded.end());
+  if(it != padded.end()){
+    throw std::domain_error("Theta value too extreme for numerical routines.");
+  }
+
 	return padded;
 }
 
@@ -476,6 +486,16 @@ double Estimator::fisherInf(double theta, int item) {
 		  double w1 = P_star1 * (1.0 - P_star1);
 		  double w2 = P_star2 * (1.0 - P_star2);
 		  output += discrimination_squared * (pow(w1 - w2, 2) / (P_star1 - P_star2));
+		  // double xx = discrimination_squared * (pow(w1 - w2, 2) / (P_star1 - P_star2));
+		  // 
+		  // std::cout << xx << std::endl;
+		  // std::cout << P_star1 << std::endl;
+		  // std::cout << P_star2 << std::endl;
+		  // std::cout << w1 << std::endl;
+		  // std::cout << w2 << std::endl;
+		  // std::cout << " " << std::endl;
+		  // 
+		  // output += xx;
 		}
 	}
 	

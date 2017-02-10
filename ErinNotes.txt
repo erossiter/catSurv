@@ -12,6 +12,8 @@ Do we want to add a different dataset to the package for gpcm?  Right now I use 
 - usePrior in dLL and d2LL is not being tested yet
 - dLL and d2LL are only very basic tests so far
 - this is not a problem with catSurv… calculating the standard error with the ltm package and MAP is very different (might be something wrong with their math)
+- add tests to estimateTheta methods for when no questions have been answered.
+- I should go back and add a test of each function with extreme theta values — either it works or throws error — make sure it does not crash R
 
 ## Other things I’m realizing while testing
 - Make ‘prior’ function private? Has no need to be visible
