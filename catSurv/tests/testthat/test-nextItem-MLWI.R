@@ -29,11 +29,6 @@ test_that("grm nextItem MLWI calculates correctly", {
   grm_cat@selection <- "MLWI"
   grm_cat@answers[1:18] <- c(4, 5, 2, 4, 4, 1, 2, 2, 1, 3,
                              2, 4, 4, 1, 2, 2, NA, NA)
-  ## START HERE:
-  ## go into grmCat and gpcmCat and change default
-  ## ranges to -5, 5
-  ## think about if the same rounding problems will occur
-  ## for GPCM, and add error to probability
 
   package_next <- selectItem(grm_cat)
   package_item <- package_next$next_item

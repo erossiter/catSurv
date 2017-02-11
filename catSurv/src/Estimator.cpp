@@ -74,8 +74,10 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
 }
 
 std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
-  double discrimination = questionSet.discrimination.at(question);
+  double eps = pow(2, -52);
+  eps = pow(eps, 1.0/3.0);
   
+  double discrimination = questionSet.discrimination.at(question);
   std::vector<double> categoryparams = questionSet.difficulty.at(question);
   std::vector<double>::iterator it;
   it = categoryparams.begin();
@@ -85,16 +87,26 @@ std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
   double sum = 0.0;
 	for (size_t i = 0; i < categoryparams.size(); ++i) {
 	  sum += discrimination * (theta - categoryparams[i]);
-		numerators.push_back(exp(sum));
+	  double num = exp(sum);
+	  if(std::isinf(num)){
+	    num = 1.0 - eps;
+		}
+		if(num > (1.0 - eps)){
+		  num = 1.0 - eps;
+		}
+		if(num < eps){
+		  num = eps;
+		}
+		numerators.push_back(num);
 	}
 
 	double denominator = std::accumulate(numerators.begin(), numerators.end(), 0.0);
-	
+
 	std::vector<double> probabilities;
   for (size_t i = 0; i < numerators.size(); ++i) {
     probabilities.push_back(numerators[i]/denominator);
 	}
-
+  
 	return probabilities;
 }
 
