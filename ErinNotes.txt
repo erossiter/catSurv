@@ -16,10 +16,7 @@ Do we want to add a different dataset to the package for gpcm?  Right now I use 
 - I should go back and add a test of each function with extreme theta values — either it works or throws error — make sure it does not crash R
 
 ## Other things I’m realizing while testing
-- Make ‘prior’ function private? Has no need to be visible
 - make answers stay length it should be… you shouldn’t be able to change the length.
-- expectedKL is not working!! test against catIrt — when testing, change delta in the Estimator.cpp file
-- catIrt is a dependency for testing purposes… need to have it installed
 - fisherInf and obsInf… when is fisherInf called? Is the obsInf error inappropriate?
 - what catR returns for ltm nextItem ‘info’ (what the estimate for that item is) is wrong for EPV.  It doesn’t match the EPV function.
 - add tests to make sure probabilities for GPCM cats sum to 1 after I add in checks for crazy numerators and denominator

@@ -1,0 +1,26 @@
+## all listed in src/main.cpp
+
+probability()
+likelihood()
+prior()
+dLL()
+d2LL()
+estimateTheta()
+obsInf()
+expectedObsInf()
+fisherInf()
+fisherTestInfo()
+estimateSE()
+expectedPV()
+selectItem()
+expectedKL()
+likelihoodKL()
+posteriorKL()
+lookAhead()
+checkStopRules()
+
+## datasets — I suspect when we remade the package in the R class, the .Rd files for ‘nfc’ and ’npi’ were copies, instead of properly made through roxygen.  So there is no proper way to edit them.  What needs to be done: the documentation for these datasets needs to be added to the R/datasets.R file, following the example of the ‘polknow’ dataset documentation already in that file.
+
+nfc
+npi
+polknow

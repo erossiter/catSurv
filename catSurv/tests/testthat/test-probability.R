@@ -66,4 +66,18 @@ test_that("gpcm probability calculates correctly", {
 test_that("probability throws error when indexing beyond questions", {
   expect_error(probability(ltm_cat, 1, 0))
   expect_error(probability(ltm_cat, 1, 41))
+  
+  expect_error(probability(grm_cat, 1, 0))
+  expect_error(probability(grm_cat, 1, 41))
+  
+  expect_error(probability(gpcm_cat, 1, 0))
+  expect_error(probability(gpcm_cat, 1, 41))
+})
+
+test_that("probability (for polytomous models) throws error with extreme theta values", {
+  expect_error(probability(grm_cat, -100, 1))
+  expect_error(probability(grm_cat, 100, 1))
+  
+  expect_error(probability(gpcm_cat, -500, 1))
+  expect_error(probability(gpcm_cat, 100, 1))
 })
