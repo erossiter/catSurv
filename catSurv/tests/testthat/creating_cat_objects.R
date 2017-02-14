@@ -30,4 +30,4 @@ it_gpcm <- cbind(gpcm_cat@discrimination,
 
 save(ltm_fit, ltm_cat, grm_fit, grm_cat, gpcm_fit, gpcm_cat,
      it_ltm, it_grm, it_gpcm,
-     file = "CATsurv/catSurv/tests/testthat/cat_objects.Rdata")
+     file = "catSurv/tests/testthat/cat_objects.Rdata")

@@ -34,7 +34,6 @@ std::vector<double> Estimator::prob_ltm(double theta, size_t question) {
 }
 
 std::vector<double> Estimator::prob_grm(double theta, size_t question) {
-
   double eps = pow(2, -52);
   eps = pow(eps, 1.0/3.0);
   
@@ -74,8 +73,9 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
 }
 
 std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
-  double eps = pow(2, -52);
-  eps = pow(eps, 1.0/3.0);
+  // double xmax = pow(2, 52);
+  // double eps = pow(2, -52);
+  // eps = pow(eps, 1.0/3.0);
   
   double discrimination = questionSet.discrimination.at(question);
   std::vector<double> categoryparams = questionSet.difficulty.at(question);
@@ -88,19 +88,14 @@ std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
 	for (size_t i = 0; i < categoryparams.size(); ++i) {
 	  sum += discrimination * (theta - categoryparams[i]);
 	  double num = exp(sum);
-	  if(std::isinf(num)){
-	    num = 1.0 - eps;
-		}
-		if(num > (1.0 - eps)){
-		  num = 1.0 - eps;
-		}
-		if(num < eps){
-		  num = eps;
-		}
 		numerators.push_back(num);
 	}
 
 	double denominator = std::accumulate(numerators.begin(), numerators.end(), 0.0);
+	
+	if(denominator == 0.0 or std::isinf(denominator)){
+    throw std::domain_error("Theta value too extreme for numerical routines.");
+  }
 
 	std::vector<double> probabilities;
   for (size_t i = 0; i < numerators.size(); ++i) {

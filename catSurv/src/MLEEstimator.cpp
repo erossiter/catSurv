@@ -1,6 +1,5 @@
 #include "MLEEstimator.h"
 
-
 double MLEEstimator::dLL_root(){
 
   integrableFunction dLL_fctn = [&](double theta) {
@@ -40,7 +39,17 @@ double MLEEstimator::estimateTheta(Prior prior) {
 	while (difference > tolerance && iter < max_iter) {
 	  iter++;
 		theta_hat_new = theta_hat_old - dLL(theta_hat_old, false, prior) / d2LL(theta_hat_old, false, prior);
+
 		difference = std::abs(theta_hat_new - theta_hat_old);
+		
+		// handling if probability (therefore dLL) throws and error
+		try {
+		  dLL(theta_hat_new, false, prior);
+		} catch (std::domain_error) {
+		  theta_hat_new = dLL_root();
+		  break;
+		}
+
 		theta_hat_old = theta_hat_new;
 		if(isnan(theta_hat_old)){
 		  theta_hat_new = dLL_root();
