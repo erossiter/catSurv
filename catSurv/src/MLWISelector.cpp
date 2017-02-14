@@ -20,8 +20,6 @@ Selection MLWISelector::selectItem() {
 	  selection.question_names.push_back(questionSet.question_names[question]);
 	  selection.values.push_back(estimator.lwi(question));
 
-		//double current_lwi = 0;
-
 		if (selection.values[i] > max_lwi) {
 			max_item = question;
 			max_lwi = selection.values[i];

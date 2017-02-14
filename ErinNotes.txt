@@ -23,6 +23,7 @@ Do we want to add a different dataset to the package for gpcm?  Right now I use 
 - fisherInf and obsInf… when is fisherInf called? Is the obsInf error inappropriate?
 - what catR returns for ltm nextItem ‘info’ (what the estimate for that item is) is wrong for EPV.  It doesn’t match the EPV function.
 - add tests to make sure probabilities for GPCM cats sum to 1 after I add in checks for crazy numerators and denominator
+- we need to check what happens when there’s a tie for max or min estimate for nextItem routines.
 
 
 ## Old problems

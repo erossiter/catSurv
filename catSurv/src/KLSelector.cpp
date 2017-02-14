@@ -6,6 +6,10 @@ SelectionType KLSelector::getSelectionType() {
 }
 
 Selection KLSelector::selectItem() {
+	if (questionSet.applicable_rows.empty()) {
+		throw std::domain_error("KL method of selectItem() not applicable when no questions asked");
+	}
+  
 	Selection selection;
 	selection.name = "KL";
 	selection.questions = questionSet.nonapplicable_rows;
