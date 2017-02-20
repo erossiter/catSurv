@@ -14,7 +14,6 @@ test_that("ltm nextItem PKL calculates correctly", {
                                         == package_item, "PKL"]
   expect_equal(package_item, 32)
   expect_equal(round(package_est, 6), .000299)
-
 })
 
 test_that("grm nextItem PKL calculates correctly", {
@@ -27,7 +26,7 @@ test_that("grm nextItem PKL calculates correctly", {
   package_est <- package_next$estimates[package_next$estimates$q_number
                                         == package_item, "PKL"]
 
-  expect_equal(package_item, 14)
+  expect_equal(package_item, 10)
   expect_equal(round(package_est, 8), 1e-08)
 })
 
@@ -67,5 +66,25 @@ test_that("nextItem PKL is actually the maximum estimate", {
                                         max(gpcm_next$estimates[, "PKL"])))
 })
 
+test_that("nextItem PKL correctly skips questions", {
+  ltm_cat@selection <- "PKL"
+  grm_cat@selection <- "PKL"
+  gpcm_cat@selection <- "PKL"
+  
+  ltm_cat@answers[1:10] <- c(rep(-1, 5), 1, 1, 0, 0, 1)
+  grm_cat@answers[1:5] <- c(-1, -1, 5, 4, 3)
+  gpcm_cat@answers[1:5] <- c(-1, -1, 5, 4, 3)
+  
+  ltm_next <- selectItem(ltm_cat)
+  grm_next <- selectItem(grm_cat)
+  gpcm_next <- selectItem(gpcm_cat)
+  
+  expect_equal(nrow(ltm_next$estimates) + sum(!is.na(ltm_cat@answers)),
+               length(ltm_cat@answers))
+  expect_equal(nrow(grm_next$estimates) + sum(!is.na(grm_cat@answers)),
+               length(grm_cat@answers))
+  expect_equal(nrow(gpcm_next$estimates) + sum(!is.na(gpcm_cat@answers)),
+               length(gpcm_cat@answers))
+})
 
 detach("package:catIrt", unload = TRUE)

@@ -40,3 +40,20 @@ test_that("gpcm EAP estimation calculates correctly", {
   expect_equal(round(package_eap, 5), round(catR_eap, 5))
   expect_equal(round(package_eap, 5), round(ltm_eap, 5))
 })
+
+test_that("estimatTheta with EAP works when questions skipped", {
+  ltm_cat@answers[1:10] <- c(rep(-1, 5), 1, 1, 0, 0, 1)
+  grm_cat@answers[1:5] <- c(-1, -1, 5, 4, 3)
+  gpcm_cat@answers[1:5] <- c(-1, -1, 5, 4, 3)
+  
+  catR_ltm <- thetaEst(it_ltm, method = "EAP",
+                       x = c(NA, NA, NA, NA, NA, 1, 1, 0, 0, 1))
+  catR_grm <- thetaEst(it_grm, model = "GRM", method = "EAP",
+                       x = c(NA, NA, 5, 4, 3)-1)
+  catR_gpcm <- thetaEst(it_gpcm, model = "GPCM", method = "EAP",
+                       x = c(NA, NA, 5, 4, 3)-1)
+  
+  expect_equal(round(estimateTheta(ltm_cat), 6), round(catR_ltm, 6))
+  expect_equal(round(estimateTheta(grm_cat), 3), round(catR_grm, 3))
+  expect_equal(round(estimateTheta(gpcm_cat), 5), round(catR_gpcm, 5))
+})

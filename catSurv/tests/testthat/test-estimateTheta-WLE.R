@@ -47,3 +47,24 @@ test_that("WLE with all extreme answers defaults correctly", {
   expect_equal(package_wle_grm, package_map_grm)
   expect_equal(package_wle_gpcm, package_map_gpcm)
 })
+
+test_that("estimatTheta with WLE works when questions skipped", {
+  ltm_cat@estimation <- "WLE"
+  grm_cat@estimation <- "WLE"
+  gpcm_cat@estimation <- "WLE"
+
+  ltm_cat@answers[1:10] <- c(rep(-1, 5), 1, 1, 0, 0, 1)
+  grm_cat@answers[1:5] <- c(-1, -1, 5, 4, 3)
+  gpcm_cat@answers[1:5] <- c(-1, -1, 5, 4, 3)
+  
+  catR_ltm <- thetaEst(it_ltm, method = "WL",
+                       x = c(NA, NA, NA, NA, NA, 1, 1, 0, 0, 1))
+  catR_grm <- thetaEst(it_grm, model = "GRM", method = "WL",
+                       x = c(NA, NA, 5, 4, 3)-1)
+  catR_gpcm <- thetaEst(it_gpcm, model = "GPCM", method = "WL",
+                       x = c(NA, NA, 5, 4, 3)-1)
+  
+  expect_equal(round(estimateTheta(ltm_cat), 4), round(catR_ltm, 4))
+  expect_equal(round(estimateTheta(grm_cat), 2), round(catR_grm, 2))
+  expect_equal(round(estimateTheta(gpcm_cat), 4), round(catR_gpcm, 4))
+})

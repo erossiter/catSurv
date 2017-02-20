@@ -1,81 +1,89 @@
-# context("checkStopRules")
-# load("cat_catects.Rdata")
-# 
-# checkStopRules_test <- function(cat){
-#   stop <- FALSE
-#     
-#   n_answered <- sum(!is.na(cat@answers))
-#   unanswered <- which(is.na(cat@answers))
-#   se_est <- estimateSE(cat)
-#   theta_est <- estimateTheta(cat)
-#   fish_inf <- sapply(unanswered, function(x) fisherInf(cat, theta_est, x))
-#   gain_all <- sapply(unanswered, function(i) abs(seHat - (expectedPV(cat, x))^.5))
-# 
-#   ## lengthThreshold
-#   if(!is.na(cat@lengthThreshold)){
-#     if(numAnswered >= cat@lengthThreshold) stop <- TRUE
-#   }
-#     
-#   ## seThreshold
-#   if(!is.na(cat@seThreshold)){
-#     if(se_est < cat@seThreshold) stop <- TRUE
-#   }
-# 
-#   ## infoThreshold
-#   if(!is.na(cat@infoThreshold)){
-#     if(all(fishAll < cat@infoThreshold)) stop <- TRUE
-#   }
-# 
-#   ## gainThreshold
-#   if(!is.na(cat@gainThreshold)){
-#     if(all(gainAll < cat@gainThreshold)) stop <- TRUE
-#   }
-#     
-#   ## lengthOverride
-#   if(!is.na(cat@lengthOverride)){
-#     if(numAnswered<cat@lengthOverride) stop <- FALSE
-#   }
-#     
-#   ## gainOverride
-#   if(!is.na(cat@gainOverride)){
-#     if(isTRUE(all(gainAll>cat@gainThreshold))) stop <- FALSE
-#   }
-#   
-#   return (stop)
-# }
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# test_that("checkStopRules functions correctly", {
-#   
-#   
-#   ### MAKE SOME RANDOM CATS
-#   biCats = catBiCreator(20, seed = 456)
-#   polyCats = catPolyCreator(20, seed = 789)
-#   allCats = c(biCats, polyCats)
-#  
-#   ## assign threshold/override values
-# 
-#   for (i in 1:length(allCats)){
-#     allCats[[i]]@lengthThreshold <- sample(c(round(100*runif(1)),NA,NA),size = 1)
-#     allCats[[i]]@seThreshold <- sample(c(2*runif(1),NA,NA),size = 1)
-#     allCats[[i]]@infoThreshold <- sample(c(2*runif(1),NA,NA),size = 1)
-#     allCats[[i]]@gainThreshold <- sample(c(2*runif(1),NA,NA),size = 1)
-#     allCats[[i]]@lengthOverride <- sample(c(round(10*runif(1)),NA,NA),size = 1)
-#     allCats[[i]]@gainOverride <- sample(c(2*runif(1)+1,NA,NA),size = 1)
-#   }
-#   
-#   
-#   ### COMPARE THE TEST FUNCTION TO THE REAL FUNCTION
-#   realFunValues<-sapply(1:length(allCats), function(i){ return (checkStopRules(allCats[[i]]))})
-#   testFunValues<-sapply(1:length(allCats), function(i){ return (checkRules_test_fun(allCats[[i]]))})
-#   expect_equal(realFunValues, testFunValues)
-#   
-# })
+context("checkStopRules")
+load("cat_objects.Rdata")
+
+checkStopRules_test <- function(cat){
+  stop <- FALSE
+
+  n_answered <- sum(!is.na(cat@answers))
+  unanswered <- which(is.na(cat@answers))
+  se_est <- estimateSE(cat)
+  theta_est <- estimateTheta(cat)
+  fish_inf <- sapply(unanswered, function(x) fisherInf(cat, theta_est, x))
+  gain <- sapply(unanswered, function(x) abs(se_est - sqrt(expectedPV(cat, x))))
+
+  ## lengthThreshold
+  if(!is.na(cat@lengthThreshold)){
+    if(n_answered >= cat@lengthThreshold) stop <- TRUE
+  }
+
+  ## seThreshold
+  if(!is.na(cat@seThreshold)){
+    if(se_est < cat@seThreshold) stop <- TRUE
+  }
+
+  ## infoThreshold
+  if(!is.na(cat@infoThreshold)){
+    if(all(fish_inf < cat@infoThreshold)) stop <- TRUE
+  }
+
+  ## gainThreshold
+  if(!is.na(cat@gainThreshold)){
+    if(all(gain < cat@gainThreshold)) stop <- TRUE
+  }
+
+  ## lengthOverride
+  if(!is.na(cat@lengthOverride)){
+    if(n_answered < cat@lengthOverride) stop <- FALSE
+  }
+
+  ## gainOverride
+  if(!is.na(cat@gainOverride)){
+    if(all(gain >= cat@gainOverride)) stop <- FALSE
+  }
+
+  return (stop)
+}
+
+
+
+test_that("lengthThreshold works", {
+  ltm_cat@lengthThreshold <- 5
+  expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
+  
+  ltm_cat@answers[1:5] <- c(0, 1, 1, 0, 1)
+  expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
+})
+
+test_that("seThreshold works", {
+  ltm_cat@seThreshold <- .5
+  expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
+  
+  ltm_cat@answers[1:10] <- c(0, 1, 1, 0, 1, 1, 1, 1, 0, 0)
+  expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
+  expect_lt(estimateSE(ltm_cat), ltm_cat@seThreshold)
+})
+
+test_that("gainThreshold works", {
+  ltm_cat@gainThreshold <- .1
+  expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
+  
+  ltm_cat@answers[1:10] <- c(0, 1, 1, 0, 1, 1, 1, 1, 0, 0)
+  expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
+})
+
+test_that("lengthOverride works", {
+  ltm_cat@lengthThreshold <- 5
+  ltm_cat@lengthOverride <- 10
+  ltm_cat@answers[1:7] <- c(0, 1, 1, 0, 1, 1, 0)
+  
+  expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
+})
+
+test_that("gainOverride works", {
+  ltm_cat@answers[1:10] <- c(0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+  ltm_cat@lengthThreshold <- 5 ## can stop if answered 5 questions
+  ltm_cat@gainOverride <- .001 ## but cannot stop unless all gains are less than .001
+  
+  expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
+})
+

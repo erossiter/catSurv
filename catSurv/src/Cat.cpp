@@ -185,6 +185,10 @@ void Cat::showCppCat() {
   for (auto i: questionSet.applicable_rows){
     std::cout << i << ' ';
   }
+  std::cout << "\nskipped: " << ' ';
+  for (auto i: questionSet.skipped){
+    std::cout << i << ' ';
+  }
   std::cout << "\nanswers: " << ' ';
   for (auto i: questionSet.answers){
     std::cout << i << ' ';

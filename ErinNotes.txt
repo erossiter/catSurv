@@ -1,18 +1,53 @@
 ## Dataset Documentation
 I suspect when we remade the package in the R class, the .Rd files for ‘nfc’ and ’npi’ were copies, instead of properly made through roxygen.  So, there is no proper way to edit them.  What needs to be done: the documentation for these datasets needs to be added to the R/datasets.R file, following the example of the ‘polknow’ dataset documentation already in that file.
 
-## GRM probability
-Is it alright to print the probability bounded by 0 and 1?  I did it to streamline functionality in c++ code.  I think it helps make clear that these are outpoints and NOT actually category probabilities.
+
+
+## is there an MFII selection method??
+
 
 ## GPCM dataset/convergence warning
 Do we want to add a different dataset to the package for gpcm?  Right now I use nfc to create a gpcm cat to test with.  Along those lines, the ltm package’s gpcm() function never converges, but I just have these objects already made and load them in, instead of sourcing in the code… it takes way too long to do so.
 
+—> eRm package
+
+
+## tpmcat
+Do I need to be testing it as well?  Same as binary but with guessing?
+
+
+## skipping
+I added in tests for that at the estimateTheta and nextItem levels
+
+
+## get & set methods
+Are they needed? - yes
+
+
+## poly vs. modelFit slot — model
+Can i get rid of poly?  I needed something for gpcm, so I don’t use it anymore
+
+
+
+
+## have all validity and errors about what you can do to CAT object in the cat-class file
+
+
+
+## we need to check what happens when there’s a tie for max or min estimate for nextItem routines.
+— it’s just the first one
+- it does this because it compares the following to see if its > or < than current min or max value
+
+
+
+
+
+
+
+
+
 ## Tests
-- We need to think of weird things that might happen to probability and add test for those. Right now its basic tests.
-- usePrior in dLL and d2LL is not being tested yet
-- dLL and d2LL are only very basic tests so far
 - this is not a problem with catSurv… calculating the standard error with the ltm package and MAP is very different (might be something wrong with their math)
-- add tests to estimateTheta methods for when no questions have been answered.
 - I should go back and add a test of each function with extreme theta values — either it works or throws error — make sure it does not crash R
 
 ## Other things I’m realizing while testing
@@ -20,9 +55,9 @@ Do we want to add a different dataset to the package for gpcm?  Right now I use 
 - fisherInf and obsInf… when is fisherInf called? Is the obsInf error inappropriate?
 - what catR returns for ltm nextItem ‘info’ (what the estimate for that item is) is wrong for EPV.  It doesn’t match the EPV function.
 - add tests to make sure probabilities for GPCM cats sum to 1 after I add in checks for crazy numerators and denominator
-- we need to check what happens when there’s a tie for max or min estimate for nextItem routines.
+
 
 
 ## Old problems
-Right now the Brent method has initial search interval set at [-5,5] because it was crashing R on the test dataset when set at [-6,6].  We need it to send an error/not crash when set at [-6,6].
+Right now the Brent method has initial search interval set at [-5,5] because it was crashing R on the test dataset when set at [-6,6].  We need it to send an error/not crash when set at [-6,6]. — I think I solved this with the “extreme theta value” error in probability
 

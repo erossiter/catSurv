@@ -20,7 +20,7 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 			applicable_rows.push_back((int) i);
 		} else {
 		  skipped.push_back((int) i);
-		}
+		} 
 	}
 	
 	for (auto item : (Rcpp::List) cat_df.slot("difficulty")) {

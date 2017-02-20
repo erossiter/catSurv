@@ -22,7 +22,7 @@ Selection EPVSelector::selectItem() {
 		selection.question_names.push_back(questionSet.question_names[row]);
 
 		if (epv < min_epv) {
-			min_item =  row;
+			min_item = row;
 			min_epv = epv;
 		}
 	}
