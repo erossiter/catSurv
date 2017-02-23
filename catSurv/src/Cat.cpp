@@ -136,27 +136,35 @@ List Cat::selectItem() {
 }
 
 List Cat::lookAhead(int item) {
+  if(std::find(questionSet.applicable_rows.begin(), questionSet.applicable_rows.end(),
+               item) != questionSet.applicable_rows.end()){
+    throw std::domain_error("lookAhead should not be called for an answered item.");
+  }
+  
+  // take item out of unanswered questions
   questionSet.nonapplicable_rows.erase(std::remove(questionSet.nonapplicable_rows.begin(),
                                                    questionSet.nonapplicable_rows.end(),
                                                    item), questionSet.nonapplicable_rows.end());
+  // say item has been answered
   questionSet.applicable_rows.push_back(item);
 
   std::vector<int> items;
   std::vector<int> response_options;
   for (size_t i = 1; i <= questionSet.difficulty[item].size()+1; ++i) {
-      questionSet.poly[0] ? questionSet.answers[item] = i : questionSet.answers[item] = i - 1;
-      Selection selection = selector->selectItem();
-      items.push_back(selection.item + 1);
-      response_options.push_back(questionSet.answers[item]);
+    // if binary response options, iterate from 0, otherwise iterate from 1
+    questionSet.model == "ltm" ? questionSet.answers[item] = i - 1 : questionSet.answers[item] = i; 
+    Selection selection = selector->selectItem();
+    items.push_back(selection.item + 1);
+    response_options.push_back(questionSet.answers[item]);
 	}
   
   questionSet.nonapplicable_rows.push_back(item); // add item back to unanswered q's
 	questionSet.applicable_rows.pop_back(); // remove item from answered q's
 	questionSet.answers[item] = NA_INTEGER; // remove answer
 	  
-	DataFrame all_estimates = Rcpp::DataFrame::create(Named("response.option") = response_options,
-                                                   Named("next.item") = items);
-	return Rcpp::List::create(Named("all.estimates") = all_estimates);
+	DataFrame all_estimates = Rcpp::DataFrame::create(Named("response_option") = response_options,
+                                                   Named("next_item") = items);
+	return Rcpp::List::create(Named("estimates") = all_estimates);
 }
 
 
@@ -198,9 +206,6 @@ void Cat::showCppCat() {
   for (auto i: prior.parameters){
     std::cout << i << ' ';
   }
-  std::cout<<std::boolalpha;
-  std::cout << "\nall_extreme: " << questionSet.all_extreme << std::endl;
-  std::cout << "poly: " << questionSet.poly[0] << std::endl;
 }
 
 double Cat::dLL(double theta, bool use_prior) {

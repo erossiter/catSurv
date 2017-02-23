@@ -7,12 +7,12 @@ probability_test <- function(cat, theta, question){
   difficulty = cat@difficulty[[question]]
   guessing = cat@guessing[question]
     
-  if(cat@modelFit == "ltm") {
+  if(cat@model == "ltm") {
     exp_prob = exp(difficulty + (theta * discrimination))
     probabilities <- guessing + (1-guessing) * (exp_prob / (1 + exp_prob))
   }
   
-  if(cat@modelFit == "grm"){
+  if(cat@model == "grm"){
     probabilities <- rep(NA, length(difficulty))
     for(k in 1:length(difficulty)){
       exp_prob = exp(difficulty[k] - (theta * discrimination))
@@ -21,7 +21,7 @@ probability_test <- function(cat, theta, question){
     probabilities <- c(0, probabilities, 1)
   }
   
-  if(cat@modelFit == "gpcm"){
+  if(cat@model == "gpcm"){
     categoryparams = c(0, difficulty)
     numerator <- rep(NA,length(categoryparams))
     for(k in 1:length(categoryparams)){  

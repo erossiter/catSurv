@@ -62,11 +62,11 @@ tpmCat.data.frame<-function(data, quadraturePoints=15,...){
   object@difficulty <- difficulty
   object@guessing<- guessing
   
-  ## by default (for tpmCat), the Cat is binary 
-  object@poly <- FALSE
   
   ## fill the answers slot with NAs
   object@answers <- rep(NA,length(discrimination))
+  
+  object@model <- "tpm"
   
   ## Cat is complete! Send it back
   return(object)
@@ -105,11 +105,11 @@ tpmCat.tpm<-function(data, quadraturePoints = 15){
   object@difficulty <- difficulty
   object@guessing<- guessing
   
-  ## by default (for tpmCat), the Cat is binary 
-  object@poly <- FALSE
   
   ## fill the answers slot with NAs
   object@answers <- rep(NA,length(discrimination))
+  
+  object@model <- "tpm"
   
   ## Cat is complete! Send it back
   return(object)

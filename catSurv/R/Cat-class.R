@@ -45,51 +45,42 @@ setClassUnion("numericORlist", c("numeric","list"))
 #' @rdname Cat
 #' @export
 setClass("Cat",
-         slots=list(
-           guessing="numeric",
-           discrimination="numeric",
-           answers="logicalORnumeric",
-           priorName="character",
-           priorParams="numeric",
-           lowerBound="numeric",
-           upperBound="numeric",
-           difficulty="numericORlist",
-           poly="logical",
-           modelFit="character",
-           estimation="character",
-           estimationDefault="character",
-           selection="character",
-           z="numeric",
-           lengthThreshold = "logicalORnumeric",
-           seThreshold = "logicalORnumeric",
-           infoThreshold = "logicalORnumeric",
-           gainThreshold = "logicalORnumeric",
-           lengthOverride = "logicalORnumeric",
-           gainOverride = "logicalORnumeric"
-         ),
-         prototype=prototype(
-           priorName="NORMAL",
-           priorParams=c(0,1),
-           lowerBound=-5,
-           upperBound=5,
-           poly=FALSE,
-           modelFit="ltm",
-           estimation="EAP",
-           estimationDefault="MAP",
-           selection="EPV",
-           z=0.9,
-           answers=rep(NA, 10),
-           discrimination=rep(0, 10),
-           guessing=rep(0, 10),
-           difficulty=rep(0, 10),
-           lengthThreshold = NA,
-           seThreshold = NA,
-           infoThreshold = NA,
-           gainThreshold = NA,
-           lengthOverride = NA,
-           gainOverride = NA
-         )
-)
+  slots = list(
+    guessing = "numeric",
+    discrimination = "numeric",
+    answers = "logicalORnumeric",
+    priorName = "character",
+    priorParams = "numeric",
+    lowerBound = "numeric",
+    upperBound = "numeric",
+    difficulty = "numericORlist",
+    model = "character",
+    estimation = "character",
+    estimationDefault = "character",
+    selection = "character",
+    z = "numeric",
+    lengthThreshold = "logicalORnumeric",
+    seThreshold = "logicalORnumeric",
+    infoThreshold = "logicalORnumeric",
+    gainThreshold = "logicalORnumeric",
+    lengthOverride = "logicalORnumeric",
+    gainOverride = "logicalORnumeric"),
+  prototype = prototype(
+    priorName = "NORMAL",
+    priorParams = c(0,1),
+    lowerBound = -5,
+    upperBound = 5,
+    model = "ltm",
+    estimation = "EAP",
+    estimationDefault = "MAP",
+    selection = "EPV",
+    z = 0.9,
+    lengthThreshold = NA,
+    seThreshold = NA,
+    infoThreshold = NA,
+    gainThreshold = NA,
+    lengthOverride = NA,
+    gainOverride = NA))
 
 
 #' @export
@@ -117,7 +108,7 @@ setValidity("Cat", function(object){
   if(!test3) stop("discrimination and difficulty not same length")
 
   ## If the Cat is polytomous, the difficulty needs to be list
-  if(object@poly==T){
+  if(object@model!="ltm"){
     if(class(object@difficulty)!="list") stop("Cat object is polytomous, but difficulty slot is not a list")
   }
   else{
@@ -126,7 +117,7 @@ setValidity("Cat", function(object){
 
   
   ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING, and not NA
-  if(object@poly==T){
+  if(object@model!="ltm"){
     for(i in 1:length(object@difficulty)){
       if (is.list(object@difficulty[[i]])){
         item<-object@difficulty[[i]]
@@ -148,7 +139,7 @@ setValidity("Cat", function(object){
     test7<-!is.na(i)
     if(!test7) stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))
   }
-  if(!object@poly){
+  if(object@model == "ltm"){
     for(i in object@guessing){
       test8<-!is.na(i)
       if(!test8) stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))
@@ -193,10 +184,8 @@ setValidity("Cat", function(object){
 })
 
 
-########### SETTERS  ##############
 
-
-#' Setters for slots within \code{Cat} class objects
+#' Set methods for slots within \code{Cat} class objects
 #'
 #' This functions replaces the values currently stored in a specified slot of an object of class \code{Cat} with the user-provided values.  
 #'
@@ -209,306 +198,184 @@ setValidity("Cat", function(object){
 #' @note There are setters for every slot in \code{Cat} objects, all following the format \code{setSlot}: 
 #' eg. \code{setDiscrimination}, \code{setEstimationDefault}, \code{setSeThreshold}, etc.
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
-#' @seealso \code{\link{Cat}}, \code{\link{getters}}
+#' @seealso \code{\link{Cat}}
 #' @rdname setters
 #' @aliases setGuessing setDiscrimination setDifficulty setAnswers setPriorName setPriorParams
 #' setUpperBound setLowerBound setPoly setEstimation setEstimationDefault setSelection setZ
 #' setLengthThreshold setSeThreshold setInfoThreshold setGainThreshold setLengthOverride setGainOverride
 #' @export
-setGeneric("setSlot<-",
-           function(object, valid=T, value){
-             standardGeneric("setSlot<-")
-           })
-setReplaceMethod(
-  f = "setSlot",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setGuessing", function(object, value) standardGeneric("setGuessing"))
+
+setMethod("setGuessing", "Cat", definition = function(object, value){
+  object@guessing <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setGuessing<-",
-		   function(object, valid=T, value){
-		   	standardGeneric("setGuessing<-")
-		   	})
-setReplaceMethod(
-	f = "setGuessing",
-	signature = "Cat",
-	definition = function(object, valid, value){
-		object@guessing <- value
-		if(valid){validObject(object)}
-		return(object)
-		})
+setGeneric("setDiscrimination", function(object, value) standardGeneric("setDiscrimination"))
+
+setMethod("setDiscrimination", "Cat", definition = function(object, value){
+  object@discrimination <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setDiscrimination<-",
-		   function(object, valid=T, value){
-		   	standardGeneric("setDiscrimination<-")
-		   	})
-setReplaceMethod(
-	f = "setDiscrimination",
-	signature = "Cat",
-	definition = function(object, valid, value){
-		object@discrimination <- value
-		if(valid){validObject(object)}
-		return(object)
-		})
+setGeneric("setDifficulty", function(object, value) standardGeneric("setDifficulty"))
+
+setMethod("setDifficulty", "Cat", definition = function(object, value){
+  object@difficulty <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setDifficulty<-",
-           function(object, valid=T, value){
-             standardGeneric("setDifficulty<-")
-           })
-setReplaceMethod(
-  f = "setDifficulty",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object@difficulty <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setAnswers", function(object, value) standardGeneric("setAnswers"))
+
+setMethod("setAnswers", "Cat", definition = function(object, value){
+  object@answers <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setAnswers<-",
-           function(object, valid=T, value){
-             standardGeneric("setAnswers<-")
-           })
-setReplaceMethod(
-  f = "setAnswers",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object@answers <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setModel", function(object, value) standardGeneric("setModel"))
+
+setMethod("setModel", "Cat", definition = function(object, value){
+  object@model <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setPriorName<-",
-           function(object, valid=T, value){
-             standardGeneric("setPriorName<-")
-           }) 
-setReplaceMethod(
-  f = "setPriorName",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object@priorName <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setPriorName", function(object, value) standardGeneric("setPriorName"))
+
+setMethod("setPriorName", "Cat", definition = function(object, value){
+  object@priorName <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setPriorParams<-",
-		   function(object, valid=T, value){
-		   	standardGeneric("setPriorParams<-")
-		   	})
-setReplaceMethod(
-	f = "setPriorParams",
-	signature = "Cat",
-	definition = function(object, valid, value){
-		object@priorParams <- value
-		if(valid){validObject(object)}
-		return(object)
-		})
+setGeneric("setPriorParams", function(object, value) standardGeneric("setPriorParams"))
+
+setMethod("setPriorParams", "Cat", definition = function(object, value){
+  object@priorParams <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setLowerBound<-",
-		   function(object, valid=T, value){
-		   	standardGeneric("setLowerBound<-")
-		   	})
-setReplaceMethod(
-	f = "setLowerBound",
-	signature = "Cat",
-	definition = function(object, valid, value){
-		object@lowerBound <- value
-		if(valid){validObject(object)}
-		return(object)
-		})
+setGeneric("setLowerBound", function(object, value) standardGeneric("setLowerBound"))
+
+setMethod("setLowerBound", "Cat", definition = function(object, value){
+  object@lowerBound <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setUpperBound<-",
-		   function(object, valid=T, value){
-		   	standardGeneric("setUpperBound<-")
-		   	})
-setReplaceMethod(
-	f = "setUpperBound",
-	signature = "Cat",
-	definition = function(object, valid, value){
-		object@upperBound <- value
-		if(valid){validObject(object)}
-		return(object)
-		})
+setGeneric("setUpperBound", function(object, value) standardGeneric("setUpperBound"))
 
-#' @export
-setGeneric("setPoly<-",
-		   function(object, valid=T, value){
-		   	standardGeneric("setPoly<-")
-		   	})
-setReplaceMethod(
-	f = "setPoly",
-	signature = "Cat",
-	definition = function(object, valid, value){
-		object@poly <- value
-		if(valid){validObject(object)}
-		return(object)
-		})
-
-#' @export
-setGeneric("setEstimation<-",
-		   function(object, valid=T, value){
-		   	standardGeneric("setEstimation<-")
-		   	})
-setReplaceMethod(
-	f = "setEstimation",
-	signature = "Cat",
-	definition = function(object, valid, value){
-		object@estimation <- value
-		if(valid){validObject(object)}
-		return(object)
-		})
+setMethod("setUpperBound", "Cat", definition = function(object, value){
+  object@upperBound <- value
+  validObject(object)
+  return(object)
+})
 
 
 #' @export
-setGeneric("setEstimationDefault<-",
-           function(object, valid=T, value){
-             standardGeneric("setEstimationDefault<-")
-           })
-setReplaceMethod(
-  f = "setEstimationDefault",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object@estimationDefault <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setEstimation", function(object, value) standardGeneric("setEstimation"))
+
+setMethod("setEstimation", "Cat", definition = function(object, value){
+  object@estimation <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setSelection<-",
-		   function(object, valid=T, value){
-		   	standardGeneric("setSelection<-")
-		   	})
-setReplaceMethod(
-	f = "setSelection",
-	signature = "Cat",
-	definition = function(object, valid, value){
-		object@selection <- value
-		if(valid){validObject(object)}
-		return(object)
-		})
+setGeneric("setEstimationDefault", function(object, value) standardGeneric("setEstimationDefault"))
+
+setMethod("setEstimationDefault", "Cat", definition = function(object, value){
+  object@estimationDefault <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setZ<-",
-           function(object, valid=T, value){
-             standardGeneric("setZ<-")
-           })
-setReplaceMethod(
-  f = "setZ",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object@z <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setSelection", function(object, value) standardGeneric("setSelection"))
 
+setMethod("setSelection", "Cat", definition = function(object, value){
+  object@selection <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setLengthThreshold<-",
-           function(object, valid=T, value){
-             standardGeneric("setLengthThreshold<-")
-           })
-setReplaceMethod(
-  f = "setLengthThreshold",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object@lengthThreshold <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setZ", function(object, value) standardGeneric("setZ"))
 
+setMethod("setZ", "Cat", definition = function(object, value){
+  object@z <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setSeThreshold<-",
-           function(object, valid=T, value){
-             standardGeneric("setSeThreshold<-")
-           })
-setReplaceMethod(
-  f = "setSeThreshold",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object@seThreshold <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setLengthThreshold", function(object, value) standardGeneric("setLengthThreshold"))
 
+setMethod("setLengthThreshold", "Cat", definition = function(object, value){
+  object@lengthThreshold <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setInfoThreshold<-",
-           function(object, valid=T, value){
-             standardGeneric("setInfoThreshold<-")
-           })
-setReplaceMethod(
-  f = "setInfoThreshold",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object@infoThreshold <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setSeThreshold", function(object, value) standardGeneric("setSeThreshold"))
 
+setMethod("setSeThreshold", "Cat", definition = function(object, value){
+  object@seThreshold <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setGainThreshold<-",
-           function(object, valid=T, value){
-             standardGeneric("setGainThreshold<-")
-           })
-setReplaceMethod(
-  f = "setGainThreshold",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object@gainThreshold <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setGainThreshold", function(object, value) standardGeneric("setGainThreshold"))
 
+setMethod("setGainThreshold", "Cat", definition = function(object, value){
+  object@gainThreshold <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("setLengthOverride<-",
-           function(object, valid=T, value){
-             standardGeneric("setLengthOverride<-")
-           })
-setReplaceMethod(
-  f = "setLengthOverride",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object@lengthOverride <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setInfoThreshold", function(object, value) standardGeneric("setInfoThreshold"))
 
-
-## gainOVerride
-
+setMethod("setInfoThreshold", "Cat", definition = function(object, value){
+  object@infoThreshold <- value
+  validObject(object)
+  return(object)
+})
 
 #' @export
-setGeneric("getGainOverride<-",
-           function(object, valid=T, value){
-             standardGeneric("getGainOverride<-")
-           })
-setReplaceMethod(
-  f = "getGainOverride",
-  signature = "Cat",
-  definition = function(object, valid, value){
-    object@gainOverride <- value
-    if(valid){validObject(object)}
-    return(object)
-  })
+setGeneric("setLengthOverride", function(object, value) standardGeneric("setLengthOverride"))
 
+setMethod("setLengthOverride", "Cat", definition = function(object, value){
+  object@lengthOverride <- value
+  validObject(object)
+  return(object)
+})
 
+#' @export
+setGeneric("setGainOverride", function(object, value) standardGeneric("setGainOverride"))
 
-################# GETTERS ################# 
+setMethod("setGainOverride", "Cat", definition = function(object, value){
+  object@gainThreshold <- value
+  validObject(object)
+  return(object)
+})
 
-#' Getters for slots within \code{Cat} class objects
+#' Get methods for slots within \code{Cat} class objects
 #'
 #' These functions access and return the values currently stored in a specified slot of an object of class \code{Cat}.  
 #'
@@ -525,249 +392,97 @@ setReplaceMethod(
 #' getUpperBound getLowerBound setPoly getEstimation getEstimationDefault getSelection getZ
 #' getLengthThreshold getSeThreshold getInfoThreshold getGainThreshold getLengthOverride getGainOverride
 #' @export
-setGeneric("getSlot",
-           function(object){
-             standardGeneric("getSlot")
-           })
-#' @export
-setMethod("getSlot", "Cat",
-          function(object){
-            return(object)
-          })
+setGeneric("getModel", function(object) standardGeneric("getModel"))
+
+setMethod("getModel", "Cat", function(object) return(object@model))
 
 #' @export
-setGeneric("getGuessing",
-           function(object="Cat")  {
-             standardGeneric("getGuessing")
-           })
+setGeneric("getGuessing", function(object) standardGeneric("getGuessing"))
+
+setMethod("getGuessing", "Cat", function(object) return(object@guessing))
 
 #' @export
-setMethod("getGuessing", "Cat",
-          function(object){
-            return(object@guessing)
-          })
+setGeneric("getDiscrimination", function(object) standardGeneric("getDiscrimination"))
+
+setMethod("getDiscrimination", "Cat", function(object) return(object@discrimination))
 
 #' @export
-setGeneric("getDiscrimination",
-           function(object="Cat")  {
-             standardGeneric("getDiscrimination")
-           })
+setGeneric("getDifficulty", function(object) standardGeneric("getDifficulty"))
+
+setMethod("getDifficulty", "Cat", function(object) return(object@difficulty))
 
 #' @export
-setMethod("getDiscrimination", "Cat",
-          function(object){
-            return(object@discrimination)
-          })
+setGeneric("getAnswers", function(object) standardGeneric("getAnswers"))
+
+setMethod("getAnswers", "Cat", function(object) return(object@answers))
 
 #' @export
-setGeneric("getDifficulty",
-           function(object="Cat")  {
-             standardGeneric("getDifficulty")
-           })
+setGeneric("getPriorName", function(object) standardGeneric("getPriorName"))
+
+setMethod("getPriorName", "Cat", function(object) return(object@priorName))
 
 #' @export
-setMethod("getDifficulty", "Cat",
-          function(object){
-            return(object@difficulty)
-          })
+setGeneric("getPriorParams", function(object) standardGeneric("getPriorParams"))
 
+setMethod("getPriorParams", "Cat", function(object) return(object@priorParams))
 
 #' @export
-setGeneric("getAnswers",
-           function(object="Cat")  {
-             standardGeneric("getAnswers")
-           })
+setGeneric("getLowerBound", function(object) standardGeneric("getLowerBound"))
+
+setMethod("getLowerBound", "Cat", function(object) return(object@lowerBound))
 
 #' @export
-setMethod("getAnswers", "Cat",
-          function(object){
-            return(object@answers)
-          })
+setGeneric("getUpperBound", function(object) standardGeneric("getUpperBound"))
 
+setMethod("getUpperBound", "Cat", function(object) return(object@upperBound))
 
 #' @export
-setGeneric("getPriorName",
-           function(object="Cat")  {
-             standardGeneric("getPriorName")
-           })
+setGeneric("getEstimation", function(object) standardGeneric("getEstimation"))
 
+setMethod("getEstimation", "Cat", function(object) return(object@estimation))
 
 #' @export
-setMethod("getPriorName", "Cat",
-          function(object){
-            return(object@priorName)
-          })
+setGeneric("getEstimationDefault", function(object) standardGeneric("getEstimationDefault"))
 
+setMethod("getEstimationDefault", "Cat", function(object) return(object@estimationDefault))
 
 #' @export
-setGeneric("getPriorParams",
-           function(object="Cat")  {
-             standardGeneric("getPriorParams")
-           })
+setGeneric("getSelection", function(object) standardGeneric("getSelection"))
+
+setMethod("getSelection", "Cat", function(object) return(object@selection))
 
 #' @export
-setMethod("getPriorParams", "Cat",
-          function(object){
-            return(object@priorParams)
-          })
+setGeneric("getZ", function(object) standardGeneric("getZ"))
+
+setMethod("getZ", "Cat", function(object) return(object@z))
 
 #' @export
-setGeneric("getLowerBound",
-           function(object="Cat")  {
-             standardGeneric("getLowerBound")
-           })
+setGeneric("getLengthThreshold", function(object) standardGeneric("getLengthThreshold"))
+
+setMethod("getLengthThreshold", "Cat", function(object) return(object@lengthThreshold))
 
 #' @export
-setMethod("getLowerBound", "Cat",
-          function(object){
-            return(object@lowerBound)
-          })
+setGeneric("getSeThreshold", function(object) standardGeneric("getSeThreshold"))
 
+setMethod("getSeThreshold", "Cat", function(object) return(object@seThreshold))
 
 #' @export
-setGeneric("getUpperBound",
-           function(object="Cat")  {
-             standardGeneric("getUpperBound")
-           })
+setGeneric("getInfoThreshold", function(object) standardGeneric("getInfoThreshold"))
+
+setMethod("getInfoThreshold", "Cat", function(object) return(object@infoThreshold))
 
 #' @export
-setMethod("getUpperBound", "Cat",
-          function(object){
-            return(object@upperBound)
-          })
+setGeneric("getGainThreshold", function(object) standardGeneric("getGainThreshold"))
 
-
+setMethod("getGainThreshold", "Cat", function(object) return(object@gainThreshold))
 
 #' @export
-setGeneric("getpoly",
-           function(object="Cat")  {
-             standardGeneric("getpoly")
-           })
+setGeneric("getLengthOverride", function(object) standardGeneric("getLengthOverride"))
+
+setMethod("getLengthOverride", "Cat", function(object) return(object@lengthOverride))
 
 #' @export
-setMethod("getpoly", "Cat",
-          function(object){
-            return(object@poly)
-          })
+setGeneric("getGainOverride", function(object) standardGeneric("getGainOverride"))
 
-#' @export
-setGeneric("getEstimation",
-           function(object="Cat")  {
-             standardGeneric("getEstimation")
-           })
-
-#' @export
-setMethod("getEstimation", "Cat",
-          function(object){
-            return(object@estimation)
-          })
-
-#' @export
-setGeneric("getEstimationDefault",
-           function(object="Cat")  {
-             standardGeneric("getEstimationDefault")
-           })
-
-#' @export
-setMethod("getEstimationDefault", "Cat",
-          function(object){
-            return(object@estimation)
-          })
-
-
-#' @export
-setGeneric("getSelection",
-           function(object="Cat")  {
-             standardGeneric("getSelection")
-           })
-
-#' @export
-setMethod("getSelection", "Cat",
-          function(object){
-            return(object@selection)
-          })
-
-#' @export
-setGeneric("getZ",
-           function(object="Cat")  {
-             standardGeneric("getZ")
-           })
-
-#' @export
-setMethod("getZ", "Cat",
-          function(object){
-            return(object@z)
-          })
-
-#' @export
-setGeneric("getLengthThreshold",
-           function(object="Cat")  {
-             standardGeneric("getLengthThreshold")
-           })
-
-#' @export
-setMethod("getLengthThreshold", "Cat",
-          function(object){
-            return(object@lengthThreshold)
-          })
-
-#' @export
-setGeneric("getSeThreshold",
-           function(object="Cat")  {
-             standardGeneric("getSeThreshold")
-           })
-
-#' @export
-setMethod("getSeThreshold", "Cat",
-          function(object){
-            return(object@seThreshold)
-          })
-
-#' @export
-setGeneric("getInfoThreshold",
-           function(object="Cat")  {
-             standardGeneric("getInfoThreshold")
-           })
-
-#' @export
-setMethod("getInfoThreshold", "Cat",
-          function(object){
-            return(object@infoThreshold)
-          })
-
-#' @export
-setGeneric("getGainThreshold",
-           function(object="Cat")  {
-             standardGeneric("getGainThreshold")
-           })
-
-#' @export
-setMethod("getGainThreshold", "Cat",
-          function(object){
-            return(object@gainThreshold)
-          })
-
-#' @export
-setGeneric("getLengthOverride",
-           function(object="Cat")  {
-             standardGeneric("getLengthOverride")
-           })
-
-#' @export
-setMethod("getLengthOverride", "Cat",
-          function(object){
-            return(object@lengthOverride)
-          })
-
-#' @export
-setGeneric("getGainOverride",
-           function(object="Cat")  {
-             standardGeneric("getGainOverride")
-           })
-
-#' @export
-setMethod("getGainOverride", "Cat",
-          function(object){
-            return(object@gainOverride)
-          })
+setMethod("getGainOverride", "Cat", function(object) return(object@gainOverride) )
 

@@ -58,10 +58,9 @@ gpcmCat.data.frame<-function(data, quadraturePoints=21,...){
   object <- new("Cat")
   object@discrimination <- discrimination
   object@difficulty <- difficulty
-  object@poly <- TRUE
   object@guessing <- rep(0, length(discrimination))
   object@answers <- rep(NA,length(objects(coefficients)))
-  object@modelFit <- "gpcm"
+  object@model <- "gpcm"
   return(object)
 }
 
@@ -96,10 +95,9 @@ gpcmCat.gpcm<-function(data, quadraturePoints=21,...){
   object <- new("Cat")
   object@discrimination <- discrimination
   object@difficulty <- difficulty
-  object@poly <- TRUE
   object@guessing <- rep(0, length(discrimination))
   object@answers <- rep(NA,length(objects(coefficients)))
-  object@modelFit <- "gpcm"
+  object@model <- "gpcm"
   return(object)
 }
 

@@ -57,11 +57,12 @@ ltmCat.data.frame<-function(data, quadraturePoints = 15){
             object@difficulty <- difficulty
             
             ## by default (for ltmCat), the Cat is binary with no guessing parameter
-            object@poly <- FALSE
             object@guessing <- rep(0, length(discrimination))
             
             ## fill the answers slot with NAs
             object@answers <- rep(NA,length(discrimination))
+            
+            object@model <- "ltm"
             
             ## Cat is complete! Send it back
             return(object)
@@ -95,11 +96,12 @@ ltmCat.ltm<-function(data, quadraturePoints = 15){
             object@difficulty <- difficulty
             
             ## by default (for ltmCat), the Cat is binary with no guessing parameter
-            object@poly <- FALSE
             object@guessing <- rep(0, length(discrimination))
             
             ## fill the answers slot with NAs
             object@answers <- rep(NA,length(discrimination))
+            
+            object@model <- "ltm"
             
             ## Cat is complete! Send it back
             return(object)

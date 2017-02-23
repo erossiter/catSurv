@@ -11,7 +11,7 @@ dLL_test <- function(cat, theta, usePrior) {
     
   sum_this <- rep(0, length(answered_questions))
 
-  if(cat@modelFit == "ltm"){
+  if(cat@model == "ltm"){
     for(i in 1:length(answered_questions)){
       item <- answered_questions[i]
       P <- probability(cat, theta, item)
@@ -22,7 +22,7 @@ dLL_test <- function(cat, theta, usePrior) {
       L_theta <- sum(sum_this)
   }
   
-  if(cat@modelFit == "grm"){
+  if(cat@model == "grm"){
     for(i in 1:length(answered_questions)){
       item <- answered_questions[i]
       answer_k <- cat@answers[item]
@@ -39,7 +39,7 @@ dLL_test <- function(cat, theta, usePrior) {
     L_theta <- sum(sum_this)
   }
   
-  if(cat@modelFit == "gpcm"){
+  if(cat@model == "gpcm"){
     for(i in 1:length(answered_questions)){
       ## first derivative
       item <- answered_questions[i]

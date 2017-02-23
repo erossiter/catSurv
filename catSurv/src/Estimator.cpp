@@ -38,10 +38,10 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
   eps = pow(eps, 1.0/3.0);
   
 	auto calculate = [&](double difficulty) {
-		double exp_prob_poly = exp(difficulty - (questionSet.discrimination.at(question) * theta));
-		double result = exp_prob_poly / (1 + exp_prob_poly);
+		double exp_prob = exp(difficulty - (questionSet.discrimination.at(question) * theta));
+		double result = exp_prob / (1 + exp_prob);
 		
-		if(std::isinf(exp_prob_poly)){
+		if(std::isinf(exp_prob)){
 		 result = 1.0 - eps;
 		}
 		if(result > (1.0 - eps)){
@@ -158,13 +158,13 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
   
   std::vector<double> probabilities;
 
-  if (questionSet.model_fit == "ltm") {
+  if (questionSet.model == "ltm") {
 	  probabilities = prob_ltm(theta, question);
 	}
-	if (questionSet.model_fit == "grm") {
+	if (questionSet.model == "grm") {
 	  probabilities = prob_grm(theta, question);
 	}
-	if (questionSet.model_fit == "gpcm"){
+	if (questionSet.model == "gpcm"){
 		probabilities = prob_gpcm(theta, question);
 	}
 	
@@ -219,13 +219,13 @@ double Estimator::likelihood_ltm(double theta) {
 double Estimator::likelihood(double theta) {
   double likelihood;
 
-  if (questionSet.model_fit == "ltm") {
+  if (questionSet.model == "ltm") {
 	  likelihood = likelihood_ltm(theta);
 	}
-	if (questionSet.model_fit == "grm") {
+	if (questionSet.model == "grm") {
 	  likelihood = likelihood_grm(theta);
 	}
-	if (questionSet.model_fit == "gpcm"){
+	if (questionSet.model == "gpcm"){
 		likelihood = likelihood_gpcm(theta);
 	}
 	
@@ -373,13 +373,13 @@ double Estimator::dLL(double theta, bool use_prior, Prior &prior) {
 	}
 	double l_theta;
 	
-	if (questionSet.model_fit == "ltm") {
+	if (questionSet.model == "ltm") {
 	  l_theta = ltm_dLL(theta);
 	}
-	if (questionSet.model_fit == "grm") {
+	if (questionSet.model == "grm") {
 	  l_theta = grm_dLL(theta);
 	}
-	if (questionSet.model_fit == "gpcm"){
+	if (questionSet.model == "gpcm"){
 		l_theta = gpcm_dLL(theta);
 	}
 	
@@ -393,13 +393,13 @@ double Estimator::d2LL(double theta, bool use_prior, Prior &prior) {
 	}
 	double lambda_theta;
 	
-	if (questionSet.model_fit == "ltm") {
+	if (questionSet.model == "ltm") {
 	  lambda_theta = ltm_d2LL(theta);
 	}
-	if (questionSet.model_fit == "grm") {
+	if (questionSet.model == "grm") {
 	  lambda_theta = grm_d2LL(theta);
 	}
-	if (questionSet.model_fit == "gpcm"){
+	if (questionSet.model == "gpcm"){
 		lambda_theta = gpcm_d2LL(theta);
 	}
 	return use_prior ? lambda_theta - prior_shift : lambda_theta;
@@ -422,12 +422,12 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 	}
 
 	double sum = 0;
-	if (questionSet.model_fit == "grm") {
+	if (questionSet.model == "grm") {
 	  for (size_t i = 1; i < probabilities.size(); ++i) {
 	    sum += variances[i-1] * (probabilities[i] - probabilities[i - 1]);
 	    }
 	}
-	if (questionSet.model_fit == "gpcm"){
+	if (questionSet.model == "gpcm"){
 	  for (size_t i = 0; i < probabilities.size(); ++i) {
 	    sum += variances[i] * probabilities[i];
 	    }
@@ -454,7 +454,18 @@ double Estimator::binary_posterior_variance(int item, Prior &prior) {
 }
 
 double Estimator::expectedPV(int item, Prior &prior) {
-  double result = questionSet.poly[0] ? polytomous_posterior_variance(item, prior) : binary_posterior_variance(item, prior);
+	double result;
+  
+	if (questionSet.model == "ltm") {
+	  result = binary_posterior_variance(item, prior);
+	}
+	if (questionSet.model == "grm") {
+	  result = polytomous_posterior_variance(item, prior);
+	}
+	if (questionSet.model == "gpcm"){
+		result = polytomous_posterior_variance(item, prior);
+	}
+	
 	questionSet.answers[item] = NA_INTEGER;
 	return result;
 }
@@ -462,10 +473,11 @@ double Estimator::expectedPV(int item, Prior &prior) {
 double Estimator::obsInf(double theta, int item) {
 	double discrimination = questionSet.discrimination.at(item);
 
-	if (questionSet.poly[0]) {
-	  if (questionSet.model_fit == "grm"){
-	    return -pow(discrimination, 2) * grm_partial_d2LL(theta, item);
-	  }
+	if(questionSet.model == "grm"){
+	  return -pow(discrimination, 2) * grm_partial_d2LL(theta, item);
+	}
+	
+	if(questionSet.model == "gpcm"){
 	  return -gpcm_partial_d2LL(theta, item);
 	}
 
@@ -478,7 +490,7 @@ double Estimator::obsInf(double theta, int item) {
 
 double Estimator::fisherInf(double theta, int item) {
 
-	if (!questionSet.poly[0]) {
+	if (questionSet.model == "ltm") {
 		return obsInf(theta, item);
 	}
 
@@ -486,27 +498,17 @@ double Estimator::fisherInf(double theta, int item) {
 	auto probabilities = probability(theta, (size_t) item);
 	double discrimination_squared = pow(questionSet.discrimination[item], 2);
 
-	if (questionSet.model_fit == "grm") {
+	if (questionSet.model == "grm") {
 	  for (size_t i = 1; i <= questionSet.difficulty[item].size() + 1; ++i) {
 		  double P_star1 = probabilities[i];
 		  double P_star2 = probabilities[i - 1];
 		  double w1 = P_star1 * (1.0 - P_star1);
 		  double w2 = P_star2 * (1.0 - P_star2);
 		  output += discrimination_squared * (pow(w1 - w2, 2) / (P_star1 - P_star2));
-		  // double xx = discrimination_squared * (pow(w1 - w2, 2) / (P_star1 - P_star2));
-		  // 
-		  // std::cout << xx << std::endl;
-		  // std::cout << P_star1 << std::endl;
-		  // std::cout << P_star2 << std::endl;
-		  // std::cout << w1 << std::endl;
-		  // std::cout << w2 << std::endl;
-		  // std::cout << " " << std::endl;
-		  // 
-		  // output += xx;
 		}
 	}
 	
-	if (questionSet.model_fit == "gpcm"){
+	if (questionSet.model == "gpcm"){
 	  auto prob_firstderiv = prob_derivs_gpcm(theta, item, true);
 	  auto prob_secondderiv = prob_derivs_gpcm(theta, item, false);
 	  for (size_t i = 0; i < probabilities.size(); ++i) {
@@ -521,7 +523,7 @@ double Estimator::fisherInf(double theta, int item) {
 
 double Estimator::expectedObsInf(int item, Prior &prior) {
 
-	if (questionSet.poly[0]){
+	if (questionSet.model != "ltm"){
 	  std::vector<double> probabilities = probability(estimateTheta(prior), (size_t) item);
 	  questionSet.applicable_rows.push_back(item);
 	  
@@ -535,12 +537,12 @@ double Estimator::expectedObsInf(int item, Prior &prior) {
 		questionSet.answers[item] = NA_INTEGER;
 		questionSet.applicable_rows.pop_back();
 		
-		if (questionSet.model_fit == "grm") {
+		if (questionSet.model == "grm") {
 		  for (size_t i = 1; i < probabilities.size(); ++i) {
 		    sum += obsInfs[i-1] * (probabilities[i] - probabilities[i - 1]);
 	     }
 		}
-		if (questionSet.model_fit == "gpcm"){
+		if (questionSet.model == "gpcm"){
 		  for (size_t i = 0; i < probabilities.size(); ++i) {
 	      sum += obsInfs[i] * probabilities[i];
 	    }
@@ -656,7 +658,7 @@ double Estimator::fii(int item, Prior prior) {
 double Estimator::kl(double theta_not, int item, Prior prior){
   double sum = 0.0;
   
-  if(questionSet.model_fit == "grm"){
+  if(questionSet.model == "grm"){
     auto cdf_theta_not = probability(theta_not, (size_t) item);
 	  auto cdf_theta_hat = probability(estimateTheta(prior), (size_t) item);
 	  
@@ -667,7 +669,7 @@ double Estimator::kl(double theta_not, int item, Prior prior){
 	  }
 	}
   
-  if(questionSet.model_fit == "gpcm"){
+  if(questionSet.model == "gpcm"){
     auto prob_theta_not = probability(theta_not, (size_t) item);
 	  auto prob_theta_hat = probability(estimateTheta(prior), (size_t) item);
 	  
@@ -676,7 +678,7 @@ double Estimator::kl(double theta_not, int item, Prior prior){
 	  }
   }
   
-  if(questionSet.model_fit == "ltm"){
+  if(questionSet.model == "ltm"){
     const double prob_theta_not = probability(theta_not, (size_t) item)[0];
     const double prob_theta_hat = probability(estimateTheta(prior), (size_t) item)[0];
 

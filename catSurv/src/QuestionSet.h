@@ -21,8 +21,7 @@ struct QuestionSet {
 	 * The user's answer to each question.
 	 */
 	std::vector<int> answers;
-	std::vector<bool> poly;
-	std::string model_fit;
+	std::string model;
 	/**
 	 * Keeping track of extreme answers for MLEEstimator.
 	 */	

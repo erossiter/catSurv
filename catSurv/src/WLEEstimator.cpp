@@ -112,13 +112,13 @@ double WLEEstimator::grm_estimateTheta(Prior prior){
 double WLEEstimator::estimateTheta(Prior prior) {
   double theta;
 
-  if (questionSet.model_fit == "ltm") {
+  if (questionSet.model == "ltm") {
 	  theta = ltm_estimateTheta(prior);
 	}
-	if (questionSet.model_fit == "grm") {
+	if (questionSet.model == "grm") {
 	  theta = grm_estimateTheta(prior);
 	}
-	if (questionSet.model_fit == "gpcm"){
+	if (questionSet.model == "gpcm"){
 		theta = gpcm_estimateTheta(prior);
 	}
 	

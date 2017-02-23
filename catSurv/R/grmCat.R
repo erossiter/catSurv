@@ -55,14 +55,13 @@ grmCat.data.frame<-function(data, quadraturePoints=15,...){
             
             ## create a new Cat
             object<-new("Cat")
-            object@modelFit <- "grm"
+            object@model <- "grm"
             
             ## store those extracted parameters in the Cat
             object@discrimination <- discrimination
             object@difficulty <- difficulty
             
             ## by default (for grmCat), the Cat is polytomous with no guessing parameter
-            object@poly <- TRUE
             object@guessing <- rep(0, length(discrimination))
             
             ## fill the answers slot with NAs
@@ -102,14 +101,13 @@ grmCat.grm<-function(data, quadraturePoints=15,...){
               
               ## create a new Cat
               object<-new("Cat")
-              object@modelFit <- "grm"
+              object@model <- "grm"
               
               ## store those extracted parameters in the Cat
               object@discrimination <- discrimination
               object@difficulty <- difficulty
               
               ## by default (for grmCat), the Cat is polytomous with no guessing parameter
-              object@poly <- TRUE
               object@guessing <- rep(0, length(discrimination))
               
               ## fill the answers slot with NAs

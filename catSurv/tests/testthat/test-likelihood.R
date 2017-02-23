@@ -7,13 +7,13 @@ likelihood_test <- function(cat, theta){
   
   probs <- lapply(answered_qs, function(x) probability(cat, theta, x))
     
-  if(cat@modelFit == "ltm") {
+  if(cat@model == "ltm") {
     prod_these <- sapply(1:length(probs), function(x){
       probs[[x]]^answers[x] * (1 - probs[[x]])^(1 - answers[x])})
     output <- prod(prod_these) 
   }
   
-  if(cat@modelFit == "grm"){
+  if(cat@model == "grm"){
     prod_these <- vector("list", length(probs))
     for(i in 1:length(probs)){
       for (k in 2:length(probs[[i]])){
@@ -28,7 +28,7 @@ likelihood_test <- function(cat, theta){
     output <- prod(sapply(prod_these, prod))
   }
   
-  if(cat@modelFit == "gpcm"){
+  if(cat@model == "gpcm"){
     L <- length(answered_qs)
     for(i in 1:length(answered_qs)){
       q <- answered_qs[i]
