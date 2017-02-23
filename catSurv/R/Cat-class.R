@@ -82,7 +82,6 @@ setClass("Cat",
     lengthOverride = NA,
     gainOverride = NA))
 
-
 #' @export
 setMethod("initialize", class.name, function(.Object, ...) {
   value = callNextMethod()
@@ -90,100 +89,87 @@ setMethod("initialize", class.name, function(.Object, ...) {
   return(value)
 })
 
-########### VALIDITY CHECKS ##############
-
 setValidity("Cat", function(object){
-  # guessing, discrimination, answers, difficulty should all be same length
-  #... and that length must be greater than 1
-  test0<-(length(object@discrimination)>1)
-  if(!test0) stop("discrimination needs length greater than 1")
-
-  test1<-(length(object@discrimination)==length(object@guessing))
-  if(!test1) stop("discrimination and guessing not same length")
-
-  test2<-(length(object@discrimination)==length(object@answers))
-  if(!test2) stop("discrimination and answers not same length")
-
-  test3<-(length(object@discrimination)==length(object@difficulty))
-  if(!test3) stop("discrimination and difficulty not same length")
-
-  ## If the Cat is polytomous, the difficulty needs to be list
-  if(object@model!="ltm"){
-    if(class(object@difficulty)!="list") stop("Cat object is polytomous, but difficulty slot is not a list")
+  if(! length(object@discrimination) > 1){
+    stop("Discrimination needs length greater than 1.")
   }
-  else{
-    if(class(object@difficulty)!="numeric") stop("Cat object is binary, but difficulty slot is not a numeric vector")}
-  
 
+  if(! length(object@discrimination) == length(object@guessing)){
+    stop("Discrimination and guessing need to be same length.")
+  }
+
+  if(! length(object@discrimination) == length(object@answers)){
+    stop("Discrimination and answers need to be same length.")
+  }
+
+  if(! length(object@discrimination)==length(object@difficulty)){
+    stop("Discrimination and difficulty need to be same length.")
+  }
+
+  if(object@model != "ltm"){
+    if(class(object@difficulty) != "list") stop("Difficulty needs to be a list.")
+  }
   
-  ## TEST THAT DIFFICULTY VALUES ARE STRICTLY INCREASING, and not NA
-  if(object@model!="ltm"){
-    for(i in 1:length(object@difficulty)){
-      if (is.list(object@difficulty[[i]])){
-        item<-object@difficulty[[i]]
-      } else(item<-object@difficulty[[i]]) #don't want to change the value stored in the object itself...
-      sorted<-sort(item)
-      uniques<-unique(sorted)
-       test6<-(all(!is.na(item)))
-      if(!test6) stop (paste("Diffulty values for question", i, " include NAs"))
-     #test5<-(isTRUE(all.equal(item,sorted)))
-      #if(!test5) stop(paste("Diffulty values for question", i, " are not increasing"))
-       #test4<-(isTRUE(all.equal(item,uniques)))
-       #if(!test4) stop(paste("Repeated difficulty values for question", i))
-        
+  if(object@upperBound < object@lowerBound){
+    stop("Lower bound value must be less than upper bound value.")
+  }
+  
+  if(object@model == "grm"){
+    for(i in object@difficulty){
+      sorted <- sort(i)
+      uniques <- unique(sorted)
+      if(sum(sorted != i) > 0){
+        stop("Difficulty values must be increasing.")
+      }
+      if(length(uniques) != length(i)){
+        stop("Difficulty values must be unique within each item.")
+      }
     }
   }
   
-  ## test that discrimination and guessing are not NA
-  for(i in object@discrimination){
-    test7<-!is.na(i)
-    if(!test7) stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))
+  if(sum(is.na(object@discrimination)) > 0){
+    stop("Discrimination values cannot be NA.")
   }
-  if(object@model == "ltm"){
-    for(i in object@guessing){
-      test8<-!is.na(i)
-      if(!test8) stop(paste("Discrimination value for question ", which(object@discrimination==i, arr.ind=T), " is NA"))
+  
+  if(object@priorName == 'UNIFORM'){
+    if(object@estimation != "EAP"){
+      stop("Uniform prior requires EAP estimation.")
     }
   }
   
-  ## checks for priorName = 'uniform'...
-  if(object@priorName=='UNIFORM'){
-    test9<- (object@estimation=='EAP')
-    if(!test9) stop("priorName is UNIFORM, but estimation is not EAP")
-    test10<- (object@lower<=object@priorParam[1])
-    test11<- (object@upper>=object@priorParam[2])
-    if(!test10||!test11) stop("priorName is UNIFORM but priorParam values not bounded by lower and upper bounds")
+  if(sum(is.na(object@guessing)) > 0){
+    stop("Guessing values cannot be NA.")
   }
   
-  ## range for guessing within [0,1]
-  for (i in 1:length(object@guessing)){
-    if (object@guessing[i] <0 || object@guessing[i] >1){
-      stop (paste("Guessing parameter for item ", i, "is out of bounds: value is ", object@guessing[i], ", but should be within [0,1]"))
-    }
+  if(sum(object@guessing < 0) > 0 | sum(object@guessing > 1) > 0){
+    stop("Guessing values must be between 0 and 1.")
   }
   
-  ## values for estimation:
-  estimationOptions = c("EAP", "MAP", "MLE", "WLE")
-  if(!object@estimation %in% estimationOptions){
-    stop ("dstimation value invalid. See ?Cat documentation for valid options.")
+  model_options = c("ltm", "grm", "gpcm")
+  if(! object@model %in% model_options){
+    stop("Model is not valid.  Must be 'ltm', 'grm' or 'gpcm'.")
   }
   
-  ## values for estimationDefault:
-  estimationDefaultOptions = c("EAP", "MAP")
-  if(!object@estimationDefault %in% estimationDefaultOptions){
-    stop ("estimationDefault value invalid. See ?Cat documentation for valid options.")
+  estimation_options = c("EAP", "MAP", "MLE", "WLE")
+  if(! object@estimation %in% estimation_options){
+    stop("Estimation method is not valid.  Must be 'EAP', 'MAP', 'MLE', or 'WLE'.")
   }
   
-  ## values for selection:
-  selectionOptions = c("EPV", "MEI", "MFI", "MPWI", "MLWI", "KL", "LKL", "PKL", "MFII", "RANDOM")
-  if(!object@selection %in% selectionOptions){
-    stop ("selection value invalid. See ?Cat documentation for valid options.")
+  estdefault_options = c("EAP", "MAP")
+  if(! object@estimationDefault %in% estdefault_options){
+    stop("Estimation default method is not valid.  Must be 'EAP' or 'MAP'.")
   }
   
+  prior_options <- c("NORMAL", "STUDENT_T", "UNIFORM"){
+  if(! object@priorName %in% prior_options){
+    stop("Prior name is not valid.")
+  }
   
+  selection_options = c("EPV", "MEI", "MFI", "MPWI", "MLWI", "KL", "LKL", "PKL", "MFII", "RANDOM")
+  if(!object@selection %in% selection_options){
+    stop("Selection method is not valid.")
+  }
 })
-
-
 
 #' Set methods for slots within \code{Cat} class objects
 #'
