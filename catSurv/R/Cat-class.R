@@ -160,7 +160,7 @@ setValidity("Cat", function(object){
     stop("Estimation default method is not valid.  Must be 'EAP' or 'MAP'.")
   }
   
-  prior_options <- c("NORMAL", "STUDENT_T", "UNIFORM"){
+  prior_options <- c("NORMAL", "STUDENT_T", "UNIFORM")
   if(! object@priorName %in% prior_options){
     stop("Prior name is not valid.")
   }
