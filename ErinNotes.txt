@@ -1,6 +1,4 @@
-## makeTree
-I need to go back and clean this function
-I need to change the ‘poly’ calls in it as well
+## makeTree — clean
 
 ## plot functions
 haven’t looked at them in ages
@@ -14,13 +12,7 @@ haven’t looked at them in ages
 Do I need to be testing it as well?  Same as binary but with guessing?
 
 
-## get & set methods
-Are they needed? - yes
-
-
-
-
-## have all validity and errors about what you can do to CAT object in the cat-class file
+## get & set methods — cleaned, now adds quick tests
 
 
 
@@ -47,8 +39,4 @@ Are they needed? - yes
 - what catR returns for ltm nextItem ‘info’ (what the estimate for that item is) is wrong for EPV.  It doesn’t match the EPV function.
 - add tests to make sure probabilities for GPCM cats sum to 1 after I add in checks for crazy numerators and denominator
 
-
-
-## Old problems
-Right now the Brent method has initial search interval set at [-5,5] because it was crashing R on the test dataset when set at [-6,6].  We need it to send an error/not crash when set at [-6,6]. — I think I solved this with the “extreme theta value” error in probability
 

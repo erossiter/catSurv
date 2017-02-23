@@ -22,89 +22,50 @@
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
 #' @rdname ltmCat
 #' @export
-
-ltmCat<-function(data, quadraturePoints = 15){
+ltmCat <- function(data, quadraturePoints = 21){
   UseMethod("ltmCat", data)
 }
-#setGeneric("ltmCat", function(data, object=NULL, quadraturePoints = 15,...){standardGeneric("ltmCat")})
+       
+ltmCat.data.frame <- function(data, quadraturePoints = 21){         
+  fit <- ltm(data ~ z1, control = list(GHk = quadraturePoints))
+  
+  discm <- fit$coef[,"z1"]
+  diff <- fit$coef[,"(Intercept)"]
+  names(diff) <- rownames(fit$coef)
+  
+  if(any(discm < -5) || any(discm > 5)){
+    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+  }
+  if(any(diff < -5) || any(diff > 5)){
+    warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
+  }
+  
+  object <- new("Cat")
+  object@discrimination <- discm
+  object@difficulty <- diff
+  object@guessing <- rep(0, length(discm))
+  object@answers <- rep(NA,length(discm))
+  object@model <- "ltm"
+  return(object)
+}
 
-#' @export
-#setMethod(f="ltmCat", signature("data.frame"), ## if 'data' is class 'data.frame'...
-#          definition=function(data, object, quadraturePoints,...){
-            
-ltmCat.data.frame<-function(data, quadraturePoints = 15){         
-            ## run ltm function on the data
-            fit<-ltm(data~z1, control=list(GHk = quadraturePoints))
-            
-            ## extract the parameters
-            discrimination <- fit$coef[,"z1"]
-            difficulty <- fit$coef[,"(Intercept)"]
-            names(difficulty) <- rownames(fit$coef)
-            
-            ## check if parameters are out of expected range
-            if (any(discrimination< -5) || any(discrimination>5)){
-              warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-            }
-            if (any(difficulty< -5) || any(difficulty>5)){
-              warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-            }
-            
-            ## create a new Cat
-            object = new("Cat")
-            
-            ## store those extracted parameters in the Cat
-            object@discrimination <- discrimination
-            object@difficulty <- difficulty
-            
-            ## by default (for ltmCat), the Cat is binary with no guessing parameter
-            object@guessing <- rep(0, length(discrimination))
-            
-            ## fill the answers slot with NAs
-            object@answers <- rep(NA,length(discrimination))
-            
-            object@model <- "ltm"
-            
-            ## Cat is complete! Send it back
-            return(object)
-          }
-
-## if 'data' is class 'ltm'...
-
-#setMethod(f="ltmCat", signature("ltm"),
-#          definition=function(data, object, quadraturePoints...){
-
-ltmCat.ltm<-function(data, quadraturePoints = 15){       
-            ## data is a fitted ltm object
-            ## extract the parameters
-            discrimination <- data$coef[,"z1"]
-            difficulty <- data$coef[,"(Intercept)"]
-            names(difficulty) <- rownames(data$coef)
-            
-            ## check if parameters are out of expected range
-            if (any(discrimination< -5) || any(discrimination>5)){
-              warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-            }
-            if (any(difficulty< -5) || any(difficulty>5)){
-              warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-            }
-            
-            ## create a new Cat
-            object = new("Cat")
-            
-            ## store those extracted parameters in the Cat
-            object@discrimination <- discrimination
-            object@difficulty <- difficulty
-            
-            ## by default (for ltmCat), the Cat is binary with no guessing parameter
-            object@guessing <- rep(0, length(discrimination))
-            
-            ## fill the answers slot with NAs
-            object@answers <- rep(NA,length(discrimination))
-            
-            object@model <- "ltm"
-            
-            ## Cat is complete! Send it back
-            return(object)
-          }
-
-
+ltmCat.ltm <- function(data, quadraturePoints = 21){
+  discm <- data$coef[,"z1"]
+  diff <- data$coef[,"(Intercept)"]
+  names(diff) <- rownames(data$coef)
+  
+  if(any(discm < -5) || any(discm > 5)){
+    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+  }
+  if(any(diff < -5) || any(diff > 5)){
+    warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
+  }
+  
+  object <- new("Cat")
+  object@discrimination <- discm
+  object@difficulty <- diff
+  object@guessing <- rep(0, length(discm))
+  object@answers <- rep(NA,length(discm))
+  object@model <- "ltm"
+  return(object)
+}

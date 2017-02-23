@@ -20,158 +20,61 @@
 #' @seealso \code{\link{ltmCat}},\code{\link{nextItem}}, \code{\link{question.path}}
 #' @rdname grmCat
 #' @export
-grmCat<-function(data, quadraturePoints=15,...){
+grmCat <- function(data, quadraturePoints = 21,...){
   UseMethod("grmCat", data)
 }  
 
-grmCat.data.frame<-function(data, quadraturePoints=15,...){
-            
-            ## run grm function on the data
-            fit <- grm(data=data, control = list(GHk = quadraturePoints))
-            
-            ## extract the parameters
-            coefficients <- fit$coef
-            ## coefficients is a list of parameter vectors, one vector for each question item
-            ## the last element of each vector is discrimination; all elements before that are difficulty
-            discrimination <- sapply(1:length(objects(coefficients)), function(i){
-              return(coefficients[[i]][length(coefficients[[i]])])
-            })
-            names(discrimination)<-names(coefficients)
-            
-            difficulty <- lapply(1:length(objects(coefficients)), function(i){
-              return(coefficients[[i]][-length(coefficients[[i]])])
-            })
-            names(difficulty)<-names(coefficients)
+grmCat.data.frame <- function(data, quadraturePoints = 21,...){
+  fit <- grm(data = data, control = list(GHk = quadraturePoints))
+  coefficients <- fit$coef
 
-            ## check if parameters are out of expected range
-            if (any(discrimination< -5) || any(discrimination>5)){
-              warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-            }
-            for (i in 1:length(difficulty)){
-              if (any(difficulty[[i]]< -5) || any(difficulty[[i]]>5)){
-                warning(paste("Measurement model poorly estimated: difficulty values outside of [-5, 5];
-                        See question item: ", names(difficulty)[i]))
-                }}
-            
-            ## create a new Cat
-            object<-new("Cat")
-            object@model <- "grm"
-            
-            ## store those extracted parameters in the Cat
-            object@discrimination <- discrimination
-            object@difficulty <- difficulty
-            
-            ## by default (for grmCat), the Cat is polytomous with no guessing parameter
-            object@guessing <- rep(0, length(discrimination))
-            
-            ## fill the answers slot with NAs
-            object@answers <- rep(NA,length(objects(coefficients)))
-            
-            ## Cat is complete! Send it back
-            return(object)
-        
+  discm <- sapply(1:length(coefficients), function(i) coefficients[[i]][length(coefficients[[i]])])
+  names(discm) <- names(discm)
+  
+  diff <- lapply(1:length(coefficients), function(i) coefficients[[i]][-length(coefficients[[i]])])
+  names(diff) <- names(diff)
+  
+  if(any(discm < -5) || any(discm > 5)){
+    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+  }
+  for (i in 1:length(diff)){
+    if (any(diff[[i]] < -5) || any(diff[[i]] > 5)){
+      warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
+    }
+  }
+
+  object <- new("Cat")
+  object@discrimination <- discm
+  object@difficulty <- diff
+  object@guessing <- rep(0, length(discm))
+  object@answers <- rep(NA, length(discm))
+  object@model <- "grm"
+  return(object)
 }
 
-grmCat.grm<-function(data, quadraturePoints=15,...){
-     
-              ## data is of class 'grm'
-              ## extract the parameters
-              coefficients <- data$coef
-              ## coefficients is a list of parameter vectors, one vector for each question item
-              ## the last element of each vector is discrimination; all elements before that are difficulty
-              discrimination <- sapply(1:length(objects(coefficients)), function(i){
-                return(coefficients[[i]][length(coefficients[[i]])])
-              })
-              names(discrimination)<-names(coefficients)
-              
-              difficulty <- lapply(1:length(objects(coefficients)), function(i){
-                return(coefficients[[i]][-length(coefficients[[i]])])
-              })
-              names(difficulty)<-names(coefficients)
-              
-              ## check if parameters are out of expected range
-              if (any(discrimination< -5) || any(discrimination>5)){
-                warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-              }
-              for (i in 1:length(difficulty)){
-                if (any(difficulty[[i]]< -5) || any(difficulty[[i]]>5)){
-                  warning(paste("Measurement model poorly estimated: difficulty values outside of [-5, 5];
-                          See question item: ", names(difficulty)[i]))
-                }}
-              
-              ## create a new Cat
-              object<-new("Cat")
-              object@model <- "grm"
-              
-              ## store those extracted parameters in the Cat
-              object@discrimination <- discrimination
-              object@difficulty <- difficulty
-              
-              ## by default (for grmCat), the Cat is polytomous with no guessing parameter
-              object@guessing <- rep(0, length(discrimination))
-              
-              ## fill the answers slot with NAs
-              object@answers <- rep(NA,length(objects(coefficients)))
-              
-              ## Cat is complete! Send it back
-              return(object)
- 
+grmCat.grm <- function(data, quadraturePoints = 21,...){
+  coefficients <- data$coef
+
+  discm <- sapply(1:length(coefficients), function(i) coefficients[[i]][length(coefficients[[i]])])
+  names(discm) <- names(discm)
+  
+  diff <- lapply(1:length(coefficients), function(i) coefficients[[i]][-length(coefficients[[i]])])
+  names(diff) <- names(diff)
+  
+  if(any(discm < -5) || any(discm > 5)){
+    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
+  }
+  for (i in 1:length(diff)){
+    if (any(diff[[i]] < -5) || any(diff[[i]] > 5)){
+      warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
     }
-          
+  }
 
-
-# 
-# setMethod(f="grmCat", signature="grm",
-#           definition=function(data, object, quadraturePoints,...){
-#             require(ltm)
-#             if(is.null(object)){ ## if no Cat object provided, create a new Cat
-#               object<-new("Cat")
-#             }
-#             else  if(class(object)!="Cat"){ ## if the object provided is not a Cat, error
-#               stop("object is not class Cat")
-#             } 
-#             
-#             ## data is of class 'grm'
-#             ## extract the parameters
-#             coefficients <- data$coef
-#             ## coefficients is a list of parameter vectors, one vector for each question item
-#             ## the last element of each vector is discrimination; all elements before that are difficulty
-#             discrimination <- sapply(1:length(objects(coefficients)), function(i){
-#               return(coefficients[[i]][length(coefficients[[i]])])
-#             })
-#             names(discrimination)<-names(coefficients)
-#             
-#             difficulty <- lapply(1:length(objects(coefficients)), function(i){
-#               return(coefficients[[i]][-length(coefficients[[i]])])
-#             })
-#             names(difficulty)<-names(coefficients)
-#             
-#             
-#             
-#             ## check if parameters are out of expected range
-#             if (any(discrimination< -5) || any(discrimination>5)){
-#               warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-#             }
-#             for (i in 1:length(difficulty)){
-#               if (any(difficulty[[i]]< -5) || any(difficulty[[i]]>5)){
-#                 warning(paste("Measurement model poorly estimated: difficulty values outside of [-5, 5];
-#                         See question item: ", names(difficulty)[i]))
-#               }}
-#             
-#             ## store those extracted parameters in the Cat
-#             object@discrimination <- discrimination
-#             object@difficulty <- difficulty
-#             
-#             ## by default (for grmCat), the Cat is polytomous with no guessing parameter
-#             object@poly <- TRUE
-#             object@guessing <- rep(0, length(discrimination))
-#             
-#             ## fill the answers slot with NAs
-#             object@answers <- rep(NA,length(objects(coefficients)))
-#             
-#             ## Cat is complete! Send it back
-#             return(object)
-#             
-#           }
-#           
-# )
+  object <- new("Cat")
+  object@discrimination <- discm
+  object@difficulty <- diff
+  object@guessing <- rep(0, length(discm))
+  object@answers <- rep(NA, length(discm))
+  object@model <- "grm"
+  return(object)
+}    

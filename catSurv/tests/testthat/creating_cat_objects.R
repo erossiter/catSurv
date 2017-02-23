@@ -28,6 +28,6 @@ it_gpcm <- cbind(gpcm_cat@discrimination,
                  matrix(unlist(gpcm_cat@difficulty), ncol = 4, byrow = T))
 
 
-save(ltm_fit, ltm_cat, grm_fit, grm_cat, gpcm_fit, gpcm_cat,
-     it_ltm, it_grm, it_gpcm,
+save(ltm_fit, ltm_cat, grm_fit, grm_cat, gpcm_fit,
+     gpcm_cat, it_ltm, it_grm, it_gpcm,
      file = "catSurv/tests/testthat/cat_objects.Rdata")

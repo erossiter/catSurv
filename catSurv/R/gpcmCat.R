@@ -20,83 +20,61 @@
 #' @seealso \code{\link{ltmCat}},\code{\link{nextItem}}, \code{\link{question.path}}
 #' @rdname gpcmCat
 #' @export
-gpcmCat<-function(data, quadraturePoints=21,...){
+gpcmCat <- function(data, quadraturePoints = 21,...){
   UseMethod("gpcmCat", data)
 }  
 
-gpcmCat.data.frame<-function(data, quadraturePoints=21,...){
-  ## run gpcm function on the data
-  fit <- gpcm(data=data, constraint = "gpcm",
-              control = list(GHk = quadraturePoints))
-  
-  ## extract the parameters
+gpcmCat.data.frame <- function(data, quadraturePoints = 21,...){
+  fit <- gpcm(data = data, constraint = "gpcm", control = list(GHk = quadraturePoints))
   coefficients <- fit$coef
-            
-  ## coefficients is a list of parameter vectors,
-  ## one vector for each question item
-  ## the last element of each vector is discrimination;
-  ## all elements before that are difficulty
-  discrimination <- sapply(1:length(objects(coefficients)),
-                           function(i) coefficients[[i]][length(coefficients[[i]])])
-  names(discrimination)<-names(coefficients)
+
+  discm <- sapply(1:length(coefficients), function(i) coefficients[[i]][length(coefficients[[i]])])
+  names(discm) <- names(discm)
   
-  difficulty <- lapply(1:length(objects(coefficients)),
-                       function(i) coefficients[[i]][-length(coefficients[[i]])])
-  names(difficulty)<-names(coefficients)
+  diff <- lapply(1:length(coefficients), function(i) coefficients[[i]][-length(coefficients[[i]])])
+  names(diff) <- names(diff)
   
-  ## check if parameters are out of expected range
-  if(any(discrimination< -5) || any(discrimination>5)){
+  if(any(discm < -5) || any(discm > 5)){
     warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
   }
-  for (i in 1:length(difficulty)){
-    if (any(difficulty[[i]]< -5) || any(difficulty[[i]]>5)){
-      warning(paste("Measurement model poorly estimated:
-              difficulty values outside of [-5, 5]; See question item: ", names(difficulty)[i]))
+  for (i in 1:length(diff)){
+    if (any(diff[[i]] < -5) || any(diff[[i]] > 5)){
+      warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
     }
   }
-  ## create a new Cat
+
   object <- new("Cat")
-  object@discrimination <- discrimination
-  object@difficulty <- difficulty
-  object@guessing <- rep(0, length(discrimination))
-  object@answers <- rep(NA,length(objects(coefficients)))
+  object@discrimination <- discm
+  object@difficulty <- diff
+  object@guessing <- rep(0, length(discm))
+  object@answers <- rep(NA, length(discm))
   object@model <- "gpcm"
   return(object)
 }
 
-gpcmCat.gpcm<-function(data, quadraturePoints=21,...){
-     
-  ## data is of class 'grm', extract the parameters
+gpcmCat.gpcm <- function(data, quadraturePoints = 21,...){
   coefficients <- data$coef
-            
-  ## coefficients is a list of parameter vectors,
-  ## one vector for each question item
-  ## the last element of each vector is discrimination;
-  ## all elements before that are difficulty
-  discrimination <- sapply(1:length(objects(coefficients)),
-                           function(i) coefficients[[i]][length(coefficients[[i]])])
-  names(discrimination)<-names(coefficients)
+
+  discm <- sapply(1:length(coefficients), function(i) coefficients[[i]][length(coefficients[[i]])])
+  names(discm) <- names(discm)
   
-  difficulty <- lapply(1:length(objects(coefficients)),
-                       function(i) coefficients[[i]][-length(coefficients[[i]])])
-  names(difficulty)<-names(coefficients)
+  diff <- lapply(1:length(coefficients), function(i) coefficients[[i]][-length(coefficients[[i]])])
+  names(diff) <- names(diff)
   
-  ## check if parameters are out of expected range
-  if(any(discrimination< -5) || any(discrimination>5)){
+  if(any(discm < -5) || any(discm > 5)){
     warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
   }
-  for (i in 1:length(difficulty)){
-    if (any(difficulty[[i]]< -5) || any(difficulty[[i]]>5)){
-      warning(paste("Measurement model poorly estimated:
-              difficulty values outside of [-5, 5]; See question item: ", names(difficulty)[i]))
+  for (i in 1:length(diff)){
+    if (any(diff[[i]] < -5) || any(diff[[i]] > 5)){
+      warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
     }
   }
-  ## create a new Cat
+
   object <- new("Cat")
-  object@discrimination <- discrimination
-  object@difficulty <- difficulty
-  object@guessing <- rep(0, length(discrimination))
-  object@answers <- rep(NA,length(objects(coefficients)))
+  object@discrimination <- discm
+  object@difficulty <- diff
+  object@guessing <- rep(0, length(discm))
+  object@answers <- rep(NA, length(discm))
   object@model <- "gpcm"
   return(object)
 }

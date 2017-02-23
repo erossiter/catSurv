@@ -12,10 +12,10 @@
 #' @seealso \code{\link{three.pl}},\code{\link{likelihood}}, \code{\link{prior.value}}, \code{\link{estimateTheta}}, \code{\link{estimateSE}}, \code{\link{expectedPV}},  \code{\link{nextItem}}, \code{\link{debugNextItem}}
 #' @rdname storeAnswer
 #' @export
-setGeneric("storeAnswer", function(cat, item, answer){standardGeneric("storeAnswer")})
+setGeneric("storeAnswer", function(cat, item, answer) standardGeneric("storeAnswer"))
 
 #' @export
-setMethod(f="storeAnswer", signature=class.name, definition=function(cat, item, answer) {
+setMethod(f="storeAnswer", signature = class.name, definition = function(cat, item, answer){
   cat@answers[item] <- answer
   return(cat)
 })

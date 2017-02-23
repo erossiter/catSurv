@@ -10,6 +10,10 @@ load_all(current.code)
 document(current.code)
 test(current.code)
 
+check(current.code)
+## See ‘/private/var/folders/zh/mkw57xzd3d11802rb20q0gl00000gn/T/Rtmp0P6CiU/catSurv.Rcheck/00install.out’ for details
+
+
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")
 

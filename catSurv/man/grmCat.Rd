@@ -4,7 +4,7 @@
 \alias{grmCat}
 \title{Computerized Adaptive Testing Graded Response Model}
 \usage{
-grmCat(data, quadraturePoints = 15, ...)
+grmCat(data, quadraturePoints = 21, ...)
 }
 \arguments{
 \item{data}{a \code{data.frame} or a numeric \code{matrix} of manifest variables.}
