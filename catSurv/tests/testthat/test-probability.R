@@ -7,7 +7,7 @@ probability_test <- function(cat, theta, question){
   difficulty = cat@difficulty[[question]]
   guessing = cat@guessing[question]
     
-  if(cat@model == "ltm") {
+  if(cat@model == "ltm" | cat@model == "tpm") {
     exp_prob = exp(difficulty + (theta * discrimination))
     probabilities <- guessing + (1-guessing) * (exp_prob / (1 + exp_prob))
   }

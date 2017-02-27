@@ -110,7 +110,7 @@ setValidity("Cat", function(object){
     stop("Discrimination and difficulty need to be same length.")
   }
 
-  if(object@model != "ltm"){
+  if(object@model == "grm" | object@model == "gpcm"){
     if(class(object@difficulty) != "list") stop("Difficulty needs to be a list.")
   }
   
@@ -149,9 +149,9 @@ setValidity("Cat", function(object){
     stop("Guessing values must be between 0 and 1.")
   }
   
-  model_options = c("ltm", "grm", "gpcm")
+  model_options = c("ltm", "grm", "gpcm", "tpm")
   if(! object@model %in% model_options){
-    stop("Model is not valid.  Must be 'ltm', 'grm' or 'gpcm'.")
+    stop("Model is not valid.  Must be 'ltm', 'tpm', 'grm' or 'gpcm'.")
   }
   
   estimation_options = c("EAP", "MAP", "MLE", "WLE")

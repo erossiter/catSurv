@@ -22,98 +22,60 @@
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
 #' @rdname tpmCat
 #' @export
-
-tpmCat<-function(data, quadraturePoints=15,...){
+tpmCat <- function(data, quadraturePoints = 21,...){
   UseMethod("tpmCat", data)
 }
-#setGeneric("tpmCat", function(data, object=NULL, quadraturePoints = 15, ...){standardGeneric("tpmCat")})
 
-#' @export
-#setMethod(f="tpmCat", signature="data.frame",
-#          definition=function(data, object, quadraturePoints,...){
+tpmCat.data.frame <- function(data, quadraturePoints = 21,...){
+  fit <- tpm(data, control = list(GHk = quadraturePoints))
 
-tpmCat.data.frame<-function(data, quadraturePoints=15,...){
-  
-  ## run tpm function on the data
-  fit<-tpm(data, control=list(GHk = quadraturePoints))
-  
-  ## extract the parameters
-  discrimination <- fit$coef[,"beta.2i"]
-  difficulty <- fit$coef[,"beta.1i"]
-  guessing <- coef(fit)[,"Gussng"]
-  names(difficulty) <- rownames(fit$coef)
-  
-  ## check if any parameters out of expected range:
-  if (any(discrimination< -5) || any(discrimination>5)){
+  discm <- fit$coef[,"beta.2i"]
+  diff <- fit$coef[,"beta.1i"]
+  guess <- coef(fit)[,"Gussng"]
+  names(diff) <- rownames(fit$coef)
+
+  if(any(discm < -5) || any(discm > 5)){
     warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
   }
-  if (any(difficulty< -5) || any(difficulty>5)){
+  if(any(diff < -5) || any(diff > 5)){
     warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
   }
-  if (any(guessing< 0) || any(guessing>1)){
+  if(any(guess < 0) || any(guess > 1)){
     warning("Measurement model poorly estimated: guessing values outside of [0, 1]")
   }
   
-  ## create a new Cat
-  object = new("Cat")
-  
-  ## store those extracted parameters in the Cat
-  object@discrimination <- discrimination
-  object@difficulty <- difficulty
-  object@guessing<- guessing
-  
-  
-  ## fill the answers slot with NAs
-  object@answers <- rep(NA,length(discrimination))
-  
+  object <- new("Cat")
+  object@discrimination <- discm
+  object@difficulty <- diff
+  object@guessing <- guess
+  object@answers <- rep(NA, length(discm))
   object@model <- "tpm"
-  
-  ## Cat is complete! Send it back
   return(object)
-  
 }
 
-#setMethod(f="tpmCat", signature="tpm",
-#          definition=function(data, object, quadraturePoints,...){
+tpmCat.tpm <- function(data, quadraturePoints = 21){
+  discm <- data$coef[,"beta.2i"]
+  diff <- data$coef[,"beta.1i"]
+  guess <- coef(data)[,"Gussng"]
+  names(diff) <- rownames(data$coef)
 
-tpmCat.tpm<-function(data, quadraturePoints = 15){
-  
-  ## data is of class 'tpm'
-  ## extract the parameters
-  discrimination <- data$coef[,"beta.2i"]
-  difficulty <- data$coef[,"beta.1i"]
-  guessing <- coef(data)[,"Gussng"]
-  names(difficulty) <- rownames(data$coef)
-  
-  
-  ## check if any parameters out of expected range:
-  if (any(discrimination< -5) || any(discrimination>5)){
+  if(any(discm < -5) || any(discm > 5)){
     warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
   }
-  if (any(difficulty< -5) || any(difficulty>5)){
+  if(any(diff < -5) || any(diff > 5)){
     warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
   }
-  if (any(guessing< 0) || any(guessing>1)){
+  if(any(guess < 0) || any(guess > 1)){
     warning("Measurement model poorly estimated: guessing values outside of [0, 1]")
   }
   
-  ## create a new Cat
-  object<-new("Cat")
-  
-  ## store those extracted parameters in the Cat
-  object@discrimination <- discrimination
-  object@difficulty <- difficulty
-  object@guessing<- guessing
-  
-  
-  ## fill the answers slot with NAs
-  object@answers <- rep(NA,length(discrimination))
-  
+  object <- new("Cat")
+  object@discrimination <- discm
+  object@difficulty <- diff
+  object@guessing <- guess
+  object@answers <- rep(NA, length(discm))
   object@model <- "tpm"
-  
-  ## Cat is complete! Send it back
   return(object)
-  
 }
 
 

@@ -74,7 +74,7 @@ makeTree <- function(cat, flat = FALSE){
     output[[paste(i)]] <- NA
   }
   output[[i+1]] <- var_names[q]
-  if(cat@model == "ltm"){
+  if(cat@model == "ltm" | cat@model == "tpm"){
     names(output) <- c(-1:(resp_options[q] - 2), "Next")
   } else {
     names(output) <- c(-1, 1:(resp_options[q] - 1), "Next")
@@ -100,7 +100,7 @@ makeTree <- function(cat, flat = FALSE){
             output[[q_names[i]]][[j]] <- NA
           }
           output[[q_names[i]]][[j]] <- var_names[q]
-          if(cat@model == "ltm"){
+          if(cat@model == "ltm" | cat@model == "tpm"){
             names(output[[q_names[i]]]) <- c(-1:(resp_options[q]-2), "Next")
           }else{
             names(output[[q_names[i]]]) <- c(-1, 1:(resp_options[q]-1), "Next")
@@ -138,7 +138,7 @@ makeTree <- function(cat, flat = FALSE){
       names(flatTree) <- gsub("Next", "", names(flatTree))
       flatTree <- flatTree[order(nchar(names(flatTree)))]
       
-      if(cat@model == "ltm"){
+      if(cat@model == "ltm" | cat@model == "tpm"){
         ans_choices <- c("-", 0:(resp_options[1] - 2))
       } else {
         ans_choices <- c("-", 1:(resp_options[1] - 1))

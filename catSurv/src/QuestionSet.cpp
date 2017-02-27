@@ -29,7 +29,7 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 
 	model = Rcpp::as<std::string >(cat_df.slot("model"));
 	
-	// Added all this in to check if its appropriate to use MLE
+	// Added all this is to check if its appropriate to use MLE
 	std::vector<double> minAnswer_posDiscrim;
 	std::vector<double> maxAnswer_posDiscrim;
 	std::vector<double> minAnswer_negDiscrim;
@@ -37,8 +37,8 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 	std::vector<double> ans_not_extreme;
 	
 
-	int max_response = (model == "ltm") ? 1.0 : difficulty[1].size() + 1.0;
-	int min_response = (model == "ltm") ? 0.0 : 1.0;
+	int max_response = (model == "ltm" | model == "tpm") ? 1.0 : difficulty[1].size() + 1.0;
+	int min_response = (model == "ltm" | model == "tpm") ? 0.0 : 1.0;
 
 	for (auto i : applicable_rows) {
 	  if (discrimination[i] < 0.0 and answers[i] == min_response) minAnswer_negDiscrim.push_back((int) i);

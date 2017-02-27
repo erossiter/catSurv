@@ -158,7 +158,7 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
   
   std::vector<double> probabilities;
 
-  if (questionSet.model == "ltm") {
+  if (questionSet.model == "ltm" | questionSet.model == "tpm") {
 	  probabilities = prob_ltm(theta, question);
 	}
 	if (questionSet.model == "grm") {
@@ -219,7 +219,7 @@ double Estimator::likelihood_ltm(double theta) {
 double Estimator::likelihood(double theta) {
   double likelihood;
 
-  if (questionSet.model == "ltm") {
+  if (questionSet.model == "ltm" | questionSet.model == "tpm") {
 	  likelihood = likelihood_ltm(theta);
 	}
 	if (questionSet.model == "grm") {
@@ -373,7 +373,7 @@ double Estimator::dLL(double theta, bool use_prior, Prior &prior) {
 	}
 	double l_theta;
 	
-	if (questionSet.model == "ltm") {
+	if (questionSet.model == "ltm" | questionSet.model == "tpm") {
 	  l_theta = ltm_dLL(theta);
 	}
 	if (questionSet.model == "grm") {
@@ -393,7 +393,7 @@ double Estimator::d2LL(double theta, bool use_prior, Prior &prior) {
 	}
 	double lambda_theta;
 	
-	if (questionSet.model == "ltm") {
+	if (questionSet.model == "ltm" | questionSet.model == "tpm") {
 	  lambda_theta = ltm_d2LL(theta);
 	}
 	if (questionSet.model == "grm") {
@@ -456,7 +456,7 @@ double Estimator::binary_posterior_variance(int item, Prior &prior) {
 double Estimator::expectedPV(int item, Prior &prior) {
 	double result;
   
-	if (questionSet.model == "ltm") {
+	if (questionSet.model == "ltm" | questionSet.model == "tpm") {
 	  result = binary_posterior_variance(item, prior);
 	}
 	if (questionSet.model == "grm") {
@@ -490,7 +490,7 @@ double Estimator::obsInf(double theta, int item) {
 
 double Estimator::fisherInf(double theta, int item) {
 
-	if (questionSet.model == "ltm") {
+	if (questionSet.model == "ltm" | questionSet.model == "tpm") {
 		return obsInf(theta, item);
 	}
 
@@ -523,7 +523,7 @@ double Estimator::fisherInf(double theta, int item) {
 
 double Estimator::expectedObsInf(int item, Prior &prior) {
 
-	if (questionSet.model != "ltm"){
+	if (questionSet.model == "grm" | questionSet.model == "gpcm"){
 	  std::vector<double> probabilities = probability(estimateTheta(prior), (size_t) item);
 	  questionSet.applicable_rows.push_back(item);
 	  
@@ -678,7 +678,7 @@ double Estimator::kl(double theta_not, int item, Prior prior){
 	  }
   }
   
-  if(questionSet.model == "ltm"){
+  if(questionSet.model == "ltm" | questionSet.model == "tpm"){
     const double prob_theta_not = probability(theta_not, (size_t) item)[0];
     const double prob_theta_hat = probability(estimateTheta(prior), (size_t) item)[0];
 

@@ -152,7 +152,7 @@ List Cat::lookAhead(int item) {
   std::vector<int> response_options;
   for (size_t i = 1; i <= questionSet.difficulty[item].size()+1; ++i) {
     // if binary response options, iterate from 0, otherwise iterate from 1
-    questionSet.model == "ltm" ? questionSet.answers[item] = i - 1 : questionSet.answers[item] = i; 
+    questionSet.answers[item] = (questionSet.model == "ltm" | questionSet.model == "tpm") ?  i - 1 : i; 
     Selection selection = selector->selectItem();
     items.push_back(selection.item + 1);
     response_options.push_back(questionSet.answers[item]);

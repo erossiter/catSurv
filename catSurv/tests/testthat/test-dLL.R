@@ -11,7 +11,7 @@ dLL_test <- function(cat, theta, usePrior) {
     
   sum_this <- rep(0, length(answered_questions))
 
-  if(cat@model == "ltm"){
+  if(cat@model == "ltm" | cat@model == "tpm"){
     for(i in 1:length(answered_questions)){
       item <- answered_questions[i]
       P <- probability(cat, theta, item)

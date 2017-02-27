@@ -4,7 +4,7 @@
 \alias{tpmCat}
 \title{Computerized Adaptive Testing Latent Trait Model with Binary Data}
 \usage{
-tpmCat(data, quadraturePoints = 15, ...)
+tpmCat(data, quadraturePoints = 21, ...)
 }
 \arguments{
 \item{data}{a \code{data.frame} or a numeric \code{matrix} of manifest variables.}

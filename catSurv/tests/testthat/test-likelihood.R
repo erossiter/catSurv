@@ -7,7 +7,7 @@ likelihood_test <- function(cat, theta){
   
   probs <- lapply(answered_qs, function(x) probability(cat, theta, x))
     
-  if(cat@model == "ltm") {
+  if(cat@model == "ltm" | cat@model == "tpm") {
     prod_these <- sapply(1:length(probs), function(x){
       probs[[x]]^answers[x] * (1 - probs[[x]])^(1 - answers[x])})
     output <- prod(prod_these) 

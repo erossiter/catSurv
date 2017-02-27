@@ -15,7 +15,7 @@
 setGeneric("storeAnswer", function(cat, item, answer) standardGeneric("storeAnswer"))
 
 #' @export
-setMethod(f="storeAnswer", signature = class.name, definition = function(cat, item, answer){
+setMethod(f = "storeAnswer", signature = class.name, definition = function(cat, item, answer){
   cat@answers[item] <- answer
   return(cat)
 })

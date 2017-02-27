@@ -7,6 +7,9 @@ data("npi")
 ltm_fit <- ltm(npi[1:500, ] ~ z1, control = list(GHk = 100))
 ltm_cat <- ltmCat(ltm_fit)
 
+tpm_fit <- tpm(npi[1:500, ], control = list(GHk = 100))
+tpm_cat <- tpmCat(tpm_fit)
+
 grm_fit <- grm(nfc[1:500, ], control = list(GHk = 100))
 grm_cat <- grmCat(grm_fit)
 
@@ -28,6 +31,7 @@ it_gpcm <- cbind(gpcm_cat@discrimination,
                  matrix(unlist(gpcm_cat@difficulty), ncol = 4, byrow = T))
 
 
-save(ltm_fit, ltm_cat, grm_fit, grm_cat, gpcm_fit,
-     gpcm_cat, it_ltm, it_grm, it_gpcm,
+save(ltm_fit, ltm_cat, tpm_fit, tpm_cat,
+     grm_fit, grm_cat, gpcm_fit, gpcm_cat,
+     it_ltm, it_grm, it_gpcm,
      file = "catSurv/tests/testthat/cat_objects.Rdata")
