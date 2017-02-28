@@ -9,7 +9,7 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 test(current.code)
-check(current.code, document = FALSE)
+check(current.code)
 
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")

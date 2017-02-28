@@ -4,11 +4,11 @@ Version: 0.0.0.9000
 Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 Depends:
+	methods(>= 3.3.2),
 	R(>= 3.3.2)
 License: What license is it under?
 Imports:
 	ltm(>= 1.0.0),
-	methods(>= 3.3.2),
 	Rcpp(>= 0.12.9)	
 LinkingTo:
 	BH(>= 1.60.0.2),
