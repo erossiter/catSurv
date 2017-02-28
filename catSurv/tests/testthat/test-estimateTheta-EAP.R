@@ -1,5 +1,4 @@
-library(catR)
-library(ltm)
+library(catR, quietly = TRUE)
 context("estimateTheta-EAP")
 load("cat_objects.Rdata")
 

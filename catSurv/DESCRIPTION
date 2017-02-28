@@ -8,6 +8,8 @@ Depends:
 License: What license is it under?
 Imports:
 	ltm(>= 1.0.0),
+	methods(>= 3.3.2),
+	Rcpp(>= 0.12.9)	
 LinkingTo:
 	BH(>= 1.60.0.2),
 	Rcpp(>= 0.12.9),

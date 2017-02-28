@@ -1,4 +1,4 @@
-library(catR)
+library(catR, quietly = TRUE)
 context("nextItem-EPV")
 load("cat_objects.Rdata")
 

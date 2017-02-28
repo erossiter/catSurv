@@ -1,16 +1,12 @@
-## makeTree — clean
+## makeTree — clean — done
 
 ## plot functions
 haven’t looked at them in ages
 
-## is there an MFII selection method??
-
 ## GPCM new dataset and fit
 —> eRm package
 
-## tpmcat
-Do I need to be testing it as well?  Same as binary but with guessing?
-
+## tpmcat — add selectItem tests??
 
 ## get & set methods — cleaned, now adds quick tests
 
@@ -19,9 +15,6 @@ Do I need to be testing it as well?  Same as binary but with guessing?
 ## we need to check what happens when there’s a tie for max or min estimate for nextItem routines.
 — it’s just the first one
 - it does this because it compares the following to see if its > or < than current min or max value — document this!
-
-
-
 
 
 

@@ -1,5 +1,5 @@
-library(catR)
-library(ltm)
+library(catR, quietly = TRUE)
+library(ltm, quietly = TRUE)
 context("estimateSE-EAP")
 load("cat_objects.Rdata")
 

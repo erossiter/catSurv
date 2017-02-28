@@ -1,4 +1,4 @@
-library(catR)
+library(catR, quietly = TRUE)
 context("probability")
 load("cat_objects.Rdata")
 

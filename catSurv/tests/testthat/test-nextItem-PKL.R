@@ -1,5 +1,3 @@
-detach("package:catR", unload = TRUE)
-library(catIrt)
 context("nextItem-PKL")
 load("cat_objects.Rdata")
 
@@ -86,5 +84,3 @@ test_that("nextItem PKL correctly skips questions", {
   expect_equal(nrow(gpcm_next$estimates) + sum(!is.na(gpcm_cat@answers)),
                length(gpcm_cat@answers))
 })
-
-detach("package:catIrt", unload = TRUE)

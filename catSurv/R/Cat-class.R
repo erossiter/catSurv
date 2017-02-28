@@ -169,7 +169,8 @@ setValidity("Cat", function(object){
     stop("Prior name is not valid.")
   }
   
-  selection_options = c("EPV", "MEI", "MFI", "MPWI", "MLWI", "KL", "LKL", "PKL", "MFII", "RANDOM")
+  selection_options = c("EPV", "MEI", "MFI", "MPWI", "MLWI",
+                        "KL", "LKL", "PKL", "MFII", "RANDOM")
   if(!object@selection %in% selection_options){
     stop("Selection method is not valid.")
   }

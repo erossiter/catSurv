@@ -1,4 +1,4 @@
-library(catR)
+library(catR, quietly = TRUE)
 context("nextItem-MLWI")
 load("cat_objects.Rdata")
 

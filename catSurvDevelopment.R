@@ -9,7 +9,7 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 test(current.code)
-#check(current.code)
+check(current.code)
 
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")
@@ -26,5 +26,6 @@ packageVersion("ltm") #‘1.0.0’
 packageVersion("catR") #‘3.10’
 packageVersion("catIrt") #‘0.5.0’
 packageVersion("testthat") #‘1.0.2’
+packageVersion("methods") #‘3.3.2’
 
 

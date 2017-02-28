@@ -40,47 +40,4 @@ The stopping rule thresholds are stored in the following Cat object slots: lengt
 
   gainOverride: \deqn{|SE(\hat{\theta}) - \sqrt{EPV} | >= a \forall}{|SE(\hat{\theta}) - \sqrt{EPV} | >= a \forall} remaining items
 }
-\examples{
-
-## binary (ltm)
-
- data("npi")
- ltm_data <- npi[1:100, ]
- ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
- 
- checkStopRules(ltm_cat)
- 
- ltm_cat@answers[1:2] <- c(1,0)
- ltm_cat@lengthThreshold <- 2
- 
- checkStopRules(ltm_cat)
- 
-## binary (tpm)
-
- data("AMTknowledge")
- tpm_data <- AMTknowledge[1:100, ]
- tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
- 
- checkStopRules(tpm_cat)
-
- tpm_cat@seThreshold <- 4
- 
- checkStopRules(tpm_cat)
- 
-## categorical (grm) 
-
- data("nfc")
- poly_data <- nfc[1:100, ]
- poly_cat <- grmCat(poly_data, quadraturePoints = 100)
- 
- checkStopRules(poly_cat)
- 
- poly_cat@gainThreshold <- 3
- 
- checkStopRules(poly_cat)
-
-}
-\seealso{
-\code{\link{Cat}} for additional information on stopping rules
-}
 

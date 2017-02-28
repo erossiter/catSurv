@@ -33,6 +33,6 @@ In case the Hessian matrix at convergence is not positive definite try to use \c
 Josh W. Cutler: \email{josh@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@wustl.edu}
 }
 \seealso{
-\code{\link{grmCat}}, \code{\link{nextItem}}, \code{\link{question.path}}
+\code{\link{grmCat}}
 }
 

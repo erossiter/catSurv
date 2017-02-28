@@ -1,5 +1,3 @@
-detach("package:catR", unload = TRUE)
-library(catIrt)
 context("nextItem-KL")
 load("cat_objects.Rdata")
 
@@ -14,7 +12,7 @@ test_that("ltm nextItem KL calculates correctly", {
                                         "KL"]
 
   delta <- ltm_cat@z * sqrt(fisherTestInfo(ltm_cat))
-  catIrt_next <- itChoose(cbind(8:40, it_ltm[8:40,1:3]),
+  catIrt_next <- catIrt::itChoose(cbind(8:40, it_ltm[8:40,1:3]),
                         mod = "brm",
                         numb = 1,
                         n.select = 1,
@@ -42,7 +40,7 @@ test_that("grm nextItem KL calculates correctly", {
                                         "KL"]
 
   delta <- grm_cat@z * sqrt(fisherTestInfo(grm_cat))
-  catIrt_next <- itChoose(cbind(9:18, it_grm[9:18,]),
+  catIrt_next <- catIrt::itChoose(cbind(9:18, it_grm[9:18,]),
                         mod = "grm",
                         numb = 1,
                         n.select = 1,
@@ -108,6 +106,3 @@ test_that("nextItem KL correctly skips questions", {
   expect_equal(nrow(gpcm_next$estimates) + sum(!is.na(gpcm_cat@answers)),
                length(gpcm_cat@answers))
 })
-
-
-detach("package:catIrt", unload = TRUE)

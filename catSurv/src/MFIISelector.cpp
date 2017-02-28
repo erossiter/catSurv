@@ -7,6 +7,10 @@ SelectionType MFIISelector::getSelectionType() {
 }
 
 Selection MFIISelector::selectItem() {
+  if (questionSet.applicable_rows.empty()) {
+		throw std::domain_error("MFII method of selectItem() not applicable when no questions asked");
+	}
+  	
 	Selection selection;
 	selection.questions = questionSet.nonapplicable_rows;
 	selection.values.reserve(questionSet.nonapplicable_rows.size());

@@ -1,4 +1,4 @@
-library(catR)
+library(catR, quietly = TRUE)
 context("obsInf")
 load("cat_objects.Rdata")
 
