@@ -43,38 +43,7 @@ For the dichotomous case, the  value (in terms of \deqn{y_{ij}}{y_ij}) of the se
 }
 \examples{
 
-## binary (ltm)
-
- data("npi")
- ltm_data <- npi[1:100, ]
- ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
- ltm_cat@answers <- as.numeric(ltm_data[1,])
- ltm_cat@priorParams <- c(1,5)
  
- d2LL(ltm_cat, 1, TRUE)
- d2LL(ltm_cat, 1, FALSE)
- 
-## binary (tpm)
-
- data("AMTknowledge")
- tpm_data <- AMTknowledge[1:100, ]
- tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
- tpm_cat@answers <- as.numeric(tpm_data[1,])
- tpm_cat@priorParams <- c(1,5)
- 
- d2LL(tpm_cat, 1, TRUE)
- d2LL(tpm_cat, 1, FALSE)
-
-## categorical (grm) 
-
- data("nfc")
- poly_data <- nfc[1:100, ]
- poly_cat <- grmCat(poly_data, quadraturePoints = 100)
- poly_cat@answers <- as.numeric(poly_data[1,])
- poly_cat@priorParams <- c(1,5)
- 
- d2LL(poly_cat, 1, TRUE)
- d2LL(poly_cat, 1, FALSE)
  
 }
 \seealso{

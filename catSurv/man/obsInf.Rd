@@ -38,32 +38,7 @@ The observed information is equivalent to the negative second derivative of the 
 }
 \examples{
 
-## binary (ltm)
 
- data("npi")
- ltm_data <- npi[1:100, ]
- ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
- ltm_cat@answers <- as.numeric(ltm_data[1,])
- 
- obsInf(ltm_cat, 1, 1)
- 
-## binary (tpm)
-
- data("AMTknowledge")
- tpm_data <- AMTknowledge[1:100, ]
- tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
- tpm_cat@answers <- as.numeric(tpm_data[1,])
- 
- obsInf(tpm_cat, 1, 1)
- 
-## categorical (grm) 
-
- data("nfc")
- poly_data <- nfc[1:100, ]
- poly_cat <- grmCat(poly_data, quadraturePoints = 100)
- poly_cat@answers <- as.numeric(poly_data[1,])
- 
- obsInf(poly_cat, 1, 1)
  
 }
 \seealso{

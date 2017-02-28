@@ -41,29 +41,7 @@ For binary \code{Cats}, letting \deqn{q_i(\theta_j) = 1-p_i(\theta_j)}{q_i(\thet
 }
 \examples{
 
-## binary (ltm)
 
- data("npi")
- ltm_data <- npi[1:100, ]
- ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
- 
- likelihood(ltm_cat, 0)
-
-## binary (tpm)
-
- data("AMTknowledge")
- tpm_data <- AMTknowledge[1:100, ]
- tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
- 
- likelihood(tpm_cat, 0)
-
-## categorical (grm) 
-
- data("nfc")
- poly_data <- nfc[1:100, ]
- poly_cat <- grmCat(poly_data, quadraturePoints = 100)
- 
- likelihood(poly_cat, 0)
  
 }
 \seealso{

@@ -272,10 +272,6 @@ data(polknow)
 \description{
 Data from Amazon Mechanical Turkers responding to 64 political knowledge questions.
 }
-\examples{
-data(polknow)
-head(polknow)
-}
 \references{
 Jacob M. Montgomery and Joshua Cutler. 2013. 
 "Computerized Adaptive Testing for Public Opinion Surveys." 

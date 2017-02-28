@@ -24,50 +24,7 @@ Note: \eqn{x} needs to be either UNIFORM, NORMAL, or STUDENT_T parameters, which
 }
 \examples{
 
-## binary (ltm)
-
- data("npi")
- ltm_data <- npi[1:100, ]
- ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
  
- ltm_cat@priorName <- "NORMAL"
- prior(1, ltm_cat@priorName, ltm_cat@priorParams)
- 
- ltm_cat@priorName <- "UNIFORM"
- prior(1, ltm_cat@priorName, ltm_cat@priorParams)
- 
- ltm_cat@priorName <- "STUDENT_T"
- prior(1, ltm_cat@priorName, ltm_cat@priorParams)
- 
-## binary (tpm)
-
- data("AMTknowledge")
- tpm_data <- AMTknowledge[1:100, ]
- tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
- 
- tpm_cat@priorName <- "NORMAL"
- prior(1, tpm_cat@priorName, tpm_cat@priorParams)
- 
- tpm_cat@priorName <- "UNIFORM"
- prior(1, tpm_cat@priorName, tpm_cat@priorParams)
- 
- tpm_cat@priorName <- "STUDENT_T"
- prior(1, tpm_cat@priorName, tpm_cat@priorParams)
-
-## categorical (grm) 
-
- data("nfc")
- poly_data <- nfc[1:100, ]
- poly_cat <- grmCat(poly_data, quadraturePoints = 100)
- 
- poly_cat@priorName <- "NORMAL"
- prior(1, poly_cat@priorName, poly_cat@priorParams)
- 
- poly_cat@priorName <- "UNIFORM"
- prior(1, poly_cat@priorName, poly_cat@priorParams)
- 
- poly_cat@priorName <- "STUDENT_T"
- prior(1, poly_cat@priorName, poly_cat@priorParams)
  
 }
 \seealso{

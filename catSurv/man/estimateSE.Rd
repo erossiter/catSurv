@@ -60,63 +60,7 @@ The EAP estimator:
 }
 \examples{
 
-## binary (ltm)
-
- data("npi")
- ltm_data <- npi[1:100, ]
- ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
- ltm_cat@answers <- as.numeric(ltm_data[1,])
  
- ltm_cat@estimation <- "EAP"
- estimateSE(ltm_cat)
- 
- ltm_cat@estimation <- "MAP"
- estimateSE(ltm_cat)
- 
- ltm_cat@estimation <- "MLE"
- estimateSE(ltm_cat)
- 
- ltm_cat@estimation <- "WLE"
- estimateSE(ltm_cat)
- 
-## binary (tpm)
-
- data("AMTknowledge")
- tpm_data <- AMTknowledge[1:100, ]
- tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
- tpm_cat@answers <- as.numeric(tpm_data[1,])
- 
- tpm_cat@estimation <- "EAP"
- estimateSE(tpm_cat)
- 
- tpm_cat@estimation <- "MAP"
- estimateSE(tpm_cat)
- 
- tpm_cat@estimation <- "MLE"
- estimateSE(tpm_cat)
- 
- tpm_cat@estimation <- "WLE"
- estimateSE(tpm_cat)
- 
-
-## categorical (grm) 
-
- data("nfc")
- poly_data <- nfc[1:100, ]
- poly_cat <- grmCat(poly_data, quadraturePoints = 100)
- poly_cat@answers <- as.numeric(poly_data[1,])
- 
- poly_cat@estimation <- "EAP"
- estimateSE(poly_cat)
- 
- poly_cat@estimation <- "MAP"
- estimateSE(poly_cat)
- 
- poly_cat@estimation <- "MLE"
- estimateSE(poly_cat)
- 
- poly_cat@estimation <- "WLE"
- estimateSE(poly_cat)
  
 }
 \seealso{

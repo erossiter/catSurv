@@ -43,30 +43,6 @@ using namespace Rcpp;
 //'  Note: the function for polytomous implementation does not return values, but rather alters the object \code{ret_prob} in memory
 //'
 //' @examples
-//' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  
-//'  probability(ltm_cat, 0, 1)
-//' 
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  
-//'  probability(tpm_cat, 0, 1)
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  
-//'  probability(poly_cat, 0, 1)
 //'  
 //' @seealso \code{\link{Cat}} for information on the item parameters: discrimination, difficulty, and guessing.
 //'  
@@ -114,29 +90,7 @@ std::vector<double> probability(S4 cat_df, NumericVector theta, IntegerVector qu
 //'  
 //' @examples
 //' 
-//' ## binary (ltm)
 //' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  
-//'  likelihood(ltm_cat, 0)
-//' 
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  
-//'  likelihood(tpm_cat, 0)
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  
-//'  likelihood(poly_cat, 0)
 //'  
 //' @seealso \code{\link{probability}} for individual probability calculations
 //'  
@@ -159,50 +113,7 @@ double likelihood(S4 cat_df, double t) {
 //' @details Note: \eqn{x} needs to be either UNIFORM, NORMAL, or STUDENT_T parameters, which control the shape of the prior.
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
 //'  
-//'  ltm_cat@priorName <- "NORMAL"
-//'  prior(1, ltm_cat@priorName, ltm_cat@priorParams)
-//'  
-//'  ltm_cat@priorName <- "UNIFORM"
-//'  prior(1, ltm_cat@priorName, ltm_cat@priorParams)
-//'  
-//'  ltm_cat@priorName <- "STUDENT_T"
-//'  prior(1, ltm_cat@priorName, ltm_cat@priorParams)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  
-//'  tpm_cat@priorName <- "NORMAL"
-//'  prior(1, tpm_cat@priorName, tpm_cat@priorParams)
-//'  
-//'  tpm_cat@priorName <- "UNIFORM"
-//'  prior(1, tpm_cat@priorName, tpm_cat@priorParams)
-//'  
-//'  tpm_cat@priorName <- "STUDENT_T"
-//'  prior(1, tpm_cat@priorName, tpm_cat@priorParams)
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  
-//'  poly_cat@priorName <- "NORMAL"
-//'  prior(1, poly_cat@priorName, poly_cat@priorParams)
-//'  
-//'  poly_cat@priorName <- "UNIFORM"
-//'  prior(1, poly_cat@priorName, poly_cat@priorParams)
-//'  
-//'  poly_cat@priorName <- "STUDENT_T"
-//'  prior(1, poly_cat@priorName, poly_cat@priorParams)
 //'  
 //' @seealso \code{\link{Cat}} for additional information on priors; 
 //'  \code{\link{dLL}} and/or \code{\link{d2LL}} for application of priors
@@ -255,38 +166,7 @@ double prior(NumericVector x, CharacterVector c, NumericVector p) {
 //'
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
-//'  ltm_cat@priorParams <- c(1,5)
 //'  
-//'  dLL(ltm_cat, 1, TRUE)
-//'  dLL(ltm_cat, 1, FALSE)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  tpm_cat@priorParams <- c(1,5)
-//'  
-//'  dLL(tpm_cat, 1, TRUE)
-//'  dLL(tpm_cat, 1, FALSE)
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  poly_cat@priorParams <- c(1,5)
-//'  
-//'  dLL(poly_cat, 1, TRUE)
-//'  dLL(poly_cat, 1, FALSE)
 //'  
 //' @seealso \code{\link{Cat}} and/or \code{\link{prior}} for information on priors 
 //'  
@@ -329,38 +209,7 @@ double dLL(S4 &cat_df, double theta, bool use_prior){
 //'
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
-//'  ltm_cat@priorParams <- c(1,5)
 //'  
-//'  d2LL(ltm_cat, 1, TRUE)
-//'  d2LL(ltm_cat, 1, FALSE)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  tpm_cat@priorParams <- c(1,5)
-//'  
-//'  d2LL(tpm_cat, 1, TRUE)
-//'  d2LL(tpm_cat, 1, FALSE)
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  poly_cat@priorParams <- c(1,5)
-//'  
-//'  d2LL(poly_cat, 1, TRUE)
-//'  d2LL(poly_cat, 1, FALSE)
 //'  
 //' @seealso \code{\link{Cat}} and/or \code{\link{prior}} for information on priors 
 //'  
@@ -444,63 +293,6 @@ double d2LL(S4 &cat_df, double theta, bool use_prior){
 //'
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
-//'  
-//'  ltm_cat@estimation <- "EAP"
-//'  estimateTheta(ltm_cat)
-//'  
-//'  ltm_cat@estimation <- "MAP"
-//'  estimateTheta(ltm_cat)
-//'  
-//'  ltm_cat@estimation <- "MLE"
-//'  estimateTheta(ltm_cat)
-//'  
-//'  ltm_cat@estimation <- "WLE"
-//'  estimateTheta(ltm_cat)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  
-//'  tpm_cat@estimation <- "EAP"
-//'  estimateTheta(tpm_cat)
-//'  
-//'  tpm_cat@estimation <- "MAP"
-//'  estimateTheta(tpm_cat)
-//'  
-//'  tpm_cat@estimation <- "MLE"
-//'  estimateTheta(tpm_cat)
-//'  
-//'  tpm_cat@estimation <- "WLE"
-//'  estimateTheta(tpm_cat)
-//'  
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  
-//'  poly_cat@estimation <- "EAP"
-//'  estimateTheta(poly_cat)
-//'  
-//'  poly_cat@estimation <- "MAP"
-//'  estimateTheta(poly_cat)
-//'  
-//'  poly_cat@estimation <- "MLE"
-//'  estimateTheta(poly_cat)
-//'  
-//'  poly_cat@estimation <- "WLE"
-//'  estimateTheta(poly_cat)
 //'  
 //' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*  
 //'  
@@ -538,32 +330,7 @@ double estimateTheta(S4 cat_df) {
 //'
 //' @examples
 //' 
-//' ## binary (ltm)
 //' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
-//'  
-//'  obsInf(ltm_cat, 1, 1)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  
-//'  obsInf(tpm_cat, 1, 1)
-//'  
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  
-//'  obsInf(poly_cat, 1, 1)
 //'  
 //' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
 //'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
@@ -595,32 +362,7 @@ double obsInf(S4 cat_df, double theta, int item) {
 //'
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
 //'  
-//'  expectedObsInf(ltm_cat, 1)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  
-//'  expectedObsInf(tpm_cat, 1)
-//'  
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  
-//'  expectedObsInf(poly_cat, 1)
 //'  
 //' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
 //'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
@@ -654,32 +396,7 @@ double expectedObsInf(S4 cat_df, int item) {
 //' 
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
 //'  
-//'  fisherInf(ltm_cat, 1, 1)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  
-//'  fisherInf(tpm_cat, 1, 1)
-//'  
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  
-//'  fisherInf(poly_cat, 1, 1)
 //'  
 //' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
 //'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
@@ -708,32 +425,7 @@ double fisherInf(S4 cat_df, double theta, int item) {
 //' 
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
 //'  
-//'  fisherTestInfo(ltm_cat)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  
-//'  fisherTestInfo(tpm_cat)
-//'  
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  
-//'  fisherTestInfo(poly_cat)
 //' 
 //' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
 //'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};
@@ -799,63 +491,7 @@ double fisherTestInfo(S4 cat_df) {
 //'
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
 //'  
-//'  ltm_cat@estimation <- "EAP"
-//'  estimateSE(ltm_cat)
-//'  
-//'  ltm_cat@estimation <- "MAP"
-//'  estimateSE(ltm_cat)
-//'  
-//'  ltm_cat@estimation <- "MLE"
-//'  estimateSE(ltm_cat)
-//'  
-//'  ltm_cat@estimation <- "WLE"
-//'  estimateSE(ltm_cat)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  
-//'  tpm_cat@estimation <- "EAP"
-//'  estimateSE(tpm_cat)
-//'  
-//'  tpm_cat@estimation <- "MAP"
-//'  estimateSE(tpm_cat)
-//'  
-//'  tpm_cat@estimation <- "MLE"
-//'  estimateSE(tpm_cat)
-//'  
-//'  tpm_cat@estimation <- "WLE"
-//'  estimateSE(tpm_cat)
-//'  
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  
-//'  poly_cat@estimation <- "EAP"
-//'  estimateSE(poly_cat)
-//'  
-//'  poly_cat@estimation <- "MAP"
-//'  estimateSE(poly_cat)
-//'  
-//'  poly_cat@estimation <- "MLE"
-//'  estimateSE(poly_cat)
-//'  
-//'  poly_cat@estimation <- "WLE"
-//'  estimateSE(poly_cat)
 //'  
 //' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta}
 //'  
@@ -884,32 +520,6 @@ double estimateSE(S4 cat_df) {
 //'
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
-//'  
-//'  expectedPV(ltm_cat, 1)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  
-//'  expectedPV(tpm_cat, 1)
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  
-//'  expectedPV(poly_cat, 1)
 //' 
 //' @seealso \code{\link{probability}} for calculation of P;  
 //'   \code{\link{estimateTheta}} for calculation of \eqn{\theta}
@@ -1006,116 +616,6 @@ double expectedPV(S4 cat_df, int item) {
 //'
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers[c(13,27)] <- c(1,1)
-//'  
-//'  ltm_cat@selection <- "EPV"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MFI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MLWI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MPWI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MEI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "KL"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "LKL"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "PKL"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MFII"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "RANDOM"
-//'  selectItem(ltm_cat)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers[c(13,27)] <- c(1,1)
-//'  
-//'  ltm_cat@selection <- "EPV"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MFI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MLWI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MPWI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MEI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "KL"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "LKL"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "PKL"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MFII"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "RANDOM"
-//'  selectItem(ltm_cat)
-//'  
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  ltm_cat@answers[c(13,17)] <- c(1,1)
-//'  
-//'  ltm_cat@selection <- "EPV"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MFI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MLWI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MPWI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MEI"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "KL"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "LKL"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "PKL"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "MFII"
-//'  selectItem(ltm_cat)
-//'  
-//'  ltm_cat@selection <- "RANDOM"
-//'  selectItem(ltm_cat)
 //'  
 //' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
 //'   \code{\link{obsInf}} for observed information calculation;
@@ -1175,32 +675,6 @@ List selectItem(S4 cat_df) {
 //'
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
-//'  
-//'  expectedKL(ltm_cat, 1)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  
-//'  expectedKL(tpm_cat, 1)
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  
-//'  expectedKL(poly_cat, 1)
 //'
 //' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};
 //'   \code{\link{likelihoodKL}} and/or \code{\link{posteriorKL}} for alternative KL methods
@@ -1242,32 +716,6 @@ double expectedKL(S4 cat_df, int item) {
 //'
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
-//'  
-//'  likelihoodKL(ltm_cat, 1)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  
-//'  likelihoodKL(tpm_cat, 1)
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  
-//'  likelihoodKL(poly_cat, 1)
 //'  
 //' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};
 //'   \code{\link{expectedKL}} and/or \code{\link{posteriorKL}} for alternative KL methods 
@@ -1307,32 +755,6 @@ double likelihoodKL(S4 cat_df, int item) {
 //' 
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers <- as.numeric(ltm_data[1,])
-//'  
-//'  posteriorKL(ltm_cat, 1)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers <- as.numeric(tpm_data[1,])
-//'  
-//'  posteriorKL(tpm_cat, 1)
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers <- as.numeric(poly_data[1,])
-//'  
-//'  posteriorKL(poly_cat, 1)
 //' 
 //' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};
 //'   \code{\link{likelihoodKL}} and/or \code{\link{expectedKL}} for alternative KL methods
@@ -1355,32 +777,7 @@ double posteriorKL(S4 cat_df, int item) {
 //' 
 //' @examples
 //' 
-//' ## binary (ltm)
-//' 
-//'  data("npi")
-//'  ltm_data <- npi[1:100, ]
-//'  ltm_cat <- ltmCat(ltm_data, quadraturePoints = 100)
-//'  ltm_cat@answers[c(13,27)] <- c(1,1)
 //'  
-//'  lookAhead(ltm_cat, 8)
-//'  
-//' ## binary (tpm)
-//' 
-//'  data("AMTknowledge")
-//'  tpm_data <- AMTknowledge[1:100, ]
-//'  tpm_cat <- tpmCat(tpm_data, quadraturePoints = 100)
-//'  tpm_cat@answers[c(13,27)] <- c(1,1)
-//'  
-//'  lookAhead(tpm_cat, 8)
-//' 
-//' ## categorical (grm) 
-//' 
-//'  data("nfc")
-//'  poly_data <- nfc[1:100, ]
-//'  poly_cat <- grmCat(poly_data, quadraturePoints = 100)
-//'  poly_cat@answers[c(13,17)] <- c(1,1)
-//'  
-//'  lookAhead(poly_cat, 8)
 //'
 //' @seealso \code{\link{selectItem}} for selection method information
 //'
@@ -1431,16 +828,6 @@ bool checkStopRules(S4 cat_df) {
   return answer[0];
 }
 
-/**
- * These are the functions I think we eventually do not want exposed to R/the user.  Therefore, I
- * am not documenting them just yet.
- */
-
-//' @export
-// [[Rcpp::export]]
-void showCppCat(S4 cat_df) {
-	return Cat(cat_df).showCppCat();
-}
 
 
 

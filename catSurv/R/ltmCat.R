@@ -18,54 +18,69 @@
 #'
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val="random"}.
 #'
-#' @seealso \code{\link{grmCat}}, \code{\link{nextItem}}, \code{\link{question.path}}
+#' @seealso \code{\link{grmCat}}
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
 #' @rdname ltmCat
-#' @export
-ltmCat <- function(data, quadraturePoints = 21){
-  UseMethod("ltmCat", data)
-}
-       
-ltmCat.data.frame <- function(data, quadraturePoints = 21){         
-  fit <- ltm(data ~ z1, control = list(GHk = quadraturePoints))
-  
-  discm <- fit$coef[,"z1"]
-  diff <- fit$coef[,"(Intercept)"]
-  names(diff) <- rownames(fit$coef)
-  
-  if(any(discm < -5) || any(discm > 5)){
-    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-  }
-  if(any(diff < -5) || any(diff > 5)){
-    warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-  }
-  
-  object <- new("Cat")
-  object@discrimination <- discm
-  object@difficulty <- diff
-  object@guessing <- rep(0, length(discm))
-  object@answers <- rep(NA,length(discm))
-  object@model <- "ltm"
-  return(object)
-}
+#' 
+#' @import ltm
+#' @export ltm
+#' @name ltm-class
+setOldClass("ltm")
 
-ltmCat.ltm <- function(data, quadraturePoints = 21){
-  discm <- data$coef[,"z1"]
-  diff <- data$coef[,"(Intercept)"]
-  names(diff) <- rownames(data$coef)
-  
-  if(any(discm < -5) || any(discm > 5)){
-    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-  }
-  if(any(diff < -5) || any(diff > 5)){
-    warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-  }
-  
-  object <- new("Cat")
-  object@discrimination <- discm
-  object@difficulty <- diff
-  object@guessing <- rep(0, length(discm))
-  object@answers <- rep(NA,length(discm))
-  object@model <- "ltm"
-  return(object)
-}
+setGeneric("ltmCat", function(data, quadraturePoints = NULL, ...){
+  standardGeneric("ltmCat")
+})
+
+#' @export
+setMethod("ltmCat",
+          signature(data = "data.frame"),
+          function(data, quadraturePoints = 21, ...){
+            fit <- ltm(data ~ z1, control = list(GHk = quadraturePoints))
+            discm <- fit$coef[,"z1"]
+            diff <- fit$coef[,"(Intercept)"]
+            names(diff) <- rownames(fit$coef)
+             
+            if(any(discm < -5) || any(discm > 5)){
+             warning("Measurement model poorly estimated: 
+                     discrimination values outside of [-5, 5]")
+            }
+            if(any(diff < -5) || any(diff > 5)){
+             warning("Measurement model poorly estimated: 
+                       difficulty values outside of [-5, 5]")
+            }
+             
+            object <- new("Cat")
+            object@discrimination <- discm
+            object@difficulty <- diff
+            object@guessing <- rep(0, length(discm))
+            object@answers <- rep(NA,length(discm))
+            object@model <- "ltm"
+            return(object)
+})
+
+
+#' @export
+setMethod("ltmCat",
+          signature(data = c("ltm")),
+          function(data, quadraturePoints = 21, ...){
+            discm <- data$coef[,"z1"]
+            diff <- data$coef[,"(Intercept)"]
+            names(diff) <- rownames(data$coef)
+            
+            if(any(discm < -5) || any(discm > 5)){
+               warning("Measurement model poorly estimated: 
+                       discrimination values outside of [-5, 5]")
+            }
+            if(any(diff < -5) || any(diff > 5)){
+             warning("Measurement model poorly estimated: 
+                     difficulty values outside of [-5, 5]")
+            }
+             
+            object <- new("Cat")
+            object@discrimination <- discm
+            object@difficulty <- diff
+            object@guessing <- rep(0, length(discm))
+            object@answers <- rep(NA,length(discm))
+            object@model <- "ltm"
+            return(object)
+})

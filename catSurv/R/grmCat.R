@@ -17,64 +17,86 @@
 #' }
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val="random"}.
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
-#' @seealso \code{\link{ltmCat}},\code{\link{nextItem}}, \code{\link{question.path}}
+#' @seealso \code{\link{ltmCat}}
 #' @rdname grmCat
+#' 
+#' @import ltm
+#' @export grm
+#' @name grm-class
+setOldClass("grm")
+
+setGeneric("grmCat", function(data, quadraturePoints = NULL, ...){
+  standardGeneric("grmCat")
+})
+
 #' @export
-grmCat <- function(data, quadraturePoints = 21,...){
-  UseMethod("grmCat", data)
-}  
+setMethod("grmCat",
+          signature(data = "data.frame"),
+          function(data, quadraturePoints = 21, ...){
+            fit <- grm(data = data, control = list(GHk = quadraturePoints))
+            coefficients <- fit$coef
+            
+            discm <- sapply(1:length(coefficients), function(i){
+              coefficients[[i]][length(coefficients[[i]])]})
+            names(discm) <- names(discm)
+            
+            diff <- lapply(1:length(coefficients), function(i){
+              coefficients[[i]][-length(coefficients[[i]])]})
+            names(diff) <- names(diff)
+            
+            if(any(discm < -5) || any(discm > 5)){
+              warning("Measurement model poorly estimated: 
+                      discrimination values outside of [-5, 5]")
+              }
+            
+            for (i in 1:length(diff)){
+              if (any(diff[[i]] < -5) || any(diff[[i]] > 5)){
+                warning("Measurement model poorly estimated: 
+                        difficulty values outside of [-5, 5]")
+              }
+            }
+            
+            object <- new("Cat")
+            object@discrimination <- discm
+            object@difficulty <- diff
+            object@guessing <- rep(0, length(discm))
+            object@answers <- rep(NA, length(discm))
+            object@model <- "grm"
+            return(object)
+})
 
-grmCat.data.frame <- function(data, quadraturePoints = 21,...){
-  fit <- grm(data = data, control = list(GHk = quadraturePoints))
-  coefficients <- fit$coef
 
-  discm <- sapply(1:length(coefficients), function(i) coefficients[[i]][length(coefficients[[i]])])
-  names(discm) <- names(discm)
-  
-  diff <- lapply(1:length(coefficients), function(i) coefficients[[i]][-length(coefficients[[i]])])
-  names(diff) <- names(diff)
-  
-  if(any(discm < -5) || any(discm > 5)){
-    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-  }
-  for (i in 1:length(diff)){
-    if (any(diff[[i]] < -5) || any(diff[[i]] > 5)){
-      warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-    }
-  }
-
-  object <- new("Cat")
-  object@discrimination <- discm
-  object@difficulty <- diff
-  object@guessing <- rep(0, length(discm))
-  object@answers <- rep(NA, length(discm))
-  object@model <- "grm"
-  return(object)
-}
-
-grmCat.grm <- function(data, quadraturePoints = 21,...){
-  coefficients <- data$coef
-
-  discm <- sapply(1:length(coefficients), function(i) coefficients[[i]][length(coefficients[[i]])])
-  names(discm) <- names(discm)
-  
-  diff <- lapply(1:length(coefficients), function(i) coefficients[[i]][-length(coefficients[[i]])])
-  names(diff) <- names(diff)
-  
-  if(any(discm < -5) || any(discm > 5)){
-    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-  }
-  for (i in 1:length(diff)){
-    if (any(diff[[i]] < -5) || any(diff[[i]] > 5)){
-      warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-    }
-  }
-
-  object <- new("Cat")
-  object@discrimination <- discm
-  object@difficulty <- diff
-  object@guessing <- rep(0, length(discm))
-  object@answers <- rep(NA, length(discm))
-  object@model <- "grm"
-  return(object)
-}    
+#' @export
+setMethod("grmCat",
+          signature(data = c("grm")),
+          function(data, quadraturePoints = 21, ...){
+            coefficients <- data$coef
+            
+            discm <- sapply(1:length(coefficients), function(i){
+              coefficients[[i]][length(coefficients[[i]])]})
+            names(discm) <- names(discm)
+            
+            diff <- lapply(1:length(coefficients), function(i){
+              coefficients[[i]][-length(coefficients[[i]])]})
+            names(diff) <- names(diff)
+            
+            if(any(discm < -5) || any(discm > 5)){
+              warning("Measurement model poorly estimated: 
+                      discrimination values outside of [-5, 5]")
+              }
+            for (i in 1:length(diff)){
+              if(any(diff[[i]] < -5) || any(diff[[i]] > 5)){
+                warning("Measurement model poorly estimated: 
+                        difficulty values outside of [-5, 5]")
+              }
+            }
+            
+            object <- new("Cat")
+            object@discrimination <- discm
+            object@difficulty <- diff
+            object@guessing <- rep(0, length(discm))
+            object@answers <- rep(NA, length(discm))
+            object@model <- "grm"
+            return(object)
+})
+ 

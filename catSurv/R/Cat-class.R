@@ -87,11 +87,12 @@ setClass("Cat",
     gainOverride = NA))
 
 #' @export
-setMethod("initialize", class.name, function(.Object, ...) {
-  value = callNextMethod()
-  validObject(value)
-  return(value)
+setMethod("initialize", "Cat", function(.Object, ...) {
+  .Object <- callNextMethod()
+  validObject(.Object)
+  return(.Object)
 })
+
 
 setValidity("Cat", function(object){
   if(! length(object@discrimination) > 1){
@@ -194,81 +195,87 @@ setValidity("Cat", function(object){
 #' @aliases setGuessing setDiscrimination setDifficulty setAnswers setPriorName setPriorParams
 #' setUpperBound setLowerBound setPoly setEstimation setEstimationDefault setSelection setZ
 #' setLengthThreshold setSeThreshold setInfoThreshold setGainThreshold setLengthOverride setGainOverride
-#' @export
 setGeneric("setGuessing", function(object, value) standardGeneric("setGuessing"))
 
+#' @export
 setMethod("setGuessing", "Cat", definition = function(object, value){
   object@guessing <- value
   validObject(object)
   return(object)
 })
 
-#' @export
 setGeneric("setDiscrimination", function(object, value) standardGeneric("setDiscrimination"))
 
+#' @export
 setMethod("setDiscrimination", "Cat", definition = function(object, value){
   object@discrimination <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setDifficulty", function(object, value) standardGeneric("setDifficulty"))
 
+#' @export
 setMethod("setDifficulty", "Cat", definition = function(object, value){
   object@difficulty <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setAnswers", function(object, value) standardGeneric("setAnswers"))
 
+#' @export
 setMethod("setAnswers", "Cat", definition = function(object, value){
   object@answers <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setModel", function(object, value) standardGeneric("setModel"))
 
+#' @export
 setMethod("setModel", "Cat", definition = function(object, value){
   object@model <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setPriorName", function(object, value) standardGeneric("setPriorName"))
 
+#' @export
 setMethod("setPriorName", "Cat", definition = function(object, value){
   object@priorName <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setPriorParams", function(object, value) standardGeneric("setPriorParams"))
 
+#' @export
 setMethod("setPriorParams", "Cat", definition = function(object, value){
   object@priorParams <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setLowerBound", function(object, value) standardGeneric("setLowerBound"))
 
+#' @export
 setMethod("setLowerBound", "Cat", definition = function(object, value){
   object@lowerBound <- value
   validObject(object)
   return(object)
 })
 
-#' @export
 setGeneric("setUpperBound", function(object, value) standardGeneric("setUpperBound"))
 
+#' @export
 setMethod("setUpperBound", "Cat", definition = function(object, value){
   object@upperBound <- value
   validObject(object)
@@ -276,90 +283,100 @@ setMethod("setUpperBound", "Cat", definition = function(object, value){
 })
 
 
-#' @export
+
 setGeneric("setEstimation", function(object, value) standardGeneric("setEstimation"))
 
+#' @export
 setMethod("setEstimation", "Cat", definition = function(object, value){
   object@estimation <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setEstimationDefault", function(object, value) standardGeneric("setEstimationDefault"))
 
+#' @export
 setMethod("setEstimationDefault", "Cat", definition = function(object, value){
   object@estimationDefault <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setSelection", function(object, value) standardGeneric("setSelection"))
 
+#' @export
 setMethod("setSelection", "Cat", definition = function(object, value){
   object@selection <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setZ", function(object, value) standardGeneric("setZ"))
 
+#' @export
 setMethod("setZ", "Cat", definition = function(object, value){
   object@z <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setLengthThreshold", function(object, value) standardGeneric("setLengthThreshold"))
 
+#' @export
 setMethod("setLengthThreshold", "Cat", definition = function(object, value){
   object@lengthThreshold <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setSeThreshold", function(object, value) standardGeneric("setSeThreshold"))
 
+#' @export
 setMethod("setSeThreshold", "Cat", definition = function(object, value){
   object@seThreshold <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setGainThreshold", function(object, value) standardGeneric("setGainThreshold"))
 
+#' @export
 setMethod("setGainThreshold", "Cat", definition = function(object, value){
   object@gainThreshold <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setInfoThreshold", function(object, value) standardGeneric("setInfoThreshold"))
 
+#' @export
 setMethod("setInfoThreshold", "Cat", definition = function(object, value){
   object@infoThreshold <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setLengthOverride", function(object, value) standardGeneric("setLengthOverride"))
 
+#' @export
 setMethod("setLengthOverride", "Cat", definition = function(object, value){
   object@lengthOverride <- value
   validObject(object)
   return(object)
 })
 
-#' @export
+
 setGeneric("setGainOverride", function(object, value) standardGeneric("setGainOverride"))
 
+#' @export
 setMethod("setGainOverride", "Cat", definition = function(object, value){
   object@gainThreshold <- value
   validObject(object)
@@ -382,98 +399,99 @@ setMethod("setGainOverride", "Cat", definition = function(object, value){
 #' @aliases getGuessing getDiscrimination getDifficulty getAnswers getPriorName getPriorParams
 #' getUpperBound getLowerBound setPoly getEstimation getEstimationDefault getSelection getZ
 #' getLengthThreshold getSeThreshold getInfoThreshold getGainThreshold getLengthOverride getGainOverride
-#' @export
+
 setGeneric("getModel", function(object) standardGeneric("getModel"))
 
+#' @export
 setMethod("getModel", "Cat", function(object) return(object@model))
 
-#' @export
 setGeneric("getGuessing", function(object) standardGeneric("getGuessing"))
 
+#' @export
 setMethod("getGuessing", "Cat", function(object) return(object@guessing))
 
-#' @export
 setGeneric("getDiscrimination", function(object) standardGeneric("getDiscrimination"))
 
+#' @export
 setMethod("getDiscrimination", "Cat", function(object) return(object@discrimination))
 
-#' @export
 setGeneric("getDifficulty", function(object) standardGeneric("getDifficulty"))
 
+#' @export
 setMethod("getDifficulty", "Cat", function(object) return(object@difficulty))
 
-#' @export
 setGeneric("getAnswers", function(object) standardGeneric("getAnswers"))
 
+#' @export
 setMethod("getAnswers", "Cat", function(object) return(object@answers))
 
-#' @export
 setGeneric("getPriorName", function(object) standardGeneric("getPriorName"))
 
+#' @export
 setMethod("getPriorName", "Cat", function(object) return(object@priorName))
 
-#' @export
 setGeneric("getPriorParams", function(object) standardGeneric("getPriorParams"))
 
+#' @export
 setMethod("getPriorParams", "Cat", function(object) return(object@priorParams))
 
-#' @export
 setGeneric("getLowerBound", function(object) standardGeneric("getLowerBound"))
 
+#' @export
 setMethod("getLowerBound", "Cat", function(object) return(object@lowerBound))
 
-#' @export
 setGeneric("getUpperBound", function(object) standardGeneric("getUpperBound"))
 
+#' @export
 setMethod("getUpperBound", "Cat", function(object) return(object@upperBound))
 
-#' @export
 setGeneric("getEstimation", function(object) standardGeneric("getEstimation"))
 
+#' @export
 setMethod("getEstimation", "Cat", function(object) return(object@estimation))
 
-#' @export
 setGeneric("getEstimationDefault", function(object) standardGeneric("getEstimationDefault"))
 
+#' @export
 setMethod("getEstimationDefault", "Cat", function(object) return(object@estimationDefault))
 
-#' @export
 setGeneric("getSelection", function(object) standardGeneric("getSelection"))
 
+#' @export
 setMethod("getSelection", "Cat", function(object) return(object@selection))
 
-#' @export
 setGeneric("getZ", function(object) standardGeneric("getZ"))
 
+#' @export
 setMethod("getZ", "Cat", function(object) return(object@z))
 
-#' @export
 setGeneric("getLengthThreshold", function(object) standardGeneric("getLengthThreshold"))
 
+#' @export
 setMethod("getLengthThreshold", "Cat", function(object) return(object@lengthThreshold))
 
-#' @export
 setGeneric("getSeThreshold", function(object) standardGeneric("getSeThreshold"))
 
+#' @export
 setMethod("getSeThreshold", "Cat", function(object) return(object@seThreshold))
 
-#' @export
 setGeneric("getInfoThreshold", function(object) standardGeneric("getInfoThreshold"))
 
+#' @export
 setMethod("getInfoThreshold", "Cat", function(object) return(object@infoThreshold))
 
-#' @export
 setGeneric("getGainThreshold", function(object) standardGeneric("getGainThreshold"))
 
+#' @export
 setMethod("getGainThreshold", "Cat", function(object) return(object@gainThreshold))
 
-#' @export
 setGeneric("getLengthOverride", function(object) standardGeneric("getLengthOverride"))
 
+#' @export
 setMethod("getLengthOverride", "Cat", function(object) return(object@lengthOverride))
 
-#' @export
 setGeneric("getGainOverride", function(object) standardGeneric("getGainOverride"))
 
+#' @export
 setMethod("getGainOverride", "Cat", function(object) return(object@gainOverride) )
 

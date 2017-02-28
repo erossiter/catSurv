@@ -21,61 +21,78 @@
 #' @seealso \code{\link{grmCat}}
 #' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
 #' @rdname tpmCat
+#' 
+#' @import ltm
+#' @export tpm
+#' @name tpm-class
+setOldClass("tpm")
+
+setGeneric("tpmCat", function(data, quadraturePoints = NULL, ...){
+  standardGeneric("tpmCat")
+})
+
 #' @export
-tpmCat <- function(data, quadraturePoints = 21,...){
-  UseMethod("tpmCat", data)
-}
+setMethod("tpmCat",
+          signature(data = "data.frame"),
+          function(data, quadraturePoints = 21, ...){
+            fit <- tpm(data, control = list(GHk = quadraturePoints))
 
-tpmCat.data.frame <- function(data, quadraturePoints = 21,...){
-  fit <- tpm(data, control = list(GHk = quadraturePoints))
+            discm <- fit$coef[,"beta.2i"]
+            diff <- fit$coef[,"beta.1i"]
+            guess <- coef(fit)[,"Gussng"]
+            names(diff) <- rownames(fit$coef)
 
-  discm <- fit$coef[,"beta.2i"]
-  diff <- fit$coef[,"beta.1i"]
-  guess <- coef(fit)[,"Gussng"]
-  names(diff) <- rownames(fit$coef)
-
-  if(any(discm < -5) || any(discm > 5)){
-    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-  }
-  if(any(diff < -5) || any(diff > 5)){
-    warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-  }
-  if(any(guess < 0) || any(guess > 1)){
-    warning("Measurement model poorly estimated: guessing values outside of [0, 1]")
-  }
+            if(any(discm < -5) || any(discm > 5)){
+              warning("Measurement model poorly estimated: 
+                      discrimination values outside of [-5, 5]")
+            }
+            if(any(diff < -5) || any(diff > 5)){
+              warning("Measurement model poorly estimated: 
+                      difficulty values outside of [-5, 5]")
+            }
+            if(any(guess < 0) || any(guess > 1)){
+              warning("Measurement model poorly estimated: 
+                      guessing values outside of [0, 1]")
+            }
   
-  object <- new("Cat")
-  object@discrimination <- discm
-  object@difficulty <- diff
-  object@guessing <- guess
-  object@answers <- rep(NA, length(discm))
-  object@model <- "tpm"
-  return(object)
-}
+            object <- new("Cat")
+            object@discrimination <- discm
+            object@difficulty <- diff
+            object@guessing <- guess
+            object@answers <- rep(NA, length(discm))
+            object@model <- "tpm"
+            return(object)
+})
 
-tpmCat.tpm <- function(data, quadraturePoints = 21){
-  discm <- data$coef[,"beta.2i"]
-  diff <- data$coef[,"beta.1i"]
-  guess <- coef(data)[,"Gussng"]
-  names(diff) <- rownames(data$coef)
-
-  if(any(discm < -5) || any(discm > 5)){
-    warning("Measurement model poorly estimated: discrimination values outside of [-5, 5]")
-  }
-  if(any(diff < -5) || any(diff > 5)){
-    warning("Measurement model poorly estimated: difficulty values outside of [-5, 5]")
-  }
-  if(any(guess < 0) || any(guess > 1)){
-    warning("Measurement model poorly estimated: guessing values outside of [0, 1]")
-  }
+#' @export
+setMethod("tpmCat",
+          signature(data = c("tpm")),
+          function(data, quadraturePoints = 21, ...){
+            discm <- data$coef[,"beta.2i"]
+            diff <- data$coef[,"beta.1i"]
+            guess <- coef(data)[,"Gussng"]
+            names(diff) <- rownames(data$coef)
+            
+            if(any(discm < -5) || any(discm > 5)){
+              warning("Measurement model poorly estimated: 
+                      discrimination values outside of [-5, 5]")
+            }
+            if(any(diff < -5) || any(diff > 5)){
+              warning("Measurement model poorly estimated: 
+                      difficulty values outside of [-5, 5]")
+            }
+            if(any(guess < 0) || any(guess > 1)){
+              warning("Measurement model poorly estimated: 
+                      guessing values outside of [0, 1]")
+            }
   
-  object <- new("Cat")
-  object@discrimination <- discm
-  object@difficulty <- diff
-  object@guessing <- guess
-  object@answers <- rep(NA, length(discm))
-  object@model <- "tpm"
-  return(object)
-}
+            object <- new("Cat")
+            object@discrimination <- discm
+            object@difficulty <- diff
+            object@guessing <- guess
+            object@answers <- rep(NA, length(discm))
+            object@model <- "tpm"
+            return(object)
+})
 
 

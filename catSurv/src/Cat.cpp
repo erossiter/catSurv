@@ -169,44 +169,6 @@ List Cat::lookAhead(int item) {
 
 
 
-void Cat::showCppCat() {
-  std::cout << "discrimination: " << ' ';
-  for (auto i: questionSet.discrimination){
-    std::cout << i << ' ';
-  }
-  std::cout << "\nguessing: " << ' ';
-  for (auto i: questionSet.guessing){
-    std::cout << i << ' ';
-  }
-  std::cout << "\ndifficulty: " << ' ';
-  for ( std::vector<std::vector<int>>::size_type i = 0; i < questionSet.difficulty.size(); i++ ){
-    for ( std::vector<int>::size_type j = 0; j < questionSet.difficulty[i].size(); j++ ){
-      std::cout << questionSet.difficulty[i][j] << ' ';
-    }
-    std::cout << std::endl;
-  }
-  std::cout << "nonapplicable_rows: " << ' ';
-  for (auto i: questionSet.nonapplicable_rows){
-    std::cout << i << ' ';
-  }
-  std::cout << "\napplicable_rows: " << ' ';
-  for (auto i: questionSet.applicable_rows){
-    std::cout << i << ' ';
-  }
-  std::cout << "\nskipped: " << ' ';
-  for (auto i: questionSet.skipped){
-    std::cout << i << ' ';
-  }
-  std::cout << "\nanswers: " << ' ';
-  for (auto i: questionSet.answers){
-    std::cout << i << ' ';
-  }
-  std::cout << "\npriorName: " << prior.name << std::endl;
-  std::cout << "parameters: " << ' ';
-  for (auto i: prior.parameters){
-    std::cout << i << ' ';
-  }
-}
 
 double Cat::dLL(double theta, bool use_prior) {
 	return estimator->dLL(theta, use_prior, prior);

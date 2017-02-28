@@ -223,13 +223,3 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// showCppCat
-void showCppCat(S4 cat_df);
-RcppExport SEXP catSurv_showCppCat(SEXP cat_dfSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< S4 >::type cat_df(cat_dfSEXP);
-    showCppCat(cat_df);
-    return R_NilValue;
-END_RCPP
-}

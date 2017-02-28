@@ -273,7 +273,4 @@
 #' 
 #' @source \url{https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/19381}
 #'
-#' @examples
-#' data(polknow)
-#' head(polknow)
 NULL
