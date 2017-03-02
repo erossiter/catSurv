@@ -10,10 +10,11 @@ Imports:
 	ltm(>= 1.0.0),
 	methods(>= 3.3.2),
 	stats(>= 3.3.2),
-	Rcpp(>= 0.12.9)	
+	Rcpp(>= 0.12.9),
 LinkingTo:
 	BH(>= 1.60.0.2),
 	Rcpp(>= 0.12.9),
+	RcppArmadillo,
 	RcppGSL(>= 0.3.1) 
 LazyData: true
 RoxygenNote: 5.0.1

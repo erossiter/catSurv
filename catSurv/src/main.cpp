@@ -11,6 +11,7 @@ using namespace Rcpp;
  */
 
 // [[Rcpp::plugins(cpp11)]]
+// [[Rcpp::depends(RcppArmadillo)]]
 
 //' Probability of a Response, conditional on \eqn{\theta}.
 //'

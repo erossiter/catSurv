@@ -11,6 +11,7 @@ document(current.code)
 test(current.code)
 check(current.code)
 
+
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")
 
@@ -19,6 +20,7 @@ load("catSurv/tests/testthat/cat_objects.Rdata")
 ## in description file)
 library(utils)
 version #3.3.2
+packageVersion("RcppArmadillo") #‘0.7.700.0.0’
 packageVersion("stats") #‘3.3.2’
 packageVersion("Rcpp") #‘0.12.9’
 packageVersion("RcppGSL") #‘0.3.1’
