@@ -19,6 +19,7 @@ load("catSurv/tests/testthat/cat_objects.Rdata")
 ## in description file)
 library(utils)
 version #3.3.2
+packageVersion("stats") #‘3.3.2’
 packageVersion("Rcpp") #‘0.12.9’
 packageVersion("RcppGSL") #‘0.3.1’
 packageVersion("BH") #‘1.60.0.2’

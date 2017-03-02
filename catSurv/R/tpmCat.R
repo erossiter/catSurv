@@ -24,6 +24,7 @@
 #' 
 #' @import ltm
 #' @export tpm
+#' @import stats
 #' @name tpm-class
 setOldClass("tpm")
 

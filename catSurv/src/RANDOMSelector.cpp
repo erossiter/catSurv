@@ -1,5 +1,5 @@
 #include "RANDOMSelector.h"
-#include <stdlib.h> 
+//#include <stdlib.h> 
 
 SelectionType RANDOMSelector::getSelectionType() {
 	return SelectionType::RANDOM;
@@ -18,7 +18,10 @@ Selection RANDOMSelector::selectItem() {
 		selection.values.push_back(item);
 	}
 	
-	int random_index = rand() % selection.questions.size();
+	//int sample_size = selection.questions.size();
+	std::cout << selection.questions << std::endl;
+	//int random_index = RcppArmadillo::sample(1, sample_size, )
+	//int random_index = rand() % selection.questions.size();
 	
 	selection.item = selection.questions[random_index];
 	return selection;

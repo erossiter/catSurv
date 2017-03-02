@@ -2,21 +2,18 @@ context("Cat-class")
 load("cat_objects.Rdata")
 
 test_that("'set' methods work", {
-  ltm_cat <- setEstimation(ltm_cat, "WLE")
+  setEstimation(ltm_cat) <- "WLE"
   expect_equal(ltm_cat@estimation, "WLE")
 
-  gpcm_cat <- setDiscrimination(gpcm_cat, rep(1, 18))
+  setDiscrimination(gpcm_cat) <- rep(1, 18)
   expect_equal(gpcm_cat@discrimination, rep(1, 18))
-
-  
 })
 
 test_that("validity tests work", {
-  expect_error(setEstimation(ltm_cat, "eap"))
-  expect_error(setSelection(gpcm_cat, "mfi"))
-  expect_error(setDiscrimination(gpcm_cat, rep(1, 3)))
-  expect_error(setGuessing(ltm_cat, c(.1, .1)))
-  expect_error(setAnswers(tpm_cat, c(1,0,1,0,1,1)))
-  expect_error(setUpperBound(grm_cat, -6))
-  
+  expect_error(setEstimation(ltm_cat) <- "eap")
+  expect_error(setSelection(gpcm_cat) <- "mfi")
+  expect_error(setDiscrimination(gpcm_cat) <- rep(1, 3))
+  expect_error(setGuessing(ltm_cat) <- c(.1, .1))
+  expect_error(setAnswers(tpm_cat) <- c(1,0,1,0,1,1))
+  expect_error(setUpperBound(grm_cat) <- -6)
 })
