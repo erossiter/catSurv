@@ -3,6 +3,7 @@
 ## loading dataset from package
 data("nfc")
 data("npi")
+data("polknow")
 
 ltm_fit <- ltm(npi[1:500, ] ~ z1, control = list(GHk = 100))
 ltm_cat <- ltmCat(ltm_fit)
