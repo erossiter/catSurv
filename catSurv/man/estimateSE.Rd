@@ -4,7 +4,7 @@
 \alias{estimateSE}
 \title{Estimate of the standard error for the posterior estimate}
 \usage{
-estimateSE(cat_df)
+estimateSE(catObj)
 }
 \arguments{
 \item{cat}{An object of class \code{Cat}}

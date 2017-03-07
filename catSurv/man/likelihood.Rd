@@ -4,10 +4,10 @@
 \alias{likelihood}
 \title{Likelihood of the Specified Response Set}
 \usage{
-likelihood(cat_df, t)
+likelihood(catObj, theta)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 
 \item{t}{A numeric for the value of theta (position on the latent scale of interest)}
 }
@@ -40,7 +40,17 @@ For binary \code{Cats}, letting \deqn{q_i(\theta_j) = 1-p_i(\theta_j)}{q_i(\thet
  where \deqn{I(\cdot)}{I(.)} is an indicator function that evaluates to 1 when the equatliy holds and zero otherwise.
 }
 \examples{
+\dontrun{
+## Probability for Cat of the ltm model
+data(npi)
+cat <- ltmCat(npi)
+probability(cat, )
 
+data(nfc)
+
+
+
+}
 
  
 }

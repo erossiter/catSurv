@@ -4,10 +4,10 @@
 \alias{d2LL}
 \title{The second derivative of the log likelihood}
 \usage{
-d2LL(cat_df, theta, use_prior)
+d2LL(catObj, theta, use_prior)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 
 \item{theta}{A double indicating the potential value for \eqn{\theta_j}}
 

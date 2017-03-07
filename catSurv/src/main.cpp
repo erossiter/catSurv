@@ -17,7 +17,7 @@ using namespace Rcpp;
 //'
 //' Calculates the probability of specific responses or the left-cumulative probability of responses to \code{question} conditioned on a subject's ability (\eqn{\theta})  
 //'
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
 //' @param question An integer indicating the index of the question
 //'
@@ -42,24 +42,50 @@ using namespace Rcpp;
 //'  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_ik} the \eqn{k}-th element of item \eqn{i} 's difficulty parameter, 
 //'  \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Notice the inequality on the left side and the absence of guessing parameters.
 //'
-//'  For the \code{gpcm} model, the probability of a response in category \eqn{k} or  \eqn{j} on item \eqn{i} is
+//'  For the \code{gpcm} model, the probability of a response in category \eqn{k} for respondent \eqn{j} on item \eqn{i} is
 //' 
-//' ERIN HERE:
-//'  \deqn{Pr(y_{ij} =  k|\theta_j)=\frac{\exp(\alpha_{ik} - \beta_i \theta_{ij})}{1+\exp(\alpha_{ik} - \beta_i \theta_{ij})}}{Pr(y_ij < k | \theta_j) = (exp(\alpha_ik - \beta_i \theta_ij))/(1 + exp(\alpha_ik - \beta_i \theta_ij))}
-//'
-//'  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_ik} the \eqn{k}-th element of item \eqn{i} 's difficulty parameter, 
-//'  \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Notice the inequality on the left side and the absence of guessing parameters.
-//'
-//' @examples
-//' 
-//' ## ERIN HERE
+//'  \deqn{Pr(y_{ij} =  k|\theta_j)=\frac{\exp(\sum_{t=1}^k \alpha_{i} [\theta_j - (\beta_i - \tau_{it})])}
+//'  {\sum_{r=1}^{K_i}\exp(\sum_{t=1}^{r} \alpha_{i} [\theta_j - (\beta_i - \tau_{it}) )}}
 //'  
-//' @seealso \link{Cat-class} for information on the item parameters: discrimination, difficulty, and guessing.
+//'  
+//'  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_i} is the discrimination parameter for item \eqn{i},
+//'  \eqn{\beta_i} is the difficulty parameter for item \eqn{i}, and \eqn{\tau_{it}} is the category \eqn{t} threshold parameter for item \eqn{i}, with \eqn{k = 1,...,K_i} response options
+//'  for item \eqn{i}.  For identification purposes \eqn{\tau_{i0} = 0} and \eqn{\sum_{t=1}^1 \alpha_{i} [\theta_j - (\beta_i - \tau_{it})] = 0}.
+//'
+//'@examples
+//'\dontrun{
+//'## Probability for Cat object of the ltm model
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'probability(cat, theta = 1, question = 1)
+//'
+//'## Probability for Cat object of the grm model
+//'data(nfc)
+//'cat <- grmCat(nfc)
+//'probability(cat, theta = 1, question = 1)
+//'}
+//'  
+//' @seealso \code{\link{Cat}} for information on the item parameters: discrimination, difficulty, and guessing.
+//'  
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+//'  
+//' @note Calculations are done in complied C++ code.
+//' 
+//' @references 
+//' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+//' 
+//' Choi, Seung W. and Richard J. Swartz. 2009. “Comparison of CAT Item Selection Criteria for Polytomous Items.” Applied Psychological Measurement 33(6):419–440.
+//' 
+//' Muraki, Eiji. 1992. "A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1): 1-30.
+//' 
+//' van der Linden, Wim J. 1998. “Bayesian Item Selection Criteria for Adaptive Testing.” Psychometrika 63(2):201–216.
+//' 
 //'  
 //' @export
 // [[Rcpp::export]]
-std::vector<double> probability(S4 cat_df, NumericVector theta, IntegerVector question) {
-	Cat cat = Cat(cat_df);
+std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector question) {
+	Cat cat = Cat(catObj);
 	double t = theta[0];
 	int q = question[0];
 	if(q == 0){
@@ -72,7 +98,7 @@ std::vector<double> probability(S4 cat_df, NumericVector theta, IntegerVector qu
 //'
 //' The likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot, conditional on the item-level parameters.
 //'
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' @param t A numeric for the value of theta (position on the latent scale of interest)
 //'
 //' @return A numeric value of the likelihood of the respondent having offered the provided response profile.
@@ -98,16 +124,17 @@ std::vector<double> probability(S4 cat_df, NumericVector theta, IntegerVector qu
 //'
 //'  where \deqn{I(\cdot)}{I(.)} is an indicator function that evaluates to 1 when the equatliy holds and zero otherwise.
 //'  
-//' @examples
-//' 
+//'@examples
+//'\dontrun{
+//'}
 //' 
 //'  
 //' @seealso \code{\link{probability}} for individual probability calculations
 //'  
 //' @export
 // [[Rcpp::export]]
-double likelihood(S4 cat_df, double t) {
-	return Cat(cat_df).likelihood(t);
+double likelihood(S4 catObj, double theta) {
+	return Cat(catObj).likelihood(theta);
 }
 
 //' The prior value for the respondent's position on the latent trait scale
@@ -141,7 +168,7 @@ double prior(NumericVector x, CharacterVector c, NumericVector p) {
 //' When \code{usePrior = FALSE}, this function evaluates the first derivative of the log-likelihood evaluated at point \eqn{\theta}.  
 //' When \code{usePrior = TRUE}, this function evaluates the first derivative of the log-posterior evaluated at point \eqn{\theta}. 
 //' 
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' @param theta A double indicating the value for \eqn{\theta_j}
 //' @param use_prior A logical indicating whether to use the prior parameters in estimation
 //' 
@@ -182,8 +209,8 @@ double prior(NumericVector x, CharacterVector c, NumericVector p) {
 //'  
 //' @export
 // [[Rcpp::export]]
-double dLL(S4 &cat_df, double theta, bool use_prior){
-  return Cat(cat_df).dLL(theta, use_prior);
+double dLL(S4 &catObj, double theta, bool use_prior){
+  return Cat(catObj).dLL(theta, use_prior);
 }
 
 //' The second derivative of the log likelihood
@@ -191,7 +218,7 @@ double dLL(S4 &cat_df, double theta, bool use_prior){
 //'When \code{usePrior = FALSE}, this function evaluates the second derivative of the log-likelihood evaluated at point \eqn{\theta}.  
 //'When \code{usePrior = TRUE}, this function evaluates the second derivative of the log-posterior evaluated at point \eqn{\theta}. 
 //'
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' @param theta A double indicating the potential value for \eqn{\theta_j}
 //' @param use_prior A logical indicating whether to use the prior parameters in estimation
 //' 
@@ -225,15 +252,15 @@ double dLL(S4 &cat_df, double theta, bool use_prior){
 //'  
 //' @export
 // [[Rcpp::export]]
-double d2LL(S4 &cat_df, double theta, bool use_prior){
-  return Cat(cat_df).d2LL(theta, use_prior);
+double d2LL(S4 &catObj, double theta, bool use_prior){
+  return Cat(catObj).d2LL(theta, use_prior);
 }
 
 //' Estimate of the respondent's ability parameter
 //'
 //' This function takes a \code{Cat} object and returns the expected value of the ability parameter conditioned on the observed answers and the item calibrations.
 //'
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //'
 //' @return A vector consisting of the expected value of the ability parameter
 //'
@@ -308,15 +335,15 @@ double d2LL(S4 &cat_df, double theta, bool use_prior){
 //'  
 //' @export
 // [[Rcpp::export]]
-double estimateTheta(S4 cat_df) {
-	return Cat(cat_df).estimateTheta();
+double estimateTheta(S4 catObj) {
+	return Cat(catObj).estimateTheta();
 }
 
 //' Observed Information
 //'
 //' This function calculates the observed information of the likelihood evaluated at the input value \eqn{\theta} for a specific item.
 //'
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' @param theta A double indicating the value of \eqn{\theta_j}
 //' @param item An integer indicating the index of the question
 //'
@@ -348,16 +375,16 @@ double estimateTheta(S4 cat_df) {
 //'  
 //' @export
 // [[Rcpp::export]]
-double obsInf(S4 cat_df, double theta, int item) {
+double obsInf(S4 catObj, double theta, int item) {
   item = item - 1;
-  return Cat(cat_df).obsInf(theta, item);
+  return Cat(catObj).obsInf(theta, item);
 }
 
 //' Expected Observed Information
 //'
 //' This function calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring.
 //'
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' @param item An integer indicating the index of the question
 //' 
 //' @return A value of the expected information 
@@ -380,16 +407,16 @@ double obsInf(S4 cat_df, double theta, int item) {
 //'  
 //' @export
 // [[Rcpp::export]]
-double expectedObsInf(S4 cat_df, int item) {
+double expectedObsInf(S4 catObj, int item) {
   item = item - 1;
-  return Cat(cat_df).expectedObsInf(item);
+  return Cat(catObj).expectedObsInf(item);
 }
 
 //' Fisher's Information
 //'
 //' This function calculates the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}.
 //'
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' @param theta A double indicating the potential value for \eqn{\theta_j}
 //' @param item An integer indicating the index of the question
 //'
@@ -415,16 +442,16 @@ double expectedObsInf(S4 cat_df, int item) {
 //'  
 //' @export
 // [[Rcpp::export]]
-double fisherInf(S4 cat_df, double theta, int item) {
+double fisherInf(S4 catObj, double theta, int item) {
   item = item - 1;
-  return Cat(cat_df).fisherInf(theta, item);
+  return Cat(catObj).fisherInf(theta, item);
 }
 
 //' Fisher's Test Information
 //'
 //' This function calculates the total information gained for a respondent \eqn{j} for all answered items, conditioned on \eqn{theta}.
 //'
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' 
 //' @return The total information gained for a respondent, given a specific answer set and a value of \eqn{theta}.
 //' 
@@ -444,8 +471,8 @@ double fisherInf(S4 cat_df, double theta, int item) {
 //' 
 //' @export
 // [[Rcpp::export]]
-double fisherTestInfo(S4 cat_df) {
-  return Cat(cat_df).fisherTestInfo();
+double fisherTestInfo(S4 catObj) {
+  return Cat(catObj).fisherTestInfo();
 }
 
 //' Estimate of the standard error for the posterior estimate
@@ -507,15 +534,15 @@ double fisherTestInfo(S4 cat_df) {
 //'  
 //' @export
 // [[Rcpp::export]]
-double estimateSE(S4 cat_df) {
-	return Cat(cat_df).estimateSE();
+double estimateSE(S4 catObj) {
+	return Cat(catObj).estimateSE();
 }
 
 //' Expected Posterior Variance
 //'
 //' This function estimates the expected posterior variance for a respondent's estimated position on the latent trait for an item yet to be answered based on a respondent's position on the latent trait from the already-answered items.
 //'
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' @param item An integer indicating the index of the question
 //'
 //' @return A numeric value indicating a respondent's expected posterior variance
@@ -537,16 +564,16 @@ double estimateSE(S4 cat_df) {
 //' 
 //' @export
 // [[Rcpp::export]]
-double expectedPV(S4 cat_df, int item) {
+double expectedPV(S4 catObj, int item) {
   item = item - 1.0;
-  return Cat(cat_df).expectedPV(item);
+  return Cat(catObj).expectedPV(item);
 }
 
 //' Select the next item in the question set
 //'
 //' Select the next item in the question set based on the specified method
 //' 
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //'
 //' @return It returns a list with two elements: 
 //' (1) A dataframe containing a column with the indexes of unasked questions and a column with the values (calculated by the specified selection method) for those items, 
@@ -636,8 +663,8 @@ double expectedPV(S4 cat_df, int item) {
 //'  
 //' @export
 // [[Rcpp::export]]
-List selectItem(S4 cat_df) {
-  return Cat(cat_df).selectItem();
+List selectItem(S4 catObj) {
+  return Cat(catObj).selectItem();
 }
 
 //' Expected Kullback-Leibeler information
@@ -646,7 +673,7 @@ List selectItem(S4 cat_df) {
 //' 
 //' @return A value indicating the KL information for the desired item, given the current answer profile and ability estimate.
 //' 
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' @param item An integer indicating the index of the question
 //'
 //' @details The Kullback-Leibeler information is defined as follows.  Let \eqn{\theta_0} be the true value of the parameter and \eqn{\hat{\theta}} be our current best guess based on the data we have collected so far \deqn{\mathbf{y}_{k-1}}{y_{k-1}}.
@@ -691,9 +718,9 @@ List selectItem(S4 cat_df) {
 //'
 //' @export
 // [[Rcpp::export]]
-double expectedKL(S4 cat_df, int item) {
+double expectedKL(S4 catObj, int item) {
   item = item - 1;
-  return Cat(cat_df).expectedKL(item);
+  return Cat(catObj).expectedKL(item);
 }
 
 //' Expected Kullback-Leibeler information, weighted by the likelihood
@@ -702,7 +729,7 @@ double expectedKL(S4 cat_df, int item) {
 //' 
 //' @return A value indicating the LKL information for the desired item, given the current answer profile and ability estimate.
 //' 
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' @param item An integer indicating the index of the question
 //'
 //' @details The LKL calculation follows the same procedure as \code{expectedKL}, except it requires weighting the different potential values of \eqn{\theta_0} by the likelihood.
@@ -732,9 +759,9 @@ double expectedKL(S4 cat_df, int item) {
 //'  
 //' @export
 // [[Rcpp::export]]
-double likelihoodKL(S4 cat_df, int item) {
+double likelihoodKL(S4 catObj, int item) {
   item = item - 1;
-  return Cat(cat_df).likelihoodKL(item);
+  return Cat(catObj).likelihoodKL(item);
 }
 
 //' Expected Kullback-Leibeler information, weighted by the posterior
@@ -743,7 +770,7 @@ double likelihoodKL(S4 cat_df, int item) {
 //' 
 //' @return A value indicating the posterior KL information for the desired item, given the current answer profile and ability estimate.
 //' 
-//' @param cat_df An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //' @param item An integer indicating the index of the question
 //'
 //' @details We will follow the same procedure as \code{expectedKL}, except we will weight the different potential values of \eqn{\theta_0} by the posterior.
@@ -771,16 +798,16 @@ double likelihoodKL(S4 cat_df, int item) {
 //' 
 //' @export
 // [[Rcpp::export]]
-double posteriorKL(S4 cat_df, int item) {
+double posteriorKL(S4 catObj, int item) {
   item = item - 1;
-  return Cat(cat_df).posteriorKL(item);
+  return Cat(catObj).posteriorKL(item);
 }
 
 //' Look Ahead to Select Next Item
 //'
 //' This function returns the next item that should be asked for all possible response options of the question the respondent is currently answering.
 //'
-//' @param cat_df  An object of class \code{Cat}
+//' @param catObj  An object of class \code{Cat}
 //' @param item A numeric indicating the item the respondent is currently answering.
 //'
 //' @return A vector of values indicating the possible subsequent questions
@@ -793,16 +820,16 @@ double posteriorKL(S4 cat_df, int item) {
 //'
 //' @export
 // [[Rcpp::export]]
-List lookAhead(S4 cat_df, int item) {
+List lookAhead(S4 catObj, int item) {
   item = item - 1.0;
-  return Cat(cat_df).lookAhead(item);
+  return Cat(catObj).lookAhead(item);
 }
 
 //' Check if Stop and/or Override Rules are Met
 //'
 //' This function returns a boolean indicating if the respondent should not be asked futher questions after evaluating the specified stopping and/or override rules
 //'
-//' @param cat_df  An object of class \code{Cat}
+//' @param catObj  An object of class \code{Cat}
 //'
 //' @return A boolean, where TRUE indicates the the stopping rules are met and FALSE indicates the stoppings rules are not met
 //'
@@ -833,8 +860,8 @@ List lookAhead(S4 cat_df, int item) {
 //' 
 //' @export
 // [[Rcpp::export]]
-bool checkStopRules(S4 cat_df) {
-	std::vector<bool> answer = Cat(cat_df).checkStopRules();
+bool checkStopRules(S4 catObj) {
+	std::vector<bool> answer = Cat(catObj).checkStopRules();
   return answer[0];
 }
 

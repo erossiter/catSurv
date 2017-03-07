@@ -4,10 +4,10 @@
 \alias{expectedPV}
 \title{Expected Posterior Variance}
 \usage{
-expectedPV(cat_df, item)
+expectedPV(catObj, item)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 
 \item{item}{An integer indicating the index of the question}
 }

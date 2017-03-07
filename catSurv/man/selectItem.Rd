@@ -4,10 +4,10 @@
 \alias{selectItem}
 \title{Select the next item in the question set}
 \usage{
-selectItem(cat_df)
+selectItem(catObj)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 }
 \value{
 It returns a list with two elements: 

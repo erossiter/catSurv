@@ -4,10 +4,10 @@
 \alias{checkStopRules}
 \title{Check if Stop and/or Override Rules are Met}
 \usage{
-checkStopRules(cat_df)
+checkStopRules(catObj)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 }
 \value{
 A boolean, where TRUE indicates the the stopping rules are met and FALSE indicates the stoppings rules are not met

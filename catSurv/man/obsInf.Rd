@@ -4,10 +4,10 @@
 \alias{obsInf}
 \title{Observed Information}
 \usage{
-obsInf(cat_df, theta, item)
+obsInf(catObj, theta, item)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 
 \item{theta}{A double indicating the value of \eqn{\theta_j}}
 

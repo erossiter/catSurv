@@ -4,10 +4,10 @@
 \alias{estimateTheta}
 \title{Estimate of the respondent's ability parameter}
 \usage{
-estimateTheta(cat_df)
+estimateTheta(catObj)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 }
 \value{
 A vector consisting of the expected value of the ability parameter

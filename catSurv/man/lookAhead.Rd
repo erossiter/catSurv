@@ -4,10 +4,10 @@
 \alias{lookAhead}
 \title{Look Ahead to Select Next Item}
 \usage{
-lookAhead(cat_df, item)
+lookAhead(catObj, item)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 
 \item{item}{A numeric indicating the item the respondent is currently answering.}
 }

@@ -4,10 +4,10 @@
 \alias{fisherInf}
 \title{Fisher's Information}
 \usage{
-fisherInf(cat_df, theta, item)
+fisherInf(catObj, theta, item)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 
 \item{theta}{A double indicating the potential value for \eqn{\theta_j}}
 

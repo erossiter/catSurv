@@ -4,10 +4,10 @@
 \alias{likelihoodKL}
 \title{Expected Kullback-Leibeler information, weighted by the likelihood}
 \usage{
-likelihoodKL(cat_df, item)
+likelihoodKL(catObj, item)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 
 \item{item}{An integer indicating the index of the question}
 }

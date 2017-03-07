@@ -4,10 +4,10 @@
 \alias{dLL}
 \title{The first derivative of the log-likelihood}
 \usage{
-dLL(cat_df, theta, use_prior)
+dLL(catObj, theta, use_prior)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 
 \item{theta}{A double indicating the value for \eqn{\theta_j}}
 

@@ -2,7 +2,8 @@
 rm(list = ls())
 library(devtools)
 library(roxygen2)
-setwd("~/Github/CATsurv")
+#setwd("~/Github/CATsurv")
+setwd("~/Dropbox/Spring2016/Rclass/CATSurv/")
 
 ## loading the package
 current.code <- as.package("catSurv")

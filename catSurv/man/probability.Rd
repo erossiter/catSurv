@@ -4,10 +4,10 @@
 \alias{probability}
 \title{Probability of Responses to a Question Item or the Left-Cumulative Probability of Responses}
 \usage{
-probability(cat_df, theta, question)
+probability(catObj, theta, question)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 
 \item{theta}{A numeric or an integer indicating the value for \eqn{\theta_j}}
 
@@ -31,33 +31,54 @@ For the \code{ltm} model, the probability of non-zero response for respondent \e
  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{a_i} is item \eqn{i} 's discrimination parameter,
  \eqn{b_i} is item \eqn{i} 's difficulty parameter, and \eqn{c_i} is item \eqn{i} 's guessing parameter. 
  
- NOTE: When the argument \code{catObj} is an \code{ltm} model, the function \code{probabilty} returns a numeric vector of length one.
-
- For the \code{grm} model, the probability of a response in category \eqn{k} or lower for respondent \eqn{j} on item \eqn{i} is
+ For the \code{grm} model, the probability of a response in category \eqn{k} \strong{or lower} for respondent \eqn{j} on item \eqn{i} is
 
  \deqn{Pr(y_{ij} <  k|\theta_j)=\frac{\exp(\alpha_{ik} - \beta_i \theta_{ij})}{1+\exp(\alpha_{ik} - \beta_i \theta_{ij})}}{Pr(y_ij < k | \theta_j) = (exp(\alpha_ik - \beta_i \theta_ij))/(1 + exp(\alpha_ik - \beta_i \theta_ij))}
 
  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_ik} the \eqn{k}-th element of item \eqn{i} 's difficulty parameter, 
  \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Notice the inequality on the left side and the absence of guessing parameters.
 
+ For the \code{gpcm} model, the probability of a response in category \eqn{k} for respondent \eqn{j} on item \eqn{i} is
 
-
- For the \code{gpcm} model, the probability of a response in category \eqn{k} or  \eqn{j} on item \eqn{i} is
-
-ERIN HERE:
- \deqn{Pr(y_{ij} =  k|\theta_j)=\frac{\exp(\alpha_{ik} - \beta_i \theta_{ij})}{1+\exp(\alpha_{ik} - \beta_i \theta_{ij})}}{Pr(y_ij < k | \theta_j) = (exp(\alpha_ik - \beta_i \theta_ij))/(1 + exp(\alpha_ik - \beta_i \theta_ij))}
-
- where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_ik} the \eqn{k}-th element of item \eqn{i} 's difficulty parameter, 
- \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Notice the inequality on the left side and the absence of guessing parameters.
-
- NOTE:  When the argument \code{catObj} is a \code{grm} model, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the kth element will always be one.
+ \deqn{Pr(y_{ij} =  k|\theta_j)=\frac{\exp(\sum_{t=1}^k \alpha_{i} [\theta_j - (\beta_i - \tau_{it})])}
+ {\sum_{r=1}^{K_i}\exp(\sum_{t=1}^{r} \alpha_{i} [\theta_j - (\beta_i - \tau_{it}) )}}
+ 
+ 
+ where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_i} is the discrimination parameter for item \eqn{i},
+ \eqn{\beta_i} is the difficulty parameter for item \eqn{i}, and \eqn{\tau_{it}} is the category \eqn{t} threshold parameter for item \eqn{i}, with \eqn{k = 1,...,K_i} response options
+ for item \eqn{i}.  For identification purposes \eqn{\tau_{i0} = 0} and \eqn{\sum_{t=1}^1 \alpha_{i} [\theta_j - (\beta_i - \tau_{it})] = 0}.
+}
+\note{
+Calculations are done in complied C++ code.
 }
 \examples{
+\dontrun{
+## Probability for Cat object of the ltm model
+data(npi)
+cat <- ltmCat(npi)
+probability(cat, theta = 1, question = 1)
 
-## ERIN HERE
+## Probability for Cat object of the grm model
+data(nfc)
+cat <- grmCat(nfc)
+probability(cat, theta = 1, question = 1)
+}
  
 }
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}
+\references{
+Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+
+Choi, Seung W. and Richard J. Swartz. 2009. “Comparison of CAT Item Selection Criteria for Polytomous Items.” Applied Psychological Measurement 33(6):419–440.
+
+Muraki, Eiji. 1992. "A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1): 1-30.
+
+van der Linden, Wim J. 1998. “Bayesian Item Selection Criteria for Adaptive Testing.” Psychometrika 63(2):201–216.
+}
 \seealso{
-\link{Cat-class} for information on the item parameters: discrimination, difficulty, and guessing.
+\link{Cat} for information on the item parameters: discrimination, difficulty, and guessing.
 }
 

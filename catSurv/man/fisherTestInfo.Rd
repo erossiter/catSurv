@@ -4,10 +4,10 @@
 \alias{fisherTestInfo}
 \title{Fisher's Test Information}
 \usage{
-fisherTestInfo(cat_df)
+fisherTestInfo(catObj)
 }
 \arguments{
-\item{cat_df}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 }
 \value{
 The total information gained for a respondent, given a specific answer set and a value of \eqn{theta}.

@@ -5,7 +5,7 @@
 #'
 #' Calculates the probability of specific responses or the left-cumulative probability of responses to \code{question} conditioned on a subject's ability (\eqn{\theta})  
 #'
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
 #' @param question An integer indicating the index of the question
 #'
@@ -23,43 +23,63 @@
 #'  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{a_i} is item \eqn{i} 's discrimination parameter,
 #'  \eqn{b_i} is item \eqn{i} 's difficulty parameter, and \eqn{c_i} is item \eqn{i} 's guessing parameter. 
 #'  
-#'  NOTE: When the argument \code{catObj} is an \code{ltm} model, the function \code{probabilty} returns a numeric vector of length one.
-#'
-#'  For the \code{grm} model, the probability of a response in category \eqn{k} or lower for respondent \eqn{j} on item \eqn{i} is
+#'  For the \code{grm} model, the probability of a response in category \eqn{k} \strong{or lower} for respondent \eqn{j} on item \eqn{i} is
 #' 
 #'  \deqn{Pr(y_{ij} <  k|\theta_j)=\frac{\exp(\alpha_{ik} - \beta_i \theta_{ij})}{1+\exp(\alpha_{ik} - \beta_i \theta_{ij})}}{Pr(y_ij < k | \theta_j) = (exp(\alpha_ik - \beta_i \theta_ij))/(1 + exp(\alpha_ik - \beta_i \theta_ij))}
 #'
 #'  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_ik} the \eqn{k}-th element of item \eqn{i} 's difficulty parameter, 
 #'  \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Notice the inequality on the left side and the absence of guessing parameters.
 #'
-#'
-#'
-#'  For the \code{gpcm} model, the probability of a response in category \eqn{k} or  \eqn{j} on item \eqn{i} is
+#'  For the \code{gpcm} model, the probability of a response in category \eqn{k} for respondent \eqn{j} on item \eqn{i} is
 #' 
-#' ERIN HERE:
-#'  \deqn{Pr(y_{ij} =  k|\theta_j)=\frac{\exp(\alpha_{ik} - \beta_i \theta_{ij})}{1+\exp(\alpha_{ik} - \beta_i \theta_{ij})}}{Pr(y_ij < k | \theta_j) = (exp(\alpha_ik - \beta_i \theta_ij))/(1 + exp(\alpha_ik - \beta_i \theta_ij))}
-#'
-#'  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_ik} the \eqn{k}-th element of item \eqn{i} 's difficulty parameter, 
-#'  \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Notice the inequality on the left side and the absence of guessing parameters.
-#'
-#'  NOTE:  When the argument \code{catObj} is a \code{grm} model, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the kth element will always be one.
-#'
-#' @examples
-#' 
-#' ## ERIN HERE
+#'  \deqn{Pr(y_{ij} =  k|\theta_j)=\frac{\exp(\sum_{t=1}^k \alpha_{i} [\theta_j - (\beta_i - \tau_{it})])}
+#'  {\sum_{r=1}^{K_i}\exp(\sum_{t=1}^{r} \alpha_{i} [\theta_j - (\beta_i - \tau_{it}) )}}
 #'  
-#' @seealso \link{Cat-class} for information on the item parameters: discrimination, difficulty, and guessing.
+#'  
+#'  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_i} is the discrimination parameter for item \eqn{i},
+#'  \eqn{\beta_i} is the difficulty parameter for item \eqn{i}, and \eqn{\tau_{it}} is the category \eqn{t} threshold parameter for item \eqn{i}, with \eqn{k = 1,...,K_i} response options
+#'  for item \eqn{i}.  For identification purposes \eqn{\tau_{i0} = 0} and \eqn{\sum_{t=1}^1 \alpha_{i} [\theta_j - (\beta_i - \tau_{it})] = 0}.
+#'
+#'@examples
+#'\dontrun{
+#'## Probability for Cat object of the ltm model
+#'data(npi)
+#'cat <- ltmCat(npi)
+#'probability(cat, theta = 1, question = 1)
+#'
+#'## Probability for Cat object of the grm model
+#'data(nfc)
+#'cat <- grmCat(nfc)
+#'probability(cat, theta = 1, question = 1)
+#'}
+#'  
+#' @seealso \link{Cat} for information on the item parameters: discrimination, difficulty, and guessing.
+#'  
+#' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+#'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+#'  
+#' @note Calculations are done in complied C++ code.
+#' 
+#' @references 
+#' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+#' 
+#' Choi, Seung W. and Richard J. Swartz. 2009. “Comparison of CAT Item Selection Criteria for Polytomous Items.” Applied Psychological Measurement 33(6):419–440.
+#' 
+#' Muraki, Eiji. 1992. "A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1): 1-30.
+#' 
+#' van der Linden, Wim J. 1998. “Bayesian Item Selection Criteria for Adaptive Testing.” Psychometrika 63(2):201–216.
+#' 
 #'  
 #' @export
-probability <- function(cat_df, theta, question) {
-    .Call('catSurv_probability', PACKAGE = 'catSurv', cat_df, theta, question)
+probability <- function(catObj, theta, question) {
+    .Call('catSurv_probability', PACKAGE = 'catSurv', catObj, theta, question)
 }
 
 #' Likelihood of the Specified Response Set
 #'
 #' The likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot, conditional on the item-level parameters.
 #'
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' @param t A numeric for the value of theta (position on the latent scale of interest)
 #'
 #' @return A numeric value of the likelihood of the respondent having offered the provided response profile.
@@ -85,15 +105,25 @@ probability <- function(cat_df, theta, question) {
 #'
 #'  where \deqn{I(\cdot)}{I(.)} is an indicator function that evaluates to 1 when the equatliy holds and zero otherwise.
 #'  
-#' @examples
-#' 
+#'@examples
+#'\dontrun{
+#'## Probability for Cat of the ltm model
+#'data(npi)
+#'cat <- ltmCat(npi)
+#'probability(cat, )
+#'
+#'data(nfc)
+#'
+#'
+#'
+#'}
 #' 
 #'  
 #' @seealso \code{\link{probability}} for individual probability calculations
 #'  
 #' @export
-likelihood <- function(cat_df, t) {
-    .Call('catSurv_likelihood', PACKAGE = 'catSurv', cat_df, t)
+likelihood <- function(catObj, theta) {
+    .Call('catSurv_likelihood', PACKAGE = 'catSurv', catObj, theta)
 }
 
 #' The prior value for the respondent's position on the latent trait scale
@@ -124,7 +154,7 @@ prior <- function(x, c, p) {
 #' When \code{usePrior = FALSE}, this function evaluates the first derivative of the log-likelihood evaluated at point \eqn{\theta}.  
 #' When \code{usePrior = TRUE}, this function evaluates the first derivative of the log-posterior evaluated at point \eqn{\theta}. 
 #' 
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' @param theta A double indicating the value for \eqn{\theta_j}
 #' @param use_prior A logical indicating whether to use the prior parameters in estimation
 #' 
@@ -164,8 +194,8 @@ prior <- function(x, c, p) {
 #' @seealso \code{\link{Cat}} and/or \code{\link{prior}} for information on priors 
 #'  
 #' @export
-dLL <- function(cat_df, theta, use_prior) {
-    .Call('catSurv_dLL', PACKAGE = 'catSurv', cat_df, theta, use_prior)
+dLL <- function(catObj, theta, use_prior) {
+    .Call('catSurv_dLL', PACKAGE = 'catSurv', catObj, theta, use_prior)
 }
 
 #' The second derivative of the log likelihood
@@ -173,7 +203,7 @@ dLL <- function(cat_df, theta, use_prior) {
 #'When \code{usePrior = FALSE}, this function evaluates the second derivative of the log-likelihood evaluated at point \eqn{\theta}.  
 #'When \code{usePrior = TRUE}, this function evaluates the second derivative of the log-posterior evaluated at point \eqn{\theta}. 
 #'
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' @param theta A double indicating the potential value for \eqn{\theta_j}
 #' @param use_prior A logical indicating whether to use the prior parameters in estimation
 #' 
@@ -206,15 +236,15 @@ dLL <- function(cat_df, theta, use_prior) {
 #' @seealso \code{\link{Cat}} and/or \code{\link{prior}} for information on priors 
 #'  
 #' @export
-d2LL <- function(cat_df, theta, use_prior) {
-    .Call('catSurv_d2LL', PACKAGE = 'catSurv', cat_df, theta, use_prior)
+d2LL <- function(catObj, theta, use_prior) {
+    .Call('catSurv_d2LL', PACKAGE = 'catSurv', catObj, theta, use_prior)
 }
 
 #' Estimate of the respondent's ability parameter
 #'
 #' This function takes a \code{Cat} object and returns the expected value of the ability parameter conditioned on the observed answers and the item calibrations.
 #'
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #'
 #' @return A vector consisting of the expected value of the ability parameter
 #'
@@ -288,15 +318,15 @@ d2LL <- function(cat_df, theta, use_prior) {
 #' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*  
 #'  
 #' @export
-estimateTheta <- function(cat_df) {
-    .Call('catSurv_estimateTheta', PACKAGE = 'catSurv', cat_df)
+estimateTheta <- function(catObj) {
+    .Call('catSurv_estimateTheta', PACKAGE = 'catSurv', catObj)
 }
 
 #' Observed Information
 #'
 #' This function calculates the observed information of the likelihood evaluated at the input value \eqn{\theta} for a specific item.
 #'
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' @param theta A double indicating the value of \eqn{\theta_j}
 #' @param item An integer indicating the index of the question
 #'
@@ -327,15 +357,15 @@ estimateTheta <- function(cat_df) {
 #'   \code{\link{expectedObsInf}} for further application of observed information
 #'  
 #' @export
-obsInf <- function(cat_df, theta, item) {
-    .Call('catSurv_obsInf', PACKAGE = 'catSurv', cat_df, theta, item)
+obsInf <- function(catObj, theta, item) {
+    .Call('catSurv_obsInf', PACKAGE = 'catSurv', catObj, theta, item)
 }
 
 #' Expected Observed Information
 #'
 #' This function calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring.
 #'
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question
 #' 
 #' @return A value of the expected information 
@@ -357,15 +387,15 @@ obsInf <- function(cat_df, theta, item) {
 #'   \code{\link{obsInf}} for observed information calculation
 #'  
 #' @export
-expectedObsInf <- function(cat_df, item) {
-    .Call('catSurv_expectedObsInf', PACKAGE = 'catSurv', cat_df, item)
+expectedObsInf <- function(catObj, item) {
+    .Call('catSurv_expectedObsInf', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Fisher's Information
 #'
 #' This function calculates the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}.
 #'
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' @param theta A double indicating the potential value for \eqn{\theta_j}
 #' @param item An integer indicating the index of the question
 #'
@@ -390,15 +420,15 @@ expectedObsInf <- function(cat_df, item) {
 #'   \code{\link{fisherTestInfo}} for further application of Fisher's information
 #'  
 #' @export
-fisherInf <- function(cat_df, theta, item) {
-    .Call('catSurv_fisherInf', PACKAGE = 'catSurv', cat_df, theta, item)
+fisherInf <- function(catObj, theta, item) {
+    .Call('catSurv_fisherInf', PACKAGE = 'catSurv', catObj, theta, item)
 }
 
 #' Fisher's Test Information
 #'
 #' This function calculates the total information gained for a respondent \eqn{j} for all answered items, conditioned on \eqn{theta}.
 #'
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' 
 #' @return The total information gained for a respondent, given a specific answer set and a value of \eqn{theta}.
 #' 
@@ -417,8 +447,8 @@ fisherInf <- function(cat_df, theta, item) {
 #'  
 #' 
 #' @export
-fisherTestInfo <- function(cat_df) {
-    .Call('catSurv_fisherTestInfo', PACKAGE = 'catSurv', cat_df)
+fisherTestInfo <- function(catObj) {
+    .Call('catSurv_fisherTestInfo', PACKAGE = 'catSurv', catObj)
 }
 
 #' Estimate of the standard error for the posterior estimate
@@ -479,15 +509,15 @@ fisherTestInfo <- function(cat_df) {
 #' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta}
 #'  
 #' @export
-estimateSE <- function(cat_df) {
-    .Call('catSurv_estimateSE', PACKAGE = 'catSurv', cat_df)
+estimateSE <- function(catObj) {
+    .Call('catSurv_estimateSE', PACKAGE = 'catSurv', catObj)
 }
 
 #' Expected Posterior Variance
 #'
 #' This function estimates the expected posterior variance for a respondent's estimated position on the latent trait for an item yet to be answered based on a respondent's position on the latent trait from the already-answered items.
 #'
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question
 #'
 #' @return A numeric value indicating a respondent's expected posterior variance
@@ -508,15 +538,15 @@ estimateSE <- function(cat_df) {
 #'  
 #' 
 #' @export
-expectedPV <- function(cat_df, item) {
-    .Call('catSurv_expectedPV', PACKAGE = 'catSurv', cat_df, item)
+expectedPV <- function(catObj, item) {
+    .Call('catSurv_expectedPV', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Select the next item in the question set
 #'
 #' Select the next item in the question set based on the specified method
 #' 
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #'
 #' @return It returns a list with two elements: 
 #' (1) A dataframe containing a column with the indexes of unasked questions and a column with the values (calculated by the specified selection method) for those items, 
@@ -605,8 +635,8 @@ expectedPV <- function(cat_df, item) {
 #'   \code{\link{posteriorKL}} for posterior Kullback-Leibeler calculation; 
 #'  
 #' @export
-selectItem <- function(cat_df) {
-    .Call('catSurv_selectItem', PACKAGE = 'catSurv', cat_df)
+selectItem <- function(catObj) {
+    .Call('catSurv_selectItem', PACKAGE = 'catSurv', catObj)
 }
 
 #' Expected Kullback-Leibeler information
@@ -615,7 +645,7 @@ selectItem <- function(cat_df) {
 #' 
 #' @return A value indicating the KL information for the desired item, given the current answer profile and ability estimate.
 #' 
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question
 #'
 #' @details The Kullback-Leibeler information is defined as follows.  Let \eqn{\theta_0} be the true value of the parameter and \eqn{\hat{\theta}} be our current best guess based on the data we have collected so far \deqn{\mathbf{y}_{k-1}}{y_{k-1}}.
@@ -659,8 +689,8 @@ selectItem <- function(cat_df) {
 #'   \code{\link{likelihoodKL}} and/or \code{\link{posteriorKL}} for alternative KL methods
 #'
 #' @export
-expectedKL <- function(cat_df, item) {
-    .Call('catSurv_expectedKL', PACKAGE = 'catSurv', cat_df, item)
+expectedKL <- function(catObj, item) {
+    .Call('catSurv_expectedKL', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Expected Kullback-Leibeler information, weighted by the likelihood
@@ -669,7 +699,7 @@ expectedKL <- function(cat_df, item) {
 #' 
 #' @return A value indicating the LKL information for the desired item, given the current answer profile and ability estimate.
 #' 
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question
 #'
 #' @details The LKL calculation follows the same procedure as \code{expectedKL}, except it requires weighting the different potential values of \eqn{\theta_0} by the likelihood.
@@ -698,8 +728,8 @@ expectedKL <- function(cat_df, item) {
 #'   \code{\link{expectedKL}} and/or \code{\link{posteriorKL}} for alternative KL methods 
 #'  
 #' @export
-likelihoodKL <- function(cat_df, item) {
-    .Call('catSurv_likelihoodKL', PACKAGE = 'catSurv', cat_df, item)
+likelihoodKL <- function(catObj, item) {
+    .Call('catSurv_likelihoodKL', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Expected Kullback-Leibeler information, weighted by the posterior
@@ -708,7 +738,7 @@ likelihoodKL <- function(cat_df, item) {
 #' 
 #' @return A value indicating the posterior KL information for the desired item, given the current answer profile and ability estimate.
 #' 
-#' @param cat_df An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question
 #'
 #' @details We will follow the same procedure as \code{expectedKL}, except we will weight the different potential values of \eqn{\theta_0} by the posterior.
@@ -735,15 +765,15 @@ likelihoodKL <- function(cat_df, item) {
 #'   \code{\link{likelihoodKL}} and/or \code{\link{expectedKL}} for alternative KL methods
 #' 
 #' @export
-posteriorKL <- function(cat_df, item) {
-    .Call('catSurv_posteriorKL', PACKAGE = 'catSurv', cat_df, item)
+posteriorKL <- function(catObj, item) {
+    .Call('catSurv_posteriorKL', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Look Ahead to Select Next Item
 #'
 #' This function returns the next item that should be asked for all possible response options of the question the respondent is currently answering.
 #'
-#' @param cat_df  An object of class \code{Cat}
+#' @param catObj  An object of class \code{Cat}
 #' @param item A numeric indicating the item the respondent is currently answering.
 #'
 #' @return A vector of values indicating the possible subsequent questions
@@ -755,15 +785,15 @@ posteriorKL <- function(cat_df, item) {
 #' @seealso \code{\link{selectItem}} for selection method information
 #'
 #' @export
-lookAhead <- function(cat_df, item) {
-    .Call('catSurv_lookAhead', PACKAGE = 'catSurv', cat_df, item)
+lookAhead <- function(catObj, item) {
+    .Call('catSurv_lookAhead', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Check if Stop and/or Override Rules are Met
 #'
 #' This function returns a boolean indicating if the respondent should not be asked futher questions after evaluating the specified stopping and/or override rules
 #'
-#' @param cat_df  An object of class \code{Cat}
+#' @param catObj  An object of class \code{Cat}
 #'
 #' @return A boolean, where TRUE indicates the the stopping rules are met and FALSE indicates the stoppings rules are not met
 #'
@@ -793,7 +823,7 @@ lookAhead <- function(cat_df, item) {
 #' 
 #' 
 #' @export
-checkStopRules <- function(cat_df) {
-    .Call('catSurv_checkStopRules', PACKAGE = 'catSurv', cat_df)
+checkStopRules <- function(catObj) {
+    .Call('catSurv_checkStopRules', PACKAGE = 'catSurv', catObj)
 }
 
