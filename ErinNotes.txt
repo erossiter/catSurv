@@ -1,3 +1,36 @@
+Probability
+- short title all capitals
+- change cat_df to catobj
+- try to change probability from NumericVector/IntegerVector to scalars so it can’t take a vector and just use the first element
+— add in equation for GPCM in probability
+— make sure to change the copy/pasted text
+- why aren’t links working for documentation (just development)
+— add examples, but “don’t run”
+- add some bibliographic citations:
+Baker and Kim (book)
+cite my article for GPCM
+choi and swartz (in Cat paper)
+vanderlinden (2009)
+- add author information (everyone)
+— note: actual calculation are being done in c++  This function calls internally c++….
+
+
+
+Likelihood
+theta instead of t
+
+
+
+
+
+
+
+Other
+— make sure that user can feed other arguments to grmCat, etc… (like start.val)
+
+
+
+
 ## makeTree — clean — done
 
 ## plot functions
