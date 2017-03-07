@@ -2,12 +2,14 @@
 rm(list = ls())
 library(devtools)
 library(roxygen2)
-setwd("~/Dropbox/Spring2016/Rclass/CATsurv")
+setwd("~/Github/CATsurv")
 
 ## loading the package
 current.code <- as.package("catSurv")
-load_all(current.code)
+#load_all(current.code, recompile = FALSE)
 document(current.code)
+help(probability)
+
 test(current.code)
 check(current.code)
 

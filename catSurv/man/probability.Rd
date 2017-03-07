@@ -2,47 +2,62 @@
 % Please edit documentation in R/RcppExports.R
 \name{probability}
 \alias{probability}
-\title{Probability of a Response, conditional on \eqn{\theta}.}
+\title{Probability of Responses to a Question Item or the Left-Cumulative Probability of Responses}
 \usage{
 probability(cat_df, theta, question)
 }
 \arguments{
 \item{cat_df}{An object of class \code{Cat}}
 
-\item{theta}{A double indicating the value for \eqn{\theta_j}}
+\item{theta}{A numeric or an integer indicating the value for \eqn{\theta_j}}
 
 \item{question}{An integer indicating the index of the question}
 }
 \value{
-A numeric vector consisting of the probability of a correct response (binary) or the probability of being less than each element of item \eqn{i} 's difficulty parameter.
+When the argument \code{catObj} is an \code{ltm} model, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
+
+When the argument \code{catObj} is a \code{grm} model, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the kth element will always be one. The middle elements are the cumulative probability of observing response k or lower.
+
+ When the argument \code{catObj} is a \code{gpcm} model, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents are the probability of observing response k.
 }
 \description{
-\code{probability} calculates the probability of an observed response to a specific question, conditional on \eqn{\theta}.
+Calculates the probability of specific responses or the left-cumulative probability of responses to \code{question} conditioned on a subject's ability (\eqn{\theta})
 }
 \details{
-Note: this function is overloaded, due to different output types of dichotomous vs. polytomous implementations (outputs single value for binary implementation,
- vector of values for polytomous implementation)
-
- For the binary case, the probability of a correct response for respondent \eqn{j} on item \eqn{i} is
+For the \code{ltm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
  
  \deqn{Pr(y_{ij}=1|\theta_j)=c_i+(1-c_i)\frac{\exp(a_i + b_i \theta_j)}{1+\exp(a_i + b_i \theta_j)}}{Pr(y_ij = 1 | \theta_j) = c_i + (1 - c_i)(exp(a_i + b_i \theta_j))/(1 + exp(a_i + b_i \theta_j))}
 
  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{a_i} is item \eqn{i} 's discrimination parameter,
- \eqn{b_i} is item \eqn{i} 's difficulty parameter, and \eqn{c_i} is item \eqn{i} 's guessing parameter.
+ \eqn{b_i} is item \eqn{i} 's difficulty parameter, and \eqn{c_i} is item \eqn{i} 's guessing parameter. 
+ 
+ NOTE: When the argument \code{catObj} is an \code{ltm} model, the function \code{probabilty} returns a numeric vector of length one.
 
- For categorical questions, the probability of a response in category \eqn{k} or lower for respondent \eqn{j} on item \eqn{i} is
+ For the \code{grm} model, the probability of a response in category \eqn{k} or lower for respondent \eqn{j} on item \eqn{i} is
 
  \deqn{Pr(y_{ij} <  k|\theta_j)=\frac{\exp(\alpha_{ik} - \beta_i \theta_{ij})}{1+\exp(\alpha_{ik} - \beta_i \theta_{ij})}}{Pr(y_ij < k | \theta_j) = (exp(\alpha_ik - \beta_i \theta_ij))/(1 + exp(\alpha_ik - \beta_i \theta_ij))}
 
  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_ik} the \eqn{k}-th element of item \eqn{i} 's difficulty parameter, 
- \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Notice (1) the inequality on the left side and (2) the absence of guessing parameters.
+ \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Notice the inequality on the left side and the absence of guessing parameters.
 
- Note: the function for polytomous implementation does not return values, but rather alters the object \code{ret_prob} in memory
+
+
+ For the \code{gpcm} model, the probability of a response in category \eqn{k} or  \eqn{j} on item \eqn{i} is
+
+ERIN HERE:
+ \deqn{Pr(y_{ij} =  k|\theta_j)=\frac{\exp(\alpha_{ik} - \beta_i \theta_{ij})}{1+\exp(\alpha_{ik} - \beta_i \theta_{ij})}}{Pr(y_ij < k | \theta_j) = (exp(\alpha_ik - \beta_i \theta_ij))/(1 + exp(\alpha_ik - \beta_i \theta_ij))}
+
+ where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_ik} the \eqn{k}-th element of item \eqn{i} 's difficulty parameter, 
+ \eqn{\beta_i} is discrimination parameter vector for item \eqn{i}. Notice the inequality on the left side and the absence of guessing parameters.
+
+ NOTE:  When the argument \code{catObj} is a \code{grm} model, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the kth element will always be one.
 }
 \examples{
+
+## ERIN HERE
  
 }
 \seealso{
-\code{\link{Cat}} for information on the item parameters: discrimination, difficulty, and guessing.
+\link{Cat-class} for information on the item parameters: discrimination, difficulty, and guessing.
 }
 
