@@ -14,6 +14,11 @@ help(probability)
 test(current.code)
 check(current.code)
 
+## for looking at pdf of documentation
+## lots of errors at this point
+path <- find.package("catSurv")
+system(paste(shQuote(file.path(R.home("bin"), "R")),"CMD", "Rd2pdf", shQuote(path)))
+
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")
 
