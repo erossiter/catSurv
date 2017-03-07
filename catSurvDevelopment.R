@@ -7,7 +7,7 @@ setwd("~/Dropbox/Spring2016/Rclass/CATSurv/")
 
 ## loading the package
 current.code <- as.package("catSurv")
-#load_all(current.code, recompile = FALSE)
+load_all(current.code)#, recompile = FALSE)
 document(current.code)
 help(probability)
 
