@@ -16,6 +16,8 @@ probability(catObj, theta, question)
 \value{
 When the argument \code{catObj} is an \code{ltm} model, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
 
+When the argument \code{catObj} is an \code{tpm} model, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
+
 When the argument \code{catObj} is a \code{grm} model, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the kth element will always be one. The middle elements are the cumulative probability of observing response k or lower.
 
  When the argument \code{catObj} is a \code{gpcm} model, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents are the probability of observing response k.
@@ -26,7 +28,14 @@ Calculates the probability of specific responses or the left-cumulative probabil
 \details{
 For the \code{ltm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
  
- \deqn{Pr(y_{ij}=1|\theta_j)=c_i+(1-c_i)\frac{\exp(a_i + b_i \theta_j)}{1+\exp(a_i + b_i \theta_j)}}{Pr(y_ij = 1 | \theta_j) = c_i + (1 - c_i)(exp(a_i + b_i \theta_j))/(1 + exp(a_i + b_i \theta_j))}
+ \deqn{Pr(y_{ij}=1|\theta_j)=\frac{\exp(a_i + b_i \theta_j)}{1+\exp(a_i + b_i \theta_j)}}
+
+ where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{a_i} is item \eqn{i} 's discrimination parameter,
+ \eqn{b_i} is item \eqn{i} 's difficulty parameter, and \eqn{c_i} is item \eqn{i} 's guessing parameter. 
+ 
+ For the \code{tpm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
+ 
+ \deqn{Pr(y_{ij}=1|\theta_j)=c_i+(1-c_i)\frac{\exp(a_i + b_i \theta_j)}{1+\exp(a_i + b_i \theta_j)}}
 
  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{a_i} is item \eqn{i} 's discrimination parameter,
  \eqn{b_i} is item \eqn{i} 's difficulty parameter, and \eqn{c_i} is item \eqn{i} 's guessing parameter. 
@@ -49,13 +58,18 @@ For the \code{ltm} model, the probability of non-zero response for respondent \e
  for item \eqn{i}.  For identification purposes \eqn{\tau_{i0} = 0} and \eqn{\sum_{t=1}^1 \alpha_{i} [\theta_j - (\beta_i - \tau_{it})] = 0}.
 }
 \note{
-Calculations are done in complied C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
 \dontrun{
 ## Probability for Cat object of the ltm model
 data(npi)
 cat <- ltmCat(npi)
+probability(cat, theta = 1, question = 1)
+
+## Probability for Cat object of the tpm model
+data(polknow)
+cat <- tpmCat(polknow)
 probability(cat, theta = 1, question = 1)
 
 ## Probability for Cat object of the grm model
@@ -79,6 +93,6 @@ Muraki, Eiji. 1992. "A generalized partial credit model: Application of an EM al
 van der Linden, Wim J. 1998. “Bayesian Item Selection Criteria for Adaptive Testing.” Psychometrika 63(2):201–216.
 }
 \seealso{
-\link{Cat} for information on the item parameters: discrimination, difficulty, and guessing.
+\code{\link{Cat}} for information on the item parameters: discrimination, difficulty, and guessing.
 }
 

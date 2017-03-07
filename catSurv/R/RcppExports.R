@@ -11,6 +11,8 @@
 #'
 #' @return When the argument \code{catObj} is an \code{ltm} model, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
 #'
+#'When the argument \code{catObj} is an \code{tpm} model, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
+#'
 #' When the argument \code{catObj} is a \code{grm} model, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the kth element will always be one. The middle elements are the cumulative probability of observing response k or lower.
 #'
 #'  When the argument \code{catObj} is a \code{gpcm} model, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents are the probability of observing response k.
@@ -18,7 +20,14 @@
 #' @details 
 #'  For the \code{ltm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
 #'  
-#'  \deqn{Pr(y_{ij}=1|\theta_j)=c_i+(1-c_i)\frac{\exp(a_i + b_i \theta_j)}{1+\exp(a_i + b_i \theta_j)}}{Pr(y_ij = 1 | \theta_j) = c_i + (1 - c_i)(exp(a_i + b_i \theta_j))/(1 + exp(a_i + b_i \theta_j))}
+#'  \deqn{Pr(y_{ij}=1|\theta_j)=\frac{\exp(a_i + b_i \theta_j)}{1+\exp(a_i + b_i \theta_j)}}
+#'
+#'  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{a_i} is item \eqn{i} 's discrimination parameter,
+#'  \eqn{b_i} is item \eqn{i} 's difficulty parameter, and \eqn{c_i} is item \eqn{i} 's guessing parameter. 
+#'  
+#'  For the \code{tpm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
+#'  
+#'  \deqn{Pr(y_{ij}=1|\theta_j)=c_i+(1-c_i)\frac{\exp(a_i + b_i \theta_j)}{1+\exp(a_i + b_i \theta_j)}}
 #'
 #'  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{a_i} is item \eqn{i} 's discrimination parameter,
 #'  \eqn{b_i} is item \eqn{i} 's difficulty parameter, and \eqn{c_i} is item \eqn{i} 's guessing parameter. 
@@ -47,18 +56,23 @@
 #'cat <- ltmCat(npi)
 #'probability(cat, theta = 1, question = 1)
 #'
+#'## Probability for Cat object of the tpm model
+#'data(polknow)
+#'cat <- tpmCat(polknow)
+#'probability(cat, theta = 1, question = 1)
+#'
 #'## Probability for Cat object of the grm model
 #'data(nfc)
 #'cat <- grmCat(nfc)
 #'probability(cat, theta = 1, question = 1)
 #'}
 #'  
-#' @seealso \link{Cat} for information on the item parameters: discrimination, difficulty, and guessing.
+#' @seealso \code{\link{Cat}} for information on the item parameters: discrimination, difficulty, and guessing.
 #'  
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 #'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #'  
-#' @note Calculations are done in complied C++ code.
+#' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #' 
 #' @references 
 #' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
@@ -107,15 +121,6 @@ probability <- function(catObj, theta, question) {
 #'  
 #'@examples
 #'\dontrun{
-#'## Probability for Cat of the ltm model
-#'data(npi)
-#'cat <- ltmCat(npi)
-#'probability(cat, )
-#'
-#'data(nfc)
-#'
-#'
-#'
 #'}
 #' 
 #'  
@@ -126,27 +131,60 @@ likelihood <- function(catObj, theta) {
     .Call('catSurv_likelihood', PACKAGE = 'catSurv', catObj, theta)
 }
 
-#' The prior value for the respondent's position on the latent trait scale
+#' Prior Value
 #'
-#' Calculates the prior value for a respondent's position on the latent scale of interest
+#' Calculates the density at \code{x} of either the normal, student's t, or uniform distribution
 #'
 #' @param x A numeric value at which to evaluate the prior
-#' @param c The \code{priorName} slot of a \code{Cat} object; indicates the distribution
-#' @param p The \code{priorParams} slot of a \code{Cat} object
+#' @param dist A string indicating the distribution (slot \code{priorName} of \code{Cat} object)
+#' @param params A length two numeric vector indicating the parameters of the distribution (slot \code{priorParams} of \code{Cat} object)
+#' 
+#' @return A scalar consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
 #'
-#' @return A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
-#'
-#' @details Note: \eqn{x} needs to be either UNIFORM, NORMAL, or STUDENT_T parameters, which control the shape of the prior.
+#' @details The \eqn{dist} argument needs to be either "UNIFORM", "NORMAL", or "STUDENT_T".
+#' 
+#' When \eqn{dist} is "NORMAL", the first element of \eqn{params} is the mean, 
+#' the second element is the standard deviation.  When \eqn{dist} is "STUDENT_T", the first 
+#' element of \eqn{params} is the non-centrality parameters and the second is degrees of freedom.  
+#' When \eqn{dist} is "UNIFORM", the elements of \eqn{params} are the lower and upper bounds,
+#' of the interval, respectively.  Note that the "UNIFORM" is only applicable for the "EAP" estimation method.   
+#' 
 #' @examples
+#' \dontrun{
+#'## Prior calculation using Cat object of the ltm model
+#'## specifying different distributions
+#'data(npi)
+#'cat <- ltmCat(npi)
+#'
+#'cat@priorName <- "NORMAL"
+#'cat@priorParams <- c(0, 1) ## Parameters are mean and standard deviation
+#'prior(x = 1, cat@priorName, cat@priorParams)
+#'
+#'cat@priorName <- "STUDENT_T"
+#'cat@priorParams <- c(1, 3) ## Parameters are non-centrality param and degrees of freedom
+#'prior(x = 1, cat@priorName, cat@priorParams)
+#'
+#'cat@priorName <- "UNIFORM"
+#'cat@priorParams <- c(-1, 1) ## Parameters are lower bound and upper bound of interval
+#'prior(x = 1, cat@priorName, cat@priorParams)
+#'}
+#'
+#' @seealso \code{\link{Cat}} for information on \code{priorName} and \code{priorParams} slots
+#'  
+#' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+#'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+#'  
+#' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+#' 
+#' This function uses Boost C++ source libraries for the uniform and Student's t
+#' distributions and calls \code{dnorm4} written in C which is identical to that 
+#' of \code{dnorm} in \code{R}.
 #' 
 #'  
 #'  
-#' @seealso \code{\link{Cat}} for additional information on priors; 
-#'  \code{\link{dLL}} and/or \code{\link{d2LL}} for application of priors
-#'  
 #' @export
-prior <- function(x, c, p) {
-    .Call('catSurv_prior', PACKAGE = 'catSurv', x, c, p)
+prior <- function(x, dist, params) {
+    .Call('catSurv_prior', PACKAGE = 'catSurv', x, dist, params)
 }
 
 #' The first derivative of the log-likelihood

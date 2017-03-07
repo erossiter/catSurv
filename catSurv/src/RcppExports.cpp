@@ -33,15 +33,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // prior
-double prior(NumericVector x, CharacterVector c, NumericVector p);
-RcppExport SEXP catSurv_prior(SEXP xSEXP, SEXP cSEXP, SEXP pSEXP) {
+double prior(NumericVector x, CharacterVector dist, NumericVector params);
+RcppExport SEXP catSurv_prior(SEXP xSEXP, SEXP distSEXP, SEXP paramsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type c(cSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type p(pSEXP);
-    rcpp_result_gen = Rcpp::wrap(prior(x, c, p));
+    Rcpp::traits::input_parameter< CharacterVector >::type dist(distSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type params(paramsSEXP);
+    rcpp_result_gen = Rcpp::wrap(prior(x, dist, params));
     return rcpp_result_gen;
 END_RCPP
 }

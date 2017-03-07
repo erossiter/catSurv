@@ -1,12 +1,8 @@
-Probability
-
-New questions/leftover business:
-- documentation/example for tpm
+probability
 - example for gpcm
-- correct van der linden article??
 
-
-
+library(catSurv)
+— print the grant number 
 
 
 

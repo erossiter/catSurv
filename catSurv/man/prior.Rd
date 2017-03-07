@@ -2,33 +2,65 @@
 % Please edit documentation in R/RcppExports.R
 \name{prior}
 \alias{prior}
-\title{The prior value for the respondent's position on the latent trait scale}
+\title{Prior Value}
 \usage{
-prior(x, c, p)
+prior(x, dist, params)
 }
 \arguments{
 \item{x}{A numeric value at which to evaluate the prior}
 
-\item{c}{The \code{priorName} slot of a \code{Cat} object; indicates the distribution}
+\item{dist}{A string indicating the distribution (slot \code{priorName} of \code{Cat} object)}
 
-\item{p}{The \code{priorParams} slot of a \code{Cat} object}
+\item{params}{A length two numeric vector indicating the parameters of the distribution (slot \code{priorParams} of \code{Cat} object)}
 }
 \value{
-A vector consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
+A scalar consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
 }
 \description{
-Calculates the prior value for a respondent's position on the latent scale of interest
+Calculates the density at \code{x} of either the normal, student's t, or uniform distribution
 }
 \details{
-Note: \eqn{x} needs to be either UNIFORM, NORMAL, or STUDENT_T parameters, which control the shape of the prior.
+The \eqn{dist} argument needs to be either "UNIFORM", "NORMAL", or "STUDENT_T".
+
+When \eqn{dist} is "NORMAL", the first element of \eqn{params} is the mean, 
+the second element is the standard deviation.  When \eqn{dist} is "STUDENT_T", the first 
+element of \eqn{params} is the non-centrality parameters and the second is degrees of freedom.  
+When \eqn{dist} is "UNIFORM", the elements of \eqn{params} are the lower and upper bounds,
+of the interval, respectively.  Note that the "UNIFORM" is only applicable for the "EAP" estimation method.
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+
+This function uses Boost C++ source libraries for the uniform and Student's t
+distributions and calls \code{dnorm4} written in C which is identical to that 
+of \code{dnorm} in \code{R}.
 }
 \examples{
+\dontrun{
+## Prior calculation using Cat object of the ltm model
+## specifying different distributions
+data(npi)
+cat <- ltmCat(npi)
 
- 
- 
+cat@priorName <- "NORMAL"
+cat@priorParams <- c(0, 1) ## Parameters are mean and standard deviation
+prior(x = 1, cat@priorName, cat@priorParams)
+
+cat@priorName <- "STUDENT_T"
+cat@priorParams <- c(1, 3) ## Parameters are non-centrality param and degrees of freedom
+prior(x = 1, cat@priorName, cat@priorParams)
+
+cat@priorName <- "UNIFORM"
+cat@priorParams <- c(-1, 1) ## Parameters are lower bound and upper bound of interval
+prior(x = 1, cat@priorName, cat@priorParams)
+}
+
+}
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{Cat}} for additional information on priors; 
- \code{\link{dLL}} and/or \code{\link{d2LL}} for application of priors
+\code{\link{Cat}} for information on \code{priorName} and \code{priorParams} slots
 }
 

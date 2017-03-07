@@ -41,15 +41,6 @@ For binary \code{Cats}, letting \deqn{q_i(\theta_j) = 1-p_i(\theta_j)}{q_i(\thet
 }
 \examples{
 \dontrun{
-## Probability for Cat of the ltm model
-data(npi)
-cat <- ltmCat(npi)
-probability(cat, )
-
-data(nfc)
-
-
-
 }
 
  
