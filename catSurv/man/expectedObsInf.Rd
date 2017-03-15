@@ -15,7 +15,7 @@ expectedObsInf(catObj, item)
 The function returns a numeric value of the expected information
 }
 \description{
-Calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring
+Calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring.
 }
 \details{
 

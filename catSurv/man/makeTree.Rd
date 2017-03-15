@@ -27,7 +27,7 @@ The length of the tree is dictated by the \code{lengthThreshold} slot within the
 
 }
 \author{
-AA
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
 \code{\link{selectItem}} for specific item selection and selection methods

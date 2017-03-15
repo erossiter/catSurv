@@ -14,24 +14,40 @@ obsInf(catObj, theta, item)
 \item{item}{An integer indicating the index of the question item}
 }
 \value{
-The function returns a numeric value of the observed information of the likelihood, given \eqn{\theta}, for a specific question item
+The function \code{obsInf} returns a numeric value of the observed information of the likelihood, given \eqn{\theta}, for a given question item.
 }
 \description{
-Calculates the observed information of the likelihood evaluated at the input value \eqn{\theta} for a specific item
+Calculates the observed information of the likelihood of a respondent's ability \eqn{\theta} for a given \code{item}.
 }
 \details{
 The observed information is equivalent to the negative second derivative of the log-likelihood.
-  Note: This function should never be called when the respondent has answered no questions.
+This function should never be called when the respondent has answered no questions.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
+## Create Cat object, store example answers, and calculate observed information
+for an ability parameter of 1 for item 10
+
+## observed information for Cat object of the ltm model
 data(npi)
-cat <- ltmCat(npi)
+ltm_cat <- ltmCat(npi)
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+obsInf(ltm_cat, theta = 1, item = 10)
+
+## observed information for Cat object of the tpm model
+data(polknow)
+tpm_cat <- tpmCat(polknow)
+setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
+dLL(tpm_cat, theta = 1, item = 10)
+
+## observed information for Cat object of the grm model
+data(nfc)
+grm_cat <- grmCat(nfc)
+setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
+dLL(grm_cat, theta = 1, item = 10)
 }
 
 }
@@ -40,7 +56,8 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{estimateTheta}} for calculation of \eqn{\theta} and
-  \code{\link{expectedObsInf}} for further application of observed information
+\code{\link{estimateTheta}} for calculation of \eqn{\theta}
+
+\code{\link{expectedObsInf}} for further application of observed information
 }
 

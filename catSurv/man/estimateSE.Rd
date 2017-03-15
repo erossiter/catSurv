@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{estimateSE}
 \alias{estimateSE}
-\title{Standard error of the respondent's ability parameter estimate}
+\title{Standard Error of Ability Parameter Estimate}
 \usage{
 estimateSE(catObj)
 }
@@ -10,10 +10,10 @@ estimateSE(catObj)
 \item{catObj}{An object of class \code{Cat}}
 }
 \value{
-The function returns a numeric for the standard error for \eqn{\theta_j}
+The function \code{estimateSE} returns a numeric for the standard error for \eqn{\theta}.
 }
 \description{
-Estimates the standard error for the ability parameter estimate
+Estimates the standard error for a respondent's ability parameter estimate.
 }
 \details{
 The EAP estimator:

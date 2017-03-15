@@ -3,7 +3,7 @@
 
 #' Probability of Responses to a Question Item or the Left-Cumulative Probability of Responses
 #'
-#' Calculates the probability of specific responses or the left-cumulative probability of responses to \code{item} conditioned on a subject's ability (\eqn{\theta})  
+#' Calculates the probability of specific responses or the left-cumulative probability of responses to \code{item} conditioned on a respondent's ability (\eqn{\theta}).  
 #'
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
@@ -23,7 +23,7 @@
 #'  \deqn{Pr(y_{ij}=1|\theta_j)=\frac{\exp(a_i + b_i \theta_j)}{1+\exp(a_i + b_i \theta_j)}}
 #'
 #'  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{a_i} is item \eqn{i} 's discrimination parameter,
-#'  \eqn{b_i} is item \eqn{i} 's difficulty parameter, and \eqn{c_i} is item \eqn{i} 's guessing parameter. 
+#'  and \eqn{b_i} is item \eqn{i} 's difficulty parameter. 
 #'  
 #'  For the \code{tpm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
 #'  
@@ -53,18 +53,18 @@
 #'\dontrun{
 #'## Probability for Cat object of the ltm model
 #'data(npi)
-#'cat <- ltmCat(npi)
-#'probability(cat, theta = 1, item = 1)
+#'ltm_cat <- ltmCat(npi)
+#'probability(ltm_cat, theta = 1, item = 1)
 #'
 #'## Probability for Cat object of the tpm model
 #'data(polknow)
-#'cat <- tpmCat(polknow)
-#'probability(cat, theta = 1, item = 1)
+#'tpm_cat <- tpmCat(polknow)
+#'probability(tpm_cat, theta = 1, item = 1)
 #'
 #'## Probability for Cat object of the grm model
 #'data(nfc)
-#'cat <- grmCat(nfc)
-#'probability(cat, theta = 1, item = 1)
+#'grm_cat <- grmCat(nfc)
+#'probability(grm_cat, theta = 1, item = 1)
 #'}
 #'  
 #' @seealso \code{\link{Cat}} for information on the item parameters: discrimination, difficulty, and guessing.
@@ -96,7 +96,7 @@ probability <- function(catObj, theta, item) {
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric or an integer indicating the value for \eqn{\theta_j} 
 #' 
-#' @return The function returns a numeric value of the likelihood of the respondent having offered the provided response profile.
+#' @return The function \code{likelihood} returns a numeric value of the likelihood of the respondent having offered the provided response profile.
 #'
 #' @details
 #' 
@@ -109,15 +109,30 @@ probability <- function(catObj, theta, item) {
 #' 
 #'@examples
 #'\dontrun{
+#'## Create Cat object, store example answers, and calculate
+#'## likelihood at theta = 1
+#'
 #'## Likelihood for Cat object of the ltm model
 #'data(npi)
-#'cat <- ltmCat(npi)
-#'setAnswers(cat) <- c(1,0,1,0, rep(NA, 35))
-#'likelihood(cat, theta = 1)
+#'ltm_cat <- ltmCat(npi)
+#'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+#'likelihood(ltm_cat, theta = 1)
+#'
+#'## Likelihood for Cat object of the tpm model
+#'data(polknow)
+#'tpm_cat <- tpmCat(polknow)
+#'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
+#'likelihood(tpm_cat, theta = 1)
+#'
+#'## Likelihood for Cat object of the grm model
+#'data(nfc)
+#'grm_cat <- grmCat(nfc)
+#'setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
+#'likelihood(grm_cat, theta = 1)
 #'}
-#' 
-#'  
-#' @seealso \code{\link{probability}} for probability of responses to individual question item
+#'
+#'
+#' @seealso \code{\link{probability}} for probability of responses to a given question item
 #'  
 #' @export
 likelihood <- function(catObj, theta) {
@@ -126,20 +141,23 @@ likelihood <- function(catObj, theta) {
 
 #' Prior Value
 #'
-#' Calculates the density at \code{x} of either the normal, student's t, or uniform distribution
+#' Calculates the density at \code{x} of either the normal, Student's t, or uniform distribution.
 #'
 #' @param x A numeric value at which to evaluate the prior
 #' @param dist A string indicating the distribution (slot \code{priorName} of \code{Cat} object)
 #' @param params A length two numeric vector indicating the parameters of the distribution (slot \code{priorParams} of \code{Cat} object)
 #' 
-#' @return A scalar consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
+#' @return The function \code{prior} returns a numeric consisting of prior value, \eqn{\pi(x)}, given the value \code{x}.
 #'
-#' @details The \eqn{dist} argument needs to be either "UNIFORM", "NORMAL", or "STUDENT_T".
+#' @details The \code{dist} argument needs to be either "UNIFORM", "NORMAL", or "STUDENT_T".
 #' 
-#' When \eqn{dist} is "NORMAL", the first element of \eqn{params} is the mean, 
-#' the second element is the standard deviation.  When \eqn{dist} is "STUDENT_T", the first 
-#' element of \eqn{params} is the non-centrality parameters and the second is degrees of freedom.  
-#' When \eqn{dist} is "UNIFORM", the elements of \eqn{params} are the lower and upper bounds,
+#' When \code{dist} is "NORMAL", the first element of \code{params} is the mean, 
+#' the second element is the standard deviation.
+#' 
+#' When \code{dist} is "STUDENT_T", the first 
+#' element of \code{params} is the non-centrality parameters and the second is degrees of freedom.  
+#' 
+#' When \code{dist} is "UNIFORM", the elements of \code{params} are the lower and upper bounds,
 #' of the interval, respectively.  Note that the "UNIFORM" is only applicable for the "EAP" estimation method.   
 #' 
 #' @examples
@@ -162,7 +180,9 @@ likelihood <- function(catObj, theta) {
 #'prior(x = 1, cat@priorName, cat@priorParams)
 #'}
 #'
-#' @seealso \code{\link{Cat}} for information on \code{priorName} and \code{priorParams} slots
+#' @seealso
+#' 
+#' \code{\link{Cat}} for information on \code{priorName} and \code{priorParams} slots
 #'  
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 #'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -180,25 +200,46 @@ prior <- function(x, dist, params) {
     .Call('catSurv_prior', PACKAGE = 'catSurv', x, dist, params)
 }
 
-#' The first derivative of the log-likelihood
+#' The First Derivative of the Log-Likelihood
 #' 
-#' When \code{usePrior = FALSE}, this function evaluates the first derivative of the log-likelihood evaluated at point \eqn{\theta}.  
-#' When \code{usePrior = TRUE}, this function evaluates the first derivative of the log-posterior evaluated at point \eqn{\theta}. 
+#' Calculates either the first derivative of the log-likelihood or the first derivative
+#' of the log-posterior evaluated at point \eqn{\theta}.
 #' 
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
 #' @param use_prior A logical indicating whether to use the prior parameters in estimation
 #' 
-#' @return The function returns a numeric of the derivative of the log-likelihood (or log-posterior) for a respondent's answer profile.
+#' @return The function \code{dLL} returns a numeric of the derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
 #' 
-#' @details This method is only be available using the normal prior distribution 
-#'
+#' @details
+#' When \code{usePrior = FALSE}, the function \code{dLL} evaluates the first derivative of the log-likelihood at point \eqn{\theta}.  
+#' 
+#' When \code{usePrior = TRUE}, the function \code{dLL} evaluates the first derivative of the log-posterior at point \eqn{\theta}. 
+#' 
+#' The function \code{dLL} is only available when using the normal prior distribution.
+#' 
 #' @examples
 #' \dontrun{
-#'## Prior calculation using Cat object of the ltm model
-#'## specifying different distributions
+#'## Create Cat object, store example answers, and calculate
+#'## first derivative of log-likelihood at theta = 1
+#'
+#'## dLL for Cat object of the ltm model
 #'data(npi)
-#'cat <- ltmCat(npi)
+#'ltm_cat <- ltmCat(npi)
+#'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+#'dLL(ltm_cat, theta = 1)
+#'
+#'## dLL for Cat object of the tpm model
+#'data(polknow)
+#'tpm_cat <- tpmCat(polknow)
+#'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
+#'dLL(tpm_cat, theta = 1)
+#'
+#'## dLL for Cat object of the grm model
+#'data(nfc)
+#'grm_cat <- grmCat(nfc)
+#'setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
+#'dLL(grm_cat, theta = 1)
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -206,32 +247,56 @@ prior <- function(x, dist, params) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #' 
-#' @seealso \code{\link{Cat}} and \code{\link{prior}} for information on available priors and prior specifications
+#' @seealso
+#' 
+#' \code{\link{Cat}} for specifying priors and prior parameteres
+#' \code{\link{prior}} for more information on available priors
 #'  
 #' @export
 dLL <- function(catObj, theta, use_prior) {
     .Call('catSurv_dLL', PACKAGE = 'catSurv', catObj, theta, use_prior)
 }
 
-#' The second derivative of the log likelihood
-#'
-#'When \code{usePrior = FALSE}, this function evaluates the second derivative of the log-likelihood evaluated at point \eqn{\theta}.  
-#'When \code{usePrior = TRUE}, this function evaluates the second derivative of the log-posterior evaluated at point \eqn{\theta}. 
-#'
+#' The Second Derivative of the Log-Likelihood
+#' 
+#' Calculates either the second derivative of the log-likelihood or the second derivative
+#' of the log-posterior evaluated at point \eqn{\theta}.
+#' 
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
 #' @param use_prior A logical indicating whether to use the prior parameters in estimation
 #' 
-#' @return The function returns a numeric of the second derivative of the log-likelihood (or log-posterior) for a respondent's answer profile.
+#' @return The function \code{d2LL} returns a numeric of the second derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
 #' 
-#' @details This method is only be available using the normal prior distribution
+#' @details
+#' When \code{usePrior = FALSE}, the function \code{d2LL} evaluates the second derivative of the log-likelihood at point \eqn{\theta}.  
+#' 
+#' When \code{usePrior = TRUE}, the function \code{d2LL} evaluates the second derivative of the log-posterior at point \eqn{\theta}. 
+#' 
+#' The function \code{d2LL} is only available when using the normal prior distribution.
 #' 
 #' @examples
 #' \dontrun{
-#'## Prior calculation using Cat object of the ltm model
-#'## specifying different distributions
+#'## Create Cat object, store example answers, and calculate
+#'## second derivative of log-likelihood at theta = 1
+#'
+#'## d2LL for Cat object of the ltm model
 #'data(npi)
-#'cat <- ltmCat(npi)
+#'ltm_cat <- ltmCat(npi)
+#'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+#'d2LL(ltm_cat, theta = 1)
+#'
+#'## d2LL for Cat object of the tpm model
+#'data(polknow)
+#'tpm_cat <- tpmCat(polknow)
+#'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
+#'d2LL(tpm_cat, theta = 1)
+#'
+#'## d2LL for Cat object of the grm model
+#'data(nfc)
+#'grm_cat <- grmCat(nfc)
+#'setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
+#'d2LL(grm_cat, theta = 1)
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -239,33 +304,89 @@ dLL <- function(catObj, theta, use_prior) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #' 
-#' @seealso \code{\link{Cat}} and \code{\link{prior}} for information on available priors and prior specifications
-#'  
+#' @seealso
+#' \code{\link{Cat}} for specifying priors and prior parameteres
+#' \code{\link{prior}} for more information on available priors
+#' \cdoe{\link{dLL}} for calculation of first derivative of log-likelihood
+#' 
 #' @export
 d2LL <- function(catObj, theta, use_prior) {
     .Call('catSurv_d2LL', PACKAGE = 'catSurv', catObj, theta, use_prior)
 }
 
-#' Estimate of the respondent's ability parameter
+#' Estimate of the Respondent's Ability Parameter
 #'
-#' Calculates the expected value of the ability parameter \eqn{\theta}, conditioned on the observed answers and the item calibrations
+#' Estimates the expected value of the ability parameter \eqn{\theta}, conditioned on the observed answers, prior, and the item parameters.
 #'
 #' @param catObj An object of class \code{Cat}
 #'
-#' @return A numeric consisting of the expected value of the ability parameter
+#' @return The function \code{estimateTheta} returns a numeric consisting of the expected value of the respondent's ability parameter.
 #'
 #' @details
-#' EAP
-#' MAP (This method is only available using the normal prior distribution.)
-#' The maximum likelihood (MLE) approach: (Note: When MLE will not work, \code{estimateTheta} is calculated according to the \code{estimationDefault} slot in \code{Cat} object.)
-#' The weighted maximum likelihood approach (WLE) approach: Estimating \eqn{\theta_j} requires finding the root of the following function using the ``Brent'' method in the \code{gsl} library.
+#' 
+#' Estimation approach is specified in \code{estimation} slot of \code{Cat} object.
+#' 
+#' The expected a posteriori approach is used when \code{estimation} slot is "EAP".
+#' 
+#' The modal a posteriori approach is used when \code{estimation} slot is "MAP".  This method is only available using the normal prior distribution.
+#' 
+#' The maximum likelihood approach is used when \code{estimation} slot is "MLE".  When the likelihood is undefined,
+#' the MAP or EAP method will be used, determined by what is specified in the \code{estimationDefault} slot in \code{Cat} object.
+#' 
+#' The weighted maximum likelihood approach is used when \code{estimation} slot is "WLE". Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the \code{gsl} library.
 #' 
 #' @examples
 #' \dontrun{
-#'## Prior calculation using Cat object of the ltm model
-#'## specifying different distributions
+#'## Create Cat object, store example answers, and estimate ability parameter
+#'## using different estimation procedures
+#'
+#'## theta estimates for Cat object of the ltm model
 #'data(npi)
-#'cat <- ltmCat(npi)
+#'ltm_cat <- ltmCat(npi)
+#'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+#'setEstimation(ltm_cat) <- "EAP"
+#'estimateTheta(ltm_cat)
+#'
+#'setEstimation(ltm_cat) <- "MAP"
+#'estimateTheta(ltm_cat)
+#'
+#'setEstimation(ltm_cat) <- "MLE"
+#'estimateTheta(ltm_cat)
+#'
+#'setEstimation(ltm_cat) <- "WLE"
+#'estimateTheta(ltm_cat)
+#'
+#'## theta estimates for Cat object of the tpm model
+#'data(polknow)
+#'tpm_cat <- tpmCat(polknow)
+#'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
+#'setEstimation(tpm_cat) <- "EAP"
+#'estimateTheta(tpm_cat)
+#'
+#'setEstimation(tpm_cat) <- "MAP"
+#'estimateTheta(tpm_cat)
+#'
+#'setEstimation(tpm_cat) <- "MLE"
+#'estimateTheta(tpm_cat)
+#'
+#'setEstimation(tpm_cat) <- "WLE"
+#'estimateTheta(tpm_cat)
+#'
+#'## theta estimates for Cat object of the grm model
+#'data(nfc)
+#'grm_cat <- grmCat(nfc)
+#'setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
+#'setEstimation(grm_cat) <- "EAP"
+#'estimateTheta(grm_cat)
+#'
+#'setEstimation(grm_cat) <- "MAP"
+#'estimateTheta(grm_cat)
+#'
+#'setEstimation(grm_cat) <- "MLE"
+#'estimateTheta(grm_cat)
+#'
+#'setEstimation(grm_cat) <- "WLE"
+#'estimateTheta(grm_cat)
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -273,7 +394,9 @@ d2LL <- function(catObj, theta, use_prior) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #' 
-#' @seealso \code{\link{probability}} and \code{\link{likelihood}}
+#' @seealso
+#' 
+#' \code{\link{Cat}} for information on the \code{estimation} slot 
 #'  
 #' @export
 estimateTheta <- function(catObj) {
@@ -282,23 +405,39 @@ estimateTheta <- function(catObj) {
 
 #' Observed Information
 #'
-#' Calculates the observed information of the likelihood evaluated at the input value \eqn{\theta} for a specific item
+#' Calculates the observed information of the likelihood of a respondent's ability \eqn{\theta} for a given \code{item}.
 #'
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
 #' @param item An integer indicating the index of the question item
 #'
-#' @return The function returns a numeric value of the observed information of the likelihood, given \eqn{\theta}, for a specific question item
+#' @return The function \code{obsInf} returns a numeric value of the observed information of the likelihood, given \eqn{\theta}, for a given question item.
 #' 
 #' @details The observed information is equivalent to the negative second derivative of the log-likelihood.
-#'   Note: This function should never be called when the respondent has answered no questions.
+#' This function should never be called when the respondent has answered no questions.
 #'   
 #' @examples
 #' \dontrun{
-#'## Prior calculation using Cat object of the ltm model
-#'## specifying different distributions
+#'## Create Cat object, store example answers, and calculate observed information
+#'for an ability parameter of 1 for item 10
+#'
+#'## observed information for Cat object of the ltm model
 #'data(npi)
-#'cat <- ltmCat(npi)
+#'ltm_cat <- ltmCat(npi)
+#'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+#'obsInf(ltm_cat, theta = 1, item = 10)
+#'
+#'## observed information for Cat object of the tpm model
+#'data(polknow)
+#'tpm_cat <- tpmCat(polknow)
+#'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
+#'dLL(tpm_cat, theta = 1, item = 10)
+#'
+#'## observed information for Cat object of the grm model
+#'data(nfc)
+#'grm_cat <- grmCat(nfc)
+#'setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
+#'dLL(grm_cat, theta = 1, item = 10)
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -306,8 +445,11 @@ estimateTheta <- function(catObj) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #'
-#' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta} and
-#'   \code{\link{expectedObsInf}} for further application of observed information
+#' @seealso
+#' 
+#' \code{\link{estimateTheta}} for calculation of \eqn{\theta}
+#' 
+#' \code{\link{expectedObsInf}} for further application of observed information
 #'  
 #' @export
 obsInf <- function(catObj, theta, item) {
@@ -316,7 +458,7 @@ obsInf <- function(catObj, theta, item) {
 
 #' Expected Observed Information
 #'
-#' Calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring
+#' Calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring.
 #'
 #' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question item
@@ -409,13 +551,13 @@ fisherTestInfo <- function(catObj) {
     .Call('catSurv_fisherTestInfo', PACKAGE = 'catSurv', catObj)
 }
 
-#' Standard error of the respondent's ability parameter estimate
+#' Standard Error of Ability Parameter Estimate
 #'
-#' Estimates the standard error for the ability parameter estimate
+#' Estimates the standard error for a respondent's ability parameter estimate.
 #'
 #' @param catObj An object of class \code{Cat}
 #'
-#' @return The function returns a numeric for the standard error for \eqn{\theta_j}
+#' @return The function \code{estimateSE} returns a numeric for the standard error for \eqn{\theta}.
 #'
 #' @details 
 #'   The EAP estimator:

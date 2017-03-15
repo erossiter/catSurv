@@ -27,9 +27,9 @@ This function fits the Generalize Partial Credit Model for ordinal polytomous da
 In case the Hessian matrix at convergence is not positive definite try to use \code{start.val="random"}.
 }
 \author{
-AA
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{ltmCat}},\code{\link{nextItem}}, \code{\link{question.path}}
+\code{\link{grmCat}} for an alternative model fit to ordinal polytomous data
 }
 

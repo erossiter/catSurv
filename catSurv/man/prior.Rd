@@ -14,18 +14,21 @@ prior(x, dist, params)
 \item{params}{A length two numeric vector indicating the parameters of the distribution (slot \code{priorParams} of \code{Cat} object)}
 }
 \value{
-A scalar consisting of prior value, \eqn{\pi(x)}, given the value \eqn{x}
+The function \code{prior} returns a numeric consisting of prior value, \eqn{\pi(x)}, given the value \code{x}.
 }
 \description{
-Calculates the density at \code{x} of either the normal, student's t, or uniform distribution
+Calculates the density at \code{x} of either the normal, Student's t, or uniform distribution.
 }
 \details{
-The \eqn{dist} argument needs to be either "UNIFORM", "NORMAL", or "STUDENT_T".
+The \code{dist} argument needs to be either "UNIFORM", "NORMAL", or "STUDENT_T".
 
-When \eqn{dist} is "NORMAL", the first element of \eqn{params} is the mean, 
-the second element is the standard deviation.  When \eqn{dist} is "STUDENT_T", the first 
-element of \eqn{params} is the non-centrality parameters and the second is degrees of freedom.  
-When \eqn{dist} is "UNIFORM", the elements of \eqn{params} are the lower and upper bounds,
+When \code{dist} is "NORMAL", the first element of \code{params} is the mean, 
+the second element is the standard deviation.
+
+When \code{dist} is "STUDENT_T", the first 
+element of \code{params} is the non-centrality parameters and the second is degrees of freedom.  
+
+When \code{dist} is "UNIFORM", the elements of \code{params} are the lower and upper bounds,
 of the interval, respectively.  Note that the "UNIFORM" is only applicable for the "EAP" estimation method.
 }
 \note{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{d2LL}
 \alias{d2LL}
-\title{The second derivative of the log likelihood}
+\title{The Second Derivative of the Log-Likelihood}
 \usage{
 d2LL(catObj, theta, use_prior)
 }
@@ -14,24 +14,44 @@ d2LL(catObj, theta, use_prior)
 \item{use_prior}{A logical indicating whether to use the prior parameters in estimation}
 }
 \value{
-The function returns a numeric of the second derivative of the log-likelihood (or log-posterior) for a respondent's answer profile.
+The function \code{d2LL} returns a numeric of the second derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
 }
 \description{
-When \code{usePrior = FALSE}, this function evaluates the second derivative of the log-likelihood evaluated at point \eqn{\theta}.  
-When \code{usePrior = TRUE}, this function evaluates the second derivative of the log-posterior evaluated at point \eqn{\theta}.
+Calculates either the second derivative of the log-likelihood or the second derivative
+of the log-posterior evaluated at point \eqn{\theta}.
 }
 \details{
-This method is only be available using the normal prior distribution
+When \code{usePrior = FALSE}, the function \code{d2LL} evaluates the second derivative of the log-likelihood at point \eqn{\theta}.  
+
+When \code{usePrior = TRUE}, the function \code{d2LL} evaluates the second derivative of the log-posterior at point \eqn{\theta}. 
+
+The function \code{d2LL} is only available when using the normal prior distribution.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
+## Create Cat object, store example answers, and calculate
+## second derivative of log-likelihood at theta = 1
+
+## d2LL for Cat object of the ltm model
 data(npi)
-cat <- ltmCat(npi)
+ltm_cat <- ltmCat(npi)
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+d2LL(ltm_cat, theta = 1)
+
+## d2LL for Cat object of the tpm model
+data(polknow)
+tpm_cat <- tpmCat(polknow)
+setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
+d2LL(tpm_cat, theta = 1)
+
+## d2LL for Cat object of the grm model
+data(nfc)
+grm_cat <- grmCat(nfc)
+setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
+d2LL(grm_cat, theta = 1)
 }
 
 }
@@ -40,6 +60,8 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{Cat}} and \code{\link{prior}} for information on available priors and prior specifications
+\code{\link{Cat}} for specifying priors and prior parameteres
+\code{\link{prior}} for more information on available priors
+\cdoe{\link{dLL}} for calculation of first derivative of log-likelihood
 }
 

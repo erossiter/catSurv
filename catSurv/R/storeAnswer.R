@@ -8,8 +8,9 @@
 #'
 #' @return An updated object of class \code{Cat} containing the answers to \emph{k} items
 #'  
-#' @author AA
-#' @seealso \code{\link{three.pl}},\code{\link{likelihood}}, \code{\link{prior.value}}, \code{\link{estimateTheta}}, \code{\link{estimateSE}}, \code{\link{expectedPV}},  \code{\link{nextItem}}, \code{\link{debugNextItem}}
+#' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+#' 
+#' 
 #' @rdname storeAnswer
 #' @export
 setGeneric("storeAnswer", function(cat, item, answer) standardGeneric("storeAnswer"))

@@ -41,7 +41,8 @@ setClassUnion("numericORlist", c("numeric","list"))
 #'
 #'
 #'
-#' @author AA
+#'@author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, 
+#'Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #' @aliases Cat-class initialize,Cat-method
 #' @rdname Cat
 #' @export
@@ -178,24 +179,7 @@ setValidity("Cat", function(object){
   }
 })
 
-#' Set methods for slots within \code{Cat} class objects
-#'
-#' This functions replaces the values currently stored in a specified slot of an object of class \code{Cat} with the user-provided values.  
-#'
-#' @param object An object of class \code{Cat} to be modified
-#' @param valid Boolean for whether to check validity of object before allowing setter method to execute, default to TRUE
-#' @param value The value to replace the current value stored in the specified slot of the \code{Cat}
-#' 
-#' @return Modifies the \code{Cat} object that was provided by the user, and returns the modified object 
-#' 
-#' @note There are setters for every slot in \code{Cat} objects, all following the format \code{setSlot}: 
-#' eg. \code{setDiscrimination}, \code{setEstimationDefault}, \code{setSeThreshold}, etc.
-#' @author  AA
-#' @seealso \code{\link{Cat}}
-#' @rdname setters
-#' @aliases setGuessing setDiscrimination setDifficulty setAnswers setPriorName setPriorParams
-#' setUpperBound setLowerBound setPoly setEstimation setEstimationDefault setSelection setZ
-#' setLengthThreshold setSeThreshold setInfoThreshold setGainThreshold setLengthOverride setGainOverride
+
 setGeneric("setGuessing<-", function(object, value) standardGeneric("setGuessing<-"))
 
 #' @export
@@ -384,22 +368,6 @@ setReplaceMethod("setGainOverride", "Cat", definition = function(object, value){
   return(object)
 })
 
-#' Get methods for slots within \code{Cat} class objects
-#'
-#' These functions access and return the values currently stored in a specified slot of an object of class \code{Cat}.  
-#'
-#' @param object An object of class \code{Cat} to be modified
-
-#' @return The value stored in the specified slot of the \code{Cat} object. 
-#' 
-#' @note There are getters for every slot in \code{Cat} objects, all following the format \code{getSlot}: 
-#' eg. \code{getDiscrimination}, \code{getEstimationDefault}, \code{getSeThreshold}, etc.
-#' @author AA
-#' @seealso {\link{Cat}} {\link{setters}}
-#' @rdname getters
-#' @aliases getGuessing getDiscrimination getDifficulty getAnswers getPriorName getPriorParams
-#' getUpperBound getLowerBound setPoly getEstimation getEstimationDefault getSelection getZ
-#' getLengthThreshold getSeThreshold getInfoThreshold getGainThreshold getLengthOverride getGainOverride
 
 setGeneric("getModel", function(object) standardGeneric("getModel"))
 

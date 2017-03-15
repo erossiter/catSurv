@@ -12,7 +12,7 @@ likelihood(catObj, theta)
 \item{theta}{A numeric or an integer indicating the value for \eqn{\theta_j}}
 }
 \value{
-The function returns a numeric value of the likelihood of the respondent having offered the provided response profile.
+The function \code{likelihood} returns a numeric value of the likelihood of the respondent having offered the provided response profile.
 }
 \description{
 Calculates the likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot, conditional on the item-level parameters.
@@ -25,14 +25,29 @@ This function is to allow users to access the internal functions of the package.
 }
 \examples{
 \dontrun{
+## Create Cat object, store example answers, and calculate
+## likelihood at theta = 1
+
 ## Likelihood for Cat object of the ltm model
 data(npi)
-cat <- ltmCat(npi)
-setAnswers(cat) <- c(1,0,1,0, rep(NA, 35))
-likelihood(cat, theta = 1)
+ltm_cat <- ltmCat(npi)
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+likelihood(ltm_cat, theta = 1)
+
+## Likelihood for Cat object of the tpm model
+data(polknow)
+tpm_cat <- tpmCat(polknow)
+setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
+likelihood(tpm_cat, theta = 1)
+
+## Likelihood for Cat object of the grm model
+data(nfc)
+grm_cat <- grmCat(nfc)
+setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
+likelihood(grm_cat, theta = 1)
 }
 
- 
+
 }
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -42,6 +57,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 
 }
 \seealso{
-\code{\link{probability}} for probability of responses to individual question item
+\code{\link{probability}} for probability of responses to a given question item
 }
 

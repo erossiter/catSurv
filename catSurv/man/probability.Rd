@@ -23,7 +23,7 @@ When the argument \code{catObj} is a \code{grm} model, the function \code{probab
  When the argument \code{catObj} is a \code{gpcm} model, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents are the probability of observing response k.
 }
 \description{
-Calculates the probability of specific responses or the left-cumulative probability of responses to \code{item} conditioned on a subject's ability (\eqn{\theta})
+Calculates the probability of specific responses or the left-cumulative probability of responses to \code{item} conditioned on a respondent's ability (\eqn{\theta}).
 }
 \details{
 For the \code{ltm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
@@ -31,7 +31,7 @@ For the \code{ltm} model, the probability of non-zero response for respondent \e
  \deqn{Pr(y_{ij}=1|\theta_j)=\frac{\exp(a_i + b_i \theta_j)}{1+\exp(a_i + b_i \theta_j)}}
 
  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{a_i} is item \eqn{i} 's discrimination parameter,
- \eqn{b_i} is item \eqn{i} 's difficulty parameter, and \eqn{c_i} is item \eqn{i} 's guessing parameter. 
+ and \eqn{b_i} is item \eqn{i} 's difficulty parameter. 
  
  For the \code{tpm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
  
@@ -64,18 +64,18 @@ This function is to allow users to access the internal functions of the package.
 \dontrun{
 ## Probability for Cat object of the ltm model
 data(npi)
-cat <- ltmCat(npi)
-probability(cat, theta = 1, item = 1)
+ltm_cat <- ltmCat(npi)
+probability(ltm_cat, theta = 1, item = 1)
 
 ## Probability for Cat object of the tpm model
 data(polknow)
-cat <- tpmCat(polknow)
-probability(cat, theta = 1, item = 1)
+tpm_cat <- tpmCat(polknow)
+probability(tpm_cat, theta = 1, item = 1)
 
 ## Probability for Cat object of the grm model
 data(nfc)
-cat <- grmCat(nfc)
-probability(cat, theta = 1, item = 1)
+grm_cat <- grmCat(nfc)
+probability(grm_cat, theta = 1, item = 1)
 }
  
 }

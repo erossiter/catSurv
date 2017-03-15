@@ -18,8 +18,11 @@
 #'
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val="random"}.
 #'
-#' @seealso \code{\link{grmCat}}
-#' @author AA
+#' @seealso 
+#' 
+#' \code{\link{tpmCat}} for an alternative model fit to binary data
+#' 
+#' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #' @rdname ltmCat
 #' 
 #' @import ltm

@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{estimateTheta}
 \alias{estimateTheta}
-\title{Estimate of the respondent's ability parameter}
+\title{Estimate of the Respondent's Ability Parameter}
 \usage{
 estimateTheta(catObj)
 }
@@ -10,26 +10,78 @@ estimateTheta(catObj)
 \item{catObj}{An object of class \code{Cat}}
 }
 \value{
-A numeric consisting of the expected value of the ability parameter
+The function \code{estimateTheta} returns a numeric consisting of the expected value of the respondent's ability parameter.
 }
 \description{
-Calculates the expected value of the ability parameter \eqn{\theta}, conditioned on the observed answers and the item calibrations
+Estimates the expected value of the ability parameter \eqn{\theta}, conditioned on the observed answers, prior, and the item parameters.
 }
 \details{
-EAP
-MAP (This method is only available using the normal prior distribution.)
-The maximum likelihood (MLE) approach: (Note: When MLE will not work, \code{estimateTheta} is calculated according to the \code{estimationDefault} slot in \code{Cat} object.)
-The weighted maximum likelihood approach (WLE) approach: Estimating \eqn{\theta_j} requires finding the root of the following function using the ``Brent'' method in the \code{gsl} library.
+Estimation approach is specified in \code{estimation} slot of \code{Cat} object.
+
+The expected a posteriori approach is used when \code{estimation} slot is "EAP".
+
+The modal a posteriori approach is used when \code{estimation} slot is "MAP".  This method is only available using the normal prior distribution.
+
+The maximum likelihood approach is used when \code{estimation} slot is "MLE".  When the likelihood is undefined,
+the MAP or EAP method will be used, determined by what is specified in the \code{estimationDefault} slot in \code{Cat} object.
+
+The weighted maximum likelihood approach is used when \code{estimation} slot is "WLE". Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the \code{gsl} library.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
+## Create Cat object, store example answers, and estimate ability parameter
+## using different estimation procedures
+
+## theta estimates for Cat object of the ltm model
 data(npi)
-cat <- ltmCat(npi)
+ltm_cat <- ltmCat(npi)
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+setEstimation(ltm_cat) <- "EAP"
+estimateTheta(ltm_cat)
+
+setEstimation(ltm_cat) <- "MAP"
+estimateTheta(ltm_cat)
+
+setEstimation(ltm_cat) <- "MLE"
+estimateTheta(ltm_cat)
+
+setEstimation(ltm_cat) <- "WLE"
+estimateTheta(ltm_cat)
+
+## theta estimates for Cat object of the tpm model
+data(polknow)
+tpm_cat <- tpmCat(polknow)
+setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
+setEstimation(tpm_cat) <- "EAP"
+estimateTheta(tpm_cat)
+
+setEstimation(tpm_cat) <- "MAP"
+estimateTheta(tpm_cat)
+
+setEstimation(tpm_cat) <- "MLE"
+estimateTheta(tpm_cat)
+
+setEstimation(tpm_cat) <- "WLE"
+estimateTheta(tpm_cat)
+
+## theta estimates for Cat object of the grm model
+data(nfc)
+grm_cat <- grmCat(nfc)
+setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
+setEstimation(grm_cat) <- "EAP"
+estimateTheta(grm_cat)
+
+setEstimation(grm_cat) <- "MAP"
+estimateTheta(grm_cat)
+
+setEstimation(grm_cat) <- "MLE"
+estimateTheta(grm_cat)
+
+setEstimation(grm_cat) <- "WLE"
+estimateTheta(grm_cat)
 }
 
 }
@@ -38,6 +90,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{probability}} and \code{\link{likelihood}}
+\code{\link{Cat}} for information on the \code{estimation} slot
 }
 

@@ -9,15 +9,14 @@ setwd("~/Dropbox/Spring2016/Rclass/CATSurv/")
 current.code <- as.package("catSurv")
 load_all(current.code)#, recompile = FALSE)
 document(current.code)
-help(probability)
-
-test(current.code)
-check(current.code)
+#test(current.code)
+#check(current.code)
 
 ## for looking at pdf of documentation
-## lots of errors at this point
+unlink("catSurv.pdf") ## deleting current version
 path <- find.package("catSurv")
-system(paste(shQuote(file.path(R.home("bin"), "R")),"CMD", "Rd2pdf", shQuote(path)))
+system(paste(shQuote(file.path(R.home("bin"), "R")), "CMD", "Rd2pdf",
+             shQuote(path)))
 
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")
