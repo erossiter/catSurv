@@ -13,22 +13,28 @@ fisherTestInfo(catObj)
 The total information gained for a respondent, given a specific answer set and a value of \eqn{theta}.
 }
 \description{
-This function calculates the total information gained for a respondent \eqn{j} for all answered items, conditioned on \eqn{theta}.
+Calculates the total information gained for a respondent \eqn{j} for all answered items, conditioned on \eqn{theta}.
 }
 \details{
-\deqn{I_i(\theta_j)}{I_i(\theta_j)} is the Fisher's information for item \eqn{i} specific to \eqn{\theta_j} (see \code{FisherInf}). 
-  Let \deqn{i\in[1, \ldots, n]}{i \in [1,...,n]} index the questions the respondent has already answered. The test information is then defined as:
 
-\deqn{I(\theta_j) = \sum_i^n I_i(\theta_j)}{I(\theta_j) = \sum_i^n I_i(\theta_j)}
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
-
- 
+\dontrun{
+## Prior calculation using Cat object of the ltm model
+## specifying different distributions
+data(npi)
+cat <- ltmCat(npi)
+}
 
 }
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}
 \seealso{
-\code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
-  \code{\link{estimateTheta}} for calculation of \eqn{\theta};
-  \code{\link{fisherInf}} for further calculation of Fisher's information
+\code{\link{fisherInf}} for calculation of Fisher's information for an individual question item
 }
 

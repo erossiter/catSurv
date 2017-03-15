@@ -8,15 +8,15 @@
 using namespace Rcpp;
 
 // probability
-std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector question);
-RcppExport SEXP catSurv_probability(SEXP catObjSEXP, SEXP thetaSEXP, SEXP questionSEXP) {
+std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector item);
+RcppExport SEXP catSurv_probability(SEXP catObjSEXP, SEXP thetaSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< S4 >::type catObj(catObjSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type question(questionSEXP);
-    rcpp_result_gen = Rcpp::wrap(probability(catObj, theta, question));
+    Rcpp::traits::input_parameter< IntegerVector >::type item(itemSEXP);
+    rcpp_result_gen = Rcpp::wrap(probability(catObj, theta, item));
     return rcpp_result_gen;
 END_RCPP
 }

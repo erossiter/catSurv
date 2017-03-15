@@ -9,41 +9,38 @@ obsInf(catObj, theta, item)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{theta}{A double indicating the value of \eqn{\theta_j}}
+\item{theta}{A numeric or an integer indicating the value for \eqn{\theta_j}}
 
-\item{item}{An integer indicating the index of the question}
+\item{item}{An integer indicating the index of the question item}
 }
 \value{
-The value of the observed information of the likelihood, given \eqn{\theta}, for a specific question.
+The function returns a numeric value of the observed information of the likelihood, given \eqn{\theta}, for a specific question item
 }
 \description{
-This function calculates the observed information of the likelihood evaluated at the input value \eqn{\theta} for a specific item.
+Calculates the observed information of the likelihood evaluated at the input value \eqn{\theta} for a specific item
 }
 \details{
 The observed information is equivalent to the negative second derivative of the log-likelihood.
   Note: This function should never be called when the respondent has answered no questions.
-
-  For the binary case:
-
-  \deqn{\lambda_{\theta \theta} = b_i^2\Big(\frac{P_{ij} - c_i}{1-c_i} \Big)^2\frac{Q_{ij}}{P_{ij}}}{\lambda_{\theta \theta} = b_i^2 ((P_ij - c_i)/(1 - c_i))^2 (Q_ij)/(P_ij)}
-
-  For the categorical case:
-
-  \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_{ijk} = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)} as defined in \code{Likelihood}. 
-  \deqn{Q_{ijk}^*= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk}, \deqn{w_{i,k-1} = P^*_{i,k-1}Q^*_{i,k-1}}{w_{i,k-1} = P*_{i,k-1} Q*_{i,k-1}}, and \deqn{w_{ik}=P^*_{ik}Q^*_{ik}}{w_ik = P*_ik Q*_ik} as defined in \code{dLL}.
-
-  To calculate the categorical observed information requires evaluating the below equation for question \eqn{i}, assuming response \eqn{k}:  
-
-  \deqn{\frac{\partial^2L}{\partial\theta_j^2} & -\beta_i^2 \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{ik}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ]}{(\partial^2L)/(\partial\theta_j^2) = -\beta_i^2 [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_{ik}) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)]}
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
+\dontrun{
+## Prior calculation using Cat object of the ltm model
+## specifying different distributions
+data(npi)
+cat <- ltmCat(npi)
+}
 
-
- 
+}
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
-  \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
+\code{\link{estimateTheta}} for calculation of \eqn{\theta} and
   \code{\link{expectedObsInf}} for further application of observed information
 }
 

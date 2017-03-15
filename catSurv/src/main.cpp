@@ -15,11 +15,11 @@ using namespace Rcpp;
 
 //' Probability of Responses to a Question Item or the Left-Cumulative Probability of Responses
 //'
-//' Calculates the probability of specific responses or the left-cumulative probability of responses to \code{question} conditioned on a subject's ability (\eqn{\theta})  
+//' Calculates the probability of specific responses or the left-cumulative probability of responses to \code{item} conditioned on a subject's ability (\eqn{\theta})  
 //'
 //' @param catObj An object of class \code{Cat}
 //' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
-//' @param question An integer indicating the index of the question
+//' @param item An integer indicating the index of the question item
 //'
 //' @return When the argument \code{catObj} is an \code{ltm} model, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
 //'
@@ -66,17 +66,17 @@ using namespace Rcpp;
 //'## Probability for Cat object of the ltm model
 //'data(npi)
 //'cat <- ltmCat(npi)
-//'probability(cat, theta = 1, question = 1)
+//'probability(cat, theta = 1, item = 1)
 //'
 //'## Probability for Cat object of the tpm model
 //'data(polknow)
 //'cat <- tpmCat(polknow)
-//'probability(cat, theta = 1, question = 1)
+//'probability(cat, theta = 1, item = 1)
 //'
 //'## Probability for Cat object of the grm model
 //'data(nfc)
 //'cat <- grmCat(nfc)
-//'probability(cat, theta = 1, question = 1)
+//'probability(cat, theta = 1, item = 1)
 //'}
 //'  
 //' @seealso \code{\link{Cat}} for information on the item parameters: discrimination, difficulty, and guessing.
@@ -98,52 +98,45 @@ using namespace Rcpp;
 //'  
 //' @export
 // [[Rcpp::export]]
-std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector question) {
+std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector item) {
 	Cat cat = Cat(catObj);
 	double t = theta[0];
-	int q = question[0];
+	int q = item[0];
 	if(q == 0){
-	  throw std::domain_error("Must use a question number applicable to Cat object.");
+	  throw std::domain_error("Must use an item number applicable to Cat object.");
 	}
 	return cat.probability(t, q);
 }
 
 //' Likelihood of the Specified Response Set
 //'
-//' The likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot, conditional on the item-level parameters.
+//' Calculates the likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot, conditional on the item-level parameters.
 //'
 //' @param catObj An object of class \code{Cat}
-//' @param t A numeric for the value of theta (position on the latent scale of interest)
+//' @param theta A numeric or an integer indicating the value for \eqn{\theta_j} 
+//' 
+//' @return The function returns a numeric value of the likelihood of the respondent having offered the provided response profile.
 //'
-//' @return A numeric value of the likelihood of the respondent having offered the provided response profile.
-//'
-//' @details For binary \code{Cats}, letting \deqn{q_i(\theta_j) = 1-p_i(\theta_j)}{q_i(\theta_j) = 1 - p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is
-//'
-//'  \deqn{L(\theta_j|\mathbf{y}_{j})=\prod^{J}_{i=1}\Big(p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij})}\Big)= \exp\Big[ \sum^{J}_{i=1}\Big(y_{ij} \log(p_i(\theta_j)) + (1-y_{ij})\log(q_i(\theta_j))\Big) \Big]}{L(\theta_j| y_j) = \prod^{J}_{i = 1}(p_i(\theta_j)^{y_ij} q_i(\theta_j)^{1 - y_ij}) = exp(\sum^{J}_{i = 1} (y_ij log(p_i(\theta_j)) + (1 - y_ij) log(q_i(\theta_j))))}
-//'
-//'  where \eqn{y_j} is evaluated based only on the questions the respondent has answered.
-//'
-//'  In the polytomous implementation, for each item \eqn{i} there are \eqn{K_i} response options, which may differ across items.  
-//'  There is therefore a vector of threshold parameters defined as \deqn{\mathbf{\alpha}_i=(\alpha_{i,0}, \alpha_{i,1}, \ldots, \alpha_{i,K_i})}{\alpha_i = \alpha_{i,0}, \alpha_{i,1}, ... , \alpha_{i,K_i}}, 
-//'  with \deqn{\alpha_{i,0} < \alpha_{i,1} \le \alpha_{i,2} \le \ldots, < \alpha_{i,K_i}}{\alpha_{i,0} < \alpha_{i,1} \le \alpha_{i,2} \le \ldots, < \alpha_{i,K_i}} , \deqn{\alpha_{i,0} = -\infty}{\alpha_{i,0} = -\infty}, and \deqn{\alpha_{i,K_i} = \infty}{\alpha_{i,K_i} = \infty}.  
-//'  Thus for a categorical question with \eqn{K} possible answers, \eqn{K-1} difficulty parameters are calculated (since \eqn{\alpha_{i,0}} and \eqn{\alpha_{i,K}} are known).  
-//'  In addition, each item is associated with a discrimination parameter \eqn{\beta_i} indicating how well each item corresponds to the underlying trait in question. 
-//'  To calculate the likelihood function, estimate \deqn{P^*_{ijk} = Pr(y_{ij} < k| \theta_j)}{P*_ijk = Pr(y_ij < k| \theta_j)} for each response option. The probability of observing each possible response can then be calculated as
-//'                                                                                  
-//'  \deqn{P_{ijk} = P^\ast_{ij, k} - P^\ast_{ij, k-1}}{P_ijk = P*_{ij,k} - P*_{ij,k-1}}. 
-//'
-//'  Note that \deqn{P^\ast_{ij0} =0 }{P*_{ij,0} = 0} and \deqn{P^\ast_{ijK+1} = 1}{P*_{ij,K+1} = 1} in all cases. The likelihood function is therefore,
-//'
-//'  \deqn{L(\theta_j) = \prod_{i=1}^n\prod_{k=1}^{K_i} P_{ijk}^{I(y_{ij}=k)} = \exp \Big[ \sum_{i=1}^n\sum_{k=1}^{K_i} \log \Big( P_{ijk}^{I(y_{ij}=k)} \Big) \Big]}{L(\theta_j) = \prod_{i = 1}^n \prod_{k = 1}^{K_i} P_ijk^{I(y_ij = k)} = exp[\sum_{i = 1}^n \sum_{k = 1}^{K_i} log(P_ijk^{I(y_ij = k)})]},
-//'
-//'  where \deqn{I(\cdot)}{I(.)} is an indicator function that evaluates to 1 when the equatliy holds and zero otherwise.
+//' @details
+//' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' 
+//' @references 
+//' 
 //'@examples
 //'\dontrun{
+//'## Likelihood for Cat object of the ltm model
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'setAnswers(cat) <- c(1,0,1,0, rep(NA, 35))
+//'likelihood(cat, theta = 1)
 //'}
 //' 
 //'  
-//' @seealso \code{\link{probability}} for individual probability calculations
+//' @seealso \code{\link{probability}} for probability of responses to individual question item
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -218,43 +211,27 @@ double prior(NumericVector x, CharacterVector dist, NumericVector params) {
 //' When \code{usePrior = TRUE}, this function evaluates the first derivative of the log-posterior evaluated at point \eqn{\theta}. 
 //' 
 //' @param catObj An object of class \code{Cat}
-//' @param theta A double indicating the value for \eqn{\theta_j}
+//' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
 //' @param use_prior A logical indicating whether to use the prior parameters in estimation
 //' 
-//' @return A double value of the derivative of the log-likelihood (or log-posterior) for a respondent's answer profile.
+//' @return The function returns a numeric of the derivative of the log-likelihood (or log-posterior) for a respondent's answer profile.
 //' 
-//' @details For the dichotomous case, \deqn{P_{ij}}{P_ij} is the probability that respondent \eqn{j} will answer question \eqn{i} correctly, conditioned on the respondent's ability parameter \eqn{\theta_j}.  
-//'   Let \eqn{\mu_\theta} be the prior mean and \eqn{\sigma_\theta} be the prior standard deviation.  
-//'   Further, let \deqn{Q_{ij} = 1 - P_{ij}}{Q_ij = 1 - P_ij}. Using this notation, the first derivative of the log-likelihood is given by:
-//' 
-//'   \deqn{L_\theta = \sum_{i=1}^n b_i\Big(\frac{P_{ij} - c_i}{P_{ij}(1-c_i)} \Big)(y_{ij} - P_{ij}) }{L_\theta = \sum_{i = 1}^n b_i ((P_ij - c_i)/(P_ij (1 - c_i)))(y_ij - P_ij)} 
-//' 
-//'   The first derivative of the log-posterior is:
-//' 
-//'   \deqn{L_\theta = \sum_{i=1}^n \Big [ b_i\Big(\frac{P_{ij} - c_i}{P_{ij}(1-c_i)} \Big)(y_{ij} - P_{ij}) \Big ] -  \Big(\frac{\theta_j - \mu_\theta}{\sigma^2_\theta} \Big)}{L_\theta = \sum_{i = 1}^n [ b_i ((P_ij - c_i)/(P_ij (1 - c_i)))(y_ij - P_ij)] - ((\theta_j - \mu_\theta)(\sigma^2_\theta))}
-//'
-//'   For the polytomous case, \deqn{P_{ijk} = P^*_{ij,k} - P^*_{ij,k-1}}{P_ijk = P*_{ij,k} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)} and \deqn{Q_{ijk}^*= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk}. The log-likelihood is then given by:
-//'
-//'   \deqn{L = \sum^n_{i=1}\sum^{m_i}_{k=1}I(y_{ijk}=k)\log P_{ijk}}{L = \sum^n_{i = 1} \sum^{m_i}_{k = 1} I(y_ijk = k) log P_ijk},
-//'
-//'   where \deqn{I(\cdot)}{I(.)} is an indicator function that evaluates to 1 when the condition is met and 0 otherwise.  
-//'   Calculating the estimate of \eqn{\theta} requires both the first and the second derivatives of the log-likelihood function with respect to \eqn{\theta_j}. Therefore, the first derivative of \eqn{L} with respect to \eqn{\theta_j} is:
-//'
-//'   \deqn{\frac{\partial L}{\partial \theta_j} &= \sum_{i=1}^n\sum^{m_i}_{k=1} I(y_{ijk}=k)\Big[- \beta_i \Big ( \frac{w_{ik}-w_{i,k-1}}{P_{ik}} \Big )\Big]}{{\partial L}/{\partial \theta_j} = \sum_{i = 1}^n \sum^{m_i}_{k = 1} I(y_ijk = k)[-\beta_i ((w_{ik} - w_{i,k-1})/(P_ik))]}
-//'
-//'   where \deqn{w_{i,k-1} = P^*_{i,k-1}Q^*_{i,k-1}}{w_{i,k-1} = P*_{i,k - 1}Q*_{i,k - 1}} and \deqn{w_{ik}=P^*_{ik}Q^*_{ik}}{w_ik = P*_ik Q*_ik}.
-//'
-//'   The log posterior is:
-//'
-//'   \deqn{\frac{\partial L}{\partial \theta_j} &= \sum_{i=1}^n\sum^{m_i}_{k=1} I(y_{ijk}=k)\Big[- \beta_i \Big ( \frac{w_{ik}-w_{i,k-1}}{P_{ik}} \Big ) \Big] - \Big(\frac{\theta_j - \mu_\theta}{\sigma^2_\theta} \Big) \Big]}{(\partial L)/(\partial \theta_j) = \sum_{i = 1}^n \sum^{m_i}_{k = 1} I(y_ijk = k)[-\beta_i ((w_{ik} - w_{i,k-1})/(P_{ik})) - ((\theta_j - \mu_\theta)/(\sigma^2_\theta))]}
-//'
-//' Note: This method is only be available using the normal prior distribution 
+//' @details This method is only be available using the normal prior distribution 
 //'
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//'  
-//' @seealso \code{\link{Cat}} and/or \code{\link{prior}} for information on priors 
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' 
+//' @seealso \code{\link{Cat}} and \code{\link{prior}} for information on available priors and prior specifications
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -268,36 +245,27 @@ double dLL(S4 &catObj, double theta, bool use_prior){
 //'When \code{usePrior = TRUE}, this function evaluates the second derivative of the log-posterior evaluated at point \eqn{\theta}. 
 //'
 //' @param catObj An object of class \code{Cat}
-//' @param theta A double indicating the potential value for \eqn{\theta_j}
+//' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
 //' @param use_prior A logical indicating whether to use the prior parameters in estimation
 //' 
-//' @return A double value of the second derivative of the log-likelihood (or log-posterior) for a respondent's answer profile.
+//' @return The function returns a numeric of the second derivative of the log-likelihood (or log-posterior) for a respondent's answer profile.
 //' 
-//' @details For the dichotomous case, the  value (in terms of \deqn{y_{ij}}{y_ij}) of the second derivative of the log-likelihood is:
-//'
-//'   \deqn{\lambda_{\theta \theta} = - \sum_{i=1}^n b_i^2\Big(\frac{P_{ij} - c_i}{1-c_i} \Big)^2\frac{Q_{ij}}{P_{ij}}}{\lambda_{\theta \theta} = - \sum_{i = 1}^n b_i^2 ((P_ij - c_i)/(1 - c_i))^2 (Q_ij)/(P_ij)}
-//'
-//'   The second derivative of the log-posterior is:
-//'
-//'   \deqn{\lambda_{\theta \theta} = - \sum_{i=1}^n \Big [ b_i^2\Big(\frac{P_{ij} - c_i}{1-c_i} \Big)^2\frac{Q_{ij}}{P_{ij}} \Big ] - \frac{1}{\sigma^2_\theta}}{\lambda_{\theta \theta} = - \sum_{i = 1}^n [b_i^2 ((P_ij - c_i)/(1 - c_i))^2 (Q_ij)/(P_ij)] - 1/(\sigma^2_\theta)}
-//'
-//'   Note: In the binary case, the observed and expected information are identical.
+//' @details This method is only be available using the normal prior distribution
 //' 
-//'   For the polytomous case, the second derivative of \eqn{L} with respect to \eqn{\theta_j} is:
-//'
-//'   \deqn{\frac{\partial^2L}{\partial\theta_j^2} = \sum_{i=1}^n -\beta_i^2 \sum_{k=1}^{m_i} I(y_{ijk}=k) \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{i}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ]}{(\partial^2L)/(\partial\theta_j^2) = \sum_{i = 1}^n -\beta_i^2 \sum_{k = 1}^{m_i} I(y_ijk = k) [ (-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_i) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)]}
-//'
-//'   The second derivative of the log-posterior is:
-//'
-//'   \deqn{\frac{\partial^2L}{\partial\theta_j^2} = \sum_{i=1}^n -\beta_i^2 \sum_{k=1}^{m_i} I(y_{ijk}=k)  \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{i}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ] - \frac{1}{\sigma_\theta^2} }{(\partial^2L)/(\partial\theta_j^2) = \sum_{i = 1}^n -\beta_i^2 \sum_{k = 1}^{m_i} I(y_ijk = k) [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_i) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)] - 1/(\sigma_\theta^2)} 
-//' 
-//'   Note: This method is only be available using the normal prior distribution
-//'
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//'  
-//' @seealso \code{\link{Cat}} and/or \code{\link{prior}} for information on priors 
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' 
+//' @seealso \code{\link{Cat}} and \code{\link{prior}} for information on available priors and prior specifications
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -307,80 +275,32 @@ double d2LL(S4 &catObj, double theta, bool use_prior){
 
 //' Estimate of the respondent's ability parameter
 //'
-//' This function takes a \code{Cat} object and returns the expected value of the ability parameter conditioned on the observed answers and the item calibrations.
+//' Calculates the expected value of the ability parameter \eqn{\theta}, conditioned on the observed answers and the item calibrations
 //'
 //' @param catObj An object of class \code{Cat}
 //'
-//' @return A vector consisting of the expected value of the ability parameter
+//' @return A numeric consisting of the expected value of the ability parameter
 //'
-//' @details 
-//'   The expected a posteriori (EAP) approach:
-//'
-//'   The expected value of \eqn{\theta_j} is:
-//'
-//'   \deqn{\frac{\int_{-\infty}^\infty \theta_j \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}{\int_{-\infty}^\infty \mbox{L}(\theta_j) \pi(\theta_j) d\theta_j}}{(\int_{-\infty}^\infty \theta_j L(\theta_j) \pi(\theta_j) d\theta_j)/(\int_{-\infty}^\infty L(\theta_j) \pi(\theta_j) d\theta_j)}
-//'
-//'   where \eqn{L(\theta_j)} is defined in \code{Likelihood}, and \eqn{\pi(\theta_j)} is the prior distribution for \eqn{\theta_j}.  
-//'
-//'   The modal a posteriori (MAP) approach:
-//'
-//'   Note: This method is only available using the normal prior distribution.
-//'
-//'   To estimate \eqn{\theta_j}, the following equation is iteratively solved, beginning with an initial value of \eqn{\theta_j}, and continuing until the change in the estimate is below the pre-specified tolerance. Note that \eqn{t} indexes the iteration.
-//'
-//'   \deqn{[\hat{\theta_j}]_{(t+1)} = [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{\hat{\theta_j}_{(t + 1)} = \hat{\theta_j}_{(t)} - ((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))}
-//'
-//'   where the derivatives are evaluated at \eqn{\hat{\theta_j}_{(t)}}.
+//' @details
+//' EAP
+//' MAP (This method is only available using the normal prior distribution.)
+//' The maximum likelihood (MLE) approach: (Note: When MLE will not work, \code{estimateTheta} is calculated according to the \code{estimationDefault} slot in \code{Cat} object.)
+//' The weighted maximum likelihood approach (WLE) approach: Estimating \eqn{\theta_j} requires finding the root of the following function using the ``Brent'' method in the \code{gsl} library.
 //' 
-//'   The maximum likelihood (MLE) approach:
-//'
-//'   Note: When MLE will not work, \code{estimateTheta} is calculated according to the \code{estimationDefault} slot in \code{Cat} object.
-//'
-//'   To estimate \eqn{\theta_j}, the following equation is iteratively solved, beginning with an initial value of \eqn{\theta_j}, and continuing until the change in the estimate is below the pre-specified tolerance. Note that \eqn{t} indexes the iteration.
-//'
-//'   \deqn{[\hat{\theta_j}]_{(t+1)} = [\hat{\theta_j}]_{(t)} - \Big [ \frac{\frac{\partial L}{\partial\theta_j}}{\frac{\partial^2L}{\partial\theta_j^2}}\Big ]}{\hat{\theta_j}_{(t + 1)} = \hat{\theta_j}_{(t)} - ((\partial L)/(\partial\theta_j))/((\partial^2L)/(\partial\theta_j^2))}
-//'
-//'   where the derivatives are evaluated at \eqn{\hat{\theta_j}_{(t)}}.
-//' 
-//'   The weighted maximum likelihood approach (WLE) approach:
-//'
-//'   Estimating \eqn{\theta_j} requires finding the root of the following function using the ``Brent'' method in the \code{gsl} library.
-//'
-//'   \deqn{W = L_\theta + \frac{B(\theta)}{2I(\theta)}}{W = L_\theta + B(\theta)/(2 I(\theta))}
-//'
-//'   Where \eqn{L_\theta} is defined without use of the prior, and \eqn{I(\theta)} is the test information for respondent \eqn{j}.
-//'
-//'   For the dichotomous case, 
-//'
-//'   \deqn{B(\theta)=\sum_i \frac{P_{ij}^\prime P_{ij}^{\prime\prime} }{P_{ij}Q_{ij}}}{B(\theta) = \sum_i (P'_ij P''_ij)/(P_ij Q_ij)}
-//'
-//'   \deqn{P_{ij}}{P_ij} and \deqn{Q_{ij}}{Q_ij} are as defined in \code{Probability} and \code{Likelihood}, and
-//'
-//'   \deqn{P^{\prime}_{ij} = b_i (1 - c_i) \frac{\exp{(a_i+b_i\theta_j)}}{(1 + \exp{(a_i+b_i\theta_j)})^2}}{P'_ij = b_i (1 - c_i) (exp(a_i + b_i \theta_j))/(1 + exp(a_i + b_i\theta_j))^2}
-//'   
-//'   \deqn{P^{\prime\prime}_{ij}=b^2  \exp{(a_i+b_i\theta_j)}  (1 - \exp{(a_i+b_i\theta_j)})  \frac{(1 - c)}{(1 + \exp{(a_i+b_i\theta_j)})^3}}{P''_ij = b^2  exp(a_i + b_i \theta_j)(1 - exp(a_i + b_i\theta_j)) ((1 - c)/(1 + exp(a_i + b_i \theta_j))^3)}
-//'  
-//'   For the categorical case, 
-//'
-//'   \deqn{B=\sum_i \sum_k \frac{P_{ijk}^\prime P_{ijk}^{\prime\prime}}{P_{ijk}}}{B = \sum_i \sum_k (P'_ijk P''_ijk)/(P_ijk)}
-//'
-//'   where, \deqn{P_{ijk}}{P_ijk} is defined as above and \deqn{P^\ast_{ijk}}{P*_ijk} is defined as above with one and zero at the extremes.
-//'
-//'
-//'   \deqn{P^{\ast \prime}_{ijk}=-\beta P^\ast_{ijk}  Q^\ast_{ijk}}{P*'_ijk = -\beta P*_ijk  Q*_ijk}
-//'   
-//'   \deqn{P^{\ast \prime \prime}_{ijk} = -\beta  (P^{\ast \prime}_{ijk} - 2  P^{\ast} _{ijk}  P^{\ast \prime}_{ijk})}{P*''_ijk = -\beta  (P*'_ijk - 2  P* _ijk  P*'_ijk)}
-//'
-//'   Finally,
-//'
-//'   \deqn{P^{\prime}_{ijk}=P^{\ast \prime}_{ij,k+1}-P^{\ast \prime}_{ij,k}}{P'_{ijk} = P*'_{ij,k+1} - P*'_{ij,k}}
-//'                     
-//'   \deqn{P^{\prime\prime}_{ijk}=P^{\ast \prime\prime}_{ij,k+1}-P^{\ast \prime\prime}_{ij,k}}{P''_{ijk} = P*''_{ij,k+1} - P*''_{ij,k}}
-//'
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*  
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' 
+//' @seealso \code{\link{probability}} and \code{\link{likelihood}}
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -390,36 +310,31 @@ double estimateTheta(S4 catObj) {
 
 //' Observed Information
 //'
-//' This function calculates the observed information of the likelihood evaluated at the input value \eqn{\theta} for a specific item.
+//' Calculates the observed information of the likelihood evaluated at the input value \eqn{\theta} for a specific item
 //'
 //' @param catObj An object of class \code{Cat}
-//' @param theta A double indicating the value of \eqn{\theta_j}
-//' @param item An integer indicating the index of the question
+//' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
+//' @param item An integer indicating the index of the question item
 //'
-//' @return The value of the observed information of the likelihood, given \eqn{\theta}, for a specific question.
+//' @return The function returns a numeric value of the observed information of the likelihood, given \eqn{\theta}, for a specific question item
 //' 
 //' @details The observed information is equivalent to the negative second derivative of the log-likelihood.
 //'   Note: This function should never be called when the respondent has answered no questions.
-//'
-//'   For the binary case:
-//'
-//'   \deqn{\lambda_{\theta \theta} = b_i^2\Big(\frac{P_{ij} - c_i}{1-c_i} \Big)^2\frac{Q_{ij}}{P_{ij}}}{\lambda_{\theta \theta} = b_i^2 ((P_ij - c_i)/(1 - c_i))^2 (Q_ij)/(P_ij)}
-//'
-//'   For the categorical case:
-//'
-//'   \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_{ijk} = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)} as defined in \code{Likelihood}. 
-//'   \deqn{Q_{ijk}^*= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk}, \deqn{w_{i,k-1} = P^*_{i,k-1}Q^*_{i,k-1}}{w_{i,k-1} = P*_{i,k-1} Q*_{i,k-1}}, and \deqn{w_{ik}=P^*_{ik}Q^*_{ik}}{w_ik = P*_ik Q*_ik} as defined in \code{dLL}.
-//'
-//'   To calculate the categorical observed information requires evaluating the below equation for question \eqn{i}, assuming response \eqn{k}:  
-//'
-//'   \deqn{\frac{\partial^2L}{\partial\theta_j^2} & -\beta_i^2 \Big [ \frac{-w_{i,k-1}(Q^*_{i,k-1}-P^*_{i,k-1}) + w_{ik}(Q^*_{ik}-P^*_{ik})}{P_{ik}}-\frac{(w_{ik}-w_{i,k-1})^2}{P_{ik}^2} \Big ]}{(\partial^2L)/(\partial\theta_j^2) = -\beta_i^2 [(-w_{i,k-1}(Q*_{i,k-1} - P*_{i,k-1}) + w_{ik}(Q*_{ik} - P*_{ik}))/(P_{ik}) - ((w_{ik} - w_{i,k-1})^2)/(P_{ik}^2)]}
-//'
+//'   
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
-//' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
-//'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//'
+//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta} and
 //'   \code{\link{expectedObsInf}} for further application of observed information
 //'  
 //' @export
@@ -431,27 +346,29 @@ double obsInf(S4 catObj, double theta, int item) {
 
 //' Expected Observed Information
 //'
-//' This function calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring.
+//' Calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring
 //'
 //' @param catObj An object of class \code{Cat}
-//' @param item An integer indicating the index of the question
+//' @param item An integer indicating the index of the question item
 //' 
-//' @return A value of the expected information 
+//' @return The function returns a numeric value of the expected information 
 //' 
-//' @details Binary details:
-//'
-//'   \deqn{EI=P(y_{ij} = 1)J_{y_{ij}=1} + P(y_{ij} = 0)J_{y_{ij}=0}}{EI = P(y_ij = 1)J_{y_ij = 1} + P(y_ij = 0) J_{y_ij = 0}} 
-//'
-//'   Categorical details:
-//'
-//'   \deqn{EI = \sum_k^K P(y_{ij} = k)J_{y_{ij}=k}}{EI = \sum_k^K P(y_ij = k) J_{y_ij = k}}
-//'
+//' @details
+//' 
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//'  
-//' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
-//'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//'
+//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta} and 
 //'   \code{\link{obsInf}} for observed information calculation
 //'  
 //' @export
@@ -463,30 +380,30 @@ double expectedObsInf(S4 catObj, int item) {
 
 //' Fisher's Information
 //'
-//' This function calculates the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}.
+//' Calculates the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}
 //'
 //' @param catObj An object of class \code{Cat}
-//' @param theta A double indicating the potential value for \eqn{\theta_j}
-//' @param item An integer indicating the index of the question
+//' @param theta A numeric or an integer indicating the potential value for \eqn{\theta_j}
+//' @param item An integer indicating the index of the question item
 //'
-//' @return The expected value of the observed information.
+//' @return The function returns a numeric of the expected value of the observed information
 //' 
 //' @details For the dichotomous case, this is equivalent to the observed information.  
-//'   The graded response model requires additional calculations.
-//'
-//'   The equation for the likelihood is given in \code{Likelihood}, where \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_ijk = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)}. 
-//'   \code{dLL} also defines \deqn{Q_{ijk}^\ast= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk}, and \deqn{w_{ij,k}=P^\ast_{ij,k}Q^\ast_{ij,k}}{w_{ij,k} = P*_{ij,k} Q*_{ij,k}}.
-//'   Fisher information is therefore calculated (by equation 8.23 in Baker and Kim):
-//'
-//'   \deqn{I_i(\theta_j) = \sum_k^K\beta^2_i\frac{(w_{ijk} - w_{i,k-1})^2}{P^\ast_{ijk} - P^\ast_{ij,k-1}}}{I_i(\theta_j) = \sum_k^K \beta^2_i ((w_{ijk} - w_{i,k-1})^2)/(P*_{ijk} - P*_{ij,k-1})}
 //' 
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//'  
-//' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
-//'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
-//'   \code{\link{obsInf}} for observed information calculation;
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//'
+//' @seealso \code{\link{obsInf}} for observed information calculation and
 //'   \code{\link{fisherTestInfo}} for further application of Fisher's information
 //'  
 //' @export
@@ -498,88 +415,63 @@ double fisherInf(S4 catObj, double theta, int item) {
 
 //' Fisher's Test Information
 //'
-//' This function calculates the total information gained for a respondent \eqn{j} for all answered items, conditioned on \eqn{theta}.
+//' Calculates the total information gained for a respondent \eqn{j} for all answered items, conditioned on \eqn{theta}.
 //'
 //' @param catObj An object of class \code{Cat}
 //' 
 //' @return The total information gained for a respondent, given a specific answer set and a value of \eqn{theta}.
 //' 
-//' @details \deqn{I_i(\theta_j)}{I_i(\theta_j)} is the Fisher's information for item \eqn{i} specific to \eqn{\theta_j} (see \code{FisherInf}). 
-//'   Let \deqn{i\in[1, \ldots, n]}{i \in [1,...,n]} index the questions the respondent has already answered. The test information is then defined as:
-//'
-//' \deqn{I(\theta_j) = \sum_i^n I_i(\theta_j)}{I(\theta_j) = \sum_i^n I_i(\theta_j)}
+//' @details
 //' 
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' 
-//' @seealso \code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
-//'   \code{\link{estimateTheta}} for calculation of \eqn{\theta};
-//'   \code{\link{fisherInf}} for further calculation of Fisher's information
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//'
+//' @seealso \code{\link{fisherInf}} for calculation of Fisher's information for an individual question item
 //'  
-//' 
 //' @export
 // [[Rcpp::export]]
 double fisherTestInfo(S4 catObj) {
   return Cat(catObj).fisherTestInfo();
 }
 
-//' Estimate of the standard error for the posterior estimate
+//' Standard error of the respondent's ability parameter estimate
 //'
-//' This function estimates the standard error for the posterior estimate for the position \eqn{\theta_j} of a person on the latent scale
+//' Estimates the standard error for the ability parameter estimate
 //'
-//' @param cat An object of class \code{Cat}
+//' @param catObj An object of class \code{Cat}
 //'
-//' @return The posterior standard error for \eqn{\theta_j}
+//' @return The function returns a numeric for the standard error for \eqn{\theta_j}
 //'
 //' @details 
 //'   The EAP estimator:
+//'   The MAP estimator (This is implemented only for the normal prior.)
+//'   The MLE  estimator (When MLE can't be calculated... estimationDefault)
+//'   The WLE estimator (Brent method)
 //'   
-//'   The posterior variance for \deqn{\theta^{(EAP)}_j}{\theta^{EAP}_j} is:
-//'
-//'   \deqn{\mbox{Var}(\hat{\theta}_j) = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{\int\pi(\theta_j)L(\theta_j)d\theta_j}}{Var(\hat{\theta}_j) = E[(\theta_j - \hat{\theta_j})^2] = (\int(\theta_j - \hat{\theta_j})^2 \pi(\theta_j) L(\theta_j) d\theta_j)/(\int \pi(\theta_j) L(\theta_j) d\theta_j)}
-//'
-//'   where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then 
-//' 
-//'   \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
-//'
-//'   The MAP estimator:
-//'
-//'   Note: This is implemented only for the normal prior.
-//'
-//'   The variance of \deqn{\theta^{(MAP)}_j}{\theta^{MAP}_j} is defined as:
-//'
-//'   \deqn{\mbox{Var}(\hat{\theta}_j)=\frac{1}{I(\hat{\theta_j})+\frac{1}{\sigma_\theta^2}}}{Var(\hat{\theta}_j) = 1/(I(\hat{\theta_j}) + 1/(\sigma_\theta^2))}
-//'
-//'   where \eqn{I(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}}.The standard error is then 
-//'
-//'   \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
-//'
-//'   The MLE  estimator:
-//'
-//'   The variance of \deqn{\theta^{(MLE)}_j}{\theta^{MLE}_j} is defined as:
-//'
-//'   \deqn{\mbox{Var}(\hat{\theta}_j)=\frac{1}{I(\hat{\theta_j})}}{Var(\hat{\theta}_j) = 1/(I(\hat{\theta_j}))}
-//'
-//'   where \eqn{T(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}}.The standard error is then 
-//'
-//'   \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
-//'
-//'   The WLE estimator:
-//'
-//'   The variance of \deqn{\theta^{(WLE)}_j}{\theta^{WLE}_j} is defined as:
-//'
-//'   \deqn{\mbox{Var}(\hat{\theta}_j)\approx\frac{1}{I(\hat{\theta})}}{Var(\hat{\theta}_j)\approx 1/(I(\hat{\theta}))}
-//'
-//'   where \deqn{I(\hat{\theta_j})}{I(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}} and \eqn{B(\theta)} is defined in \code{estimateTheta}.The standard error is then 
-//'
-//'  \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
-//'
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//'  
-//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta}
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//'
+//' @seealso \code{\link{estimateTheta}} for estimation of \eqn{\theta}
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -589,26 +481,31 @@ double estimateSE(S4 catObj) {
 
 //' Expected Posterior Variance
 //'
-//' This function estimates the expected posterior variance for a respondent's estimated position on the latent trait for an item yet to be answered based on a respondent's position on the latent trait from the already-answered items.
+//' Estimates the expected posterior variance for a respondent's estimated ability parameter for an item yet to be answered based on a respondent's ability parameter estimate from the already-answered items
 //'
 //' @param catObj An object of class \code{Cat}
-//' @param item An integer indicating the index of the question
+//' @param item An integer indicating the index of the question item
 //'
-//' @return A numeric value indicating a respondent's expected posterior variance
+//' @return A numeric value indicating a respondent's expected posterior variance for a yet to be asked question item
 //'
-//' @details For a binary question:
-//'
-//'   \deqn{P(y_{ij} = 1 | \hat{\theta})Var(\hat{\theta} | y_{ij} = 1) + P(y_{ij} = 0 | \hat{\theta})Var(\hat{\theta} | y_{ij} = 0)}{P(y_ij = 1 | \hat{\theta}) Var(\hat{\theta} | y_ij = 1) + P(y_ij = 0 | \hat{\theta}) Var(\hat{\theta} | y_ij = 0)}
-//'
-//'   For a categorical question:
-//'
-//'   \deqn{\sum_{i=k}^k P(y_{ij} = k | \hat{\theta})Var(\hat{\theta} | y_{ij} = k)}{\sum_{i = k}^k P(y_ij = k | \hat{\theta}) Var(\hat{\theta} | y_ij = k)}
-//'
+//' @details 
+//' 
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+//'  
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//'
 //' 
-//' @seealso \code{\link{probability}} for calculation of P;  
-//'   \code{\link{estimateTheta}} for calculation of \eqn{\theta}
+//' @seealso \code{\link{probability}} for probability of responses to individual question item
+//'   \code{\link{estimateTheta}} for estimation of \eqn{\theta}
 //'  
 //' 
 //' @export
@@ -620,7 +517,7 @@ double expectedPV(S4 catObj, int item) {
 
 //' Select the next item in the question set
 //'
-//' Select the next item in the question set based on the specified method
+//' Selects the next item in the question set based on the specified method
 //' 
 //' @param catObj An object of class \code{Cat}
 //'
@@ -628,9 +525,7 @@ double expectedPV(S4 catObj, int item) {
 //' (1) A dataframe containing a column with the indexes of unasked questions and a column with the values (calculated by the specified selection method) for those items, 
 //' and (2) a numeric containing the index of the question that should be asked next.
 //'
-//' @details This function takes in a \code{Cat} object from \code{R} and constructs the \code{C++} representation.
-//'
-//'   The EPV method:
+//' @details The EPV method:
 //'   
 //'   This function takes in a \code{Cat} object from \code{R} and constructs the \code{C++} representation. It then calculates the expected posterior variance for each unanswered item. 
 //'   
@@ -657,14 +552,12 @@ double expectedPV(S4 catObj, int item) {
 //'   This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
 //'   Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
 //'  
-//'  \deqn{i_j = \underset{j}{\operatorname{argmax}}\int_{-\infty}^{\infty} L(\theta_j)I_i(\theta_j)d\theta_j}{i_j = argmax_j \int_{-\infty}^{\infty} L(\theta_j) I_i(\theta_j) d\theta_j}
 //'   
 //'   The MPWI method:
 //'   
 //'   This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
 //'   Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
 //'
-//'   \deqn{i_j = \underset{j}{\operatorname{argmax}}\int_{-\infty}^{\infty} \pi(\theta) L(\theta_j)I_i(\theta_j)d\theta_j}{i_j = argmax_j \int_{-\infty}^{\infty} \pi(\theta) L(\theta_j) I_i(\theta_j) d\theta_j}
 //' 
 //'   The MEI method:
 //'   
@@ -676,11 +569,9 @@ double expectedPV(S4 catObj, int item) {
 //'
 //'   Binary details:
 //'
-//'   \deqn{i_j = \underset{j}{\operatorname{argmax}}\{P(y_{ij} = 1)J_{y_{ij}=1} + P(y_{ij} = 0)J_{y_{ij}=0} \}}{i_j = argmax_j {P(y_ij = 1) J_{y_ij = 1} + P(y_ij = 0) J_(y_ij = 0)}}
 //'
 //'   Categorical details:
 //'   
-//'   \deqn{i_j = \underset{j}{\operatorname{argmax}}\{\sum_k^K P(y_{ij} = k)J_{y_{ij}=k} \}}{i_j = argmax_j {\sum_k^K P(y_ij = k) J_{y_ij = k}}}
 //'   
 //'   The KL method:
 //'   
@@ -701,8 +592,18 @@ double expectedPV(S4 catObj, int item) {
 //'   This routine serves as a baseline for comparison. The routine simply selects an unanswered question at random.
 //'
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' 
 //' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
 //'   \code{\link{obsInf}} for observed information calculation;
 //'   \code{\link{fisherTestInfo}} for Fisher's information calculation;
@@ -718,52 +619,30 @@ List selectItem(S4 catObj) {
 
 //' Expected Kullback-Leibeler information
 //'
-//' Calculate the expected Kullback-Leibeler information
+//' Calculates the expected Kullback-Leibeler information for an individual question item
 //' 
-//' @return A value indicating the KL information for the desired item, given the current answer profile and ability estimate.
+//' @return The function returns a numeric indicating the KL information for the desired item, given the current answer profile and ability parameter estimate
 //' 
 //' @param catObj An object of class \code{Cat}
-//' @param item An integer indicating the index of the question
+//' @param item An integer indicating the index of the question item
 //'
-//' @details The Kullback-Leibeler information is defined as follows.  Let \eqn{\theta_0} be the true value of the parameter and \eqn{\hat{\theta}} be our current best guess based on the data we have collected so far \deqn{\mathbf{y}_{k-1}}{y_{k-1}}.
-//' The KL item information for item \eqn{k} is:
+//' @details 
+//'  Binary details (Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.)
 //' 
-//' \deqn{K_k(\hat{\theta} ; \theta_0) \equiv E_{\theta_0}\log\Big[\frac{L(\theta_0|\mathbf{y}_{k-1}, y_k)}{L(\hat{\theta}|\mathbf{y}_{k-1})} \Big]}{K_k(\hat{\theta} ; \theta_0) \equiv E_{\theta_0}log[(L(\theta_0| y_{k-1}, y_k)/(L(\hat{\theta}| y_{k-1}))]}
-//'
-//'  Since \eqn{\theta_0} is unknow, the expected value of the KL information is estimated for each item:
-//'
-//'  \deqn{K_k(\hat{\theta};\theta_0) = \int^{\hat{\theta}+\delta}_{\hat{\theta}-\delta}\log\Big[\frac{L(\theta_0|\mathbf{y}_{k-1}, y_k)}{L(\hat{\theta}|\mathbf{y}_{k-1})} \Big] d\theta_0}{K_k(\hat{\theta};\theta_0) = \int^{\hat{\theta} + \delta}_{\hat{\theta} - \delta} log[(L(\theta_0|y_{k-1}, y_k)/(L(\hat{\theta}|y_{k-1}))] d\theta_0}
-//'
-//'  where \deqn{\delta = z(I(\hat{\theta}))^{-1/2}}{\delta = z(I(\hat{\theta}))^{-1/2}},  \eqn{I(\hat{\theta})} is the test information evaluated at \eqn{\hat{\theta}} for respondent \eqn{j}, and \eqn{z} is a user specified z-value.  
-//'  
-//'  Binary details:
-//' 
-//'  Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.
-//' 
-//'
-//'  \deqn{\int_{\hat{\theta}-\delta}^{\hat{\theta}+\delta} \Big( P(y_{ij} =
-//'   1|\theta_0)\log\Big[\frac{P(y_{ij}=1|\theta_0)}{P(y_{ij}=1|\hat{\theta})} \Big] + P(y_{ij} =
-//'   0|\theta_0)\log\Big[\frac{P(y_{ij}=0|\theta_0)}{P(y_{ij}=0|\hat{\theta})} \Big] \Big) d\theta_0}{\int_{\hat{\theta} - \delta}^{\hat{\theta} + \delta} (P(y_ij =
-//'   1| \theta_0) log[(P(y_ij = 1| \theta_0))/(P(y_ij = 1| \hat{\theta}))] + P(y_ij =
-//'   0| \theta_0) log[(P(y_ij = 0| \theta_0))/(P(y_ij = 0| \hat{\theta}))]) d\theta_0}
-//' 
-//' \deqn{\int_{\hat{\theta}-\delta}^{\hat{\theta}+\delta} \Big( P(y_{ij} =
-//'   1|\theta_0)\big(\log(P(y_{ij}=1|\theta_0)) - \log(P(y_{ij}=1|\hat{\theta}))\big) \Big) \\~~~~~~~ + \Big( P(y_{ij} =
-//'   0|\theta_0)\big(\log(P(y_{ij}=0|\theta_0)) - \log(P(y_{ij}=0|\hat{\theta}))\big) \Big) d\theta_0}{\int_{\hat{\theta} - \delta}^{\hat{\theta} + \delta} (P(y_ij =
-//'   1| \theta_0) (log(P(y_ij = 1| \theta_0)) - log(P(y_ij = 1| \hat{\theta})))) + (P(y_ij =
-//'   0| \theta_0) (log(P(y_ij = 0| \theta_0)) - log(P(y_ij = 0| \hat{\theta})))) d\theta_0}
-//'
-//'  Categorical details:
-//'
-//'  \deqn{\int_{\hat{\theta}-\delta}^{\hat{\theta}+\delta} \sum_k\Big(
-//'     P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}{\int_{\hat{\theta} - \delta}^{\hat{\theta} + \delta} 
-//'     \sum_k(P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
-//'
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
-//'
-//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};
-//'   \code{\link{likelihoodKL}} and/or \code{\link{posteriorKL}} for alternative KL methods
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+//'  
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' 
+//' @seealso \code{\link{likelihoodKL}} and/or \code{\link{posteriorKL}} for alternative KL methods
 //'
 //' @export
 // [[Rcpp::export]]
@@ -779,32 +658,30 @@ double expectedKL(S4 catObj, int item) {
 //' @return A value indicating the LKL information for the desired item, given the current answer profile and ability estimate.
 //' 
 //' @param catObj An object of class \code{Cat}
-//' @param item An integer indicating the index of the question
+//' @param item An integer indicating the index of the question item
 //'
 //' @details The LKL calculation follows the same procedure as \code{expectedKL}, except it requires weighting the different potential values of \eqn{\theta_0} by the likelihood.
 //'  Thus, the equation is
 //'
-//'  \deqn{KL_k(\hat{\theta};\theta_0) = \int L(\theta_0|\mathbf{y}_{k-1}) \log\Big[\frac{L(\theta_0|\mathbf{y}_{k-1}, y_k)}{L(\hat{\theta}|\mathbf{y}_{k-1})} \Big] d\theta_0}{KL_k(\hat{\theta};\theta_0) = \int L(\theta_0| \mathbf{y}_{k-1}) log[(L(\theta_0| \mathbf{y}_{k-1}, y_k))/(L(\hat{\theta}| \mathbf{y}_{k-1}))] d\theta_0}
-//'
 //'  Binary details:
 //'  
 //'  Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.
-//'
-//' \deqn{\int L(\theta_0|\mathbf{y}_{k-1})\Big[ \Big( P(y_{ij} =
-//'  1|\theta_0)\big(\log(P(y_{ij}=1|\theta_0)) - \log(P(y_{ij}=1|\hat{\theta}))\big) \Big) \\~~~~~~~ + \Big( P(y_{ij} =
-//'  0|\theta_0)\big(\log(P(y_{ij}=0|\theta_0)) - \log(P(y_{ij}=0|\hat{\theta}))\big) \Big) \Big]d\theta_0}{\int L(\theta_0| \mathbf{y}_{k-1})[(P(y_ij =
-//'  1| \theta_0)(log(P(y_ij = 1| \theta_0)) - log(P(y_ij = 1| \hat{\theta})))) + (P(y_ij =
-//'  0| \theta_0)(log(P(y_ij = 0| \theta_0)) - log(P(y_ij = 0| \hat{\theta}))))] d\theta_0}
-//'
-//'  Categorical details:
-//'
-//'   \deqn{\int \sum_k\Big(L(\theta_0|\mathbf{y}_{k-1})P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}{\int \sum_k(L(\theta_0| \mathbf{y}_{k-1})P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
-//'
+//'  
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
+//' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+//'  
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //' 
 //'  
-//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};
-//'   \code{\link{expectedKL}} and/or \code{\link{posteriorKL}} for alternative KL methods 
+//' @seealso \code{\link{expectedKL}} and/or \code{\link{posteriorKL}} for alternative KL methods 
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -820,30 +697,26 @@ double likelihoodKL(S4 catObj, int item) {
 //' @return A value indicating the posterior KL information for the desired item, given the current answer profile and ability estimate.
 //' 
 //' @param catObj An object of class \code{Cat}
-//' @param item An integer indicating the index of the question
+//' @param item An integer indicating the index of the question item
 //'
 //' @details We will follow the same procedure as \code{expectedKL}, except we will weight the different potential values of \eqn{\theta_0} by the posterior.
 //'
-//'   \deqn{KL_k(\hat{\theta};\theta_0) = \int \pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1}) \log\Big[\frac{L(\theta_0|\mathbf{y}_{k-1}, y_k)}{L(\hat{\theta}|\mathbf{y}_{k-1})} \Big] d\theta_0}{KL_k(\hat{\theta};\theta_0) = \int \pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1}) log[(L(\theta_0| {y}_{k-1}, y_k)/(L(\hat{\theta}| \mathbf{y}_{k-1}))] d\theta_0}
-//'   
-//'   Binary details:
+//'Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.
 //'
-//'   Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.
-//'
-//'   \deqn{\int \pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1})\Big[ \Big( P(y_{ij} =
-//'   1|\theta_0)\big(\log(P(y_{ij}=1|\theta_0)) - \log(P(y_{ij}=1|\hat{\theta}))\big) \Big) \\~~~~~~~ + \Big( P(y_{ij} =
-//'   0|\theta_0)\big(\log(P(y_{ij}=0|\theta_0)) - \log(P(y_{ij}=0|\hat{\theta}))\big) \Big) \Big]d\theta_0}{\int \pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1}) [(P(y_ij =
-//'   1| \theta_0) (log(P(y_ij = 1| \theta_0)) - log(P(y_ij = 1| \hat{\theta})))) + (P(y_ij = 0| \theta_0) (log(P(y_ij = 0| \theta_0)) - log(P(y_ij = 0| \hat{\theta}))))] d\theta_0}
-//'
-//'   Categorical details:
-//'
-//'   \deqn{\int \sum_k\Big(\pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1})P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}{\int \sum_k(\pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1})P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
-//' 
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+//'  
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //' 
-//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};
-//'   \code{\link{likelihoodKL}} and/or \code{\link{expectedKL}} for alternative KL methods
+//' @seealso \code{\link{likelihoodKL}} and/or \code{\link{expectedKL}} for alternative KL methods
 //' 
 //' @export
 // [[Rcpp::export]]
@@ -854,17 +727,26 @@ double posteriorKL(S4 catObj, int item) {
 
 //' Look Ahead to Select Next Item
 //'
-//' This function returns the next item that should be asked for all possible response options of the question the respondent is currently answering.
+//' Selects the next item that would be asked for all possible response options to the question the respondent is currently answering
 //'
 //' @param catObj  An object of class \code{Cat}
-//' @param item A numeric indicating the item the respondent is currently answering.
+//' @param item A numeric indicating the question item the respondent is currently answering.
 //'
 //' @return A vector of values indicating the possible subsequent questions
 //' 
 //' @examples
+//' \dontrun{
+//'## Prior calculation using Cat object of the ltm model
+//'## specifying different distributions
+//'data(npi)
+//'cat <- ltmCat(npi)
+//'}
 //' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//'
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' 
 //' @seealso \code{\link{selectItem}} for selection method information
 //'
 //' @export
@@ -876,11 +758,11 @@ List lookAhead(S4 catObj, int item) {
 
 //' Check if Stop and/or Override Rules are Met
 //'
-//' This function returns a boolean indicating if the respondent should not be asked futher questions after evaluating the specified stopping and/or override rules
+//' Evaluates the specified stopping and/or override rules to check if respondent should be asked further questions
 //'
 //' @param catObj  An object of class \code{Cat}
 //'
-//' @return A boolean, where TRUE indicates the the stopping rules are met and FALSE indicates the stoppings rules are not met
+//' @return This function returns a boolean, where TRUE indicates the the stopping rules are met (no further questions should be asked) and FALSE indicates the stoppings rules are not met (additional questions are needed)
 //'
 //' @details The stopping rule thresholds are stored in the following Cat object slots: lengthThreshold, seThreshold, infoThreshold, and gainThreshold.
 //'   The override thresholds are stored in the following Cat object slots: lengthOverride, gainOverride. A value of NA indicates the rule should not be used.

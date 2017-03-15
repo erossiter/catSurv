@@ -10,10 +10,10 @@ checkStopRules(catObj)
 \item{catObj}{An object of class \code{Cat}}
 }
 \value{
-A boolean, where TRUE indicates the the stopping rules are met and FALSE indicates the stoppings rules are not met
+This function returns a boolean, where TRUE indicates the the stopping rules are met (no further questions should be asked) and FALSE indicates the stoppings rules are not met (additional questions are needed)
 }
 \description{
-This function returns a boolean indicating if the respondent should not be asked futher questions after evaluating the specified stopping and/or override rules
+Evaluates the specified stopping and/or override rules to check if respondent should be asked further questions
 }
 \details{
 The stopping rule thresholds are stored in the following Cat object slots: lengthThreshold, seThreshold, infoThreshold, and gainThreshold.

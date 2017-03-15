@@ -8,7 +8,7 @@
 #'
 #' @return An updated object of class \code{Cat} containing the answers to \emph{k} items
 #'  
-#' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
+#' @author AA
 #' @seealso \code{\link{three.pl}},\code{\link{likelihood}}, \code{\link{prior.value}}, \code{\link{estimateTheta}}, \code{\link{estimateSE}}, \code{\link{expectedPV}},  \code{\link{nextItem}}, \code{\link{debugNextItem}}
 #' @rdname storeAnswer
 #' @export

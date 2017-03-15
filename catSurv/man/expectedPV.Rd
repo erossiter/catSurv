@@ -9,29 +9,35 @@ expectedPV(catObj, item)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{item}{An integer indicating the index of the question}
+\item{item}{An integer indicating the index of the question item}
 }
 \value{
-A numeric value indicating a respondent's expected posterior variance
+A numeric value indicating a respondent's expected posterior variance for a yet to be asked question item
 }
 \description{
-This function estimates the expected posterior variance for a respondent's estimated position on the latent trait for an item yet to be answered based on a respondent's position on the latent trait from the already-answered items.
+Estimates the expected posterior variance for a respondent's estimated ability parameter for an item yet to be answered based on a respondent's ability parameter estimate from the already-answered items
 }
 \details{
-For a binary question:
 
-  \deqn{P(y_{ij} = 1 | \hat{\theta})Var(\hat{\theta} | y_{ij} = 1) + P(y_{ij} = 0 | \hat{\theta})Var(\hat{\theta} | y_{ij} = 0)}{P(y_ij = 1 | \hat{\theta}) Var(\hat{\theta} | y_ij = 1) + P(y_ij = 0 | \hat{\theta}) Var(\hat{\theta} | y_ij = 0)}
-
-  For a categorical question:
-
-  \deqn{\sum_{i=k}^k P(y_{ij} = k | \hat{\theta})Var(\hat{\theta} | y_{ij} = k)}{\sum_{i = k}^k P(y_ij = k | \hat{\theta}) Var(\hat{\theta} | y_ij = k)}
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
-
+\dontrun{
+## Prior calculation using Cat object of the ltm model
+## specifying different distributions
+data(npi)
+cat <- ltmCat(npi)
+}
 
 }
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}
 \seealso{
-\code{\link{probability}} for calculation of P;  
-  \code{\link{estimateTheta}} for calculation of \eqn{\theta}
+\code{\link{probability}} for probability of responses to individual question item
+  \code{\link{estimateTheta}} for estimation of \eqn{\theta}
 }
 

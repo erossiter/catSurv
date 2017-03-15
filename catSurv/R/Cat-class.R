@@ -41,7 +41,7 @@ setClassUnion("numericORlist", c("numeric","list"))
 #'
 #'
 #'
-#' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
+#' @author AA
 #' @aliases Cat-class initialize,Cat-method
 #' @rdname Cat
 #' @export
@@ -190,7 +190,7 @@ setValidity("Cat", function(object){
 #' 
 #' @note There are setters for every slot in \code{Cat} objects, all following the format \code{setSlot}: 
 #' eg. \code{setDiscrimination}, \code{setEstimationDefault}, \code{setSeThreshold}, etc.
-#' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
+#' @author  AA
 #' @seealso \code{\link{Cat}}
 #' @rdname setters
 #' @aliases setGuessing setDiscrimination setDifficulty setAnswers setPriorName setPriorParams
@@ -394,7 +394,7 @@ setReplaceMethod("setGainOverride", "Cat", definition = function(object, value){
 #' 
 #' @note There are getters for every slot in \code{Cat} objects, all following the format \code{getSlot}: 
 #' eg. \code{getDiscrimination}, \code{getEstimationDefault}, \code{getSeThreshold}, etc.
-#' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
+#' @author AA
 #' @seealso {\link{Cat}} {\link{setters}}
 #' @rdname getters
 #' @aliases getGuessing getDiscrimination getDifficulty getAnswers getPriorName getPriorParams

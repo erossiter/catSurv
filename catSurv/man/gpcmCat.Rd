@@ -27,7 +27,7 @@ This function fits the Generalize Partial Credit Model for ordinal polytomous da
 In case the Hessian matrix at convergence is not positive definite try to use \code{start.val="random"}.
 }
 \author{
-Josh W. Cutler: \email{josh@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@wustl.edu}
+AA
 }
 \seealso{
 \code{\link{ltmCat}},\code{\link{nextItem}}, \code{\link{question.path}}

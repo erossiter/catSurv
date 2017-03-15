@@ -16,7 +16,7 @@
 #' \item \code{priorParams} a numeric vector of parameters for the distribution specified in the \code{priorName} slot. See the details section for more infomration.  Defaults to \code{c(0,1)}.
 #' }
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val="random"}.
-#' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
+#' @author AA
 #' @seealso \code{\link{ltmCat}}
 #' @rdname grmCat
 #' 

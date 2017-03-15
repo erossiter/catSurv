@@ -5,9 +5,15 @@ library(catSurv)
 — print the grant number 
 
 
+Documentation consistency:
+- not all caps in short title
+- in short description, make sure to say “estimate” or “calculate” correctly
+- in short description, no period at the end
+- ability parameter
+- question item/item
+- no period at the end of descriptions
 
-
-
+- left math for probability and selectItem
 
 
 Other

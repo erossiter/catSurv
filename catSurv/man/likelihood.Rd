@@ -9,43 +9,39 @@ likelihood(catObj, theta)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{t}{A numeric for the value of theta (position on the latent scale of interest)}
+\item{theta}{A numeric or an integer indicating the value for \eqn{\theta_j}}
 }
 \value{
-A numeric value of the likelihood of the respondent having offered the provided response profile.
+The function returns a numeric value of the likelihood of the respondent having offered the provided response profile.
 }
 \description{
-The likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot, conditional on the item-level parameters.
+Calculates the likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot, conditional on the item-level parameters.
 }
 \details{
-For binary \code{Cats}, letting \deqn{q_i(\theta_j) = 1-p_i(\theta_j)}{q_i(\theta_j) = 1 - p_i(\theta_j)}, the likelihood function associated with the responses profile \eqn{y_j} is
 
- \deqn{L(\theta_j|\mathbf{y}_{j})=\prod^{J}_{i=1}\Big(p_i(\theta_j)^{y_{ij}}q_i(\theta_j)^{(1-y_{ij})}\Big)= \exp\Big[ \sum^{J}_{i=1}\Big(y_{ij} \log(p_i(\theta_j)) + (1-y_{ij})\log(q_i(\theta_j))\Big) \Big]}{L(\theta_j| y_j) = \prod^{J}_{i = 1}(p_i(\theta_j)^{y_ij} q_i(\theta_j)^{1 - y_ij}) = exp(\sum^{J}_{i = 1} (y_ij log(p_i(\theta_j)) + (1 - y_ij) log(q_i(\theta_j))))}
-
- where \eqn{y_j} is evaluated based only on the questions the respondent has answered.
-
- In the polytomous implementation, for each item \eqn{i} there are \eqn{K_i} response options, which may differ across items.  
- There is therefore a vector of threshold parameters defined as \deqn{\mathbf{\alpha}_i=(\alpha_{i,0}, \alpha_{i,1}, \ldots, \alpha_{i,K_i})}{\alpha_i = \alpha_{i,0}, \alpha_{i,1}, ... , \alpha_{i,K_i}}, 
- with \deqn{\alpha_{i,0} < \alpha_{i,1} \le \alpha_{i,2} \le \ldots, < \alpha_{i,K_i}}{\alpha_{i,0} < \alpha_{i,1} \le \alpha_{i,2} \le \ldots, < \alpha_{i,K_i}} , \deqn{\alpha_{i,0} = -\infty}{\alpha_{i,0} = -\infty}, and \deqn{\alpha_{i,K_i} = \infty}{\alpha_{i,K_i} = \infty}.  
- Thus for a categorical question with \eqn{K} possible answers, \eqn{K-1} difficulty parameters are calculated (since \eqn{\alpha_{i,0}} and \eqn{\alpha_{i,K}} are known).  
- In addition, each item is associated with a discrimination parameter \eqn{\beta_i} indicating how well each item corresponds to the underlying trait in question. 
- To calculate the likelihood function, estimate \deqn{P^*_{ijk} = Pr(y_{ij} < k| \theta_j)}{P*_ijk = Pr(y_ij < k| \theta_j)} for each response option. The probability of observing each possible response can then be calculated as
-                                                                                 
- \deqn{P_{ijk} = P^\ast_{ij, k} - P^\ast_{ij, k-1}}{P_ijk = P*_{ij,k} - P*_{ij,k-1}}. 
-
- Note that \deqn{P^\ast_{ij0} =0 }{P*_{ij,0} = 0} and \deqn{P^\ast_{ijK+1} = 1}{P*_{ij,K+1} = 1} in all cases. The likelihood function is therefore,
-
- \deqn{L(\theta_j) = \prod_{i=1}^n\prod_{k=1}^{K_i} P_{ijk}^{I(y_{ij}=k)} = \exp \Big[ \sum_{i=1}^n\sum_{k=1}^{K_i} \log \Big( P_{ijk}^{I(y_{ij}=k)} \Big) \Big]}{L(\theta_j) = \prod_{i = 1}^n \prod_{k = 1}^{K_i} P_ijk^{I(y_ij = k)} = exp[\sum_{i = 1}^n \sum_{k = 1}^{K_i} log(P_ijk^{I(y_ij = k)})]},
-
- where \deqn{I(\cdot)}{I(.)} is an indicator function that evaluates to 1 when the equatliy holds and zero otherwise.
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
 \dontrun{
+## Likelihood for Cat object of the ltm model
+data(npi)
+cat <- ltmCat(npi)
+setAnswers(cat) <- c(1,0,1,0, rep(NA, 35))
+likelihood(cat, theta = 1)
 }
 
  
 }
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}
+\references{
+
+}
 \seealso{
-\code{\link{probability}} for individual probability calculations
+\code{\link{probability}} for probability of responses to individual question item
 }
 

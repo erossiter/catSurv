@@ -9,55 +9,34 @@ expectedKL(catObj, item)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{item}{An integer indicating the index of the question}
+\item{item}{An integer indicating the index of the question item}
 }
 \value{
-A value indicating the KL information for the desired item, given the current answer profile and ability estimate.
+The function returns a numeric indicating the KL information for the desired item, given the current answer profile and ability parameter estimate
 }
 \description{
-Calculate the expected Kullback-Leibeler information
+Calculates the expected Kullback-Leibeler information for an individual question item
 }
 \details{
-The Kullback-Leibeler information is defined as follows.  Let \eqn{\theta_0} be the true value of the parameter and \eqn{\hat{\theta}} be our current best guess based on the data we have collected so far \deqn{\mathbf{y}_{k-1}}{y_{k-1}}.
-The KL item information for item \eqn{k} is:
-
-\deqn{K_k(\hat{\theta} ; \theta_0) \equiv E_{\theta_0}\log\Big[\frac{L(\theta_0|\mathbf{y}_{k-1}, y_k)}{L(\hat{\theta}|\mathbf{y}_{k-1})} \Big]}{K_k(\hat{\theta} ; \theta_0) \equiv E_{\theta_0}log[(L(\theta_0| y_{k-1}, y_k)/(L(\hat{\theta}| y_{k-1}))]}
-
- Since \eqn{\theta_0} is unknow, the expected value of the KL information is estimated for each item:
-
- \deqn{K_k(\hat{\theta};\theta_0) = \int^{\hat{\theta}+\delta}_{\hat{\theta}-\delta}\log\Big[\frac{L(\theta_0|\mathbf{y}_{k-1}, y_k)}{L(\hat{\theta}|\mathbf{y}_{k-1})} \Big] d\theta_0}{K_k(\hat{\theta};\theta_0) = \int^{\hat{\theta} + \delta}_{\hat{\theta} - \delta} log[(L(\theta_0|y_{k-1}, y_k)/(L(\hat{\theta}|y_{k-1}))] d\theta_0}
-
- where \deqn{\delta = z(I(\hat{\theta}))^{-1/2}}{\delta = z(I(\hat{\theta}))^{-1/2}},  \eqn{I(\hat{\theta})} is the test information evaluated at \eqn{\hat{\theta}} for respondent \eqn{j}, and \eqn{z} is a user specified z-value.  
- 
- Binary details:
-
- Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.
-
-
- \deqn{\int_{\hat{\theta}-\delta}^{\hat{\theta}+\delta} \Big( P(y_{ij} =
-  1|\theta_0)\log\Big[\frac{P(y_{ij}=1|\theta_0)}{P(y_{ij}=1|\hat{\theta})} \Big] + P(y_{ij} =
-  0|\theta_0)\log\Big[\frac{P(y_{ij}=0|\theta_0)}{P(y_{ij}=0|\hat{\theta})} \Big] \Big) d\theta_0}{\int_{\hat{\theta} - \delta}^{\hat{\theta} + \delta} (P(y_ij =
-  1| \theta_0) log[(P(y_ij = 1| \theta_0))/(P(y_ij = 1| \hat{\theta}))] + P(y_ij =
-  0| \theta_0) log[(P(y_ij = 0| \theta_0))/(P(y_ij = 0| \hat{\theta}))]) d\theta_0}
-
-\deqn{\int_{\hat{\theta}-\delta}^{\hat{\theta}+\delta} \Big( P(y_{ij} =
-  1|\theta_0)\big(\log(P(y_{ij}=1|\theta_0)) - \log(P(y_{ij}=1|\hat{\theta}))\big) \Big) \\~~~~~~~ + \Big( P(y_{ij} =
-  0|\theta_0)\big(\log(P(y_{ij}=0|\theta_0)) - \log(P(y_{ij}=0|\hat{\theta}))\big) \Big) d\theta_0}{\int_{\hat{\theta} - \delta}^{\hat{\theta} + \delta} (P(y_ij =
-  1| \theta_0) (log(P(y_ij = 1| \theta_0)) - log(P(y_ij = 1| \hat{\theta})))) + (P(y_ij =
-  0| \theta_0) (log(P(y_ij = 0| \theta_0)) - log(P(y_ij = 0| \hat{\theta})))) d\theta_0}
-
- Categorical details:
-
- \deqn{\int_{\hat{\theta}-\delta}^{\hat{\theta}+\delta} \sum_k\Big(
-    P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}{\int_{\hat{\theta} - \delta}^{\hat{\theta} + \delta} 
-    \sum_k(P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
+Binary details (Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.)
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
-
+\dontrun{
+## Prior calculation using Cat object of the ltm model
+## specifying different distributions
+data(npi)
+cat <- ltmCat(npi)
+}
 
 }
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}
 \seealso{
-\code{\link{estimateTheta}} for calculation of \eqn{\theta};
-  \code{\link{likelihoodKL}} and/or \code{\link{posteriorKL}} for alternative KL methods
+\code{\link{likelihoodKL}} and/or \code{\link{posteriorKL}} for alternative KL methods
 }
 

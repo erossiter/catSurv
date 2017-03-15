@@ -22,10 +22,6 @@ system(paste(shQuote(file.path(R.home("bin"), "R")),"CMD", "Rd2pdf", shQuote(pat
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")
 
-# setwd("~erinrossiter/Desktop")
-# xx <- read.csv("calibration.csv")
-# yy <- read.csv("Mapping.csv")
-
 ## checking what version of packages I have installed to update
 ## DESCRIPTION when needed (comments are what's currently 
 ## in description file)

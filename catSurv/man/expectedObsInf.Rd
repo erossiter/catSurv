@@ -9,31 +9,35 @@ expectedObsInf(catObj, item)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{item}{An integer indicating the index of the question}
+\item{item}{An integer indicating the index of the question item}
 }
 \value{
-A value of the expected information
+The function returns a numeric value of the expected information
 }
 \description{
-This function calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring.
+Calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring
 }
 \details{
-Binary details:
 
-  \deqn{EI=P(y_{ij} = 1)J_{y_{ij}=1} + P(y_{ij} = 0)J_{y_{ij}=0}}{EI = P(y_ij = 1)J_{y_ij = 1} + P(y_ij = 0) J_{y_ij = 0}} 
-
-  Categorical details:
-
-  \deqn{EI = \sum_k^K P(y_{ij} = k)J_{y_{ij}=k}}{EI = \sum_k^K P(y_ij = k) J_{y_ij = k}}
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
+\dontrun{
+## Prior calculation using Cat object of the ltm model
+## specifying different distributions
+data(npi)
+cat <- ltmCat(npi)
+}
 
- 
- 
+}
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
-  \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
+\code{\link{estimateTheta}} for calculation of \eqn{\theta} and 
   \code{\link{obsInf}} for observed information calculation
 }
 

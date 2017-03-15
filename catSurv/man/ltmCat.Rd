@@ -27,7 +27,7 @@ This function fits the latent trait model for binary data and populates the fitt
 In case the Hessian matrix at convergence is not positive definite try to use \code{start.val="random"}.
 }
 \author{
-Josh W. Cutler: \email{josh@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@wustl.edu}
+AA
 }
 \seealso{
 \code{\link{grmCat}}

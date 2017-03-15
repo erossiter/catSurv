@@ -39,7 +39,7 @@ There are getters for every slot in \code{Cat} objects, all following the format
 eg. \code{getDiscrimination}, \code{getEstimationDefault}, \code{getSeThreshold}, etc.
 }
 \author{
-Josh W. Cutler: \email{josh@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@wustl.edu}
+AA
 }
 \seealso{
 {\link{Cat}} {\link{setters}}

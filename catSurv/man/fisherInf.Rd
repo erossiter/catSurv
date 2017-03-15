@@ -9,35 +9,37 @@ fisherInf(catObj, theta, item)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{theta}{A double indicating the potential value for \eqn{\theta_j}}
+\item{theta}{A numeric or an integer indicating the potential value for \eqn{\theta_j}}
 
-\item{item}{An integer indicating the index of the question}
+\item{item}{An integer indicating the index of the question item}
 }
 \value{
-The expected value of the observed information.
+The function returns a numeric of the expected value of the observed information
 }
 \description{
-This function calculates the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}.
+Calculates the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}
 }
 \details{
-For the dichotomous case, this is equivalent to the observed information.  
-  The graded response model requires additional calculations.
-
-  The equation for the likelihood is given in \code{Likelihood}, where \deqn{P_{ijk} = P^*_{ijk} - P^*_{ij,k-1}}{P_ijk = P*_{ijk} - P*_{ij,k-1}} and \deqn{P^*_{ijk} = Pr(y_{ij}<k|\theta_j)}{P*_ijk = Pr(y_ij < k | \theta_j)}. 
-  \code{dLL} also defines \deqn{Q_{ijk}^\ast= 1- P^*_{ijk}}{Q*_ijk = 1 - P*_ijk}, and \deqn{w_{ij,k}=P^\ast_{ij,k}Q^\ast_{ij,k}}{w_{ij,k} = P*_{ij,k} Q*_{ij,k}}.
-  Fisher information is therefore calculated (by equation 8.23 in Baker and Kim):
-
-  \deqn{I_i(\theta_j) = \sum_k^K\beta^2_i\frac{(w_{ijk} - w_{i,k-1})^2}{P^\ast_{ijk} - P^\ast_{ij,k-1}}}{I_i(\theta_j) = \sum_k^K \beta^2_i ((w_{ijk} - w_{i,k-1})^2)/(P*_{ijk} - P*_{ij,k-1})}
+For the dichotomous case, this is equivalent to the observed information.
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
+\dontrun{
+## Prior calculation using Cat object of the ltm model
+## specifying different distributions
+data(npi)
+cat <- ltmCat(npi)
+}
 
- 
- 
+}
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{probability}} and/or \code{\link{likelihood}} for calculation of P and P*;  
-  \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
-  \code{\link{obsInf}} for observed information calculation;
+\code{\link{obsInf}} for observed information calculation and
   \code{\link{fisherTestInfo}} for further application of Fisher's information
 }
 

@@ -27,7 +27,7 @@ The length of the tree is dictated by the \code{lengthThreshold} slot within the
 
 }
 \author{
-Ryden W. Butler: \email{r.butler@wustl.edu} and Jacob M. Montgomery: \email{jacob.montgomery@wustl.edu}
+AA
 }
 \seealso{
 \code{\link{selectItem}} for specific item selection and selection methods

@@ -15,12 +15,10 @@ It returns a list with two elements:
 and (2) a numeric containing the index of the question that should be asked next.
 }
 \description{
-Select the next item in the question set based on the specified method
+Selects the next item in the question set based on the specified method
 }
 \details{
-This function takes in a \code{Cat} object from \code{R} and constructs the \code{C++} representation.
-
-  The EPV method:
+The EPV method:
   
   This function takes in a \code{Cat} object from \code{R} and constructs the \code{C++} representation. It then calculates the expected posterior variance for each unanswered item. 
   
@@ -47,14 +45,12 @@ This function takes in a \code{Cat} object from \code{R} and constructs the \cod
   This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
   Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
  
- \deqn{i_j = \underset{j}{\operatorname{argmax}}\int_{-\infty}^{\infty} L(\theta_j)I_i(\theta_j)d\theta_j}{i_j = argmax_j \int_{-\infty}^{\infty} L(\theta_j) I_i(\theta_j) d\theta_j}
   
   The MPWI method:
   
   This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
   Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
 
-  \deqn{i_j = \underset{j}{\operatorname{argmax}}\int_{-\infty}^{\infty} \pi(\theta) L(\theta_j)I_i(\theta_j)d\theta_j}{i_j = argmax_j \int_{-\infty}^{\infty} \pi(\theta) L(\theta_j) I_i(\theta_j) d\theta_j}
 
   The MEI method:
   
@@ -66,11 +62,9 @@ This function takes in a \code{Cat} object from \code{R} and constructs the \cod
 
   Binary details:
 
-  \deqn{i_j = \underset{j}{\operatorname{argmax}}\{P(y_{ij} = 1)J_{y_{ij}=1} + P(y_{ij} = 0)J_{y_{ij}=0} \}}{i_j = argmax_j {P(y_ij = 1) J_{y_ij = 1} + P(y_ij = 0) J_(y_ij = 0)}}
 
   Categorical details:
   
-  \deqn{i_j = \underset{j}{\operatorname{argmax}}\{\sum_k^K P(y_{ij} = k)J_{y_{ij}=k} \}}{i_j = argmax_j {\sum_k^K P(y_ij = k) J_{y_ij = k}}}
   
   The KL method:
   
@@ -90,9 +84,21 @@ This function takes in a \code{Cat} object from \code{R} and constructs the \cod
   
   This routine serves as a baseline for comparison. The routine simply selects an unanswered question at random.
 }
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+}
 \examples{
+\dontrun{
+## Prior calculation using Cat object of the ltm model
+## specifying different distributions
+data(npi)
+cat <- ltmCat(npi)
+}
 
- 
+}
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
 \code{\link{estimateTheta}} for calculation of \eqn{\theta};  

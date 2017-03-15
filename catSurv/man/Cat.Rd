@@ -37,6 +37,6 @@ When \code{priorName} is set to "NORMAL", the first element of \code{priorParams
 Talk about 'z' and how it's used to calculate delta.
 }
 \author{
-Josh W. Cutler: \email{josh@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@wustl.edu}
+AA
 }
 

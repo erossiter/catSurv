@@ -20,7 +20,7 @@ An updated object of class \code{Cat} containing the answers to \emph{k} items
 This function updates the object of class \code{Cat} by storing the answer to item \emph{k} into questions data frame.
 }
 \author{
-Josh W. Cutler: \email{josh@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@wustl.edu}
+AA
 }
 \seealso{
 \code{\link{three.pl}},\code{\link{likelihood}}, \code{\link{prior.value}}, \code{\link{estimateTheta}}, \code{\link{estimateSE}}, \code{\link{expectedPV}},  \code{\link{nextItem}}, \code{\link{debugNextItem}}

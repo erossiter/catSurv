@@ -9,7 +9,7 @@ posteriorKL(catObj, item)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{item}{An integer indicating the index of the question}
+\item{item}{An integer indicating the index of the question item}
 }
 \value{
 A value indicating the posterior KL information for the desired item, given the current answer profile and ability estimate.
@@ -20,27 +20,25 @@ Calculate the expected Kullback-Leibeler information, weighted by the posterior
 \details{
 We will follow the same procedure as \code{expectedKL}, except we will weight the different potential values of \eqn{\theta_0} by the posterior.
 
-  \deqn{KL_k(\hat{\theta};\theta_0) = \int \pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1}) \log\Big[\frac{L(\theta_0|\mathbf{y}_{k-1}, y_k)}{L(\hat{\theta}|\mathbf{y}_{k-1})} \Big] d\theta_0}{KL_k(\hat{\theta};\theta_0) = \int \pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1}) log[(L(\theta_0| {y}_{k-1}, y_k)/(L(\hat{\theta}| \mathbf{y}_{k-1}))] d\theta_0}
-  
-  Binary details:
-
-  Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.
-
-  \deqn{\int \pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1})\Big[ \Big( P(y_{ij} =
-  1|\theta_0)\big(\log(P(y_{ij}=1|\theta_0)) - \log(P(y_{ij}=1|\hat{\theta}))\big) \Big) \\~~~~~~~ + \Big( P(y_{ij} =
-  0|\theta_0)\big(\log(P(y_{ij}=0|\theta_0)) - \log(P(y_{ij}=0|\hat{\theta}))\big) \Big) \Big]d\theta_0}{\int \pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1}) [(P(y_ij =
-  1| \theta_0) (log(P(y_ij = 1| \theta_0)) - log(P(y_ij = 1| \hat{\theta})))) + (P(y_ij = 0| \theta_0) (log(P(y_ij = 0| \theta_0)) - log(P(y_ij = 0| \hat{\theta}))))] d\theta_0}
-
-  Categorical details:
-
-  \deqn{\int \sum_k\Big(\pi(\theta_0) L(\theta_0|\mathbf{y}_{k-1})P(y_{ij}=k|\theta_0)\big(\log(P(y_{ij}=k|\theta_0))- \log(P(y_{ij}=k|\hat{\theta})) \big)\Big) d\theta_0}{\int \sum_k(\pi(\theta_0) L(\theta_0| \mathbf{y}_{k-1})P(y_ij = k| \theta_0) (log(P(y_ij = k| \theta_0)) - log(P(y_ij = k| \hat{\theta})))) d\theta_0}
+Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
-
+\dontrun{
+## Prior calculation using Cat object of the ltm model
+## specifying different distributions
+data(npi)
+cat <- ltmCat(npi)
+}
 
 }
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}
 \seealso{
-\code{\link{estimateTheta}} for calculation of \eqn{\theta};
-  \code{\link{likelihoodKL}} and/or \code{\link{expectedKL}} for alternative KL methods
+\code{\link{likelihoodKL}} and/or \code{\link{expectedKL}} for alternative KL methods
 }
 

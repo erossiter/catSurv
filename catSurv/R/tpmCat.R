@@ -19,7 +19,7 @@
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val="random"}.
 #'
 #' @seealso \code{\link{grmCat}}
-#' @author Josh W. Cutler: \email{josh@@zistle.com} and Jacob M. Montgomery: \email{jacob.montgomery@@wustl.edu}
+#' @author AA
 #' @rdname tpmCat
 #' 
 #' @import ltm

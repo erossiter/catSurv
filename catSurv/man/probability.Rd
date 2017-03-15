@@ -4,14 +4,14 @@
 \alias{probability}
 \title{Probability of Responses to a Question Item or the Left-Cumulative Probability of Responses}
 \usage{
-probability(catObj, theta, question)
+probability(catObj, theta, item)
 }
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
 \item{theta}{A numeric or an integer indicating the value for \eqn{\theta_j}}
 
-\item{question}{An integer indicating the index of the question}
+\item{item}{An integer indicating the index of the question item}
 }
 \value{
 When the argument \code{catObj} is an \code{ltm} model, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
@@ -23,7 +23,7 @@ When the argument \code{catObj} is a \code{grm} model, the function \code{probab
  When the argument \code{catObj} is a \code{gpcm} model, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents are the probability of observing response k.
 }
 \description{
-Calculates the probability of specific responses or the left-cumulative probability of responses to \code{question} conditioned on a subject's ability (\eqn{\theta})
+Calculates the probability of specific responses or the left-cumulative probability of responses to \code{item} conditioned on a subject's ability (\eqn{\theta})
 }
 \details{
 For the \code{ltm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
@@ -65,17 +65,17 @@ This function is to allow users to access the internal functions of the package.
 ## Probability for Cat object of the ltm model
 data(npi)
 cat <- ltmCat(npi)
-probability(cat, theta = 1, question = 1)
+probability(cat, theta = 1, item = 1)
 
 ## Probability for Cat object of the tpm model
 data(polknow)
 cat <- tpmCat(polknow)
-probability(cat, theta = 1, question = 1)
+probability(cat, theta = 1, item = 1)
 
 ## Probability for Cat object of the grm model
 data(nfc)
 cat <- grmCat(nfc)
-probability(cat, theta = 1, question = 1)
+probability(cat, theta = 1, item = 1)
 }
  
 }

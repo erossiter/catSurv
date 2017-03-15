@@ -33,7 +33,7 @@ likelihood_test <- function(cat, theta){
     for(i in 1:length(answered_qs)){
       q <- answered_qs[i]
       answer <- cat@answers[q]
-      probs <- probability(cat, theta, question = q)
+      probs <- probability(cat, theta, item = q)
       L[i] <- log(probs[answer])
       }
     output <- exp(sum(L))

@@ -2,68 +2,42 @@
 % Please edit documentation in R/RcppExports.R
 \name{estimateSE}
 \alias{estimateSE}
-\title{Estimate of the standard error for the posterior estimate}
+\title{Standard error of the respondent's ability parameter estimate}
 \usage{
 estimateSE(catObj)
 }
 \arguments{
-\item{cat}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 }
 \value{
-The posterior standard error for \eqn{\theta_j}
+The function returns a numeric for the standard error for \eqn{\theta_j}
 }
 \description{
-This function estimates the standard error for the posterior estimate for the position \eqn{\theta_j} of a person on the latent scale
+Estimates the standard error for the ability parameter estimate
 }
 \details{
 The EAP estimator:
-  
-  The posterior variance for \deqn{\theta^{(EAP)}_j}{\theta^{EAP}_j} is:
-
-  \deqn{\mbox{Var}(\hat{\theta}_j) = E[(\theta_j-\hat{\theta_j})^2]=\frac{\int(\theta_j-\hat{\theta_j})^2\pi(\theta_j)L(\theta_j)d\theta_j}{\int\pi(\theta_j)L(\theta_j)d\theta_j}}{Var(\hat{\theta}_j) = E[(\theta_j - \hat{\theta_j})^2] = (\int(\theta_j - \hat{\theta_j})^2 \pi(\theta_j) L(\theta_j) d\theta_j)/(\int \pi(\theta_j) L(\theta_j) d\theta_j)}
-
-  where \eqn{\hat{\theta}_j} is the chosen point estimate for the respondent on the latent scale. The standard error is then 
-
-  \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
-
-  The MAP estimator:
-
-  Note: This is implemented only for the normal prior.
-
-  The variance of \deqn{\theta^{(MAP)}_j}{\theta^{MAP}_j} is defined as:
-
-  \deqn{\mbox{Var}(\hat{\theta}_j)=\frac{1}{I(\hat{\theta_j})+\frac{1}{\sigma_\theta^2}}}{Var(\hat{\theta}_j) = 1/(I(\hat{\theta_j}) + 1/(\sigma_\theta^2))}
-
-  where \eqn{I(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}}.The standard error is then 
-
-  \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
-
-  The MLE  estimator:
-
-  The variance of \deqn{\theta^{(MLE)}_j}{\theta^{MLE}_j} is defined as:
-
-  \deqn{\mbox{Var}(\hat{\theta}_j)=\frac{1}{I(\hat{\theta_j})}}{Var(\hat{\theta}_j) = 1/(I(\hat{\theta_j}))}
-
-  where \eqn{T(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}}.The standard error is then 
-
-  \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
-
-  The WLE estimator:
-
-  The variance of \deqn{\theta^{(WLE)}_j}{\theta^{WLE}_j} is defined as:
-
-  \deqn{\mbox{Var}(\hat{\theta}_j)\approx\frac{1}{I(\hat{\theta})}}{Var(\hat{\theta}_j)\approx 1/(I(\hat{\theta}))}
-
-  where \deqn{I(\hat{\theta_j})}{I(\hat{\theta_j})} is defined as the test information evaluated at \eqn{\hat{\theta}} and \eqn{B(\theta)} is defined in \code{estimateTheta}.The standard error is then 
-
- \deqn{SE=\sqrt{\mbox{Var}(\hat{\theta}_j)}}{SE = \sqrt{Var(\hat{\theta}_j)}}
+  The MAP estimator (This is implemented only for the normal prior.)
+  The MLE  estimator (When MLE can't be calculated... estimationDefault)
+  The WLE estimator (Brent method)
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
+\dontrun{
+## Prior calculation using Cat object of the ltm model
+## specifying different distributions
+data(npi)
+cat <- ltmCat(npi)
+}
 
- 
- 
+}
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{estimateTheta}} for calculation of \eqn{\theta}
+\code{\link{estimateTheta}} for estimation of \eqn{\theta}
 }
 

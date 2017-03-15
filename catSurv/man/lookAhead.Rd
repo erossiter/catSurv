@@ -9,18 +9,29 @@ lookAhead(catObj, item)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{item}{A numeric indicating the item the respondent is currently answering.}
+\item{item}{A numeric indicating the question item the respondent is currently answering.}
 }
 \value{
 A vector of values indicating the possible subsequent questions
 }
 \description{
-This function returns the next item that should be asked for all possible response options of the question the respondent is currently answering.
+Selects the next item that would be asked for all possible response options to the question the respondent is currently answering
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
+\dontrun{
+## Prior calculation using Cat object of the ltm model
+## specifying different distributions
+data(npi)
+cat <- ltmCat(npi)
+}
 
- 
-
+}
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
 \code{\link{selectItem}} for selection method information
