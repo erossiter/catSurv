@@ -331,7 +331,7 @@ double dLL(S4 &catObj, double theta, bool use_prior){
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //' 
 //' @seealso
-//' \code{\link{Cat}} for specifying priors and prior parameteres
+//' \code{\link{Cat-class}} for specifying priors and prior parameteres
 //' \code{\link{prior}} for more information on available priors
 //' \code{\link{dLL}} for calculation of first derivative of log-likelihood
 //' 
@@ -756,7 +756,7 @@ double expectedPV(S4 catObj, int item) {
 //' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
 //'   \code{\link{obsInf}} for observed information calculation;
 //'   \code{\link{fisherTestInfo}} for Fisher's information calculation;
-//'   \code{\link{expctedKL}} for expected Kullback-Leibeler calculation;
+//'   \code{\link{expectedKL}} for expected Kullback-Leibeler calculation;
 //'   \code{\link{likelihoodKL}} for likelihood Kullback-Leibeler calculation;  
 //'   \code{\link{posteriorKL}} for posterior Kullback-Leibeler calculation; 
 //'  
