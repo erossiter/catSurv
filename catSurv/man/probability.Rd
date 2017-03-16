@@ -18,9 +18,9 @@ When the argument \code{catObj} is an \code{ltm} model, the function \code{proba
 
 When the argument \code{catObj} is an \code{tpm} model, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
 
-When the argument \code{catObj} is a \code{grm} model, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the kth element will always be one. The middle elements are the cumulative probability of observing response k or lower.
+When the argument \code{catObj} is a \code{grm} model, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the (k+1)th element will always be one. The middle elements are the cumulative probability of observing response k or lower.
 
- When the argument \code{catObj} is a \code{gpcm} model, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents are the probability of observing response k.
+ When the argument \code{catObj} is a \code{gpcm} model, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents the probability of observing response k.
 }
 \description{
 Calculates the probability of specific responses or the left-cumulative probability of responses to \code{item} conditioned on a respondent's ability (\eqn{\theta}).
@@ -86,11 +86,19 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 \references{
 Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
 
+<<<<<<< Updated upstream
 Choi, Seung W. and Richard J. Swartz. 2009. ``Comparison of CAT Item Selection Criteria for Polytomous Items." Applied Psychological Measurement 33(6):419-440.
 
 Muraki, Eiji. 1992. ``A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1):1-30.
 
 van der Linden, Wim J. 1998. ``Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika 63(2):201-216.
+=======
+Choi, Seung W. and Richard J. Swartz. 2009. ``Comparison of CAT Item Selection Criteria for Polytomous Items.'' Applied Psychological Measurement 33(6):419–440.
+
+Muraki, Eiji. 1992. ``A generalized partial credit model: Application of an EM algorithm.'' ETS Research Report Series 1992(1): 1-30.
+
+van der Linden, Wim J. 1998. ``Bayesian Item Selection Criteria for Adaptive Testing.'' Psychometrika 63(2):201–216.
+>>>>>>> Stashed changes
 }
 \seealso{
 \code{\link{Cat}} for information on the item parameters: discrimination, difficulty, and guessing.

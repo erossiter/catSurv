@@ -9,7 +9,7 @@ obsInf(catObj, theta, item)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{theta}{A numeric or an integer indicating the value for \eqn{\theta_j}}
+\item{theta}{A numeric or an integer indicating the value for \eqn{\theta}}
 
 \item{item}{An integer indicating the index of the question item}
 }
@@ -20,8 +20,8 @@ The function \code{obsInf} returns a numeric value of the observed information o
 Calculates the observed information of the likelihood of a respondent's ability \eqn{\theta} for a given \code{item}.
 }
 \details{
-The observed information is equivalent to the negative second derivative of the log-likelihood.
-This function should never be called when the respondent has answered no questions.
+The observed information is equivalent to the negative second derivative of the log-likelihood evaluated at \eqn{\theta}.
+This function should never be called when the respondent has answered no questions as the likelihood is not defined.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.

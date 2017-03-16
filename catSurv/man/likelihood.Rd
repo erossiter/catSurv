@@ -15,7 +15,7 @@ likelihood(catObj, theta)
 The function \code{likelihood} returns a numeric value of the likelihood of the respondent having offered the provided response profile.
 }
 \description{
-Calculates the likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot, conditional on the item-level parameters.
+Calculates the likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot. All calculations are conditional on the item-level parameters stored in the \code{Cat} object.
 }
 \details{
 
@@ -57,6 +57,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 
 }
 \seealso{
-\code{\link{probability}} for probability of responses to a given question item
+\code{\link{probability}}, \code{\link{Cat}}
 }
 

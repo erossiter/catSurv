@@ -9,9 +9,9 @@ d2LL(catObj, theta, use_prior)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{theta}{A numeric or an integer indicating the value for \eqn{\theta_j}}
+\item{theta}{A numeric or an integer indicating the value for \eqn{\theta}}
 
-\item{use_prior}{A logical indicating whether to use the prior parameters in estimation}
+\item{use_prior}{A logical indicating whether to calculate baseded on the log-likelihood or log-posterior}
 }
 \value{
 The function \code{d2LL} returns a numeric of the second derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
@@ -25,7 +25,7 @@ When \code{usePrior = FALSE}, the function \code{d2LL} evaluates the second deri
 
 When \code{usePrior = TRUE}, the function \code{d2LL} evaluates the second derivative of the log-posterior at point \eqn{\theta}. 
 
-The function \code{d2LL} is only available when using the normal prior distribution.
+The function \code{dLL2} is only available when using the normal prior distribution when \code{use_prior=TRUE}.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
@@ -60,8 +60,12 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
+<<<<<<< Updated upstream
 \code{\link{Cat}} for specifying priors and prior parameteres
 \code{\link{prior}} for more information on available priors
 \code{\link{dLL}} for calculation of first derivative of log-likelihood
+=======
+\code{\link{Cat}}, \code{\link{prior}}, \code{\link{dLL}}
+>>>>>>> Stashed changes
 }
 

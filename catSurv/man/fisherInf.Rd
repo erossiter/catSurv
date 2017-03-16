@@ -27,8 +27,7 @@ This function is to allow users to access the internal functions of the package.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
+## EI using Cat object of the ltm model
 data(npi)
 cat <- ltmCat(npi)
 }

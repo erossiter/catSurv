@@ -28,7 +28,9 @@ This function is to allow users to access the internal functions of the package.
 ## Prior calculation using Cat object of the ltm model
 ## specifying different distributions
 data(npi)
-cat <- ltmCat(npi)
+ltm_cat <- ltmCat(npi)
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+expectedObsInf(ltm_cat, item = 10)
 }
 
 }
