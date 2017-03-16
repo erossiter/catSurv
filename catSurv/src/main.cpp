@@ -460,13 +460,13 @@ double estimateTheta(S4 catObj) {
 //'data(polknow)
 //'tpm_cat <- tpmCat(polknow)
 //'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
-//'dLL(tpm_cat, theta = 1, item = 10)
+//'obsInf(tpm_cat, theta = 1, item = 10)
 //'
 //'## observed information for Cat object of the grm model
 //'data(nfc)
 //'grm_cat <- grmCat(nfc)
 //'setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
-//'dLL(grm_cat, theta = 1, item = 10)
+//'obsInf(grm_cat, theta = 1, item = 10)
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -546,8 +546,11 @@ double expectedObsInf(S4 catObj, int item) {
 //'  
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //'
-//' @seealso \code{\link{obsInf}} for observed information calculation and
-//'   \code{\link{fisherTestInfo}} for further application of Fisher's information
+//' @seealso
+//' 
+//' \code{\link{obsInf}} for observed information calculation
+//' 
+//' \code{\link{fisherTestInfo}} for further application of Fisher's information
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -647,8 +650,11 @@ double estimateSE(S4 catObj) {
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //'
 //' 
-//' @seealso \code{\link{probability}} for probability of responses to individual question item
-//'   \code{\link{estimateTheta}} for estimation of \eqn{\theta}
+//' @seealso
+//' 
+//' \code{\link{probability}} for probability of responses to individual question item
+//' 
+//' \code{\link{estimateTheta}} for estimation of \eqn{\theta}
 //'  
 //' 
 //' @export
