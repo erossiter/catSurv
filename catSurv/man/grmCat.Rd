@@ -4,9 +4,9 @@
 \alias{grm-class}
 \title{Computerized Adaptive Testing Graded Response Model}
 \arguments{
-\item{data}{A \code{data.frame} of manifest variables or an object of class \code{grm}}
+\item{data}{A \code{data.frame} of manifest variables or an object of class \code{grm}.}
 
-\item{quadraturePoints}{A numeric to be passed into the \code{grm} function indicating the number of Gauss-Hermite quadrature points.  Default value is \code{21}}
+\item{quadraturePoints}{A numeric to be passed into the \code{grm} function indicating the number of Gauss-Hermite quadrature points.  Only applicable when \code{data} is a \code{data.frame}.  Default value is \code{21}.}
 
 \item{...}{arguments to be passed to methods. For more details about the arguments, see \code{grm} in the \code{ltm} package.}
 }
@@ -14,8 +14,8 @@
 The function \code{grmCat} returns an object of class \code{Cat} with changes to the following slots:
 \itemize{
 \item \code{difficulty} A list of difficulty parameters, where each element in the list corresponds to the difficulty parameters for an item.
-\item \code{discrimination} A vector of disrimination parameter for each item.
-\item \code{model} A string of \code{grm}, indicating this \code{Cat} object corresponds to a Graded Response model.
+\item \code{discrimination} A vector consisting of disrimination parameters for each item.
+\item \code{model} The string \code{"grm"}, indicating this \code{Cat} object corresponds to a Graded Response model.
 }
 }
 \description{
@@ -24,7 +24,7 @@ This function fits the Graded Response model for ordinal polytomous data and pop
 \details{
 The \code{data} argument of the function \code{grmCat} is either a \code{data.frame} or an object of class \code{grm} from the \code{ltm} package.  If it is a \code{data.frame} each row represents a respondent and each column represents a question item.  If it is an object of the class \code{grm}, it is output from the \code{grm} function in the \code{ltm} package.
 
-The \code{quadraturePoints} argument of the function \code{grmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{grm} function from the \code{ltm} package when fitting the Graded Response model to the data, and used when approximating the value of integrals.
+The \code{quadraturePoints} argument of the function \code{grmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{grm} function from the \code{ltm} package when fitting the Graded Response model to the data and is used when approximating the value of integrals.
 }
 \note{
 In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
@@ -33,7 +33,7 @@ In case the Hessian matrix at convergence is not positive definite try to use \c
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{Cat}} for information on all \code{Cat} slots and their defualt values
+\code{\link{Cat}} for information on all \code{Cat} slots and their default values
 
 \code{\link{gpcmCat}} for an alternative model fit to ordinal polytomous data
 }

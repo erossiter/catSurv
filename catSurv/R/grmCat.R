@@ -2,27 +2,27 @@
 #'
 #' This function fits the Graded Response model for ordinal polytomous data and populates the fitted values for discimination and difficulty parameters to an object of class \code{Cat}.
 #'
-#' @param data A \code{data.frame} of manifest variables or an object of class \code{grm}
-#' @param quadraturePoints A numeric to be passed into the \code{grm} function indicating the number of Gauss-Hermite quadrature points.  Default value is \code{21}
+#' @param data A \code{data.frame} of manifest variables or an object of class \code{grm}.
+#' @param quadraturePoints A numeric to be passed into the \code{grm} function indicating the number of Gauss-Hermite quadrature points.  Only applicable when \code{data} is a \code{data.frame}.  Default value is \code{21}.
 #' @param ... arguments to be passed to methods. For more details about the arguments, see \code{grm} in the \code{ltm} package.
 #'
 #'
 #'@return The function \code{grmCat} returns an object of class \code{Cat} with changes to the following slots:
 #' \itemize{
 #' \item \code{difficulty} A list of difficulty parameters, where each element in the list corresponds to the difficulty parameters for an item.
-#' \item \code{discrimination} A vector of disrimination parameter for each item.
-#' \item \code{model} A string of \code{grm}, indicating this \code{Cat} object corresponds to a Graded Response model.
+#' \item \code{discrimination} A vector consisting of disrimination parameters for each item.
+#' \item \code{model} The string \code{"grm"}, indicating this \code{Cat} object corresponds to a Graded Response model.
 #' }
 #' 
 #' 
 #' @details The \code{data} argument of the function \code{grmCat} is either a \code{data.frame} or an object of class \code{grm} from the \code{ltm} package.  If it is a \code{data.frame} each row represents a respondent and each column represents a question item.  If it is an object of the class \code{grm}, it is output from the \code{grm} function in the \code{ltm} package.
 #' 
-#' The \code{quadraturePoints} argument of the function \code{grmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{grm} function from the \code{ltm} package when fitting the Graded Response model to the data, and used when approximating the value of integrals.
+#' The \code{quadraturePoints} argument of the function \code{grmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{grm} function from the \code{ltm} package when fitting the Graded Response model to the data and is used when approximating the value of integrals.
 #' 
 #' 
 #' @seealso 
 #' 
-#' \code{\link{Cat}} for information on all \code{Cat} slots and their defualt values
+#' \code{\link{Cat}} for information on all \code{Cat} slots and their default values
 #' 
 #' \code{\link{gpcmCat}} for an alternative model fit to ordinal polytomous data
 #' 
@@ -47,7 +47,7 @@ setGeneric("grmCat", function(data, quadraturePoints = NULL, ...){
 setMethod("grmCat",
           signature(data = "data.frame"),
           function(data, quadraturePoints = 21, ...){
-            fit <- grm(data = data, control = list(GHk = quadraturePoints))
+            fit <- grm(data = data, control = list(GHk = quadraturePoints), ...)
             coefficients <- fit$coef
             
             discm <- sapply(1:length(coefficients), function(i){
@@ -83,7 +83,7 @@ setMethod("grmCat",
 #' @export
 setMethod("grmCat",
           signature(data = c("grm")),
-          function(data, quadraturePoints = 21, ...){
+          function(data, quadraturePoints = NULL, ...){
             coefficients <- data$coef
             
             discm <- sapply(1:length(coefficients), function(i){

@@ -333,7 +333,7 @@ double dLL(S4 &catObj, double theta, bool use_prior){
 //' @seealso
 //' \code{\link{Cat}} for specifying priors and prior parameteres
 //' \code{\link{prior}} for more information on available priors
-//' \cdoe{\link{dLL}} for calculation of first derivative of log-likelihood
+//' \code{\link{dLL}} for calculation of first derivative of log-likelihood
 //' 
 //' @export
 // [[Rcpp::export]]
