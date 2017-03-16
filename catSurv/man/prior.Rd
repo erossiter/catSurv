@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{prior}
 \alias{prior}
-\title{Prior Value}
+\title{Evaluate the prior density distribution at position \code{x}}
 \usage{
 prior(x, dist, params)
 }

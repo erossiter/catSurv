@@ -25,9 +25,9 @@ using namespace Rcpp;
 //'
 //'When the argument \code{catObj} is an \code{tpm} model, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
 //'
-//' When the argument \code{catObj} is a \code{grm} model, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the kth element will always be one. The middle elements are the cumulative probability of observing response k or lower.
+//' When the argument \code{catObj} is a \code{grm} model, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the (k+1)th element will always be one. The middle elements are the cumulative probability of observing response k or lower.
 //'
-//'  When the argument \code{catObj} is a \code{gpcm} model, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents are the probability of observing response k.
+//'  When the argument \code{catObj} is a \code{gpcm} model, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents the probability of observing response k.
 //'
 //' @details 
 //'  For the \code{ltm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
@@ -110,7 +110,7 @@ std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector it
 
 //' Likelihood of the Specified Response Set
 //'
-//' Calculates the likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot, conditional on the item-level parameters.
+//' Calculates the likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot. All calculations are conditional on the item-level parameters stored in the \code{Cat} object.
 //'
 //' @param catObj An object of class \code{Cat}
 //' @param theta A numeric or an integer indicating the value for \eqn{\theta_j} 
@@ -151,7 +151,7 @@ std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector it
 //'}
 //'
 //'
-//' @seealso \code{\link{probability}} for probability of responses to a given question item
+//' @seealso \code{\link{probability}}, \code{\link{Cat}}
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -161,7 +161,7 @@ double likelihood(S4 catObj, double theta) {
 
 
 
-//' Prior Value
+//' Evaluate the prior density distribution at position \code{x}
 //'
 //' Calculates the density at \code{x} of either the normal, Student's t, or uniform distribution.
 //'
@@ -232,7 +232,7 @@ double prior(NumericVector x, CharacterVector dist, NumericVector params) {
 //' 
 //' @param catObj An object of class \code{Cat}
 //' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
-//' @param use_prior A logical indicating whether to use the prior parameters in estimation
+//' @param use_prior A logical indicating whether to calculate baseded on the log-likelihood or log-posterior
 //' 
 //' @return The function \code{dLL} returns a numeric of the derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
 //' 
@@ -241,7 +241,7 @@ double prior(NumericVector x, CharacterVector dist, NumericVector params) {
 //' 
 //' When \code{usePrior = TRUE}, the function \code{dLL} evaluates the first derivative of the log-posterior at point \eqn{\theta}. 
 //' 
-//' The function \code{dLL} is only available when using the normal prior distribution.
+//' The function \code{dLL} is only available when using the normal prior distribution when \code{use_prior=TRUE}.
 //' 
 //' @examples
 //' \dontrun{
@@ -274,8 +274,7 @@ double prior(NumericVector x, CharacterVector dist, NumericVector params) {
 //' 
 //' @seealso
 //' 
-//' \code{\link{Cat}} for specifying priors and prior parameteres
-//' \code{\link{prior}} for more information on available priors
+//' \code{\link{Cat}}, \code{\link{prior}}
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -289,8 +288,8 @@ double dLL(S4 &catObj, double theta, bool use_prior){
 //' of the log-posterior evaluated at point \eqn{\theta}.
 //' 
 //' @param catObj An object of class \code{Cat}
-//' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
-//' @param use_prior A logical indicating whether to use the prior parameters in estimation
+//' @param theta A numeric or an integer indicating the value for \eqn{\theta}
+//' @param use_prior A logical indicating whether to calculate baseded on the log-likelihood or log-posterior
 //' 
 //' @return The function \code{d2LL} returns a numeric of the second derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
 //' 
@@ -299,7 +298,7 @@ double dLL(S4 &catObj, double theta, bool use_prior){
 //' 
 //' When \code{usePrior = TRUE}, the function \code{d2LL} evaluates the second derivative of the log-posterior at point \eqn{\theta}. 
 //' 
-//' The function \code{d2LL} is only available when using the normal prior distribution.
+//' The function \code{dLL2} is only available when using the normal prior distribution when \code{use_prior=TRUE}.
 //' 
 //' @examples
 //' \dontrun{
@@ -331,9 +330,7 @@ double dLL(S4 &catObj, double theta, bool use_prior){
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //' 
 //' @seealso
-//' \code{\link{Cat-class}} for specifying priors and prior parameteres
-//' \code{\link{prior}} for more information on available priors
-//' \code{\link{dLL}} for calculation of first derivative of log-likelihood
+//' \code{\link{Cat}}, \code{\link{prior}}, \code{\link{dLL}} 
 //' 
 //' @export
 // [[Rcpp::export]]
@@ -423,7 +420,7 @@ double d2LL(S4 &catObj, double theta, bool use_prior){
 //' 
 //' @seealso
 //' 
-//' \code{\link{Cat}} for information on the \code{estimation} slot 
+//' \code{\link{Cat}} 
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -437,13 +434,13 @@ double estimateTheta(S4 catObj) {
 //' Calculates the observed information of the likelihood of a respondent's ability \eqn{\theta} for a given \code{item}.
 //'
 //' @param catObj An object of class \code{Cat}
-//' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
+//' @param theta A numeric or an integer indicating the value for \eqn{\theta}
 //' @param item An integer indicating the index of the question item
 //'
 //' @return The function \code{obsInf} returns a numeric value of the observed information of the likelihood, given \eqn{\theta}, for a given question item.
 //' 
-//' @details The observed information is equivalent to the negative second derivative of the log-likelihood.
-//' This function should never be called when the respondent has answered no questions.
+//' @details The observed information is equivalent to the negative second derivative of the log-likelihood evaluated at \eqn{\theta}.
+//' This function should never be called when the respondent has answered no questions as the likelihood is not defined.
 //'   
 //' @examples
 //' \dontrun{
@@ -503,7 +500,9 @@ double obsInf(S4 catObj, double theta, int item) {
 //'## Prior calculation using Cat object of the ltm model
 //'## specifying different distributions
 //'data(npi)
-//'cat <- ltmCat(npi)
+//'ltm_cat <- ltmCat(npi)
+//'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+//'expectedObsInf(ltm_cat, item = 10)
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -535,8 +534,7 @@ double expectedObsInf(S4 catObj, int item) {
 //' 
 //' @examples
 //' \dontrun{
-//'## Prior calculation using Cat object of the ltm model
-//'## specifying different distributions
+//'## EI using Cat object of the ltm model
 //'data(npi)
 //'cat <- ltmCat(npi)
 //'}
