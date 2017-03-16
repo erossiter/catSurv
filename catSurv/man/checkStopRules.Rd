@@ -10,34 +10,63 @@ checkStopRules(catObj)
 \item{catObj}{An object of class \code{Cat}}
 }
 \value{
-This function returns a boolean, where TRUE indicates the the stopping rules are met (no further questions should be asked) and FALSE indicates the stoppings rules are not met (additional questions are needed)
+The function \code{checkStopRules} returns a boolean.  \code{TRUE} indicates all specified stopping rules are met
+  and no specified overrides are met.  No further items should be adminstered.  \code{FALSE} indicates at least one specified
+   stopping rule is not met, or if any specified override threshold is met.  Additional items should be administered.
+
+  \strong{Stopping Rules:}
+
+  \code{lengthThreshold}: Number of question's answered \eqn{\geq a}
+ 
+  \code{seThreshold}: \eqn{SE(\hat{\theta}) < a}
+ 
+  \code{infoThreshold}: \eqn{FI < a} \eqn{\forall} remaining items
+
+  \code{gainThreshold}: \eqn{SE(\hat{\theta}) - \sqrt{EPV} | < a} \eqn{\forall} remaining items
+
+  \strong{Overrides:}
+
+  \code{lengthOverride}: Number of question's answered \eqn{< a}
+
+  \code{gainOverride}: \eqn{|SE(\hat{\theta}) - \sqrt{EPV} | \geq a} \eqn{\forall} remaining items
 }
 \description{
-Evaluates the specified stopping and/or override rules to check if respondent should be asked further questions
+Evaluates the specified stopping and/or override rules to check if respondent should be asked further questions.
 }
 \details{
-The stopping rule thresholds are stored in the following Cat object slots: lengthThreshold, seThreshold, infoThreshold, and gainThreshold.
-  The override thresholds are stored in the following Cat object slots: lengthOverride, gainOverride. A value of NA indicates the rule should not be used.
+The stopping rule thresholds are stored in the following Cat object slots:
+\code{lengthThreshold}, \code{seThreshold}, \code{infoThreshold}, and \code{gainThreshold}. The override
+ thresholds are stored in the following Cat object slots: \code{lengthOverride}, \code{gainOverride}.  
+ A value of \code{NA} indicates the rule will not be used in evaluating if further questions should be administered.
+ A user can specify any combination of stopping rules and/or overrides.
+}
+\examples{
+\dontrun{
+## Fitting ltm Cat object
+data(npi)
+ltm_cat <- ltmCat(npi)
 
-  A return value of TRUE indicates that additional questions should be asked; FALSE indicates no additional questions should be asked.
+## Storing example answers
+setAnswers(ltm_cat) <- c(1,0,1,0,1,0,0,0,1,1, rep(NA, 30))
 
-  A user can specify any combination of stopping rules and/or overrides.  The function returns TRUE if all specified stopping rules are met
-  and no specified overrides are met. The function returns FALSE if at least one specified stopping rule is not met, or if any specified override threshold is met.
+## Stop administering items if standard error of ability
+## estimate is low enough
+setSeThreshold(ltm_cat) <- .5
+checkStopRules(ltm_cat)
 
-  Stopping Rules:
+## Now stop if standard error is low enough, but only if respondent has
+## answered 11 questions 
+setLengthOverride(ltm_cat) <- 11
+checkStopRules(ltm_cat)
 
-  lengthThreshold: Number of question's answered >= a
- 
-  seThreshold: \eqn{SE(\hat{\theta}) < a}
- 
-  infoThreshold: \deqn{FI < a \forall}{FI < a \forall} remaining items
+## When respondent has answered 11 questions and standard error
+## of ability estimate is below .5, stop administering items
+setAnswers(ltm_cat) <- c(1,0,1,0,1,0,0,0,1,1,0, rep(NA, 29))
+checkStopRules(ltm_cat)
+}
 
-  gainThreshold: \deqn{SE(\hat{\theta}) - \sqrt{EPV} | < a \forall}{SE(\hat{\theta}) - \sqrt{EPV} | < a \forall} remaining items
-
-  Overrides:
-
-  lengthOverride: Number of question's answered < a
-
-  gainOverride: \deqn{|SE(\hat{\theta}) - \sqrt{EPV} | >= a \forall}{|SE(\hat{\theta}) - \sqrt{EPV} | >= a \forall} remaining items
+}
+\references{
+Babcock, Ben, and David J. Weiss. 2009. ``Termination Criteria in Computerized Adaptive Tests: Variable-Length CATs are not Biased." Proceedings of the 2009 GMAC Conference on Computerized Adaptive Testing. Vol. 14.
 }
 

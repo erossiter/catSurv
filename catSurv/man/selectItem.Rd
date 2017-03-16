@@ -104,7 +104,7 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
   \code{\link{obsInf}} for observed information calculation;
   \code{\link{fisherTestInfo}} for Fisher's information calculation;
-  \code{\link{expctedKL}} for expected Kullback-Leibeler calculation;
+  \code{\link{expectedKL}} for expected Kullback-Leibeler calculation;
   \code{\link{likelihoodKL}} for likelihood Kullback-Leibeler calculation;  
   \code{\link{posteriorKL}} for posterior Kullback-Leibeler calculation;
 }
