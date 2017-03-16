@@ -1,25 +1,34 @@
-#' Computerized Adaptive Testing Generalize Partial Credit Model
+#' Computerized Adaptive Testing Generalized Partial Credit Model
 #'
-#' This function fits the Generalize Partial Credit Model for ordinal polytomous data and populates the fitted values for discimination and difficulty parameters to an object of class \code{Cat}.
+#' This function fits the Generalized Partial Credit model for ordinal polytomous data and populates the fitted values for discimination and difficulty parameters to an object of class \code{Cat}.
 #'
-#' @param data a \code{data.frame} or a numeric \code{matrix} of manifest variables.
-#' @param quadraturePoints a single numeric value to be passed into the grm function
-#' @param ... arguments to be passed to methods. For more details about the arguments, see \code{\link{grm}}.
+#' @param data A \code{data.frame} of manifest variables or an object of class \code{gpcm}
+#' @param quadraturePoints A numeric to be passed into the \code{gpcm} function indicating the number of Gauss-Hermite quadrature points.  Default value is \code{21}
+#' @param ... arguments to be passed to methods. For more details about the arguments, see \code{gpcm} in the \code{ltm} package.
 #'
-#'  @return An object of class \code{Cat} with components,
+#'@return The function \code{gpcmCat} returns an object of class \code{Cat} with changes to the following slots:
 #' \itemize{
-#' \item \code{difficulty} a named list of difficulty parameters for use with polytomous questions/items.  Each element's name tells the question/item to which it applies.
-#' \item \code{guessing} a vector of guessing parameter for each question/item.
-#' \item \code{discrimination} a vector of disrimination parameter for each question/item.
-#' \item \code{answers} a vector of answers to questions as given by the survey respondent.
-#' \item \code{priorName} a character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{normal} for the normal distirbution, \code{cauchy} for the Cauchy distribution, are \code{t} for the t-distribution. Defaults to \code{normal}.
-#' \item \code{priorParams} a numeric vector of parameters for the distribution specified in the \code{priorName} slot. See the details section for more infomration.  Defaults to \code{c(0,1)}.
+#' \item \code{difficulty} A list of difficulty parameters, where each element in the list corresponds to the difficulty parameters for an item.
+#' \item \code{discrimination} A vector of disrimination parameter for each item.
+#' \item \code{model} A string of \code{gpcm}, indicating this \code{Cat} object corresponds to a Generalized Partial Credit model.
 #' }
-#' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val="random"}.
-#' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
-#' @seealso
+#' 
+#' 
+#' @details The \code{data} argument of the function \code{gpcmCat} is either a \code{data.frame} or an object of class \code{gpcm} from the \code{ltm} package.  If it is a \code{data.frame} each row represents a respondent and each column represents a question item.  If it is an object of the class \code{gpcm}, it is output from the \code{gpcm} function in the \code{ltm} package.
+#' 
+#' The \code{quadraturePoints} argument of the function \code{gpcmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{gpcm} function from the \code{ltm} package when fitting the Generalized Partial Credit model to the data, and used when approximating the value of integrals.
+#' 
+#' 
+#' @seealso 
+#' 
+#' \code{\link{Cat}} for information on all \code{Cat} slots and their defualt values
 #' 
 #' \code{\link{grmCat}} for an alternative model fit to ordinal polytomous data
+#' 
+#' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
+#' 
+#' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+#' 
 #' 
 #' @rdname gpcmCat
 #' 

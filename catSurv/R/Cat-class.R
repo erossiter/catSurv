@@ -9,35 +9,37 @@ setClassUnion("numericORlist", c("numeric","list"))
 
 #' A Computerized Adaptive Testing Survey (catSurv) Object
 #'
-#' Objects of class \code{Cat} are used in administering Computerized Adaptive Testing (CAT) Surveys.  These objects contain several pieces of information relevent for CAT surveys, and are used as input in the main functions of the \code{catSurv} package. They are created using the \code{initialize} function.
+#' Creates an object of class \code{Cat}.  Cat objects are used in administering Computerized Adaptive Testing (CAT) Surveys.  These objects contain several pieces of information relevent for CAT surveys, and are used as input in the main functions of the \code{catSurv} package. 
 #'
 #' Assume we have a survey battery with \code{I} questions.  An object of the class \code{Cat} has the following slots:
 #' \itemize{
-#' \item \code{guessing} A named vector of length \code{I} of guessing parameters.  Note: guessing parameters are only applicable for binary \code{Cat} objects. 
+#' \item \code{guessing} A vector of length \code{I} of guessing parameters.  Note: guessing parameters are only applicable for \code{Cat} objects fit with the \code{ltm} model, using the \code{ltmCat} function. 
 #' \item \code{discrimination} A named vector of length \code{I} of disrimination parameters.
 #' \item \code{difficulty} A named vector or list of length \code{I} of difficulty parameters. For binary \code{Cat} objects, the vector will contain difficulty parameters for each item.  For categorical \code{Cat} objects, a list will constain a vector for each item, and each vector will contain a difficulty parameter for each response option.  
-#' \item \code{answers} A named vector of length \code{I} of answers to questions as given by the survey respondent.  Unanswered questions have the value \code{NA}.
-#' \item \code{priorName} A character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{NORMAL} for the normal distirbution, \code{STUDENT_T} for the student's t distribution, and \code{UNIFORM} for the uniform distribution.  
-#' \item \code{priorParams} A numeric vector of length two of parameters for the distribution specified in the \code{priorName} slot. See 'details' for more information.
-#' \item \code{lowerBound} A numeric indicating the lower bound of the interval of the latent scale used in estimation. The default value is \eqn{-6}.
-#' \item \code{upperBound} A numeric indicating the upper bound of the interval of the latent scale used in estimation. The default value is \eqn{6}.
-#' \item \code{poly} A logical containing the type of answers.  TRUE indicates categorical response options, FALSE indicates binary response options.  Default is TRUE.
-#' \item \code{estimation} A character vector of length one indicating the choice of approach to estimate ability parameters.  The options are \code{EAP}, \code{MAP}, \code{MLE}, and \code{WLE}.
-#' \item \code{estimationDefault} A character vector of length one indicating the choice of approach to estimate ability parameters when the primary estimation choice indicating in the \code{estimation} slot fails to converge.  The options are \code{EAP} and \code{MAP}.
-#' \item \code{selection} A character vector of length one indicating the choice of approach select the next item.  The options are \code{EPV}, \code{MEI}, \code{MFI}, \code{MPWI}, \code{MLWI}, \code{KL}, \code{LKL}, \code{PKL}, \code{MFII}, and \code{RANDOM}.
-#' \item \code{z} A numeric.  Used in calculating delta, which is used in calculating the bounds of integration for some \code{selectItem} methods.  See 'details' for more information.
-#' \item \code{lengthThreshold} A numeric.  The number of questions answered must be greater than or equal to this threshold.
-#' \item \code{seThreshold} A numeric.  The standard error estimate of the latent trait must be less than this threshold.
-#' \item \code{infoThreshold} A numeric.  The Fisher's information for all remaining items must be less than this threshold.
-#' \item \code{gainThreshold} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this threshold.
-#' \item \code{lengthOverride} A numeric.  The number of questions answered must be less than this override.
-#' \item \code{gainOverride} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this override.  
+#' \item \code{answers} A vector of length \code{I} of answers to questions as given by the survey respondent.  Unanswered questions have the value \code{NA}.
+#' \item \code{priorName} A character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{NORMAL} for the normal distirbution, \code{STUDENT_T} for the student's t distribution, and \code{UNIFORM} for the uniform distribution.  The default value is \code{NORMAL}.  
+#' \item \code{priorParams} A numeric vector of length two of parameters for the distribution specified in the \code{priorName} slot. When \code{priorName} is set to \code{NORMAL}, the first element of \code{priorParams} is the mean, the second element is the standard deviation.  When \code{priorName} is set to \code{STUDENT_T}, the first element of \code{priorParams} is \eqn{mu}, a location parameter, the second is degrees of freedom.  When \code{priorName} is set to \code{UNIFORM}, the elements of \code{priorParams} are lower and upper bounds, respectively.  Note that the uniform distribution is only applicable for the "EAP" estimation method.  The default values are \eqn{0,1}. 
+#' \item \code{lowerBound} A numeric indicating the lower bound of the interval of the latent scale used in estimation. The default value is \eqn{-5}.
+#' \item \code{upperBound} A numeric indicating the upper bound of the interval of the latent scale used in estimation. The default value is \eqn{5}.
+#' \item \code{model} A string indicating the model fit to the data.  The options are \code{ltm} for the latent trait model, \code{tpm} for Birnbaum's three parameter model, \code{grm} for the graded response model, and \code{gpcm} for the generalized partial credit model.  
+#' \item \code{estimation} A string indicating the choice of approach to estimate ability parameters.  The options are \code{EAP} for the expected a posteriori approach, \code{MAP} for the modal a posteriori approach, \code{MLE} for the maximum likelihood approach, and \code{WLE} for the weighted maximum likelihood approach.  The default value is \code{EAP}.
+#' \item \code{estimationDefault} A string indicating the choice of approach to estimate ability parameters when the primary estimation choice indicated in the \code{estimation} slot fails to converge.  The options are \code{EAP} and \code{MAP}.  The default value is \code{MAP}.
+#' \item \code{selection} A string indicating the choice of approach for selecting the next item.  The options are \code{EPV} for minimum expected posterior variance, \code{MEI} for maximum expected information, \code{MFI} for maximum Fisher information, \code{MPWI} for maximum posterior weighted information, \code{MLWI} for maximum likelihood weighted information, \code{KL} for the maximum expected Kullback-Leibler (KL) information, \code{LKL} maximum likelihood weighted KL information, \code{PKL} maximum posterior weighted KL information, \code{MFII}, and \code{RANDOM} where the next item is chosen randomly.  The default value is \code{EPV}.  
+#' \item \code{z} A numeric used in calculating \eqn{\delta}.  \eqn{\delta} is used in determining the bounds of integration for some \code{selectItem} methods.  Default value is \code{0.9}.
+#' \item \code{lengthThreshold} A numeric.  The number of questions answered must be greater than or equal to this threshold to stop administering items.  The default value is \code{NA}.
+#' \item \code{seThreshold} A numeric.  The standard error estimate of the latent trait must be less than this threshold to stop administering items.  The default value is \code{NA}.
+#' \item \code{infoThreshold} A numeric.  The Fisher's information for all remaining items must be less than this threshold to stop administering items.  The default value is \code{NA}.
+#' \item \code{gainThreshold} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this threshold to stop administering items.  The default value is \code{NA}.
+#' \item \code{lengthOverride} A numeric.  The number of questions answered must be less than this override to continue administering items.  The default value is \code{NA}.
+#' \item \code{gainOverride} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this override to continue administering items.  The default value is \code{NA}.  
 #' }
-#'
-#'@details When \code{priorName} is set to "NORMAL", the first element of \code{priorParams} is the mean, the second element is the standard deviation.  When \code{priorName} is set to "STUDENT_T", the first element of \code{priorParam} is mu, a location parameter, the second is degrees of freedom.  When \code{priorName} is set to "UNIFORM", the elements of \code{priorParams} are lower and upper, respectively.  Note that the uniform distribution is only applicable for the "EAP" estimation method.  
-#'
-#' Talk about 'z' and how it's used to calculate delta.
 #' 
+#' @seealso 
+#' \code{\link{estimateTheta}} for more information on the estimation procedures
+#' 
+#' \code{\link{selectItem}} for more information on the item selection procedures
+#' 
+#' \code{\link{checkStopRules}} for more information on stopping thresholds and overrides
 #'
 #'
 #'
@@ -50,12 +52,12 @@ setClass("Cat",
   slots = list(
     guessing = "numeric",
     discrimination = "numeric",
+    difficulty = "numericORlist",
     answers = "logicalORnumeric",
     priorName = "character",
     priorParams = "numeric",
     lowerBound = "numeric",
     upperBound = "numeric",
-    difficulty = "numericORlist",
     model = "character",
     estimation = "character",
     estimationDefault = "character",
@@ -70,8 +72,8 @@ setClass("Cat",
   prototype = prototype(
     guessing = rep(0, 10),
     discrimination = rep(0, 10),
-    answers = rep(NA, 10),
     difficulty = rep(0, 10),
+    answers = rep(NA, 10),
     priorName = "NORMAL",
     priorParams = c(0,1),
     lowerBound = -5,

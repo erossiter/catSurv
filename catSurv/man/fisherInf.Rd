@@ -39,7 +39,8 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{obsInf}} for observed information calculation and
-  \code{\link{fisherTestInfo}} for further application of Fisher's information
+\code{\link{obsInf}} for observed information calculation
+
+\code{\link{fisherTestInfo}} for further application of Fisher's information
 }
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ltmCat.R
 \name{ltm-class}
 \alias{ltm-class}
-\title{Computerized Adaptive Testing Latent Trait Model with Binary Data}
+\title{Computerized Adaptive Testing Latent Trait Model}
 \arguments{
 \item{data}{a \code{data.frame} or a numeric \code{matrix} of manifest variables.}
 

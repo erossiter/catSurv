@@ -12,8 +12,17 @@ Documentation consistency:
 - ability parameter
 - question item/item
 - no period at the end of descriptions
+- left math for probability and selectItem and checkStopRules
 
-- left math for probability and selectItem
+Cat class:
+- what should MFII short name be?
+
+
+main.cpp:
+- When integration is used (estimateTheta), make sure to note in those functions that lowerBound and upperBound will be used.
+- fix estimationDefault
+- In selectItem note which options will use lowerBound and upperBound, and which functions will use z.
+
 
 
 Other
@@ -22,17 +31,12 @@ Other
 
 
 
-## makeTree — clean — done
-
-## plot functions
-haven’t looked at them in ages
 
 ## GPCM new dataset and fit
 —> eRm package
 
 ## tpmcat — add selectItem tests??
 
-## get & set methods — cleaned, now adds quick tests
 
 
 

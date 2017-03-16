@@ -41,13 +41,13 @@ obsInf(ltm_cat, theta = 1, item = 10)
 data(polknow)
 tpm_cat <- tpmCat(polknow)
 setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
-dLL(tpm_cat, theta = 1, item = 10)
+obsInf(tpm_cat, theta = 1, item = 10)
 
 ## observed information for Cat object of the grm model
 data(nfc)
 grm_cat <- grmCat(nfc)
 setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
-dLL(grm_cat, theta = 1, item = 10)
+obsInf(grm_cat, theta = 1, item = 10)
 }
 
 }

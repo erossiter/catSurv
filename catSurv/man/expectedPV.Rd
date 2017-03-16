@@ -38,6 +38,7 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 }
 \seealso{
 \code{\link{probability}} for probability of responses to individual question item
-  \code{\link{estimateTheta}} for estimation of \eqn{\theta}
+
+\code{\link{estimateTheta}} for estimation of \eqn{\theta}
 }
 

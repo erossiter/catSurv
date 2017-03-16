@@ -1,4 +1,4 @@
-#' Computerized Adaptive Testing Latent Trait Model with Binary Data
+#' Computerized Adaptive Testing Latent Trait Model
 #'
 #' This function fits the latent trait model for binary data and populates the fitted values for discimination, difficulty, and guessing parameters to an object of class \code{Cat}.
 #'

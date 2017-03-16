@@ -2,7 +2,7 @@
 % Please edit documentation in R/tpmCat.R
 \name{tpm-class}
 \alias{tpm-class}
-\title{Computerized Adaptive Testing Latent Trait Model with Binary Data}
+\title{Computerized Adaptive Testing Latent Trait Model}
 \arguments{
 \item{data}{a \code{data.frame} or a numeric \code{matrix} of manifest variables.}
 
