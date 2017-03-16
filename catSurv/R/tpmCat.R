@@ -15,6 +15,35 @@
 #'
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
 #' 
+#' @references 
+#' 
+#' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+#' 
+#' Birnbaum, Allan. 1968. Some Latent Trait Models and their Use in Inferring an Examinee's Ability. In F. M. Lord and M. R. Novick (Eds.), Statistical Theories of Mental Test Scores, 397-479. Reading, MA: Addison-Wesley.
+#' 
+#' Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses." Journal of Statistical Software 17(5):1-25.
+#' 
+#' 
+#' @examples
+#' \dontrun{
+#' ## Creating Cat object with raw data
+#' data(polknow)
+#' tpm_cat1 <- tpmCat(polknow, quadraturePoints = 100)
+#' 
+#' ## Creating Cat object with fitted object of class tpm
+#' tpm_fit <- grm(polknow, control = list(GHk = 100)) ## from ltm package
+#' class(tpm_fit)
+#' tpm_cat2 <- tpmCat(tpm_fit)
+#' 
+#' ## Note the two Cat objects are identical
+#' identical(tpm_cat1, tpm_cat2)
+#' 
+#' ## Note the slots that have changed from default values
+#' tpm_cat1@model
+#' tpm_cat1@difficulty
+#' tpm_cat1@discrimination
+#'}
+#' 
 #' 
 #' @details The \code{data} argument of the function \code{tpmCat} is either a \code{data.frame} or an object of class \code{tpm} from the \code{ltm} package.  If it is a \code{data.frame} each row represents a respondent and each column represents a question item.  If it is an object of the class \code{tpm}, it is output from the \code{tpm} function in the \code{ltm} package.
 #' 

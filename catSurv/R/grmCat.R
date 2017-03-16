@@ -14,6 +14,34 @@
 #' \item \code{model} The string \code{"grm"}, indicating this \code{Cat} object corresponds to a Graded Response model.
 #' }
 #' 
+#' @examples
+#' \dontrun{
+#' ## Creating Cat object with raw data
+#' data(nfc)
+#' grm_cat1 <- grmCat(nfc, quadraturePoints = 100)
+#' 
+#' ## Creating Cat object with fitted object of class grm
+#' grm_fit <- grm(nfc, control = list(GHk = 100)) ## from ltm package
+#' class(grm_fit)
+#' grm_cat2 <- grmCat(grm_fit)
+#' 
+#' ## Note the two Cat objects are identical
+#' identical(grm_cat1, grm_cat2)
+#' 
+#' ## Note the slots that have changed from default values
+#' grm_cat1@model
+#' grm_cat1@difficulty
+#' grm_cat1@discrimination
+#'}
+#' 
+#' @references 
+#' 
+#' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+#' 
+#' Samejima, Fumiko. 1969. ``Estimation of Latent Ability Using a Response Pattern of Graded Scores." Psychometrika monograph supplement 34(4):100-114.
+#' 
+#' Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses.`` Journal of Statistical Software 17(5):1-25.
+#' 
 #' 
 #' @details The \code{data} argument of the function \code{grmCat} is either a \code{data.frame} or an object of class \code{grm} from the \code{ltm} package.  If it is a \code{data.frame} each row represents a respondent and each column represents a question item.  If it is an object of the class \code{grm}, it is output from the \code{grm} function in the \code{ltm} package.
 #' 

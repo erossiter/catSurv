@@ -26,7 +26,6 @@ main.cpp:
 
 
 Other
-— make sure that user can feed other arguments to grmCat, etc… (like start.val)
 - try to change probability from NumericVector/IntegerVector to scalars so it can’t take a vector and just use the first element
 
 

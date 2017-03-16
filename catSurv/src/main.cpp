@@ -89,11 +89,11 @@ using namespace Rcpp;
 //' @references 
 //' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
 //' 
-//' Choi, Seung W. and Richard J. Swartz. 2009. “Comparison of CAT Item Selection Criteria for Polytomous Items.” Applied Psychological Measurement 33(6):419–440.
+//' Choi, Seung W. and Richard J. Swartz. 2009. ``Comparison of CAT Item Selection Criteria for Polytomous Items." Applied Psychological Measurement 33(6):419-440.
 //' 
-//' Muraki, Eiji. 1992. "A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1): 1-30.
+//' Muraki, Eiji. 1992. ``A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1):1-30.
 //' 
-//' van der Linden, Wim J. 1998. “Bayesian Item Selection Criteria for Adaptive Testing.” Psychometrika 63(2):201–216.
+//' van der Linden, Wim J. 1998. ``Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika 63(2):201-216.
 //' 
 //'  
 //' @export

@@ -29,8 +29,37 @@ The \code{quadraturePoints} argument of the function \code{tpmCat} is used only 
 \note{
 In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
 }
+\examples{
+\dontrun{
+## Creating Cat object with raw data
+data(polknow)
+tpm_cat1 <- tpmCat(polknow, quadraturePoints = 100)
+
+## Creating Cat object with fitted object of class tpm
+tpm_fit <- grm(polknow, control = list(GHk = 100)) ## from ltm package
+class(tpm_fit)
+tpm_cat2 <- tpmCat(tpm_fit)
+
+## Note the two Cat objects are identical
+identical(tpm_cat1, tpm_cat2)
+
+## Note the slots that have changed from default values
+tpm_cat1@model
+tpm_cat1@difficulty
+tpm_cat1@discrimination
+}
+
+
+}
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}
+\references{
+Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+
+Birnbaum, Allan. 1968. Some Latent Trait Models and their Use in Inferring an Examinee's Ability. In F. M. Lord and M. R. Novick (Eds.), Statistical Theories of Mental Test Scores, 397-479. Reading, MA: Addison-Wesley.
+
+Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses." Journal of Statistical Software 17(5):1-25.
 }
 \seealso{
 \code{\link{Cat}} for information on all \code{Cat} slots and their default values

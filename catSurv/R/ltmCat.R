@@ -16,6 +16,34 @@
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
 #' 
 #' 
+#' @examples
+#' \dontrun{
+#' ## Creating Cat object with raw data
+#' data(npi)
+#' ltm_cat1 <- ltmCat(npi, quadraturePoints = 100)
+#' 
+#' ## Creating Cat object with fitted object of class tpm
+#' ltm_fit <- grm(npi, control = list(GHk = 100)) ## from ltm package
+#' class(ltm_fit)
+#' ltm_cat2 <- ltmCat(ltm_fit)
+#' 
+#' ## Note the two Cat objects are identical
+#' identical(ltm_cat1, ltm_cat2)
+#' 
+#' ## Note the slots that have changed from default values
+#' ltm_cat1@model
+#' ltm_cat1@difficulty
+#' ltm_cat1@discrimination
+#'}
+#' 
+#' @references 
+#' 
+#' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+#' 
+#' Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses." Journal of Statistical Software 17(5):1-25.
+#' 
+#' 
+#' 
 #' @details The \code{data} argument of the function \code{ltmCat} is either a \code{data.frame} or an object of class \code{ltm} from the \code{ltm} package.  If it is a \code{data.frame} each row represents a respondent and each column represents a question item.  If it is an object of the class \code{ltm}, it is output from the \code{ltm} function in the \code{ltm} package.
 #' 
 #' The \code{quadraturePoints} argument of the function \code{ltmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{ltm} function from the \code{ltm} package when fitting the latent trait model to the data and is used when approximating the value of integrals.

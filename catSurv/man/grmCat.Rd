@@ -29,8 +29,36 @@ The \code{quadraturePoints} argument of the function \code{grmCat} is used only 
 \note{
 In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
 }
+\examples{
+\dontrun{
+## Creating Cat object with raw data
+data(nfc)
+grm_cat1 <- grmCat(nfc, quadraturePoints = 100)
+
+## Creating Cat object with fitted object of class grm
+grm_fit <- grm(nfc, control = list(GHk = 100)) ## from ltm package
+class(grm_fit)
+grm_cat2 <- grmCat(grm_fit)
+
+## Note the two Cat objects are identical
+identical(grm_cat1, grm_cat2)
+
+## Note the slots that have changed from default values
+grm_cat1@model
+grm_cat1@difficulty
+grm_cat1@discrimination
+}
+
+}
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}
+\references{
+Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+
+Samejima, Fumiko. 1969. ``Estimation of Latent Ability Using a Response Pattern of Graded Scores." Psychometrika monograph supplement 34(4):100-114.
+
+Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses.`` Journal of Statistical Software 17(5):1-25.
 }
 \seealso{
 \code{\link{Cat}} for information on all \code{Cat} slots and their default values

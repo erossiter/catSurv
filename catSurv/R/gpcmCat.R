@@ -18,6 +18,14 @@
 #' 
 #' The \code{quadraturePoints} argument of the function \code{gpcmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{gpcm} function from the \code{ltm} package when fitting the Generalized Partial Credit model to the data and is used when approximating the value of integrals.
 #' 
+#' @references 
+#' 
+#' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+#' 
+#' Muraki, Eiji. 1992. ``A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1):1-30.
+#' 
+#' Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses." Journal of Statistical Software 17(5):1-25.
+#' 
 #' 
 #' @seealso 
 #' 
