@@ -1,3 +1,6 @@
+makeTree
+- You should be able to feed it a list of lists and have it change the object to a table.  Right now you have to re-run the entire function with the Cat object to make a table!  This is really a quick matter of making a new method…
+
 probability
 - example for gpcm
 
