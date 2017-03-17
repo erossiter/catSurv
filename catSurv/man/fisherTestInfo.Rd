@@ -10,10 +10,11 @@ fisherTestInfo(catObj)
 \item{catObj}{An object of class \code{Cat}}
 }
 \value{
-The total information gained for a respondent, given a specific answer set and a value of \eqn{theta}.
+The function \code{fisherTestInfo} returns a numeric indicating the total information gained for a respondent,
+ given a specific answer set and the current estimate of \eqn{theta}.
 }
 \description{
-Calculates the total information gained for a respondent \eqn{j} for all answered items, conditioned on \eqn{theta}.
+Calculates the total information gained for a respondent for all answered items, conditioned on \eqn{theta}.
 }
 \details{
 
@@ -23,10 +24,15 @@ This function is to allow users to access the internal functions of the package.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
+## Creating Cat object
 data(npi)
-cat <- ltmCat(npi)
+ltm_cat <- ltmCat(npi)
+
+## Storing example answers
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## Fisher's test information for answer profile
+fisherTestInfo(ltm_cat)
 }
 
 }
@@ -35,6 +41,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{fisherInf}} for calculation of Fisher's information for an individual question item
+\code{\link{fisherInf}}
 }
 

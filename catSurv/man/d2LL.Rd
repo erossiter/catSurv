@@ -25,7 +25,7 @@ When \code{usePrior = FALSE}, the function \code{d2LL} evaluates the second deri
 
 When \code{usePrior = TRUE}, the function \code{d2LL} evaluates the second derivative of the log-posterior at point \eqn{\theta}. 
 
-The function \code{dLL2} is only available when using the normal prior distribution when \code{use_prior=TRUE}.
+The function \code{dLL2} is only available when using the normal prior distribution when \code{use_prior = TRUE}.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.

@@ -12,7 +12,7 @@ expectedObsInf(catObj, item)
 \item{item}{An integer indicating the index of the question item}
 }
 \value{
-The function returns a numeric value of the expected information
+The function \code{expectedObsInf} returns a numeric value of the expected information.
 }
 \description{
 Calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring.
@@ -25,12 +25,16 @@ This function is to allow users to access the internal functions of the package.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
+## Creating Cat object
 data(npi)
 ltm_cat <- ltmCat(npi)
+
+## Storing example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## Expected observed information for different items
 expectedObsInf(ltm_cat, item = 10)
+expectedObsInf(ltm_cat, item = 20)
 }
 
 }
@@ -39,7 +43,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{estimateTheta}} for calculation of \eqn{\theta} and 
-  \code{\link{obsInf}} for observed information calculation
+\code{\link{estimateTheta}}, \code{\link{obsInf}}
 }
 

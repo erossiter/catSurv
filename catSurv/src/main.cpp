@@ -171,16 +171,16 @@ double likelihood(S4 catObj, double theta) {
 //' 
 //' @return The function \code{prior} returns a numeric consisting of prior value, \eqn{\pi(x)}, given the value \code{x}.
 //'
-//' @details The \code{dist} argument needs to be either "UNIFORM", "NORMAL", or "STUDENT_T".
+//' @details The \code{dist} argument needs to be either \code{"UNIFORM"}, \code{"NORMAL"}, or \code{"STUDENT_T"}.
 //' 
-//' When \code{dist} is "NORMAL", the first element of \code{params} is the mean, 
+//' When \code{dist} is \code{"NORMAL"}, the first element of \code{params} is the mean, 
 //' the second element is the standard deviation.
 //' 
-//' When \code{dist} is "STUDENT_T", the first 
+//' When \code{dist} is \code{"STUDENT_T"}, the first 
 //' element of \code{params} is the non-centrality parameters and the second is degrees of freedom.  
 //' 
-//' When \code{dist} is "UNIFORM", the elements of \code{params} are the lower and upper bounds,
-//' of the interval, respectively.  Note that the "UNIFORM" is only applicable for the "EAP" estimation method.   
+//' When \code{dist} is \code{"UNIFORM"}, the elements of \code{params} are the lower and upper bounds,
+//' of the interval, respectively.  Note that the \code{"UNIFORM"} is only applicable for the expected a posteriori (EAP) estimation method.   
 //' 
 //' @examples
 //' \dontrun{
@@ -241,7 +241,7 @@ double prior(NumericVector x, CharacterVector dist, NumericVector params) {
 //' 
 //' When \code{usePrior = TRUE}, the function \code{dLL} evaluates the first derivative of the log-posterior at point \eqn{\theta}. 
 //' 
-//' The function \code{dLL} is only available when using the normal prior distribution when \code{use_prior=TRUE}.
+//' The function \code{dLL} is only available when using the normal prior distribution when \code{use_prior = TRUE}.
 //' 
 //' @examples
 //' \dontrun{
@@ -298,7 +298,7 @@ double dLL(S4 &catObj, double theta, bool use_prior){
 //' 
 //' When \code{usePrior = TRUE}, the function \code{d2LL} evaluates the second derivative of the log-posterior at point \eqn{\theta}. 
 //' 
-//' The function \code{dLL2} is only available when using the normal prior distribution when \code{use_prior=TRUE}.
+//' The function \code{dLL2} is only available when using the normal prior distribution when \code{use_prior = TRUE}.
 //' 
 //' @examples
 //' \dontrun{
@@ -350,24 +350,25 @@ double d2LL(S4 &catObj, double theta, bool use_prior){
 //' 
 //' Estimation approach is specified in \code{estimation} slot of \code{Cat} object.
 //' 
-//' The expected a posteriori approach is used when \code{estimation} slot is "EAP".
+//' The expected a posteriori approach is used when \code{estimation} slot is \code{"EAP"}.
 //' 
-//' The modal a posteriori approach is used when \code{estimation} slot is "MAP".  This method is only available using the normal prior distribution.
+//' The modal a posteriori approach is used when \code{estimation} slot is \code{"MAP"}.  This method is only available using the normal prior distribution.
 //' 
-//' The maximum likelihood approach is used when \code{estimation} slot is "MLE".  When the likelihood is undefined,
+//' The maximum likelihood approach is used when \code{estimation} slot is \code{"MLE"}.  When the likelihood is undefined,
 //' the MAP or EAP method will be used, determined by what is specified in the \code{estimationDefault} slot in \code{Cat} object.
 //' 
-//' The weighted maximum likelihood approach is used when \code{estimation} slot is "WLE". Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the \code{gsl} library.
+//' The weighted maximum likelihood approach is used when \code{estimation} slot is \code{"WLE"}. Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the \code{gsl} library.
 //' 
 //' @examples
 //' \dontrun{
-//'## Create Cat object, store example answers, and estimate ability parameter
-//'## using different estimation procedures
-//'
-//'## theta estimates for Cat object of the ltm model
+//'## Create Cat object
 //'data(npi)
 //'ltm_cat <- ltmCat(npi)
+//'
+//'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+//'
+//'## Set different estimation procedures estimate ability parameter
 //'setEstimation(ltm_cat) <- "EAP"
 //'estimateTheta(ltm_cat)
 //'
@@ -379,38 +380,6 @@ double d2LL(S4 &catObj, double theta, bool use_prior){
 //'
 //'setEstimation(ltm_cat) <- "WLE"
 //'estimateTheta(ltm_cat)
-//'
-//'## theta estimates for Cat object of the tpm model
-//'data(polknow)
-//'tpm_cat <- tpmCat(polknow)
-//'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
-//'setEstimation(tpm_cat) <- "EAP"
-//'estimateTheta(tpm_cat)
-//'
-//'setEstimation(tpm_cat) <- "MAP"
-//'estimateTheta(tpm_cat)
-//'
-//'setEstimation(tpm_cat) <- "MLE"
-//'estimateTheta(tpm_cat)
-//'
-//'setEstimation(tpm_cat) <- "WLE"
-//'estimateTheta(tpm_cat)
-//'
-//'## theta estimates for Cat object of the grm model
-//'data(nfc)
-//'grm_cat <- grmCat(nfc)
-//'setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
-//'setEstimation(grm_cat) <- "EAP"
-//'estimateTheta(grm_cat)
-//'
-//'setEstimation(grm_cat) <- "MAP"
-//'estimateTheta(grm_cat)
-//'
-//'setEstimation(grm_cat) <- "MLE"
-//'estimateTheta(grm_cat)
-//'
-//'setEstimation(grm_cat) <- "WLE"
-//'estimateTheta(grm_cat)
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -491,18 +460,22 @@ double obsInf(S4 catObj, double theta, int item) {
 //' @param catObj An object of class \code{Cat}
 //' @param item An integer indicating the index of the question item
 //' 
-//' @return The function returns a numeric value of the expected information 
+//' @return The function \code{expectedObsInf} returns a numeric value of the expected information. 
 //' 
 //' @details
 //' 
 //' @examples
 //' \dontrun{
-//'## Prior calculation using Cat object of the ltm model
-//'## specifying different distributions
+//'## Creating Cat object
 //'data(npi)
 //'ltm_cat <- ltmCat(npi)
+//'
+//'## Storing example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+//'
+//'## Expected observed information for different items
 //'expectedObsInf(ltm_cat, item = 10)
+//'expectedObsInf(ltm_cat, item = 20)
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -510,9 +483,8 @@ double obsInf(S4 catObj, double theta, int item) {
 //'  
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //'
-//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta} and 
-//'   \code{\link{obsInf}} for observed information calculation
-//'  
+//' @seealso \code{\link{estimateTheta}}, \code{\link{obsInf}}
+//' 
 //' @export
 // [[Rcpp::export]]
 double expectedObsInf(S4 catObj, int item) {
@@ -522,21 +494,29 @@ double expectedObsInf(S4 catObj, int item) {
 
 //' Fisher's Information
 //'
-//' Calculates the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}
+//' Calculates the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}.
 //'
 //' @param catObj An object of class \code{Cat}
-//' @param theta A numeric or an integer indicating the potential value for \eqn{\theta_j}
+//' @param theta A numeric or an integer indicating the potential value for \eqn{\theta}
 //' @param item An integer indicating the index of the question item
 //'
-//' @return The function returns a numeric of the expected value of the observed information
+//' @return The function \code{fisherInf} returns a numeric of the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}.
 //' 
-//' @details For the dichotomous case, this is equivalent to the observed information.  
+//' @details For the dichotomous case, this Fisher's information is equivalent to the observed information.  
 //' 
 //' @examples
 //' \dontrun{
-//'## EI using Cat object of the ltm model
+//'## Creating Cat object
 //'data(npi)
-//'cat <- ltmCat(npi)
+//'ltm_cat <- ltmCat(npi)
+//'
+//'## Storing example answers
+//'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+//'
+//'## Fisher's information for different items,
+//'## at ability parameter of 1
+//'fisherInf(ltm_cat, theta = 1, item = 10)
+//'fisherInf(ltm_cat, theta = 1, item = 20)
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -544,12 +524,8 @@ double expectedObsInf(S4 catObj, int item) {
 //'  
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //'
-//' @seealso
+//' @seealso \code{\link{fisherTestInfo}}, \code{\link{obsInf}}
 //' 
-//' \code{\link{obsInf}} for observed information calculation
-//' 
-//' \code{\link{fisherTestInfo}} for further application of Fisher's information
-//'  
 //' @export
 // [[Rcpp::export]]
 double fisherInf(S4 catObj, double theta, int item) {
@@ -559,20 +535,26 @@ double fisherInf(S4 catObj, double theta, int item) {
 
 //' Fisher's Test Information
 //'
-//' Calculates the total information gained for a respondent \eqn{j} for all answered items, conditioned on \eqn{theta}.
+//' Calculates the total information gained for a respondent for all answered items, conditioned on \eqn{theta}.
 //'
 //' @param catObj An object of class \code{Cat}
 //' 
-//' @return The total information gained for a respondent, given a specific answer set and a value of \eqn{theta}.
+//' @return The function \code{fisherTestInfo} returns a numeric indicating the total information gained for a respondent,
+//'  given a specific answer set and the current estimate of \eqn{theta}.
 //' 
 //' @details
 //' 
 //' @examples
 //' \dontrun{
-//'## Prior calculation using Cat object of the ltm model
-//'## specifying different distributions
+//'## Creating Cat object
 //'data(npi)
-//'cat <- ltmCat(npi)
+//'ltm_cat <- ltmCat(npi)
+//'
+//'## Storing example answers
+//'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+//'
+//'## Fisher's test information for answer profile
+//'fisherTestInfo(ltm_cat)
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -580,8 +562,8 @@ double fisherInf(S4 catObj, double theta, int item) {
 //'  
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //'
-//' @seealso \code{\link{fisherInf}} for calculation of Fisher's information for an individual question item
-//'  
+//' @seealso \code{\link{fisherInf}}
+//' 
 //' @export
 // [[Rcpp::export]]
 double fisherTestInfo(S4 catObj) {
@@ -590,24 +572,46 @@ double fisherTestInfo(S4 catObj) {
 
 //' Standard Error of Ability Parameter Estimate
 //'
-//' Estimates the standard error for a respondent's ability parameter estimate.
+//' Estimates the standard error for a respondent's ability parameter estimate, \eqn{\theta}.
 //'
 //' @param catObj An object of class \code{Cat}
 //'
 //' @return The function \code{estimateSE} returns a numeric for the standard error for \eqn{\theta}.
 //'
 //' @details 
-//'   The EAP estimator:
-//'   The MAP estimator (This is implemented only for the normal prior.)
-//'   The MLE  estimator (When MLE can't be calculated... estimationDefault)
-//'   The WLE estimator (Brent method)
+//' 
+//' Estimation approach is specified in \code{estimation} slot of \code{Cat} object.  The
+//' options are \code{"EAP"} for the expected a posteriori approach, \code{"MAP"} for the modal a posteriori
+//' approach, \code{"MLE"} for the maximum likelihood approach, and \code{"WLE"} for the weighted maximum likelihood
+//' approach.  The function \code{estimateSE} will calculate the standard error of the ability estimate
+//' given the estimation approach.
 //'   
 //' @examples
 //' \dontrun{
-//'## Prior calculation using Cat object of the ltm model
-//'## specifying different distributions
+//'## Create Cat object
 //'data(npi)
-//'cat <- ltmCat(npi)
+//'ltm_cat <- ltmCat(npi)
+//'
+//'## Store example answers
+//'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+//'
+//'## Set different estimation procedures and calculate
+//'## ability estimate and its standard error
+//'setEstimation(ltm_cat) <- "EAP"
+//'estimateTheta(ltm_cat)
+//'estimateSE(ltm_cat)
+//'
+//'setEstimation(ltm_cat) <- "MAP"
+//'estimateTheta(ltm_cat)
+//'estimateSE(ltm_cat)
+//'
+//'setEstimation(ltm_cat) <- "MLE"
+//'estimateTheta(ltm_cat)
+//'estimateSE(ltm_cat)
+//'
+//'setEstimation(ltm_cat) <- "WLE"
+//'estimateTheta(ltm_cat)
+//'estimateSE(ltm_cat)
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -615,7 +619,7 @@ double fisherTestInfo(S4 catObj) {
 //'  
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //'
-//' @seealso \code{\link{estimateTheta}} for estimation of \eqn{\theta}
+//' @seealso \code{\link{estimateTheta}}
 //'  
 //' @export
 // [[Rcpp::export]]

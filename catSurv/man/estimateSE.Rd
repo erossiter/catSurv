@@ -13,23 +13,44 @@ estimateSE(catObj)
 The function \code{estimateSE} returns a numeric for the standard error for \eqn{\theta}.
 }
 \description{
-Estimates the standard error for a respondent's ability parameter estimate.
+Estimates the standard error for a respondent's ability parameter estimate, \eqn{\theta}.
 }
 \details{
-The EAP estimator:
-  The MAP estimator (This is implemented only for the normal prior.)
-  The MLE  estimator (When MLE can't be calculated... estimationDefault)
-  The WLE estimator (Brent method)
+Estimation approach is specified in \code{estimation} slot of \code{Cat} object.  The
+options are \code{"EAP"} for the expected a posteriori approach, \code{"MAP"} for the modal a posteriori
+approach, \code{"MLE"} for the maximum likelihood approach, and \code{"WLE"} for the weighted maximum likelihood
+approach.  The function \code{estimateSE} will calculate the standard error of the ability estimate
+given the estimation approach.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
+## Create Cat object
 data(npi)
-cat <- ltmCat(npi)
+ltm_cat <- ltmCat(npi)
+
+## Store example answers
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## Set different estimation procedures and calculate
+## ability estimate and its standard error
+setEstimation(ltm_cat) <- "EAP"
+estimateTheta(ltm_cat)
+estimateSE(ltm_cat)
+
+setEstimation(ltm_cat) <- "MAP"
+estimateTheta(ltm_cat)
+estimateSE(ltm_cat)
+
+setEstimation(ltm_cat) <- "MLE"
+estimateTheta(ltm_cat)
+estimateSE(ltm_cat)
+
+setEstimation(ltm_cat) <- "WLE"
+estimateTheta(ltm_cat)
+estimateSE(ltm_cat)
 }
 
 }
@@ -38,6 +59,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{estimateTheta}} for estimation of \eqn{\theta}
+\code{\link{estimateTheta}}
 }
 

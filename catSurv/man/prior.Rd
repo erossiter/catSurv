@@ -20,16 +20,16 @@ The function \code{prior} returns a numeric consisting of prior value, \eqn{\pi(
 Calculates the density at \code{x} of either the normal, Student's t, or uniform distribution.
 }
 \details{
-The \code{dist} argument needs to be either "UNIFORM", "NORMAL", or "STUDENT_T".
+The \code{dist} argument needs to be either \code{"UNIFORM"}, \code{"NORMAL"}, or \code{"STUDENT_T"}.
 
-When \code{dist} is "NORMAL", the first element of \code{params} is the mean, 
+When \code{dist} is \code{"NORMAL"}, the first element of \code{params} is the mean, 
 the second element is the standard deviation.
 
-When \code{dist} is "STUDENT_T", the first 
+When \code{dist} is \code{"STUDENT_T"}, the first 
 element of \code{params} is the non-centrality parameters and the second is degrees of freedom.  
 
-When \code{dist} is "UNIFORM", the elements of \code{params} are the lower and upper bounds,
-of the interval, respectively.  Note that the "UNIFORM" is only applicable for the "EAP" estimation method.
+When \code{dist} is \code{"UNIFORM"}, the elements of \code{params} are the lower and upper bounds,
+of the interval, respectively.  Note that the \code{"UNIFORM"} is only applicable for the expected a posteriori (EAP) estimation method.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.

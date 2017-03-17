@@ -18,27 +18,28 @@ Estimates the expected value of the ability parameter \eqn{\theta}, conditioned 
 \details{
 Estimation approach is specified in \code{estimation} slot of \code{Cat} object.
 
-The expected a posteriori approach is used when \code{estimation} slot is "EAP".
+The expected a posteriori approach is used when \code{estimation} slot is \code{"EAP"}.
 
-The modal a posteriori approach is used when \code{estimation} slot is "MAP".  This method is only available using the normal prior distribution.
+The modal a posteriori approach is used when \code{estimation} slot is \code{"MAP"}.  This method is only available using the normal prior distribution.
 
-The maximum likelihood approach is used when \code{estimation} slot is "MLE".  When the likelihood is undefined,
+The maximum likelihood approach is used when \code{estimation} slot is \code{"MLE"}.  When the likelihood is undefined,
 the MAP or EAP method will be used, determined by what is specified in the \code{estimationDefault} slot in \code{Cat} object.
 
-The weighted maximum likelihood approach is used when \code{estimation} slot is "WLE". Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the \code{gsl} library.
+The weighted maximum likelihood approach is used when \code{estimation} slot is \code{"WLE"}. Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the \code{gsl} library.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
 \dontrun{
-## Create Cat object, store example answers, and estimate ability parameter
-## using different estimation procedures
-
-## theta estimates for Cat object of the ltm model
+## Create Cat object
 data(npi)
 ltm_cat <- ltmCat(npi)
+
+## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## Set different estimation procedures estimate ability parameter
 setEstimation(ltm_cat) <- "EAP"
 estimateTheta(ltm_cat)
 
@@ -50,38 +51,6 @@ estimateTheta(ltm_cat)
 
 setEstimation(ltm_cat) <- "WLE"
 estimateTheta(ltm_cat)
-
-## theta estimates for Cat object of the tpm model
-data(polknow)
-tpm_cat <- tpmCat(polknow)
-setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
-setEstimation(tpm_cat) <- "EAP"
-estimateTheta(tpm_cat)
-
-setEstimation(tpm_cat) <- "MAP"
-estimateTheta(tpm_cat)
-
-setEstimation(tpm_cat) <- "MLE"
-estimateTheta(tpm_cat)
-
-setEstimation(tpm_cat) <- "WLE"
-estimateTheta(tpm_cat)
-
-## theta estimates for Cat object of the grm model
-data(nfc)
-grm_cat <- grmCat(nfc)
-setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
-setEstimation(grm_cat) <- "EAP"
-estimateTheta(grm_cat)
-
-setEstimation(grm_cat) <- "MAP"
-estimateTheta(grm_cat)
-
-setEstimation(grm_cat) <- "MLE"
-estimateTheta(grm_cat)
-
-setEstimation(grm_cat) <- "WLE"
-estimateTheta(grm_cat)
 }
 
 }

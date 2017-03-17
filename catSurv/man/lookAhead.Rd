@@ -12,20 +12,27 @@ lookAhead(catObj, item)
 \item{item}{A numeric indicating the question item the respondent is currently answering.}
 }
 \value{
-A vector of values indicating the possible subsequent questions
+A function \code{lookAhead} returns a \code{data.frame} where the first column is the possible response option to the question the respondent
+is currently answering and the second column is the next item that should be asked given that response.
 }
 \description{
-Selects the next item that would be asked for all possible response options to the question the respondent is currently answering
+Selects the next item that would be asked for all possible response options to the question the respondent is currently answering.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
+## Creating Cat object of ltm model
 data(npi)
-cat <- ltmCat(npi)
+ltm_cat <- ltmCat(npi)
+
+## Storing example answers for first 5 questions
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## What should be asked next if respondent is currently
+## answering item 6?
+lookAhead(ltm_cat, 6)
 }
 
 }
@@ -34,6 +41,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{selectItem}} for selection method information
+\code{\link{selectItem}}
 }
 

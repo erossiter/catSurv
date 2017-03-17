@@ -9,27 +9,35 @@ fisherInf(catObj, theta, item)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{theta}{A numeric or an integer indicating the potential value for \eqn{\theta_j}}
+\item{theta}{A numeric or an integer indicating the potential value for \eqn{\theta}}
 
 \item{item}{An integer indicating the index of the question item}
 }
 \value{
-The function returns a numeric of the expected value of the observed information
+The function \code{fisherInf} returns a numeric of the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}.
 }
 \description{
-Calculates the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}
+Calculates the expected value of the observed information of the likelihood evaluated at the input value \eqn{\theta}.
 }
 \details{
-For the dichotomous case, this is equivalent to the observed information.
+For the dichotomous case, this Fisher's information is equivalent to the observed information.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 }
 \examples{
 \dontrun{
-## EI using Cat object of the ltm model
+## Creating Cat object
 data(npi)
-cat <- ltmCat(npi)
+ltm_cat <- ltmCat(npi)
+
+## Storing example answers
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## Fisher's information for different items,
+## at ability parameter of 1
+fisherInf(ltm_cat, theta = 1, item = 10)
+fisherInf(ltm_cat, theta = 1, item = 20)
 }
 
 }
@@ -38,8 +46,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{obsInf}} for observed information calculation
-
-\code{\link{fisherTestInfo}} for further application of Fisher's information
+\code{\link{fisherTestInfo}}, \code{\link{obsInf}}
 }
 
