@@ -874,19 +874,26 @@ double posteriorKL(S4 catObj, int item) {
 
 //' Look Ahead to Select Next Item
 //'
-//' Selects the next item that would be asked for all possible response options to the question the respondent is currently answering
+//' Selects the next item that would be asked for all possible response options to the question the respondent is currently answering.
 //'
 //' @param catObj  An object of class \code{Cat}
 //' @param item A numeric indicating the question item the respondent is currently answering.
 //'
-//' @return A vector of values indicating the possible subsequent questions
+//' @return A function \code{lookAhead} returns a \code{data.frame} where the first column is the possible response option to the question the respondent
+//' is currently answering and the second column is the next item that should be asked given that response.
 //' 
 //' @examples
 //' \dontrun{
-//'## Prior calculation using Cat object of the ltm model
-//'## specifying different distributions
-//'data(npi)
-//'cat <- ltmCat(npi)
+//' ## Creating Cat object of ltm model
+//' data(npi)
+//' ltm_cat <- ltmCat(npi)
+//' 
+//'## Storing example answers for first 5 questions
+//'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+//'
+//'## What should be asked next if respondent is currently
+//'## answering item 6?
+//'lookAhead(ltm_cat, 6)
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -894,7 +901,7 @@ double posteriorKL(S4 catObj, int item) {
 //'  
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //' 
-//' @seealso \code{\link{selectItem}} for selection method information
+//' @seealso \code{\link{selectItem}}
 //'
 //' @export
 // [[Rcpp::export]]
@@ -967,6 +974,8 @@ List lookAhead(S4 catObj, int item) {
 //'
 //'Babcock, Ben, and David J. Weiss. 2009. ``Termination Criteria in Computerized Adaptive Tests: Variable-Length CATs are not Biased." Proceedings of the 2009 GMAC Conference on Computerized Adaptive Testing. Vol. 14.
 //' 
+//' 
+//' @seealso \code{\link{Cat-class}}, \code{\link{estimateSE}}, \code{\link{expectedPV}}, \code{\link{fisherInf}}
 //' 
 //' @export
 // [[Rcpp::export]]

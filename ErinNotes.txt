@@ -1,20 +1,26 @@
 makeTree
 - You should be able to feed it a list of lists and have it change the object to a table.  Right now you have to re-run the entire function with the Cat object to make a table!  This is really a quick matter of making a new method…
 
-probability
-- example for gpcm
+
+storeAnswer and setAnswers
+- I feel like we don’t need both.  I think we should get rid of storeAnswer, but change how setAnswers works so it works like storeAnswer.  Then we need to change the function used in makeTree.  There’s also just a few instances where we use setAnswers in the examples.
+
+
+lookAhead
+- Then function returns a list of length 1, where the only element is really just a data frame.  It’d be nice if it didn’t return a list.
+
+models
+- Change so that models are all CAPS.  Then change documentation as well.
 
 library(catSurv)
 — print the grant number 
 
 
 Documentation consistency:
-- not all caps in short title
 - in short description, make sure to say “estimate” or “calculate” correctly
 - in short description, no period at the end
 - ability parameter
 - question item/item
-- no period at the end of descriptions
 - left math for probability and selectItem and checkStopRules
 
 Cat class:
