@@ -25,10 +25,12 @@ This function is to allow users to access the internal functions of the package.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
+## Create Cat object
 data(npi)
-cat <- ltmCat(npi)
+ltm_cat <- ltmCat(npi)
+
+## Store example answers
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 }
 
 }

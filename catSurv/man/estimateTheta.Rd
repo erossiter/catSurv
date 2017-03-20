@@ -39,7 +39,7 @@ ltm_cat <- ltmCat(npi)
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 
-## Set different estimation procedures estimate ability parameter
+## Set different estimation procedures and estimate ability parameter
 setEstimation(ltm_cat) <- "EAP"
 estimateTheta(ltm_cat)
 
@@ -59,6 +59,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{Cat}}
+\code{\link{Cat-class}}
 }
 

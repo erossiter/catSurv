@@ -42,11 +42,11 @@ The stopping rule thresholds are stored in the following Cat object slots:
 }
 \examples{
 \dontrun{
-## Fitting ltm Cat object
+## Create Cat object
 data(npi)
 ltm_cat <- ltmCat(npi)
 
-## Storing example answers
+## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1,0,0,0,1,1, rep(NA, 30))
 
 ## Stop administering items if standard error of ability

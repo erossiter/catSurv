@@ -21,13 +21,13 @@ using namespace Rcpp;
 //' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
 //' @param item An integer indicating the index of the question item
 //'
-//' @return When the argument \code{catObj} is an \code{ltm} model, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
+//' @return When the \code{model} slot of the \code{catObj} is \code{"ltm"}, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
 //'
-//'When the argument \code{catObj} is an \code{tpm} model, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
+//'When the \code{model} slot of the \code{catObj} is \code{"tpm"}, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
 //'
-//' When the argument \code{catObj} is a \code{grm} model, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the (k+1)th element will always be one. The middle elements are the cumulative probability of observing response k or lower.
+//' When the \code{model} slot of the \code{catObj} is \code{"grm"}, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the (k+1)th element will always be one. The middle elements are the cumulative probability of observing response k or lower.
 //'
-//'  When the argument \code{catObj} is a \code{gpcm} model, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents the probability of observing response k.
+//'  When the \code{model} slot of the \code{catObj} is \code{"gpcm"}, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents the probability of observing response k.
 //'
 //' @details 
 //'  For the \code{ltm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
@@ -79,8 +79,8 @@ using namespace Rcpp;
 //'probability(grm_cat, theta = 1, item = 1)
 //'}
 //'  
-//' @seealso \code{\link{Cat}} for information on the item parameters: discrimination, difficulty, and guessing.
-//'  
+//' @seealso \code{\link{Cat-class}}
+//' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
@@ -151,7 +151,7 @@ std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector it
 //'}
 //'
 //'
-//' @seealso \code{\link{probability}}, \code{\link{Cat}}
+//' @seealso \code{\link{probability}}, \code{\link{Cat-class}}
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -161,7 +161,7 @@ double likelihood(S4 catObj, double theta) {
 
 
 
-//' Evaluate the prior density distribution at position \code{x}
+//' Evaluate the Prior Density Distribution at Position \code{x}
 //'
 //' Calculates the density at \code{x} of either the normal, Student's t, or uniform distribution.
 //'
@@ -184,11 +184,11 @@ double likelihood(S4 catObj, double theta) {
 //' 
 //' @examples
 //' \dontrun{
-//'## Prior calculation using Cat object of the ltm model
-//'## specifying different distributions
+//'## Create Cat object
 //'data(npi)
 //'cat <- ltmCat(npi)
 //'
+//'## Prior calculation for different distributions
 //'cat@priorName <- "NORMAL"
 //'cat@priorParams <- c(0, 1) ## Parameters are mean and standard deviation
 //'prior(x = 1, cat@priorName, cat@priorParams)
@@ -204,14 +204,14 @@ double likelihood(S4 catObj, double theta) {
 //'
 //' @seealso
 //' 
-//' \code{\link{Cat}} for information on \code{priorName} and \code{priorParams} slots
+//' \code{\link{Cat-class}}
 //'  
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //' 
-//' This function uses Boost C++ source libraries for the uniform and Student's t
+//' This function uses Boost \code{C++} source libraries for the uniform and Student's t
 //' distributions and calls \code{dnorm4} written in C which is identical to that 
 //' of \code{dnorm} in \code{R}.
 //' 
@@ -237,11 +237,11 @@ double prior(NumericVector x, CharacterVector dist, NumericVector params) {
 //' @return The function \code{dLL} returns a numeric of the derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
 //' 
 //' @details
-//' When \code{usePrior = FALSE}, the function \code{dLL} evaluates the first derivative of the log-likelihood at point \eqn{\theta}.  
+//' When the \code{usePrior} argument is \code{FALSE}, the function \code{dLL} evaluates the first derivative of the log-likelihood at point \eqn{\theta}.  
 //' 
-//' When \code{usePrior = TRUE}, the function \code{dLL} evaluates the first derivative of the log-posterior at point \eqn{\theta}. 
+//' When the \code{usePrior} argument is \code{TRUE}, the function \code{dLL} evaluates the first derivative of the log-posterior at point \eqn{\theta}. 
 //' 
-//' The function \code{dLL} is only available when using the normal prior distribution when \code{use_prior = TRUE}.
+//' The function \code{dLL} is only available when using the normal prior distribution when the \code{use_prior} argument is \code{TRUE}.
 //' 
 //' @examples
 //' \dontrun{
@@ -274,7 +274,7 @@ double prior(NumericVector x, CharacterVector dist, NumericVector params) {
 //' 
 //' @seealso
 //' 
-//' \code{\link{Cat}}, \code{\link{prior}}
+//' \code{\link{Cat-class}}, \code{\link{prior}}
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -294,11 +294,11 @@ double dLL(S4 &catObj, double theta, bool use_prior){
 //' @return The function \code{d2LL} returns a numeric of the second derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
 //' 
 //' @details
-//' When \code{usePrior = FALSE}, the function \code{d2LL} evaluates the second derivative of the log-likelihood at point \eqn{\theta}.  
+//' When the \code{usePrior} argument is \code{FALSE}, the function \code{d2LL} evaluates the second derivative of the log-likelihood at point \eqn{\theta}.  
 //' 
-//' When \code{usePrior = TRUE}, the function \code{d2LL} evaluates the second derivative of the log-posterior at point \eqn{\theta}. 
+//' When the \code{usePrior} argument is \code{TRUE}, the function \code{d2LL} evaluates the second derivative of the log-posterior at point \eqn{\theta}. 
 //' 
-//' The function \code{dLL2} is only available when using the normal prior distribution when \code{use_prior = TRUE}.
+//' The function \code{dLL2} is only available when using the normal prior distribution when the argument \code{use_prior} is \code{TRUE}.
 //' 
 //' @examples
 //' \dontrun{
@@ -330,7 +330,7 @@ double dLL(S4 &catObj, double theta, bool use_prior){
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //' 
 //' @seealso
-//' \code{\link{Cat}}, \code{\link{prior}}, \code{\link{dLL}} 
+//' \code{\link{Cat-class}}, \code{\link{prior}}, \code{\link{dLL}} 
 //' 
 //' @export
 // [[Rcpp::export]]
@@ -368,7 +368,7 @@ double d2LL(S4 &catObj, double theta, bool use_prior){
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'
-//'## Set different estimation procedures estimate ability parameter
+//'## Set different estimation procedures and estimate ability parameter
 //'setEstimation(ltm_cat) <- "EAP"
 //'estimateTheta(ltm_cat)
 //'
@@ -389,7 +389,7 @@ double d2LL(S4 &catObj, double theta, bool use_prior){
 //' 
 //' @seealso
 //' 
-//' \code{\link{Cat}} 
+//' \code{\link{Cat-class}} 
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -466,11 +466,11 @@ double obsInf(S4 catObj, double theta, int item) {
 //' 
 //' @examples
 //' \dontrun{
-//'## Creating Cat object
+//'## Create Cat object
 //'data(npi)
 //'ltm_cat <- ltmCat(npi)
 //'
-//'## Storing example answers
+//'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'
 //'## Expected observed information for different items
@@ -506,11 +506,11 @@ double expectedObsInf(S4 catObj, int item) {
 //' 
 //' @examples
 //' \dontrun{
-//'## Creating Cat object
+//'## Create Cat object
 //'data(npi)
 //'ltm_cat <- ltmCat(npi)
 //'
-//'## Storing example answers
+//'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'
 //'## Fisher's information for different items,
@@ -546,11 +546,11 @@ double fisherInf(S4 catObj, double theta, int item) {
 //' 
 //' @examples
 //' \dontrun{
-//'## Creating Cat object
+//'## Create Cat object
 //'data(npi)
 //'ltm_cat <- ltmCat(npi)
 //'
-//'## Storing example answers
+//'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'
 //'## Fisher's test information for answer profile
@@ -640,10 +640,6 @@ double estimateSE(S4 catObj) {
 //' 
 //' @examples
 //' \dontrun{
-//'## Prior calculation using Cat object of the ltm model
-//'## specifying different distributions
-//'data(npi)
-//'cat <- ltmCat(npi)
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -654,9 +650,7 @@ double estimateSE(S4 catObj) {
 //' 
 //' @seealso
 //' 
-//' \code{\link{probability}} for probability of responses to individual question item
-//' 
-//' \code{\link{estimateTheta}} for estimation of \eqn{\theta}
+//' \code{\link{estimateTheta}}, \code{\link{probability}}
 //'  
 //' 
 //' @export
@@ -680,78 +674,78 @@ double expectedPV(S4 catObj, int item) {
 //' 
 //' \code{next_item}: a numeric representing the index of the item that should be asked next.
 //'
-//' @details The EPV method:
-//'   
-//'   This function takes in a \code{Cat} object from \code{R} and constructs the \code{C++} representation. It then calculates the expected posterior variance for each unanswered item. 
-//'   
-//'   The function returns a list with the following two elements:
-//'   \code{all.estimates}: A data fame with two columns. The first column ("questions") should be the index of the question items and the second column ("EPV") of the expected posterior variance for that corresponding item. 
-//'   There are as many rows in this data frame as there are unsanswered questions in the battery.
-//'   \code{next.item}: A numeric vector with the index of the item with the lowest EPV value.
-//'   
-//'   See \code{expectedPV} for mathematical details.
-//'   
-//'   The MFI method:
-//'   
-//'   This function takes a \code{Cat} object and calculates Fisher's information for each unanswered item. It then finds the one item that maximizes Fisher's information, based on the respondent's position on the latent trait from the answered items. 
-//'   
-//'   The function returns a list with the following two elements:
-//'   \code{all.estimates}: A data fame with two columns. The first column ("questions") should be the index of the question items and the second column of the expected posterior variance for that corresponding item.
-//'   There are as many rows in this data frame as there are unsanswered questions in the battery.
-//'   \code{next.item}: A numeric vector with the index of the item with the highest Fisher's information value.
-//'
-//'   See \code{fisherInf} for mathematical details.
-//'   
-//'   The MLWI method:
-//'   
-//'   This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
-//'   Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
-//'  
-//'   
-//'   The MPWI method:
-//'   
-//'   This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
-//'   Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
-//'
+//' @details Selection approach is specified in the \code{selection} slot of the \code{Cat} object.
 //' 
-//'   The MEI method:
+//' The minimum expected posterior variance criterion is used when the \code{selection}
+//'  slot is \code{"EPV"}.
+//' 
+//' The maximum Fisher's information criterion is used when the \code{selection}
+//'   slot is \code{"MFI"}.
 //'   
-//'   This function estimates the expected observed information for a respondent’s estimated
-//'   position on the latent trait on an unanswered item based on the
-//'   respondent’s position on the latent trait calculated from answered items.
-//'   
-//'   The output should be a single numeric value.
-//'
-//'   Binary details:
-//'
-//'
-//'   Categorical details:
-//'   
-//'   
-//'   The KL method:
-//'   
-//'   This procedure chooses the next item with the largest KL value.
-//'   
-//'   See \code{expectedKL}, \code{likelihoodKL}, and/or \code{posteriorKL} for mathematical details.
-//'   
-//'   The MFII method:
-//'   
-//'   This approach chooses items based on the Fisher's information in an interval near the current estimate \eqn{\hat{\theta}}.
-//'   
-//'   \deqn{FII_i = \int^{\hat{\theta}+\delta}_{\hat{\theta}-\delta}I_i(\theta_0) d\theta_0}{FII_i = \int^{\hat{\theta} + \delta}_{\hat{\theta} - \delta} I_i(\theta_0) d\theta_0}
-//'
-//'   where \deqn{\delta = z(I(\hat{\theta}))^{-1/2}}{\delta = z(I(\hat{\theta}))^{-1/2}},  \eqn{I(\hat{\theta})} is the test information for respondent \eqn{j} evaluated at \eqn{\hat{\theta}},  \deqn{I_i(\cdot)}{I_i(.)} is the Fisher's information for item \eqn{i}, and \eqn{z} is a user specified z-value.
-//'   
-//'   The random method:
-//'   
-//'   This routine serves as a baseline for comparison. The routine simply selects an unanswered question at random.
-//'
+//' The maximum likelihood weighted information criterion is used when the \code{selection}
+//' slot is \code{"MLWI"}.
+//' 
+//' The maximum posterior weighted information criterion is used when the \code{selection}
+//' slot is \code{"MPWI"}.
+//'  
+//' The maximum expected information criterion is used when the \code{selection}
+//' slot is \code{"MEI"}.
+//' 
+//' The maximum Kullback-Leibler information criterion is used when the \code{selection}
+//' slot is \code{"KL"}.
+//' 
+//' The maximum likelihood weighted Kullback-Leibler information criterion is used when the \code{selection}
+//' slot is \code{"LKL"}.
+//' 
+//' The maximum posterior weighted Kullback-Leibler information criterion is used when the \code{selection}
+//' slot is \code{"PKL"}.
+//' 
+//' The ??????????? criterion is used when the \code{selection}
+//' slot is \code{"MFII"}.
+//' 
+//' A random number generator is used when the \code{selection}
+//' slot is \code{"RANDOM"}.
+//' 
+//' 
 //' @examples
 //' \dontrun{
-//'## Prior calculation using Cat object of the ltm model
-//'## specifying different distributions
+//'## Create Cat object
 //'data(npi)
-//'cat <- ltmCat(npi)
+//'ltm_cat <- ltmCat(npi)
+//'
+//'## Store example answers
+//'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+//'
+//'## Set different selection criterion and choose next item
+//'setSelection(ltm_cat) <- "EPV"
+//'selectItem(ltm_cat)
+//'
+//'setSelection(ltm_cat) <- "MFI"
+//'selectItem(ltm_cat)
+//'
+//'setSelection(ltm_cat) <- "MLWI"
+//'selectItem(ltm_cat)
+//'
+//'setSelection(ltm_cat) <- "MPWI"
+//'selectItem(ltm_cat)
+//'
+//'setSelection(ltm_cat) <- "MEI"
+//'selectItem(ltm_cat)
+//'
+//'setSelection(ltm_cat) <- "KL"
+//'selectItem(ltm_cat)
+//'
+//'setSelection(ltm_cat) <- "LKL"
+//'selectItem(ltm_cat)
+//'
+//'setSelection(ltm_cat) <- "PKL"
+//'selectItem(ltm_cat)
+//'
+//'setSelection(ltm_cat) <- "MFII"
+//'selectItem(ltm_cat)
+//'
+//'setSelection(ltm_cat) <- "RANDOM"
+//'selectItem(ltm_cat)
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -759,12 +753,12 @@ double expectedPV(S4 catObj, int item) {
 //'  
 //' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 //' 
-//' @seealso \code{\link{estimateTheta}} for calculation of \eqn{\theta};  
-//'   \code{\link{obsInf}} for observed information calculation;
-//'   \code{\link{fisherTestInfo}} for Fisher's information calculation;
-//'   \code{\link{expectedKL}} for expected Kullback-Leibeler calculation;
-//'   \code{\link{likelihoodKL}} for likelihood Kullback-Leibeler calculation;  
-//'   \code{\link{posteriorKL}} for posterior Kullback-Leibeler calculation; 
+//' The \code{"RANDOM"} item selection criterion uses the package \code{RcppArmadillo} to randomly
+//' choose the next item among unasked questions.  \code{RcppArmadillo} provides an exact reproduction
+//' of R's \code{sample} function that can be called from C++.
+//' 
+//' 
+//' @seealso \code{\link{estimateTheta}}, \code{\link{expectedPV}}, \code{\link{fisherInf}}
 //'  
 //' @export
 // [[Rcpp::export]]
@@ -786,10 +780,12 @@ List selectItem(S4 catObj) {
 //' 
 //' @examples
 //' \dontrun{
-//'## Prior calculation using Cat object of the ltm model
-//'## specifying different distributions
+//'## Create Cat object
 //'data(npi)
-//'cat <- ltmCat(npi)
+//'ltm_cat <- ltmCat(npi)
+//'
+//'## Store example answers
+//'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -824,10 +820,12 @@ double expectedKL(S4 catObj, int item) {
 //'  
 //' @examples
 //' \dontrun{
-//'## Prior calculation using Cat object of the ltm model
-//'## specifying different distributions
+//'## Create Cat object
 //'data(npi)
-//'cat <- ltmCat(npi)
+//'ltm_cat <- ltmCat(npi)
+//'
+//'## Store example answers
+//'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -860,10 +858,12 @@ double likelihoodKL(S4 catObj, int item) {
 //'
 //' @examples
 //' \dontrun{
-//'## Prior calculation using Cat object of the ltm model
-//'## specifying different distributions
+//'## Create Cat object
 //'data(npi)
-//'cat <- ltmCat(npi)
+//'ltm_cat <- ltmCat(npi)
+//'
+//'## Store example answers
+//'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -887,20 +887,19 @@ double posteriorKL(S4 catObj, int item) {
 //' @param catObj  An object of class \code{Cat}
 //' @param item A numeric indicating the question item the respondent is currently answering.
 //'
-//' @return A function \code{lookAhead} returns a \code{data.frame} where the first column is the possible response option to the question the respondent
-//' is currently answering and the second column is the next item that should be asked given that response.
+//' @return A function \code{lookAhead} returns a \code{list} of one element, \code{estimates}, where the first column is the possible response option to the question the respondent
+//' is currently answering and the second column is the next item that should be asked given each response.
 //' 
 //' @examples
 //' \dontrun{
-//' ## Creating Cat object of ltm model
+//' ## Create Cat object
 //' data(npi)
 //' ltm_cat <- ltmCat(npi)
 //' 
-//'## Storing example answers for first 5 questions
+//'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'
-//'## What should be asked next if respondent is currently
-//'## answering item 6?
+//'## What should be asked next if respondent is currently answering item 6
 //'lookAhead(ltm_cat, 6)
 //'}
 //' 
@@ -955,11 +954,11 @@ List lookAhead(S4 catObj, int item) {
 //' 
 //' @examples
 //' \dontrun{
-//'## Fitting ltm Cat object
+//'## Create Cat object
 //'data(npi)
 //'ltm_cat <- ltmCat(npi)
 //'
-//'## Storing example answers
+//'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1,0,0,0,1,1, rep(NA, 30))
 //'
 //'## Stop administering items if standard error of ability

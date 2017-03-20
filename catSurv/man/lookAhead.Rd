@@ -12,8 +12,8 @@ lookAhead(catObj, item)
 \item{item}{A numeric indicating the question item the respondent is currently answering.}
 }
 \value{
-A function \code{lookAhead} returns a \code{data.frame} where the first column is the possible response option to the question the respondent
-is currently answering and the second column is the next item that should be asked given that response.
+A function \code{lookAhead} returns a \code{list} of one element, \code{estimates}, where the first column is the possible response option to the question the respondent
+is currently answering and the second column is the next item that should be asked given each response.
 }
 \description{
 Selects the next item that would be asked for all possible response options to the question the respondent is currently answering.
@@ -23,15 +23,14 @@ This function is to allow users to access the internal functions of the package.
 }
 \examples{
 \dontrun{
-## Creating Cat object of ltm model
+## Create Cat object
 data(npi)
 ltm_cat <- ltmCat(npi)
 
-## Storing example answers for first 5 questions
+## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 
-## What should be asked next if respondent is currently
-## answering item 6?
+## What should be asked next if respondent is currently answering item 6
 lookAhead(ltm_cat, 6)
 }
 

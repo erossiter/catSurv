@@ -21,11 +21,11 @@ Calculates either the second derivative of the log-likelihood or the second deri
 of the log-posterior evaluated at point \eqn{\theta}.
 }
 \details{
-When \code{usePrior = FALSE}, the function \code{d2LL} evaluates the second derivative of the log-likelihood at point \eqn{\theta}.  
+When the \code{usePrior} argument is \code{FALSE}, the function \code{d2LL} evaluates the second derivative of the log-likelihood at point \eqn{\theta}.  
 
-When \code{usePrior = TRUE}, the function \code{d2LL} evaluates the second derivative of the log-posterior at point \eqn{\theta}. 
+When the \code{usePrior} argument is \code{TRUE}, the function \code{d2LL} evaluates the second derivative of the log-posterior at point \eqn{\theta}. 
 
-The function \code{dLL2} is only available when using the normal prior distribution when \code{use_prior = TRUE}.
+The function \code{dLL2} is only available when using the normal prior distribution when the argument \code{use_prior} is \code{TRUE}.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
@@ -60,6 +60,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{Cat}}, \code{\link{prior}}, \code{\link{dLL}}
+\code{\link{Cat-class}}, \code{\link{prior}}, \code{\link{dLL}}
 }
 

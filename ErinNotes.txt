@@ -15,6 +15,9 @@ models
 library(catSurv)
 — print the grant number 
 
+selectItem
+- go back and add in details about setting integration bounds (which criterion need this?)  Are there any criterion that need certain priors or estimation methods?
+
 
 Documentation consistency:
 - in short description, make sure to say “estimate” or “calculate” correctly

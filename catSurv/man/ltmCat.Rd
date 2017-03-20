@@ -59,8 +59,6 @@ Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimati
 Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses." Journal of Statistical Software 17(5):1-25.
 }
 \seealso{
-\code{\link{Cat}} for information on all \code{Cat} slots and their default values
-
-\code{\link{tpmCat}} for an alternative model fit to binary data
+\code{\link{Cat-class}}, \code{\link{tpmCat}}
 }
 

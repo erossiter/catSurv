@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{prior}
 \alias{prior}
-\title{Evaluate the prior density distribution at position \code{x}}
+\title{Evaluate the Prior Density Distribution at Position \code{x}}
 \usage{
 prior(x, dist, params)
 }
@@ -34,17 +34,17 @@ of the interval, respectively.  Note that the \code{"UNIFORM"} is only applicabl
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 
-This function uses Boost C++ source libraries for the uniform and Student's t
+This function uses Boost \code{C++} source libraries for the uniform and Student's t
 distributions and calls \code{dnorm4} written in C which is identical to that 
 of \code{dnorm} in \code{R}.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
+## Create Cat object
 data(npi)
 cat <- ltmCat(npi)
 
+## Prior calculation for different distributions
 cat@priorName <- "NORMAL"
 cat@priorParams <- c(0, 1) ## Parameters are mean and standard deviation
 prior(x = 1, cat@priorName, cat@priorParams)
@@ -64,6 +64,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{Cat}} for information on \code{priorName} and \code{priorParams} slots
+\code{\link{Cat-class}}
 }
 

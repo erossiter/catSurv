@@ -50,9 +50,7 @@
 #' 
 #' @seealso 
 #' 
-#' \code{\link{Cat}} for information on all \code{Cat} slots and their default values
-#' 
-#' \code{\link{tpmCat}} for an alternative model fit to binary data
+#' \code{\link{Cat-class}}, \code{\link{tpmCat}}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #' @rdname ltmCat

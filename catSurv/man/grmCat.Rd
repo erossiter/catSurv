@@ -15,16 +15,16 @@ The function \code{grmCat} returns an object of class \code{Cat} with changes to
 \itemize{
 \item \code{difficulty} A list of difficulty parameters, where each element in the list corresponds to the difficulty parameters for an item.
 \item \code{discrimination} A vector consisting of disrimination parameters for each item.
-\item \code{model} The string \code{"grm"}, indicating this \code{Cat} object corresponds to a Graded Response model.
+\item \code{model} The string \code{"grm"}, indicating this \code{Cat} object corresponds to a graded response model.
 }
 }
 \description{
-This function fits the Graded Response model for ordinal polytomous data and populates the fitted values for discimination and difficulty parameters to an object of class \code{Cat}.
+This function fits the graded response model for ordinal polytomous data and populates the fitted values for discimination and difficulty parameters to an object of class \code{Cat}.
 }
 \details{
 The \code{data} argument of the function \code{grmCat} is either a \code{data.frame} or an object of class \code{grm} from the \code{ltm} package.  If it is a \code{data.frame} each row represents a respondent and each column represents a question item.  If it is an object of the class \code{grm}, it is output from the \code{grm} function in the \code{ltm} package.
 
-The \code{quadraturePoints} argument of the function \code{grmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{grm} function from the \code{ltm} package when fitting the Graded Response model to the data and is used when approximating the value of integrals.
+The \code{quadraturePoints} argument of the function \code{grmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{grm} function from the \code{ltm} package when fitting the graded response model to the data and is used when approximating the value of integrals.
 }
 \note{
 In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
@@ -61,8 +61,6 @@ Samejima, Fumiko. 1969. ``Estimation of Latent Ability Using a Response Pattern 
 Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses.`` Journal of Statistical Software 17(5):1-25.
 }
 \seealso{
-\code{\link{Cat}} for information on all \code{Cat} slots and their default values
-
-\code{\link{gpcmCat}} for an alternative model fit to ordinal polytomous data
+\code{\link{Cat-class}}, \code{\link{gpcmCat}}
 }
 

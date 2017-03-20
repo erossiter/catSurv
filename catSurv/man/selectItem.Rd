@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{selectItem}
 \alias{selectItem}
-\title{Select the next item in the question set}
+\title{Select Next Item}
 \usage{
 selectItem(catObj)
 }
@@ -10,89 +10,96 @@ selectItem(catObj)
 \item{catObj}{An object of class \code{Cat}}
 }
 \value{
-It returns a list with two elements: 
-(1) A dataframe containing a column with the indexes of unasked questions and a column with the values (calculated by the specified selection method) for those items, 
-and (2) a numeric containing the index of the question that should be asked next.
+The function \code{selectItem} returns a \code{list} with two elements:
+ 
+\code{estimates}: a \code{data.frame} with a row for each unasked question and three columns representing 
+the item index number, the item name, and the item value (calculated by the specified selection method), 
+and
+
+\code{next_item}: a numeric representing the index of the item that should be asked next.
 }
 \description{
-Selects the next item in the question set based on the specified method
+Selects the next item in the question set to be adminstered to respondent based on the specified selection method.
 }
 \details{
-The EPV method:
-  
-  This function takes in a \code{Cat} object from \code{R} and constructs the \code{C++} representation. It then calculates the expected posterior variance for each unanswered item. 
-  
-  The function returns a list with the following two elements:
-  \code{all.estimates}: A data fame with two columns. The first column ("questions") should be the index of the question items and the second column ("EPV") of the expected posterior variance for that corresponding item. 
-  There are as many rows in this data frame as there are unsanswered questions in the battery.
-  \code{next.item}: A numeric vector with the index of the item with the lowest EPV value.
-  
-  See \code{expectedPV} for mathematical details.
-  
-  The MFI method:
-  
-  This function takes a \code{Cat} object and calculates Fisher's information for each unanswered item. It then finds the one item that maximizes Fisher's information, based on the respondent's position on the latent trait from the answered items. 
-  
-  The function returns a list with the following two elements:
-  \code{all.estimates}: A data fame with two columns. The first column ("questions") should be the index of the question items and the second column of the expected posterior variance for that corresponding item.
-  There are as many rows in this data frame as there are unsanswered questions in the battery.
-  \code{next.item}: A numeric vector with the index of the item with the highest Fisher's information value.
+Selection approach is specified in the \code{selection} slot of the \code{Cat} object.
 
-  See \code{fisherInf} for mathematical details.
+The minimum expected posterior variance criterion is used when the \code{selection}
+ slot is \code{"EPV"}.
+
+The maximum Fisher's information criterion is used when the \code{selection}
+  slot is \code{"MFI"}.
   
-  The MLWI method:
-  
-  This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
-  Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
+The maximum likelihood weighted information criterion is used when the \code{selection}
+slot is \code{"MLWI"}.
+
+The maximum posterior weighted information criterion is used when the \code{selection}
+slot is \code{"MPWI"}.
  
-  
-  The MPWI method:
-  
-  This function calculates the likelihood for each value of X at the input value of \eqn{\theta}.
-  Evaluates the integral over a measure of the plausibility of possible values of \eqn{\theta} by weighting Fisher's information with the likelihood function and selecting the next question according to:
+The maximum expected information criterion is used when the \code{selection}
+slot is \code{"MEI"}.
 
+The maximum Kullback-Leibler information criterion is used when the \code{selection}
+slot is \code{"KL"}.
 
-  The MEI method:
-  
-  This function estimates the expected observed information for a respondent’s estimated
-  position on the latent trait on an unanswered item based on the
-  respondent’s position on the latent trait calculated from answered items.
-  
-  The output should be a single numeric value.
+The maximum likelihood weighted Kullback-Leibler information criterion is used when the \code{selection}
+slot is \code{"LKL"}.
 
-  Binary details:
+The maximum posterior weighted Kullback-Leibler information criterion is used when the \code{selection}
+slot is \code{"PKL"}.
 
+The ??????????? criterion is used when the \code{selection}
+slot is \code{"MFII"}.
 
-  Categorical details:
-  
-  
-  The KL method:
-  
-  This procedure chooses the next item with the largest KL value.
-  
-  See \code{expectedKL}, \code{likelihoodKL}, and/or \code{posteriorKL} for mathematical details.
-  
-  The MFII method:
-  
-  This approach chooses items based on the Fisher's information in an interval near the current estimate \eqn{\hat{\theta}}.
-  
-  \deqn{FII_i = \int^{\hat{\theta}+\delta}_{\hat{\theta}-\delta}I_i(\theta_0) d\theta_0}{FII_i = \int^{\hat{\theta} + \delta}_{\hat{\theta} - \delta} I_i(\theta_0) d\theta_0}
-
-  where \deqn{\delta = z(I(\hat{\theta}))^{-1/2}}{\delta = z(I(\hat{\theta}))^{-1/2}},  \eqn{I(\hat{\theta})} is the test information for respondent \eqn{j} evaluated at \eqn{\hat{\theta}},  \deqn{I_i(\cdot)}{I_i(.)} is the Fisher's information for item \eqn{i}, and \eqn{z} is a user specified z-value.
-  
-  The random method:
-  
-  This routine serves as a baseline for comparison. The routine simply selects an unanswered question at random.
+A random number generator is used when the \code{selection}
+slot is \code{"RANDOM"}.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+
+The \code{"RANDOM"} item selection criterion uses the package \code{RcppArmadillo} to randomly
+choose the next item among unasked questions.  \code{RcppArmadillo} provides an exact reproduction
+of R's \code{sample} function that can be called from C++.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
+## Create Cat object
 data(npi)
-cat <- ltmCat(npi)
+ltm_cat <- ltmCat(npi)
+
+## Store example answers
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## Set different selection criterion and choose next item
+setSelection(ltm_cat) <- "EPV"
+selectItem(ltm_cat)
+
+setSelection(ltm_cat) <- "MFI"
+selectItem(ltm_cat)
+
+setSelection(ltm_cat) <- "MLWI"
+selectItem(ltm_cat)
+
+setSelection(ltm_cat) <- "MPWI"
+selectItem(ltm_cat)
+
+setSelection(ltm_cat) <- "MEI"
+selectItem(ltm_cat)
+
+setSelection(ltm_cat) <- "KL"
+selectItem(ltm_cat)
+
+setSelection(ltm_cat) <- "LKL"
+selectItem(ltm_cat)
+
+setSelection(ltm_cat) <- "PKL"
+selectItem(ltm_cat)
+
+setSelection(ltm_cat) <- "MFII"
+selectItem(ltm_cat)
+
+setSelection(ltm_cat) <- "RANDOM"
+selectItem(ltm_cat)
 }
 
 }
@@ -101,11 +108,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{estimateTheta}} for calculation of \eqn{\theta};  
-  \code{\link{obsInf}} for observed information calculation;
-  \code{\link{fisherTestInfo}} for Fisher's information calculation;
-  \code{\link{expectedKL}} for expected Kullback-Leibeler calculation;
-  \code{\link{likelihoodKL}} for likelihood Kullback-Leibeler calculation;  
-  \code{\link{posteriorKL}} for posterior Kullback-Leibeler calculation;
+\code{\link{estimateTheta}}, \code{\link{expectedPV}}, \code{\link{fisherInf}}
 }
 

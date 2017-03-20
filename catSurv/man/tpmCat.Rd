@@ -15,16 +15,16 @@ The function \code{tpmCat} returns an object of class \code{Cat} with changes to
 \itemize{
 \item \code{difficulty} A vector consisting of difficulty parameters for each item.
 \item \code{discrimination} A vector consisting of disrimination parameters for each item.
-\item \code{model} The string \code{"tpm"}, indicating this \code{Cat} object corresponds to Birnbaum's Three Parameter model.
+\item \code{model} The string \code{"tpm"}, indicating this \code{Cat} object corresponds to Birnbaum's three parameter model.
 }
 }
 \description{
-This function fits Birnbaum's Three Parameter model for binary data and populates the fitted values for discimination, difficulty, and guessing parameters to an object of class \code{Cat}.
+This function fits Birnbaum's three parameter model for binary data and populates the fitted values for discimination, difficulty, and guessing parameters to an object of class \code{Cat}.
 }
 \details{
 The \code{data} argument of the function \code{tpmCat} is either a \code{data.frame} or an object of class \code{tpm} from the \code{ltm} package.  If it is a \code{data.frame} each row represents a respondent and each column represents a question item.  If it is an object of the class \code{tpm}, it is output from the \code{tpm} function in the \code{ltm} package.
 
-The \code{quadraturePoints} argument of the function \code{tpmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{tpm} function from the \code{ltm} package when fitting Birnbaum's Three Parameter model to the data and is used when approximating the value of integrals.
+The \code{quadraturePoints} argument of the function \code{tpmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{tpm} function from the \code{ltm} package when fitting Birnbaum's three parameter model to the data and is used when approximating the value of integrals.
 }
 \note{
 In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
@@ -62,8 +62,6 @@ Birnbaum, Allan. 1968. Some Latent Trait Models and their Use in Inferring an Ex
 Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses." Journal of Statistical Software 17(5):1-25.
 }
 \seealso{
-\code{\link{Cat}} for information on all \code{Cat} slots and their default values
-
-\code{\link{ltmCat}} for an alternative model fit to binary data
+\code{\link{Cat-class}}, \code{\link{ltmCat}}
 }
 

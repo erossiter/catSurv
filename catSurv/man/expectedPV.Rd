@@ -25,10 +25,6 @@ This function is to allow users to access the internal functions of the package.
 }
 \examples{
 \dontrun{
-## Prior calculation using Cat object of the ltm model
-## specifying different distributions
-data(npi)
-cat <- ltmCat(npi)
 }
 
 }
@@ -37,8 +33,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{probability}} for probability of responses to individual question item
-
-\code{\link{estimateTheta}} for estimation of \eqn{\theta}
+\code{\link{estimateTheta}}, \code{\link{probability}}
 }
 

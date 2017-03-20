@@ -24,11 +24,11 @@ This function is to allow users to access the internal functions of the package.
 }
 \examples{
 \dontrun{
-## Creating Cat object
+## Create Cat object
 data(npi)
 ltm_cat <- ltmCat(npi)
 
-## Storing example answers
+## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 
 ## Fisher's test information for answer profile
