@@ -666,15 +666,19 @@ double expectedPV(S4 catObj, int item) {
   return Cat(catObj).expectedPV(item);
 }
 
-//' Select the next item in the question set
+//' Select Next Item
 //'
-//' Selects the next item in the question set based on the specified method
+//' Selects the next item in the question set to be adminstered to respondent based on the specified selection method.
 //' 
 //' @param catObj An object of class \code{Cat}
 //'
-//' @return It returns a list with two elements: 
-//' (1) A dataframe containing a column with the indexes of unasked questions and a column with the values (calculated by the specified selection method) for those items, 
-//' and (2) a numeric containing the index of the question that should be asked next.
+//' @return The function \code{selectItem} returns a \code{list} with two elements:
+//'  
+//' \code{estimates}: a \code{data.frame} with a row for each unasked question and three columns representing 
+//' the item index number, the item name, and the item value (calculated by the specified selection method), 
+//' and
+//' 
+//' \code{next_item}: a numeric representing the index of the item that should be asked next.
 //'
 //' @details The EPV method:
 //'   
