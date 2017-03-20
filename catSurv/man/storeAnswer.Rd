@@ -2,22 +2,42 @@
 % Please edit documentation in R/storeAnswer.R
 \name{storeAnswer}
 \alias{storeAnswer}
-\title{Computerized Adaptive Testing Survey Store Answer Function}
+\title{Update Answer to Single Item}
 \usage{
-storeAnswer(cat, item, answer)
+storeAnswer(catObj, item, answer)
 }
 \arguments{
-\item{cat}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 
-\item{item}{The question for which to estimate the expected posterior variance for a respondent with a latent trait estimate of theta.hat.  This should be the name of a row in the "questions" data-frame in the "questions" slot of a \code{Cat} object.}
+\item{item}{An integer indicating the index of the question item}
 
-\item{answer}{The answer to the item \emph{k} to be stored}
+\item{answer}{The answer to the \code{item} to be updated}
 }
 \value{
-An updated object of class \code{Cat} containing the answers to \emph{k} items
+The function \code{storeAnswer} returns an updated object of class \code{Cat} with the \code{answers} slot reflecting the newly stored \code{answer} to the indicated \code{item}.  All previously stored answers remain the same, and all unanswered questions remain \code{NA}.
 }
 \description{
-This function updates the object of class \code{Cat} by storing the answer to item \emph{k} into questions data frame.
+Updates \code{Cat} object by updated the answer to item \eqn{k} to the object's \code{answers} slot.
+}
+\details{
+The function \code{storeAnswer} updates the \code{Cat} object, but the updated object must be assigned to an object for the changes to be stored.  See \strong{Examples}.
+}
+\examples{
+\dontrun{
+## Create Cat object
+data(npi)
+ltm_cat <- ltmCat(npi)
+
+## Printing current answers slot
+ltm_cat@answers
+
+## Storing answer of 0 to item 1
+ltm_cat <- storeAnswer(ltm_cat, item = 1, answer = 0)
+
+## Now object reflects answer to item 1
+ltm_cat@answer
+}
+
 }
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
