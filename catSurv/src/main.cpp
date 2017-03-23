@@ -757,6 +757,10 @@ double expectedPV(S4 catObj, int item) {
 //' choose the next item among unasked questions.  \code{RcppArmadillo} provides an exact reproduction
 //' of R's \code{sample} function that can be called from C++.
 //' 
+//' In the rare instance that item parameters are identical, it may be that that \code{selectItem} must choose
+//' between two items with the same value calculated by the selection criterion.  In such an instance, \code{selectItem}
+//' will choose the item with the lower question idex.
+//' 
 //' 
 //' @seealso \code{\link{estimateTheta}}, \code{\link{expectedPV}}, \code{\link{fisherInf}}
 //'  

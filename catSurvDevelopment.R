@@ -15,8 +15,11 @@ document(current.code)
 ## for looking at pdf of documentation
 unlink("catSurv.pdf") ## deleting current version
 path <- find.package("catSurv")
-system(paste(shQuote(file.path(R.home("bin"), "R")), "CMD", "Rd2pdf",
-             shQuote(path)))
+system(paste(shQuote(file.path(R.home("bin"), "R")), "CMD", "Rd2pdf", shQuote(path)))
+
+## political knowledge data set for gpcm
+load("TAPSdata2013.R")
+dataset <- dataset[ ,grep("polknow", colnames(dataset), ignore.case = T)]
 
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")

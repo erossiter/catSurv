@@ -1,13 +1,6 @@
-makeTree
-- You should be able to feed it a list of lists and have it change the object to a table.  Right now you have to re-run the entire function with the Cat object to make a table!  This is really a quick matter of making a new method…
-
 
 storeAnswer and setAnswers
 - I feel like we don’t need both.  I think we should get rid of storeAnswer, but change how setAnswers works so it works like storeAnswer.  Then we need to change the function used in makeTree.  There’s also just a few instances where we use setAnswers in the examples.
-
-
-lookAhead
-- Then function returns a list of length 1, where the only element is really just a data frame.  It’d be nice if it didn’t return a list.
 
 models
 - Change so that models are all CAPS.  Then change documentation as well.
@@ -37,23 +30,12 @@ main.cpp:
 
 
 
-Other
-- try to change probability from NumericVector/IntegerVector to scalars so it can’t take a vector and just use the first element
-
-
-
 
 ## GPCM new dataset and fit
 —> eRm package
 
 ## tpmcat — add selectItem tests??
 
-
-
-
-## we need to check what happens when there’s a tie for max or min estimate for nextItem routines.
-— it’s just the first one
-- it does this because it compares the following to see if its > or < than current min or max value — document this!
 
 
 
