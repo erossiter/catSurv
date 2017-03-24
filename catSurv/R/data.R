@@ -328,10 +328,6 @@
 #' @keywords datasets
 #' @name npi
 #' @usage data(npi)
-#'
-#' @references 
-#' 
-#' @source
 "npi"
 
 
@@ -369,8 +365,4 @@
 #' @keywords datasets
 #' @name nfc
 #' @usage data(nfc)
-#'
-#' @references 
-#' 
-#' @source
 "nfc"

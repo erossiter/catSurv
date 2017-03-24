@@ -37,16 +37,18 @@
 #' 
 #' 
 #' @rdname gpcmCat
+#' @aliases gpcm
 #' 
 #' @import ltm
 #' @export gpcm
-#' @name gpcm-class
+#' @name gpcmCat
 setOldClass("gpcm")
 
 setGeneric("gpcmCat", function(data, quadraturePoints = NULL, ...){
   standardGeneric("gpcmCat")
 })
 
+#' @rdname gpcmCat
 #' @export
 setMethod("gpcmCat",
           signature(data = "data.frame"),
@@ -84,6 +86,7 @@ setMethod("gpcmCat",
 })
 
 
+#' @rdname gpcmCat
 #' @export
 setMethod("gpcmCat",
           signature(data = c("gpcm")),

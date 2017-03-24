@@ -10,7 +10,7 @@ current.code <- as.package("catSurv")
 load_all(current.code)#, recompile = FALSE)
 document(current.code)
 #test(current.code)
-#check(current.code)
+check(current.code)
 
 ## for looking at pdf of documentation
 unlink("catSurv.pdf") ## deleting current version

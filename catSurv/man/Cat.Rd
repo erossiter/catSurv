@@ -4,7 +4,7 @@
 \name{Cat-class}
 \alias{Cat-class}
 \alias{initialize,Cat-method}
-\title{A Computerized Adaptive Testing Survey (catSurv) Object}
+\title{Computerized Adaptive Testing Survey (catSurv) Object}
 \description{
 Creates an object of class \code{Cat}.  Cat objects are used in administering Computerized Adaptive Testing (CAT) Surveys.  These objects contain several pieces of information relevent for CAT surveys, and are used as input in the main functions of the \code{catSurv} package.
 }

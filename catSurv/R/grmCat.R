@@ -59,16 +59,18 @@
 #' 
 #' 
 #' @rdname grmCat
+#' @aliases grm
 #' 
 #' @import ltm
 #' @export grm
-#' @name grm-class
+#' @name grmCat
 setOldClass("grm")
 
 setGeneric("grmCat", function(data, quadraturePoints = NULL, ...){
   standardGeneric("grmCat")
 })
 
+#' @rdname grmCat
 #' @export
 setMethod("grmCat",
           signature(data = "data.frame"),
@@ -105,7 +107,7 @@ setMethod("grmCat",
             return(object)
 })
 
-
+#' @rdname grmCat
 #' @export
 setMethod("grmCat",
           signature(data = c("grm")),

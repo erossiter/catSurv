@@ -31,8 +31,5 @@ data(nfc)
 \description{
 Data of survey respondents' responses to 18 NFC questions, which is a reduced version of NFC. For each question, respondents could choose one of five response options: Agree strongly, agree somewhat, neither agree nor disagree, disagree somewhat, disagree strongly. Missingness is optional. Observations come from one of three adminstrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in sspring of 2015.
 }
-\references{
-
-}
 \keyword{datasets}
 

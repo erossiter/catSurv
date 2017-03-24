@@ -93,6 +93,6 @@ Muraki, Eiji. 1992. ``A generalized partial credit model: Application of an EM a
 van der Linden, Wim J. 1998. ``Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika 63(2):201-216.
 }
 \seealso{
-\code{\link{Cat-class}}, \code{\link{ltm-class}}, \code{\link{gpcm-class}}, \code{\link{grm-class}}, \code{\link{tpm-class}}
+\code{\link{Cat-class}}
 }
 

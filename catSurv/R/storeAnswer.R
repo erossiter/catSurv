@@ -1,6 +1,6 @@
 #' Update Answer to Single Item
 #'
-#' Updates \code{Cat} object by updated the answer to item \eqn{k} to the object's \code{answers} slot.
+#' Stores answer to item \eqn{k} to the Cat object's \code{answers} slot.
 #'
 #' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question item
@@ -28,12 +28,14 @@
 #'ltm_cat@answer
 #'}
 #' 
-#' @rdname storeAnswer
-#' @export
+#' @name storeAnswer
+NULL
+
 setGeneric("storeAnswer", function(catObj, item, answer) standardGeneric("storeAnswer"))
 
+#' @rdname storeAnswer
 #' @export
-setMethod(f = "storeAnswer", signature = class.name, definition = function(catObj, item, answer){
+setMethod(f = "storeAnswer", signature = "Cat", definition = function(catObj, item, answer){
   catObj@answers[item] <- answer
   return(catObj)
 })

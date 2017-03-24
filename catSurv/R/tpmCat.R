@@ -54,18 +54,21 @@
 #' \code{\link{Cat-class}}, \code{\link{ltmCat}}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+#' 
 #' @rdname tpmCat
+#' @aliases tpm
 #' 
 #' @import ltm
 #' @export tpm
 #' @import stats
-#' @name tpm-class
+#' @name tpmCat
 setOldClass("tpm")
 
 setGeneric("tpmCat", function(data, quadraturePoints = NULL, ...){
   standardGeneric("tpmCat")
 })
 
+#' @rdname tpmCat
 #' @export
 setMethod("tpmCat",
           signature(data = "data.frame"),
@@ -99,6 +102,7 @@ setMethod("tpmCat",
             return(object)
 })
 
+#' @rdname tpmCat
 #' @export
 setMethod("tpmCat",
           signature(data = c("tpm")),

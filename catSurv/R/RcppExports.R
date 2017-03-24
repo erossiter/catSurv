@@ -67,7 +67,7 @@
 #'probability(grm_cat, theta = 1, item = 1)
 #'}
 #'  
-#' @seealso \code{\link{Cat-class}}, \code{\link{ltm-class}}, \code{\link{gpcm-class}}, \code{\link{grm-class}}, \code{\link{tpm-class}}
+#' @seealso \code{\link{Cat-class}}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 #'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 

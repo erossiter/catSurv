@@ -5,7 +5,7 @@ Authors@R: person(given = "Jacob M.", family = "Montgomery", email = "jacob.mont
 Description: Provides methods of computerized adaptive testing for survey researchers. Includes functionality for data fit with the latent trait, Birnbaum`s three parameter, the graded response, or the generalized partial credit model.  Additionally, includes several ability parameter estimation and item selection routines.  During item selection, all calculations are done in compiled C++ code.
 Depends:
 	R(>= 3.3.2)
-License: What license is it under?
+License: GPL-3
 Imports:
 	ltm(>= 1.0.0),
 	methods(>= 3.3.2),

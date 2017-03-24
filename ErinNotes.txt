@@ -1,32 +1,11 @@
-
-storeAnswer and setAnswers
-- I feel like we don’t need both.  I think we should get rid of storeAnswer, but change how setAnswers works so it works like storeAnswer.  Then we need to change the function used in makeTree.  There’s also just a few instances where we use setAnswers in the examples.
-
-models
-- Change so that models are all CAPS.  Then change documentation as well.
-
 library(catSurv)
 — print the grant number 
 
-selectItem
-- go back and add in details about setting integration bounds (which criterion need this?)  Are there any criterion that need certain priors or estimation methods?
 
-
-Documentation consistency:
-- in short description, make sure to say “estimate” or “calculate” correctly
-- in short description, no period at the end
-- ability parameter
-- question item/item
-- left math for probability and selectItem and checkStopRules
-
-Cat class:
+Cat class & selectItem:
 - what should MFII short name be?
 
 
-main.cpp:
-- When integration is used (estimateTheta), make sure to note in those functions that lowerBound and upperBound will be used.
-- fix estimationDefault
-- In selectItem note which options will use lowerBound and upperBound, and which functions will use z.
 
 
 
@@ -44,13 +23,7 @@ main.cpp:
 
 ## Tests
 - this is not a problem with catSurv… calculating the standard error with the ltm package and MAP is very different (might be something wrong with their math)
-- I should go back and add a test of each function with extreme theta values — either it works or throws error — make sure it does not crash R
 
 
-## Other things I’m realizing while testing
-- make answers stay length it should be… you shouldn’t be able to change the length.
-- fisherInf and obsInf… when is fisherInf called? Is the obsInf error inappropriate?
-- what catR returns for ltm nextItem ‘info’ (what the estimate for that item is) is wrong for EPV.  It doesn’t match the EPV function.
-- add tests to make sure probabilities for GPCM cats sum to 1 after I add in checks for crazy numerators and denominator
 
 

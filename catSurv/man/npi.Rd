@@ -53,8 +53,5 @@ data(npi)
 \description{
 Data from the test with the 40 paired items on one page. Respondents had to choose the one that fit them the best. Missingness is optional. Respondents' demographics were entered on the next page. In addition, they were also asked to affirm that their answers were acurate and suitable for research, those that did not (9\%) are not included in this dataset.
 }
-\references{
-
-}
 \keyword{datasets}
 
