@@ -41,54 +41,54 @@
 \alias{getZ}
 \alias{getZ,Cat-method}
 \alias{getters}
-\title{Methods for Getting Slot from Cat Object}
+\title{Methods for Accessing Cat Object Slots}
 \usage{
-\S4method{getModel}{Cat}(object)
+\S4method{getModel}{Cat}(catObj)
 
-\S4method{getGuessing}{Cat}(object)
+\S4method{getGuessing}{Cat}(catObj)
 
-\S4method{getDiscrimination}{Cat}(object)
+\S4method{getDiscrimination}{Cat}(catObj)
 
-\S4method{getDifficulty}{Cat}(object)
+\S4method{getDifficulty}{Cat}(catObj)
 
-\S4method{getAnswers}{Cat}(object)
+\S4method{getAnswers}{Cat}(catObj)
 
-\S4method{getPriorName}{Cat}(object)
+\S4method{getPriorName}{Cat}(catObj)
 
-\S4method{getPriorParams}{Cat}(object)
+\S4method{getPriorParams}{Cat}(catObj)
 
-\S4method{getLowerBound}{Cat}(object)
+\S4method{getLowerBound}{Cat}(catObj)
 
-\S4method{getUpperBound}{Cat}(object)
+\S4method{getUpperBound}{Cat}(catObj)
 
-\S4method{getEstimation}{Cat}(object)
+\S4method{getEstimation}{Cat}(catObj)
 
-\S4method{getEstimationDefault}{Cat}(object)
+\S4method{getEstimationDefault}{Cat}(catObj)
 
-\S4method{getSelection}{Cat}(object)
+\S4method{getSelection}{Cat}(catObj)
 
-\S4method{getZ}{Cat}(object)
+\S4method{getZ}{Cat}(catObj)
 
-\S4method{getLengthThreshold}{Cat}(object)
+\S4method{getLengthThreshold}{Cat}(catObj)
 
-\S4method{getSeThreshold}{Cat}(object)
+\S4method{getSeThreshold}{Cat}(catObj)
 
-\S4method{getInfoThreshold}{Cat}(object)
+\S4method{getInfoThreshold}{Cat}(catObj)
 
-\S4method{getGainThreshold}{Cat}(object)
+\S4method{getGainThreshold}{Cat}(catObj)
 
-\S4method{getLengthOverride}{Cat}(object)
+\S4method{getLengthOverride}{Cat}(catObj)
 
-\S4method{getGainOverride}{Cat}(object)
+\S4method{getGainOverride}{Cat}(catObj)
 }
 \arguments{
-\item{object}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 }
 \value{
-Returns the respective slot from Cat object
+These functions return the respective slot from Cat object.
 }
 \description{
-say something here
+Getter methods access slots of a Cat object.
 }
 \examples{
 \dontrun{
@@ -96,8 +96,15 @@ say something here
 data(npi)
 cat <- ltmCat(npi)
 
-##
+## Getting estimation slot before and after change
+getEstimation(ltm_cat)
+setEstimation(ltm_cat) <- "MAP"
+getEstimation(ltm_cat)
 
+## Getting discrimination slot before and after change
+getDiscrimination(ltm_cat)
+setDiscrimination(ltm_cat) <- rep(1, 40)
+getDiscrimination(ltm_cat)
 }
 
 }

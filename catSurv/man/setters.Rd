@@ -41,56 +41,53 @@
 \alias{setZ<-}
 \alias{setZ<-,Cat-method}
 \alias{setters}
-\title{Methods for Setting Value(s) to Slot in Cat Object}
+\title{Methods for Setting Value(s) to Cat Object Slots}
 \usage{
-\S4method{setGuessing}{Cat}(object) <- value
+\S4method{setGuessing}{Cat}(catObj) <- value
 
-\S4method{setDiscrimination}{Cat}(object) <- value
+\S4method{setDiscrimination}{Cat}(catObj) <- value
 
-\S4method{setDifficulty}{Cat}(object) <- value
+\S4method{setDifficulty}{Cat}(catObj) <- value
 
-\S4method{setAnswers}{Cat}(object) <- value
+\S4method{setAnswers}{Cat}(catObj) <- value
 
-\S4method{setModel}{Cat}(object) <- value
+\S4method{setModel}{Cat}(catObj) <- value
 
-\S4method{setPriorName}{Cat}(object) <- value
+\S4method{setPriorName}{Cat}(catObj) <- value
 
-\S4method{setPriorParams}{Cat}(object) <- value
+\S4method{setPriorParams}{Cat}(catObj) <- value
 
-\S4method{setLowerBound}{Cat}(object) <- value
+\S4method{setLowerBound}{Cat}(catObj) <- value
 
-\S4method{setUpperBound}{Cat}(object) <- value
+\S4method{setUpperBound}{Cat}(catObj) <- value
 
-\S4method{setEstimation}{Cat}(object) <- value
+\S4method{setEstimation}{Cat}(catObj) <- value
 
-\S4method{setEstimationDefault}{Cat}(object) <- value
+\S4method{setEstimationDefault}{Cat}(catObj) <- value
 
-\S4method{setSelection}{Cat}(object) <- value
+\S4method{setSelection}{Cat}(catObj) <- value
 
-\S4method{setZ}{Cat}(object) <- value
+\S4method{setZ}{Cat}(catObj) <- value
 
-\S4method{setLengthThreshold}{Cat}(object) <- value
+\S4method{setLengthThreshold}{Cat}(catObj) <- value
 
-\S4method{setSeThreshold}{Cat}(object) <- value
+\S4method{setSeThreshold}{Cat}(catObj) <- value
 
-\S4method{setGainThreshold}{Cat}(object) <- value
+\S4method{setGainThreshold}{Cat}(catObj) <- value
 
-\S4method{setInfoThreshold}{Cat}(object) <- value
+\S4method{setInfoThreshold}{Cat}(catObj) <- value
 
-\S4method{setLengthOverride}{Cat}(object) <- value
+\S4method{setLengthOverride}{Cat}(catObj) <- value
 
-\S4method{setGainOverride}{Cat}(object) <- value
+\S4method{setGainOverride}{Cat}(catObj) <- value
 }
 \arguments{
-\item{object}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat}}
 
-\item{value}{The value(s) to fill the slot}
-}
-\value{
-Updates the respective slot in Cat object
+\item{value}{The new value(s)}
 }
 \description{
-say something here
+Setter methods control changes to the slots of a Cat object.
 }
 \examples{
 \dontrun{
@@ -98,8 +95,15 @@ say something here
 data(npi)
 cat <- ltmCat(npi)
 
-##
+## Setting estimation slot
+getEstimation(ltm_cat)
+setEstimation(ltm_cat) <- "MAP"
+getEstimation(ltm_cat)
 
+## Setting distrimination slot
+getDiscrimination(ltm_cat)
+setDiscrimination(ltm_cat) <- rep(1, 40)
+getDiscrimination(ltm_cat)
 }
 
 }
