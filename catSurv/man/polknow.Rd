@@ -3,7 +3,7 @@
 \docType{data}
 \name{polknow}
 \alias{polknow}
-\title{Political Knowledge (circa 2012) of Mechanical Turk Respondents}
+\title{Political Knowledge}
 \format{A data frame with 810 observations on the following 64 questions.
 \describe{
 
@@ -270,7 +270,7 @@ Eight years; Six years; Four years; Two years}
 data(polknow)
 }
 \description{
-Data from Amazon Mechanical Turkers responding to 64 political knowledge questions.
+Data from Amazon Mechanical Turkers in 2012 responding to 64 political knowledge questions.  Political knowledge questions had a varying number of response options, noted below.  This dataset codes answers as either correct (a value of 0) or incorrect (a value of 1).
 }
 \references{
 Jacob M. Montgomery and Joshua Cutler. 2013. 
