@@ -13,7 +13,17 @@ checkStopRules(catObj)
 The function \code{checkStopRules} returns a boolean.  \code{TRUE} indicates all specified stopping rules are met
   and no specified overrides are met.  No further items should be adminstered.  \code{FALSE} indicates at least one specified
    stopping rule is not met, or if any specified override threshold is met.  Additional items should be administered.
-
+}
+\description{
+Evaluates the specified stopping and/or override rules to check if respondent should be asked further questions.
+}
+\details{
+The stopping rule thresholds are stored in the following Cat object slots:
+\code{lengthThreshold}, \code{seThreshold}, \code{infoThreshold}, and \code{gainThreshold}. The override
+ thresholds are stored in the following Cat object slots: \code{lengthOverride}, \code{gainOverride}.  
+ A value of \code{NA} indicates the rule will not be used in evaluating if further questions should be administered.
+ A user can specify any combination of stopping rules and/or overrides.  
+ 
   \strong{Stopping Rules:}
 
   \code{lengthThreshold}: Number of question's answered \eqn{\geq a}
@@ -29,16 +39,6 @@ The function \code{checkStopRules} returns a boolean.  \code{TRUE} indicates all
   \code{lengthOverride}: Number of question's answered \eqn{< a}
 
   \code{gainOverride}: \eqn{|SE(\hat{\theta}) - \sqrt{EPV} | \geq a} \eqn{\forall} remaining items
-}
-\description{
-Evaluates the specified stopping and/or override rules to check if respondent should be asked further questions.
-}
-\details{
-The stopping rule thresholds are stored in the following Cat object slots:
-\code{lengthThreshold}, \code{seThreshold}, \code{infoThreshold}, and \code{gainThreshold}. The override
- thresholds are stored in the following Cat object slots: \code{lengthOverride}, \code{gainOverride}.  
- A value of \code{NA} indicates the rule will not be used in evaluating if further questions should be administered.
- A user can specify any combination of stopping rules and/or overrides.
 }
 \examples{
 \dontrun{

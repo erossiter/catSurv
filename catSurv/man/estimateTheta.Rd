@@ -18,17 +18,24 @@ Estimates the expected value of the ability parameter \eqn{\theta}, conditioned 
 \details{
 Estimation approach is specified in \code{estimation} slot of \code{Cat} object.
 
-The expected a posteriori approach is used when \code{estimation} slot is \code{"EAP"}.
+The expected a posteriori approach is used when \code{estimation} slot is \code{"EAP"}.  This method involves integration.  See \strong{Note} for more information.
 
 The modal a posteriori approach is used when \code{estimation} slot is \code{"MAP"}.  This method is only available using the normal prior distribution.
 
 The maximum likelihood approach is used when \code{estimation} slot is \code{"MLE"}.  When the likelihood is undefined,
 the MAP or EAP method will be used, determined by what is specified in the \code{estimationDefault} slot in \code{Cat} object.
 
-The weighted maximum likelihood approach is used when \code{estimation} slot is \code{"WLE"}. Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the \code{gsl} library.
+The weighted maximum likelihood approach is used when \code{estimation} slot is \code{"WLE"}.
+Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the GNU Scientific
+ Library (GSL) with initial search interval of \code{[-5,5]}.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+
+This function uses adaptive quadrature methods from the GNU Scientific
+ Library (GSL) to approximate single-dimensional
+ integrals with high accuracy.  The bounds of integration are determined by the
+ \code{lowerBound} and \code{upperBound} slots of the Cat object.
 }
 \examples{
 \dontrun{
@@ -59,6 +66,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{Cat-class}}
+\code{\link{Cat-class}}, \code{\link{estimateSE}}
 }
 

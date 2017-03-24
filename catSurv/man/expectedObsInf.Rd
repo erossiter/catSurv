@@ -43,6 +43,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{estimateTheta}}, \code{\link{obsInf}}
+\code{\link{estimateSE}},\code{\link{obsInf}}, \code{\link{probability}}, \code{\link{selectItem}}
 }
 

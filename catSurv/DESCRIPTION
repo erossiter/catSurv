@@ -1,8 +1,8 @@
 Package: catSurv
 Title: Computerized Adaptive Testing
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: Provides methods of computerized adaptive testing for survey researchers. Includes functionality for data fit with the Latent Trait, Birnbaum`s Three Parameter, the Graded Response, or the Generalized Partial Credit model.  Additionally, includes several ability parameter estimation and item selection routines.  During item selection, all calculations are done in compiled C++ code.
+Authors@R: person(given = "Jacob M.", family = "Montgomery", email = "jacob.montgomery@wustl.edu", role = c("aut", "cre"))
+Description: Provides methods of computerized adaptive testing for survey researchers. Includes functionality for data fit with the latent trait, Birnbaum`s three parameter, the graded response, or the generalized partial credit model.  Additionally, includes several ability parameter estimation and item selection routines.  During item selection, all calculations are done in compiled C++ code.
 Depends:
 	R(>= 3.3.2)
 License: What license is it under?

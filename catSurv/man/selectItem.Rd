@@ -25,31 +25,34 @@ Selects the next item in the question set to be adminstered to respondent based 
 Selection approach is specified in the \code{selection} slot of the \code{Cat} object.
 
 The minimum expected posterior variance criterion is used when the \code{selection}
- slot is \code{"EPV"}.
+ slot is \code{"EPV"}.  This method calls \code{expectedPV} for each unasked item.
 
 The maximum Fisher's information criterion is used when the \code{selection}
-  slot is \code{"MFI"}.
+  slot is \code{"MFI"}.  This method calls \code{fisherInf} for each unasked item.
   
 The maximum likelihood weighted information criterion is used when the \code{selection}
-slot is \code{"MLWI"}.
+slot is \code{"MLWI"}. This method involves integration. See \strong{Note} for more information.
 
 The maximum posterior weighted information criterion is used when the \code{selection}
-slot is \code{"MPWI"}.
+slot is \code{"MPWI"}.  This method involves integration. See \strong{Note} for more information.
  
 The maximum expected information criterion is used when the \code{selection}
-slot is \code{"MEI"}.
+slot is \code{"MEI"}.  This method calls \code{expectedObsInf} for each unasked item.
 
 The maximum Kullback-Leibler information criterion is used when the \code{selection}
-slot is \code{"KL"}.
+slot is \code{"KL"}.  This method calls \code{expectedKL} for each unasked item.
 
 The maximum likelihood weighted Kullback-Leibler information criterion is used when the \code{selection}
-slot is \code{"LKL"}.
+slot is \code{"LKL"}.  This method calls \code{likelihoodKL} for each unasked item.
 
 The maximum posterior weighted Kullback-Leibler information criterion is used when the \code{selection}
-slot is \code{"PKL"}.
+slot is \code{"PKL"}.  This method calls \code{posteriorKL} for each unasked item.
 
 The ??????????? criterion is used when the \code{selection}
-slot is \code{"MFII"}.
+slot is \code{"MFII"}. This method involves integration. See \strong{Note} for more information.
+The bounds of integration are \eqn{\hat{\theta} \pm \delta},
+ where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
+ \eqn{z} is specified in the \code{z} slot of the Cat object.
 
 A random number generator is used when the \code{selection}
 slot is \code{"RANDOM"}.
@@ -57,9 +60,18 @@ slot is \code{"RANDOM"}.
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 
+This function uses adaptive quadrature methods from the GNU Scientific
+ Library (GSL) to approximate single-dimensional
+ integrals with high accuracy.  The bounds of integration are determined by the
+ \code{lowerBound} and \code{upperBound} slots of the Cat object unless otherwise noted.
+
 The \code{"RANDOM"} item selection criterion uses the package \code{RcppArmadillo} to randomly
 choose the next item among unasked questions.  \code{RcppArmadillo} provides an exact reproduction
 of R's \code{sample} function that can be called from C++.
+
+In the rare instance that item parameters are identical, it may be that that \code{selectItem} must choose
+between two items with the same value calculated by the selection criterion.  In such an instance, \code{selectItem}
+will choose the item with the lower question idex.
 }
 \examples{
 \dontrun{

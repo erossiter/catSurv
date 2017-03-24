@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{posteriorKL}
 \alias{posteriorKL}
-\title{Expected Kullback-Leibeler information, weighted by the posterior}
+\title{Expected Kullback-Leibeler Information, Weighted by the Prior}
 \usage{
 posteriorKL(catObj, item)
 }
@@ -12,18 +12,26 @@ posteriorKL(catObj, item)
 \item{item}{An integer indicating the index of the question item}
 }
 \value{
-A value indicating the posterior KL information for the desired item, given the current answer profile and ability estimate.
+The function \code{posteriorKL} returns a numeric indicating the
+expected Kullback-Leibeler information weighted by the likelihood
+ for the specified item, given the current answer profile and ability parameter estimate.
 }
 \description{
-Calculate the expected Kullback-Leibeler information, weighted by the posterior
+Calculates the expected Kullback-Leibeler information, weighted by likelihood and prior beliefs, for a specified item.
 }
 \details{
-We will follow the same procedure as \code{expectedKL}, except we will weight the different potential values of \eqn{\theta_0} by the posterior.
+The function \code{posteriorKL} calculates the expected Kullback-Leibeler information for \eqn{\hat{\theta}}, weighting potential
+true values of \eqn{theta}, \eqn{\theta_0} by the likelihood and posterior estimate of \eqn{\theta_0}. 
 
-Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.
+This function involves integration.  See \strong{Note} for more information.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+
+This function uses adaptive quadrature methods from the GNU Scientific
+ Library (GSL) to approximate single-dimensional
+ integrals with high accuracy.  The bounds of integration are determined by the
+ \code{lowerBound} and \code{upperBound} slots of the Cat object.
 }
 \examples{
 \dontrun{
@@ -33,6 +41,11 @@ ltm_cat <- ltmCat(npi)
 
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## Estimate EPV for different unasked items
+posteriorKL(ltm_cat, item = 10)
+posteriorKL(ltm_cat, item = 20)
+posteriorKL(ltm_cat, item = 30)
 }
 
 }
@@ -41,6 +54,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{likelihoodKL}} and/or \code{\link{expectedKL}} for alternative KL methods
+\code{\link{expectedKL}}, \code{\link{likelihoodKL}}, \code{\link{selectItem}}
 }
 

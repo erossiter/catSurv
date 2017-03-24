@@ -56,8 +56,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{estimateTheta}} for calculation of \eqn{\theta}
-
-\code{\link{expectedObsInf}} for further application of observed information
+\code{\link{estimateTheta}}, \code{\link{expectedObsInf}}
 }
 

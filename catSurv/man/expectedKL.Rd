@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{expectedKL}
 \alias{expectedKL}
-\title{Expected Kullback-Leibeler information}
+\title{Expected Kullback-Leibeler Information}
 \usage{
 expectedKL(catObj, item)
 }
@@ -12,16 +12,25 @@ expectedKL(catObj, item)
 \item{item}{An integer indicating the index of the question item}
 }
 \value{
-The function returns a numeric indicating the KL information for the desired item, given the current answer profile and ability parameter estimate
+The function \code{expectedKL} returns a numeric indicating the
+expected Kullback-Leibeler information
+ for the specified item, given the current answer profile and ability parameter estimate.
 }
 \description{
-Calculates the expected Kullback-Leibeler information for an individual question item
+Calculates the expected Kullback-Leibeler information for an individual question item.
 }
 \details{
-Binary details (Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.)
+The function \code{expectedKL} calculates the expected value of the Kullback-Leibeler information
+for a specified item where the bounds of integration are \eqn{\hat{\theta} \pm \delta},
+ where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
+ \eqn{z} is specified in the \code{z} slot of the Cat object.  See \strong{Note} for more information on integration.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+
+This function uses adaptive quadrature methods from the GNU Scientific
+ Library (GSL) to approximate single-dimensional
+ integrals with high accuracy.
 }
 \examples{
 \dontrun{
@@ -31,6 +40,11 @@ ltm_cat <- ltmCat(npi)
 
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## Estimate EPV for different unasked items
+expectedKL(ltm_cat, item = 10)
+expectedKL(ltm_cat, item = 20)
+expectedKL(ltm_cat, item = 30)
 }
 
 }
@@ -39,6 +53,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{likelihoodKL}} and/or \code{\link{posteriorKL}} for alternative KL methods
+\code{\link{likelihoodKL}}, \code{\link{posteriorKL}}, \code{\link{selectItem}}
 }
 

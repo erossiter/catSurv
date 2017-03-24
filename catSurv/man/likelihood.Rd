@@ -57,6 +57,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 
 }
 \seealso{
-\code{\link{probability}}, \code{\link{Cat-class}}
+\code{\link{Cat-class}}, \code{\link{probability}}
 }
 

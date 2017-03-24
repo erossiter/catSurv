@@ -16,14 +16,28 @@ The function \code{estimateSE} returns a numeric for the standard error for \eqn
 Estimates the standard error for a respondent's ability parameter estimate, \eqn{\theta}.
 }
 \details{
-Estimation approach is specified in \code{estimation} slot of \code{Cat} object.  The
-options are \code{"EAP"} for the expected a posteriori approach, \code{"MAP"} for the modal a posteriori
-approach, \code{"MLE"} for the maximum likelihood approach, and \code{"WLE"} for the weighted maximum likelihood
-approach.  The function \code{estimateSE} will calculate the standard error of the ability estimate
-given the estimation approach.
+The function \code{estimateSE} estimates the standard error of the ability estimate
+given the estimation approach of the Cat object, specified in \code{estimation} slot of Cat object.
+
+The expected a posteriori approach is used when \code{estimation} slot is \code{"EAP"}.  This method involves integration. See \strong{Note} for more information.
+
+The modal a posteriori approach is used when \code{estimation} slot is \code{"MAP"}.  This method is only available using the normal prior distribution.
+
+The maximum likelihood approach is used when \code{estimation} slot is \code{"MLE"}.  When the likelihood
+of the ability estimate is undefined,
+the MAP or EAP method will be used, determined by what is specified in the \code{estimationDefault} slot in \code{Cat} object.
+
+The weighted maximum likelihood approach is used when \code{estimation} slot is \code{"WLE"}.
+Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the GNU Scientific
+ Library (GSL) with initial search interval of \code{[-5,5]}.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+
+This function uses adaptive quadrature methods from the GNU Scientific
+ Library (GSL) to approximate single-dimensional
+ integrals with high accuracy.  The bounds of integration are determined by the
+ \code{lowerBound} and \code{upperBound} slots of the Cat object.
 }
 \examples{
 \dontrun{

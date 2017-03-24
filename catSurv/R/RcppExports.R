@@ -67,7 +67,7 @@
 #'probability(grm_cat, theta = 1, item = 1)
 #'}
 #'  
-#' @seealso \code{\link{Cat-class}}
+#' @seealso \code{\link{Cat-class}}, \code{\link{ltm-class}}, \code{\link{gpcm-class}}, \code{\link{grm-class}}, \code{\link{tpm-class}}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 #'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -132,7 +132,7 @@ probability <- function(catObj, theta, item) {
 #'}
 #'
 #'
-#' @seealso \code{\link{probability}}, \code{\link{Cat-class}}
+#' @seealso \code{\link{Cat-class}}, \code{\link{probability}}
 #'  
 #' @export
 likelihood <- function(catObj, theta) {
@@ -247,9 +247,7 @@ prior <- function(x, dist, params) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #' 
-#' @seealso
-#' 
-#' \code{\link{Cat-class}}, \code{\link{prior}}
+#' @seealso \code{\link{Cat-class}}, \code{\link{prior}}
 #'  
 #' @export
 dLL <- function(catObj, theta, use_prior) {
@@ -323,14 +321,16 @@ d2LL <- function(catObj, theta, use_prior) {
 #' 
 #' Estimation approach is specified in \code{estimation} slot of \code{Cat} object.
 #' 
-#' The expected a posteriori approach is used when \code{estimation} slot is \code{"EAP"}.
+#' The expected a posteriori approach is used when \code{estimation} slot is \code{"EAP"}.  This method involves integration.  See \strong{Note} for more information.
 #' 
 #' The modal a posteriori approach is used when \code{estimation} slot is \code{"MAP"}.  This method is only available using the normal prior distribution.
 #' 
 #' The maximum likelihood approach is used when \code{estimation} slot is \code{"MLE"}.  When the likelihood is undefined,
 #' the MAP or EAP method will be used, determined by what is specified in the \code{estimationDefault} slot in \code{Cat} object.
 #' 
-#' The weighted maximum likelihood approach is used when \code{estimation} slot is \code{"WLE"}. Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the \code{gsl} library.
+#' The weighted maximum likelihood approach is used when \code{estimation} slot is \code{"WLE"}.
+#' Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the GNU Scientific
+#'  Library (GSL) with initial search interval of \code{[-5,5]}.
 #' 
 #' @examples
 #' \dontrun{
@@ -360,9 +360,12 @@ d2LL <- function(catObj, theta, use_prior) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #' 
-#' @seealso
+#' This function uses adaptive quadrature methods from the GNU Scientific
+#'  Library (GSL) to approximate single-dimensional
+#'  integrals with high accuracy.  The bounds of integration are determined by the
+#'  \code{lowerBound} and \code{upperBound} slots of the Cat object.
 #' 
-#' \code{\link{Cat-class}} 
+#' @seealso \code{\link{Cat-class}}, \code{\link{estimateSE}}
 #'  
 #' @export
 estimateTheta <- function(catObj) {
@@ -411,12 +414,8 @@ estimateTheta <- function(catObj) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #'
-#' @seealso
+#' @seealso \code{\link{estimateTheta}}, \code{\link{expectedObsInf}}
 #' 
-#' \code{\link{estimateTheta}} for calculation of \eqn{\theta}
-#' 
-#' \code{\link{expectedObsInf}} for further application of observed information
-#'  
 #' @export
 obsInf <- function(catObj, theta, item) {
     .Call('catSurv_obsInf', PACKAGE = 'catSurv', catObj, theta, item)
@@ -452,7 +451,7 @@ obsInf <- function(catObj, theta, item) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #'
-#' @seealso \code{\link{estimateTheta}}, \code{\link{obsInf}}
+#' @seealso \code{\link{estimateSE}},\code{\link{obsInf}}, \code{\link{probability}}, \code{\link{selectItem}}
 #' 
 #' @export
 expectedObsInf <- function(catObj, item) {
@@ -491,7 +490,7 @@ expectedObsInf <- function(catObj, item) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #'
-#' @seealso \code{\link{fisherTestInfo}}, \code{\link{obsInf}}
+#' @seealso \code{\link{fisherTestInfo}}, \code{\link{obsInf}}, \code{\link{selectItem}}
 #' 
 #' @export
 fisherInf <- function(catObj, theta, item) {
@@ -544,11 +543,20 @@ fisherTestInfo <- function(catObj) {
 #'
 #' @details 
 #' 
-#' Estimation approach is specified in \code{estimation} slot of \code{Cat} object.  The
-#' options are \code{"EAP"} for the expected a posteriori approach, \code{"MAP"} for the modal a posteriori
-#' approach, \code{"MLE"} for the maximum likelihood approach, and \code{"WLE"} for the weighted maximum likelihood
-#' approach.  The function \code{estimateSE} will calculate the standard error of the ability estimate
-#' given the estimation approach.
+#' The function \code{estimateSE} estimates the standard error of the ability estimate
+#' given the estimation approach of the Cat object, specified in \code{estimation} slot of Cat object.
+#' 
+#' The expected a posteriori approach is used when \code{estimation} slot is \code{"EAP"}.  This method involves integration. See \strong{Note} for more information.
+#' 
+#' The modal a posteriori approach is used when \code{estimation} slot is \code{"MAP"}.  This method is only available using the normal prior distribution.
+#' 
+#' The maximum likelihood approach is used when \code{estimation} slot is \code{"MLE"}.  When the likelihood
+#' of the ability estimate is undefined,
+#' the MAP or EAP method will be used, determined by what is specified in the \code{estimationDefault} slot in \code{Cat} object.
+#' 
+#' The weighted maximum likelihood approach is used when \code{estimation} slot is \code{"WLE"}.
+#' Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the GNU Scientific
+#'  Library (GSL) with initial search interval of \code{[-5,5]}.
 #'   
 #' @examples
 #' \dontrun{
@@ -582,6 +590,11 @@ fisherTestInfo <- function(catObj) {
 #'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+#' 
+#' This function uses adaptive quadrature methods from the GNU Scientific
+#'  Library (GSL) to approximate single-dimensional
+#'  integrals with high accuracy.  The bounds of integration are determined by the
+#'  \code{lowerBound} and \code{upperBound} slots of the Cat object.
 #'
 #' @seealso \code{\link{estimateTheta}}
 #'  
@@ -592,17 +605,29 @@ estimateSE <- function(catObj) {
 
 #' Expected Posterior Variance
 #'
-#' Estimates the expected posterior variance for a respondent's estimated ability parameter for an item yet to be answered based on a respondent's ability parameter estimate from the already-answered items
+#' Estimates the expected posterior variance for a respondent's estimated ability parameter for an item yet to be answered based on a respondent's ability parameter estimate from the already-answered items.
 #'
 #' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question item
 #'
-#' @return A numeric value indicating a respondent's expected posterior variance for a yet to be asked question item
+#' @return The function \code{expectedPV} returns a numeric value indicating a respondent's expected posterior variance for an unasked item.
 #'
 #' @details 
 #' 
+#' 
 #' @examples
 #' \dontrun{
+#'## Create Cat object
+#'data(npi)
+#'ltm_cat <- ltmCat(npi)
+#'
+#'## Store example answers
+#'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+#'
+#'## Estimate EPV for different unasked items
+#'expectedPV(ltm_cat, item = 10)
+#'expectedPV(ltm_cat, item = 20)
+#'expectedPV(ltm_cat, item = 30)
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -611,9 +636,7 @@ estimateSE <- function(catObj) {
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #'
 #' 
-#' @seealso
-#' 
-#' \code{\link{estimateTheta}}, \code{\link{probability}}
+#' @seealso \code{\link{estimateSE}}, \code{\link{probability}}, \code{\link{selectItem}}
 #'  
 #' 
 #' @export
@@ -638,31 +661,34 @@ expectedPV <- function(catObj, item) {
 #' @details Selection approach is specified in the \code{selection} slot of the \code{Cat} object.
 #' 
 #' The minimum expected posterior variance criterion is used when the \code{selection}
-#'  slot is \code{"EPV"}.
+#'  slot is \code{"EPV"}.  This method calls \code{expectedPV} for each unasked item.
 #' 
 #' The maximum Fisher's information criterion is used when the \code{selection}
-#'   slot is \code{"MFI"}.
+#'   slot is \code{"MFI"}.  This method calls \code{fisherInf} for each unasked item.
 #'   
 #' The maximum likelihood weighted information criterion is used when the \code{selection}
-#' slot is \code{"MLWI"}.
+#' slot is \code{"MLWI"}. This method involves integration. See \strong{Note} for more information.
 #' 
 #' The maximum posterior weighted information criterion is used when the \code{selection}
-#' slot is \code{"MPWI"}.
+#' slot is \code{"MPWI"}.  This method involves integration. See \strong{Note} for more information.
 #'  
 #' The maximum expected information criterion is used when the \code{selection}
-#' slot is \code{"MEI"}.
+#' slot is \code{"MEI"}.  This method calls \code{expectedObsInf} for each unasked item.
 #' 
 #' The maximum Kullback-Leibler information criterion is used when the \code{selection}
-#' slot is \code{"KL"}.
+#' slot is \code{"KL"}.  This method calls \code{expectedKL} for each unasked item.
 #' 
 #' The maximum likelihood weighted Kullback-Leibler information criterion is used when the \code{selection}
-#' slot is \code{"LKL"}.
+#' slot is \code{"LKL"}.  This method calls \code{likelihoodKL} for each unasked item.
 #' 
 #' The maximum posterior weighted Kullback-Leibler information criterion is used when the \code{selection}
-#' slot is \code{"PKL"}.
+#' slot is \code{"PKL"}.  This method calls \code{posteriorKL} for each unasked item.
 #' 
 #' The ??????????? criterion is used when the \code{selection}
-#' slot is \code{"MFII"}.
+#' slot is \code{"MFII"}. This method involves integration. See \strong{Note} for more information.
+#' The bounds of integration are \eqn{\hat{\theta} \pm \delta},
+#'  where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
+#'  \eqn{z} is specified in the \code{z} slot of the Cat object.
 #' 
 #' A random number generator is used when the \code{selection}
 #' slot is \code{"RANDOM"}.
@@ -714,9 +740,19 @@ expectedPV <- function(catObj, item) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #' 
+#' This function uses adaptive quadrature methods from the GNU Scientific
+#'  Library (GSL) to approximate single-dimensional
+#'  integrals with high accuracy.  The bounds of integration are determined by the
+#'  \code{lowerBound} and \code{upperBound} slots of the Cat object unless otherwise noted.
+#' 
 #' The \code{"RANDOM"} item selection criterion uses the package \code{RcppArmadillo} to randomly
 #' choose the next item among unasked questions.  \code{RcppArmadillo} provides an exact reproduction
 #' of R's \code{sample} function that can be called from C++.
+#' 
+#' In the rare instance that item parameters are identical, it may be that that \code{selectItem} must choose
+#' between two items with the same value calculated by the selection criterion.  In such an instance, \code{selectItem}
+#' will choose the item with the lower question idex.
+#' 
 #' 
 #' 
 #' @seealso \code{\link{estimateTheta}}, \code{\link{expectedPV}}, \code{\link{fisherInf}}
@@ -726,17 +762,24 @@ selectItem <- function(catObj) {
     .Call('catSurv_selectItem', PACKAGE = 'catSurv', catObj)
 }
 
-#' Expected Kullback-Leibeler information
+#' Expected Kullback-Leibeler Information
 #'
-#' Calculates the expected Kullback-Leibeler information for an individual question item
+#' Calculates the expected Kullback-Leibeler information for an individual question item.
 #' 
-#' @return The function returns a numeric indicating the KL information for the desired item, given the current answer profile and ability parameter estimate
 #' 
 #' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question item
 #'
-#' @details 
-#'  Binary details (Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.)
+#' @details The function \code{expectedKL} calculates the expected value of the Kullback-Leibeler information
+#' for a specified item where the bounds of integration are \eqn{\hat{\theta} \pm \delta},
+#'  where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
+#'  \eqn{z} is specified in the \code{z} slot of the Cat object.  See \strong{Note} for more information on integration.
+#'  
+#' @return The function \code{expectedKL} returns a numeric indicating the
+#' expected Kullback-Leibeler information
+#'  for the specified item, given the current answer profile and ability parameter estimate.
+#' 
+#' 
 #' 
 #' @examples
 #' \dontrun{
@@ -746,6 +789,11 @@ selectItem <- function(catObj) {
 #'
 #'## Store example answers
 #'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+#'
+#'## Estimate EPV for different unasked items
+#'expectedKL(ltm_cat, item = 10)
+#'expectedKL(ltm_cat, item = 20)
+#'expectedKL(ltm_cat, item = 30)
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -753,28 +801,34 @@ selectItem <- function(catObj) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #' 
-#' @seealso \code{\link{likelihoodKL}} and/or \code{\link{posteriorKL}} for alternative KL methods
+#' This function uses adaptive quadrature methods from the GNU Scientific
+#'  Library (GSL) to approximate single-dimensional
+#'  integrals with high accuracy.
+#' 
+#' @seealso \code{\link{likelihoodKL}}, \code{\link{posteriorKL}}, \code{\link{selectItem}}
 #'
 #' @export
 expectedKL <- function(catObj, item) {
     .Call('catSurv_expectedKL', PACKAGE = 'catSurv', catObj, item)
 }
 
-#' Expected Kullback-Leibeler information, weighted by the likelihood
+#' Expected Kullback-Leibeler Information, Weighted by Likelihood
 #'
-#' Calculate the expected Kullback-Leibeler information, weighted by the likelihood
+#' Calculates the expected Kullback-Leibeler information, weighted by likelihood, for a specified item.
 #' 
-#' @return A value indicating the LKL information for the desired item, given the current answer profile and ability estimate.
 #' 
 #' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question item
 #'
-#' @details The LKL calculation follows the same procedure as \code{expectedKL}, except it requires weighting the different potential values of \eqn{\theta_0} by the likelihood.
-#'  Thus, the equation is
-#'
-#'  Binary details:
-#'  
-#'  Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.
+#' @details The function \code{likelihoodKL} calculates the expected Kullback-Leibeler information for \eqn{\hat{\theta}}, weighting potential
+#' true values of \eqn{theta}, \eqn{\theta_0} by the likelihood of \eqn{\theta_0}.
+#' 
+#' This function involves integration.  See \strong{Note} for more information.
+#' 
+#' 
+#' @return The function \code{likelihoodKL} returns a numeric indicating the
+#' expected Kullback-Leibeler information weighted by the likelihood
+#'  for the specified item, given the current answer profile and ability parameter estimate.
 #'  
 #' @examples
 #' \dontrun{
@@ -784,6 +838,11 @@ expectedKL <- function(catObj, item) {
 #'
 #'## Store example answers
 #'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+#'
+#'## Estimate EPV for different unasked items
+#'likelihoodKL(ltm_cat, item = 10)
+#'likelihoodKL(ltm_cat, item = 20)
+#'likelihoodKL(ltm_cat, item = 30)
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -791,27 +850,35 @@ expectedKL <- function(catObj, item) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #' 
-#'  
-#' @seealso \code{\link{expectedKL}} and/or \code{\link{posteriorKL}} for alternative KL methods 
-#'  
+#' This function uses adaptive quadrature methods from the GNU Scientific
+#'  Library (GSL) to approximate single-dimensional
+#'  integrals with high accuracy.  The bounds of integration are determined by the
+#'  \code{lowerBound} and \code{upperBound} slots of the Cat object.
+#' 
+#' @seealso \code{\link{expectedKL}}, \code{\link{posteriorKL}}, \code{\link{selectItem}}
+#' 
 #' @export
 likelihoodKL <- function(catObj, item) {
     .Call('catSurv_likelihoodKL', PACKAGE = 'catSurv', catObj, item)
 }
 
-#' Expected Kullback-Leibeler information, weighted by the posterior
+#' Expected Kullback-Leibeler Information, Weighted by the Prior
+#' 
+#' Calculates the expected Kullback-Leibeler information, weighted by likelihood and prior beliefs, for a specified item.
 #'
-#' Calculate the expected Kullback-Leibeler information, weighted by the posterior
-#' 
-#' @return A value indicating the posterior KL information for the desired item, given the current answer profile and ability estimate.
-#' 
 #' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question item
 #'
-#' @details We will follow the same procedure as \code{expectedKL}, except we will weight the different potential values of \eqn{\theta_0} by the posterior.
-#'
-#'Due to the conditional independence assumption, we only need to calculate the expected value for potential new items.
-#'
+#' @details The function \code{posteriorKL} calculates the expected Kullback-Leibeler information for \eqn{\hat{\theta}}, weighting potential
+#' true values of \eqn{theta}, \eqn{\theta_0} by the likelihood and posterior estimate of \eqn{\theta_0}. 
+#' 
+#' This function involves integration.  See \strong{Note} for more information.
+#' 
+#' 
+#' @return The function \code{posteriorKL} returns a numeric indicating the
+#' expected Kullback-Leibeler information weighted by the likelihood
+#'  for the specified item, given the current answer profile and ability parameter estimate.
+#'  
 #' @examples
 #' \dontrun{
 #'## Create Cat object
@@ -820,6 +887,11 @@ likelihoodKL <- function(catObj, item) {
 #'
 #'## Store example answers
 #'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+#'
+#'## Estimate EPV for different unasked items
+#'posteriorKL(ltm_cat, item = 10)
+#'posteriorKL(ltm_cat, item = 20)
+#'posteriorKL(ltm_cat, item = 30)
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -827,8 +899,12 @@ likelihoodKL <- function(catObj, item) {
 #'  
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
 #' 
-#' @seealso \code{\link{likelihoodKL}} and/or \code{\link{expectedKL}} for alternative KL methods
+#' This function uses adaptive quadrature methods from the GNU Scientific
+#'  Library (GSL) to approximate single-dimensional
+#'  integrals with high accuracy.  The bounds of integration are determined by the
+#'  \code{lowerBound} and \code{upperBound} slots of the Cat object.
 #' 
+#' @seealso \code{\link{expectedKL}}, \code{\link{likelihoodKL}}, \code{\link{selectItem}}
 #' @export
 posteriorKL <- function(catObj, item) {
     .Call('catSurv_posteriorKL', PACKAGE = 'catSurv', catObj, item)
@@ -841,7 +917,8 @@ posteriorKL <- function(catObj, item) {
 #' @param catObj  An object of class \code{Cat}
 #' @param item A numeric indicating the question item the respondent is currently answering.
 #'
-#' @return A function \code{lookAhead} returns a \code{list} of one element, \code{estimates}, where the first column is the possible response option to the question the respondent
+#' @return A function \code{lookAhead} returns a \code{list} of one element, \code{estimates}, a \code{data.frame}.
+#' The the first column of the \code{data.frame} is the possible response option to the question the respondent
 #' is currently answering and the second column is the next item that should be asked given each response.
 #' 
 #' @examples
@@ -881,12 +958,7 @@ lookAhead <- function(catObj, item) {
 #'  thresholds are stored in the following Cat object slots: \code{lengthOverride}, \code{gainOverride}.  
 #'  A value of \code{NA} indicates the rule will not be used in evaluating if further questions should be administered.
 #'  A user can specify any combination of stopping rules and/or overrides.  
-#' 
-#' 
-#' @return The function \code{checkStopRules} returns a boolean.  \code{TRUE} indicates all specified stopping rules are met
-#'   and no specified overrides are met.  No further items should be adminstered.  \code{FALSE} indicates at least one specified
-#'    stopping rule is not met, or if any specified override threshold is met.  Additional items should be administered.
-#' 
+#'  
 #'   \strong{Stopping Rules:}
 #'
 #'   \code{lengthThreshold}: Number of question's answered \eqn{\geq a}
@@ -902,6 +974,12 @@ lookAhead <- function(catObj, item) {
 #'   \code{lengthOverride}: Number of question's answered \eqn{< a}
 #'
 #'   \code{gainOverride}: \eqn{|SE(\hat{\theta}) - \sqrt{EPV} | \geq a} \eqn{\forall} remaining items
+#' 
+#' 
+#' 
+#' @return The function \code{checkStopRules} returns a boolean.  \code{TRUE} indicates all specified stopping rules are met
+#'   and no specified overrides are met.  No further items should be adminstered.  \code{FALSE} indicates at least one specified
+#'    stopping rule is not met, or if any specified override threshold is met.  Additional items should be administered.
 #' 
 #' 
 #' @examples

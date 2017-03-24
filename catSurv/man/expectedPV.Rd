@@ -12,10 +12,10 @@ expectedPV(catObj, item)
 \item{item}{An integer indicating the index of the question item}
 }
 \value{
-A numeric value indicating a respondent's expected posterior variance for a yet to be asked question item
+The function \code{expectedPV} returns a numeric value indicating a respondent's expected posterior variance for an unasked item.
 }
 \description{
-Estimates the expected posterior variance for a respondent's estimated ability parameter for an item yet to be answered based on a respondent's ability parameter estimate from the already-answered items
+Estimates the expected posterior variance for a respondent's estimated ability parameter for an item yet to be answered based on a respondent's ability parameter estimate from the already-answered items.
 }
 \details{
 
@@ -25,6 +25,17 @@ This function is to allow users to access the internal functions of the package.
 }
 \examples{
 \dontrun{
+## Create Cat object
+data(npi)
+ltm_cat <- ltmCat(npi)
+
+## Store example answers
+setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## Estimate EPV for different unasked items
+expectedPV(ltm_cat, item = 10)
+expectedPV(ltm_cat, item = 20)
+expectedPV(ltm_cat, item = 30)
 }
 
 }
@@ -33,6 +44,6 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
-\code{\link{estimateTheta}}, \code{\link{probability}}
+\code{\link{estimateSE}}, \code{\link{probability}}, \code{\link{selectItem}}
 }
 
