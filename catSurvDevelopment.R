@@ -17,9 +17,33 @@ unlink("catSurv.pdf") ## deleting current version
 path <- find.package("catSurv")
 system(paste(shQuote(file.path(R.home("bin"), "R")), "CMD", "Rd2pdf", shQuote(path)))
 
+
+
 ## political knowledge data set for gpcm
 load("TAPSdata2013.R")
 dataset <- dataset[ ,grep("polknow", colnames(dataset), ignore.case = T)]
+dataset2 <- dataset[ ,grep("polknow", colnames(dataset), ignore.case = T)]
+for(i in 1:10){
+  dataset[,i]<-as.numeric(dataset[,i])
+}
+for(i in 1:10){
+  dataset[dataset[,i]==1&!is.na(dataset[,i]),i]<-NA
+}
+for(i in 1:10){
+  dataset[,i]<-dataset[,i]-1
+}
+
+gpcmModel<-gpcm(data=dataset, constraint="gpcm", control=list("iter.qN"=200, "GHk"=50), IRT.param=FALSE)
+summary(gpcmModel)
+?gpcm
+
+
+test<-gpcm(data=dataset, constraint="gpcm", control=list("iter.qN"=200))
+
+
+
+
+
 
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")
