@@ -21,7 +21,7 @@ Estimates the expected posterior variance for a respondent's estimated ability p
 
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
 \dontrun{

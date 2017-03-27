@@ -41,7 +41,7 @@
 \alias{setZ<-}
 \alias{setZ<-,Cat-method}
 \alias{setters}
-\title{Methods for Setting Value(s) to Cat Object Slots}
+\title{Methods for Setting Value(s) to \code{Cat} Object Slots}
 \usage{
 \S4method{setGuessing}{Cat}(catObj) <- value
 
@@ -87,7 +87,7 @@
 \item{value}{The new value(s)}
 }
 \description{
-Setter methods control changes to the slots of a Cat object.
+Setter methods to control changes to the slots of a \code{Cat} object.
 }
 \examples{
 \dontrun{
@@ -106,6 +106,10 @@ setDiscrimination(ltm_cat) <- rep(1, 40)
 getDiscrimination(ltm_cat)
 }
 
+}
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, 
+Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
 \code{\link{Cat-class}}, \code{\link{getters}}

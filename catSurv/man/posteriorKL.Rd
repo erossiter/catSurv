@@ -26,12 +26,12 @@ true values of \eqn{theta}, \eqn{\theta_0} by the likelihood and posterior estim
 This function involves integration.  See \strong{Note} for more information.
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 
 This function uses adaptive quadrature methods from the GNU Scientific
  Library (GSL) to approximate single-dimensional
  integrals with high accuracy.  The bounds of integration are determined by the
- \code{lowerBound} and \code{upperBound} slots of the Cat object.
+ \code{lowerBound} and \code{upperBound} slots of the \code{Cat} object.
 }
 \examples{
 \dontrun{

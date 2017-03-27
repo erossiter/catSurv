@@ -23,7 +23,7 @@ Calculates the expected value of the observed information of the likelihood eval
 For the dichotomous case, this Fisher's information is equivalent to the observed information.
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
 \dontrun{

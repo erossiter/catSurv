@@ -11,13 +11,13 @@
 #' 
 #' The length of each complete branching scheme within the tree is dictated by the \code{lengthThreshold} slot within the \code{Cat} object.
 #' 
-#' @return The function \code{makeTree} returns an object of class \code{list} or class \code{table}.  If the argument \code{flat} is \code{FALSE}, the default value, the function returns a list of lists.
+#' @return The function \code{makeTree} returns either a list or a table.  If the argument \code{flat} is \code{FALSE}, the default value, the function returns a list of lists.
 #' 
 #' If the argument \code{flat} is \code{TRUE}, the function takes the list of lists and configures it into a flattened table where the columns represent the battery items and the rows represent the possible answer profiles.
 #' 
 #' @note This function is computationally expensive.  If there are \eqn{k} response options and the researcher wants a complete branching scheme to include \eqn{n} items, \eqn{k^{n-1}} complete branching schemes will be calculated.  Setting \eqn{n} is done via the \code{lengthThreshold} slot in the \code{Cat} object.  See \strong{Examples}.
 #' 
-#' This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+#' This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 #' 
 #' 
 #' @seealso \code{\link{Cat-class}}, \code{\link{checkStopRules}}, \code{\link{selectItem}}

@@ -17,7 +17,7 @@ Estimates the standard error for a respondent's ability parameter estimate, \eqn
 }
 \details{
 The function \code{estimateSE} estimates the standard error of the ability estimate
-given the estimation approach of the Cat object, specified in \code{estimation} slot of Cat object.
+given the estimation approach of the \code{Cat} object, specified in \code{estimation} slot of \code{Cat} object.
 
 The expected a posteriori approach is used when \code{estimation} slot is \code{"EAP"}.  This method involves integration. See \strong{Note} for more information.
 
@@ -32,12 +32,12 @@ Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the G
  Library (GSL) with initial search interval of \code{[-5,5]}.
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 
 This function uses adaptive quadrature methods from the GNU Scientific
  Library (GSL) to approximate single-dimensional
  integrals with high accuracy.  The bounds of integration are determined by the
- \code{lowerBound} and \code{upperBound} slots of the Cat object.
+ \code{lowerBound} and \code{upperBound} slots of the \code{Cat} object.
 }
 \examples{
 \dontrun{

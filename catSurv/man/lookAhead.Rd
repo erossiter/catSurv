@@ -20,7 +20,7 @@ is currently answering and the second column is the next item that should be ask
 Selects the next item that would be asked for all possible response options to the question the respondent is currently answering.
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
 \dontrun{

@@ -13,9 +13,9 @@
 \S4method{tpmCat}{tpm}(data, quadraturePoints = NULL, ...)
 }
 \arguments{
-\item{data}{A \code{data.frame} of manifest variables or an object of class \code{tpm}.}
+\item{data}{A data frame of manifest variables or an object of class \code{tpm}.}
 
-\item{quadraturePoints}{A numeric to be passed into the \code{tpm} function indicating the number of Gauss-Hermite quadrature points.  Only applicable when \code{data} is a \code{data.frame}.  Default value is \code{21}.}
+\item{quadraturePoints}{A numeric to be passed into the \code{tpm} function indicating the number of Gauss-Hermite quadrature points.  Only applicable when \code{data} is a data frame.  Default value is \code{21}.}
 
 \item{...}{arguments to be passed to methods. For more details about the arguments, see \code{tpm} in the \code{ltm} package.}
 }
@@ -31,9 +31,9 @@ The function \code{tpmCat} returns an object of class \code{Cat} with changes to
 This function fits Birnbaum's three parameter model for binary data and populates the fitted values for discimination, difficulty, and guessing parameters to an object of class \code{Cat}.
 }
 \details{
-The \code{data} argument of the function \code{tpmCat} is either a \code{data.frame} or an object of class \code{tpm} from the \code{ltm} package.  If it is a \code{data.frame} each row represents a respondent and each column represents a question item.  If it is an object of the class \code{tpm}, it is output from the \code{tpm} function in the \code{ltm} package.
+The \code{data} argument of the function \code{tpmCat} is either a data frame or an object of class \code{tpm} from the \code{ltm} package.  If it is a data frame each row represents a respondent and each column represents a question item.  If it is an object of the class \code{tpm}, it is output from the \code{tpm} function in the \code{ltm} package.
 
-The \code{quadraturePoints} argument of the function \code{tpmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{tpm} function from the \code{ltm} package when fitting Birnbaum's three parameter model to the data and is used when approximating the value of integrals.
+The \code{quadraturePoints} argument of the function \code{tpmCat} is used only when the \code{data} argument is a data frame.  \code{quadraturePoints} is then passed to the \code{tpm} function from the \code{ltm} package when fitting Birnbaum's three parameter model to the data and is used when approximating the value of integrals.
 }
 \note{
 In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.

@@ -9,22 +9,22 @@ setClassUnion("numericORlist", c("numeric","list"))
 
 #' Computerized Adaptive Testing Survey (catSurv) Object
 #'
-#' Creates an object of class \code{Cat}.  Cat objects are used in administering Computerized Adaptive Testing (CAT) Surveys.  These objects contain several pieces of information relevent for CAT surveys, and are used as input in the main functions of the \code{catSurv} package. 
+#' Creates an object of class \code{Cat}.  \code{Cat} objects are used in administering Computerized Adaptive Testing (CAT) Surveys.  These objects contain several pieces of information relevent for CAT surveys, and are used as input in the main functions of the \code{catSurv} package. 
 #'
 #' Assume we have a survey battery with \code{I} questions.  An object of the class \code{Cat} has the following slots:
 #' \itemize{
-#' \item \code{guessing} A vector of length \code{I} of guessing parameters.  Note: guessing parameters are only applicable for \code{Cat} objects fit with the \code{ltm} model, using the \code{ltmCat} function. 
-#' \item \code{discrimination} A named vector of length \code{I} of disrimination parameters.
-#' \item \code{difficulty} A named vector or list of length \code{I} of difficulty parameters. For binary \code{Cat} objects, the vector will contain difficulty parameters for each item.  For categorical \code{Cat} objects, a list will constain a vector for each item, and each vector will contain a difficulty parameter for each response option.  
+#' \item \code{guessing} A vector of length \code{I} of guessing parameters.  Guessing parameters are only applicable for \code{Cat} objects fit with the \code{"tpm"} model, using the \code{tpmCat} function. 
+#' \item \code{discrimination} A vector of length \code{I} of disrimination parameters.
+#' \item \code{difficulty} A vector or list of length \code{I} of difficulty parameters. For \code{Cat} objects of the \code{"ltm"} or \code{"tpm"} model, \code{difficulty} is a vector that contains a parameter for each item.  For \code{Cat} objects of the \code{"grm"} or \code{"gpcm"} model, \code{difficulty} is a list that contains a vector for each item, and each vector contains a parameter for each response option.  
 #' \item \code{answers} A vector of length \code{I} of answers to questions as given by the survey respondent.  Unanswered questions have the value \code{NA}.
-#' \item \code{priorName} A character vector of length one giving the prior distribution to use for the latent trait estimates.  The options are \code{"NORMAL"} for the normal distirbution, \code{"STUDENT_T"} for the student's t distribution, and \code{"UNIFORM"} for the uniform distribution.  The default value is \code{"NORMAL"}.  
-#' \item \code{priorParams} A numeric vector of length two of parameters for the distribution specified in the \code{priorName} slot. When \code{priorName} is set to \code{"NORMAL"}, the first element of \code{priorParams} is the mean, the second element is the standard deviation.  When \code{priorName} is set to \code{"STUDENT_T"}, the first element of \code{priorParams} is \eqn{mu}, a location parameter, the second is degrees of freedom.  When \code{priorName} is set to \code{"UNIFORM"}, the elements of \code{priorParams} are lower and upper bounds, respectively.  Note that the uniform distribution is only applicable for the \code{"EAP"} estimation method.  The default values are \eqn{0,1}. 
+#' \item \code{priorName} A character vector of length one giving the prior distribution to use for the ability parameter estimates.  The options are \code{"NORMAL"} for the normal distirbution, \code{"STUDENT_T"} for the student's t distribution, and \code{"UNIFORM"} for the uniform distribution.  The default value is \code{"NORMAL"}.  
+#' \item \code{priorParams} A numeric vector of length two of parameters for the distribution specified in the \code{priorName} slot. When \code{priorName} is set to \code{"NORMAL"}, the first element of \code{priorParams} is the mean, and the second element is the standard deviation.  When \code{priorName} is set to \code{"STUDENT_T"}, the first element of \code{priorParams} is \eqn{mu}, a location parameter, and the second is degrees of freedom.  When \code{priorName} is set to \code{"UNIFORM"}, the elements of \code{priorParams} are lower and upper bounds, respectively.  Note that the uniform distribution is only applicable for the \code{"EAP"} estimation method.  The default values are \eqn{0,1}. 
 #' \item \code{lowerBound} A numeric indicating the lower bound of the interval of the latent scale used in estimation. The default value is \eqn{-5}.
 #' \item \code{upperBound} A numeric indicating the upper bound of the interval of the latent scale used in estimation. The default value is \eqn{5}.
 #' \item \code{model} A string indicating the model fit to the data.  The options are \code{"ltm"} for the latent trait model, \code{"tpm"} for Birnbaum's three parameter model, \code{"grm"} for the graded response model, and \code{"gpcm"} for the generalized partial credit model.  
-#' \item \code{estimation} A string indicating the choice of approach to estimate ability parameters.  The options are \code{"EAP"} for the expected a posteriori approach, \code{"MAP"} for the modal a posteriori approach, \code{"MLE"} for the maximum likelihood approach, and \code{"WLE"} for the weighted maximum likelihood approach.  The default value is \code{"EAP"}.
-#' \item \code{estimationDefault} A string indicating the choice of approach to estimate ability parameters when the primary estimation choice indicated in the \code{estimation} slot fails to converge.  The options are \code{"EAP"} and \code{"MAP"}.  The default value is \code{"MAP"}.
-#' \item \code{selection} A string indicating the choice of approach for selecting the next item.  The options are \code{"EPV"} for minimum expected posterior variance, \code{"MEI"} for maximum expected information, \code{"MFI"} for maximum Fisher information, \code{"MPWI"} for maximum posterior weighted information, \code{"MLWI"} for maximum likelihood weighted information, \code{"KL"} for the maximum expected Kullback-Leibler (KL) information, \code{"LKL"} maximum likelihood weighted KL information, \code{"PKL"} maximum posterior weighted KL information, \code{"MFII"}, and \code{"RANDOM"} where the next item is chosen randomly.  The default value is \code{"EPV"}.  
+#' \item \code{estimation} A string indicating the approach to estimating ability parameters.  The options are \code{"EAP"} for the expected a posteriori approach, \code{"MAP"} for the modal a posteriori approach, \code{"MLE"} for the maximum likelihood approach, and \code{"WLE"} for the weighted maximum likelihood approach.  The default value is \code{"EAP"}.
+#' \item \code{estimationDefault} A string indicating the approach to estimating ability parameters when the primary estimation choice indicated in the \code{estimation} slot is \code{"MLE"} or \code{"WLE"} and this estimation fails to converge.  The options are \code{"EAP"} and \code{"MAP"}.  The default value is \code{"MAP"}.
+#' \item \code{selection} A string indicating the approach for selecting the next item.  The options are \code{"EPV"} for minimum expected posterior variance, \code{"MEI"} for maximum expected information, \code{"MFI"} for maximum Fisher information, \code{"MPWI"} for maximum posterior weighted information, \code{"MLWI"} for maximum likelihood weighted information, \code{"KL"} for the maximum expected Kullback-Leibler (KL) information, \code{"LKL"} maximum likelihood weighted KL information, \code{"PKL"} maximum posterior weighted KL information, \code{"MFII"} for ?????, and \code{"RANDOM"} where the next item is chosen randomly.  The default value is \code{"EPV"}.  
 #' \item \code{z} A numeric used in calculating \eqn{\delta}.  \eqn{\delta} is used in determining the bounds of integration for some \code{selectItem} methods.  Default value is \code{0.9}.
 #' \item \code{lengthThreshold} A numeric.  The number of questions answered must be greater than or equal to this threshold to stop administering items.  The default value is \code{NA}.
 #' \item \code{seThreshold} A numeric.  The standard error estimate of the latent trait must be less than this threshold to stop administering items.  The default value is \code{NA}.
@@ -34,7 +34,7 @@ setClassUnion("numericORlist", c("numeric","list"))
 #' \item \code{gainOverride} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this override to continue administering items.  The default value is \code{NA}.  
 #' }
 #' 
-#' @seealso \code{\link{checkStopRules}}, \code{\link{estimateTheta}}, \code{\link{selectItem}}
+#' @seealso \code{\link{checkStopRules}}, \code{\link{estimateTheta}}, \code{\link{gpcmCat}}, \code{\link{grmCat}}, \code{\link{ltmCat}}, \code{\link{selectItem}}, \code{\link{tpmCat}}
 #'
 #'
 #'
@@ -177,12 +177,15 @@ setValidity("Cat", function(object){
 })
 
 
-#' Methods for Setting Value(s) to Cat Object Slots
+#' Methods for Setting Value(s) to \code{Cat} Object Slots
 #' 
-#' Setter methods control changes to the slots of a Cat object.
+#' Setter methods to control changes to the slots of a \code{Cat} object.
 #' 
 #' @param catObj An object of class \code{Cat}
 #' @param value The new value(s)
+#' 
+#' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, 
+#'Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #' 
 #' 
 #' @examples
@@ -431,13 +434,15 @@ setReplaceMethod("setGainOverride", "Cat", definition = function(catObj, value){
 
 
 
-#' Methods for Accessing Cat Object Slots
+#' Methods for Accessing \code{Cat} Object Slots
 #' 
-#' Getter methods access slots of a Cat object.
+#' Getter methods to access slots of a \code{Cat} object.
 #' 
 #' @param catObj An object of class \code{Cat}
-#' 
 #' @return These functions return the respective slot from Cat object.
+#' 
+#' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, 
+#'Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #' 
 #' @examples
 #' \dontrun{

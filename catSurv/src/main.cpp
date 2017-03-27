@@ -84,7 +84,7 @@ using namespace Rcpp;
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' @references 
 //' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
@@ -122,7 +122,7 @@ std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector it
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' @references 
 //' 
@@ -209,10 +209,10 @@ double likelihood(S4 catObj, double theta) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' This function uses Boost \code{C++} source libraries for the uniform and Student's t
-//' distributions and calls \code{dnorm4} written in C which is identical to that 
+//' distributions and calls \code{dnorm4} written in \code{C} which is identical to that 
 //' of \code{dnorm} in \code{R}.
 //' 
 //'  
@@ -270,7 +270,7 @@ double prior(NumericVector x, CharacterVector dist, NumericVector params) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' @seealso \code{\link{Cat-class}}, \code{\link{prior}}
 //'  
@@ -325,10 +325,10 @@ double dLL(S4 &catObj, double theta, bool use_prior){
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' @seealso
-//' \code{\link{Cat-class}}, \code{\link{prior}}, \code{\link{dLL}} 
+//' \code{\link{Cat-class}}, \code{\link{dLL}}, \code{\link{prior}}
 //' 
 //' @export
 // [[Rcpp::export]]
@@ -385,12 +385,12 @@ double d2LL(S4 &catObj, double theta, bool use_prior){
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' This function uses adaptive quadrature methods from the GNU Scientific
 //'  Library (GSL) to approximate single-dimensional
 //'  integrals with high accuracy.  The bounds of integration are determined by the
-//'  \code{lowerBound} and \code{upperBound} slots of the Cat object.
+//'  \code{lowerBound} and \code{upperBound} slots of the \code{Cat} object.
 //' 
 //' @seealso \code{\link{Cat-class}}, \code{\link{estimateSE}}
 //'  
@@ -441,7 +441,7 @@ double estimateTheta(S4 catObj) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //'
 //' @seealso \code{\link{estimateTheta}}, \code{\link{expectedObsInf}}
 //' 
@@ -480,7 +480,7 @@ double obsInf(S4 catObj, double theta, int item) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //'
 //' @seealso \code{\link{estimateSE}},\code{\link{obsInf}}, \code{\link{probability}}, \code{\link{selectItem}}
 //' 
@@ -521,7 +521,7 @@ double expectedObsInf(S4 catObj, int item) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //'
 //' @seealso \code{\link{fisherTestInfo}}, \code{\link{obsInf}}, \code{\link{selectItem}}
 //' 
@@ -559,7 +559,7 @@ double fisherInf(S4 catObj, double theta, int item) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //'
 //' @seealso \code{\link{fisherInf}}
 //' 
@@ -580,7 +580,7 @@ double fisherTestInfo(S4 catObj) {
 //' @details 
 //' 
 //' The function \code{estimateSE} estimates the standard error of the ability estimate
-//' given the estimation approach of the Cat object, specified in \code{estimation} slot of Cat object.
+//' given the estimation approach of the \code{Cat} object, specified in \code{estimation} slot of \code{Cat} object.
 //' 
 //' The expected a posteriori approach is used when \code{estimation} slot is \code{"EAP"}.  This method involves integration. See \strong{Note} for more information.
 //' 
@@ -625,12 +625,12 @@ double fisherTestInfo(S4 catObj) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' This function uses adaptive quadrature methods from the GNU Scientific
 //'  Library (GSL) to approximate single-dimensional
 //'  integrals with high accuracy.  The bounds of integration are determined by the
-//'  \code{lowerBound} and \code{upperBound} slots of the Cat object.
+//'  \code{lowerBound} and \code{upperBound} slots of the \code{Cat} object.
 //'
 //' @seealso \code{\link{estimateTheta}}
 //'  
@@ -670,7 +670,7 @@ double estimateSE(S4 catObj) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //'
 //' 
 //' @seealso \code{\link{estimateSE}}, \code{\link{probability}}, \code{\link{selectItem}}
@@ -727,7 +727,7 @@ double expectedPV(S4 catObj, int item) {
 //' slot is \code{"MFII"}. This method involves integration. See \strong{Note} for more information.
 //' The bounds of integration are \eqn{\hat{\theta} \pm \delta},
 //'  where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
-//'  \eqn{z} is specified in the \code{z} slot of the Cat object.
+//'  \eqn{z} is specified in the \code{z} slot of the \code{Cat} object.
 //' 
 //' A random number generator is used when the \code{selection}
 //' slot is \code{"RANDOM"}.
@@ -777,12 +777,12 @@ double expectedPV(S4 catObj, int item) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' This function uses adaptive quadrature methods from the GNU Scientific
 //'  Library (GSL) to approximate single-dimensional
 //'  integrals with high accuracy.  The bounds of integration are determined by the
-//'  \code{lowerBound} and \code{upperBound} slots of the Cat object unless otherwise noted.
+//'  \code{lowerBound} and \code{upperBound} slots of the \code{Cat} object unless otherwise noted.
 //' 
 //' The \code{"RANDOM"} item selection criterion uses the package \code{RcppArmadillo} to randomly
 //' choose the next item among unasked questions.  \code{RcppArmadillo} provides an exact reproduction
@@ -813,7 +813,7 @@ List selectItem(S4 catObj) {
 //' @details The function \code{expectedKL} calculates the expected value of the Kullback-Leibeler information
 //' for a specified item where the bounds of integration are \eqn{\hat{\theta} \pm \delta},
 //'  where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
-//'  \eqn{z} is specified in the \code{z} slot of the Cat object.  See \strong{Note} for more information on integration.
+//'  \eqn{z} is specified in the \code{z} slot of the \code{Cat} object.  See \strong{Note} for more information on integration.
 //'  
 //' @return The function \code{expectedKL} returns a numeric indicating the
 //' expected Kullback-Leibeler information
@@ -839,7 +839,7 @@ List selectItem(S4 catObj) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' This function uses adaptive quadrature methods from the GNU Scientific
 //'  Library (GSL) to approximate single-dimensional
@@ -890,12 +890,12 @@ double expectedKL(S4 catObj, int item) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' This function uses adaptive quadrature methods from the GNU Scientific
 //'  Library (GSL) to approximate single-dimensional
 //'  integrals with high accuracy.  The bounds of integration are determined by the
-//'  \code{lowerBound} and \code{upperBound} slots of the Cat object.
+//'  \code{lowerBound} and \code{upperBound} slots of the \code{Cat} object.
 //' 
 //' @seealso \code{\link{expectedKL}}, \code{\link{posteriorKL}}, \code{\link{selectItem}}
 //' 
@@ -941,12 +941,12 @@ double likelihoodKL(S4 catObj, int item) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' This function uses adaptive quadrature methods from the GNU Scientific
 //'  Library (GSL) to approximate single-dimensional
 //'  integrals with high accuracy.  The bounds of integration are determined by the
-//'  \code{lowerBound} and \code{upperBound} slots of the Cat object.
+//'  \code{lowerBound} and \code{upperBound} slots of the \code{Cat} object.
 //' 
 //' @seealso \code{\link{expectedKL}}, \code{\link{likelihoodKL}}, \code{\link{selectItem}}
 //' @export
@@ -983,7 +983,7 @@ double posteriorKL(S4 catObj, int item) {
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 //'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' @seealso \code{\link{selectItem}}
 //'
@@ -1001,9 +1001,9 @@ List lookAhead(S4 catObj, int item) {
 //' @param catObj  An object of class \code{Cat}
 //'
 //'
-//' @details The stopping rule thresholds are stored in the following Cat object slots:
+//' @details The stopping rule thresholds are stored in the following \code{Cat} object slots:
 //' \code{lengthThreshold}, \code{seThreshold}, \code{infoThreshold}, and \code{gainThreshold}. The override
-//'  thresholds are stored in the following Cat object slots: \code{lengthOverride}, \code{gainOverride}.  
+//'  thresholds are stored in the following \code{Cat} object slots: \code{lengthOverride}, \code{gainOverride}.  
 //'  A value of \code{NA} indicates the rule will not be used in evaluating if further questions should be administered.
 //'  A user can specify any combination of stopping rules and/or overrides.  
 //'  
@@ -1061,6 +1061,11 @@ List lookAhead(S4 catObj, int item) {
 //' 
 //' 
 //' @seealso \code{\link{Cat-class}}, \code{\link{estimateSE}}, \code{\link{expectedPV}}, \code{\link{fisherInf}}
+//' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+//'  
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 //' 
 //' @export
 // [[Rcpp::export]]

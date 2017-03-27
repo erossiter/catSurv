@@ -24,7 +24,7 @@ The observed information is equivalent to the negative second derivative of the 
 This function should never be called when the respondent has answered no questions as the likelihood is not defined.
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
 \dontrun{

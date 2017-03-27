@@ -28,7 +28,7 @@ When the \code{usePrior} argument is \code{TRUE}, the function \code{dLL} evalua
 The function \code{dLL} is only available when using the normal prior distribution when the \code{use_prior} argument is \code{TRUE}.
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
 \dontrun{

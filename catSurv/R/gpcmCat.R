@@ -2,8 +2,8 @@
 #'
 #' This function fits the generalized partial credit model for ordinal polytomous data and populates the fitted values for discimination and difficulty parameters to an object of class \code{Cat}.
 #'
-#' @param data A \code{data.frame} of manifest variables or an object of class \code{gpcm}.
-#' @param quadraturePoints A numeric to be passed into the \code{gpcm} function indicating the number of Gauss-Hermite quadrature points.  Only applicable when \code{data} is a \code{data.frame}.  Default value is \code{21}.
+#' @param data A data frame of manifest variables or an object of class \code{gpcm}.
+#' @param quadraturePoints A numeric to be passed into the \code{gpcm} function indicating the number of Gauss-Hermite quadrature points.  Only applicable when \code{data} is a data frame.  Default value is \code{21}.
 #' @param ... arguments to be passed to methods. For more details about the arguments, see \code{gpcm} in the \code{ltm} package.
 #'
 #'@return The function \code{gpcmCat} returns an object of class \code{Cat} with changes to the following slots:
@@ -14,9 +14,9 @@
 #' }
 #' 
 #' 
-#' @details The \code{data} argument of the function \code{gpcmCat} is either a \code{data.frame} or an object of class \code{gpcm} from the \code{ltm} package.  If it is a \code{data.frame} each row represents a respondent and each column represents a question item.  If it is an object of the class \code{gpcm}, it is output from the \code{gpcm} function in the \code{ltm} package.
+#' @details The \code{data} argument of the function \code{gpcmCat} is either a data frame or an object of class \code{gpcm} from the \code{ltm} package.  If it is a data frame each row represents a respondent and each column represents a question item.  If it is an object of the class \code{gpcm}, it is output from the \code{gpcm} function in the \code{ltm} package.
 #' 
-#' The \code{quadraturePoints} argument of the function \code{gpcmCat} is used only when the \code{data} argument is of class \code{data.frame}.  \code{quadraturePoints} is then passed to the \code{gpcm} function from the \code{ltm} package when fitting the generalized partial credit model to the data and is used when approximating the value of integrals.
+#' The \code{quadraturePoints} argument of the function \code{gpcmCat} is used only when the \code{data} argument is a data frame.  \code{quadraturePoints} is then passed to the \code{gpcm} function from the \code{ltm} package when fitting the generalized partial credit model to the data and is used when approximating the value of integrals.
 #' 
 #' @references 
 #' 

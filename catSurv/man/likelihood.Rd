@@ -21,7 +21,7 @@ Calculates the likelihood of a respondent, with ability parameter \eqn{\theta}, 
 
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
 \dontrun{

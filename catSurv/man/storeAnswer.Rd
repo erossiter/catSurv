@@ -19,7 +19,7 @@
 The function \code{storeAnswer} returns an updated object of class \code{Cat} with the \code{answers} slot reflecting the newly stored \code{answer} to the indicated \code{item}.  All previously stored answers remain the same, and all unanswered questions remain \code{NA}.
 }
 \description{
-Stores answer to item \eqn{k} to the Cat object's \code{answers} slot.
+Stores answer to item \eqn{k} to the \code{Cat} object's \code{answers} slot.
 }
 \details{
 The function \code{storeAnswer} updates the \code{Cat} object, but the updated object must be assigned to an object for the changes to be stored.  See \strong{Examples}.

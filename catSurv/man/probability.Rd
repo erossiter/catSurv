@@ -58,7 +58,7 @@ For the \code{ltm} model, the probability of non-zero response for respondent \e
  for item \eqn{i}.  For identification purposes \eqn{\tau_{i0} = 0} and \eqn{\sum_{t=1}^1 \alpha_{i} [\theta_j - (\beta_i - \tau_{it})] = 0}.
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
 \dontrun{

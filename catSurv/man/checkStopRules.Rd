@@ -18,9 +18,9 @@ The function \code{checkStopRules} returns a boolean.  \code{TRUE} indicates all
 Evaluates the specified stopping and/or override rules to check if respondent should be asked further questions.
 }
 \details{
-The stopping rule thresholds are stored in the following Cat object slots:
+The stopping rule thresholds are stored in the following \code{Cat} object slots:
 \code{lengthThreshold}, \code{seThreshold}, \code{infoThreshold}, and \code{gainThreshold}. The override
- thresholds are stored in the following Cat object slots: \code{lengthOverride}, \code{gainOverride}.  
+ thresholds are stored in the following \code{Cat} object slots: \code{lengthOverride}, \code{gainOverride}.  
  A value of \code{NA} indicates the rule will not be used in evaluating if further questions should be administered.
  A user can specify any combination of stopping rules and/or overrides.  
  
@@ -39,6 +39,9 @@ The stopping rule thresholds are stored in the following Cat object slots:
   \code{lengthOverride}: Number of question's answered \eqn{< a}
 
   \code{gainOverride}: \eqn{|SE(\hat{\theta}) - \sqrt{EPV} | \geq a} \eqn{\forall} remaining items
+}
+\note{
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
 \dontrun{
@@ -65,6 +68,10 @@ setAnswers(ltm_cat) <- c(1,0,1,0,1,0,0,0,1,1,0, rep(NA, 29))
 checkStopRules(ltm_cat)
 }
 
+}
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \references{
 Babcock, Ben, and David J. Weiss. 2009. ``Termination Criteria in Computerized Adaptive Tests: Variable-Length CATs are not Biased." Proceedings of the 2009 GMAC Conference on Computerized Adaptive Testing. Vol. 14.

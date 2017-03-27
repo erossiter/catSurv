@@ -41,7 +41,7 @@
 \alias{getZ}
 \alias{getZ,Cat-method}
 \alias{getters}
-\title{Methods for Accessing Cat Object Slots}
+\title{Methods for Accessing \code{Cat} Object Slots}
 \usage{
 \S4method{getModel}{Cat}(catObj)
 
@@ -88,7 +88,7 @@
 These functions return the respective slot from Cat object.
 }
 \description{
-Getter methods access slots of a Cat object.
+Getter methods to access slots of a \code{Cat} object.
 }
 \examples{
 \dontrun{
@@ -107,6 +107,10 @@ setDiscrimination(ltm_cat) <- rep(1, 40)
 getDiscrimination(ltm_cat)
 }
 
+}
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, 
+Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \seealso{
 \code{\link{Cat-class}}, \code{\link{setters}}

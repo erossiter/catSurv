@@ -32,10 +32,10 @@ When \code{dist} is \code{"UNIFORM"}, the elements of \code{params} are the lowe
 of the interval, respectively.  Note that the \code{"UNIFORM"} is only applicable for the expected a posteriori (EAP) estimation method.
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 
 This function uses Boost \code{C++} source libraries for the uniform and Student's t
-distributions and calls \code{dnorm4} written in C which is identical to that 
+distributions and calls \code{dnorm4} written in \code{C} which is identical to that 
 of \code{dnorm} in \code{R}.
 }
 \examples{

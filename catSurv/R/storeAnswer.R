@@ -1,6 +1,6 @@
 #' Update Answer to Single Item
 #'
-#' Stores answer to item \eqn{k} to the Cat object's \code{answers} slot.
+#' Stores answer to item \eqn{k} to the \code{Cat} object's \code{answers} slot.
 #'
 #' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question item

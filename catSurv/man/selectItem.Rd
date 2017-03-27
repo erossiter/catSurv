@@ -52,18 +52,18 @@ The ??????????? criterion is used when the \code{selection}
 slot is \code{"MFII"}. This method involves integration. See \strong{Note} for more information.
 The bounds of integration are \eqn{\hat{\theta} \pm \delta},
  where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
- \eqn{z} is specified in the \code{z} slot of the Cat object.
+ \eqn{z} is specified in the \code{z} slot of the \code{Cat} object.
 
 A random number generator is used when the \code{selection}
 slot is \code{"RANDOM"}.
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 
 This function uses adaptive quadrature methods from the GNU Scientific
  Library (GSL) to approximate single-dimensional
  integrals with high accuracy.  The bounds of integration are determined by the
- \code{lowerBound} and \code{upperBound} slots of the Cat object unless otherwise noted.
+ \code{lowerBound} and \code{upperBound} slots of the \code{Cat} object unless otherwise noted.
 
 The \code{"RANDOM"} item selection criterion uses the package \code{RcppArmadillo} to randomly
 choose the next item among unasked questions.  \code{RcppArmadillo} provides an exact reproduction

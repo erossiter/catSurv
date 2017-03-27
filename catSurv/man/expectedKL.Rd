@@ -23,10 +23,10 @@ Calculates the expected Kullback-Leibeler information for an individual question
 The function \code{expectedKL} calculates the expected value of the Kullback-Leibeler information
 for a specified item where the bounds of integration are \eqn{\hat{\theta} \pm \delta},
  where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
- \eqn{z} is specified in the \code{z} slot of the Cat object.  See \strong{Note} for more information on integration.
+ \eqn{z} is specified in the \code{z} slot of the \code{Cat} object.  See \strong{Note} for more information on integration.
 }
 \note{
-This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled C++ code.
+This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 
 This function uses adaptive quadrature methods from the GNU Scientific
  Library (GSL) to approximate single-dimensional
