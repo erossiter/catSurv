@@ -1,4 +1,4 @@
-#' Political Knowledge
+#' MTurk Political Knowledge
 #'
 #' Data from Amazon Mechanical Turkers in 2012 responding to 64 political knowledge questions.  Political knowledge questions had a varying number of response options, noted below.  This dataset codes answers as either correct (a value of 0) or incorrect (a value of 1).
 #' 
@@ -264,15 +264,92 @@
 #'
 #' @docType data
 #' @keywords datasets
-#' @name polknow
-#' @usage data(polknow)
+#' @name polknowMT
+#' @usage data(polknowMT)
 #'
 #' @references Jacob M. Montgomery and Joshua Cutler. 2013. 
 #' "Computerized Adaptive Testing for Public Opinion Surveys." 
 #' Political Analysis (Spring 2013) 21 (2): 172-192.
 #' 
 #' @source \url{https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/19381}
-"polknow"
+"polknowMT"
+
+
+
+
+
+#' TAPS Political Knowledge
+#'
+#' Data of responses to a political knowledge battery from the May 2013 wave of The American Panel Survey (TAPS) out of Washington University in St. Louis.  
+#' 
+#' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
+#' 
+#' @format A data frame with 1496 observations on the following 10 questions.
+#' \describe{
+#' 
+#' \item{\code{Q1}}{Members of the U.S. Supreme Court serve 
+#' 
+#' 1 = two-year terms. 2 = ten-year terms. 3 = life terms. 4 = terms determined by the president. 5 = Don't know.
+#' }
+#' 
+#' \item{\code{Q2}}{Who is the Chief Justice of the U.S. Supreme Court?
+#' 
+#' 1 = John Roberts. 2 = Antonin Scalia. 3 = Mitt Romney. 4 = Hillary Clinton. 5 = Don't know.
+#' }
+#' 
+#' \item{\code{Q3}}{Social Security is
+#' 
+#' 1 = the benefit program for senior citizens. 2 = the responsibility of the Department of Defense. 3 = operated by state governments. 4 = funded by the personal income tax. 5 = Don't know.
+#' }
+#' 
+#' \item{\code{Q4}}{On which of the following programs is the most money spent each year?
+#' 
+#' 1 = aid to foreign countries. 2 = Medicare. 3 = subsidies to farmers. 4 = education. 5 = Don't know.
+#' }
+#' 
+#' \item{\code{Q5}}{Which party holds a majority of seats in the U.S. House of Representatives in Washington?
+#' 
+#' 1 = Democrats. 2 = Republicans. 3 = Independents. 4 = Don't know.
+#' }
+#' 
+#' \item{\code{Q6}}{How many votes are required in Congress to override a presidential veto?
+#' 
+#' 1 = a simple majority of one house of Congress. 2 = a simple majority of both houses of Congress. 3 = a two-thirds majority of one house of Congress. 4 = a two-thirds majority of both houses of Congress. 5 = Don't know.
+#' }
+#' 
+#' \item{\code{Q7}}{How long is one term for a member of the U.S. Senate?
+#' 
+#' 1 = two years. 2 = four years. 3 = six years. 4 = eight years. 5 = Don't know.
+#' }
+#' 
+#' \item{\code{Q8}}{The ability of a minority of senators to prevent a vote on a bill is known as 
+#' 
+#' 1 = a veto. 2 = a filibuster. 3 = enrollment. 4 = suspension of the rules. 5 = Don't know.
+#' }
+#' 
+#' \item{\code{Q9}}{Who is the Vice President of the United States?
+#' 
+#' 1 = Nancy Pelosi. 2 = John Boehner. 3 = Joseph Biden. 4 = Harry Reid. 5 = Don't know.
+#' }
+#' 
+#' \item{\code{Q10}}{A president may serve
+#' 
+#' 1 = one term. 2 = two terms. 3 = three terms. 4 = any number of terms. 5 = Don't know.
+#' }
+#' }
+#'
+#' @docType data
+#' @keywords datasets
+#' @name polknowTAPS
+#' @usage data(polknowTAPS)
+#'
+#' 
+#' @source \url{http://taps.wustl.edu/data-archive}
+"polknowTAPS"
+
+
+
+
 
 
 #' Narcissistic Personality Inventory

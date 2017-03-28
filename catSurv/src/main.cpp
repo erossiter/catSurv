@@ -69,14 +69,20 @@ using namespace Rcpp;
 //'probability(ltm_cat, theta = 1, item = 1)
 //'
 //'## Probability for Cat object of the tpm model
-//'data(polknow)
-//'tpm_cat <- tpmCat(polknow)
+//'data(polknowMT)
+//'tpm_cat <- tpmCat(polknowMT)
 //'probability(tpm_cat, theta = 1, item = 1)
 //'
 //'## Probability for Cat object of the grm model
 //'data(nfc)
 //'grm_cat <- grmCat(nfc)
 //'probability(grm_cat, theta = 1, item = 1)
+//'
+//'## Probability for Cat object of the gpcm model
+//'data(polknowTAPS)
+//'gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list("iter.qN" = 200))
+//'gpcm_cat <- gpcmCat(gpcm_fit)
+//'probability(gpcm_cat, theta = -3, item = 2)
 //'}
 //'  
 //' @seealso \code{\link{Cat-class}}
@@ -138,8 +144,8 @@ std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector it
 //'likelihood(ltm_cat, theta = 1)
 //'
 //'## Likelihood for Cat object of the tpm model
-//'data(polknow)
-//'tpm_cat <- tpmCat(polknow)
+//'data(polknowMT)
+//'tpm_cat <- tpmCat(polknowMT)
 //'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
 //'likelihood(tpm_cat, theta = 1)
 //'
@@ -255,8 +261,8 @@ double prior(NumericVector x, CharacterVector dist, NumericVector params) {
 //'dLL(ltm_cat, theta = 1)
 //'
 //'## dLL for Cat object of the tpm model
-//'data(polknow)
-//'tpm_cat <- tpmCat(polknow)
+//'data(polknowMT)
+//'tpm_cat <- tpmCat(polknowMT)
 //'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
 //'dLL(tpm_cat, theta = 1)
 //'
@@ -310,8 +316,8 @@ double dLL(S4 &catObj, double theta, bool use_prior){
 //'d2LL(ltm_cat, theta = 1)
 //'
 //'## d2LL for Cat object of the tpm model
-//'data(polknow)
-//'tpm_cat <- tpmCat(polknow)
+//'data(polknowMT)
+//'tpm_cat <- tpmCat(polknowMT)
 //'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
 //'d2LL(tpm_cat, theta = 1)
 //'
@@ -426,8 +432,8 @@ double estimateTheta(S4 catObj) {
 //'obsInf(ltm_cat, theta = 1, item = 10)
 //'
 //'## observed information for Cat object of the tpm model
-//'data(polknow)
-//'tpm_cat <- tpmCat(polknow)
+//'data(polknowMT)
+//'tpm_cat <- tpmCat(polknowMT)
 //'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
 //'obsInf(tpm_cat, theta = 1, item = 10)
 //'
