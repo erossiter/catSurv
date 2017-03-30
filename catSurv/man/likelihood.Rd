@@ -9,7 +9,7 @@ likelihood(catObj, theta)
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
-\item{theta}{A numeric or an integer indicating the value for \eqn{\theta_j}}
+\item{theta}{A numeric or an integer indicating the value for \eqn{\theta}}
 }
 \value{
 The function \code{likelihood} returns a numeric value of the likelihood of the respondent having offered the provided response profile.
@@ -35,8 +35,8 @@ setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 likelihood(ltm_cat, theta = 1)
 
 ## Likelihood for Cat object of the tpm model
-data(polknow)
-tpm_cat <- tpmCat(polknow)
+data(polknowMT)
+tpm_cat <- tpmCat(polknowMT)
 setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
 likelihood(tpm_cat, theta = 1)
 
@@ -54,7 +54,13 @@ Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
 \references{
+Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
 
+Choi, Seung W. and Richard J. Swartz. 2009. ``Comparison of CAT Item Selection Criteria for Polytomous Items." Applied Psychological Measurement 33(6):419-440.
+
+Muraki, Eiji. 1992. ``A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1):1-30.
+
+van der Linden, Wim J. 1998. ``Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika 63(2):201-216.
 }
 \seealso{
 \code{\link{Cat-class}}, \code{\link{probability}}

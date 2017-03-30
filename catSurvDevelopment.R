@@ -43,20 +43,20 @@ system(paste(shQuote(file.path(R.home("bin"), "R")), "CMD", "Rd2pdf", shQuote(pa
 # # use_data(polknowTAPS, pkg = "catSurv", overwrite = FALSE)
 # # ## try it out
 # # data(polknowTAPS)
-
-data("polknowTAPS")
-gpcmModel <- gpcm(data = polknowTAPS, constraint="gpcm", control=list("iter.qN"=200, "GHk"=50), IRT.param=FALSE)
-
-gpcm_cat <- gpcmCat(gpcmModel)
-gpcm_cat@difficulty[[1]]
-
-
-summary(gpcm_cat)
-?gpcm
-
-
-test<-gpcm(data=polknowTAPS, constraint="gpcm", control=list("iter.qN"=200))
-xx <- gpcmCat(test)
+# 
+# data("polknowTAPS")
+# gpcmModel <- gpcm(data = polknowTAPS, constraint="gpcm", control=list("iter.qN"=200, "GHk"=50), IRT.param=FALSE)
+# 
+# gpcm_cat <- gpcmCat(gpcmModel)
+# gpcm_cat@difficulty[[1]]
+# 
+# 
+# summary(gpcm_cat)
+# ?gpcm
+# 
+# 
+# test<-gpcm(data=polknowTAPS, constraint="gpcm", control=list("iter.qN"=200))
+# xx <- gpcmCat(test)
 
 
 

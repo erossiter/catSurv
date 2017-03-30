@@ -25,7 +25,7 @@ When the \code{usePrior} argument is \code{FALSE}, the function \code{dLL} evalu
 
 When the \code{usePrior} argument is \code{TRUE}, the function \code{dLL} evaluates the first derivative of the log-posterior at point \eqn{\theta}. 
 
-The function \code{dLL} is only available when using the normal prior distribution when the \code{use_prior} argument is \code{TRUE}.
+If the argument \code{use_prior} is \code{TRUE}, the function \code{dLL} must use the the normal prior distribution.
 }
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
@@ -42,8 +42,8 @@ setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 dLL(ltm_cat, theta = 1)
 
 ## dLL for Cat object of the tpm model
-data(polknow)
-tpm_cat <- tpmCat(polknow)
+data(polknowMT)
+tpm_cat <- tpmCat(polknowMT)
 setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
 dLL(tpm_cat, theta = 1)
 
@@ -58,6 +58,15 @@ dLL(grm_cat, theta = 1)
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}
+\references{
+Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+
+Choi, Seung W. and Richard J. Swartz. 2009. ``Comparison of CAT Item Selection Criteria for Polytomous Items." Applied Psychological Measurement 33(6):419-440.
+
+Muraki, Eiji. 1992. ``A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1):1-30.
+
+van der Linden, Wim J. 1998. ``Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika 63(2):201-216.
 }
 \seealso{
 \code{\link{Cat-class}}, \code{\link{prior}}

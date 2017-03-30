@@ -11,10 +11,10 @@ fisherTestInfo(catObj)
 }
 \value{
 The function \code{fisherTestInfo} returns a numeric indicating the total information gained for a respondent,
- given a specific answer set and the current estimate of \eqn{theta}.
+ given a specific answer set and the current estimate of \eqn{\theta}.
 }
 \description{
-Calculates the total information gained for a respondent for all answered items, conditioned on \eqn{theta}.
+Calculates the total information gained for a respondent for all answered items, conditioned on \eqn{\theta}.
 }
 \details{
 

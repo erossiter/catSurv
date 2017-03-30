@@ -51,7 +51,10 @@
 data(npi)
 }
 \description{
-Data from the test with the 40 paired items on one page. Respondents had to choose the one that fit them the best. Missingness is optional. Respondents' demographics were entered on the next page. In addition, they were also asked to affirm that their answers were acurate and suitable for research, those that did not (9\%) are not included in this dataset.
+Data from the 40 item Narcissistic Personality Inventory (Raskin and Terry 1988).  Item responses are paired. Respondents had to choose the one that fit them the best. Missingness is optional.  Respondents were asked to affirm that their answers were acurate and suitable for research, those that did not (9\%) are not included in this dataset.  Observations come from one of three adminstrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
+}
+\references{
+Raskin, Robert and Howard Terry. 1988. "A Principal-Components Analysis of the Narcissistic Personality Inventory and Further Evidence of Its Construct Validity." Journal of Personality and Social Psychology 54(5):890-902.
 }
 \keyword{datasets}
 

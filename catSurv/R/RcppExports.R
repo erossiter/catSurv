@@ -57,14 +57,20 @@
 #'probability(ltm_cat, theta = 1, item = 1)
 #'
 #'## Probability for Cat object of the tpm model
-#'data(polknow)
-#'tpm_cat <- tpmCat(polknow)
+#'data(polknowMT)
+#'tpm_cat <- tpmCat(polknowMT)
 #'probability(tpm_cat, theta = 1, item = 1)
 #'
 #'## Probability for Cat object of the grm model
 #'data(nfc)
 #'grm_cat <- grmCat(nfc)
 #'probability(grm_cat, theta = 1, item = 1)
+#'
+#'## Probability for Cat object of the gpcm model
+#'data(polknowTAPS)
+#'gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list("iter.qN" = 200))
+#'gpcm_cat <- gpcmCat(gpcm_fit)
+#'probability(gpcm_cat, theta = -3, item = 2)
 #'}
 #'  
 #' @seealso \code{\link{Cat-class}}
@@ -94,7 +100,7 @@ probability <- function(catObj, theta, item) {
 #' Calculates the likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot. All calculations are conditional on the item-level parameters stored in the \code{Cat} object.
 #'
 #' @param catObj An object of class \code{Cat}
-#' @param theta A numeric or an integer indicating the value for \eqn{\theta_j} 
+#' @param theta A numeric or an integer indicating the value for \eqn{\theta} 
 #' 
 #' @return The function \code{likelihood} returns a numeric value of the likelihood of the respondent having offered the provided response profile.
 #'
@@ -106,6 +112,14 @@ probability <- function(catObj, theta, item) {
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 #' 
 #' @references 
+#' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+#' 
+#' Choi, Seung W. and Richard J. Swartz. 2009. ``Comparison of CAT Item Selection Criteria for Polytomous Items." Applied Psychological Measurement 33(6):419-440.
+#' 
+#' Muraki, Eiji. 1992. ``A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1):1-30.
+#' 
+#' van der Linden, Wim J. 1998. ``Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika 63(2):201-216.
+#' 
 #' 
 #'@examples
 #'\dontrun{
@@ -119,8 +133,8 @@ probability <- function(catObj, theta, item) {
 #'likelihood(ltm_cat, theta = 1)
 #'
 #'## Likelihood for Cat object of the tpm model
-#'data(polknow)
-#'tpm_cat <- tpmCat(polknow)
+#'data(polknowMT)
+#'tpm_cat <- tpmCat(polknowMT)
 #'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
 #'likelihood(tpm_cat, theta = 1)
 #'
@@ -216,7 +230,7 @@ prior <- function(x, dist, params) {
 #' 
 #' When the \code{usePrior} argument is \code{TRUE}, the function \code{dLL} evaluates the first derivative of the log-posterior at point \eqn{\theta}. 
 #' 
-#' The function \code{dLL} is only available when using the normal prior distribution when the \code{use_prior} argument is \code{TRUE}.
+#' If the argument \code{use_prior} is \code{TRUE}, the function \code{dLL} must use the the normal prior distribution.
 #' 
 #' @examples
 #' \dontrun{
@@ -230,8 +244,8 @@ prior <- function(x, dist, params) {
 #'dLL(ltm_cat, theta = 1)
 #'
 #'## dLL for Cat object of the tpm model
-#'data(polknow)
-#'tpm_cat <- tpmCat(polknow)
+#'data(polknowMT)
+#'tpm_cat <- tpmCat(polknowMT)
 #'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
 #'dLL(tpm_cat, theta = 1)
 #'
@@ -248,6 +262,16 @@ prior <- function(x, dist, params) {
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 #' 
 #' @seealso \code{\link{Cat-class}}, \code{\link{prior}}
+#' 
+#' @references 
+#' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+#' 
+#' Choi, Seung W. and Richard J. Swartz. 2009. ``Comparison of CAT Item Selection Criteria for Polytomous Items." Applied Psychological Measurement 33(6):419-440.
+#' 
+#' Muraki, Eiji. 1992. ``A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1):1-30.
+#' 
+#' van der Linden, Wim J. 1998. ``Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika 63(2):201-216.
+#' 
 #'  
 #' @export
 dLL <- function(catObj, theta, use_prior) {
@@ -270,7 +294,7 @@ dLL <- function(catObj, theta, use_prior) {
 #' 
 #' When the \code{usePrior} argument is \code{TRUE}, the function \code{d2LL} evaluates the second derivative of the log-posterior at point \eqn{\theta}. 
 #' 
-#' The function \code{dLL2} is only available when using the normal prior distribution when the argument \code{use_prior} is \code{TRUE}.
+#' If the argument \code{use_prior} is \code{TRUE}, the function \code{d2LL} must use the the normal prior distribution.
 #' 
 #' @examples
 #' \dontrun{
@@ -284,8 +308,8 @@ dLL <- function(catObj, theta, use_prior) {
 #'d2LL(ltm_cat, theta = 1)
 #'
 #'## d2LL for Cat object of the tpm model
-#'data(polknow)
-#'tpm_cat <- tpmCat(polknow)
+#'data(polknowMT)
+#'tpm_cat <- tpmCat(polknowMT)
 #'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
 #'d2LL(tpm_cat, theta = 1)
 #'
@@ -303,6 +327,16 @@ dLL <- function(catObj, theta, use_prior) {
 #' 
 #' @seealso
 #' \code{\link{Cat-class}}, \code{\link{dLL}}, \code{\link{prior}}
+#' 
+#' @references 
+#' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
+#' 
+#' Choi, Seung W. and Richard J. Swartz. 2009. ``Comparison of CAT Item Selection Criteria for Polytomous Items." Applied Psychological Measurement 33(6):419-440.
+#' 
+#' Muraki, Eiji. 1992. ``A generalized partial credit model: Application of an EM algorithm." ETS Research Report Series 1992(1):1-30.
+#' 
+#' van der Linden, Wim J. 1998. ``Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika 63(2):201-216.
+#' 
 #' 
 #' @export
 d2LL <- function(catObj, theta, use_prior) {
@@ -366,6 +400,15 @@ d2LL <- function(catObj, theta, use_prior) {
 #'  \code{lowerBound} and \code{upperBound} slots of the \code{Cat} object.
 #' 
 #' @seealso \code{\link{Cat-class}}, \code{\link{estimateSE}}
+#' 
+#' @references
+#' 
+#' van der Linden, Wim J. 1998. "Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika
+#' 63(2):201-216.
+#' 
+#' Van der Linden, Wim J., and Peter J. Pashley. 2009. "Item Selection and Ability
+#'  Estimation in Adaptive Testing." Elements of Adaptive Testing. 
+#'  Springer New York, 3-30.
 #'  
 #' @export
 estimateTheta <- function(catObj) {
@@ -397,8 +440,8 @@ estimateTheta <- function(catObj) {
 #'obsInf(ltm_cat, theta = 1, item = 10)
 #'
 #'## observed information for Cat object of the tpm model
-#'data(polknow)
-#'tpm_cat <- tpmCat(polknow)
+#'data(polknowMT)
+#'tpm_cat <- tpmCat(polknowMT)
 #'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
 #'obsInf(tpm_cat, theta = 1, item = 10)
 #'
@@ -499,12 +542,12 @@ fisherInf <- function(catObj, theta, item) {
 
 #' Fisher's Test Information
 #'
-#' Calculates the total information gained for a respondent for all answered items, conditioned on \eqn{theta}.
+#' Calculates the total information gained for a respondent for all answered items, conditioned on \eqn{\theta}.
 #'
 #' @param catObj An object of class \code{Cat}
 #' 
 #' @return The function \code{fisherTestInfo} returns a numeric indicating the total information gained for a respondent,
-#'  given a specific answer set and the current estimate of \eqn{theta}.
+#'  given a specific answer set and the current estimate of \eqn{\theta}.
 #' 
 #' @details
 #' 
@@ -650,9 +693,9 @@ expectedPV <- function(catObj, item) {
 #' 
 #' @param catObj An object of class \code{Cat}
 #'
-#' @return The function \code{selectItem} returns a \code{list} with two elements:
+#' @return The function \code{selectItem} returns a list with two elements:
 #'  
-#' \code{estimates}: a \code{data.frame} with a row for each unasked question and three columns representing 
+#' \code{estimates}: a data frame with a row for each unasked question and three columns representing 
 #' the item index number, the item name, and the item value (calculated by the specified selection method), 
 #' and
 #' 
@@ -692,6 +735,15 @@ expectedPV <- function(catObj, item) {
 #' 
 #' A random number generator is used when the \code{selection}
 #' slot is \code{"RANDOM"}.
+#' 
+#' @references
+#' 
+#' van der Linden, Wim J. 1998. "Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika
+#' 63(2):201-216.
+#' 
+#' Van der Linden, Wim J., and Peter J. Pashley. 2009. "Item Selection and Ability
+#'  Estimation in Adaptive Testing." Elements of Adaptive Testing. 
+#'  Springer New York, 3-30.
 #' 
 #' 
 #' @examples
@@ -790,7 +842,7 @@ selectItem <- function(catObj) {
 #'## Store example answers
 #'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 #'
-#'## Estimate EPV for different unasked items
+#'## Estimate KL for different unasked items
 #'expectedKL(ltm_cat, item = 10)
 #'expectedKL(ltm_cat, item = 20)
 #'expectedKL(ltm_cat, item = 30)
@@ -821,7 +873,7 @@ expectedKL <- function(catObj, item) {
 #' @param item An integer indicating the index of the question item
 #'
 #' @details The function \code{likelihoodKL} calculates the expected Kullback-Leibeler information for \eqn{\hat{\theta}}, weighting potential
-#' true values of \eqn{theta}, \eqn{\theta_0} by the likelihood of \eqn{\theta_0}.
+#' true values of \eqn{\theta}, \eqn{\theta_0} by the likelihood of \eqn{\theta_0}.
 #' 
 #' This function involves integration.  See \strong{Note} for more information.
 #' 
@@ -870,7 +922,7 @@ likelihoodKL <- function(catObj, item) {
 #' @param item An integer indicating the index of the question item
 #'
 #' @details The function \code{posteriorKL} calculates the expected Kullback-Leibeler information for \eqn{\hat{\theta}}, weighting potential
-#' true values of \eqn{theta}, \eqn{\theta_0} by the likelihood and posterior estimate of \eqn{\theta_0}. 
+#' true values of \eqn{\theta}, \eqn{\theta_0} by the likelihood and posterior estimate of \eqn{\theta_0}. 
 #' 
 #' This function involves integration.  See \strong{Note} for more information.
 #' 
@@ -917,8 +969,8 @@ posteriorKL <- function(catObj, item) {
 #' @param catObj  An object of class \code{Cat}
 #' @param item A numeric indicating the question item the respondent is currently answering.
 #'
-#' @return A function \code{lookAhead} returns a \code{list} of one element, \code{estimates}, a \code{data.frame}.
-#' The the first column of the \code{data.frame} is the possible response option to the question the respondent
+#' @return A function \code{lookAhead} returns a list of one element named \code{estimates}, which is itself a data frame.
+#' The the first column of the data frame is the possible response option to the question the respondent
 #' is currently answering and the second column is the next item that should be asked given each response.
 #' 
 #' @examples

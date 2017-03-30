@@ -26,10 +26,34 @@
 #' 
 #' Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses." Journal of Statistical Software 17(5):1-25.
 #' 
+#' @examples
+#' \dontrun{
+#' ## Creating Cat object with raw data
+#' data(polknowTAPS)
+#' gpcm_cat1 <- grmCat(polknowTAPS, quadraturePoints = 100)
+#' 
+#' ## Creating Cat object with fitted object of class gpcm
+#' gpcm_fit <- gpcm(polknowTAPS, control = list(GHk = 100)) ## from ltm package
+#' class(gpcm_fit)
+#' gpcm_cat2 <- gpcmCat(gpcm_fit)
+#' 
+#' ## Note the two Cat objects are identical
+#' identical(gpcm_cat1, gpcm_cat2)
+#' 
+#' ## Slots that have changed from default values
+#' getModel(gpcm_cat1)
+#' getDifficulty(gpcm_cat1)
+#' getDiscrimination(gpcm_cat1)
+#' 
+#' ## Changing slots from default values
+#' setEstimation(gpcm_cat1) <- "MLE"
+#' setSelection(gpcm_cat1) <- "MFI"
+#'}
+#' 
 #' 
 #' @seealso 
 #' 
-#' \code{\link{Cat-class}}, \code{\link{grmCat}}
+#' \code{\link{Cat-class}}, \code{\link{grmCat}}, \code{\link{polknowTAPS}}, \code{\link{probability}}
 #' 
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
 #' 

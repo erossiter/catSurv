@@ -68,14 +68,20 @@ ltm_cat <- ltmCat(npi)
 probability(ltm_cat, theta = 1, item = 1)
 
 ## Probability for Cat object of the tpm model
-data(polknow)
-tpm_cat <- tpmCat(polknow)
+data(polknowMT)
+tpm_cat <- tpmCat(polknowMT)
 probability(tpm_cat, theta = 1, item = 1)
 
 ## Probability for Cat object of the grm model
 data(nfc)
 grm_cat <- grmCat(nfc)
 probability(grm_cat, theta = 1, item = 1)
+
+## Probability for Cat object of the gpcm model
+data(polknowTAPS)
+gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list("iter.qN" = 200))
+gpcm_cat <- gpcmCat(gpcm_fit)
+probability(gpcm_cat, theta = -3, item = 2)
 }
  
 }

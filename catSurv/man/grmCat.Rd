@@ -52,10 +52,14 @@ grm_cat2 <- grmCat(grm_fit)
 ## Note the two Cat objects are identical
 identical(grm_cat1, grm_cat2)
 
-## Note the slots that have changed from default values
-grm_cat1@model
-grm_cat1@difficulty
-grm_cat1@discrimination
+## Slots that have changed from default values
+getModel(grm_cat1)
+getDifficulty(grm_cat1)
+getDiscrimination(grm_cat1)
+
+## Changing slots from default values
+setEstimation(grm_cat1) <- "MLE"
+setSelection(grm_cat1) <- "MFI"
 }
 
 }
@@ -70,6 +74,6 @@ Samejima, Fumiko. 1969. ``Estimation of Latent Ability Using a Response Pattern 
 Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses.`` Journal of Statistical Software 17(5):1-25.
 }
 \seealso{
-\code{\link{Cat-class}}, \code{\link{gpcmCat}}
+\code{\link{Cat-class}}, \code{\link{gpcmCat}}, \code{\link{nfc}}, \code{\link{probability}}
 }
 

@@ -21,7 +21,7 @@ Calculates the expected Kullback-Leibeler information, weighted by likelihood an
 }
 \details{
 The function \code{posteriorKL} calculates the expected Kullback-Leibeler information for \eqn{\hat{\theta}}, weighting potential
-true values of \eqn{theta}, \eqn{\theta_0} by the likelihood and posterior estimate of \eqn{\theta_0}. 
+true values of \eqn{\theta}, \eqn{\theta_0} by the likelihood and posterior estimate of \eqn{\theta_0}. 
 
 This function involves integration.  See \strong{Note} for more information.
 }

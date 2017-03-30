@@ -12,8 +12,8 @@ lookAhead(catObj, item)
 \item{item}{A numeric indicating the question item the respondent is currently answering.}
 }
 \value{
-A function \code{lookAhead} returns a \code{list} of one element, \code{estimates}, a \code{data.frame}.
-The the first column of the \code{data.frame} is the possible response option to the question the respondent
+A function \code{lookAhead} returns a list of one element named \code{estimates}, which is itself a data frame.
+The the first column of the data frame is the possible response option to the question the respondent
 is currently answering and the second column is the next item that should be asked given each response.
 }
 \description{

@@ -65,6 +65,14 @@ estimateTheta(ltm_cat)
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
+\references{
+van der Linden, Wim J. 1998. "Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika
+63(2):201-216.
+
+Van der Linden, Wim J., and Peter J. Pashley. 2009. "Item Selection and Ability
+ Estimation in Adaptive Testing." Elements of Adaptive Testing. 
+ Springer New York, 3-30.
+}
 \seealso{
 \code{\link{Cat-class}}, \code{\link{estimateSE}}
 }

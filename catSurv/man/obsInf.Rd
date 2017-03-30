@@ -38,8 +38,8 @@ setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 obsInf(ltm_cat, theta = 1, item = 10)
 
 ## observed information for Cat object of the tpm model
-data(polknow)
-tpm_cat <- tpmCat(polknow)
+data(polknowMT)
+tpm_cat <- tpmCat(polknowMT)
 setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
 obsInf(tpm_cat, theta = 1, item = 10)
 

@@ -28,10 +28,14 @@
 #' ## Note the two Cat objects are identical
 #' identical(grm_cat1, grm_cat2)
 #' 
-#' ## Note the slots that have changed from default values
-#' grm_cat1@model
-#' grm_cat1@difficulty
-#' grm_cat1@discrimination
+#' ## Slots that have changed from default values
+#' getModel(grm_cat1)
+#' getDifficulty(grm_cat1)
+#' getDiscrimination(grm_cat1)
+#' 
+#' ## Changing slots from default values
+#' setEstimation(grm_cat1) <- "MLE"
+#' setSelection(grm_cat1) <- "MFI"
 #'}
 #' 
 #' @references 
@@ -50,12 +54,13 @@
 #' 
 #' @seealso 
 #' 
-#' \code{\link{Cat-class}}, \code{\link{gpcmCat}}
+#' \code{\link{Cat-class}}, \code{\link{gpcmCat}}, \code{\link{nfc}}, \code{\link{probability}}
 #' 
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
 #' 
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+#' 
 #' 
 #' 
 #' @rdname grmCat

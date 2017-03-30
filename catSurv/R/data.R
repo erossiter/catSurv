@@ -354,7 +354,7 @@
 
 #' Narcissistic Personality Inventory
 #'
-#' Data from the test with the 40 paired items on one page. Respondents had to choose the one that fit them the best. Missingness is optional. Respondents' demographics were entered on the next page. In addition, they were also asked to affirm that their answers were acurate and suitable for research, those that did not (9\%) are not included in this dataset.
+#' Data from the 40 item Narcissistic Personality Inventory (Raskin and Terry 1988).  Item responses are paired. Respondents had to choose the one that fit them the best. Missingness is optional.  Respondents were asked to affirm that their answers were acurate and suitable for research, those that did not (9\%) are not included in this dataset.  Observations come from one of three adminstrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
 #' 
 #' 
 #' @format A data frame with 11,243 observations on the following 40 variables.
@@ -400,6 +400,10 @@
 #' \item{\code{Q39}}{0 = I am more capable than other people. 1 = There is a lot that I can learn from other people.}
 #' \item{\code{Q40}}{0 = I am much like everybody else. 1 = I am an extraordinary person.}
 #' }
+#' 
+#' @references 
+#' 
+#' Raskin, Robert and Howard Terry. 1988. "A Principal-Components Analysis of the Narcissistic Personality Inventory and Further Evidence of Its Construct Validity." Journal of Personality and Social Psychology 54(5):890-902.
 #'
 #' @docType data
 #' @keywords datasets
@@ -412,7 +416,7 @@
 
 #' Need For Cognition
 #'
-#' Data of survey respondents' responses to 18 NFC questions, which is a reduced version of NFC. For each question, respondents could choose one of five response options: Agree strongly, agree somewhat, neither agree nor disagree, disagree somewhat, disagree strongly. Missingness is optional. Observations come from one of three adminstrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in sspring of 2015.
+#' Data of survey respondents' responses to 18 NFC questions, which is a reduced version of NFC (Cacioppo and Petty 1984). For each question, respondents could choose one of five response options: 1 = agree strongly, 2 = agree somewhat, 3 = neither agree nor disagree, 4 = disagree somewhat, 5 = disagree strongly. Missingness is optional. Observations come from one of three adminstrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
 #' 
 #' 
 #' @format A data frame with 4043 observations on the following 18 variables.
@@ -436,6 +440,10 @@
 #'     \item{\code{NFC40}}{I would prefer complex to simple problems}
 #'     \item{\code{NFC43}}{Its enough for me that something gets the job done; I dont care how or why it works}
 #' }
+#' 
+#' @references 
+#' 
+#' Cacioppo, John T. and Richard E. Petty. 1984. "The Efficient Assessment of Need for Cognition." Journal of Personality Assessment 48(3):306-307.
 #' 
 #' 
 #' @docType data

@@ -27,21 +27,25 @@
 #' @examples
 #' \dontrun{
 #' ## Creating Cat object with raw data
-#' data(polknow)
-#' tpm_cat1 <- tpmCat(polknow, quadraturePoints = 100)
+#' data(polknowMT)
+#' tpm_cat1 <- tpmCat(polknowMT, quadraturePoints = 100, start.val = "random")
 #' 
 #' ## Creating Cat object with fitted object of class tpm
-#' tpm_fit <- grm(polknow, control = list(GHk = 100)) ## from ltm package
+#' tpm_fit <- tpm(polknowMT, control = list(GHk = 100)) ## from ltm package
 #' class(tpm_fit)
 #' tpm_cat2 <- tpmCat(tpm_fit)
 #' 
 #' ## Note the two Cat objects are identical
 #' identical(tpm_cat1, tpm_cat2)
 #' 
-#' ## Note the slots that have changed from default values
-#' tpm_cat1@model
-#' tpm_cat1@difficulty
-#' tpm_cat1@discrimination
+#' ## Slots that have changed from default values
+#' getModel(tpm_cat1)
+#' getDifficulty(tpm_cat1)
+#' getDiscrimination(tpm_cat1)
+#' 
+#' ## Changing slots from default values
+#' setEstimation(tpm_cat1) <- "MLE"
+#' setSelection(tpm_cat1) <- "MFI"
 #'}
 #' 
 #' 
@@ -51,7 +55,7 @@
 #'
 #' @seealso
 #' 
-#' \code{\link{Cat-class}}, \code{\link{ltmCat}}
+#' \code{\link{Cat-class}}, \code{\link{ltmCat}}, \code{\link{polknowMT}}, \code{\link{probability}}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #' 
@@ -73,7 +77,8 @@ setGeneric("tpmCat", function(data, quadraturePoints = NULL, ...){
 setMethod("tpmCat",
           signature(data = "data.frame"),
           function(data, quadraturePoints = 21, ...){
-            fit <- tpm(data, control = list(GHk = quadraturePoints), ...)
+            fit <- tpm(data, type = "latent.trait",
+                       control = list(GHk = quadraturePoints), ...)
 
             discm <- fit$coef[,"beta.2i"]
             diff <- fit$coef[,"beta.1i"]

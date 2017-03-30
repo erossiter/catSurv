@@ -45,17 +45,21 @@ data(npi)
 ltm_cat1 <- ltmCat(npi, quadraturePoints = 100)
 
 ## Creating Cat object with fitted object of class tpm
-ltm_fit <- grm(npi, control = list(GHk = 100)) ## from ltm package
+ltm_fit <- ltm(npi ~ z1, control = list(GHk = 100)) ## from ltm package
 class(ltm_fit)
 ltm_cat2 <- ltmCat(ltm_fit)
 
 ## Note the two Cat objects are identical
 identical(ltm_cat1, ltm_cat2)
 
-## Note the slots that have changed from default values
-ltm_cat1@model
-ltm_cat1@difficulty
-ltm_cat1@discrimination
+## Slots that have changed from default values
+getModel(ltm_cat1)
+getDifficulty(ltm_cat1)
+getDiscrimination(ltm_cat1)
+
+## Changing slots from default values
+setEstimation(ltm_cat1) <- "MLE"
+setSelection(ltm_cat1) <- "MFI"
 }
 
 }
@@ -68,6 +72,6 @@ Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimati
 Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses." Journal of Statistical Software 17(5):1-25.
 }
 \seealso{
-\code{\link{Cat-class}}, \code{\link{tpmCat}}
+\code{\link{Cat-class}}, \code{\link{npi}}, \code{\link{probability}}, \code{\link{tpmCat}}
 }
 

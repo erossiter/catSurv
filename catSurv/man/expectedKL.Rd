@@ -41,7 +41,7 @@ ltm_cat <- ltmCat(npi)
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 
-## Estimate EPV for different unasked items
+## Estimate KL for different unasked items
 expectedKL(ltm_cat, item = 10)
 expectedKL(ltm_cat, item = 20)
 expectedKL(ltm_cat, item = 30)

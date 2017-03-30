@@ -41,21 +41,25 @@ In case the Hessian matrix at convergence is not positive definite try to use \c
 \examples{
 \dontrun{
 ## Creating Cat object with raw data
-data(polknow)
-tpm_cat1 <- tpmCat(polknow, quadraturePoints = 100)
+data(polknowMT)
+tpm_cat1 <- tpmCat(polknowMT, quadraturePoints = 100, start.val = "random")
 
 ## Creating Cat object with fitted object of class tpm
-tpm_fit <- grm(polknow, control = list(GHk = 100)) ## from ltm package
+tpm_fit <- tpm(polknowMT, control = list(GHk = 100)) ## from ltm package
 class(tpm_fit)
 tpm_cat2 <- tpmCat(tpm_fit)
 
 ## Note the two Cat objects are identical
 identical(tpm_cat1, tpm_cat2)
 
-## Note the slots that have changed from default values
-tpm_cat1@model
-tpm_cat1@difficulty
-tpm_cat1@discrimination
+## Slots that have changed from default values
+getModel(tpm_cat1)
+getDifficulty(tpm_cat1)
+getDiscrimination(tpm_cat1)
+
+## Changing slots from default values
+setEstimation(tpm_cat1) <- "MLE"
+setSelection(tpm_cat1) <- "MFI"
 }
 
 
@@ -71,6 +75,6 @@ Birnbaum, Allan. 1968. Some Latent Trait Models and their Use in Inferring an Ex
 Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and Item Response Theory Analyses." Journal of Statistical Software 17(5):1-25.
 }
 \seealso{
-\code{\link{Cat-class}}, \code{\link{ltmCat}}
+\code{\link{Cat-class}}, \code{\link{ltmCat}}, \code{\link{polknowMT}}, \code{\link{probability}}
 }
 

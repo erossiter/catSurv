@@ -10,9 +10,9 @@ selectItem(catObj)
 \item{catObj}{An object of class \code{Cat}}
 }
 \value{
-The function \code{selectItem} returns a \code{list} with two elements:
+The function \code{selectItem} returns a list with two elements:
  
-\code{estimates}: a \code{data.frame} with a row for each unasked question and three columns representing 
+\code{estimates}: a data frame with a row for each unasked question and three columns representing 
 the item index number, the item name, and the item value (calculated by the specified selection method), 
 and
 
@@ -118,6 +118,14 @@ selectItem(ltm_cat)
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}
+\references{
+van der Linden, Wim J. 1998. "Bayesian Item Selection Criteria for Adaptive Testing." Psychometrika
+63(2):201-216.
+
+Van der Linden, Wim J., and Peter J. Pashley. 2009. "Item Selection and Ability
+ Estimation in Adaptive Testing." Elements of Adaptive Testing. 
+ Springer New York, 3-30.
 }
 \seealso{
 \code{\link{estimateTheta}}, \code{\link{expectedPV}}, \code{\link{fisherInf}}
