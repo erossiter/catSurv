@@ -26,6 +26,8 @@ The function \code{tpmCat} returns an object of class \code{Cat} with changes to
 \item \code{discrimination} A vector consisting of disrimination parameters for each item.
 \item \code{model} The string \code{"tpm"}, indicating this \code{Cat} object corresponds to Birnbaum's three parameter model.
 }
+
+See \code{\link{Cat-class}} for default values of \code{Cat} object slots.  See \strong{Examples} and \code{\link{setters}} for example code to change slot values.
 }
 \description{
 This function fits Birnbaum's three parameter model for binary data and populates the fitted values for discimination, difficulty, and guessing parameters to an object of class \code{Cat}.
@@ -40,12 +42,12 @@ In case the Hessian matrix at convergence is not positive definite try to use \c
 }
 \examples{
 \dontrun{
-## Creating Cat object with raw data
+## Creating Cat object with first 20 questions of with raw data
 data(polknowMT)
-tpm_cat1 <- tpmCat(polknowMT, quadraturePoints = 100, start.val = "random")
+tpm_cat1 <- tpmCat(polknowMT[,1:20], quadraturePoints = 100, start.val = "random")
 
 ## Creating Cat object with fitted object of class tpm
-tpm_fit <- tpm(polknowMT, control = list(GHk = 100)) ## from ltm package
+tpm_fit <- tpm(polknowMT[,1:20], control = list(GHk = 100), start.val = "random") ## from ltm package
 class(tpm_fit)
 tpm_cat2 <- tpmCat(tpm_fit)
 

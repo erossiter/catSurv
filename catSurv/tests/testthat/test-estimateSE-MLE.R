@@ -19,7 +19,7 @@ test_that("grm MLE theta standard error calculates correctly", {
   catR_se <- semTheta(thEst = estimateTheta(grm_cat), it = it_grm,
                        x = c(grm_cat@answers) - 1, method = "ML", model = "GRM")
 
-  expect_equal(round(package_se, 4), round(catR_se, 4))
+  expect_equal(round(package_se, 3), round(catR_se, 3))
 })
 
 test_that("gpcm MLE theta standard error calculates correctly", {

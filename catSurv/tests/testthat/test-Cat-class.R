@@ -5,8 +5,8 @@ test_that("'set' methods work", {
   setEstimation(ltm_cat) <- "WLE"
   expect_equal(ltm_cat@estimation, "WLE")
 
-  setDiscrimination(gpcm_cat) <- rep(1, 18)
-  expect_equal(gpcm_cat@discrimination, rep(1, 18))
+  setDiscrimination(gpcm_cat) <- rep(1, 10)
+  expect_equal(gpcm_cat@discrimination, rep(1, 10))
 })
 
 test_that("validity tests work", {

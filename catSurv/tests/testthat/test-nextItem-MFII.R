@@ -12,7 +12,7 @@ test_that("ltm nextItem MFII calculates correctly", {
                                         "MFII"]
 
   expect_equal(package_item, 27)
-  expect_equal(round(package_est, 3), 2.632)
+  expect_equal(round(package_est, 3), 1.818)
 })
 
 test_that("grm nextItem MFII calculates correctly", {
@@ -25,8 +25,8 @@ test_that("grm nextItem MFII calculates correctly", {
   package_est <- package_next$estimates[package_next$estimates$q_number == package_item,
                                         "MFII"]
 
-  expect_equal(package_item, 17)
-  expect_equal(round(package_est, 3), 3.317)
+  expect_equal(package_item, 10)
+  expect_equal(round(package_est, 3), 3.238)
 })
 
 test_that("nextItem MFII throws error when no questions asked", {
@@ -45,7 +45,7 @@ test_that("nextItem MFII is actually the maximum estimate", {
   grm_cat@selection <- "MFII"
   grm_cat@answers[1:5] <- c(5, 4, 2, 2, 5)
   gpcm_cat@selection <- "MFII"
-  gpcm_cat@answers[1:5] <- c(5, 4, 2, 2, 5)
+  gpcm_cat@answers[1:5] <- c(1, 1, 2, 2, 4)
   ltm_next <- selectItem(ltm_cat)
   grm_next <- selectItem(grm_cat)
   gpcm_next <- selectItem(gpcm_cat)

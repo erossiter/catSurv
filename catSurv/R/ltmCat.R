@@ -12,6 +12,8 @@
 #' \item \code{discrimination} A vector consisting of disrimination parameters for each item.
 #' \item \code{model} The string \code{"ltm"}, indicating this \code{Cat} object corresponds to a latent trait model.
 #' }
+#' 
+#' See \code{\link{Cat-class}} for default values of \code{Cat} object slots.  See \strong{Examples} and \code{\link{setters}} for example code to change slot values.
 #'
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
 #' 

@@ -10,8 +10,8 @@ test_that("ltm nextItem PKL calculates correctly", {
   package_item <- package_next$next_item
   package_est <- package_next$estimates[package_next$estimates$q_number 
                                         == package_item, "PKL"]
-  expect_equal(package_item, 32)
-  expect_equal(round(package_est, 6), .000299)
+  expect_equal(package_item, 40)
+  expect_equal(round(package_est, 6), 0.000218)
 })
 
 test_that("grm nextItem PKL calculates correctly", {
@@ -25,7 +25,7 @@ test_that("grm nextItem PKL calculates correctly", {
                                         == package_item, "PKL"]
 
   expect_equal(package_item, 10)
-  expect_equal(round(package_est, 8), 1e-08)
+  expect_equal(round(package_est, 8), 3e-08)
 })
 
 test_that("nextItem PKL chooses item (not NA) when no questions asked", {
@@ -45,7 +45,7 @@ test_that("nextItem PKL estimates are not NA (when no questions asked)", {
 
   expect_equal(sum(!is.na(selectItem(ltm_cat)$estimates[,"PKL"])), 40)
   expect_equal(sum(!is.na(selectItem(grm_cat)$estimates[,"PKL"])), 18)
-  expect_equal(sum(!is.na(selectItem(gpcm_cat)$estimates[,"PKL"])), 18)
+  expect_equal(sum(!is.na(selectItem(gpcm_cat)$estimates[,"PKL"])), 10)
 })
 
 test_that("nextItem PKL is actually the maximum estimate", {

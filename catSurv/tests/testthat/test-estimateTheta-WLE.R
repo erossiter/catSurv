@@ -9,7 +9,7 @@ test_that("ltm WLE estimation calculates correctly", {
   package_wle <- estimateTheta(ltm_cat)
   catR_wle <- thetaEst(it_ltm, x = ltm_cat@answers, method = "WL")
     
-  expect_equal(round(package_wle, 5), round(catR_wle, 4))
+  expect_equal(round(package_wle, 4), round(catR_wle, 4))
 })
 
 test_that("grm WLE estimation calculates correctly", {
@@ -64,7 +64,7 @@ test_that("estimatTheta with WLE works when questions skipped", {
   catR_gpcm <- thetaEst(it_gpcm, model = "GPCM", method = "WL",
                        x = c(NA, NA, 5, 4, 3)-1)
   
-  expect_equal(round(estimateTheta(ltm_cat), 4), round(catR_ltm, 4))
+  expect_equal(round(estimateTheta(ltm_cat), 3), round(catR_ltm, 3))
   expect_equal(round(estimateTheta(grm_cat), 2), round(catR_grm, 2))
   expect_equal(round(estimateTheta(gpcm_cat), 4), round(catR_gpcm, 4))
 })

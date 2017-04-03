@@ -26,6 +26,8 @@ The function \code{grmCat} returns an object of class \code{Cat} with changes to
 \item \code{discrimination} A vector consisting of disrimination parameters for each item.
 \item \code{model} The string \code{"grm"}, indicating this \code{Cat} object corresponds to a graded response model.
 }
+
+See \code{\link{Cat-class}} for default values of \code{Cat} object slots.  See \strong{Examples} and \code{\link{setters}} for example code to change slot values.
 }
 \description{
 This function fits the graded response model for ordinal polytomous data and populates the fitted values for discimination and difficulty parameters to an object of class \code{Cat}.

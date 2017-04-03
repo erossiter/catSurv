@@ -16,9 +16,6 @@ The function \code{fisherTestInfo} returns a numeric indicating the total inform
 \description{
 Calculates the total information gained for a respondent for all answered items, conditioned on \eqn{\theta}.
 }
-\details{
-
-}
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }

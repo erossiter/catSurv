@@ -48,7 +48,7 @@ slot is \code{"LKL"}.  This method calls \code{likelihoodKL} for each unasked it
 The maximum posterior weighted Kullback-Leibler information criterion is used when the \code{selection}
 slot is \code{"PKL"}.  This method calls \code{posteriorKL} for each unasked item.
 
-The ??????????? criterion is used when the \code{selection}
+The maximum Fisher interval information criterion is used when the \code{selection}
 slot is \code{"MFII"}. This method involves integration. See \strong{Note} for more information.
 The bounds of integration are \eqn{\hat{\theta} \pm \delta},
  where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
@@ -126,6 +126,9 @@ van der Linden, Wim J. 1998. "Bayesian Item Selection Criteria for Adaptive Test
 Van der Linden, Wim J., and Peter J. Pashley. 2009. "Item Selection and Ability
  Estimation in Adaptive Testing." Elements of Adaptive Testing. 
  Springer New York, 3-30.
+ 
+ Veldkamp, B.P., 2003. Item Selection in Polytomous CAT.
+  In New Developments in Psychometrics (pp. 207-214). Springer Japan.
 }
 \seealso{
 \code{\link{estimateTheta}}, \code{\link{expectedPV}}, \code{\link{fisherInf}}

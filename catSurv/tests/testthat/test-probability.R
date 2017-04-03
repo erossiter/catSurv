@@ -78,6 +78,6 @@ test_that("probability (for polytomous models) throws error with extreme theta v
   expect_error(probability(grm_cat, -100, 1))
   expect_error(probability(grm_cat, 100, 1))
   
-  expect_error(probability(gpcm_cat, -500, 1))
-  expect_error(probability(gpcm_cat, 100, 1))
+  expect_error(probability(gpcm_cat, -5000, 1))
+  expect_error(probability(gpcm_cat, 1000, 1))
 })

@@ -21,7 +21,7 @@ test_that("ltm nextItem MEI calculates correctly", {
 
   expect_equal(package_item, catR_item)
   expect_equal(package_est, expectedObsInf(ltm_cat, package_item))
-  expect_equal(round(package_est, 7), round(catR_est, 7))
+  expect_equal(round(package_est, 5), round(catR_est, 5))
 })
 
 test_that("grm nextItem MEI calculates correctly", {
@@ -48,7 +48,7 @@ test_that("grm nextItem MEI calculates correctly", {
 test_that("gpcm nextItem MEI calculates correctly", {
   gpcm_cat@estimation <- "MAP"
   gpcm_cat@selection <- "MEI"
-  gpcm_cat@answers[1:11] <- c(4, 5, 2, 4, 4, 1, 1, 3, 5, 5, 1)
+  gpcm_cat@answers[1:5] <- c(4, 5, 2, 4, 4)
 
   package_next <- selectItem(gpcm_cat)
   package_item <- package_next$next_item
@@ -56,8 +56,8 @@ test_that("gpcm nextItem MEI calculates correctly", {
                                         "MEI"]
 
   catR_next <- nextItem(itemBank = it_gpcm, theta = estimateTheta(gpcm_cat),
-                       x = gpcm_cat@answers[1:11]-1, criterion = "MEI", method = "BM",
-                       model = "GPCM", out = 1:11, infoType = "observed")
+                       x = gpcm_cat@answers[1:5]-1, criterion = "MEI", method = "BM",
+                       model = "GPCM", out = 1:5, infoType = "observed")
   catR_item <- catR_next$item
   catR_est <- catR_next$info
 
@@ -84,7 +84,7 @@ test_that("nextItem MEI estimates are not NA (when no questions asked)", {
 
   expect_equal(sum(!is.na(selectItem(ltm_cat)$estimates[,"MEI"])), 40)
   expect_equal(sum(!is.na(selectItem(grm_cat)$estimates[,"MEI"])), 18)
-  expect_equal(sum(!is.na(selectItem(gpcm_cat)$estimates[,"MEI"])), 18)
+  expect_equal(sum(!is.na(selectItem(gpcm_cat)$estimates[,"MEI"])), 10)
 })
 
 test_that("nextItem MEI is actually the maximum estimate", {

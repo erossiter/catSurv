@@ -17,9 +17,6 @@ The function \code{expectedObsInf} returns a numeric value of the expected infor
 \description{
 Calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring.
 }
-\details{
-
-}
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }

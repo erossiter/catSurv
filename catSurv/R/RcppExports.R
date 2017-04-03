@@ -58,7 +58,8 @@
 #'
 #'## Probability for Cat object of the tpm model
 #'data(polknowMT)
-#'tpm_cat <- tpmCat(polknowMT)
+#'tpm_fit <- tpm(polknowMT[,1:20], start.val = "random")
+#'tpm_cat <- tpmCat(tpm_fit)
 #'probability(tpm_cat, theta = 1, item = 1)
 #'
 #'## Probability for Cat object of the grm model
@@ -104,7 +105,6 @@ probability <- function(catObj, theta, item) {
 #' 
 #' @return The function \code{likelihood} returns a numeric value of the likelihood of the respondent having offered the provided response profile.
 #'
-#' @details
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 #'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -123,20 +123,11 @@ probability <- function(catObj, theta, item) {
 #' 
 #'@examples
 #'\dontrun{
-#'## Create Cat object, store example answers, and calculate
-#'## likelihood at theta = 1
-#'
 #'## Likelihood for Cat object of the ltm model
 #'data(npi)
 #'ltm_cat <- ltmCat(npi)
 #'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 #'likelihood(ltm_cat, theta = 1)
-#'
-#'## Likelihood for Cat object of the tpm model
-#'data(polknowMT)
-#'tpm_cat <- tpmCat(polknowMT)
-#'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
-#'likelihood(tpm_cat, theta = 1)
 #'
 #'## Likelihood for Cat object of the grm model
 #'data(nfc)
@@ -234,26 +225,15 @@ prior <- function(x, dist, params) {
 #' 
 #' @examples
 #' \dontrun{
-#'## Create Cat object, store example answers, and calculate
-#'## first derivative of log-likelihood at theta = 1
-#'
-#'## dLL for Cat object of the ltm model
+#'## Create Cat object
 #'data(npi)
 #'ltm_cat <- ltmCat(npi)
+#'
+#'## Store example answers
 #'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+#'
+#'## dLL for Cat object of the ltm model
 #'dLL(ltm_cat, theta = 1)
-#'
-#'## dLL for Cat object of the tpm model
-#'data(polknowMT)
-#'tpm_cat <- tpmCat(polknowMT)
-#'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
-#'dLL(tpm_cat, theta = 1)
-#'
-#'## dLL for Cat object of the grm model
-#'data(nfc)
-#'grm_cat <- grmCat(nfc)
-#'setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
-#'dLL(grm_cat, theta = 1)
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -298,26 +278,15 @@ dLL <- function(catObj, theta, use_prior) {
 #' 
 #' @examples
 #' \dontrun{
-#'## Create Cat object, store example answers, and calculate
-#'## second derivative of log-likelihood at theta = 1
-#'
-#'## d2LL for Cat object of the ltm model
+#'## Create Cat object
 #'data(npi)
 #'ltm_cat <- ltmCat(npi)
+#'
+#'## Store example answers
 #'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+#'
+#'## d2LL for Cat object of the ltm model
 #'d2LL(ltm_cat, theta = 1)
-#'
-#'## d2LL for Cat object of the tpm model
-#'data(polknowMT)
-#'tpm_cat <- tpmCat(polknowMT)
-#'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
-#'d2LL(tpm_cat, theta = 1)
-#'
-#'## d2LL for Cat object of the grm model
-#'data(nfc)
-#'grm_cat <- grmCat(nfc)
-#'setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
-#'d2LL(grm_cat, theta = 1)
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -473,7 +442,6 @@ obsInf <- function(catObj, theta, item) {
 #' 
 #' @return The function \code{expectedObsInf} returns a numeric value of the expected information. 
 #' 
-#' @details
 #' 
 #' @examples
 #' \dontrun{
@@ -549,7 +517,6 @@ fisherInf <- function(catObj, theta, item) {
 #' @return The function \code{fisherTestInfo} returns a numeric indicating the total information gained for a respondent,
 #'  given a specific answer set and the current estimate of \eqn{\theta}.
 #' 
-#' @details
 #' 
 #' @examples
 #' \dontrun{
@@ -655,7 +622,6 @@ estimateSE <- function(catObj) {
 #'
 #' @return The function \code{expectedPV} returns a numeric value indicating a respondent's expected posterior variance for an unasked item.
 #'
-#' @details 
 #' 
 #' 
 #' @examples
@@ -727,7 +693,7 @@ expectedPV <- function(catObj, item) {
 #' The maximum posterior weighted Kullback-Leibler information criterion is used when the \code{selection}
 #' slot is \code{"PKL"}.  This method calls \code{posteriorKL} for each unasked item.
 #' 
-#' The ??????????? criterion is used when the \code{selection}
+#' The maximum Fisher interval information criterion is used when the \code{selection}
 #' slot is \code{"MFII"}. This method involves integration. See \strong{Note} for more information.
 #' The bounds of integration are \eqn{\hat{\theta} \pm \delta},
 #'  where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
@@ -744,6 +710,9 @@ expectedPV <- function(catObj, item) {
 #' Van der Linden, Wim J., and Peter J. Pashley. 2009. "Item Selection and Ability
 #'  Estimation in Adaptive Testing." Elements of Adaptive Testing. 
 #'  Springer New York, 3-30.
+#'  
+#'  Veldkamp, B.P., 2003. Item Selection in Polytomous CAT.
+#'   In New Developments in Psychometrics (pp. 207-214). Springer Japan.
 #' 
 #' 
 #' @examples
@@ -975,7 +944,7 @@ posteriorKL <- function(catObj, item) {
 #' 
 #' @examples
 #' \dontrun{
-#' ## Create Cat object
+#' ## Create Cat object of ltm model
 #' data(npi)
 #' ltm_cat <- ltmCat(npi)
 #' 
@@ -984,6 +953,17 @@ posteriorKL <- function(catObj, item) {
 #'
 #'## What should be asked next if respondent is currently answering item 6
 #'lookAhead(ltm_cat, 6)
+#'
+#' ## Create Cat object of grm model
+#' data(nfc)
+#' grm_cat <- grmCat(nfc)
+#' 
+#'## Store example answers
+#'setAnswers(grm_cat) <- c(4,3,5,1,1 rep(NA, 13))
+#'
+#'## What should be asked next if respondent is currently answering item 6
+#'lookAhead(grm_cat, 6)
+#'
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,

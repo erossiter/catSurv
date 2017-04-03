@@ -43,7 +43,7 @@ test_that("grm nextItem EPV calculates correctly", {
 
   expect_equal(package_item, catR_item)
   expect_equal(package_est, expectedPV(grm_cat, package_item))
-  expect_equal(round(package_est, 4), round(catR_est, 4))
+  expect_equal(round(package_est, 3), round(catR_est, 3))
 })
 
 test_that("gpcm nextItem EPV calculates correctly", {
@@ -85,7 +85,7 @@ test_that("nextItem EPV estimates are not NA (when no questions asked)", {
 
   expect_equal(sum(!is.na(selectItem(ltm_cat)$estimates[,"EPV"])), 40)
   expect_equal(sum(!is.na(selectItem(grm_cat)$estimates[,"EPV"])), 18)
-  expect_equal(sum(!is.na(selectItem(gpcm_cat)$estimates[,"EPV"])), 18)
+  expect_equal(sum(!is.na(selectItem(gpcm_cat)$estimates[,"EPV"])), 10)
 })
 
 test_that("nextItem EPV is actually the minimum estimate", {

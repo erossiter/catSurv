@@ -14,6 +14,8 @@
 #' \item \code{model} The string \code{"grm"}, indicating this \code{Cat} object corresponds to a graded response model.
 #' }
 #' 
+#' See \code{\link{Cat-class}} for default values of \code{Cat} object slots.  See \strong{Examples} and \code{\link{setters}} for example code to change slot values.
+#' 
 #' @examples
 #' \dontrun{
 #' ## Creating Cat object with raw data

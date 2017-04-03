@@ -12,6 +12,8 @@
 #' \item \code{discrimination} A vector consisting of disrimination parameters for each item.
 #' \item \code{model} The string \code{"tpm"}, indicating this \code{Cat} object corresponds to Birnbaum's three parameter model.
 #' }
+#' 
+#' See \code{\link{Cat-class}} for default values of \code{Cat} object slots.  See \strong{Examples} and \code{\link{setters}} for example code to change slot values.
 #'
 #' @note In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
 #' 
@@ -26,12 +28,12 @@
 #' 
 #' @examples
 #' \dontrun{
-#' ## Creating Cat object with raw data
+#' ## Creating Cat object with first 20 questions of with raw data
 #' data(polknowMT)
-#' tpm_cat1 <- tpmCat(polknowMT, quadraturePoints = 100, start.val = "random")
+#' tpm_cat1 <- tpmCat(polknowMT[,1:20], quadraturePoints = 100, start.val = "random")
 #' 
 #' ## Creating Cat object with fitted object of class tpm
-#' tpm_fit <- tpm(polknowMT, control = list(GHk = 100)) ## from ltm package
+#' tpm_fit <- tpm(polknowMT[,1:20], control = list(GHk = 100), start.val = "random")
 #' class(tpm_fit)
 #' tpm_cat2 <- tpmCat(tpm_fit)
 #' 
@@ -77,8 +79,7 @@ setGeneric("tpmCat", function(data, quadraturePoints = NULL, ...){
 setMethod("tpmCat",
           signature(data = "data.frame"),
           function(data, quadraturePoints = 21, ...){
-            fit <- tpm(data, type = "latent.trait",
-                       control = list(GHk = quadraturePoints), ...)
+            fit <- tpm(data, control = list(GHk = quadraturePoints), ...)
 
             discm <- fit$coef[,"beta.2i"]
             diff <- fit$coef[,"beta.1i"]

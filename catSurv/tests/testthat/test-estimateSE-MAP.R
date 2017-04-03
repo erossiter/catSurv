@@ -13,7 +13,7 @@ test_that("ltm MAP theta standard error calculates correctly", {
                            method = "EB")$score.dat$se.z1
     
   expect_equal(package_se, catR_se)
-  expect_equal(round(package_se, 7), round(ltm_se, 7))
+  expect_equal(round(package_se, 6), round(ltm_se, 6))
 })
 
 test_that("grm MAP theta standard error calculates correctly", {
@@ -26,7 +26,7 @@ test_that("grm MAP theta standard error calculates correctly", {
   # ltm_se <- factor.scores(grm_fit, matrix(c(grm_cat@answers, rep(NA, 13)), nrow = 1),
   #                         method = "EB")$score.dat$se.z1
 
-  expect_equal(round(package_se, 5), round(catR_se, 5))
+  expect_equal(round(package_se, 4), round(catR_se, 4))
   # expect_equal(package_se, ltm_se)
 })
 
@@ -36,7 +36,7 @@ test_that("gpcm MAP theta standard error calculates correctly", {
   package_se <- estimateSE(gpcm_cat)
   catR_se <- semTheta(thEst = estimateTheta(gpcm_cat), it = it_gpcm,
                        x = c(gpcm_cat@answers)-1, model = "GPCM", method = "BM")
-  ltm_se <- factor.scores(gpcm_fit, matrix(c(gpcm_cat@answers, rep(NA, 13)), nrow = 1),
+  ltm_se <- factor.scores(gpcm_fit, matrix(c(gpcm_cat@answers, rep(NA, 5)), nrow = 1),
                            method = "EB")$score.dat$se.z1
     
   expect_equal(round(package_se, 6), round(catR_se, 6))

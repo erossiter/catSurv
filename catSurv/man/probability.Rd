@@ -69,7 +69,8 @@ probability(ltm_cat, theta = 1, item = 1)
 
 ## Probability for Cat object of the tpm model
 data(polknowMT)
-tpm_cat <- tpmCat(polknowMT)
+tpm_fit <- tpm(polknowMT[,1:20], start.val = "random")
+tpm_cat <- tpmCat(tpm_fit)
 probability(tpm_cat, theta = 1, item = 1)
 
 ## Probability for Cat object of the grm model

@@ -9,15 +9,13 @@ data("polknowTAPS")
 ltm_fit <- ltm(npi ~ z1, control = list(GHk = 100))
 ltm_cat <- ltmCat(ltm_fit)
 
-tpm_fit <- tpm(polknowMT[,1:10], start.val = "random",
-               control = list(optimizer = "nlminb", GHk = 100,
-                              iter.qN = 200, iter.em = 100))
+tpm_fit <- tpm(polknowMT[,1:20], start.val = "random")
 tpm_cat <- tpmCat(tpm_fit)
 
 grm_fit <- grm(nfc, control = list(GHk = 100))
 grm_cat <- grmCat(grm_fit)
 
-gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list(iter.qN = 200))
+gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list(iter.qN = 200, GHk = 100))
 gpcm_cat <- gpcmCat(gpcm_fit)
 
 

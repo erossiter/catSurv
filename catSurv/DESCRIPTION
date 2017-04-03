@@ -2,7 +2,7 @@ Package: catSurv
 Title: Computerized Adaptive Testing for Survey Research
 Version: 0.0.0.9000
 Authors@R: as.person(c("Jacob M. Montgomery <jacob.montgomery@wustl.edu> [aut]", "Erin Rossiter <erinrossiter@wustl.edu> [aut, cre]"))
-Description: Provides methods of computerized adaptive testing for survey researchers. Includes functionality for data fit with the classic item response methods, including the latent trait model, Birnbaum`s three parameter model, the graded response, and the generalized partial credit model.  Additionally, includes several ability parameter estimation and item selection routines.  During item selection, all calculations are done in compiled C++ code.
+Description: Provides methods of computerized adaptive testing for survey researchers. Includes functionality for data fit with the classic item response methods including the latent trait model, Birnbaum`s three parameter model, the graded response, and the generalized partial credit model.  Additionally, includes several ability parameter estimation and item selection routines.  During item selection, all calculations are done in compiled C++ code.
 Depends:
 	R(>= 3.3.2)
 License: GPL-3

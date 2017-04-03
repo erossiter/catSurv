@@ -17,28 +17,16 @@ The function \code{likelihood} returns a numeric value of the likelihood of the 
 \description{
 Calculates the likelihood of a respondent, with ability parameter \eqn{\theta}, having offered the specific set of responses stored in the \code{Cat} objects \code{answers} slot. All calculations are conditional on the item-level parameters stored in the \code{Cat} object.
 }
-\details{
-
-}
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
 \dontrun{
-## Create Cat object, store example answers, and calculate
-## likelihood at theta = 1
-
 ## Likelihood for Cat object of the ltm model
 data(npi)
 ltm_cat <- ltmCat(npi)
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 likelihood(ltm_cat, theta = 1)
-
-## Likelihood for Cat object of the tpm model
-data(polknowMT)
-tpm_cat <- tpmCat(polknowMT)
-setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
-likelihood(tpm_cat, theta = 1)
 
 ## Likelihood for Cat object of the grm model
 data(nfc)

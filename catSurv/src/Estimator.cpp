@@ -65,9 +65,9 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
 	// checking for repeated elements
 	std::vector<double>::iterator it;
   it = std::adjacent_find(padded.begin(), padded.end());
-  if(it != padded.end()){
-    throw std::domain_error("Theta value too extreme for numerical routines.");
-  }
+  // if(it != padded.end()){
+  //   throw std::domain_error("Theta value too extreme for numerical routines.");
+  // }
 
 	return padded;
 }

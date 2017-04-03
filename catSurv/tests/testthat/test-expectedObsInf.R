@@ -20,7 +20,7 @@ test_that("grm expectedObsInf calculates correctly", {
                   x = grm_cat@answers[1:5] - 1, method = "BM", model = "GRM",
                   it.given = it_grm[1:5, ])
 
-  expect_equal(round(package_mei, 5), round(catR_mei, 5))
+  expect_equal(round(package_mei, 4), round(catR_mei, 4))
 })
 
 test_that("gpcm expectedObsInf calculates correctly", {

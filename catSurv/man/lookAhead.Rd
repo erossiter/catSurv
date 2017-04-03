@@ -24,7 +24,7 @@ This function is to allow users to access the internal functions of the package.
 }
 \examples{
 \dontrun{
-## Create Cat object
+## Create Cat object of ltm model
 data(npi)
 ltm_cat <- ltmCat(npi)
 
@@ -33,6 +33,17 @@ setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 
 ## What should be asked next if respondent is currently answering item 6
 lookAhead(ltm_cat, 6)
+
+## Create Cat object of grm model
+data(nfc)
+grm_cat <- grmCat(nfc)
+
+## Store example answers
+setAnswers(grm_cat) <- c(4,3,5,1,1 rep(NA, 13))
+
+## What should be asked next if respondent is currently answering item 6
+lookAhead(grm_cat, 6)
+
 }
 
 }

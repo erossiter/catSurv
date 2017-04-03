@@ -9,7 +9,7 @@ test_that("ltm MLE estimation calculates correctly", {
   package_mle <- estimateTheta(ltm_cat)
   catR_mle <- thetaEst(it_ltm, x = ltm_cat@answers, method = "ML")
     
-  expect_equal(round(package_mle, 5), round(catR_mle, 5))
+  expect_equal(round(package_mle, 4), round(catR_mle, 4))
 })
 
 test_that("grm MLE estimation calculates correctly", {
@@ -58,7 +58,7 @@ test_that("estimatTheta with MLE works when questions skipped", {
   catR_gpcm <- thetaEst(it_gpcm, model = "GPCM", method = "ML",
                        x = c(NA, NA, 5, 4, 3)-1)
   
-  expect_equal(round(estimateTheta(ltm_cat), 6), round(catR_ltm, 6))
+  expect_equal(round(estimateTheta(ltm_cat), 5), round(catR_ltm, 5))
   expect_equal(round(estimateTheta(grm_cat), 3), round(catR_grm, 3))
   expect_equal(round(estimateTheta(gpcm_cat), 4), round(catR_gpcm, 4))
 })

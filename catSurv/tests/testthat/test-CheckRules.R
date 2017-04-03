@@ -55,7 +55,7 @@ test_that("lengthThreshold works", {
 })
 
 test_that("seThreshold works", {
-  ltm_cat@seThreshold <- .5
+  ltm_cat@seThreshold <- .6
   expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
   
   ltm_cat@answers[1:10] <- c(0, 1, 1, 0, 1, 1, 1, 1, 0, 0)

@@ -47,7 +47,7 @@ test_that("grm nextItem MLWI calculates correctly", {
 test_that("gpcm nextItem MLWI calculates correctly", {
   gpcm_cat@estimation <- "MAP"
   gpcm_cat@selection <- "MLWI"
-  gpcm_cat@answers[1:8] <- c(4, 5, 2, 4, 4, 1, 1, 3)
+  gpcm_cat@answers[1:5] <- c(4, 5, 2, 4, 4)
 
   package_next <- selectItem(gpcm_cat)
   package_item <- package_next$next_item
@@ -55,8 +55,8 @@ test_that("gpcm nextItem MLWI calculates correctly", {
                                         "MLWI"]
 
   catR_next <- nextItem(itemBank = it_gpcm, theta = estimateTheta(gpcm_cat),
-                       x = gpcm_cat@answers[1:8]-1, criterion = "MLWI",
-                       model = "GPCM", out = 1:8, method = "BM")
+                       x = gpcm_cat@answers[1:5]-1, criterion = "MLWI",
+                       model = "GPCM", out = 1:5, method = "BM")
   catR_item <- catR_next$item
   catR_est <- catR_next$info
 
@@ -82,7 +82,7 @@ test_that("nextItem MLWI estimates are not NA (when no questions asked)", {
 
   expect_equal(sum(!is.na(selectItem(ltm_cat)$estimates[,"MLWI"])), 40)
   expect_equal(sum(!is.na(selectItem(grm_cat)$estimates[,"MLWI"])), 18)
-  expect_equal(sum(!is.na(selectItem(gpcm_cat)$estimates[,"MLWI"])), 18)
+  expect_equal(sum(!is.na(selectItem(gpcm_cat)$estimates[,"MLWI"])), 10)
 })
 
 test_that("nextItem MLWI is actually the maximum estimate", {

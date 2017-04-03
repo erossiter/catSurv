@@ -32,26 +32,15 @@ This function is to allow users to access the internal functions of the package.
 }
 \examples{
 \dontrun{
-## Create Cat object, store example answers, and calculate
-## first derivative of log-likelihood at theta = 1
-
-## dLL for Cat object of the ltm model
+## Create Cat object
 data(npi)
 ltm_cat <- ltmCat(npi)
+
+## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## dLL for Cat object of the ltm model
 dLL(ltm_cat, theta = 1)
-
-## dLL for Cat object of the tpm model
-data(polknowMT)
-tpm_cat <- tpmCat(polknowMT)
-setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
-dLL(tpm_cat, theta = 1)
-
-## dLL for Cat object of the grm model
-data(nfc)
-grm_cat <- grmCat(nfc)
-setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
-dLL(grm_cat, theta = 1)
 }
 
 }

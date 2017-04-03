@@ -17,9 +17,6 @@ The function \code{expectedPV} returns a numeric value indicating a respondent's
 \description{
 Estimates the expected posterior variance for a respondent's estimated ability parameter for an item yet to be answered based on a respondent's ability parameter estimate from the already-answered items.
 }
-\details{
-
-}
 \note{
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }

@@ -13,6 +13,8 @@
 #' \item \code{model} The string \code{"gpcm"}, indicating this \code{Cat} object corresponds to a generalized partial credit model.
 #' }
 #' 
+#' See \code{\link{Cat-class}} for default values of \code{Cat} object slots.  See \strong{Examples} and \code{\link{setters}} for example code to change slot values.
+#' 
 #' 
 #' @details The \code{data} argument of the function \code{gpcmCat} is either a data frame or an object of class \code{gpcm} from the \code{ltm} package.  If it is a data frame each row represents a respondent and each column represents a question item.  If it is an object of the class \code{gpcm}, it is output from the \code{gpcm} function in the \code{ltm} package.
 #' 
@@ -28,26 +30,20 @@
 #' 
 #' @examples
 #' \dontrun{
-#' ## Creating Cat object with raw data
-#' data(polknowTAPS)
-#' gpcm_cat1 <- grmCat(polknowTAPS, quadraturePoints = 100)
-#' 
 #' ## Creating Cat object with fitted object of class gpcm
-#' gpcm_fit <- gpcm(polknowTAPS, control = list(GHk = 100)) ## from ltm package
+#' data(polknowTAPS)
+#' gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list(iter.qN = 200))
 #' class(gpcm_fit)
-#' gpcm_cat2 <- gpcmCat(gpcm_fit)
-#' 
-#' ## Note the two Cat objects are identical
-#' identical(gpcm_cat1, gpcm_cat2)
+#' gpcm_cat <- gpcmCat(gpcm_fit)
 #' 
 #' ## Slots that have changed from default values
-#' getModel(gpcm_cat1)
-#' getDifficulty(gpcm_cat1)
-#' getDiscrimination(gpcm_cat1)
+#' getModel(gpcm_cat)
+#' getDifficulty(gpcm_cat)
+#' getDiscrimination(gpcm_cat)
 #' 
 #' ## Changing slots from default values
-#' setEstimation(gpcm_cat1) <- "MLE"
-#' setSelection(gpcm_cat1) <- "MFI"
+#' setEstimation(gpcm_cat) <- "MLE"
+#' setSelection(gpcm_cat) <- "MFI"
 #'}
 #' 
 #' 

@@ -25,8 +25,8 @@ test_that("grm EAP theta standard error calculates correctly", {
   ltm_se <- factor.scores(grm_fit, matrix(c(grm_cat@answers, rep(NA, 13)), nrow = 1),
                            method = "EAP")$score.dat$se.z1
 
-  expect_equal(round(package_se, 4), round(catR_se, 4))
-  expect_equal(package_se, ltm_se)
+  expect_equal(round(package_se, 2), round(catR_se, 2))
+  expect_equal(round(package_se, 5), round(ltm_se, 5))
 })
 
 test_that("gpcm EAP theta standard error calculates correctly", {
@@ -35,9 +35,9 @@ test_that("gpcm EAP theta standard error calculates correctly", {
   package_se <- estimateSE(gpcm_cat)
   catR_se <- semTheta(thEst = estimateTheta(gpcm_cat), it = it_gpcm,
                        x = c(gpcm_cat@answers)-1, model = "GPCM", method = "EAP")
-  ltm_se <- factor.scores(gpcm_fit, matrix(c(gpcm_cat@answers, rep(NA, 13)), nrow = 1),
+  ltm_se <- factor.scores(gpcm_fit, matrix(c(gpcm_cat@answers, rep(NA, 5)), nrow = 1),
                            method = "EAP")$score.dat$se.z1
     
-  expect_equal(round(package_se, 4), round(catR_se, 4))
-  expect_equal(round(package_se, 4), round(ltm_se, 4))
+  expect_equal(round(package_se, 2), round(catR_se, 2))
+  expect_equal(round(package_se, 2), round(ltm_se, 2))
 })

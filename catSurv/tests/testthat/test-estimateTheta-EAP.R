@@ -24,7 +24,7 @@ test_that("grm EAP estimation calculates correctly", {
                            method = "EAP")$score.dat$z1
 
   expect_equal(round(package_eap, 3), round(catR_eap, 3))
-  expect_equal(package_eap, ltm_eap)
+  expect_equal(round(package_eap, 5), round(ltm_eap, 5))
 })
 
 test_that("gpcm EAP estimation calculates correctly", {
@@ -33,11 +33,11 @@ test_that("gpcm EAP estimation calculates correctly", {
   package_eap <- estimateTheta(gpcm_cat)
   catR_eap <- thetaEst(it_gpcm, x = c(gpcm_cat@answers)-1, model = "GPCM",
                        method = "EAP")
-  ltm_eap <- factor.scores(gpcm_fit, matrix(c(gpcm_cat@answers, rep(NA, 13)), nrow = 1),
+  ltm_eap <- factor.scores(gpcm_fit, matrix(c(gpcm_cat@answers, rep(NA, 5)), nrow = 1),
                            method = "EAP")$score.dat$z1
     
-  expect_equal(round(package_eap, 5), round(catR_eap, 5))
-  expect_equal(round(package_eap, 5), round(ltm_eap, 5))
+  expect_equal(round(package_eap, 3), round(catR_eap, 3))
+  expect_equal(round(package_eap, 3), round(ltm_eap, 3))
 })
 
 test_that("estimatTheta with EAP works when questions skipped", {
@@ -52,7 +52,7 @@ test_that("estimatTheta with EAP works when questions skipped", {
   catR_gpcm <- thetaEst(it_gpcm, model = "GPCM", method = "EAP",
                        x = c(NA, NA, 5, 4, 3)-1)
   
-  expect_equal(round(estimateTheta(ltm_cat), 6), round(catR_ltm, 6))
+  expect_equal(round(estimateTheta(ltm_cat), 4), round(catR_ltm, 4))
   expect_equal(round(estimateTheta(grm_cat), 3), round(catR_grm, 3))
-  expect_equal(round(estimateTheta(gpcm_cat), 5), round(catR_gpcm, 5))
+  expect_equal(round(estimateTheta(gpcm_cat), 2), round(catR_gpcm, 2))
 })
