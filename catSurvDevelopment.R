@@ -9,14 +9,16 @@ setwd("~/Dropbox/Spring2016/Rclass/CATSurv/")
 current.code <- as.package("catSurv")
 load_all(current.code)#, recompile = FALSE)
 document(current.code)
-#test(current.code)
-check(current.code)
+test(current.code)
+#check(current.code)
 
 ## Checking downstream dependencies
 #revdep_check(current.code)
 #revdep_check_print_problems(current.code)
 
 ## Checking package on windows platform
+## version = c("R-release", "R-devel")
+## Need to do release as well?
 build_win(current.code)
 
 ## Building other important files

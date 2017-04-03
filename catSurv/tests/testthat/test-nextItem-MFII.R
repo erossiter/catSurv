@@ -1,3 +1,4 @@
+print("testing nextItem MFII")
 context("nextItem-MFII")
 load("cat_objects.Rdata")
 

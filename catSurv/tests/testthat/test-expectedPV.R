@@ -1,3 +1,4 @@
+print("testing expectedPV")
 library(catR, quietly = TRUE)
 context("expectedPV")
 load("cat_objects.Rdata")

@@ -1,3 +1,4 @@
+print("testing estimateTheta mLE")
 library(catR, quietly = TRUE)
 context("estimateTheta-MLE")
 load("cat_objects.Rdata")

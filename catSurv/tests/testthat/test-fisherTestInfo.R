@@ -1,3 +1,4 @@
+print("testing fisher test info")
 library(catR, quietly = TRUE)
 context("fisherTestInfo")
 load("cat_objects.Rdata")

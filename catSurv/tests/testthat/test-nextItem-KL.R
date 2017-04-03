@@ -1,3 +1,4 @@
+print("testing nextItem KL")
 context("nextItem-KL")
 load("cat_objects.Rdata")
 

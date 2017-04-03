@@ -1,3 +1,4 @@
+print("testing cat creators")
 context("ltmCat, tpmCat, grmCat, gpcmCat")
 load("cat_objects.Rdata")
 

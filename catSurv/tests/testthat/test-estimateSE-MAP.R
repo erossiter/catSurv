@@ -1,3 +1,4 @@
+print("testing MAP estimateSE")
 library(catR)
 library(ltm)
 context("estimateSE-MAP")

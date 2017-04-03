@@ -110,7 +110,7 @@ double WLEEstimator::grm_estimateTheta(Prior prior){
 
 
 double WLEEstimator::estimateTheta(Prior prior) {
-  double theta;
+  double theta = 0.0;
 
   if (questionSet.model == "ltm") {
 	  theta = ltm_estimateTheta(prior);

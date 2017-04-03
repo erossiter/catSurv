@@ -1,3 +1,4 @@
+print("testing fisherInf")
 library(catR, quietly = TRUE)
 context("fisherInf")
 load("cat_objects.Rdata")

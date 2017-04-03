@@ -1,3 +1,4 @@
+print("testing likelihood")
 context("likelihood")
 load("cat_objects.Rdata")
 

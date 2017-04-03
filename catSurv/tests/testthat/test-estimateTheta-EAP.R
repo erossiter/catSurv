@@ -1,3 +1,4 @@
+print("testing estimateTheta EAP")
 library(catR, quietly = TRUE)
 context("estimateTheta-EAP")
 load("cat_objects.Rdata")

@@ -1,3 +1,4 @@
+print("testing estimateSE - EAP")
 library(catR, quietly = TRUE)
 library(ltm, quietly = TRUE)
 context("estimateSE-EAP")

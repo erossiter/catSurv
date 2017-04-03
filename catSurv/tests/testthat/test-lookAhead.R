@@ -1,3 +1,4 @@
+print("testing lookAhead")
 context("lookAhead")
 load("cat_objects.Rdata")
 

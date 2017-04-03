@@ -1,3 +1,4 @@
+print("testing estimateSE MLe")
 library(catR)
 context("estimateSE-MLE")
 load("cat_objects.Rdata")

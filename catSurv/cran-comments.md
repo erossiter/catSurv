@@ -5,15 +5,13 @@
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
-There was 1 NOTE:
+There were 2 NOTES:
 
-* checking R code for possible problems ... NOTE
-  File ‘catSurv/R/onLoad.R’:
-    .onLoad calls:
-      packageStartupMessage(msg)
-  See section ‘Good practice’ in '?.onAttach'.
+1. New submission.
   
-  Consulted and complied with '?.onAttach'.
+2. File ‘catSurv/R/onLoad.R’: .onLoad calls: packageStartupMessage(msg) See section ‘Good practice’ in '?.onAttach'.
+    * Consulted and complied with '?.onAttach'.
+  
 
 ## Downstream dependencies
 I have also run R CMD check on downstream dependencies of catSurv.
