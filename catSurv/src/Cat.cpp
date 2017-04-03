@@ -35,22 +35,22 @@ std::vector<bool> Cat::checkStopRules() {
   double theta_est = estimator->estimateTheta(prior);
   
   // Checking whether or not user wants each rule implemented, then performing the check
-  if (! isnan(checkRules.lengthThreshold)){
+  if (! std::isnan(checkRules.lengthThreshold)){
     bool answer_lengthTheshold = questionSet.applicable_rows.size() >= checkRules.lengthThreshold ? true : false;
     all_thresholds.push_back(answer_lengthTheshold);
   } else { }
 
-  if (! isnan(checkRules.lengthOverride)){
+  if (! std::isnan(checkRules.lengthOverride)){
     bool answer_lengthOverride = questionSet.applicable_rows.size() < checkRules.lengthOverride ? true : false;
     all_overrides.push_back(answer_lengthOverride);
   } else { }
 
-  if (! isnan(checkRules.seThreshold)){
+  if (! std::isnan(checkRules.seThreshold)){
     bool answer_seThreshold = SE_est < checkRules.seThreshold ? true : false;
     all_thresholds.push_back(answer_seThreshold);
   } else { }
 
-  if (! isnan(checkRules.gainThreshold)){
+  if (! std::isnan(checkRules.gainThreshold)){
     std::vector<bool> all_gainThreshold;
     for (auto item : questionSet.nonapplicable_rows) {
       double gain = std::abs(SE_est - pow(expectedPV(item), 0.5));
@@ -61,7 +61,7 @@ std::vector<bool> Cat::checkStopRules() {
     all_thresholds.push_back(answer_gainThreshold);
   } else { }
 
-  if (! isnan(checkRules.gainOverride)){
+  if (! std::isnan(checkRules.gainOverride)){
     std::vector<bool> all_gainOverride;
     for (auto item : questionSet.nonapplicable_rows) {
       double gain = std::abs(SE_est - pow(expectedPV(item), 0.5));
@@ -72,7 +72,7 @@ std::vector<bool> Cat::checkStopRules() {
     all_overrides.push_back(answer_gainOverride);
   } else { }
 
-  if (! isnan(checkRules.infoThreshold)){
+  if (! std::isnan(checkRules.infoThreshold)){
     std::vector<bool> all_infoThreshold;
     for (auto item : questionSet.nonapplicable_rows) {
       double info = estimator->fisherInf(theta_est, item);

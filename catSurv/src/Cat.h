@@ -1,5 +1,6 @@
 #pragma once
 #include <Rcpp.h>
+#include <memory>
 #include "Prior.h"
 #include "QuestionSet.h"
 #include "Estimator.h"

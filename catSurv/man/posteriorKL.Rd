@@ -20,8 +20,9 @@ expected Kullback-Leibeler information weighted by the likelihood
 Calculates the expected Kullback-Leibeler information, weighted by likelihood and prior beliefs, for a specified item.
 }
 \details{
-The function \code{posteriorKL} calculates the expected Kullback-Leibeler information for \eqn{\hat{\theta}}, weighting potential
-true values of \eqn{\theta}, \eqn{\theta_0} by the likelihood and posterior estimate of \eqn{\theta_0}. 
+The function \code{posteriorKL} calculates the expected Kullback-Leibeler information 
+for question \code{item}, where the proposed values of the true ability paramter are weighted by
+the prior.
 
 This function involves integration.  See \strong{Note} for more information.
 }

@@ -51,7 +51,7 @@ double MLEEstimator::estimateTheta(Prior prior) {
 		}
 
 		theta_hat_old = theta_hat_new;
-		if(isnan(theta_hat_old)){
+		if(std::isnan(theta_hat_old)){
 		  theta_hat_new = dLL_root();
 		  break;
 		}

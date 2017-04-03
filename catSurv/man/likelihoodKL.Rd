@@ -20,8 +20,10 @@ expected Kullback-Leibeler information weighted by the likelihood
 Calculates the expected Kullback-Leibeler information, weighted by likelihood, for a specified item.
 }
 \details{
-The function \code{likelihoodKL} calculates the expected Kullback-Leibeler information for \eqn{\hat{\theta}}, weighting potential
-true values of \eqn{\theta}, \eqn{\theta_0} by the likelihood of \eqn{\theta_0}.
+The function \code{likelihoodKL} calculates the expected Kullback-Leibeler information 
+for question \code{item}, where the proposed values of the true ability paramter are weighted by
+the current likelihood.
+
 
 This function involves integration.  See \strong{Note} for more information.
 }

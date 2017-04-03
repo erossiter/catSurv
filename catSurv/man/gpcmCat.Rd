@@ -44,7 +44,7 @@ In case the Hessian matrix at convergence is not positive definite try to use \c
 \dontrun{
 ## Creating Cat object with fitted object of class gpcm
 data(polknowTAPS)
-gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list(iter.qN = 200)) ## from ltm package
+gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list(iter.qN = 200))
 class(gpcm_fit)
 gpcm_cat <- gpcmCat(gpcm_fit)
 

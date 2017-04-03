@@ -47,7 +47,7 @@ data(polknowMT)
 tpm_cat1 <- tpmCat(polknowMT[,1:20], quadraturePoints = 100, start.val = "random")
 
 ## Creating Cat object with fitted object of class tpm
-tpm_fit <- tpm(polknowMT[,1:20], control = list(GHk = 100), start.val = "random") ## from ltm package
+tpm_fit <- tpm(polknowMT[,1:20], control = list(GHk = 100), start.val = "random")
 class(tpm_fit)
 tpm_cat2 <- tpmCat(tpm_fit)
 

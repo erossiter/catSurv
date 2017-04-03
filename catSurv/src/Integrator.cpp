@@ -1,6 +1,7 @@
 #include "Integrator.h"
 #include <gsl/gsl_integration.h>
 #include <gsl/gsl_errno.h>
+#include <stdexcept>
 
 double Integrator::integrate(const gsl_function *function, const size_t intervals,
                              const double lower, const double upper) const {
