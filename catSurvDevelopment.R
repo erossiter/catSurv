@@ -10,7 +10,7 @@ current.code <- as.package("catSurv")
 load_all(current.code)#, recompile = FALSE)
 document(current.code)
 test(current.code)
-#check(current.code)
+check(current.code)
 
 ## Checking downstream dependencies
 #revdep_check(current.code)
