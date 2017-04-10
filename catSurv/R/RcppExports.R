@@ -214,14 +214,14 @@ prior <- function(x, dist, params) {
 #' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
 #' @param use_prior A logical indicating whether to calculate baseded on the log-likelihood or log-posterior
 #' 
-#' @return The function \code{dLL} returns a numeric of the derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
+#' @return The function \code{d1LL} returns a numeric of the derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
 #' 
 #' @details
-#' When the \code{usePrior} argument is \code{FALSE}, the function \code{dLL} evaluates the first derivative of the log-likelihood at point \eqn{\theta}.  
+#' When the \code{usePrior} argument is \code{FALSE}, the function \code{d1LL} evaluates the first derivative of the log-likelihood at point \eqn{\theta}.  
 #' 
-#' When the \code{usePrior} argument is \code{TRUE}, the function \code{dLL} evaluates the first derivative of the log-posterior at point \eqn{\theta}. 
+#' When the \code{usePrior} argument is \code{TRUE}, the function \code{d1LL} evaluates the first derivative of the log-posterior at point \eqn{\theta}. 
 #' 
-#' If the argument \code{use_prior} is \code{TRUE}, the function \code{dLL} must use the the normal prior distribution.
+#' If the argument \code{use_prior} is \code{TRUE}, the function \code{d1LL} must use the the normal prior distribution.
 #' 
 #' @examples
 #' \dontrun{
@@ -232,8 +232,8 @@ prior <- function(x, dist, params) {
 #'## Store example answers
 #'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 #'
-#'## dLL for Cat object of the ltm model
-#'dLL(ltm_cat, theta = 1)
+#'## d1LL for Cat object of the ltm model
+#'d1LL(ltm_cat, theta = 1)
 #'}
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -254,8 +254,8 @@ prior <- function(x, dist, params) {
 #' 
 #'  
 #' @export
-dLL <- function(catObj, theta, use_prior) {
-    .Call('catSurv_dLL', PACKAGE = 'catSurv', catObj, theta, use_prior)
+d1LL <- function(catObj, theta, use_prior) {
+    .Call('catSurv_d1LL', PACKAGE = 'catSurv', catObj, theta, use_prior)
 }
 
 #' The Second Derivative of the Log-Likelihood
@@ -295,7 +295,7 @@ dLL <- function(catObj, theta, use_prior) {
 #' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 #' 
 #' @seealso
-#' \code{\link{Cat-class}}, \code{\link{dLL}}, \code{\link{prior}}
+#' \code{\link{Cat-class}}, \code{\link{d1LL}}, \code{\link{prior}}
 #' 
 #' @references 
 #' Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.

@@ -13,7 +13,7 @@ double MAPEstimator::estimateTheta(Prior prior) {
 	
 	while (difference > tolerance && iter < max_iter) {
 	  iter++;
-		theta_hat_new = theta_hat_old - dLL(theta_hat_old, true, prior) / d2LL(theta_hat_old, true, prior);
+		theta_hat_new = theta_hat_old - d1LL(theta_hat_old, true, prior) / d2LL(theta_hat_old, true, prior);
 		difference = std::abs(theta_hat_new - theta_hat_old);
 		theta_hat_old = theta_hat_new;
 	}

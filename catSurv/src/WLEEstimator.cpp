@@ -19,7 +19,7 @@ double WLEEstimator::ltm_estimateTheta(Prior prior){
       B += (dP * d2P) / (P * (1.0 - P));
       I += fisherInf(theta, item);
     }
-    double L_theta = dLL(theta, false, prior);
+    double L_theta = d1LL(theta, false, prior);
     return L_theta + (B / (2 * I));
   };
   
@@ -43,7 +43,7 @@ double WLEEstimator::gpcm_estimateTheta(Prior prior){
         B += (p_prime.at(k) * p_primeprime.at(k)) / p.at(k);
       }
     }
-    double L_theta = dLL(theta, false, prior);
+    double L_theta = d1LL(theta, false, prior);
     return L_theta + (B / (2 * I));
   };
   
@@ -100,7 +100,7 @@ double WLEEstimator::grm_estimateTheta(Prior prior){
       }
     }
     
-    double L_theta = dLL(theta, false, prior);
+    double L_theta = d1LL(theta, false, prior);
 
     return L_theta + (B / (2 * I));
   };

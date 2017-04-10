@@ -45,16 +45,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// dLL
-double dLL(S4& catObj, double theta, bool use_prior);
-RcppExport SEXP catSurv_dLL(SEXP catObjSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
+// d1LL
+double d1LL(S4& catObj, double theta, bool use_prior);
+RcppExport SEXP catSurv_d1LL(SEXP catObjSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< S4& >::type catObj(catObjSEXP);
     Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< bool >::type use_prior(use_priorSEXP);
-    rcpp_result_gen = Rcpp::wrap(dLL(catObj, theta, use_prior));
+    rcpp_result_gen = Rcpp::wrap(d1LL(catObj, theta, use_prior));
     return rcpp_result_gen;
 END_RCPP
 }

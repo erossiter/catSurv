@@ -170,8 +170,8 @@ List Cat::lookAhead(int item) {
 
 
 
-double Cat::dLL(double theta, bool use_prior) {
-	return estimator->dLL(theta, use_prior, prior);
+double Cat::d1LL(double theta, bool use_prior) {
+	return estimator->d1LL(theta, use_prior, prior);
 }
 
 double Cat::d2LL(double theta, bool use_prior) {

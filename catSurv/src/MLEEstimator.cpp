@@ -1,8 +1,9 @@
 #include "MLEEstimator.h"
 
-double MLEEstimator::dLL_root(){
+double MLEEstimator::d1LL_root(){
+  std::cout<<"d1ll_root"<<std::endl;
 
-  integrableFunction dLL_fctn = [&](double theta) {
+  integrableFunction d1LL_fctn = [&](double theta) {
     double l_theta = 0.0;
 	  for (auto question : questionSet.applicable_rows) {
 		  const int answer_k = questionSet.answers[question];
@@ -22,10 +23,11 @@ double MLEEstimator::dLL_root(){
 	  return l_theta;
 	  };
 
-  return brentMethod(dLL_fctn);
+  return brentMethod(d1LL_fctn);
 }
 
 double MLEEstimator::estimateTheta(Prior prior) {
+  std::cout<<"estimateTheta MLE 1" << std::endl;
   int iter = 0;
   int max_iter = 200;
   
@@ -38,25 +40,25 @@ double MLEEstimator::estimateTheta(Prior prior) {
 	
 	while (difference > tolerance && iter < max_iter) {
 	  iter++;
-		theta_hat_new = theta_hat_old - dLL(theta_hat_old, false, prior) / d2LL(theta_hat_old, false, prior);
+		theta_hat_new = theta_hat_old - d1LL(theta_hat_old, false, prior) / d2LL(theta_hat_old, false, prior);
 
 		difference = std::abs(theta_hat_new - theta_hat_old);
 		
-		// handling if probability (therefore dLL) throws and error
+		// handling if probability (therefore d1LL) throws an error
 		try {
-		  dLL(theta_hat_new, false, prior);
+		  d1LL(theta_hat_new, false, prior);
 		} catch (std::domain_error) {
-		  theta_hat_new = dLL_root();
+		  theta_hat_new = d1LL_root();
 		  break;
 		}
 
 		theta_hat_old = theta_hat_new;
 		if(std::isnan(theta_hat_old)){
-		  theta_hat_new = dLL_root();
+		  theta_hat_new = d1LL_root();
 		  break;
 		}
 	}
-	
+	std::cout<<"estimateTheta MLE 2" << std::endl;
 	return theta_hat_new;
 }
 

@@ -17,6 +17,6 @@ public:
 
 protected:
   
-  double dLL_root();
+  double d1LL_root();
 	
 };

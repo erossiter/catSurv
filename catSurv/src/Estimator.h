@@ -50,7 +50,7 @@ public:
 	
 	double posteriorKL(int item, Prior prior);
 	
-	double dLL(double theta, bool use_prior, Prior &prior);
+	double d1LL(double theta, bool use_prior, Prior &prior);
 	
 	double d2LL(double theta, bool use_prior, Prior &prior);
 	
@@ -92,13 +92,13 @@ private:
 	double likelihood_grm(double theta);
 	double likelihood_gpcm(double theta);
   
-  double grm_dLL(double theta);
-	double gpcm_dLL(double theta);
-	double ltm_dLL(double theta);
+  double grm_d1LL(double theta);
+	double gpcm_d1LL(double theta);
+	double ltm_d1LL(double theta);
 	
 	double grm_partial_d2LL(double theta, size_t question);	
 	double gpcm_partial_d2LL(double theta, size_t question);	
-	double gpcm_partial_dLL(double theta, size_t question);	
+	double gpcm_partial_d1LL(double theta, size_t question);	
 
   double grm_d2LL(double theta);
 	double gpcm_d2LL(double theta);

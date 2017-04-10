@@ -3,6 +3,7 @@
 #include <limits>
 #include <numeric>
 #include <algorithm>
+#include <gsl/gsl_math.h>
 #include <gsl/gsl_roots.h>
 #include <gsl/gsl_errno.h>
 
@@ -274,7 +275,7 @@ double Estimator::gpcm_partial_d2LL(double theta, size_t question) {
   return - ((pow(p_prime, 2.0) / pow(p, 2.0)) - (p_primeprime / p));
 }
 
-double Estimator::gpcm_partial_dLL(double theta, size_t question) {
+double Estimator::gpcm_partial_d1LL(double theta, size_t question) {
 
 	size_t unanswered_question = (size_t) question;
 	int answer = questionSet.answers.at(unanswered_question);
@@ -324,17 +325,17 @@ double Estimator::ltm_d2LL(double theta) {
 	return -lambda_theta;
 }
 
-double Estimator::gpcm_dLL(double theta) {
+double Estimator::gpcm_d1LL(double theta) {
   double d1l = 0.0;
 
 	for (auto question : questionSet.applicable_rows) {
-    d1l += gpcm_partial_dLL(theta, question);
+    d1l += gpcm_partial_d1LL(theta, question);
 	 }
 	
 	return d1l;
 }
 
-double Estimator::grm_dLL(double theta) {
+double Estimator::grm_d1LL(double theta) {
 	double l_theta = 0.0;
 	for (auto question : questionSet.applicable_rows) {
 		const int answer_k = questionSet.answers[question];
@@ -354,7 +355,7 @@ double Estimator::grm_dLL(double theta) {
 	return l_theta;
 }
 
-double Estimator::ltm_dLL(double theta) {
+double Estimator::ltm_d1LL(double theta) {
 	double l_theta = 0;
 	for (auto question : questionSet.applicable_rows) {
 		const double P = probability(theta, question)[0];
@@ -366,7 +367,8 @@ double Estimator::ltm_dLL(double theta) {
 	return l_theta;
 }
 
-double Estimator::dLL(double theta, bool use_prior, Prior &prior) {
+double Estimator::d1LL(double theta, bool use_prior, Prior &prior) {
+  std::cout<<"d1LL"<<std::endl;
 	const double prior_shift = (theta - prior.parameters[0]) / pow(prior.parameters[1], 2);
 	if (questionSet.applicable_rows.empty()) {
 		return prior_shift;
@@ -374,13 +376,13 @@ double Estimator::dLL(double theta, bool use_prior, Prior &prior) {
 	double l_theta = 0.0;
 	
 	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
-	  l_theta = ltm_dLL(theta);
+	  l_theta = ltm_d1LL(theta);
 	}
 	if (questionSet.model == "grm") {
-	  l_theta = grm_dLL(theta);
+	  l_theta = grm_d1LL(theta);
 	}
 	if (questionSet.model == "gpcm"){
-		l_theta = gpcm_dLL(theta);
+		l_theta = gpcm_d1LL(theta);
 	}
 	
 	return use_prior ? l_theta - prior_shift : l_theta;
@@ -565,25 +567,36 @@ double Estimator::expectedObsInf(int item, Prior &prior) {
 }
 
 double Estimator::brentMethod(integrableFunction const &function) {
+  std::cout<<"Brent0"<<std::endl;
   int status;
   int iter = 0;
   int max_iter = 100;
   
+  std::cout<<"Brent1"<<std::endl;
+  
   const gsl_root_fsolver_type *T;
   gsl_root_fsolver *s;
+  
+  std::cout<<"Brent2"<<std::endl;
   
   double r = 0;
   double x_lo = -5.0;
   double x_hi = 5.0;
   
-	gsl_function *F = GSLFunctionWrapper(function).asGSLFunction();
+	gsl_function_struct *F = GSLFunctionWrapper(function).asGSLFunction();
+
+	std::cout<<"Brent3"<<std::endl;
 	
 	T = gsl_root_fsolver_brent;
   s = gsl_root_fsolver_alloc (T);
   
+  std::cout<<"Brent4"<<std::endl;
+  
   // This function initializes, or reinitializes, an existing solver s
   // to use the function f and the initial search interval [x_lower, x_upper].
   gsl_root_fsolver_set (s, F, x_lo, x_hi);
+  
+  std::cout<<"Brent5"<<std::endl;
 
   do {
       iter++;
@@ -591,6 +604,8 @@ double Estimator::brentMethod(integrableFunction const &function) {
       r = gsl_root_fsolver_root (s);
       x_lo = gsl_root_fsolver_x_lower (s);
       x_hi = gsl_root_fsolver_x_upper (s);
+      
+      std::cout<<r<<std::endl;
       
       // This function tests for the convergence of the interval [x_lower, x_upper]
       // with absolute error epsabs and relative error epsrel. 

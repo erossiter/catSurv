@@ -50,7 +50,7 @@
 # test_that("lengthThreshold works", {
 #   ltm_cat@lengthThreshold <- 5
 #   expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
-#   
+# 
 #   ltm_cat@answers[1:5] <- c(0, 1, 1, 0, 1)
 #   expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
 # })
@@ -58,7 +58,7 @@
 # test_that("seThreshold works", {
 #   ltm_cat@seThreshold <- .6
 #   expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
-#   
+# 
 #   ltm_cat@answers[1:10] <- c(0, 1, 1, 0, 1, 1, 1, 1, 0, 0)
 #   expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
 #   expect_lt(estimateSE(ltm_cat), ltm_cat@seThreshold)
@@ -67,7 +67,7 @@
 # test_that("gainThreshold works", {
 #   ltm_cat@gainThreshold <- .1
 #   expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
-#   
+# 
 #   ltm_cat@answers[1:10] <- c(0, 1, 1, 0, 1, 1, 1, 1, 0, 0)
 #   expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
 # })
@@ -76,7 +76,7 @@
 #   ltm_cat@lengthThreshold <- 5
 #   ltm_cat@lengthOverride <- 10
 #   ltm_cat@answers[1:7] <- c(0, 1, 1, 0, 1, 1, 0)
-#   
+# 
 #   expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
 # })
 # 
@@ -84,7 +84,7 @@
 #   ltm_cat@answers[1:10] <- c(0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
 #   ltm_cat@lengthThreshold <- 5 ## can stop if answered 5 questions
 #   ltm_cat@gainOverride <- .001 ## but cannot stop unless all gains are less than .001
-#   
+# 
 #   expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
 # })
 # 

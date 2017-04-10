@@ -38,7 +38,7 @@ load("catSurv/tests/testthat/cat_objects.Rdata")
 ## DESCRIPTION when needed (comments are what's currently 
 ## in description file)
 library(utils)
-version #3.3.2
+version #3.3.3
 packageVersion("RcppArmadillo") #‘0.7.700.0.0’
 packageVersion("stats") #‘3.3.2’
 packageVersion("Rcpp") #‘0.12.9’
