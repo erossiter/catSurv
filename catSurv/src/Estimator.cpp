@@ -583,7 +583,7 @@ double Estimator::brentMethod(integrableFunction const &function) {
   double x_lo = -5.0;
   double x_hi = 5.0;
   
-	gsl_function_struct *F = GSLFunctionWrapper(function).asGSLFunction();
+	gsl_function *F = GSLFunctionWrapper(function).asGSLFunction();
 
 	std::cout<<"Brent3"<<std::endl;
 	
@@ -595,6 +595,7 @@ double Estimator::brentMethod(integrableFunction const &function) {
   // This function initializes, or reinitializes, an existing solver s
   // to use the function f and the initial search interval [x_lower, x_upper].
   gsl_root_fsolver_set (s, F, x_lo, x_hi);
+  
   
   std::cout<<"Brent5"<<std::endl;
 
