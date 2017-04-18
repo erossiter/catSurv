@@ -1,6 +1,8 @@
 #pragma once
+#include "QuestionSet.h"
 #include "Estimator.h"
 #include "Prior.h"
+
 
 
 class MLEEstimator : public Estimator {
@@ -15,7 +17,7 @@ public:
 	
 	virtual double estimateSE(Prior prior) override;
 
-protected:
+//protected:
   
   double d1LL_root();
 	

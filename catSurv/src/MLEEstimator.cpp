@@ -1,27 +1,38 @@
+#include "QuestionSet.h"
 #include "MLEEstimator.h"
 
 double MLEEstimator::d1LL_root(){
-  std::cout<<"d1ll_root"<<std::endl;
+  std::cout<<"d1ll_root1"<<std::endl;
 
   integrableFunction d1LL_fctn = [&](double theta) {
+    std::cout << "in integrable function1" << std::endl;
     double l_theta = 0.0;
-	  for (auto question : questionSet.applicable_rows) {
-		  const int answer_k = questionSet.answers[question];
-
+    
+    // std::cout << questionSet.model << std::endl;
+    // std::cout << questionSet.applicable_rows.size() << std::endl;
+    for (size_t i = 0; i <= 5; ++i) {
+      std::cout << i << std::endl;
+    }
+    
+	  for (auto question : questionSet.applicable_rows){
+	    std::cout << "in integrable function2.1" << std::endl;
+		  const int answer_k = questionSet.answers.at(question);
 		  auto probs = probability(theta, (size_t) question);
-
-		  double P_star1 = probs[answer_k];
+		  
+		  double P_star1 = probs.at(answer_k);
 		  double Q_star1 = 1.0 - P_star1;
-		  double P_star2 = probs[answer_k - 1];
+		  double P_star2 = probs.at(answer_k - 1);
 		  double Q_star2 = 1 - P_star2;
 		  double P = P_star1 - P_star2;
 		  double w2 = P_star2 * Q_star2;
 		  double w1 = P_star1 * Q_star1;
 
-		  l_theta += (-1*questionSet.discrimination[question] * ((w1 - w2) / P));
-		  }
+		  l_theta += (-1*questionSet.discrimination.at(question) * ((w1 - w2) / P));
+		}
 	  return l_theta;
 	  };
+  
+  std::cout<<"d1ll_root2"<<std::endl;
 
   return brentMethod(d1LL_fctn);
 }

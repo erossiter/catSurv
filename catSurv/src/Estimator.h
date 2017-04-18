@@ -72,7 +72,8 @@ protected:
 	 */
 	typedef std::function<double(double)> integrableFunction;
 	
-	double brentMethod(const integrableFunction &function);
+	//double brentMethod(const integrableFunction &function);
+	double brentMethod(integrableFunction function);
 	
 	double integrate_selectItem(const integrableFunction &function, const double lower, const double upper);
 

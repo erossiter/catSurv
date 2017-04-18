@@ -12,6 +12,9 @@ document(current.code)
 test(current.code)
 check(current.code)
 
+## loading objects for the purposes of creating tests
+load("catSurv/tests/testthat/cat_objects.Rdata")
+
 ## Checking downstream dependencies
 #revdep_check(current.code)
 #revdep_check_print_problems(current.code)
@@ -30,9 +33,6 @@ build_win(current.code)
 unlink("catSurv.pdf") ## deleting current version
 path <- find.package("catSurv")
 system(paste(shQuote(file.path(R.home("bin"), "R")), "CMD", "Rd2pdf", shQuote(path)))
-
-## loading objects for the purposes of creating tests
-load("catSurv/tests/testthat/cat_objects.Rdata")
 
 ## checking what version of packages I have installed to update
 ## DESCRIPTION when needed (comments are what's currently 
