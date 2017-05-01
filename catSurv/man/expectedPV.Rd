@@ -36,11 +36,10 @@ expectedPV(ltm_cat, item = 30)
 }
 
 }
+\seealso{
+\code{\link{estimateSE}}, \code{\link{probability}}, \code{\link{selectItem}}
+}
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
-\seealso{
-\code{\link{estimateSE}}, \code{\link{probability}}, \code{\link{selectItem}}
-}
-

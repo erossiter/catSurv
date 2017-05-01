@@ -17,7 +17,7 @@ LinkingTo:
 	RcppArmadillo,
 	RcppGSL(>= 0.3.1) 
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 SystemRequirements: C++11
 Suggests:
 	catIrt(>= 0.5.0),

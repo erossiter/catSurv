@@ -70,4 +70,3 @@ Data of responses to a political knowledge battery from the May 2013 wave of The
 TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS.
 }
 \keyword{datasets}
-

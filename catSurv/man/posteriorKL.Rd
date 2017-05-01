@@ -50,11 +50,10 @@ posteriorKL(ltm_cat, item = 30)
 }
 
 }
+\seealso{
+\code{\link{expectedKL}}, \code{\link{likelihoodKL}}, \code{\link{selectItem}}
+}
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
-\seealso{
-\code{\link{expectedKL}}, \code{\link{likelihoodKL}}, \code{\link{selectItem}}
-}
-

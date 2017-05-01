@@ -1,4 +1,3 @@
-print("testing nextItem MFI")
 library(catR, quietly = TRUE)
 context("nextItem-MFI")
 load("cat_objects.Rdata")

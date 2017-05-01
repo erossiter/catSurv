@@ -51,11 +51,10 @@ obsInf(grm_cat, theta = 1, item = 10)
 }
 
 }
+\seealso{
+\code{\link{estimateTheta}}, \code{\link{expectedObsInf}}
+}
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
-\seealso{
-\code{\link{estimateTheta}}, \code{\link{expectedObsInf}}
-}
-

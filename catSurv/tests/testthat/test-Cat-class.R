@@ -1,4 +1,3 @@
-print("testing Cat class")
 context("Cat-class")
 load("cat_objects.Rdata")
 

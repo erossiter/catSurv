@@ -2,8 +2,8 @@
 % Please edit documentation in R/tpmCat.R
 \docType{methods}
 \name{tpmCat}
-\alias{tpm}
 \alias{tpmCat}
+\alias{tpm}
 \alias{tpmCat,data.frame-method}
 \alias{tpmCat,tpm-method}
 \title{Computerized Adaptive Testing Birnbaum's Three Parameter Model}
@@ -66,9 +66,6 @@ setSelection(tpm_cat1) <- "MFI"
 
 
 }
-\author{
-Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
-}
 \references{
 Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
 
@@ -79,4 +76,6 @@ Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and
 \seealso{
 \code{\link{Cat-class}}, \code{\link{ltmCat}}, \code{\link{polknowMT}}, \code{\link{probability}}
 }
-
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}

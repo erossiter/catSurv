@@ -1,4 +1,3 @@
-print("testing probability")
 library(catR, quietly = TRUE)
 context("probability")
 load("cat_objects.Rdata")

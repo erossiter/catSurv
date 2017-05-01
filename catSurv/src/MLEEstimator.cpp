@@ -2,20 +2,11 @@
 #include "MLEEstimator.h"
 
 double MLEEstimator::d1LL_root(){
-  std::cout<<"d1ll_root1"<<std::endl;
 
   integrableFunction d1LL_fctn = [&](double theta) {
-    std::cout << "in integrable function1" << std::endl;
     double l_theta = 0.0;
     
-    // std::cout << questionSet.model << std::endl;
-    // std::cout << questionSet.applicable_rows.size() << std::endl;
-    for (size_t i = 0; i <= 5; ++i) {
-      std::cout << i << std::endl;
-    }
-    
 	  for (auto question : questionSet.applicable_rows){
-	    std::cout << "in integrable function2.1" << std::endl;
 		  const int answer_k = questionSet.answers.at(question);
 		  auto probs = probability(theta, (size_t) question);
 		  
@@ -31,14 +22,11 @@ double MLEEstimator::d1LL_root(){
 		}
 	  return l_theta;
 	  };
-  
-  std::cout<<"d1ll_root2"<<std::endl;
 
   return brentMethod(d1LL_fctn);
 }
 
 double MLEEstimator::estimateTheta(Prior prior) {
-  std::cout<<"estimateTheta MLE 1" << std::endl;
   int iter = 0;
   int max_iter = 200;
   
@@ -69,7 +57,6 @@ double MLEEstimator::estimateTheta(Prior prior) {
 		  break;
 		}
 	}
-	std::cout<<"estimateTheta MLE 2" << std::endl;
 	return theta_hat_new;
 }
 

@@ -59,11 +59,10 @@ prior(x = 1, cat@priorName, cat@priorParams)
 }
 
 }
+\seealso{
+\code{\link{Cat-class}}
+}
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
-\seealso{
-\code{\link{Cat-class}}
-}
-

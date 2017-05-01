@@ -44,10 +44,6 @@ d2LL(ltm_cat, theta = 1)
 }
 
 }
-\author{
-Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
- Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
-}
 \references{
 Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
 
@@ -60,4 +56,7 @@ van der Linden, Wim J. 1998. ``Bayesian Item Selection Criteria for Adaptive Tes
 \seealso{
 \code{\link{Cat-class}}, \code{\link{d1LL}}, \code{\link{prior}}
 }
-
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}

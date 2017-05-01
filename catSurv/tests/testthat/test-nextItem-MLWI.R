@@ -1,4 +1,3 @@
-print("testing nextItem MLWI")
 library(catR, quietly = TRUE)
 context("nextItem-MLWI")
 load("cat_objects.Rdata")

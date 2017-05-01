@@ -1,4 +1,3 @@
-print("testing estimateTheta WLE")
 library(catR, quietly = TRUE)
 context("estimateTheta-WLE")
 load("cat_objects.Rdata")

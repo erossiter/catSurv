@@ -1,4 +1,3 @@
-print("testing nextItem MEI")
 library(catR, quietly = TRUE)
 context("nextItem-MEI")
 load("cat_objects.Rdata")

@@ -2,8 +2,8 @@
 % Please edit documentation in R/ltmCat.R
 \docType{methods}
 \name{ltmCat}
-\alias{ltm}
 \alias{ltmCat}
+\alias{ltm}
 \alias{ltmCat,data.frame-method}
 \alias{ltmCat,ltm-method}
 \title{Computerized Adaptive Testing Latent Trait Model}
@@ -65,9 +65,6 @@ setSelection(ltm_cat1) <- "MFI"
 }
 
 }
-\author{
-Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
-}
 \references{
 Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
 
@@ -76,4 +73,6 @@ Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and
 \seealso{
 \code{\link{Cat-class}}, \code{\link{npi}}, \code{\link{probability}}, \code{\link{tpmCat}}
 }
-
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}

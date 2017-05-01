@@ -1,4 +1,3 @@
-print("testing expectedObsInf")
 library(catR, quietly = TRUE)
 context("expectedObsInf")
 load("cat_objects.Rdata")

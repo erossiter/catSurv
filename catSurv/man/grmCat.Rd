@@ -2,8 +2,8 @@
 % Please edit documentation in R/grmCat.R
 \docType{methods}
 \name{grmCat}
-\alias{grm}
 \alias{grmCat}
+\alias{grm}
 \alias{grmCat,data.frame-method}
 \alias{grmCat,grm-method}
 \title{Computerized Adaptive Testing Graded Response Model}
@@ -65,9 +65,6 @@ setSelection(grm_cat1) <- "MFI"
 }
 
 }
-\author{
-Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
-}
 \references{
 Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
 
@@ -78,4 +75,6 @@ Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and
 \seealso{
 \code{\link{Cat-class}}, \code{\link{gpcmCat}}, \code{\link{nfc}}, \code{\link{probability}}
 }
-
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}

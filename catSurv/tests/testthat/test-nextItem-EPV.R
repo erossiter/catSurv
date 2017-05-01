@@ -1,4 +1,3 @@
-print("testing nextItem EPV")
 library(catR, quietly = TRUE)
 context("nextItem-EPV")
 load("cat_objects.Rdata")

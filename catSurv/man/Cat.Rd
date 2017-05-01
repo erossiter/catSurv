@@ -32,11 +32,10 @@ Assume we have a survey battery with \code{I} questions.  An object of the class
 \item \code{gainOverride} A numeric.  The absolute value of the difference between the standard error of the latent trait estimate and the square root of the expected posterior variance for each item must be less than this override to continue administering items.  The default value is \code{NA}.  
 }
 }
+\seealso{
+\code{\link{checkStopRules}}, \code{\link{estimateTheta}}, \code{\link{gpcmCat}}, \code{\link{grmCat}}, \code{\link{ltmCat}}, \code{\link{selectItem}}, \code{\link{tpmCat}}
+}
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, 
 Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
-\seealso{
-\code{\link{checkStopRules}}, \code{\link{estimateTheta}}, \code{\link{gpcmCat}}, \code{\link{grmCat}}, \code{\link{ltmCat}}, \code{\link{selectItem}}, \code{\link{tpmCat}}
-}
-

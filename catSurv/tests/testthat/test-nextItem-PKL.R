@@ -1,4 +1,3 @@
-print("testing nextItem PKL")
 context("nextItem-PKL")
 load("cat_objects.Rdata")
 

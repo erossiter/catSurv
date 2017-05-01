@@ -1,4 +1,3 @@
-print("testing estimateTheta MAP")
 library(catR, quietly = TRUE)
 context("estimateTheta-MAP")
 load("cat_objects.Rdata")

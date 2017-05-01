@@ -1,4 +1,3 @@
-print("testing makeTree")
 # context("makeTree")
 # load("cat_objects.Rdata")
 # 

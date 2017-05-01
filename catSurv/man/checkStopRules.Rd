@@ -69,14 +69,13 @@ checkStopRules(ltm_cat)
 }
 
 }
-\author{
-Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
- Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
-}
 \references{
 Babcock, Ben, and David J. Weiss. 2009. ``Termination Criteria in Computerized Adaptive Tests: Variable-Length CATs are not Biased." Proceedings of the 2009 GMAC Conference on Computerized Adaptive Testing. Vol. 14.
 }
 \seealso{
 \code{\link{Cat-class}}, \code{\link{estimateSE}}, \code{\link{expectedPV}}, \code{\link{fisherInf}}
 }
-
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+ Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}

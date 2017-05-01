@@ -368,7 +368,6 @@ double Estimator::ltm_d1LL(double theta) {
 }
 
 double Estimator::d1LL(double theta, bool use_prior, Prior &prior) {
-  std::cout<<"d1LL"<<std::endl;
 	const double prior_shift = (theta - prior.parameters.at(0)) / pow(prior.parameters.at(1), 2);
 	if (questionSet.applicable_rows.empty()) {
 		return prior_shift;
@@ -567,17 +566,12 @@ double Estimator::expectedObsInf(int item, Prior &prior) {
 }
 
 double Estimator::brentMethod(integrableFunction function){//const &function) {
-  std::cout<<"Brent0"<<std::endl;
   int status;
   int iter = 0;
   int max_iter = 100;
   
-  std::cout<<"Brent1"<<std::endl;
-  
   const gsl_root_fsolver_type *T;
   gsl_root_fsolver *s;
-  
-  std::cout<<"Brent2"<<std::endl;
   
   double r = 0;
   double x_lo = -5.0;
@@ -585,20 +579,13 @@ double Estimator::brentMethod(integrableFunction function){//const &function) {
   
 	gsl_function *F = GSLFunctionWrapper(function).asGSLFunction();
 
-	std::cout<<"Brent3"<<std::endl;
-	
 	T = gsl_root_fsolver_brent;
   s = gsl_root_fsolver_alloc (T);
-  
-  std::cout<<"Brent4"<<std::endl;
   
   // This function initializes, or reinitializes, an existing solver s
   // to use the function f and the initial search interval [x_lower, x_upper].
   gsl_root_fsolver_set (s, F, x_lo, x_hi);
   
-  
-  std::cout<<"Brent5"<<std::endl;
-
   do {
       iter++;
       status = gsl_root_fsolver_iterate (s);

@@ -49,10 +49,9 @@ ltm_table <- makeTree(ltm_cat, flat = TRUE)
 
 
 }
-\author{
-Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
-}
 \seealso{
 \code{\link{Cat-class}}, \code{\link{checkStopRules}}, \code{\link{selectItem}}
 }
-
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}

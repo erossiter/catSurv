@@ -2,8 +2,8 @@
 % Please edit documentation in R/gpcmCat.R
 \docType{methods}
 \name{gpcmCat}
-\alias{gpcm}
 \alias{gpcmCat}
+\alias{gpcm}
 \alias{gpcmCat,data.frame-method}
 \alias{gpcmCat,gpcm-method}
 \title{Computerized Adaptive Testing Generalized Partial Credit Model}
@@ -60,9 +60,6 @@ setSelection(gpcm_cat) <- "MFI"
 
 
 }
-\author{
-Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
-}
 \references{
 Baker, Frank B. and Seock-Ho Kim. 2004. Item Response Theory: Parameter Estimation Techniques. New York: Marcel Dekker.
 
@@ -73,4 +70,6 @@ Rizopoulos, Dimitris. 2006. ``ltm: An R Package for Latent Variable Modeling and
 \seealso{
 \code{\link{Cat-class}}, \code{\link{grmCat}}, \code{\link{polknowTAPS}}, \code{\link{probability}}
 }
-
+\author{
+Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+}

@@ -35,4 +35,3 @@ Data of survey respondents' responses to 18 NFC questions, which is a reduced ve
 Cacioppo, John T. and Richard E. Petty. 1984. "The Efficient Assessment of Need for Cognition." Journal of Personality Assessment 48(3):306-307.
 }
 \keyword{datasets}
-

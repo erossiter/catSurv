@@ -41,11 +41,10 @@ fisherInf(ltm_cat, theta = 1, item = 20)
 }
 
 }
+\seealso{
+\code{\link{fisherTestInfo}}, \code{\link{obsInf}}, \code{\link{selectItem}}
+}
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
-\seealso{
-\code{\link{fisherTestInfo}}, \code{\link{obsInf}}, \code{\link{selectItem}}
-}
-

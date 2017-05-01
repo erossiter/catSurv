@@ -1,4 +1,3 @@
-print("testing d1LL")
 context("d1LL")
 load("cat_objects.Rdata")
 

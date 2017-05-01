@@ -278,4 +278,3 @@ Jacob M. Montgomery and Joshua Cutler. 2013.
 Political Analysis (Spring 2013) 21 (2): 172-192.
 }
 \keyword{datasets}
-
