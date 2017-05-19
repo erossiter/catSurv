@@ -11,7 +11,7 @@ test_that("ltm EAP theta standard error calculates correctly", {
   catR_se <- semTheta(thEst = estimateTheta(ltm_cat), it = it_ltm,
                       x = ltm_cat@answers, method = "EAP")
 
-  ltm_se <- factor.scores(ltm_fit, matrix(ltm_cat@answer, nrow = 1),
+  ltm_se <- factor.scores(ltm_fit, matrix(ltm_cat@answers, nrow = 1),
                            method = "EAP")$score.dat$se.z1
 
   expect_equal(round(package_se, 4), round(catR_se), 4)
