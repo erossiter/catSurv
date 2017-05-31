@@ -2,9 +2,16 @@
 rm(list = ls())
 library(devtools)
 library(roxygen2)
+library(Rcpp)
 #setwd("~/Github/CATsurv")
 setwd("~/Dropbox/Spring2016/Rclass/CATSurv/")
 
+## testing package
+#Rcpp.package.skeleton("testpack")
+current.code <- as.package("testpack")
+load_all(current.code)#, recompile = FALSE)
+#document(current.code)
+rcpp_hello_world()
 
 ## loading the package
 current.code <- as.package("catSurv")
