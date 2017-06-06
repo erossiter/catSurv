@@ -6,25 +6,23 @@ library(Rcpp)
 #setwd("~/Github/CATsurv")
 setwd("~/Dropbox/Spring2016/Rclass/CATSurv/")
 
-## testing package
-#Rcpp.package.skeleton("testpack")
-current.code <- as.package("testpack")
-load_all(current.code)#, recompile = FALSE)
-#document(current.code)
-rcpp_hello_world()
-
 ## loading the package
 current.code <- as.package("catSurv")
 load_all(current.code)#, recompile = FALSE)
 document(current.code)
-#build(current.code)
-#install(current.code)
+# #build(current.code)
+# #install(current.code)
 test(current.code)
 check(current.code)
 
-
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")
+grm_cat@lowerBound <- -2
+grm_cat@upperBound <- 2
+
+grm_cat@answers[1:5] <- c(4, 5, 2, 4, 4)
+estimateTheta(grm_cat)
+probability(grm_cat, 1, 1)
 
 ## Checking downstream dependencies
 #revdep_check(current.code)
