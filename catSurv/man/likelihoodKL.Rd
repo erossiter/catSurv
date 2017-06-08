@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{likelihoodKL}
 \alias{likelihoodKL}
-\title{Expected Kullback-Leibeler Information, Weighted by Likelihood}
+\title{Expected Kullback-Leibler Information, Weighted by Likelihood}
 \usage{
 likelihoodKL(catObj, item)
 }
@@ -13,14 +13,14 @@ likelihoodKL(catObj, item)
 }
 \value{
 The function \code{likelihoodKL} returns a numeric indicating the
-expected Kullback-Leibeler information weighted by the likelihood
+expected Kullback-Leibler information weighted by the likelihood
  for the specified item, given the current answer profile and ability parameter estimate.
 }
 \description{
-Calculates the expected Kullback-Leibeler information, weighted by likelihood, for a specified item.
+Calculates the expected Kullback-Leibler information, weighted by likelihood, for a specified item.
 }
 \details{
-The function \code{likelihoodKL} calculates the expected Kullback-Leibeler information 
+The function \code{likelihoodKL} calculates the expected Kullback-Leibler information 
 for question \code{item}, where the proposed values of the true ability paramter are weighted by
 the current likelihood.
 

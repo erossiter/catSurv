@@ -18,11 +18,11 @@ Selection LKLSelector::selectItem() {
 	for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
 	  int question = questionSet.nonapplicable_rows.at(i);
 	  selection.values.push_back(estimator.likelihoodKL(question, prior));
-	  selection.question_names.push_back(questionSet.question_names[question]);
+	  selection.question_names.push_back(questionSet.question_names.at(question));
 
-		if (selection.values[i] > max_lkl) {
+		if (selection.values.at(i) > max_lkl) {
 			max_item = question;
-			max_lkl = selection.values[i];
+			max_lkl = selection.values.at(i);
 		}
 	}
 	

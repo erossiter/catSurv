@@ -23,14 +23,14 @@
 The function \code{grmCat} returns an object of class \code{Cat} with changes to the following slots:
 \itemize{
 \item \code{difficulty} A list of difficulty parameters, where each element in the list corresponds to the difficulty parameters for an item.
-\item \code{discrimination} A vector consisting of disrimination parameters for each item.
+\item \code{discrimination} A vector consisting of discrimination parameters for each item.
 \item \code{model} The string \code{"grm"}, indicating this \code{Cat} object corresponds to a graded response model.
 }
 
 See \code{\link{Cat-class}} for default values of \code{Cat} object slots.  See \strong{Examples} and \code{\link{setters}} for example code to change slot values.
 }
 \description{
-This function fits the graded response model for ordinal polytomous data and populates the fitted values for discimination and difficulty parameters to an object of class \code{Cat}.
+This function fits the graded response model for ordinal polytomous data and populates the fitted values for discrimination and difficulty parameters to an object of class \code{Cat}.
 }
 \details{
 The \code{data} argument of the function \code{grmCat} is either a data frame or an object of class \code{grm} from the \code{ltm} package.  If it is a data frame each row represents a respondent and each column represents a question item.  If it is an object of the class \code{grm}, it is output from the \code{grm} function in the \code{ltm} package.

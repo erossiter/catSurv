@@ -11,7 +11,7 @@ d2LL(catObj, theta, use_prior)
 
 \item{theta}{A numeric or an integer indicating the value for \eqn{\theta}}
 
-\item{use_prior}{A logical indicating whether to calculate baseded on the log-likelihood or log-posterior}
+\item{use_prior}{A logical indicating whether to calculate based on the log-likelihood or log-posterior}
 }
 \value{
 The function \code{d2LL} returns a numeric of the second derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.

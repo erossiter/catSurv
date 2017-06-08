@@ -9,13 +9,13 @@
 #' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
 #' @param item An integer indicating the index of the question item
 #'
-#' @return When the \code{model} slot of the \code{catObj} is \code{"ltm"}, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
+#' @return When the \code{model} slot of the \code{catObj} is \code{"ltm"}, the function \code{probability} returns a numeric vector of length one representing the probability of observing a non-zero response.
 #'
-#'When the \code{model} slot of the \code{catObj} is \code{"tpm"}, the function \code{probabilty} returns a numeric vector of length one representing the probabilty of observing a non-zero response.
+#'When the \code{model} slot of the \code{catObj} is \code{"tpm"}, the function \code{probability} returns a numeric vector of length one representing the probability of observing a non-zero response.
 #'
-#' When the \code{model} slot of the \code{catObj} is \code{"grm"}, the function \code{probabilty} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the (k+1)th element will always be one. The middle elements are the cumulative probability of observing response k or lower.
+#' When the \code{model} slot of the \code{catObj} is \code{"grm"}, the function \code{probability} returns a numeric vector of length k+1, where k is the number of possible responses. The first element will always be zero and the (k+1)th element will always be one. The middle elements are the cumulative probability of observing response k or lower.
 #'
-#'  When the \code{model} slot of the \code{catObj} is \code{"gpcm"}, the function \code{probabilty} returns a numeric vector of length k, where k is the number of possible responses. Each number represents the probability of observing response k.
+#'  When the \code{model} slot of the \code{catObj} is \code{"gpcm"}, the function \code{probability} returns a numeric vector of length k, where k is the number of possible responses. Each number represents the probability of observing response k.
 #'
 #' @details 
 #'  For the \code{ltm} model, the probability of non-zero response for respondent \eqn{j} on item \eqn{i} is
@@ -212,7 +212,7 @@ prior <- function(x, dist, params) {
 #' 
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric or an integer indicating the value for \eqn{\theta_j}
-#' @param use_prior A logical indicating whether to calculate baseded on the log-likelihood or log-posterior
+#' @param use_prior A logical indicating whether to calculate based on the log-likelihood or log-posterior
 #' 
 #' @return The function \code{d1LL} returns a numeric of the derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
 #' 
@@ -265,7 +265,7 @@ d1LL <- function(catObj, theta, use_prior) {
 #' 
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric or an integer indicating the value for \eqn{\theta}
-#' @param use_prior A logical indicating whether to calculate baseded on the log-likelihood or log-posterior
+#' @param use_prior A logical indicating whether to calculate based on the log-likelihood or log-posterior
 #' 
 #' @return The function \code{d2LL} returns a numeric of the second derivative of the log-likelihood (or log-posterior) given a respondent's answer profile.
 #' 
@@ -655,7 +655,7 @@ expectedPV <- function(catObj, item) {
 
 #' Select Next Item
 #'
-#' Selects the next item in the question set to be adminstered to respondent based on the specified selection method.
+#' Selects the next item in the question set to be administered to respondent based on the specified selection method.
 #' 
 #' @param catObj An object of class \code{Cat}
 #'
@@ -772,7 +772,7 @@ expectedPV <- function(catObj, item) {
 #' 
 #' In the rare instance that item parameters are identical, it may be that that \code{selectItem} must choose
 #' between two items with the same value calculated by the selection criterion.  In such an instance, \code{selectItem}
-#' will choose the item with the lower question idex.
+#' will choose the item with the lower question index.
 #' 
 #' 
 #' 
@@ -783,21 +783,21 @@ selectItem <- function(catObj) {
     .Call('catSurv_selectItem', PACKAGE = 'catSurv', catObj)
 }
 
-#' Expected Kullback-Leibeler Information
+#' Expected Kullback-Leibler Information
 #'
-#' Calculates the expected Kullback-Leibeler information for an individual question item.
+#' Calculates the expected Kullback-Leibler information for an individual question item.
 #' 
 #' 
 #' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question item
 #'
-#' @details The function \code{expectedKL} calculates the expected value of the Kullback-Leibeler information
+#' @details The function \code{expectedKL} calculates the expected value of the Kullback-Leibler information
 #' for a specified item where the bounds of integration are \eqn{\hat{\theta} \pm \delta},
 #'  where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
 #'  \eqn{z} is specified in the \code{z} slot of the \code{Cat} object.  See \strong{Note} for more information on integration.
 #'  
 #' @return The function \code{expectedKL} returns a numeric indicating the
-#' expected Kullback-Leibeler information
+#' expected Kullback-Leibler information
 #'  for the specified item, given the current answer profile and ability parameter estimate.
 #' 
 #' 
@@ -833,15 +833,15 @@ expectedKL <- function(catObj, item) {
     .Call('catSurv_expectedKL', PACKAGE = 'catSurv', catObj, item)
 }
 
-#' Expected Kullback-Leibeler Information, Weighted by Likelihood
+#' Expected Kullback-Leibler Information, Weighted by Likelihood
 #'
-#' Calculates the expected Kullback-Leibeler information, weighted by likelihood, for a specified item.
+#' Calculates the expected Kullback-Leibler information, weighted by likelihood, for a specified item.
 #' 
 #' 
 #' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question item
 #'
-#' @details The function \code{likelihoodKL} calculates the expected Kullback-Leibeler information 
+#' @details The function \code{likelihoodKL} calculates the expected Kullback-Leibler information 
 #' for question \code{item}, where the proposed values of the true ability paramter are weighted by
 #' the current likelihood.
 #' 
@@ -850,7 +850,7 @@ expectedKL <- function(catObj, item) {
 #' 
 #' 
 #' @return The function \code{likelihoodKL} returns a numeric indicating the
-#' expected Kullback-Leibeler information weighted by the likelihood
+#' expected Kullback-Leibler information weighted by the likelihood
 #'  for the specified item, given the current answer profile and ability parameter estimate.
 #'  
 #' @examples
@@ -885,14 +885,14 @@ likelihoodKL <- function(catObj, item) {
     .Call('catSurv_likelihoodKL', PACKAGE = 'catSurv', catObj, item)
 }
 
-#' Expected Kullback-Leibeler Information, Weighted by the Prior
+#' Expected Kullback-Leibler Information, Weighted by the Prior
 #' 
-#' Calculates the expected Kullback-Leibeler information, weighted by likelihood and prior beliefs, for a specified item.
+#' Calculates the expected Kullback-Leibler information, weighted by likelihood and prior beliefs, for a specified item.
 #'
 #' @param catObj An object of class \code{Cat}
 #' @param item An integer indicating the index of the question item
 #'
-#' @details The function \code{posteriorKL} calculates the expected Kullback-Leibeler information 
+#' @details The function \code{posteriorKL} calculates the expected Kullback-Leibler information 
 #' for question \code{item}, where the proposed values of the true ability paramter are weighted by
 #' the prior.
 #' 
@@ -900,7 +900,7 @@ likelihoodKL <- function(catObj, item) {
 #' 
 #' 
 #' @return The function \code{posteriorKL} returns a numeric indicating the
-#' expected Kullback-Leibeler information weighted by the likelihood
+#' expected Kullback-Leibler information weighted by the likelihood
 #'  for the specified item, given the current answer profile and ability parameter estimate.
 #'  
 #' @examples
@@ -1013,7 +1013,7 @@ lookAhead <- function(catObj, item) {
 #' 
 #' 
 #' @return The function \code{checkStopRules} returns a boolean.  \code{TRUE} indicates all specified stopping rules are met
-#'   and no specified overrides are met.  No further items should be adminstered.  \code{FALSE} indicates at least one specified
+#'   and no specified overrides are met.  No further items should be administered.  \code{FALSE} indicates at least one specified
 #'    stopping rule is not met, or if any specified override threshold is met.  Additional items should be administered.
 #' 
 #' 

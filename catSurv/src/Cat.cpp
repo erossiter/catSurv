@@ -150,17 +150,17 @@ List Cat::lookAhead(int item) {
 
   std::vector<int> items;
   std::vector<int> response_options;
-  for (size_t i = 1; i <= questionSet.difficulty[item].size()+1; ++i) {
+  for (size_t i = 1; i <= questionSet.difficulty.at(item).size()+1; ++i) {
     // if binary response options, iterate from 0, otherwise iterate from 1
-    questionSet.answers[item] = ((questionSet.model == "ltm") | (questionSet.model == "tpm")) ?  i - 1 : i; 
+    questionSet.answers.at(item) = ((questionSet.model == "ltm") | (questionSet.model == "tpm")) ?  i - 1 : i; 
     Selection selection = selector->selectItem();
     items.push_back(selection.item + 1);
-    response_options.push_back(questionSet.answers[item]);
+    response_options.push_back(questionSet.answers.at(item));
 	}
   
   questionSet.nonapplicable_rows.push_back(item); // add item back to unanswered q's
 	questionSet.applicable_rows.pop_back(); // remove item from answered q's
-	questionSet.answers[item] = NA_INTEGER; // remove answer
+	questionSet.answers.at(item) = NA_INTEGER; // remove answer
 	  
 	DataFrame all_estimates = Rcpp::DataFrame::create(Named("response_option") = response_options,
                                                    Named("next_item") = items);

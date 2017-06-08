@@ -11,7 +11,7 @@ checkStopRules(catObj)
 }
 \value{
 The function \code{checkStopRules} returns a boolean.  \code{TRUE} indicates all specified stopping rules are met
-  and no specified overrides are met.  No further items should be adminstered.  \code{FALSE} indicates at least one specified
+  and no specified overrides are met.  No further items should be administered.  \code{FALSE} indicates at least one specified
    stopping rule is not met, or if any specified override threshold is met.  Additional items should be administered.
 }
 \description{

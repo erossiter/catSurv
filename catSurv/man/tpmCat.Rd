@@ -23,14 +23,14 @@
 The function \code{tpmCat} returns an object of class \code{Cat} with changes to the following slots:
 \itemize{
 \item \code{difficulty} A vector consisting of difficulty parameters for each item.
-\item \code{discrimination} A vector consisting of disrimination parameters for each item.
+\item \code{discrimination} A vector consisting of discrimination parameters for each item.
 \item \code{model} The string \code{"tpm"}, indicating this \code{Cat} object corresponds to Birnbaum's three parameter model.
 }
 
 See \code{\link{Cat-class}} for default values of \code{Cat} object slots.  See \strong{Examples} and \code{\link{setters}} for example code to change slot values.
 }
 \description{
-This function fits Birnbaum's three parameter model for binary data and populates the fitted values for discimination, difficulty, and guessing parameters to an object of class \code{Cat}.
+This function fits Birnbaum's three parameter model for binary data and populates the fitted values for discrimination, difficulty, and guessing parameters to an object of class \code{Cat}.
 }
 \details{
 The \code{data} argument of the function \code{tpmCat} is either a data frame or an object of class \code{tpm} from the \code{ltm} package.  If it is a data frame each row represents a respondent and each column represents a question item.  If it is an object of the class \code{tpm}, it is output from the \code{tpm} function in the \code{ltm} package.

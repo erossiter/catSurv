@@ -22,11 +22,11 @@ Selection KLSelector::selectItem() {
 	for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
 	  int question = questionSet.nonapplicable_rows.at(i);
 	  selection.values.push_back(estimator.expectedKL(question, prior));
-	  selection.question_names.push_back(questionSet.question_names[question]);
+	  selection.question_names.push_back(questionSet.question_names.at(question));
 
-		if (selection.values[i] > max_kl) {
+		if (selection.values.at(i) > max_kl) {
 			max_item = question;
-			max_kl = selection.values[i];
+			max_kl = selection.values.at(i);
 		}
 	}
 	

@@ -1,6 +1,6 @@
 #' Computerized Adaptive Testing Graded Response Model
 #'
-#' This function fits the graded response model for ordinal polytomous data and populates the fitted values for discimination and difficulty parameters to an object of class \code{Cat}.
+#' This function fits the graded response model for ordinal polytomous data and populates the fitted values for discrimination and difficulty parameters to an object of class \code{Cat}.
 #'
 #' @param data A data frame of manifest variables or an object of class \code{grm}.
 #' @param quadraturePoints A numeric to be passed into the \code{grm} function indicating the number of Gauss-Hermite quadrature points.  Only applicable when \code{data} is a data frame.  Default value is \code{21}.
@@ -10,7 +10,7 @@
 #'@return The function \code{grmCat} returns an object of class \code{Cat} with changes to the following slots:
 #' \itemize{
 #' \item \code{difficulty} A list of difficulty parameters, where each element in the list corresponds to the difficulty parameters for an item.
-#' \item \code{discrimination} A vector consisting of disrimination parameters for each item.
+#' \item \code{discrimination} A vector consisting of discrimination parameters for each item.
 #' \item \code{model} The string \code{"grm"}, indicating this \code{Cat} object corresponds to a graded response model.
 #' }
 #' 

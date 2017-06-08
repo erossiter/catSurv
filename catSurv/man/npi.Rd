@@ -34,10 +34,10 @@
 \item{\code{Q26}}{0 = Compliments embarrass me. 1 = I like to be complimented.}
 \item{\code{Q27}}{0 = I have a strong will to power. 1 = Power for its own sake doesn't interest me.}
 \item{\code{Q28}}{0 = I don't care about new fads and fashions. 1 = I like to start new fads and fashions.}
-\item{\code{Q29}}{0 = I like to look at myself in the mirror. 1 = I am not particularly interested in looking at myslef in the mirror.}
+\item{\code{Q29}}{0 = I like to look at myself in the mirror. 1 = I am not particularly interested in looking at myself in the mirror.}
 \item{\code{Q30}}{0 = I really like to be the center of attention. 1 = It makes me uncomfortable to be the center of attention.}
 \item{\code{Q31}}{0 = I can live my life in any way I want to. 1 = People can't always live their lives in terms of what they want.}
-\item{\code{Q32}}{0 = Being an authority doesn't mean that much to me. 1 = People alwyas seem to recognize my authority.}
+\item{\code{Q32}}{0 = Being an authority doesn't mean that much to me. 1 = People always seem to recognize my authority.}
 \item{\code{Q33}}{0 = I would prefer to be a leader. 1 = It makes little difference to me whether I am a leader or not.}
 \item{\code{Q34}}{0 = I am going to be a great person. 1 = I hope I am going to be successful.}
 \item{\code{Q35}}{0 = People sometimes believe what I tell them. 1 = I can make anybody believe anything I want them to.}
@@ -51,7 +51,7 @@
 data(npi)
 }
 \description{
-Data from the 40 item Narcissistic Personality Inventory (Raskin and Terry 1988).  Item responses are paired. Respondents had to choose the one that fit them the best. Missingness is optional.  Respondents were asked to affirm that their answers were acurate and suitable for research, those that did not (9\%) are not included in this dataset.  Observations come from one of three adminstrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
+Data from the 40 item Narcissistic Personality Inventory (Raskin and Terry 1988).  Item responses are paired. Respondents had to choose the one that fit them the best. Missingness is optional.  Respondents were asked to affirm that their answers were accurate and suitable for research, those that did not (9\%) are not included in this dataset.  Observations come from one of three administrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
 }
 \references{
 Raskin, Robert and Howard Terry. 1988. "A Principal-Components Analysis of the Narcissistic Personality Inventory and Further Evidence of Its Construct Validity." Journal of Personality and Social Psychology 54(5):890-902.

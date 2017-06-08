@@ -12,14 +12,15 @@ double EAPEstimator::estimateTheta(Prior prior) {
 	 * they are passed to GSL's integration function, cannot
 	 * take prior and likelihood as arguments.
 	 */
-
+	integrableFunction numerator = [&](double theta) {
+	  return theta * likelihood(theta) * prior.prior(theta);
+	};
+	
 	integrableFunction denominator = [&](double theta) {
 		return likelihood(theta) * prior.prior(theta);
 	};
 
-	integrableFunction numerator = [&](double theta) {
-		return theta * denominator(theta);
-	};
+
 	
 	return integralQuotient(numerator, denominator, questionSet.lowerBound, questionSet.upperBound);
 }
@@ -48,11 +49,12 @@ double EAPEstimator::integralQuotient(integrableFunction const &numerator,
 	 * in a GSLFunctionWrapper, which is integrable.
 	 */
 	gsl_function *numeratorFunction = GSLFunctionWrapper(numerator).asGSLFunction();
-	gsl_function *denominatorFunction = GSLFunctionWrapper(denominator).asGSLFunction();
-
-	const double top = integrator.integrate(numeratorFunction, integrationSubintervals, lower, upper);
-	const double bottom = integrator.integrate(denominatorFunction, integrationSubintervals, lower, upper);
-	return top / bottom;
+  const double top = integrator.integrate(numeratorFunction, integrationSubintervals, lower, upper);
+  
+  gsl_function *denominatorFunction = GSLFunctionWrapper(denominator).asGSLFunction();
+  const double bottom = integrator.integrate(denominatorFunction, integrationSubintervals, lower, upper);
+  
+  return top / bottom;
 }
 
 

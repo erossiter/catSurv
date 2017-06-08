@@ -23,14 +23,14 @@
 The function \code{gpcmCat} returns an object of class \code{Cat} with changes to the following slots:
 \itemize{
 \item \code{difficulty} A list of difficulty parameters, where each element in the list corresponds to the difficulty parameters for an item.
-\item \code{discrimination} A vector consisting of of disrimination parameters for each item.
+\item \code{discrimination} A vector consisting of of discrimination parameters for each item.
 \item \code{model} The string \code{"gpcm"}, indicating this \code{Cat} object corresponds to a generalized partial credit model.
 }
 
 See \code{\link{Cat-class}} for default values of \code{Cat} object slots.  See \strong{Examples} and \code{\link{setters}} for example code to change slot values.
 }
 \description{
-This function fits the generalized partial credit model for ordinal polytomous data and populates the fitted values for discimination and difficulty parameters to an object of class \code{Cat}.
+This function fits the generalized partial credit model for ordinal polytomous data and populates the fitted values for discrimination and difficulty parameters to an object of class \code{Cat}.
 }
 \details{
 The \code{data} argument of the function \code{gpcmCat} is either a data frame or an object of class \code{gpcm} from the \code{ltm} package.  If it is a data frame each row represents a respondent and each column represents a question item.  If it is an object of the class \code{gpcm}, it is output from the \code{gpcm} function in the \code{ltm} package.

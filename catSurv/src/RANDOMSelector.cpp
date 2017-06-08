@@ -13,13 +13,13 @@ Selection RANDOMSelector::selectItem() {
 	selection.question_names.reserve(questionSet.nonapplicable_rows.size());
 	
 	for (int item : questionSet.nonapplicable_rows) {
-	  selection.question_names.push_back(questionSet.question_names[item]);
+	  selection.question_names.push_back(questionSet.question_names.at(item));
 	  item = 0;
 		selection.values.push_back(item);
 	}
 
 	std::vector<int> sample_vec = Rcpp::RcppArmadillo::sample(selection.questions, 1, false, NULL);
-	selection.item = sample_vec[0];
+	selection.item = sample_vec.at(0);
 
 	return selection;
 }

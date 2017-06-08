@@ -1,27 +1,13 @@
----
-output:
-  md_document:
-    variant: markdown_github
----
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
-```
-
-## Overview
+Overview
+--------
 
 catSurv provides methods of computerized adaptive testing for survey researchers with functions to calculate the probability of a respondent providing an item option with `probability()`, a current estimate of their position on a latent trait with `estimateTheta()`, and ultimately selecting the next best survey item to adminster to that respondent with `selectItem()`, among others.
 
+Installation
+------------
 
-## Installation
-
-```{r, eval = FALSE}
+``` r
 # The easiest way to get catSurv is to install it:
 install.packages("catSurv")
 
@@ -30,4 +16,4 @@ install.packages("catSurv")
 devtools::install_github("erossiter/CATSurv/catSurv@gpcm")
 ```
 
-If you encounter a clear bug, please let us know [here](https://github.com/erossiter/CATSurv/issues). 
+If you encounter a clear bug, please let us know [here](https://github.com/erossiter/CATSurv/issues).

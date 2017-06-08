@@ -133,7 +133,7 @@ Eight years; Six years; Four years; Two years}
 
 \item{\code{Q32}}{conservatives are generally said to
   
-  Suppport pro-choice policies; Support tax cuts; Oppose military spending; Support government programs to give government assistance to the needy}
+  Support pro-choice policies; Support tax cuts; Oppose military spending; Support government programs to give government assistance to the needy}
 
 \item{\code{Q33}}{Which of these regions of the country is generally considered to be most supportive of Republican candidates 
   
@@ -163,7 +163,7 @@ Eight years; Six years; Four years; Two years}
   
   In even-numbered years; At the request of the Congress; Upon order of the president; With the approval of at least four justices}
 
-\item{\code{Q40}}{How many Justices typicaly serve on the U.S. Supreme Court
+\item{\code{Q40}}{How many Justices typically serve on the U.S. Supreme Court
   
   Eleven; Nine; Eight; Seven}
 
@@ -187,7 +187,7 @@ Eight years; Six years; Four years; Two years}
   
   Neither; Democrats; Republicans}
 
-\item{\code{Q46}}{Whic of the statees listed below has the greatest number of electoral college votes in the U.S. Presidential Elections?
+\item{\code{Q46}}{Which of the states listed below has the greatest number of electoral college votes in the U.S. Presidential Elections?
   
   Puerto Rico; Nevada; North Dakota; Washington, D.C.}
 
@@ -209,11 +209,11 @@ Eight years; Six years; Four years; Two years}
 
 \item{\code{Q51}}{The House of Representatives has how many voting members?
   
-  Four hundrer and forty-one; Four hundred and thirty-five; Two hundred; One hundred}
+  Four hundrerd and forty-one; Four hundred and thirty-five; Two hundred; One hundred}
 
 \item{\code{Q52}}{The President of the Senate is
   
-  THe Majority Leader; The Sergeant at Arms; The Vice President of the United States; The senior senator of the majority party}
+  The Majority Leader; The Sergeant at Arms; The Vice President of the United States; The senior senator of the majority party}
 
 \item{\code{Q53}}{On which of the following federal programs is the most money spent each year?
   
@@ -235,7 +235,7 @@ Eight years; Six years; Four years; Two years}
   
   Declare war; Pardon criminals without justification; Appoint federal officials when Congress is in recess; Refuse to sign legislation passed by Congress}
 
-\item{\code{Q58}}{Which of thse is NOT primarily the responsibility of the Federal government in Washington?
+\item{\code{Q58}}{Which of these is NOT primarily the responsibility of the Federal government in Washington?
   
   Interstate commerce; Negotiating treaties with foreign countries; Education; National defense}
 

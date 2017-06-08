@@ -1,6 +1,5 @@
 ## Test environments
-* local OS X install, R 3.3.2
-* win-builder (devel and release)
+* local OS X install, R 3.4.0
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
@@ -14,5 +13,5 @@ There were 2 NOTES:
   
 
 ## Downstream dependencies
-I have also run R CMD check on downstream dependencies of catSurv.
-All packages that I could install passed.
+I have also run R CMD check on downstream dependencies of catSurv using `devtools::revdep_check()`.
+All packages that I could install passed with result "No ERRORs or WARNINGs found :)".

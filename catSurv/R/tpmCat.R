@@ -1,6 +1,6 @@
 #' Computerized Adaptive Testing Birnbaum's Three Parameter Model
 #'
-#' This function fits Birnbaum's three parameter model for binary data and populates the fitted values for discimination, difficulty, and guessing parameters to an object of class \code{Cat}.
+#' This function fits Birnbaum's three parameter model for binary data and populates the fitted values for discrimination, difficulty, and guessing parameters to an object of class \code{Cat}.
 #'
 #' @param data A data frame of manifest variables or an object of class \code{tpm}.
 #' @param quadraturePoints A numeric to be passed into the \code{tpm} function indicating the number of Gauss-Hermite quadrature points.  Only applicable when \code{data} is a data frame.  Default value is \code{21}.
@@ -9,7 +9,7 @@
 #'@return The function \code{tpmCat} returns an object of class \code{Cat} with changes to the following slots:
 #' \itemize{
 #' \item \code{difficulty} A vector consisting of difficulty parameters for each item.
-#' \item \code{discrimination} A vector consisting of disrimination parameters for each item.
+#' \item \code{discrimination} A vector consisting of discrimination parameters for each item.
 #' \item \code{model} The string \code{"tpm"}, indicating this \code{Cat} object corresponds to Birnbaum's three parameter model.
 #' }
 #' 

@@ -131,7 +131,7 @@
 #' 
 #' \item{\code{Q32}}{conservatives are generally said to
 #'   
-#'   Suppport pro-choice policies; Support tax cuts; Oppose military spending; Support government programs to give government assistance to the needy}
+#'   Support pro-choice policies; Support tax cuts; Oppose military spending; Support government programs to give government assistance to the needy}
 #' 
 #' \item{\code{Q33}}{Which of these regions of the country is generally considered to be most supportive of Republican candidates 
 #'   
@@ -161,7 +161,7 @@
 #'   
 #'   In even-numbered years; At the request of the Congress; Upon order of the president; With the approval of at least four justices}
 #' 
-#' \item{\code{Q40}}{How many Justices typicaly serve on the U.S. Supreme Court
+#' \item{\code{Q40}}{How many Justices typically serve on the U.S. Supreme Court
 #'   
 #'   Eleven; Nine; Eight; Seven}
 #' 
@@ -185,7 +185,7 @@
 #'   
 #'   Neither; Democrats; Republicans}
 #' 
-#' \item{\code{Q46}}{Whic of the statees listed below has the greatest number of electoral college votes in the U.S. Presidential Elections?
+#' \item{\code{Q46}}{Which of the states listed below has the greatest number of electoral college votes in the U.S. Presidential Elections?
 #'   
 #'   Puerto Rico; Nevada; North Dakota; Washington, D.C.}
 #' 
@@ -207,11 +207,11 @@
 #' 
 #' \item{\code{Q51}}{The House of Representatives has how many voting members?
 #'   
-#'   Four hundrer and forty-one; Four hundred and thirty-five; Two hundred; One hundred}
+#'   Four hundrerd and forty-one; Four hundred and thirty-five; Two hundred; One hundred}
 #' 
 #' \item{\code{Q52}}{The President of the Senate is
 #'   
-#'   THe Majority Leader; The Sergeant at Arms; The Vice President of the United States; The senior senator of the majority party}
+#'   The Majority Leader; The Sergeant at Arms; The Vice President of the United States; The senior senator of the majority party}
 #' 
 #' \item{\code{Q53}}{On which of the following federal programs is the most money spent each year?
 #'   
@@ -233,7 +233,7 @@
 #'   
 #'   Declare war; Pardon criminals without justification; Appoint federal officials when Congress is in recess; Refuse to sign legislation passed by Congress}
 #' 
-#' \item{\code{Q58}}{Which of thse is NOT primarily the responsibility of the Federal government in Washington?
+#' \item{\code{Q58}}{Which of these is NOT primarily the responsibility of the Federal government in Washington?
 #'   
 #'   Interstate commerce; Negotiating treaties with foreign countries; Education; National defense}
 #' 
@@ -354,7 +354,7 @@
 
 #' Narcissistic Personality Inventory
 #'
-#' Data from the 40 item Narcissistic Personality Inventory (Raskin and Terry 1988).  Item responses are paired. Respondents had to choose the one that fit them the best. Missingness is optional.  Respondents were asked to affirm that their answers were acurate and suitable for research, those that did not (9\%) are not included in this dataset.  Observations come from one of three adminstrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
+#' Data from the 40 item Narcissistic Personality Inventory (Raskin and Terry 1988).  Item responses are paired. Respondents had to choose the one that fit them the best. Missingness is optional.  Respondents were asked to affirm that their answers were accurate and suitable for research, those that did not (9\%) are not included in this dataset.  Observations come from one of three administrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
 #' 
 #' 
 #' @format A data frame with 11,243 observations on the following 40 variables.
@@ -387,10 +387,10 @@
 #' \item{\code{Q26}}{0 = Compliments embarrass me. 1 = I like to be complimented.}
 #' \item{\code{Q27}}{0 = I have a strong will to power. 1 = Power for its own sake doesn't interest me.}
 #' \item{\code{Q28}}{0 = I don't care about new fads and fashions. 1 = I like to start new fads and fashions.}
-#' \item{\code{Q29}}{0 = I like to look at myself in the mirror. 1 = I am not particularly interested in looking at myslef in the mirror.}
+#' \item{\code{Q29}}{0 = I like to look at myself in the mirror. 1 = I am not particularly interested in looking at myself in the mirror.}
 #' \item{\code{Q30}}{0 = I really like to be the center of attention. 1 = It makes me uncomfortable to be the center of attention.}
 #' \item{\code{Q31}}{0 = I can live my life in any way I want to. 1 = People can't always live their lives in terms of what they want.}
-#' \item{\code{Q32}}{0 = Being an authority doesn't mean that much to me. 1 = People alwyas seem to recognize my authority.}
+#' \item{\code{Q32}}{0 = Being an authority doesn't mean that much to me. 1 = People always seem to recognize my authority.}
 #' \item{\code{Q33}}{0 = I would prefer to be a leader. 1 = It makes little difference to me whether I am a leader or not.}
 #' \item{\code{Q34}}{0 = I am going to be a great person. 1 = I hope I am going to be successful.}
 #' \item{\code{Q35}}{0 = People sometimes believe what I tell them. 1 = I can make anybody believe anything I want them to.}
@@ -423,7 +423,7 @@
 #' \describe{
 #'     \item{\code{NFC1}}{I really enjoy a task that involves coming up with new solutions to problems}
 #'     \item{\code{NFC4}}{I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought}
-#'     \item{\code{NFC10}}{Learning new ways to think doesnt excite me very much}
+#'     \item{\code{NFC10}}{Learning new ways to think doesn't excite me very much}
 #'     \item{\code{NFC12}}{I usually end up deliberating about issues even when they do not affect me personally}
 #'     \item{\code{NFC15}}{The idea of relying on thought to make my way to the top appeals to me}
 #'     \item{\code{NFC16}}{The notion of thinking abstractly is appealing to me}
@@ -438,7 +438,7 @@
 #'     \item{\code{NFC33}}{I try to anticipate and avoid situations where there is likely a chance I will have to think in depth about something}
 #'     \item{\code{NFC39}}{I prefer my life to be filed with puzzles that I must solve}
 #'     \item{\code{NFC40}}{I would prefer complex to simple problems}
-#'     \item{\code{NFC43}}{Its enough for me that something gets the job done; I dont care how or why it works}
+#'     \item{\code{NFC43}}{Its enough for me that something gets the job done; I don't care how or why it works}
 #' }
 #' 
 #' @references 

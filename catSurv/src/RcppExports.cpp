@@ -224,3 +224,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"catSurv_probability", (DL_FUNC) &catSurv_probability, 3},
+    {"catSurv_likelihood", (DL_FUNC) &catSurv_likelihood, 2},
+    {"catSurv_prior", (DL_FUNC) &catSurv_prior, 3},
+    {"catSurv_d1LL", (DL_FUNC) &catSurv_d1LL, 3},
+    {"catSurv_d2LL", (DL_FUNC) &catSurv_d2LL, 3},
+    {"catSurv_estimateTheta", (DL_FUNC) &catSurv_estimateTheta, 1},
+    {"catSurv_obsInf", (DL_FUNC) &catSurv_obsInf, 3},
+    {"catSurv_expectedObsInf", (DL_FUNC) &catSurv_expectedObsInf, 2},
+    {"catSurv_fisherInf", (DL_FUNC) &catSurv_fisherInf, 3},
+    {"catSurv_fisherTestInfo", (DL_FUNC) &catSurv_fisherTestInfo, 1},
+    {"catSurv_estimateSE", (DL_FUNC) &catSurv_estimateSE, 1},
+    {"catSurv_expectedPV", (DL_FUNC) &catSurv_expectedPV, 2},
+    {"catSurv_selectItem", (DL_FUNC) &catSurv_selectItem, 1},
+    {"catSurv_expectedKL", (DL_FUNC) &catSurv_expectedKL, 2},
+    {"catSurv_likelihoodKL", (DL_FUNC) &catSurv_likelihoodKL, 2},
+    {"catSurv_posteriorKL", (DL_FUNC) &catSurv_posteriorKL, 2},
+    {"catSurv_lookAhead", (DL_FUNC) &catSurv_lookAhead, 2},
+    {"catSurv_checkStopRules", (DL_FUNC) &catSurv_checkStopRules, 1},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_catSurv(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}

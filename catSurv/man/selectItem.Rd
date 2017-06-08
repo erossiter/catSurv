@@ -19,7 +19,7 @@ and
 \code{next_item}: a numeric representing the index of the item that should be asked next.
 }
 \description{
-Selects the next item in the question set to be adminstered to respondent based on the specified selection method.
+Selects the next item in the question set to be administered to respondent based on the specified selection method.
 }
 \details{
 Selection approach is specified in the \code{selection} slot of the \code{Cat} object.
@@ -71,7 +71,7 @@ of R's \code{sample} function that can be called from C++.
 
 In the rare instance that item parameters are identical, it may be that that \code{selectItem} must choose
 between two items with the same value calculated by the selection criterion.  In such an instance, \code{selectItem}
-will choose the item with the lower question idex.
+will choose the item with the lower question index.
 }
 \examples{
 \dontrun{

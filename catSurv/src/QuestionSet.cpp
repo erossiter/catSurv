@@ -14,9 +14,9 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
   question_names = Rcpp::as<std::vector<std::string> >(names);
 
 	for (size_t i = 0; i < answers.size(); i++) {
-		if (answers[i] == NA_INTEGER) {
+		if (answers.at(i) == NA_INTEGER) {
 			nonapplicable_rows.push_back((int) i);
-		} else if (answers[i] != -1) {
+		} else if (answers.at(i) != -1) {
 			applicable_rows.push_back((int) i);
 		} else {
 		  skipped.push_back((int) i);
@@ -41,10 +41,10 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 	int min_response = ((model == "ltm") | (model == "tpm")) ? 0.0 : 1.0;
 
 	for (auto i : applicable_rows) {
-	  if (discrimination[i] < 0.0 and answers[i] == min_response) minAnswer_negDiscrim.push_back((int) i);
-	  else if (discrimination[i] < 0.0 and answers[i] == max_response) maxAnswer_negDiscrim.push_back((int) i);
-	  else if (discrimination[i] > 0.0 and answers[i] == min_response) minAnswer_posDiscrim.push_back((int) i);
-	  else if (discrimination[i] > 0.0 and answers[i] == max_response) maxAnswer_posDiscrim.push_back((int) i);
+	  if (discrimination.at(i) < 0.0 and answers.at(i) == min_response) minAnswer_negDiscrim.push_back((int) i);
+	  else if (discrimination.at(i) < 0.0 and answers.at(i) == max_response) maxAnswer_negDiscrim.push_back((int) i);
+	  else if (discrimination.at(i) > 0.0 and answers.at(i) == min_response) minAnswer_posDiscrim.push_back((int) i);
+	  else if (discrimination.at(i) > 0.0 and answers.at(i) == max_response) maxAnswer_posDiscrim.push_back((int) i);
 	  else ans_not_extreme.push_back((int) i);
 	}
 

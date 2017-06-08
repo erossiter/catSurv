@@ -20,7 +20,7 @@ Selection MEISelector::selectItem() {
 
 	for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
 		int item = questionSet.nonapplicable_rows.at(i);
-	  selection.question_names.push_back(questionSet.question_names[item]);
+	  selection.question_names.push_back(questionSet.question_names.at(item));
 
 		double this_EI = estimator.expectedObsInf(item, prior);
 		if (this_EI > max_EI) {

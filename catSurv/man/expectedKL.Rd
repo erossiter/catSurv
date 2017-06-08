@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{expectedKL}
 \alias{expectedKL}
-\title{Expected Kullback-Leibeler Information}
+\title{Expected Kullback-Leibler Information}
 \usage{
 expectedKL(catObj, item)
 }
@@ -13,14 +13,14 @@ expectedKL(catObj, item)
 }
 \value{
 The function \code{expectedKL} returns a numeric indicating the
-expected Kullback-Leibeler information
+expected Kullback-Leibler information
  for the specified item, given the current answer profile and ability parameter estimate.
 }
 \description{
-Calculates the expected Kullback-Leibeler information for an individual question item.
+Calculates the expected Kullback-Leibler information for an individual question item.
 }
 \details{
-The function \code{expectedKL} calculates the expected value of the Kullback-Leibeler information
+The function \code{expectedKL} calculates the expected value of the Kullback-Leibler information
 for a specified item where the bounds of integration are \eqn{\hat{\theta} \pm \delta},
  where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
  \eqn{z} is specified in the \code{z} slot of the \code{Cat} object.  See \strong{Note} for more information on integration.

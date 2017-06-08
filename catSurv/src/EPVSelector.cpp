@@ -19,7 +19,7 @@ Selection EPVSelector::selectItem() {
 	for (int row : questionSet.nonapplicable_rows) {
 		double epv = estimator.expectedPV(row, prior);
 		selection.values.push_back(epv);
-		selection.question_names.push_back(questionSet.question_names[row]);
+		selection.question_names.push_back(questionSet.question_names.at(row));
 
 		if (epv < min_epv) {
 			min_item = row;

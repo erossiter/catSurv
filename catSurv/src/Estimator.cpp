@@ -35,65 +35,49 @@ std::vector<double> Estimator::prob_ltm(double theta, size_t question) {
 }
 
 std::vector<double> Estimator::prob_grm(double theta, size_t question) {
-  std::vector<double> probabilities (questionSet.difficulty.at(question).size());
-  for(size_t i = 0; i < questionSet.difficulty.at(question).size(); ++i){
-    double exp_prob = exp(questionSet.difficulty.at(question).at(i) - (questionSet.discrimination.at(question) * theta));
-    double result = exp_prob / (1 + exp_prob);
-    probabilities.at(i) = result;
+  double eps = pow(2, -52);
+  eps = pow(eps, 1.0/3.0);
+
+	auto calculate = [&](double difficulty) {
+		double exp_prob = exp(difficulty - (questionSet.discrimination.at(question) * theta));
+		double result = exp_prob / (1 + exp_prob);
+
+		if(std::isinf(exp_prob)){
+		 result = 1.0 - eps;
+		}
+		if(result > (1.0 - eps)){
+		  result = 1.0 - eps;
+		}
+		if(result < eps){
+		  result = eps;
+		}
+		return result;
+	};
+
+	std::vector<double> probabilities;
+	for (auto term : questionSet.difficulty.at(question)) {
+		probabilities.push_back(calculate(term));
+	}
+	// padding probabilities with 0,1
+	std::vector<double> padded{0.0};
+	padded.insert(padded.end(), probabilities.begin(), probabilities.end());
+	padded.push_back(1.0);
+
+	// checking for repeated elements
+	std::vector<double>::iterator it;
+  it = std::adjacent_find(padded.begin(), padded.end());
+  if(it != padded.end()){
+    throw std::domain_error("Theta value too extreme for numerical routines.");
   }
 
-  //padding probabilities with 0,1
-  std::vector<double> padded{0.0};
-  padded.insert(padded.end(), probabilities.begin(), probabilities.end());
-  padded.push_back(1.0);
-
-
-  return padded;
-  
-  
-//   double eps = pow(2, -52);
-//   eps = pow(eps, 1.0/3.0);
-// 
-// 	auto calculate = [&](double difficulty) {
-// 		double exp_prob = exp(difficulty - (questionSet.discrimination.at(question) * theta));
-// 		double result = exp_prob / (1 + exp_prob);
-// 
-// 		if(std::isinf(exp_prob)){
-// 		 result = 1.0 - eps;
-// 		}
-// 		if(result > (1.0 - eps)){
-// 		  result = 1.0 - eps;
-// 		}
-// 		if(result < eps){
-// 		  result = eps;
-// 		}
-// 		return result;
-// 	};
-// 
-// 	std::vector<double> probabilities;
-// 	for (auto term : questionSet.difficulty.at(question)) {
-// 		probabilities.push_back(calculate(term));
-// 	}
-// 	// padding probabilities with 0,1
-// 	std::vector<double> padded{0.0};
-// 	padded.insert(padded.end(), probabilities.begin(), probabilities.end());
-// 	padded.push_back(1.0);
-// 
-// 	// checking for repeated elements
-// 	std::vector<double>::iterator it;
-//   it = std::adjacent_find(padded.begin(), padded.end());
-//   if(it != padded.end()){
-//     throw std::domain_error("Theta value too extreme for numerical routines.");
-//   }
-// 
-// 	return padded;
+	return padded;
 }
 
 std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
   // double xmax = pow(2, 52);
   // double eps = pow(2, -52);
   // eps = pow(eps, 1.0/3.0);
-  
+    
   double discrimination = questionSet.discrimination.at(question);
   std::vector<double> categoryparams = questionSet.difficulty.at(question);
   std::vector<double>::iterator it;
@@ -197,11 +181,6 @@ double Estimator::likelihood_grm(double theta) {
 		size_t unanswered_question = (size_t) question;
 	  int answer = questionSet.answers.at(unanswered_question);
     auto question_cdf = probability(theta, unanswered_question);
-    // TODO: Determine what should happen when a negative answer is given
-		// TODO: that is, when a user doesn't respond, the value will be negative
-		// TODO: Which will result in an out-of-bounds array access
-
-		// TODO: Absolute value and reserve array, if needed.
 		L += log(question_cdf.at((size_t) answer) - question_cdf.at(((size_t) answer) - 1)) ;
 	}
 	return exp(L);
@@ -213,7 +192,6 @@ double Estimator::likelihood_gpcm(double theta) {
 	for (auto question : questionSet.applicable_rows) {
 		size_t unanswered_question = (size_t) question;
 	  int answer = questionSet.answers.at(unanswered_question);
-	  
     auto probs = probability(theta, unanswered_question);
     // index probabilities correctly using the answer
     answer -= 1;

@@ -23,14 +23,14 @@
 The function \code{ltmCat} returns an object of class \code{Cat} with changes to the following slots:
 \itemize{
 \item \code{difficulty} A vector consisting of difficulty parameters for each item.
-\item \code{discrimination} A vector consisting of disrimination parameters for each item.
+\item \code{discrimination} A vector consisting of discrimination parameters for each item.
 \item \code{model} The string \code{"ltm"}, indicating this \code{Cat} object corresponds to a latent trait model.
 }
 
 See \code{\link{Cat-class}} for default values of \code{Cat} object slots.  See \strong{Examples} and \code{\link{setters}} for example code to change slot values.
 }
 \description{
-This function fits the latent trait model for binary data and populates the fitted values for discimination and difficulty parameters to an object of class \code{Cat}.
+This function fits the latent trait model for binary data and populates the fitted values for discrimination and difficulty parameters to an object of class \code{Cat}.
 }
 \details{
 The \code{data} argument of the function \code{ltmCat} is either a data frame or an object of class \code{ltm} from the \code{ltm} package.  If it is a data frame each row represents a respondent and each column represents a question item.  If it is an object of the class \code{ltm}, it is output from the \code{ltm} function in the \code{ltm} package.

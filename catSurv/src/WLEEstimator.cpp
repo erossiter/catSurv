@@ -7,7 +7,7 @@ double WLEEstimator::ltm_estimateTheta(Prior prior){
     double B = 0.0;
     double I = 0.0;
     for (auto item : questionSet.applicable_rows) {
-      double a = questionSet.difficulty.at(item)[0];
+      double a = (questionSet.difficulty.at(item)).at(0);
       double b = questionSet.discrimination.at(item);
       double c = questionSet.guessing.at(item);
 
@@ -15,7 +15,7 @@ double WLEEstimator::ltm_estimateTheta(Prior prior){
       double dP = b * (1 - c) * (exp_part / pow((1 + exp_part), 2.0));
       double d2P = pow(b, 2.0) * exp_part * (1 - exp_part) * ((1 - c) / pow((1 + exp_part), 3.0));
 
-      double P = probability(theta, item)[0];
+      double P = probability(theta, item).at(0);
       B += (dP * d2P) / (P * (1.0 - P));
       I += fisherInf(theta, item);
     }
@@ -112,7 +112,7 @@ double WLEEstimator::grm_estimateTheta(Prior prior){
 double WLEEstimator::estimateTheta(Prior prior) {
   double theta = 0.0;
 
-  if (questionSet.model == "ltm") {
+  if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
 	  theta = ltm_estimateTheta(prior);
 	}
 	if (questionSet.model == "grm") {

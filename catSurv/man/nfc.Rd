@@ -8,7 +8,7 @@
 \describe{
     \item{\code{NFC1}}{I really enjoy a task that involves coming up with new solutions to problems}
     \item{\code{NFC4}}{I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought}
-    \item{\code{NFC10}}{Learning new ways to think doesnt excite me very much}
+    \item{\code{NFC10}}{Learning new ways to think doesn't excite me very much}
     \item{\code{NFC12}}{I usually end up deliberating about issues even when they do not affect me personally}
     \item{\code{NFC15}}{The idea of relying on thought to make my way to the top appeals to me}
     \item{\code{NFC16}}{The notion of thinking abstractly is appealing to me}
@@ -23,7 +23,7 @@
     \item{\code{NFC33}}{I try to anticipate and avoid situations where there is likely a chance I will have to think in depth about something}
     \item{\code{NFC39}}{I prefer my life to be filed with puzzles that I must solve}
     \item{\code{NFC40}}{I would prefer complex to simple problems}
-    \item{\code{NFC43}}{Its enough for me that something gets the job done; I dont care how or why it works}
+    \item{\code{NFC43}}{Its enough for me that something gets the job done; I don't care how or why it works}
 }}
 \usage{
 data(nfc)

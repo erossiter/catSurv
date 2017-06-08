@@ -8,55 +8,51 @@ setwd("~/Dropbox/Spring2016/Rclass/CATSurv/")
 
 ## loading the package
 current.code <- as.package("catSurv")
-load_all(current.code)#, recompile = FALSE)
-document(current.code)
+# load_all(current.code)
+# document(current.code)
 # #build(current.code)
 # #install(current.code)
-test(current.code)
-check(current.code)
-
-## loading objects for the purposes of creating tests
-load("catSurv/tests/testthat/cat_objects.Rdata")
-grm_cat@lowerBound <- -2
-grm_cat@upperBound <- 2
-
-grm_cat@answers[1:5] <- c(4, 5, 2, 4, 4)
-estimateTheta(grm_cat)
-probability(grm_cat, 1, 1)
-
-## Checking downstream dependencies
-#revdep_check(current.code)
-#revdep_check_print_problems(current.code)
-
-## Checking package on windows platform
-## version = c("R-release", "R-devel")
-## Need to do release as well?
-build_win(current.code)
-
-## Building other important files
-#use_readme_rmd(current.code)
-#use_build_ignore("NEWS.md", pkg = "catSurv")
-#use_build_ignore("cran-comments.md", pkg = "catSurv")
-
-## for looking at pdf of documentation
-unlink("catSurv.pdf") ## deleting current version
-path <- find.package("catSurv")
-system(paste(shQuote(file.path(R.home("bin"), "R")), "CMD", "Rd2pdf", shQuote(path)))
-
-## checking what version of packages I have installed to update
-## DESCRIPTION when needed (comments are what's currently 
-## in description file)
-library(utils)
-version #3.3.3
-packageVersion("RcppArmadillo") #‘0.7.700.0.0’
-packageVersion("stats") #‘3.3.2’
-packageVersion("Rcpp") #‘0.12.9’
-packageVersion("RcppGSL") #‘0.3.1’
-packageVersion("BH") #‘1.60.0.2’
-packageVersion("ltm") #‘1.0.0’
-packageVersion("catR") #‘3.10’
-packageVersion("catIrt") #‘0.5.0’
-packageVersion("testthat") #‘1.0.2’
-packageVersion("methods") #‘3.3.2’
-
-
+# test(current.code)
+# check(current.code)
+release(current.code, check = FALSE)
+# 
+# 
+# ## loading objects for the purposes of creating tests
+# load("catSurv/tests/testthat/cat_objects.Rdata")
+# 
+# ## Checking downstream dependencies
+# revdep_check(current.code)
+# revdep_check_print_problems(current.code)
+# 
+# ## Checking package on windows platform
+# ## version = c("R-release", "R-devel")
+# ## Need to do release as well?
+# #build_win(current.code)
+# 
+# ## Building other important files
+# #use_readme_rmd(current.code)
+# #use_build_ignore("NEWS.md", pkg = "catSurv")
+# #use_build_ignore("cran-comments.md", pkg = "catSurv")
+# 
+# ## for looking at pdf of documentation
+# unlink("catSurv.pdf") ## deleting current version
+# path <- find.package("catSurv")
+# system(paste(shQuote(file.path(R.home("bin"), "R")), "CMD", "Rd2pdf", shQuote(path)))
+# 
+# ## checking what version of packages I have installed to update
+# ## DESCRIPTION when needed (comments are what's currently 
+# ## in description file)
+# library(utils)
+# version #3.4.0
+# packageVersion("RcppArmadillo") #‘0.7.900.2.0’
+# packageVersion("stats") #‘3.4.0’
+# packageVersion("Rcpp") #‘0.12.11’
+# packageVersion("RcppGSL") #‘0.3.2’
+# packageVersion("BH") #‘1.62.0.1’
+# packageVersion("ltm") #‘1.0.0’
+# packageVersion("catR") #‘3.12’
+# packageVersion("catIrt") #‘0.5.0’
+# packageVersion("testthat") #‘1.0.2’
+# packageVersion("methods") #‘3.4.0’
+# 
+# 
