@@ -209,7 +209,7 @@ Eight years; Six years; Four years; Two years}
 
 \item{\code{Q51}}{The House of Representatives has how many voting members?
   
-  Four hundrerd and forty-one; Four hundred and thirty-five; Two hundred; One hundred}
+  Four hundred and forty-one; Four hundred and thirty-five; Two hundred; One hundred}
 
 \item{\code{Q52}}{The President of the Senate is
   

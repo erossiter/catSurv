@@ -21,7 +21,7 @@ Calculates the expected Kullback-Leibler information, weighted by likelihood, fo
 }
 \details{
 The function \code{likelihoodKL} calculates the expected Kullback-Leibler information 
-for question \code{item}, where the proposed values of the true ability paramter are weighted by
+for question \code{item}, where the proposed values of the true ability parameter are weighted by
 the current likelihood.
 
 

@@ -21,7 +21,7 @@ Calculates the expected Kullback-Leibler information, weighted by likelihood and
 }
 \details{
 The function \code{posteriorKL} calculates the expected Kullback-Leibler information 
-for question \code{item}, where the proposed values of the true ability paramter are weighted by
+for question \code{item}, where the proposed values of the true ability parameter are weighted by
 the prior.
 
 This function involves integration.  See \strong{Note} for more information.

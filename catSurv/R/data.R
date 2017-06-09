@@ -207,7 +207,7 @@
 #' 
 #' \item{\code{Q51}}{The House of Representatives has how many voting members?
 #'   
-#'   Four hundrerd and forty-one; Four hundred and thirty-five; Two hundred; One hundred}
+#'   Four hundred and forty-one; Four hundred and thirty-five; Two hundred; One hundred}
 #' 
 #' \item{\code{Q52}}{The President of the Senate is
 #'   
@@ -416,7 +416,7 @@
 
 #' Need For Cognition
 #'
-#' Data of survey respondents' responses to 18 NFC questions, which is a reduced version of NFC (Cacioppo and Petty 1984). For each question, respondents could choose one of five response options: 1 = agree strongly, 2 = agree somewhat, 3 = neither agree nor disagree, 4 = disagree somewhat, 5 = disagree strongly. Missingness is optional. Observations come from one of three adminstrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
+#' Data of survey respondents' responses to 18 NFC questions, which is a reduced version of NFC (Cacioppo and Petty 1984). For each question, respondents could choose one of five response options: 1 = agree strongly, 2 = agree somewhat, 3 = neither agree nor disagree, 4 = disagree somewhat, 5 = disagree strongly. Missingness is optional. Observations come from one of three administrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
 #' 
 #' 
 #' @format A data frame with 4043 observations on the following 18 variables.

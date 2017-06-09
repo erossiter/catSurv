@@ -842,7 +842,7 @@ expectedKL <- function(catObj, item) {
 #' @param item An integer indicating the index of the question item
 #'
 #' @details The function \code{likelihoodKL} calculates the expected Kullback-Leibler information 
-#' for question \code{item}, where the proposed values of the true ability paramter are weighted by
+#' for question \code{item}, where the proposed values of the true ability parameter are weighted by
 #' the current likelihood.
 #' 
 #' 
@@ -893,7 +893,7 @@ likelihoodKL <- function(catObj, item) {
 #' @param item An integer indicating the index of the question item
 #'
 #' @details The function \code{posteriorKL} calculates the expected Kullback-Leibler information 
-#' for question \code{item}, where the proposed values of the true ability paramter are weighted by
+#' for question \code{item}, where the proposed values of the true ability parameter are weighted by
 #' the prior.
 #' 
 #' This function involves integration.  See \strong{Note} for more information.
