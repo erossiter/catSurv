@@ -1,0 +1,16 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+*.o
+.idea
+
+
+
+*.so
+
+*.history
+
+*.o-524f19d1
