@@ -93,7 +93,7 @@
 #'  
 #' @export
 probability <- function(catObj, theta, item) {
-    .Call(catSurv_probability, catObj, theta, item)
+    .Call('catSurv_probability', PACKAGE = 'catSurv', catObj, theta, item)
 }
 
 #' Likelihood of the Specified Response Set
@@ -141,7 +141,7 @@ probability <- function(catObj, theta, item) {
 #'  
 #' @export
 likelihood <- function(catObj, theta) {
-    .Call(catSurv_likelihood, catObj, theta)
+    .Call('catSurv_likelihood', PACKAGE = 'catSurv', catObj, theta)
 }
 
 #' Evaluate the Prior Density Distribution at Position \code{x}
@@ -202,7 +202,7 @@ likelihood <- function(catObj, theta) {
 #'  
 #' @export
 prior <- function(x, dist, params) {
-    .Call(catSurv_prior, x, dist, params)
+    .Call('catSurv_prior', PACKAGE = 'catSurv', x, dist, params)
 }
 
 #' The First Derivative of the Log-Likelihood
@@ -255,7 +255,7 @@ prior <- function(x, dist, params) {
 #'  
 #' @export
 d1LL <- function(catObj, theta, use_prior) {
-    .Call(catSurv_d1LL, catObj, theta, use_prior)
+    .Call('catSurv_d1LL', PACKAGE = 'catSurv', catObj, theta, use_prior)
 }
 
 #' The Second Derivative of the Log-Likelihood
@@ -309,7 +309,7 @@ d1LL <- function(catObj, theta, use_prior) {
 #' 
 #' @export
 d2LL <- function(catObj, theta, use_prior) {
-    .Call(catSurv_d2LL, catObj, theta, use_prior)
+    .Call('catSurv_d2LL', PACKAGE = 'catSurv', catObj, theta, use_prior)
 }
 
 #' Estimate of the Respondent's Ability Parameter
@@ -381,7 +381,7 @@ d2LL <- function(catObj, theta, use_prior) {
 #'  
 #' @export
 estimateTheta <- function(catObj) {
-    .Call(catSurv_estimateTheta, catObj)
+    .Call('catSurv_estimateTheta', PACKAGE = 'catSurv', catObj)
 }
 
 #' Observed Information
@@ -430,7 +430,7 @@ estimateTheta <- function(catObj) {
 #' 
 #' @export
 obsInf <- function(catObj, theta, item) {
-    .Call(catSurv_obsInf, catObj, theta, item)
+    .Call('catSurv_obsInf', PACKAGE = 'catSurv', catObj, theta, item)
 }
 
 #' Expected Observed Information
@@ -466,7 +466,7 @@ obsInf <- function(catObj, theta, item) {
 #' 
 #' @export
 expectedObsInf <- function(catObj, item) {
-    .Call(catSurv_expectedObsInf, catObj, item)
+    .Call('catSurv_expectedObsInf', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Fisher's Information
@@ -505,7 +505,7 @@ expectedObsInf <- function(catObj, item) {
 #' 
 #' @export
 fisherInf <- function(catObj, theta, item) {
-    .Call(catSurv_fisherInf, catObj, theta, item)
+    .Call('catSurv_fisherInf', PACKAGE = 'catSurv', catObj, theta, item)
 }
 
 #' Fisher's Test Information
@@ -540,7 +540,7 @@ fisherInf <- function(catObj, theta, item) {
 #' 
 #' @export
 fisherTestInfo <- function(catObj) {
-    .Call(catSurv_fisherTestInfo, catObj)
+    .Call('catSurv_fisherTestInfo', PACKAGE = 'catSurv', catObj)
 }
 
 #' Standard Error of Ability Parameter Estimate
@@ -610,7 +610,7 @@ fisherTestInfo <- function(catObj) {
 #'  
 #' @export
 estimateSE <- function(catObj) {
-    .Call(catSurv_estimateSE, catObj)
+    .Call('catSurv_estimateSE', PACKAGE = 'catSurv', catObj)
 }
 
 #' Expected Posterior Variance
@@ -650,7 +650,7 @@ estimateSE <- function(catObj) {
 #' 
 #' @export
 expectedPV <- function(catObj, item) {
-    .Call(catSurv_expectedPV, catObj, item)
+    .Call('catSurv_expectedPV', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Select Next Item
@@ -780,7 +780,7 @@ expectedPV <- function(catObj, item) {
 #'  
 #' @export
 selectItem <- function(catObj) {
-    .Call(catSurv_selectItem, catObj)
+    .Call('catSurv_selectItem', PACKAGE = 'catSurv', catObj)
 }
 
 #' Expected Kullback-Leibler Information
@@ -830,7 +830,7 @@ selectItem <- function(catObj) {
 #'
 #' @export
 expectedKL <- function(catObj, item) {
-    .Call(catSurv_expectedKL, catObj, item)
+    .Call('catSurv_expectedKL', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Expected Kullback-Leibler Information, Weighted by Likelihood
@@ -882,7 +882,7 @@ expectedKL <- function(catObj, item) {
 #' 
 #' @export
 likelihoodKL <- function(catObj, item) {
-    .Call(catSurv_likelihoodKL, catObj, item)
+    .Call('catSurv_likelihoodKL', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Expected Kullback-Leibler Information, Weighted by the Prior
@@ -931,7 +931,7 @@ likelihoodKL <- function(catObj, item) {
 #' @seealso \code{\link{expectedKL}}, \code{\link{likelihoodKL}}, \code{\link{selectItem}}
 #' @export
 posteriorKL <- function(catObj, item) {
-    .Call(catSurv_posteriorKL, catObj, item)
+    .Call('catSurv_posteriorKL', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Look Ahead to Select Next Item
@@ -978,7 +978,7 @@ posteriorKL <- function(catObj, item) {
 #'
 #' @export
 lookAhead <- function(catObj, item) {
-    .Call(catSurv_lookAhead, catObj, item)
+    .Call('catSurv_lookAhead', PACKAGE = 'catSurv', catObj, item)
 }
 
 #' Check if Stop and/or Override Rules are Met
@@ -1056,6 +1056,6 @@ lookAhead <- function(catObj, item) {
 #' 
 #' @export
 checkStopRules <- function(catObj) {
-    .Call(catSurv_checkStopRules, catObj)
+    .Call('catSurv_checkStopRules', PACKAGE = 'catSurv', catObj)
 }
 

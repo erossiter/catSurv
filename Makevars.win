@@ -1,2 +1,0 @@
-PKG_LIBS = -L$(LIB_GSL)/lib/x64 -lgsl -lgslcblas $(shell $(R_HOME)/bin/Rscript -e "RcppGSL:::LdFlags()")
-PKG_CPPFLAGS=-I$(LIB_GSL)/include -I../inst/include
