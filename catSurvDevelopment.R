@@ -8,11 +8,56 @@ setwd("~/Dropbox/Spring2016/Rclass/CATSurv/")
 ## loading the package
 current.code <- as.package("catSurv")
 load_all(current.code)
-document(current.code)
+#document(current.code)
+#build(current.code)
 #test(current.code)
 #check(current.code)
-#release(current.code, check = FALSE)
-submit_cran(current.code)
+#release(current.code)
+
+load("catSurv/tests/testthat/cat_objects.Rdata")
+gpcm_cat@answers[1:5] <- c(4, 5, 2, 4, 4)
+probability(gpcm_cat, 0, 1)
+
+
+gpcm_cat@difficulty
+estimateTheta(gpcm_cat)
+
+
+estimateTheta(catObj) ## in main.cpp
+- estimateTheta() ## defined in Cat.cpp, there are many routines to this function, but this catObj is using EAP
+-- estimateTheta() ## defined in EAPEstimator.cpp
+--- integralQuotient() ## defined in EAPEstimator.cpp
+## does this once for "numerator"
+---- GSLFunctionWrapper().asGSLfunction() ## both defined in GSLFunctionWrapper.cpp
+---- integrate() ## defined in Integrator.cpp
+----- gsl_integration_qag() ## included from GSL via #include <gsl/gsl_integration.h>
+------ likelihood() ## defined in Estimator.cpp
+------- likelihood_gpcm() ## defined in Estimator.cpp
+-------- probability() ## defined in Estimator.cpp
+--------- prob_gpm() ## defined in Estimator.cpp
+------ prior() ## defined in Prior.cpp
+------- normal() ## defined in Prior.cpp via Boost includes
+## does this again for "denominator"
+---- GSLFunctionWrapper().asGSLfunction() ## both defined in GSLFunctionWrapper.cpp
+---- integrate() ## defined in Integrator.cpp
+----- gsl_integration_qag() ## included from GSL via #include <gsl/gsl_integration.h>
+------ likelihood() ## defined in Estimator.cpp
+------- likelihood_gpcm() ## defined in Estimator.cpp
+-------- probability() ## defined in Estimator.cpp
+--------- prob_gpm() ## defined in Estimator.cpp
+------ prior() ## defined in Prior.cpp
+------- normal() ## defined in Prior.cpp via Boost includes
+## I did not include calls to the questionSet struct to access data which occur throughout
+
+
+## checking on other platforms
+#install_github("r-hub/rhub", force = TRUE)
+library(rhub)
+platforms()
+validate_email("erinrossiter@wustl.edu", token = "7344ccb49bec4905a87d5feb23f9e11e")
+#check("catSurv_1.0.0.tar.gz", platform = "debian-gcc-devel", email = "erinrossiter@wustl.edu")
+check_with_valgrind("catSurv_1.0.0.tar.gz", email = "erinrossiter@wustl.edu")
+check_with_sanitizers("catSurv_1.0.0.tar.gz", email = "erinrossiter@wustl.edu")
 
 ## loading objects for the purposes of creating tests
 load("catSurv/tests/testthat/cat_objects.Rdata")
