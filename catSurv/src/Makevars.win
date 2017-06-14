@@ -1,0 +1,4 @@
+#RCPPGSL_LDFLAGS = `$(R_HOME)/bin/$(R_ARCH_BIN)/Rscript -e "RcppGSL:::LdFlags()"`
+PKG_CPPFLAGS=-I"$(LIB_GSL)/include" -I"../inst/include"
+#PKG_LIBS = $(LDFLAGS)  $(RCPPGSL_LDFLAGS) -L"$(LIB_GSL)\lib"$(R_ARCH_BIN) -lgsl -lgslcblas 
+PKG_LIBS = -L$(LIB_GSL)/lib//$(R_ARCH) -lgsl -lgslcblas $(shell $(R_HOME)/bin/Rscript -e "RcppGSL:::LdFlags()")

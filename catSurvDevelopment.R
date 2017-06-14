@@ -8,10 +8,10 @@ setwd("~/Dropbox/Spring2016/Rclass/CATSurv/")
 ## loading the package
 current.code <- as.package("catSurv")
 load_all(current.code)
-#document(current.code)
+document(current.code)
 #build(current.code)
 #test(current.code)
-#check(current.code)
+check(current.code)
 #release(current.code)
 
 load("catSurv/tests/testthat/cat_objects.Rdata")
@@ -67,7 +67,7 @@ revdep_check(current.code)
 revdep_check_print_problems(current.code)
 
 ## Checking package on windows platform
-#build_win(current.code)
+build_win(current.code)
 
 ## Building other important files
 #use_readme_rmd(current.code)

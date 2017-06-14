@@ -1,3 +1,5 @@
+#include <Rcpp.h>
+using namespace Rcpp;
 #include "MAPEstimator.h"
 
 double MAPEstimator::estimateTheta(Prior prior) {
