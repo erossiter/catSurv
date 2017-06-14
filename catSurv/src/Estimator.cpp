@@ -571,8 +571,9 @@ double Estimator::brentMethod(integrableFunction function){//const &function) {
   double x_lo = -5.0;
   double x_hi = 5.0;
   
-	gsl_function *F = GSLFunctionWrapper(function).asGSLFunction();
-
+  auto gslfunc = GSLFunctionWrapper(function);
+  gsl_function *F = gslfunc.asGSLFunction();
+  
 	T = gsl_root_fsolver_brent;
   s = gsl_root_fsolver_alloc (T);
   
@@ -719,7 +720,8 @@ double Estimator::posteriorKL(int item, Prior prior) {
 }
 
 double Estimator::integrate_selectItem(const integrableFunction &function, const double lower, const double upper){
-  gsl_function *f = GSLFunctionWrapper(function).asGSLFunction();
+  auto gslfunc = GSLFunctionWrapper(function);
+  gsl_function *f = gslfunc.asGSLFunction();
   return integrator.integrate(f, integrationSubintervals, lower, upper);
 }
 

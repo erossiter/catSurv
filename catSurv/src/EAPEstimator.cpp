@@ -48,10 +48,12 @@ double EAPEstimator::integralQuotient(integrableFunction const &numerator,
 	 * C++ functions to GSL's integration routine. To solve this, wrap the arbitrary functions
 	 * in a GSLFunctionWrapper, which is integrable.
 	 */
-	gsl_function *numeratorFunction = GSLFunctionWrapper(numerator).asGSLFunction();
+	auto gslnum = GSLFunctionWrapper(numerator);
+  gsl_function *numeratorFunction = gslnum.asGSLFunction();
   const double top = integrator.integrate(numeratorFunction, integrationSubintervals, lower, upper);
   
-  gsl_function *denominatorFunction = GSLFunctionWrapper(denominator).asGSLFunction();
+  auto gsldenom = GSLFunctionWrapper(denominator);
+  gsl_function *denominatorFunction = gsldenom.asGSLFunction();
   const double bottom = integrator.integrate(denominatorFunction, integrationSubintervals, lower, upper);
   
   return top / bottom;
