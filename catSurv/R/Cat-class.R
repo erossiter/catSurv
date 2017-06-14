@@ -1,4 +1,4 @@
-#' @useDynLib catSurv
+#' @useDynLib catSurv, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
 #' @import methods
 NULL
