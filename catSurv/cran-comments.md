@@ -1,12 +1,11 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Converted the Authors@R field to be calls to person().
-
-* Adhered to 'Good practice' section in '?.onAttach'.
+* Removed 'OS_type: unix' from from DESCRIPTION file.  Package now works under Windows.
 
 ## Test environments
 * local OS X install, R 3.4.0
+* win-builder
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
