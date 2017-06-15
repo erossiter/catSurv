@@ -24,23 +24,28 @@
 #' data(npi)
 #' ltm_cat1 <- ltmCat(npi, quadraturePoints = 100)
 #' 
-#' ## Creating Cat object with fitted object of class tpm
+#' ## Creating Cat object with fitted object of class ltm
 #' ltm_fit <- ltm(npi ~ z1, control = list(GHk = 100)) ## from ltm package
 #' class(ltm_fit)
 #' ltm_cat2 <- ltmCat(ltm_fit)
 #' 
 #' ## Note the two Cat objects are identical
 #' identical(ltm_cat1, ltm_cat2)
+#' }
+#' 
+#' ## Creating Cat objects from large datasets is computationally expensive
+#' ## Load the Cat object created from the above here
+#' data(ltm_cat)
 #' 
 #' ## Slots that have changed from default values
-#' getModel(ltm_cat1)
-#' getDifficulty(ltm_cat1)
-#' getDiscrimination(ltm_cat1)
+#' getModel(ltm_cat)
+#' getDifficulty(ltm_cat)
+#' getDiscrimination(ltm_cat)
 #' 
 #' ## Changing slots from default values
-#' setEstimation(ltm_cat1) <- "MLE"
-#' setSelection(ltm_cat1) <- "MFI"
-#'}
+#' setEstimation(ltm_cat) <- "MLE"
+#' setSelection(ltm_cat) <- "MFI"
+#'
 #' 
 #' @references 
 #' 

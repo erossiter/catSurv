@@ -32,9 +32,14 @@
 #' \dontrun{
 #' ## Creating Cat object with fitted object of class gpcm
 #' data(polknowTAPS)
-#' gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list(iter.qN = 200))
+#' gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list(iter.qN = 200, GHk = 100))
 #' class(gpcm_fit)
 #' gpcm_cat <- gpcmCat(gpcm_fit)
+#' }
+#' 
+#' ## Creating Cat objects from large datasets is computationally expensive
+#' ## Load the Cat object created from the above here
+#' data(gpcm_cat)
 #' 
 #' ## Slots that have changed from default values
 #' getModel(gpcm_cat)
@@ -44,7 +49,7 @@
 #' ## Changing slots from default values
 #' setEstimation(gpcm_cat) <- "MLE"
 #' setSelection(gpcm_cat) <- "MFI"
-#'}
+#'
 #' 
 #' 
 #' @seealso 

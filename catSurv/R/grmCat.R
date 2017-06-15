@@ -29,16 +29,21 @@
 #' 
 #' ## Note the two Cat objects are identical
 #' identical(grm_cat1, grm_cat2)
+#' }
+#' 
+#' ## Creating Cat objects from large datasets is computationally expensive
+#' ## Load the Cat object created from the above here
+#' data(grm_cat)
 #' 
 #' ## Slots that have changed from default values
-#' getModel(grm_cat1)
-#' getDifficulty(grm_cat1)
-#' getDiscrimination(grm_cat1)
+#' getModel(grm_cat)
+#' getDifficulty(grm_cat)
+#' getDiscrimination(grm_cat)
 #' 
 #' ## Changing slots from default values
-#' setEstimation(grm_cat1) <- "MLE"
-#' setSelection(grm_cat1) <- "MFI"
-#'}
+#' setEstimation(grm_cat) <- "MLE"
+#' setSelection(grm_cat) <- "MFI"
+#'
 #' 
 #' @references 
 #' 
