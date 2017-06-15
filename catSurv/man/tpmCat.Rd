@@ -53,16 +53,21 @@ tpm_cat2 <- tpmCat(tpm_fit)
 
 ## Note the two Cat objects are identical
 identical(tpm_cat1, tpm_cat2)
+}
+
+## Creating Cat objects from large datasets is computationally expensive
+## Load the Cat object created from the above code
+data(tpm_cat)
 
 ## Slots that have changed from default values
-getModel(tpm_cat1)
-getDifficulty(tpm_cat1)
-getDiscrimination(tpm_cat1)
+getModel(tpm_cat)
+getDifficulty(tpm_cat)
+getDiscrimination(tpm_cat)
 
 ## Changing slots from default values
-setEstimation(tpm_cat1) <- "MLE"
-setSelection(tpm_cat1) <- "MFI"
-}
+setEstimation(tpm_cat) <- "MLE"
+setSelection(tpm_cat) <- "MFI"
+
 
 
 }

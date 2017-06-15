@@ -5,18 +5,19 @@ library(roxygen2)
 #setwd("~/Github/CATsurv")
 setwd("~/Dropbox/Spring2016/Rclass/CATSurv/")
 
-## loading the package
+## package development
 current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 #build(current.code)
 #test(current.code)
-check(current.code)
+run_examples("catSurv")
+#check(current.code)
 #release(current.code)
 
 ## putting CATs made for examples in data/
-load("catSurv/tests/testthat/cat_objects.Rdata")
-use_data(ltm_cat, tpm_cat, grm_cat, gpcm_cat, pkg = "catSurv", overwrite = TRUE)
+#load("catSurv/tests/testthat/cat_objects.Rdata")
+#use_data(ltm_cat, tpm_cat, grm_cat, gpcm_cat, pkg = "catSurv", overwrite = TRUE)
 
 
 

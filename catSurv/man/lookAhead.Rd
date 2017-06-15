@@ -23,10 +23,8 @@ Selects the next item that would be asked for all possible response options to t
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
-\dontrun{
-## Create Cat object of ltm model
-data(npi)
-ltm_cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -34,17 +32,15 @@ setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 ## What should be asked next if respondent is currently answering item 6
 lookAhead(ltm_cat, 6)
 
-## Create Cat object of grm model
-data(nfc)
-grm_cat <- grmCat(nfc)
+## Loading grm Cat object
+data(grm_cat)
 
 ## Store example answers
-setAnswers(grm_cat) <- c(4,3,5,1,1 rep(NA, 13))
+setAnswers(grm_cat) <- c(4,3,5,1,1, rep(NA, 13))
 
 ## What should be asked next if respondent is currently answering item 6
 lookAhead(grm_cat, 6)
 
-}
 
 }
 \seealso{

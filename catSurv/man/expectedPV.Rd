@@ -21,10 +21,8 @@ Estimates the expected posterior variance for a respondent's estimated ability p
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
-\dontrun{
-## Create Cat object
-data(npi)
-ltm_cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -33,7 +31,7 @@ setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 expectedPV(ltm_cat, item = 10)
 expectedPV(ltm_cat, item = 20)
 expectedPV(ltm_cat, item = 30)
-}
+
 
 }
 \seealso{

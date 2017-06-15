@@ -451,3 +451,108 @@
 #' @name nfc
 #' @usage data(nfc)
 "nfc"
+
+
+
+#' ltm Cat Object
+#' 
+#' An object of class \code{Cat} created using the \code{ltmCat} function with the \code{npi} dataset.
+#' 
+#' @examples 
+#' \dontrun{
+#' ## How this Cat object was created
+#' data(npi)
+#' ltm_cat <- ltmCat(npi, quadraturePoints = 100)
+#' }
+#' 
+#' ## How to load this Cat object for usage
+#' data(ltm_cat)
+#' 
+#' @format An object of class \code{Cat}.  See \code{\link{Cat-class}} for more details.
+#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{ltmCat}}, \code{\link{npi}}  
+#'
+#' @docType data
+#' @name ltm_cat
+#' @usage data(ltm_cat)
+"ltm_cat"
+
+
+#' grm Cat Object
+#' 
+#' An object of class \code{Cat} created using the \code{grmCat} function with the \code{nfc} dataset.
+#' 
+#' @examples 
+#' \dontrun{
+#' ## How this Cat object was created
+#' data(nfc)
+#' grm_cat <- grmCat(nfc, quadraturePoints = 100)
+#' }
+#' 
+#' ## How to load this Cat object for usage
+#' data(grm_cat)
+#' 
+#' @format An object of class \code{Cat}.  See \code{\link{Cat-class}} for more details.
+#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}}, \code{\link{nfc}}  
+#'
+#' @docType data
+#' @name grm_cat
+#' @usage data(grm_cat)
+"grm_cat"
+
+
+#' tpm Cat Object
+#' 
+#' An object of class \code{Cat} created using the \code{tpmCat} function with the first twenty questions of the \code{polknowMT} dataset.
+#' 
+#' @examples 
+#' \dontrun{
+#' ## How this Cat object was created
+#' data(polknowMT)
+#' tpm_cat <- tpmCat(polknowMT[,1:20], quadraturePoints = 100, start.val = "random")
+#' }
+#' 
+#' ## How to load this Cat object for usage
+#' data(tpm_cat)
+#' 
+#' @format An object of class \code{Cat}.  See \code{\link{Cat-class}} for more details.
+#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{tpmCat}}, \code{\link{polknowMT}}  
+#'
+#' @docType data
+#' @name tpm_cat
+#' @usage data(tpm_cat)
+"tpm_cat"
+
+
+#' gpcm Cat Object
+#' 
+#' An object of class \code{Cat} created using the \code{gpcmCat} function with the \code{polknowTAPS} dataset.
+#' To have a better fitting model, we first fit an object of class \code{gpcm} from the \code{ltm} package which
+#' provides for additional control values to be used in fitting.  See \code{gpcmCat}.
+#' 
+#' @examples 
+#' \dontrun{
+#' ## How this Cat object was created
+#' data(polknowTAPS)
+#' gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list(iter.qN = 200, GHk = 100))
+#' gpcm_cat <- gpcmCat(gpcm_fit)
+#' }
+#' 
+#' ## How to load this Cat object for usage
+#' data(gpcm_cat)
+#' 
+#' @format An object of class \code{Cat}.  See \code{\link{Cat-class}} for more details.
+#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{gpcmCat}}, \code{\link{polknowTAPS}}  
+#'
+#' @docType data
+#' @name gpcm_cat
+#' @usage data(gpcm_cat)
+"gpcm_cat"
+
+
+
+
+

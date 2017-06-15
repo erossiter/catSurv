@@ -24,10 +24,8 @@
 #' 
 #' 
 #' @examples
-#' \dontrun{
-#' ## Creating Cat object of ltm model
-#' data(npi)
-#' ltm_cat <- ltmCat(npi)
+#' ## Loading ltm Cat object
+#' data(ltm_cat)
 #' 
 #' ## Setting complete branches to include 3 items
 #' setLengthThreshold(ltm_cat) <- 3
@@ -37,7 +35,7 @@
 #' 
 #' ## Object returned is table
 #' ltm_table <- makeTree(ltm_cat, flat = TRUE)
-#' }
+#' 
 #' 
 #' 
 #' 

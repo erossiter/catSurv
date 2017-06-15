@@ -38,7 +38,7 @@
 #' }
 #' 
 #' ## Creating Cat objects from large datasets is computationally expensive
-#' ## Load the Cat object created from the above here
+#' ## Load the Cat object created from the above code
 #' data(gpcm_cat)
 #' 
 #' ## Slots that have changed from default values

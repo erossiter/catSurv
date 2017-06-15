@@ -21,19 +21,18 @@ Calculates the likelihood of a respondent, with ability parameter \eqn{\theta}, 
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
-\dontrun{
+## Loading ltm Cat object
 ## Likelihood for Cat object of the ltm model
-data(npi)
-ltm_cat <- ltmCat(npi)
+data(ltm_cat)
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 likelihood(ltm_cat, theta = 1)
 
+## Loading grm Cat object
 ## Likelihood for Cat object of the grm model
-data(nfc)
-grm_cat <- grmCat(nfc)
-setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
+data(grm_cat)
+setAnswers(grm_cat) <- c(1,1,5,2,5, rep(NA, 13))
 likelihood(grm_cat, theta = 1)
-}
+
 
 
 }

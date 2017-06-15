@@ -27,28 +27,17 @@ This function should never be called when the respondent has answered no questio
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
-\dontrun{
-## Create Cat object, store example answers, and calculate observed information
-for an ability parameter of 1 for item 10
+## Loading ltm Cat object
+data(ltm_cat)
 
-## observed information for Cat object of the ltm model
-data(npi)
-ltm_cat <- ltmCat(npi)
+## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+
+## Calculate observed information for different ability parameters and items
 obsInf(ltm_cat, theta = 1, item = 10)
-
-## observed information for Cat object of the tpm model
-data(polknowMT)
-tpm_cat <- tpmCat(polknowMT)
-setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
-obsInf(tpm_cat, theta = 1, item = 10)
-
-## observed information for Cat object of the grm model
-data(nfc)
-grm_cat <- grmCat(nfc)
-setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
-obsInf(grm_cat, theta = 1, item = 10)
-}
+obsInf(ltm_cat, theta = 1, item = 11)
+obsInf(ltm_cat, theta = 0, item = 10)
+obsInf(ltm_cat, theta = 0, item = 11)
 
 }
 \seealso{

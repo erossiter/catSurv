@@ -61,29 +61,22 @@ For the \code{ltm} model, the probability of non-zero response for respondent \e
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
-\dontrun{
+## Loading ltm Cat object
 ## Probability for Cat object of the ltm model
-data(npi)
-ltm_cat <- ltmCat(npi)
+data(ltm_cat)
 probability(ltm_cat, theta = 1, item = 1)
 
+## Loading tpm Cat object
 ## Probability for Cat object of the tpm model
-data(polknowMT)
-tpm_fit <- tpm(polknowMT[,1:20], start.val = "random")
-tpm_cat <- tpmCat(tpm_fit)
 probability(tpm_cat, theta = 1, item = 1)
 
+## Loading grm Cat object
 ## Probability for Cat object of the grm model
-data(nfc)
-grm_cat <- grmCat(nfc)
 probability(grm_cat, theta = 1, item = 1)
 
+## Loading gpcm Cat object
 ## Probability for Cat object of the gpcm model
-data(polknowTAPS)
-gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list("iter.qN" = 200))
-gpcm_cat <- gpcmCat(gpcm_fit)
 probability(gpcm_cat, theta = -3, item = 2)
-}
  
 }
 \references{

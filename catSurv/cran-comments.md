@@ -1,7 +1,7 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Removed 'OS_type: unix' from from DESCRIPTION file.  Package now works under Windows.
+* Removed \dontrun{} from examples, such that each .Rd file has an example that is tested.  Please note that 8 of the 35 .Rd files still have part of the Examples section wrapped in \dontrun{} because the code is comutationally expensive but important to display for users.
 
 ## Test environments
 * local OS X install, R 3.4.0
