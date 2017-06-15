@@ -11,7 +11,7 @@ load_all(current.code)
 document(current.code)
 #build(current.code)
 #test(current.code)
-run_examples("catSurv")
+#run_examples("catSurv")
 #check(current.code)
 #release(current.code)
 
