@@ -10,7 +10,7 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 #build(current.code)
-#test(current.code)
+test(current.code)
 #run_examples("catSurv")
 #check(current.code)
 #release(current.code)
@@ -19,10 +19,13 @@ document(current.code)
 #load("catSurv/tests/testthat/cat_objects.Rdata")
 #use_data(ltm_cat, tpm_cat, grm_cat, gpcm_cat, pkg = "catSurv", overwrite = TRUE)
 
-
-
 ## loading objects for the purposes of creating tests
-load("catSurv/tests/testthat/cat_objects.Rdata")
+#load("catSurv/tests/testthat/cat_objects.Rdata")
+
+## Checking with rhub, just trying first platform
+## install_github("r-hub/rhub")
+# library(rhub)
+# check(path = "catSurv", platform = "debian-gcc-devel", email = "erinrossiter@wustl.edu")
 
 ## Checking downstream dependencies
 revdep_check(current.code)
@@ -57,7 +60,7 @@ packageVersion("catIrt") #‘0.5.0’
 packageVersion("testthat") #‘1.0.2’
 packageVersion("methods") #‘3.4.0’
 
-## when you to install them all after updating R
+## when you need to install them all after updating R
 install.packages(c("RcppArmadillo", "stats", "Rcpp", "RcppGSL",
                    "BH", "ltm", "catR", "catIrt", "testthat",
                    "methods", "devtools", "roxygen2")) 

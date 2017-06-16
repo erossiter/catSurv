@@ -37,7 +37,7 @@ double EAPEstimator::estimateSE(Prior prior) {
 		return theta_difference * theta_difference * denominator(theta);
 	};
 
-	return sqrt(integralQuotient(numerator, denominator, questionSet.lowerBound, questionSet.upperBound));
+	return std::pow(integralQuotient(numerator, denominator, questionSet.lowerBound, questionSet.upperBound), 0.5);
 }
 
 double EAPEstimator::integralQuotient(integrableFunction const &numerator,
