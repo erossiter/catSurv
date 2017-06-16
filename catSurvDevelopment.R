@@ -10,7 +10,7 @@ current.code <- as.package("catSurv")
 load_all(current.code)
 document(current.code)
 #build(current.code)
-test(current.code)
+#test(current.code)
 #run_examples("catSurv")
 #check(current.code)
 #release(current.code)
@@ -25,7 +25,10 @@ test(current.code)
 ## Checking with rhub, just trying first platform
 ## install_github("r-hub/rhub")
 # library(rhub)
-# check(path = "catSurv", platform = "debian-gcc-devel", email = "erinrossiter@wustl.edu")
+#check(path = "catSurv", platform = "debian-gcc-devel", email = "erinrossiter@wustl.edu")
+#check(path = "catSurv", platform = "linux-x86_64-centos6-epel-rdt", email = "erinrossiter@wustl.edu")
+#check(path = "catSurv", platform = "linux-x86_64-rocker-gcc-san", email = "erinrossiter@wustl.edu")
+
 
 ## Checking downstream dependencies
 revdep_check(current.code)

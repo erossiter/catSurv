@@ -6,7 +6,12 @@
 * win-builder
 
 ## R CMD check results
-There were no ERRORs or WARNINGs or NOTEs.
+There were no ERRORs or WARNINGs.
+
+There was 1 NOTE:
+
+* Maintainer: ‘Erin Rossiter <erinrossiter@wustl.edu>’ Days since last update: 1
+    * We are responding to a solicitation to resubmit due to failed checks.
 
 ## Downstream dependencies
 I have also run R CMD check on downstream dependencies of catSurv using `devtools::revdep_check()`.
