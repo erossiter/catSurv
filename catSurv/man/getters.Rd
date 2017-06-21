@@ -110,10 +110,8 @@ These functions return the respective slot from Cat object.
 Getter methods to access slots of a \code{Cat} object.
 }
 \examples{
-\dontrun{
-## Create Cat object
-data(npi)
-cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Getting estimation slot before and after change
 getEstimation(ltm_cat)
@@ -124,7 +122,7 @@ getEstimation(ltm_cat)
 getDiscrimination(ltm_cat)
 setDiscrimination(ltm_cat) <- rep(1, 40)
 getDiscrimination(ltm_cat)
-}
+
 
 }
 \seealso{

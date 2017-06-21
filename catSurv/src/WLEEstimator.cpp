@@ -12,8 +12,8 @@ double WLEEstimator::ltm_estimateTheta(Prior prior){
       double c = questionSet.guessing.at(item);
 
       double exp_part = exp(a + b * theta);
-      double dP = b * (1 - c) * (exp_part / pow((1 + exp_part), 2.0));
-      double d2P = pow(b, 2.0) * exp_part * (1 - exp_part) * ((1 - c) / pow((1 + exp_part), 3.0));
+      double dP = b * (1 - c) * (exp_part / std::pow((1.0 + exp_part), 2.0));
+      double d2P = std::pow(b, 2.0) * exp_part * (1 - exp_part) * ((1 - c) / std::pow((1.0 + exp_part), 3.0));
 
       double P = probability(theta, item).at(0);
       B += (dP * d2P) / (P * (1.0 - P));
@@ -129,7 +129,7 @@ double WLEEstimator::estimateTheta(Prior prior) {
 double WLEEstimator::estimateSE(Prior prior) {
   double I_theta = fisherTestInfo(prior);
   double var = 1 / I_theta;
-  return pow(var, 0.5);
+  return std::pow(var, 0.5);
 }
 
 

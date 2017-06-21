@@ -5,69 +5,37 @@ library(roxygen2)
 #setwd("~/Github/CATsurv")
 setwd("~/Dropbox/Spring2016/Rclass/CATSurv/")
 
-## loading the package
+## package development
 current.code <- as.package("catSurv")
 load_all(current.code)
-#document(current.code)
+document(current.code)
 #build(current.code)
 #test(current.code)
+#run_examples("catSurv")
 #check(current.code)
 #release(current.code)
 
-load("catSurv/tests/testthat/cat_objects.Rdata")
-gpcm_cat@answers[1:5] <- c(4, 5, 2, 4, 4)
-probability(gpcm_cat, 0, 1)
-
-
-gpcm_cat@difficulty
-estimateTheta(gpcm_cat)
-
-
-estimateTheta(catObj) ## in main.cpp
-- estimateTheta() ## defined in Cat.cpp, there are many routines to this function, but this catObj is using EAP
--- estimateTheta() ## defined in EAPEstimator.cpp
---- integralQuotient() ## defined in EAPEstimator.cpp
-## does this once for "numerator"
----- GSLFunctionWrapper().asGSLfunction() ## both defined in GSLFunctionWrapper.cpp
----- integrate() ## defined in Integrator.cpp
------ gsl_integration_qag() ## included from GSL via #include <gsl/gsl_integration.h>
------- likelihood() ## defined in Estimator.cpp
-------- likelihood_gpcm() ## defined in Estimator.cpp
--------- probability() ## defined in Estimator.cpp
---------- prob_gpm() ## defined in Estimator.cpp
------- prior() ## defined in Prior.cpp
-------- normal() ## defined in Prior.cpp via Boost includes
-## does this again for "denominator"
----- GSLFunctionWrapper().asGSLfunction() ## both defined in GSLFunctionWrapper.cpp
----- integrate() ## defined in Integrator.cpp
------ gsl_integration_qag() ## included from GSL via #include <gsl/gsl_integration.h>
------- likelihood() ## defined in Estimator.cpp
-------- likelihood_gpcm() ## defined in Estimator.cpp
--------- probability() ## defined in Estimator.cpp
---------- prob_gpm() ## defined in Estimator.cpp
------- prior() ## defined in Prior.cpp
-------- normal() ## defined in Prior.cpp via Boost includes
-## I did not include calls to the questionSet struct to access data which occur throughout
-
-
-## checking on other platforms
-#install_github("r-hub/rhub", force = TRUE)
-library(rhub)
-platforms()
-validate_email("erinrossiter@wustl.edu", token = "7344ccb49bec4905a87d5feb23f9e11e")
-#check("catSurv_1.0.0.tar.gz", platform = "debian-gcc-devel", email = "erinrossiter@wustl.edu")
-check_with_valgrind("catSurv_1.0.0.tar.gz", email = "erinrossiter@wustl.edu")
-check_with_sanitizers("catSurv_1.0.0.tar.gz", email = "erinrossiter@wustl.edu")
+## putting CATs made for examples in data/
+#load("catSurv/tests/testthat/cat_objects.Rdata")
+#use_data(ltm_cat, tpm_cat, grm_cat, gpcm_cat, pkg = "catSurv", overwrite = TRUE)
 
 ## loading objects for the purposes of creating tests
-load("catSurv/tests/testthat/cat_objects.Rdata")
+#load("catSurv/tests/testthat/cat_objects.Rdata")
+
+## Checking with rhub, just trying first platform
+## install_github("r-hub/rhub")
+# library(rhub)
+#check(path = "catSurv", platform = "debian-gcc-devel", email = "erinrossiter@wustl.edu")
+#check(path = "catSurv", platform = "linux-x86_64-centos6-epel-rdt", email = "erinrossiter@wustl.edu")
+#check(path = "catSurv", platform = "linux-x86_64-rocker-gcc-san", email = "erinrossiter@wustl.edu")
+
 
 ## Checking downstream dependencies
 revdep_check(current.code)
 revdep_check_print_problems(current.code)
 
 ## Checking package on windows platform
-#build_win(current.code)
+build_win(current.code)
 
 ## Building other important files
 #use_readme_rmd(current.code)
@@ -95,4 +63,8 @@ packageVersion("catIrt") #‘0.5.0’
 packageVersion("testthat") #‘1.0.2’
 packageVersion("methods") #‘3.4.0’
 
+## when you need to install them all after updating R
+install.packages(c("RcppArmadillo", "stats", "Rcpp", "RcppGSL",
+                   "BH", "ltm", "catR", "catIrt", "testthat",
+                   "methods", "devtools", "roxygen2")) 
 

@@ -26,19 +26,16 @@ For the dichotomous case, this Fisher's information is equivalent to the observe
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
-\dontrun{
-## Create Cat object
-data(npi)
-ltm_cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 
-## Fisher's information for different items,
-## at ability parameter of 1
+## Fisher's information for different items, at ability parameter of 1
 fisherInf(ltm_cat, theta = 1, item = 10)
 fisherInf(ltm_cat, theta = 1, item = 20)
-}
+
 
 }
 \seealso{

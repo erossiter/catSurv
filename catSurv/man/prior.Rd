@@ -39,24 +39,22 @@ distributions and calls \code{dnorm4} written in \code{C} which is identical to 
 of \code{dnorm} in \code{R}.
 }
 \examples{
-\dontrun{
-## Create Cat object
-data(npi)
-cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Prior calculation for different distributions
-cat@priorName <- "NORMAL"
-cat@priorParams <- c(0, 1) ## Parameters are mean and standard deviation
-prior(x = 1, cat@priorName, cat@priorParams)
+ltm_cat@priorName <- "NORMAL"
+ltm_cat@priorParams <- c(0, 1) ## Parameters are mean and standard deviation
+prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
 
-cat@priorName <- "STUDENT_T"
-cat@priorParams <- c(1, 3) ## Parameters are non-centrality param and degrees of freedom
-prior(x = 1, cat@priorName, cat@priorParams)
+ltm_cat@priorName <- "STUDENT_T"
+ltm_cat@priorParams <- c(1, 3) ## Parameters are non-centrality param and degrees of freedom
+prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
 
-cat@priorName <- "UNIFORM"
-cat@priorParams <- c(-1, 1) ## Parameters are lower bound and upper bound of interval
-prior(x = 1, cat@priorName, cat@priorParams)
-}
+ltm_cat@priorName <- "UNIFORM"
+ltm_cat@priorParams <- c(-1, 1) ## Parameters are lower bound and upper bound of interval
+prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
+
 
 }
 \seealso{

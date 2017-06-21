@@ -39,16 +39,21 @@
 #' 
 #' ## Note the two Cat objects are identical
 #' identical(tpm_cat1, tpm_cat2)
+#' }
+#' 
+#' ## Creating Cat objects from large datasets is computationally expensive
+#' ## Load the Cat object created from the above code
+#' data(tpm_cat)
 #' 
 #' ## Slots that have changed from default values
-#' getModel(tpm_cat1)
-#' getDifficulty(tpm_cat1)
-#' getDiscrimination(tpm_cat1)
+#' getModel(tpm_cat)
+#' getDifficulty(tpm_cat)
+#' getDiscrimination(tpm_cat)
 #' 
 #' ## Changing slots from default values
-#' setEstimation(tpm_cat1) <- "MLE"
-#' setSelection(tpm_cat1) <- "MFI"
-#'}
+#' setEstimation(tpm_cat) <- "MLE"
+#' setSelection(tpm_cat) <- "MFI"
+#'
 #' 
 #' 
 #' @details The \code{data} argument of the function \code{tpmCat} is either a data frame or an object of class \code{tpm} from the \code{ltm} package.  If it is a data frame each row represents a respondent and each column represents a question item.  If it is an object of the class \code{tpm}, it is output from the \code{tpm} function in the \code{ltm} package.

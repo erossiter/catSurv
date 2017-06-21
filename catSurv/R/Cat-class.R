@@ -1,4 +1,4 @@
-#' @useDynLib catSurv
+#' @useDynLib catSurv, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
 #' @import methods
 NULL
@@ -189,10 +189,8 @@ setValidity("Cat", function(object){
 #' 
 #' 
 #' @examples
-#' \dontrun{
-#' ## Create Cat object
-#' data(npi)
-#' cat <- ltmCat(npi)
+#' ## Loading ltm Cat object
+#' data(ltm_cat)
 #' 
 #' ## Setting estimation slot
 #' getEstimation(ltm_cat)
@@ -203,7 +201,6 @@ setValidity("Cat", function(object){
 #' getDiscrimination(ltm_cat)
 #' setDiscrimination(ltm_cat) <- rep(1, 40)
 #' getDiscrimination(ltm_cat)
-#'}
 #'
 #'@name setters
 #'@seealso \code{\link{Cat-class}}, \code{\link{getters}}
@@ -445,10 +442,8 @@ setReplaceMethod("setGainOverride", "Cat", definition = function(catObj, value){
 #'Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #' 
 #' @examples
-#' \dontrun{
-#' ## Create Cat object
-#' data(npi)
-#' cat <- ltmCat(npi)
+#' ## Loading ltm Cat object
+#' data(ltm_cat)
 #' 
 #' ## Getting estimation slot before and after change
 #' getEstimation(ltm_cat)
@@ -459,7 +454,7 @@ setReplaceMethod("setGainOverride", "Cat", definition = function(catObj, value){
 #' getDiscrimination(ltm_cat)
 #' setDiscrimination(ltm_cat) <- rep(1, 40)
 #' getDiscrimination(ltm_cat)
-#'}
+#'
 #'
 #'@name getters
 #'@seealso \code{\link{Cat-class}}, \code{\link{setters}}

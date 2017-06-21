@@ -109,10 +109,8 @@
 Setter methods to control changes to the slots of a \code{Cat} object.
 }
 \examples{
-\dontrun{
-## Create Cat object
-data(npi)
-cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Setting estimation slot
 getEstimation(ltm_cat)
@@ -123,7 +121,6 @@ getEstimation(ltm_cat)
 getDiscrimination(ltm_cat)
 setDiscrimination(ltm_cat) <- rep(1, 40)
 getDiscrimination(ltm_cat)
-}
 
 }
 \seealso{

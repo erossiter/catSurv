@@ -31,10 +31,8 @@ This function is computationally expensive.  If there are \eqn{k} response optio
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
-\dontrun{
-## Creating Cat object of ltm model
-data(npi)
-ltm_cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Setting complete branches to include 3 items
 setLengthThreshold(ltm_cat) <- 3
@@ -44,7 +42,7 @@ ltm_list <- makeTree(ltm_cat)
 
 ## Object returned is table
 ltm_table <- makeTree(ltm_cat, flat = TRUE)
-}
+
 
 
 

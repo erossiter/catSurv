@@ -1,3 +1,5 @@
+#include <Rcpp.h>
+using namespace Rcpp;
 #include "MAPEstimator.h"
 
 double MAPEstimator::estimateTheta(Prior prior) {
@@ -22,8 +24,8 @@ double MAPEstimator::estimateTheta(Prior prior) {
 }
 
 double MAPEstimator::estimateSE(Prior prior) {
-  double var = 1.0 / (fisherTestInfo(prior) + (1 / pow(prior.parameters.at(1), 2)));
-  return pow(var, 0.5);
+  double var = 1.0 / (fisherTestInfo(prior) + (1 / std::pow(prior.parameters.at(1), 2)));
+  return std::pow(var, 0.5);
 }
 
 EstimationType MAPEstimator::getEstimationType() const {

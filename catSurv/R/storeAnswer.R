@@ -13,20 +13,18 @@
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #' 
 #' @examples 
-#' \dontrun{
-#'## Create Cat object
-#'data(npi)
-#'ltm_cat <- ltmCat(npi)
+#' ## Loading ltm Cat object
+#' data(ltm_cat)
 #'
 #'## Printing current answers slot
-#'ltm_cat@answers
+#'getAnswers(ltm_cat)
 #'
 #'## Storing answer of 0 to item 1
 #'ltm_cat <- storeAnswer(ltm_cat, item = 1, answer = 0)
 #'
 #'## Now object reflects answer to item 1
-#'ltm_cat@answer
-#'}
+#'getAnswers(ltm_cat)
+#'
 #' 
 #' @name storeAnswer
 NULL

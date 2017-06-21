@@ -31,17 +31,15 @@ If the argument \code{use_prior} is \code{TRUE}, the function \code{d1LL} must u
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
-\dontrun{
-## Create Cat object
-data(npi)
-ltm_cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 
 ## d1LL for Cat object of the ltm model
-d1LL(ltm_cat, theta = 1)
-}
+d1LL(ltm_cat, theta = 1, use_prior = FALSE)
+
 
 }
 \references{

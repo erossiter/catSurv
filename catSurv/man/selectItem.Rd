@@ -74,10 +74,8 @@ between two items with the same value calculated by the selection criterion.  In
 will choose the item with the lower question index.
 }
 \examples{
-\dontrun{
-## Create Cat object
-data(npi)
-ltm_cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -112,7 +110,7 @@ selectItem(ltm_cat)
 
 setSelection(ltm_cat) <- "RANDOM"
 selectItem(ltm_cat)
-}
+
 
 }
 \references{

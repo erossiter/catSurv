@@ -38,10 +38,8 @@ This function uses adaptive quadrature methods from the GNU Scientific
  \code{lowerBound} and \code{upperBound} slots of the \code{Cat} object.
 }
 \examples{
-\dontrun{
-## Create Cat object
-data(npi)
-ltm_cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -58,7 +56,7 @@ estimateTheta(ltm_cat)
 
 setEstimation(ltm_cat) <- "WLE"
 estimateTheta(ltm_cat)
-}
+
 
 }
 \references{

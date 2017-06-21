@@ -33,10 +33,8 @@ This function uses adaptive quadrature methods from the GNU Scientific
  integrals with high accuracy.
 }
 \examples{
-\dontrun{
-## Create Cat object
-data(npi)
-ltm_cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -45,7 +43,7 @@ setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 expectedKL(ltm_cat, item = 10)
 expectedKL(ltm_cat, item = 20)
 expectedKL(ltm_cat, item = 30)
-}
+
 
 }
 \seealso{

@@ -1,19 +1,17 @@
-## Resubmission
-This is a resubmission. In this version I have:
-
-* Converted the Authors@R field to be calls to person().
-
-* Adhered to 'Good practice' section in '?.onAttach'.
+## Release Summary
+* This patch release fixes C++ errors regarding portability uncovered during the 'r-patched-solaris-x86' flavor of CRAN package checks.
 
 ## Test environments
 * local OS X install, R 3.4.0
+* win-builder
 
 ## R CMD check results
-There were no ERRORs or WARNINGs. 
+There were no ERRORs or WARNINGs.
 
-There was 1 NOTES:
+There was 1 NOTE:
 
-1. New submission.
+* Maintainer: ‘Erin Rossiter <erinrossiter@wustl.edu>’ Days since last update: 1
+    * We are responding to a solicitation to resubmit due to failed checks.
 
 ## Downstream dependencies
 I have also run R CMD check on downstream dependencies of catSurv using `devtools::revdep_check()`.

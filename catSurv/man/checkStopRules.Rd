@@ -44,10 +44,8 @@ The stopping rule thresholds are stored in the following \code{Cat} object slots
 This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
 }
 \examples{
-\dontrun{
-## Create Cat object
-data(npi)
-ltm_cat <- ltmCat(npi)
+## Loading ltm Cat object
+data(ltm_cat)
 
 ## Store example answers
 setAnswers(ltm_cat) <- c(1,0,1,0,1,0,0,0,1,1, rep(NA, 30))
@@ -66,7 +64,7 @@ checkStopRules(ltm_cat)
 ## of ability estimate is below .5, stop administering items
 setAnswers(ltm_cat) <- c(1,0,1,0,1,0,0,0,1,1,0, rep(NA, 29))
 checkStopRules(ltm_cat)
-}
+
 
 }
 \references{

@@ -62,29 +62,22 @@ using namespace Rcpp;
 //'  for item \eqn{i}.  For identification purposes \eqn{\tau_{i0} = 0} and \eqn{\sum_{t=1}^1 \alpha_{i} [\theta_j - (\beta_i - \tau_{it})] = 0}.
 //'
 //'@examples
-//'\dontrun{
+//'## Loading ltm Cat object
 //'## Probability for Cat object of the ltm model
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'data(ltm_cat)
 //'probability(ltm_cat, theta = 1, item = 1)
 //'
+//'## Loading tpm Cat object
 //'## Probability for Cat object of the tpm model
-//'data(polknowMT)
-//'tpm_fit <- tpm(polknowMT[,1:20], start.val = "random")
-//'tpm_cat <- tpmCat(tpm_fit)
 //'probability(tpm_cat, theta = 1, item = 1)
 //'
+//'## Loading grm Cat object
 //'## Probability for Cat object of the grm model
-//'data(nfc)
-//'grm_cat <- grmCat(nfc)
 //'probability(grm_cat, theta = 1, item = 1)
 //'
+//'## Loading gpcm Cat object
 //'## Probability for Cat object of the gpcm model
-//'data(polknowTAPS)
-//'gpcm_fit <- gpcm(polknowTAPS, constraint = "gpcm", control = list("iter.qN" = 200))
-//'gpcm_cat <- gpcmCat(gpcm_fit)
 //'probability(gpcm_cat, theta = -3, item = 2)
-//'}
 //'  
 //' @seealso \code{\link{Cat-class}}
 //' 
@@ -141,19 +134,18 @@ std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector it
 //' 
 //' 
 //'@examples
-//'\dontrun{
+//'## Loading ltm Cat object
 //'## Likelihood for Cat object of the ltm model
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'data(ltm_cat)
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'likelihood(ltm_cat, theta = 1)
 //'
+//'## Loading grm Cat object
 //'## Likelihood for Cat object of the grm model
-//'data(nfc)
-//'grm_cat <- grmCat(nfc)
-//'setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
+//'data(grm_cat)
+//'setAnswers(grm_cat) <- c(1,1,5,2,5, rep(NA, 13))
 //'likelihood(grm_cat, theta = 1)
-//'}
+//'
 //'
 //'
 //' @seealso \code{\link{Cat-class}}, \code{\link{probability}}
@@ -188,24 +180,22 @@ double likelihood(S4 catObj, double theta) {
 //' of the interval, respectively.  Note that the \code{"UNIFORM"} is only applicable for the expected a posteriori (EAP) estimation method.   
 //' 
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Prior calculation for different distributions
-//'cat@priorName <- "NORMAL"
-//'cat@priorParams <- c(0, 1) ## Parameters are mean and standard deviation
-//'prior(x = 1, cat@priorName, cat@priorParams)
+//'ltm_cat@priorName <- "NORMAL"
+//'ltm_cat@priorParams <- c(0, 1) ## Parameters are mean and standard deviation
+//'prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
 //'
-//'cat@priorName <- "STUDENT_T"
-//'cat@priorParams <- c(1, 3) ## Parameters are non-centrality param and degrees of freedom
-//'prior(x = 1, cat@priorName, cat@priorParams)
+//'ltm_cat@priorName <- "STUDENT_T"
+//'ltm_cat@priorParams <- c(1, 3) ## Parameters are non-centrality param and degrees of freedom
+//'prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
 //'
-//'cat@priorName <- "UNIFORM"
-//'cat@priorParams <- c(-1, 1) ## Parameters are lower bound and upper bound of interval
-//'prior(x = 1, cat@priorName, cat@priorParams)
-//'}
+//'ltm_cat@priorName <- "UNIFORM"
+//'ltm_cat@priorParams <- c(-1, 1) ## Parameters are lower bound and upper bound of interval
+//'prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
+//'
 //'
 //' @seealso
 //' 
@@ -249,17 +239,15 @@ double prior(NumericVector x, CharacterVector dist, NumericVector params) {
 //' If the argument \code{use_prior} is \code{TRUE}, the function \code{d1LL} must use the the normal prior distribution.
 //' 
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'
 //'## d1LL for Cat object of the ltm model
-//'d1LL(ltm_cat, theta = 1)
-//'}
+//'d1LL(ltm_cat, theta = 1, use_prior = FALSE)
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -303,17 +291,15 @@ double d1LL(S4 &catObj, double theta, bool use_prior){
 //' If the argument \code{use_prior} is \code{TRUE}, the function \code{d2LL} must use the the normal prior distribution.
 //' 
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'
 //'## d2LL for Cat object of the ltm model
-//'d2LL(ltm_cat, theta = 1)
-//'}
+//'d2LL(ltm_cat, theta = 1, use_prior = FALSE)
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -363,10 +349,8 @@ double d2LL(S4 &catObj, double theta, bool use_prior){
 //'  Library (GSL) with initial search interval of \code{[-5,5]}.
 //' 
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -383,7 +367,7 @@ double d2LL(S4 &catObj, double theta, bool use_prior){
 //'
 //'setEstimation(ltm_cat) <- "WLE"
 //'estimateTheta(ltm_cat)
-//'}
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -427,28 +411,17 @@ double estimateTheta(S4 catObj) {
 //' This function should never be called when the respondent has answered no questions as the likelihood is not defined.
 //'   
 //' @examples
-//' \dontrun{
-//'## Create Cat object, store example answers, and calculate observed information
-//'for an ability parameter of 1 for item 10
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
-//'## observed information for Cat object of the ltm model
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
+//'
+//'## Calculate observed information for different ability parameters and items
 //'obsInf(ltm_cat, theta = 1, item = 10)
-//'
-//'## observed information for Cat object of the tpm model
-//'data(polknowMT)
-//'tpm_cat <- tpmCat(polknowMT)
-//'setAnswers(tpm_cat) <- c(1,0,1,0, rep(NA, 35))
-//'obsInf(tpm_cat, theta = 1, item = 10)
-//'
-//'## observed information for Cat object of the grm model
-//'data(nfc)
-//'grm_cat <- grmCat(nfc)
-//'setAnswers(grm_cat) <- c(1,3,4,5, rep(NA, 13))
-//'obsInf(grm_cat, theta = 1, item = 10)
-//'}
+//'obsInf(ltm_cat, theta = 1, item = 11)
+//'obsInf(ltm_cat, theta = 0, item = 10)
+//'obsInf(ltm_cat, theta = 0, item = 11)
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -475,10 +448,8 @@ double obsInf(S4 catObj, double theta, int item) {
 //' 
 //' 
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -486,7 +457,7 @@ double obsInf(S4 catObj, double theta, int item) {
 //'## Expected observed information for different items
 //'expectedObsInf(ltm_cat, item = 10)
 //'expectedObsInf(ltm_cat, item = 20)
-//'}
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -515,19 +486,16 @@ double expectedObsInf(S4 catObj, int item) {
 //' @details For the dichotomous case, this Fisher's information is equivalent to the observed information.  
 //' 
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'
-//'## Fisher's information for different items,
-//'## at ability parameter of 1
+//'## Fisher's information for different items, at ability parameter of 1
 //'fisherInf(ltm_cat, theta = 1, item = 10)
 //'fisherInf(ltm_cat, theta = 1, item = 20)
-//'}
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -554,17 +522,15 @@ double fisherInf(S4 catObj, double theta, int item) {
 //' 
 //' 
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'
 //'## Fisher's test information for answer profile
 //'fisherTestInfo(ltm_cat)
-//'}
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -605,16 +571,13 @@ double fisherTestInfo(S4 catObj) {
 //'  Library (GSL) with initial search interval of \code{[-5,5]}.
 //'   
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'
-//'## Set different estimation procedures and calculate
-//'## ability estimate and its standard error
+//'## Set different estimation procedures and calculate ability estimate and its standard error
 //'setEstimation(ltm_cat) <- "EAP"
 //'estimateTheta(ltm_cat)
 //'estimateSE(ltm_cat)
@@ -630,7 +593,7 @@ double fisherTestInfo(S4 catObj) {
 //'setEstimation(ltm_cat) <- "WLE"
 //'estimateTheta(ltm_cat)
 //'estimateSE(ltm_cat)
-//'}
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -662,10 +625,8 @@ double estimateSE(S4 catObj) {
 //' 
 //' 
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -674,7 +635,7 @@ double estimateSE(S4 catObj) {
 //'expectedPV(ltm_cat, item = 10)
 //'expectedPV(ltm_cat, item = 20)
 //'expectedPV(ltm_cat, item = 30)
-//'}
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -755,10 +716,8 @@ double expectedPV(S4 catObj, int item) {
 //' 
 //' 
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -793,7 +752,7 @@ double expectedPV(S4 catObj, int item) {
 //'
 //'setSelection(ltm_cat) <- "RANDOM"
 //'selectItem(ltm_cat)
-//'}
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -843,10 +802,8 @@ List selectItem(S4 catObj) {
 //' 
 //' 
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -855,7 +812,7 @@ List selectItem(S4 catObj) {
 //'expectedKL(ltm_cat, item = 10)
 //'expectedKL(ltm_cat, item = 20)
 //'expectedKL(ltm_cat, item = 30)
-//'}
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -896,10 +853,8 @@ double expectedKL(S4 catObj, int item) {
 //'  for the specified item, given the current answer profile and ability parameter estimate.
 //'  
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -908,7 +863,7 @@ double expectedKL(S4 catObj, int item) {
 //'likelihoodKL(ltm_cat, item = 10)
 //'likelihoodKL(ltm_cat, item = 20)
 //'likelihoodKL(ltm_cat, item = 30)
-//'}
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -948,10 +903,8 @@ double likelihoodKL(S4 catObj, int item) {
 //'  for the specified item, given the current answer profile and ability parameter estimate.
 //'  
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -960,7 +913,7 @@ double likelihoodKL(S4 catObj, int item) {
 //'posteriorKL(ltm_cat, item = 10)
 //'posteriorKL(ltm_cat, item = 20)
 //'posteriorKL(ltm_cat, item = 30)
-//'}
+//'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -992,10 +945,8 @@ double posteriorKL(S4 catObj, int item) {
 //' is currently answering and the second column is the next item that should be asked given each response.
 //' 
 //' @examples
-//' \dontrun{
-//' ## Create Cat object of ltm model
-//' data(npi)
-//' ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //' 
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
@@ -1003,17 +954,15 @@ double posteriorKL(S4 catObj, int item) {
 //'## What should be asked next if respondent is currently answering item 6
 //'lookAhead(ltm_cat, 6)
 //'
-//' ## Create Cat object of grm model
-//' data(nfc)
-//' grm_cat <- grmCat(nfc)
+//'## Loading grm Cat object
+//'data(grm_cat)
 //' 
 //'## Store example answers
-//'setAnswers(grm_cat) <- c(4,3,5,1,1 rep(NA, 13))
+//'setAnswers(grm_cat) <- c(4,3,5,1,1, rep(NA, 13))
 //'
 //'## What should be asked next if respondent is currently answering item 6
 //'lookAhead(grm_cat, 6)
 //'
-//'}
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
 //'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
@@ -1066,10 +1015,8 @@ List lookAhead(S4 catObj, int item) {
 //' 
 //' 
 //' @examples
-//' \dontrun{
-//'## Create Cat object
-//'data(npi)
-//'ltm_cat <- ltmCat(npi)
+//'## Loading ltm Cat object
+//'data(ltm_cat)
 //'
 //'## Store example answers
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1,0,0,0,1,1, rep(NA, 30))
@@ -1088,7 +1035,7 @@ List lookAhead(S4 catObj, int item) {
 //'## of ability estimate is below .5, stop administering items
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1,0,0,0,1,1,0, rep(NA, 29))
 //'checkStopRules(ltm_cat)
-//'}
+//'
 //'
 //'@references
 //'
