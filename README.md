@@ -13,7 +13,7 @@ install.packages("catSurv")
 
 # Or, to install the development version from GitHub:
 # install.packages("devtools")
-devtools::install_github("erossiter/CATSurv/catSurv@gpcm")
+devtools::install_github("erossiter/catSurv")
 ```
 
-If you encounter a clear bug, please let us know [here](https://github.com/erossiter/CATSurv/issues).
+If you encounter a clear bug, please let us know [here](https://github.com/erossiter/catSurv/issues).
