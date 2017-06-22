@@ -25,3 +25,4 @@ Suggests:
 	catR(>= 3.12),
 	testthat(>= 1.0.2)
 BugReports: https://github.com/erossiter/catSurv/issues
+
