@@ -1,53 +1,23 @@
 #include "KLSelector.h"
-
- // [[Rcpp::depends(RcppParallel)]]
-#include <RcppParallel.h>
+#include "ParallelUtil.h"
 
 
-using namespace RcppParallel;
-
-struct ExpectedKL
+struct ExpectedKL : public mpl::FunctionCaller<Prior>
 {
-	Estimator &estimator;
-	Prior &prior;
+	using Base = mpl::FunctionCaller<Prior>;
 
-	ExpectedKL(Estimator& e, Prior& p)
-	: estimator(e)
-	, prior(p)
-	{}
+	ExpectedKL(Estimator& e, Prior& p):Base{e,p}{}
 
 	double operator()(int question)
 	{
-		return estimator.expectedKL(question, prior);
+		return estimator.expectedKL(question, arg);
 	}
-};
-
-struct ParallelExpectedKL : public Worker
-{
-   const std::vector<int>& input; // source vector
-   std::vector<double>& output; // destination vector
-   ExpectedKL expectedKL;
-   
-   // initialize with source and destination
-   template<typename T1, typename T2>
-   ParallelExpectedKL(const T1& input, T2& output, Estimator& e, Prior& p) 
-      : input(input)
-      , output(output)
-      , expectedKL{e,p}
-      {}
-   
-   // take the range of elements requested
-   void operator()(std::size_t begin, std::size_t end)
-   {
-      std::transform(input.begin() + begin, input.begin() + end, output.begin() + begin, expectedKL);
-   }
 };
 
 
 SelectionType KLSelector::getSelectionType() {
 	return SelectionType::KL;
 }
-
 
 Selection KLSelector::selectItem() {
 	if (questionSet.applicable_rows.empty()) {
@@ -63,9 +33,9 @@ Selection KLSelector::selectItem() {
 	//auto func = [&](int question){return this->estimator.expectedKL(question, prior);};
 	//std::transform(selection.questions.begin(),selection.questions.end(),selection.values.begin(), func);
 
-	ParallelExpectedKL parallelExpectedKL(selection.questions, selection.values, estimator,prior);
+	mpl::ParallelHelper<ExpectedKL> helper(selection.questions, selection.values, estimator, prior);
    	// call parallelFor to do the work
-  	parallelFor(0, selection.questions.size(), parallelExpectedKL);
+  	RcppParallel::parallelFor(0, selection.questions.size(), helper);
 
 	auto max_itr = std::max_element(selection.values.begin(), selection.values.end());
 	selection.item = selection.questions.at(std::distance(selection.values.begin(),max_itr));
