@@ -1,9 +1,53 @@
 #include "KLSelector.h"
 
+ // [[Rcpp::depends(RcppParallel)]]
+#include <RcppParallel.h>
+
+
+using namespace RcppParallel;
+
+struct ExpectedKL
+{
+	Estimator &estimator;
+	Prior &prior;
+
+	ExpectedKL(Estimator& e, Prior& p)
+	: estimator(e)
+	, prior(p)
+	{}
+
+	double operator()(int question)
+	{
+		return estimator.expectedKL(question, prior);
+	}
+};
+
+struct ParallelExpectedKL : public Worker
+{
+   const std::vector<int>& input; // source vector
+   std::vector<double>& output; // destination vector
+   ExpectedKL expectedKL;
+   
+   // initialize with source and destination
+   template<typename T1, typename T2>
+   ParallelExpectedKL(const T1& input, T2& output, Estimator& e, Prior& p) 
+      : input(input)
+      , output(output)
+      , expectedKL{e,p}
+      {}
+   
+   // take the range of elements requested
+   void operator()(std::size_t begin, std::size_t end)
+   {
+      std::transform(input.begin() + begin, input.begin() + end, output.begin() + begin, expectedKL);
+   }
+};
+
 
 SelectionType KLSelector::getSelectionType() {
 	return SelectionType::KL;
 }
+
 
 Selection KLSelector::selectItem() {
 	if (questionSet.applicable_rows.empty()) {
@@ -13,25 +57,24 @@ Selection KLSelector::selectItem() {
 	Selection selection;
 	selection.name = "KL";
 	selection.questions = questionSet.nonapplicable_rows;
-	selection.values.reserve(questionSet.nonapplicable_rows.size());
-	selection.question_names.reserve(questionSet.nonapplicable_rows.size());
-	
-	double max_kl = 0.0;
-	int max_item = -1;
-	
-	for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
-	  int question = questionSet.nonapplicable_rows.at(i);
-	  selection.values.push_back(estimator.expectedKL(question, prior));
-	  selection.question_names.push_back(questionSet.question_names.at(question));
 
-		if (selection.values.at(i) > max_kl) {
-			max_item = question;
-			max_kl = selection.values.at(i);
-		}
-	}
-	
-	selection.item = max_item;
-	selection.item = selection.item;
+	selection.values.resize(selection.questions.size());
+
+	//auto func = [&](int question){return this->estimator.expectedKL(question, prior);};
+	//std::transform(selection.questions.begin(),selection.questions.end(),selection.values.begin(), func);
+
+	ParallelExpectedKL parallelExpectedKL(selection.questions, selection.values, estimator,prior);
+   	// call parallelFor to do the work
+  	parallelFor(0, selection.questions.size(), parallelExpectedKL);
+
+	auto max_itr = std::max_element(selection.values.begin(), selection.values.end());
+	selection.item = selection.questions.at(std::distance(selection.values.begin(),max_itr));
+
+	selection.question_names.resize(selection.questions.size());
+
+	auto qn_name = [&](int question){return this->questionSet.question_names.at(question);};
+	std::transform(selection.questions.begin(),selection.questions.end(),selection.question_names.begin(), qn_name);
+
 	return selection;
 }
 

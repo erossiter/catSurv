@@ -411,7 +411,7 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
   auto probabilities = probability(estimateTheta(prior), (size_t) item);
   
   questionSet.applicable_rows.push_back(item);
-  
+ 
 	std::vector<double> variances;
 	for (size_t i = 0; i <= questionSet.difficulty.at(item).size(); ++i) {
 		questionSet.answers.at(item) = (int) i + 1.0;

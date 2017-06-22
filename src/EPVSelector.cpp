@@ -1,51 +1,5 @@
 #include "EPVSelector.h"
 
-#include <iostream>
- // [[Rcpp::depends(RcppParallel)]]
-#include <RcppParallel.h>
-
-
-using namespace RcppParallel;
-
-struct ExpectedPV
-{
-	Estimator &estimator;
-	Prior &prior;
-
-	ExpectedPV(Estimator& e, Prior& p)
-	: estimator(e)
-	, prior(p)
-	{}
-
-	double operator()(int row)
-	{
-		return estimator.expectedPV(row, prior);
-	}
-};
-
-struct ParallelExpectedPV : public Worker
-{
-   //const RVector<int> input; // source vector
-   //RVector<double> output; // destination vector
-   const std::vector<int>& input; // source vector
-   std::vector<double>& output; // destination vector
-   ExpectedPV expectedPV;
-   
-   // initialize with source and destination
-   template<typename T1, typename T2>
-   ParallelExpectedPV(const T1& input, T2& output, Estimator& e, Prior& p) 
-      : input(input)
-      , output(output)
-      , expectedPV{e,p}
-      {}
-   
-   // take the range of elements requested
-   void operator()(std::size_t begin, std::size_t end)
-   {
-      std::transform(input.begin() + begin, input.begin() + end, output.begin() + begin, expectedPV);
-   }
-};
-
 using namespace std;
 
 Selection EPVSelector::selectItem() {
@@ -53,29 +7,21 @@ Selection EPVSelector::selectItem() {
 	// For every unanswered item, calculate the epv of that item
 	Selection selection = Selection();
 	selection.name = getSelectionName();
-	selection.values.reserve(questionSet.nonapplicable_rows.size());
 	selection.questions = questionSet.nonapplicable_rows;
 
-	//for (int row : questionSet.nonapplicable_rows) {
-	//	double epv = estimator.expectedPV(row, prior);
-	//	selection.values.push_back(epv);
-	//}
+	// wrapper to get epv for passing to transform
+	auto epv = [&](int row){return this->estimator.expectedPV(row, prior);};
 
-	auto func = [&](int row){return this->estimator.expectedPV(row, prior);};
+	selection.values.resize(selection.questions.size());
+	std::transform(selection.questions.begin(),selection.questions.end(),selection.values.begin(), epv);
 
-	selection.values.resize(questionSet.nonapplicable_rows.size());
-	//std::transform(questionSet.nonapplicable_rows.begin(),questionSet.nonapplicable_rows.end(),selection.values.begin(), func);
+	auto qn_name = [&](int question){return this->questionSet.question_names.at(question);};
 
-	ParallelExpectedPV parallelExpectedPV(questionSet.nonapplicable_rows, selection.values,estimator,prior);
-  
-  	// call parallelFor to do the work
-  	parallelFor(0, questionSet.nonapplicable_rows.size(), parallelExpectedPV);
-
-	selection.question_names.resize(questionSet.nonapplicable_rows.size());
-	std::copy(questionSet.question_names.begin(),questionSet.question_names.end(),selection.question_names.begin());
+	selection.question_names.resize(selection.questions.size());
+	std::transform(selection.questions.begin(),selection.questions.end(),selection.question_names.begin(), qn_name);
 
 	auto min_itr = std::min_element(selection.values.begin(), selection.values.end());
-	selection.item = questionSet.nonapplicable_rows[std::distance(selection.values.begin(),min_itr)];
+	selection.item = selection.questions[std::distance(selection.values.begin(),min_itr)];
 
 	return selection;
 }
