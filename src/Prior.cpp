@@ -5,7 +5,6 @@
 using namespace std;
 
 double Prior::dt(double x, int df, double mu) {
-  //return pdf(non_central_t_distribution<>(df, mu), x);
   x -= mu;
   double v = double(df);
   x = std::pow(v/(v+x*x),(v+1)/2.0);
@@ -14,7 +13,6 @@ double Prior::dt(double x, int df, double mu) {
 }
 
 double Prior::uniform(double x, double min, double max) {
-  //return pdf(uniform_distribution<>(min, max), x);
   if(min <=x && x <= max)
   {
     return 1/(max-min);
@@ -23,7 +21,6 @@ double Prior::uniform(double x, double min, double max) {
 }
 
 double Prior::normal(double x, double mean, double sd){
-  //return pdf(normal_distribution<>(mean, sd), x);
   static const double one_by_sqrt_2pi = 0.3989422804014327;
   x = (x - mean) / sd;
   return std::exp(-0.5*x*x)*one_by_sqrt_2pi / sd;
