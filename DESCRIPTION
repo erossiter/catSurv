@@ -12,17 +12,20 @@ Imports:
 	methods(>= 3.4.0),
 	stats(>= 3.4.0),
 	Rcpp(>= 0.12.11),
+	RcppParallel,
 LinkingTo:
 	BH(>= 1.62.0.1),
 	Rcpp(>= 0.12.11),
 	RcppArmadillo,
-	RcppGSL(>= 0.3.2) 
+	RcppGSL(>= 0.3.2),
+	RcppParallel
 LazyData: true
 RoxygenNote: 6.0.1
-SystemRequirements: C++11
+SystemRequirements:
+	C++11,
+	GNU make
 Suggests:
 	catIrt(>= 0.5.0),
 	catR(>= 3.12),
 	testthat(>= 1.0.2)
 BugReports: https://github.com/erossiter/catSurv/issues
-
