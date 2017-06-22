@@ -1,21 +1,32 @@
-#include <boost/math/distributions/non_central_t.hpp>
-#include <boost/math/distributions/uniform.hpp>
-#include <boost/math/distributions/normal.hpp>
-
+#include <tr1/cmath>
+#include <cmath>
 #include "Prior.h"
 
-using namespace boost::math;
+using namespace std;
 
 double Prior::dt(double x, int df, double mu) {
-  return pdf(non_central_t_distribution<>(df, mu), x);
+  //return pdf(non_central_t_distribution<>(df, mu), x);
+  x -= mu;
+  double v = double(df);
+  x = std::pow(v/(v+x*x),(v+1)/2.0);
+  return x/(std::sqrt(v)*std::tr1::beta(0.5,v/2.0));
+  // NOTE: http://en.cppreference.com/w/cpp/numeric/special_math/beta
 }
 
 double Prior::uniform(double x, double min, double max) {
-  return pdf(uniform_distribution<>(min, max), x);
+  //return pdf(uniform_distribution<>(min, max), x);
+  if(min <=x && x <= max)
+  {
+    return 1/(max-min);
+  }
+  return 0;
 }
 
 double Prior::normal(double x, double mean, double sd){
-  return pdf(normal_distribution<>(mean, sd), x);
+  //return pdf(normal_distribution<>(mean, sd), x);
+  static const double one_by_sqrt_2pi = 0.3989422804014327;
+  x = (x - mean) / sd;
+  return std::exp(-0.5*x*x)*one_by_sqrt_2pi / sd;
 }
 
 double Prior::prior(double x) {
