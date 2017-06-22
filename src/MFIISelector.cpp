@@ -1,4 +1,17 @@
 #include "MFIISelector.h"
+#include "ParallelUtil.h"
+
+struct MFII : public mpl::FunctionCaller<Prior>
+{
+	using Base = mpl::FunctionCaller<Prior>;
+
+	MFII(Estimator& e, Prior& p):Base{e,p}{}
+
+	double operator()(int question)
+	{
+		return estimator.fii(question, arg);
+	}
+};
 
 using namespace std;
 
@@ -13,28 +26,23 @@ Selection MFIISelector::selectItem() {
   	
 	Selection selection;
 	selection.questions = questionSet.nonapplicable_rows;
-	selection.values.reserve(questionSet.nonapplicable_rows.size());
 	selection.name = "MFII";
-	selection.question_names.reserve(questionSet.nonapplicable_rows.size());
 
-	double max_mfii = 0.0;
-	int max_item = -1;
+	selection.values.resize(selection.questions.size());
 
-	for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
-		int question = questionSet.nonapplicable_rows.at(i);
-	  selection.question_names.push_back(questionSet.question_names.at(question));
-		selection.values.push_back(estimator.fii(question, prior));
+	mpl::ParallelHelper<MFII> helper(selection.questions, selection.values, estimator, prior);
+   	// call parallelFor to do the work
+  	RcppParallel::parallelFor(0, selection.questions.size(), helper);
 
-		if (selection.values.at(i) > max_mfii) {
-			max_item = question;
-			max_mfii = selection.values.at(i);
-		}
-	}
+	auto max_itr = std::max_element(selection.values.begin(), selection.values.end());
+	selection.item = selection.questions.at(std::distance(selection.values.begin(),max_itr));
 
-	selection.item = max_item;
-	selection.item = selection.item;
+	selection.question_names.resize(selection.questions.size());
+
+	auto qn_name = [&](int question){return this->questionSet.question_names.at(question);};
+	std::transform(selection.questions.begin(),selection.questions.end(),selection.question_names.begin(), qn_name);
+
 	return selection;
-
 }
 
 MFIISelector::MFIISelector(QuestionSet &questions, Estimator &estimation, Prior &priorModel) : Selector(questions,

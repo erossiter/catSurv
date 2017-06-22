@@ -1,5 +1,17 @@
 #include "MPWISelector.h"
+#include "ParallelUtil.h"
 
+struct MPWI : public mpl::FunctionCaller<Prior>
+{
+	using Base = mpl::FunctionCaller<Prior>;
+
+	MPWI(Estimator& e, Prior& p):Base{e,p}{}
+
+	double operator()(int question)
+	{
+		return estimator.pwi(question, arg);
+	}
+};
 
 SelectionType MPWISelector::getSelectionType() {
 	return SelectionType::MPWI;
@@ -9,25 +21,21 @@ Selection MPWISelector::selectItem() {
 	Selection selection;
 	selection.name = "MPWI";
 	selection.questions = questionSet.nonapplicable_rows;
-	selection.values.reserve(questionSet.nonapplicable_rows.size());
-	selection.question_names.reserve(questionSet.nonapplicable_rows.size());
 	
-	double max_pwi = 0.0;
-	int max_item = -1;
-	
-	for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
-	  int question = questionSet.nonapplicable_rows.at(i);
-	  selection.question_names.push_back(questionSet.question_names.at(question));
-	  selection.values.push_back(estimator.pwi(question, prior));
+	selection.values.resize(selection.questions.size());
 
-		if (selection.values.at(i) > max_pwi) {
-			max_item = question;
-			max_pwi = selection.values.at(i);
-		}
-	}
-	
-	selection.item = max_item;
-	selection.item = selection.item;
+	mpl::ParallelHelper<MPWI> helper(selection.questions, selection.values, estimator, prior);
+   	// call parallelFor to do the work
+  	RcppParallel::parallelFor(0, selection.questions.size(), helper);
+
+	auto max_itr = std::max_element(selection.values.begin(), selection.values.end());
+	selection.item = selection.questions.at(std::distance(selection.values.begin(),max_itr));
+
+	selection.question_names.resize(selection.questions.size());
+
+	auto qn_name = [&](int question){return this->questionSet.question_names.at(question);};
+	std::transform(selection.questions.begin(),selection.questions.end(),selection.question_names.begin(), qn_name);
+
 	return selection;
 }
 

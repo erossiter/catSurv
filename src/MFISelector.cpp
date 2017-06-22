@@ -1,4 +1,17 @@
 #include "MFISelector.h"
+#include "ParallelUtil.h"
+
+struct MFI : public mpl::FunctionCaller<double>
+{
+	using Base = mpl::FunctionCaller<double>;
+
+	MFI(Estimator& e, double& p):Base{e,p}{}
+
+	double operator()(int question)
+	{
+		return estimator.fisherInf(arg, question);
+	}
+};
 
 using namespace std;
 
@@ -9,29 +22,25 @@ SelectionType MFISelector::getSelectionType() {
 Selection MFISelector::selectItem() {
 	Selection selection;
 	selection.questions = questionSet.nonapplicable_rows;
-	selection.values.reserve(questionSet.nonapplicable_rows.size());
 	selection.name = "MFI";
-	selection.question_names.reserve(questionSet.nonapplicable_rows.size());
-
-	double max_mfi = 0.0;
-	int max_item = -1;
 
 	double theta = estimator.estimateTheta(prior);
-	for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
-		int question = questionSet.nonapplicable_rows.at(i);
-	  selection.question_names.push_back(questionSet.question_names.at(question));
-		selection.values.push_back(estimator.fisherInf(theta, question));
 
-		if (selection.values.at(i) > max_mfi) {
-			max_item = question;
-			max_mfi = selection.values.at(i);
-		}
-	}
+	selection.values.resize(selection.questions.size());
 
-	selection.item = max_item;
-	selection.item = selection.item;
+	mpl::ParallelHelper<MFI> helper(selection.questions, selection.values, estimator, theta);
+   	// call parallelFor to do the work
+  	RcppParallel::parallelFor(0, selection.questions.size(), helper);
+
+	auto max_itr = std::max_element(selection.values.begin(), selection.values.end());
+	selection.item = selection.questions.at(std::distance(selection.values.begin(),max_itr));
+
+	selection.question_names.resize(selection.questions.size());
+
+	auto qn_name = [&](int question){return this->questionSet.question_names.at(question);};
+	std::transform(selection.questions.begin(),selection.questions.end(),selection.question_names.begin(), qn_name);
+
 	return selection;
-
 }
 
 MFISelector::MFISelector(QuestionSet &questions, Estimator &estimation, Prior &priorModel) : Selector(questions,
