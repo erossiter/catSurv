@@ -10,17 +10,11 @@ double Prior::dt(double x, int df, double mu) {
 }
 
 double Prior::uniform(double x, double min, double max) {
-  if(min <=x && x <= max)
-  {
-    return 1/(max-min);
-  }
-  return 0;
+  return gsl_ran_flat_pdf(x,min,max);
 }
 
 double Prior::normal(double x, double mean, double sd){
-  static const double one_by_sqrt_2pi = 0.3989422804014327;
-  x = (x - mean) / sd;
-  return std::exp(-0.5*x*x)*one_by_sqrt_2pi / sd;
+  return gsl_ran_gaussian_pdf(x-mean, sd);
 }
 
 double Prior::prior(double x) {
