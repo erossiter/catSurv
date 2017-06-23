@@ -1,15 +1,12 @@
-#include <tr1/cmath>
+#include <gsl/gsl_randist.h>
 #include <cmath>
 #include "Prior.h"
 
 using namespace std;
 
 double Prior::dt(double x, int df, double mu) {
-  x -= mu;
-  double v = double(df);
-  x = std::pow(v/(v+x*x),(v+1)/2.0);
-  return x/(std::sqrt(v)*std::tr1::beta(0.5,v/2.0));
-  // NOTE: http://en.cppreference.com/w/cpp/numeric/special_math/beta
+  // https://www.gnu.org/software/gsl/manual/html_node/The-t_002ddistribution.html
+  return gsl_ran_tdist_pdf(x-mu,df);
 }
 
 double Prior::uniform(double x, double min, double max) {
