@@ -21,7 +21,7 @@ Selection MEISelector::selectItem() {
 			selection.values.push_back(estimator.expectedObsInf_grm(item, prior));
 		}
 	}
-	else if(questionSet.model == "gprm")
+	else if(questionSet.model == "gpcm")
 	{
 		for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
 			int item = questionSet.nonapplicable_rows.at(i);
