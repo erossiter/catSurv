@@ -34,6 +34,7 @@ public:
 	double obsInf(double theta, int item, int answer);
 
 	double fisherInf(double theta, int item);
+	double fisherInf(double theta, int item, int answer);
 
 	virtual double expectedPV(int item, Prior &prior);
 

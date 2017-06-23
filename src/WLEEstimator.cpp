@@ -42,7 +42,7 @@ double WLEEstimator::ltm_estimateTheta(Prior prior, size_t question, int answer)
 
       double P = probability(theta, item).at(0);
       B += (dP * d2P) / (P * (1.0 - P));
-      I += fisherInf(theta, item);
+      I += fisherInf(theta, item, questionSet.answers.at(item));
     }
 
     double a = questionSet.difficulty.at(question).at(0);
@@ -55,7 +55,7 @@ double WLEEstimator::ltm_estimateTheta(Prior prior, size_t question, int answer)
 
     double P = probability(theta, question).at(0);
     B += (dP * d2P) / (P * (1.0 - P));
-    I += fisherInf(theta, question);
+    I += fisherInf(theta, question, answer);
 
     double L_theta = d1LL(theta, false, prior, question, answer);
     return L_theta + (B / (2 * I));
@@ -95,7 +95,7 @@ double WLEEstimator::gpcm_estimateTheta(Prior prior, size_t question, int answer
     double I = 0.0;
   
     for (auto item : questionSet.applicable_rows) {
-      I += fisherInf(theta, item);
+      I += fisherInf(theta, item, questionSet.answers.at(item));
       
       std::vector<double> p = probability(theta, item);
       std::vector<double> p_prime = prob_derivs_gpcm(theta, item, true);
@@ -106,7 +106,7 @@ double WLEEstimator::gpcm_estimateTheta(Prior prior, size_t question, int answer
       }
     }
 
-    I += fisherInf(theta, question);
+    I += fisherInf(theta, question, answer);
     
     std::vector<double> p = probability(theta, question);
     std::vector<double> p_prime = prob_derivs_gpcm(theta, question, true);
@@ -191,7 +191,7 @@ double WLEEstimator::grm_estimateTheta(Prior prior, size_t question, int answer)
     std::vector<double> P_star_2prime;
 
     for (auto item : questionSet.applicable_rows) {
-      I += fisherInf(theta, item);
+      I += fisherInf(theta, item, questionSet.answers.at(item));
       
       double beta = questionSet.discrimination.at(item);
       std::vector<double> P_stars = probability(theta, item);
@@ -220,7 +220,7 @@ double WLEEstimator::grm_estimateTheta(Prior prior, size_t question, int answer)
 
     }
 
-    I += fisherInf(theta, question);
+    I += fisherInf(theta, question, answer);
     
     double beta = questionSet.discrimination.at(question);
     std::vector<double> P_stars = probability(theta, question);

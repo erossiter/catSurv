@@ -796,6 +796,39 @@ double Estimator::fisherInf(double theta, int item) {
 	return output;
 }
 
+double Estimator::fisherInf(double theta, int item, int answer) {
+
+	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
+		return obsInf(theta, item, answer);
+	}
+
+	double output = 0.0;
+	auto probabilities = probability(theta, (size_t) item);
+	double discrimination_squared = std::pow(questionSet.discrimination.at(item), 2.0);
+
+	if (questionSet.model == "grm") {
+	  for (size_t i = 1; i <= questionSet.difficulty.at(item).size() + 1; ++i) {
+		  double P_star1 = probabilities.at(i);
+		  double P_star2 = probabilities.at(i-1);
+		  double w1 = P_star1 * (1.0 - P_star1);
+		  double w2 = P_star2 * (1.0 - P_star2);
+		  output += discrimination_squared * (std::pow(w1 - w2, 2.0) / (P_star1 - P_star2));
+		}
+	}
+	
+	if (questionSet.model == "gpcm"){
+	  auto prob_firstderiv = prob_derivs_gpcm(theta, item, true);
+	  auto prob_secondderiv = prob_derivs_gpcm(theta, item, false);
+	  for (size_t i = 0; i < probabilities.size(); ++i) {
+		  double p = probabilities.at(i);
+		  double p_prime = prob_firstderiv.at(i);
+		  double p_primeprime = prob_secondderiv.at(i);
+		  output += (std::pow(p_prime, 2.0) / p) - p_primeprime;
+	  }
+	}
+	return output;
+}
+
 double Estimator::expectedObsInf(int item, Prior &prior) {
 
 	if ((questionSet.model == "grm") | (questionSet.model == "gpcm")){
