@@ -52,6 +52,21 @@ double EAPEstimator::estimateSE(Prior prior) {
 	return std::pow(integralQuotient(numerator, denominator, questionSet.lowerBound, questionSet.upperBound), 0.5);
 }
 
+double EAPEstimator::estimateSE(Prior prior, size_t question, int answer) {
+	const double theta_hat = estimateTheta(prior,question,answer);
+
+	integrableFunction denominator = [&](double theta) {
+		return likelihood(theta,question,answer) * prior.prior(theta);
+	};
+
+	integrableFunction numerator = [&](double theta) {
+		const double theta_difference = theta - theta_hat;
+		return theta_difference * theta_difference * denominator(theta);
+	};
+
+	return std::pow(integralQuotient(numerator, denominator, questionSet.lowerBound, questionSet.upperBound), 0.5);
+}
+
 double EAPEstimator::integralQuotient(integrableFunction const &numerator,
                                    integrableFunction const &denominator,
                                    const double lower, const double upper) {

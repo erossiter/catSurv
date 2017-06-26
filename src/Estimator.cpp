@@ -674,7 +674,7 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
  
 	std::vector<double> variances;
 	for (size_t i = 0; i <= questionSet.difficulty.at(item).size(); ++i) {
-		questionSet.answers.at(item) = (int) i + 1.0;
+		questionSet.answers.at(item) = (int) i + 1;
 		variances.push_back(std::pow(estimateSE(prior), 2.0));
 	}
 
@@ -725,6 +725,40 @@ double Estimator::expectedPV(int item, Prior &prior) {
 	
 	questionSet.answers.at(item) = NA_INTEGER;
 	return result;
+}
+
+double Estimator::expectedPV_ltm_tpm(int item, Prior &prior)
+{
+	//binary_posterior_variance
+	double probability_incorrect = probability(estimateTheta(prior), (size_t) item).at(0);
+    
+	double variance_correct = std::pow(estimateSE(prior,item,1), 2.0);
+	double variance_incorrect = std::pow(estimateSE(prior,item,0), 2.0);
+	
+	return (probability_incorrect * variance_correct) + ((1.0 - probability_incorrect) * variance_incorrect);
+}
+
+double Estimator::expectedPV_grm_gpcm(int item, Prior &prior)
+{
+	//polytomous_posterior_variance
+	auto probabilities = probability(estimateTheta(prior), (size_t) item);
+   
+	double sum = 0;
+	if (questionSet.model == "grm") {
+	  	for (size_t i = 1; i < probabilities.size(); ++i) {
+	  		double var = std::pow(estimateSE(prior,item,(int)i), 2.0);
+	    	sum += var * (probabilities.at(i) - probabilities.at(i-1));
+	    }
+	}
+	if (questionSet.model == "gpcm"){
+	  	for (size_t i = 0; i < probabilities.size(); ++i) {
+	  		double var = std::pow(estimateSE(prior,item,(int) i + 1), 2.0);
+	    	sum += var * probabilities.at(i);
+	    }
+	}
+	
+	return sum;
+
 }
 
 double Estimator::obsInf(double theta, int item) {
@@ -956,6 +990,19 @@ double Estimator::fisherTestInfo(Prior prior) {
     sum += fisherInf(theta, item);
   }
   return sum;
+}
+
+double Estimator::fisherTestInfo(Prior prior, size_t question, int answer)
+{
+	double theta = estimateTheta(prior,question,answer);
+	double sum = 0.0;
+	for (auto item : questionSet.applicable_rows)
+	{
+		int a = questionSet.answers.at(item);
+		sum += fisherInf(theta, item, a);
+	}
+	sum += fisherInf(theta, question, answer);
+	return sum;
 }
   
 /**

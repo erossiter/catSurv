@@ -15,5 +15,6 @@ public:
 	virtual double estimateTheta(Prior prior, size_t question, int answer) override;
 	
 	virtual double estimateSE(Prior prior) override;
+	virtual double estimateSE(Prior prior, size_t question, int answer) override;
 
 };

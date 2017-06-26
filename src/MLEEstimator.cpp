@@ -97,6 +97,12 @@ double MLEEstimator::estimateSE(Prior prior) {
   return std::pow(var, 0.5);
 }
 
+double MLEEstimator::estimateSE(Prior prior, size_t question, int answer)
+{
+	double var = 1.0 / fisherTestInfo(prior, question, answer);
+  	return std::pow(var, 0.5);
+}
+
 double MLEEstimator::estimateTheta(Prior prior, size_t question, int answer)
 {
 	int iter = 0;

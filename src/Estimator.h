@@ -24,6 +24,7 @@ public:
 	virtual double estimateTheta(Prior prior, size_t question, int answer) = 0;
 
 	virtual double estimateSE(Prior prior) = 0;
+	virtual double estimateSE(Prior prior, size_t question, int answer) = 0;
 
 	double likelihood(double theta);
 	double likelihood(double theta, size_t question, int answer);
@@ -37,6 +38,8 @@ public:
 	double fisherInf(double theta, int item, int answer);
 
 	virtual double expectedPV(int item, Prior &prior);
+	virtual double expectedPV_ltm_tpm(int item, Prior &prior);
+	virtual double expectedPV_grm_gpcm(int item, Prior &prior);
 
 	double expectedObsInf(int item, Prior &prior);
 	double expectedObsInf_grm(int item, Prior &prior);
@@ -44,6 +47,7 @@ public:
 	double expectedObsInf_rest(int item, Prior &prior);
 	
 	double fisherTestInfo(Prior prior);
+	double fisherTestInfo(Prior prior, size_t question, int answer);
 	
 	double pwi(int item, Prior prior);
 	

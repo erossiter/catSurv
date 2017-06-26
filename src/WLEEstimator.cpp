@@ -295,6 +295,12 @@ double WLEEstimator::estimateSE(Prior prior) {
   return std::pow(var, 0.5);
 }
 
+double WLEEstimator::estimateSE(Prior prior, size_t question, int answer)
+{
+  double I_theta = fisherTestInfo(prior, question, answer);
+  return std::pow(1 / I_theta, 0.5);
+}
+
 
 EstimationType WLEEstimator::getEstimationType() const {
 	return EstimationType::WLE;
