@@ -75,7 +75,7 @@ protected:
 	const Integrator &integrator;
 	QuestionSet &questionSet;
 	
-	double kl(double theta_not, int item, Prior prior);
+	double kl(double theta_not, int item, double theta);
 
 	/**
 	 * GSL's integration library requires a function taking a double (and, optionally, a void pointer),

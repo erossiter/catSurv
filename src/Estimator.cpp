@@ -1043,12 +1043,12 @@ double Estimator::fii(int item, Prior prior) {
 	return integrate_selectItem(fii_j, lower, upper);
 }
 
-double Estimator::kl(double theta_not, int item, Prior prior){
+double Estimator::kl(double theta_not, int item, double theta){
   double sum = 0.0;
   
   if(questionSet.model == "grm"){
     auto cdf_theta_not = probability(theta_not, (size_t) item);
-	  auto cdf_theta_hat = probability(estimateTheta(prior), (size_t) item);
+	  auto cdf_theta_hat = probability(theta, (size_t) item);
 	  
 	  for (size_t i = 1; i < cdf_theta_hat.size(); ++i) {
 	    double prob_theta_not = cdf_theta_not.at(i) - cdf_theta_not.at(i-1);
@@ -1059,7 +1059,7 @@ double Estimator::kl(double theta_not, int item, Prior prior){
   
   if(questionSet.model == "gpcm"){
     auto prob_theta_not = probability(theta_not, (size_t) item);
-	  auto prob_theta_hat = probability(estimateTheta(prior), (size_t) item);
+	  auto prob_theta_hat = probability(theta, (size_t) item);
 	  
 	  for (size_t i = 0; i < prob_theta_not.size(); ++i) {
 	    sum += prob_theta_not.at(i) * (log(prob_theta_not.at(i)) - log(prob_theta_hat.at(i)));
@@ -1068,7 +1068,7 @@ double Estimator::kl(double theta_not, int item, Prior prior){
   
   if((questionSet.model == "ltm") | (questionSet.model == "tpm")){
     const double prob_theta_not = probability(theta_not, (size_t) item).at(0);
-    const double prob_theta_hat = probability(estimateTheta(prior), (size_t) item).at(0);
+    const double prob_theta_hat = probability(theta, (size_t) item).at(0);
 
     double first_term = prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
     double second_term = (1 - prob_theta_not) * (log(1 - prob_theta_not) - log(1 - prob_theta_hat));
@@ -1080,9 +1080,9 @@ double Estimator::kl(double theta_not, int item, Prior prior){
 }
 
 double Estimator::expectedKL(int item, Prior prior) {
-	
+	double theta = estimateTheta(prior);
 	integrableFunction kl_fctn = [&](double theta_not) {
-	  return kl(theta_not, item, prior);
+	  return kl(theta_not, item, theta);
   };
   
   double delta = questionSet.z.at(0) * std::pow(fisherTestInfo(prior), 0.5);
@@ -1094,18 +1094,18 @@ double Estimator::expectedKL(int item, Prior prior) {
 }
 
 double Estimator::likelihoodKL(int item, Prior prior) {
-	
+	double theta = estimateTheta(prior);
 	integrableFunction kl_fctn = [&](double theta_not) {
-	  return likelihood(theta_not) * kl(theta_not, item, prior);
+	  return likelihood(theta_not) * kl(theta_not, item, theta);
   };
 
   return integrate_selectItem(kl_fctn, questionSet.lowerBound, questionSet.upperBound);
 }
 
 double Estimator::posteriorKL(int item, Prior prior) {
-	
+	double theta = estimateTheta(prior);
 	integrableFunction kl_fctn = [&](double theta_not) {
-	  return prior.prior(theta_not) * likelihood(theta_not) * kl(theta_not, item, prior);
+	  return prior.prior(theta_not) * likelihood(theta_not) * kl(theta_not, item, theta);
   };
 
   return integrate_selectItem(kl_fctn, questionSet.lowerBound, questionSet.upperBound);
