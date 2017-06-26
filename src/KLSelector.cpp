@@ -1,4 +1,18 @@
 #include "KLSelector.h"
+#include "ParallelUtil.h"
+
+
+struct ExpectedKL : public mpl::FunctionCaller<Prior>
+{
+	using Base = mpl::FunctionCaller<Prior>;
+
+	ExpectedKL(Estimator& e, Prior& p):Base{e,p}{}
+
+	double operator()(int question)
+	{
+		return estimator.expectedKL(question, arg);
+	}
+};
 
 
 SelectionType KLSelector::getSelectionType() {
@@ -13,25 +27,24 @@ Selection KLSelector::selectItem() {
 	Selection selection;
 	selection.name = "KL";
 	selection.questions = questionSet.nonapplicable_rows;
-	selection.values.reserve(questionSet.nonapplicable_rows.size());
-	selection.question_names.reserve(questionSet.nonapplicable_rows.size());
-	
-	double max_kl = 0.0;
-	int max_item = -1;
-	
-	for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
-	  int question = questionSet.nonapplicable_rows.at(i);
-	  selection.values.push_back(estimator.expectedKL(question, prior));
-	  selection.question_names.push_back(questionSet.question_names.at(question));
 
-		if (selection.values.at(i) > max_kl) {
-			max_item = question;
-			max_kl = selection.values.at(i);
-		}
-	}
-	
-	selection.item = max_item;
-	selection.item = selection.item;
+	selection.values.resize(selection.questions.size());
+
+	//auto func = [&](int question){return this->estimator.expectedKL(question, prior);};
+	//std::transform(selection.questions.begin(),selection.questions.end(),selection.values.begin(), func);
+
+	mpl::ParallelHelper<ExpectedKL> helper(selection.questions, selection.values, estimator, prior);
+   	// call parallelFor to do the work
+  	RcppParallel::parallelFor(0, selection.questions.size(), helper);
+
+	auto max_itr = std::max_element(selection.values.begin(), selection.values.end());
+	selection.item = selection.questions.at(std::distance(selection.values.begin(),max_itr));
+
+	selection.question_names.resize(selection.questions.size());
+
+	auto qn_name = [&](int question){return this->questionSet.question_names.at(question);};
+	std::transform(selection.questions.begin(),selection.questions.end(),selection.question_names.begin(), qn_name);
+
 	return selection;
 }
 

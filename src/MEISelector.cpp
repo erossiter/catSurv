@@ -1,4 +1,41 @@
 #include "MEISelector.h"
+#include "ParallelUtil.h"
+
+struct EObsInf_grm : public mpl::FunctionCaller<Prior>
+{
+	using Base = mpl::FunctionCaller<Prior>;
+
+	EObsInf_grm(Estimator& e, Prior& p):Base{e,p}{}
+
+	double operator()(int question)
+	{
+		return estimator.expectedObsInf_grm(question, arg);
+	}
+};
+
+struct EObsInf_gpcm: public mpl::FunctionCaller<Prior>
+{
+	using Base = mpl::FunctionCaller<Prior>;
+
+	EObsInf_gpcm(Estimator& e, Prior& p):Base{e,p}{}
+
+	double operator()(int question)
+	{
+		return estimator.expectedObsInf_gpcm(question, arg);
+	}
+};
+
+struct EObsInf_rest: public mpl::FunctionCaller<Prior>
+{
+	using Base = mpl::FunctionCaller<Prior>;
+
+	EObsInf_rest(Estimator& e, Prior& p):Base{e,p}{}
+
+	double operator()(int question)
+	{
+		return estimator.expectedObsInf_rest(question, arg);
+	}
+};
 
 MEISelector::MEISelector(QuestionSet &questions, Estimator &estimation, Prior &priorModel) : Selector(questions,
                                                                                                       estimation,
@@ -13,24 +50,36 @@ Selection MEISelector::selectItem() {
 	selection.questions = questionSet.nonapplicable_rows;
 	selection.values.reserve(questionSet.nonapplicable_rows.size());
 	selection.name = "MEI";
-	selection.question_names.reserve(questionSet.nonapplicable_rows.size());
 
-	double max_EI = 0.0;
-	int max_item = -1;
+	selection.values.resize(selection.questions.size());
 
-	for (size_t i = 0; i < questionSet.nonapplicable_rows.size(); ++i) {
-		int item = questionSet.nonapplicable_rows.at(i);
-	  selection.question_names.push_back(questionSet.question_names.at(item));
+	if(questionSet.model == "grm")
+	{
+		mpl::ParallelHelper<EObsInf_grm> helper(selection.questions, selection.values, estimator, prior);
+   		// call parallelFor to do the work
+  		RcppParallel::parallelFor(0, selection.questions.size(), helper);
+	}
+	else if(questionSet.model == "gpcm")
+	{
+		mpl::ParallelHelper<EObsInf_gpcm> helper(selection.questions, selection.values, estimator, prior);
+   		// call parallelFor to do the work
+  		RcppParallel::parallelFor(0, selection.questions.size(), helper);
 
-		double this_EI = estimator.expectedObsInf(item, prior);
-		if (this_EI > max_EI) {
-			max_EI = this_EI;
-			max_item = item;
-		}
-		selection.values.push_back(this_EI);
+	}
+	else
+	{
+		mpl::ParallelHelper<EObsInf_rest> helper(selection.questions, selection.values, estimator, prior);
+   		// call parallelFor to do the work
+  		RcppParallel::parallelFor(0, selection.questions.size(), helper);
 	}
 
-	selection.item = max_item;
+	auto max_itr = std::max_element(selection.values.begin(), selection.values.end());
+	selection.item = selection.questions.at(std::distance(selection.values.begin(),max_itr));
+
+	selection.question_names.resize(selection.questions.size());
+
+	auto qn_name = [&](int question){return this->questionSet.question_names.at(question);};
+	std::transform(selection.questions.begin(),selection.questions.end(),selection.question_names.begin(), qn_name);
 
 	return selection;
 }

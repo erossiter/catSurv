@@ -21,22 +21,33 @@ public:
 	virtual EstimationType getEstimationType() const = 0;
 
 	virtual double estimateTheta(Prior prior) = 0;
+	virtual double estimateTheta(Prior prior, size_t question, int answer) = 0;
 
 	virtual double estimateSE(Prior prior) = 0;
+	virtual double estimateSE(Prior prior, size_t question, int answer) = 0;
 
 	double likelihood(double theta);
+	double likelihood(double theta, size_t question, int answer);
 
 	std::vector<double> probability(double theta, size_t question);
 
 	double obsInf(double theta, int item);
+	double obsInf(double theta, int item, int answer);
 
 	double fisherInf(double theta, int item);
+	double fisherInf(double theta, int item, int answer);
 
 	virtual double expectedPV(int item, Prior &prior);
+	virtual double expectedPV_ltm_tpm(int item, Prior &prior);
+	virtual double expectedPV_grm_gpcm(int item, Prior &prior);
 
 	double expectedObsInf(int item, Prior &prior);
+	double expectedObsInf_grm(int item, Prior &prior);
+	double expectedObsInf_gpcm(int item, Prior &prior);
+	double expectedObsInf_rest(int item, Prior &prior);
 	
 	double fisherTestInfo(Prior prior);
+	double fisherTestInfo(Prior prior, size_t question, int answer);
 	
 	double pwi(int item, Prior prior);
 	
@@ -51,8 +62,10 @@ public:
 	double posteriorKL(int item, Prior prior);
 	
 	double d1LL(double theta, bool use_prior, Prior &prior);
-	
+	double d1LL(double theta, bool use_prior, Prior &prior, size_t question, int answer);
+
 	double d2LL(double theta, bool use_prior, Prior &prior);
+	double d2LL(double theta, bool use_prior, Prior &prior, size_t question, int answer);
 	
 	//public for WLEEstimator
 	std::vector<double> prob_derivs_gpcm(double theta, size_t question, bool first);
@@ -62,7 +75,7 @@ protected:
 	const Integrator &integrator;
 	QuestionSet &questionSet;
 	
-	double kl(double theta_not, int item, Prior prior);
+	double kl(double theta_not, int item, double theta);
 
 	/**
 	 * GSL's integration library requires a function taking a double (and, optionally, a void pointer),
@@ -92,18 +105,34 @@ private:
   double likelihood_ltm(double theta);
 	double likelihood_grm(double theta);
 	double likelihood_gpcm(double theta);
+
+	double likelihood_ltm(double theta, size_t question, int answer);
+	double likelihood_grm(double theta, size_t question, int answer);
+	double likelihood_gpcm(double theta, size_t question, int answer);
   
   double grm_d1LL(double theta);
 	double gpcm_d1LL(double theta);
 	double ltm_d1LL(double theta);
+
+	double grm_d1LL(double theta, size_t question, int answer);
+	double gpcm_d1LL(double theta, size_t question, int answer);
+	double ltm_d1LL(double theta, size_t question, int answer);
 	
 	double grm_partial_d2LL(double theta, size_t question);	
 	double gpcm_partial_d2LL(double theta, size_t question);	
 	double gpcm_partial_d1LL(double theta, size_t question);	
 
+	double grm_partial_d2LL(double theta, size_t question, int answer);	
+	double gpcm_partial_d2LL(double theta, size_t question, int answer);	
+	double gpcm_partial_d1LL(double theta, size_t question, int answer);	
+
   double grm_d2LL(double theta);
 	double gpcm_d2LL(double theta);
 	double ltm_d2LL(double theta);
+
+	double grm_d2LL(double theta, size_t question, int answer);
+	double gpcm_d2LL(double theta, size_t question, int answer);
+	double ltm_d2LL(double theta, size_t question, int answer);
 
 	double polytomous_posterior_variance(int item, Prior &prior);
 	double binary_posterior_variance(int item, Prior &prior);

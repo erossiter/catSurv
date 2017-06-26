@@ -25,11 +25,38 @@ double EAPEstimator::estimateTheta(Prior prior) {
 	return integralQuotient(numerator, denominator, questionSet.lowerBound, questionSet.upperBound);
 }
 
+double EAPEstimator::estimateTheta(Prior prior, size_t question, int answer){
+	integrableFunction numerator = [&](double theta) {
+	  return theta * likelihood(theta,question,answer) * prior.prior(theta);
+	};
+	
+	integrableFunction denominator = [&](double theta) {
+		return likelihood(theta,question,answer) * prior.prior(theta);
+	};
+	
+	return integralQuotient(numerator, denominator, questionSet.lowerBound, questionSet.upperBound);
+}
+
 double EAPEstimator::estimateSE(Prior prior) {
 	const double theta_hat = estimateTheta(prior);
 
 	integrableFunction denominator = [&](double theta) {
 		return likelihood(theta) * prior.prior(theta);
+	};
+
+	integrableFunction numerator = [&](double theta) {
+		const double theta_difference = theta - theta_hat;
+		return theta_difference * theta_difference * denominator(theta);
+	};
+
+	return std::pow(integralQuotient(numerator, denominator, questionSet.lowerBound, questionSet.upperBound), 0.5);
+}
+
+double EAPEstimator::estimateSE(Prior prior, size_t question, int answer) {
+	const double theta_hat = estimateTheta(prior,question,answer);
+
+	integrableFunction denominator = [&](double theta) {
+		return likelihood(theta,question,answer) * prior.prior(theta);
 	};
 
 	integrableFunction numerator = [&](double theta) {

@@ -1,21 +1,20 @@
-#include <boost/math/distributions/non_central_t.hpp>
-#include <boost/math/distributions/uniform.hpp>
-#include <boost/math/distributions/normal.hpp>
-
+#include <gsl/gsl_randist.h>
+#include <cmath>
 #include "Prior.h"
 
-using namespace boost::math;
+using namespace std;
 
 double Prior::dt(double x, int df, double mu) {
-  return pdf(non_central_t_distribution<>(df, mu), x);
+  // https://www.gnu.org/software/gsl/manual/html_node/The-t_002ddistribution.html
+  return gsl_ran_tdist_pdf(x-mu,df);
 }
 
 double Prior::uniform(double x, double min, double max) {
-  return pdf(uniform_distribution<>(min, max), x);
+  return gsl_ran_flat_pdf(x,min,max);
 }
 
 double Prior::normal(double x, double mean, double sd){
-  return pdf(normal_distribution<>(mean, sd), x);
+  return gsl_ran_gaussian_pdf(x-mean, sd);
 }
 
 double Prior::prior(double x) {

@@ -1,5 +1,6 @@
 #' @useDynLib catSurv, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
+#' @importFrom RcppParallel RcppParallelLibs
 #' @import methods
 NULL
 
