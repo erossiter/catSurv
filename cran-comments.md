@@ -8,9 +8,7 @@
 ## R CMD check results
 There were no ERRORs or WARNINGs.
 
-There were 2 NOTEs:
-
-* Maintainer: ‘Erin Rossiter <erinrossiter@wustl.edu>’ Days since last update: 1
+There was 1 NOTE:
 
 * checking for GNU extensions in Makefiles ... NOTE GNU make is a SystemRequirements.
 
