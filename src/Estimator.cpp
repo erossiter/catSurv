@@ -585,7 +585,7 @@ double Estimator::ltm_d1LL(double theta, size_t question, int answer) {
 
 
 double Estimator::d1LL(double theta, bool use_prior, Prior &prior) {
-	const double prior_shift = (theta - prior.parameters.at(0)) / std::pow(prior.parameters.at(1), 2.0);
+	const double prior_shift = (theta - prior.param0()) / std::pow(prior.param1(), 2.0);
 	if (questionSet.applicable_rows.empty()) {
 		return prior_shift;
 	}
@@ -619,13 +619,13 @@ double Estimator::d1LL(double theta, bool use_prior, Prior &prior, size_t questi
 
 	if (use_prior)
 	{
-		l_theta -= ((theta - prior.parameters.at(0)) / std::pow(prior.parameters.at(1), 2.0));
+		l_theta -= ((theta - prior.param0()) / std::pow(prior.param1(), 2.0));
 	}
 	return l_theta;
 }
 
 double Estimator::d2LL(double theta, bool use_prior, Prior &prior) {
-	const double prior_shift = 1.0 / std::pow(prior.parameters.at(1), 2.0);
+	const double prior_shift = 1.0 / std::pow(prior.param1(), 2.0);
 	if (questionSet.applicable_rows.empty()) {
 		return -prior_shift;
 	}
@@ -658,7 +658,7 @@ double Estimator::d2LL(double theta, bool use_prior, Prior &prior, size_t questi
 
 	if(use_prior)
 	{
-		lambda_theta -= (1.0 / std::pow(prior.parameters.at(1), 2.0));
+		lambda_theta -= (1.0 / std::pow(prior.param1(), 2.0));
 	}
 	return lambda_theta;
 }

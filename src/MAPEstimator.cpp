@@ -46,13 +46,13 @@ double MAPEstimator::estimateTheta(Prior prior, size_t question, int answer)
 }
 
 double MAPEstimator::estimateSE(Prior prior) {
-  double var = 1.0 / (fisherTestInfo(prior) + (1 / std::pow(prior.parameters.at(1), 2)));
+  double var = 1.0 / (fisherTestInfo(prior) + (1 / std::pow(prior.param1(), 2)));
   return std::pow(var, 0.5);
 }
 
 double MAPEstimator::estimateSE(Prior prior, size_t question, int answer)
 {
-	double var = 1.0 / (fisherTestInfo(prior,question,answer) + (1 / std::pow(prior.parameters.at(1), 2)));
+	double var = 1.0 / (fisherTestInfo(prior,question,answer) + (1 / std::pow(prior.param1(), 2)));
   	return std::pow(var, 0.5);
 }
 
