@@ -161,6 +161,7 @@ double Estimator::prob_gpcm_at(double theta, size_t question, size_t at)
 	return result/denominator;
 }
 
+
 std::vector<double> Estimator::prob_derivs_gpcm_first(double theta, size_t question)
 {
 	double discrimination = questionSet.discrimination.at(question);
@@ -175,35 +176,28 @@ std::vector<double> Estimator::prob_derivs_gpcm_first(double theta, size_t quest
   	double sum = discrimination * theta;
   	double num = exp(sum);
   	double x = discrimination;
+  	double g = num;
+  	double g_prime = num*x;
   	f.push_back(num);
   	f_prime.push_back(num* x);
   	
 	for (auto cat : categoryparams) {
 	  	sum += discrimination * (theta - cat);
-	  	num = exp(sum);
+	  	double num = exp(sum);
 	  	x += discrimination;
+	  	double num_x = num*x;
+	  	g += num;
+	  	g_prime += num_x;
 		f.push_back(num);
-		f_prime.push_back( num * x);
-	}
-
-	double g = 0.0;
-	double g_prime = 0.0;
-	x = 0;
-	for (size_t i = 0; i < f.size(); ++i) {
-	  	x += discrimination;
-	  	g += f.at(i);
-	  	g_prime += f.at(i) * x;
+		f_prime.push_back(num_x);
 	}
 	
-	std::vector<double> derivs;
-	derivs.reserve(f.size());
-
 	double b = g*g;
 	for (size_t i = 0; i < f.size(); ++i)
   	{    
-    	derivs.push_back((g * f_prime.at(i) - f.at(i) * g_prime) / b);
+    	f_prime[i] = (g * f_prime.at(i) - f.at(i) * g_prime) / b;
 	}
-	return derivs;
+	return f_prime;
 }
 
 
@@ -212,56 +206,50 @@ void Estimator::prob_derivs_gpcm(double theta, size_t question, std::vector<doub
   	auto const & categoryparams = questionSet.difficulty.at(question);
  
   	std::vector<double> f;
-  	std::vector<double> f_prime;
-  	std::vector<double> f_primeprime;
 
   	f.reserve(categoryparams.size()+1);
-  	f_prime.reserve(categoryparams.size()+1); 
-  	f_primeprime.reserve(categoryparams.size()+1); 
+  	first.clear();
+  	first.reserve(categoryparams.size()+1); 
+  	second.clear();
+  	second.reserve(categoryparams.size()+1); 
 
   	double sum = discrimination * theta;
   	double num = exp(sum);
   	double x = discrimination;
+  	double g = num;
+  	double g_prime = num*x;
+  	double g_primeprime = g_prime*x;
   	f.push_back(num);
-  	f_prime.push_back(num* x);
-	f_primeprime.push_back( num * x*x);
+  	first.push_back(g_prime);
+	second.push_back(g_primeprime);
   	
 	for (auto cat : categoryparams) {
 	  	sum += discrimination * (theta - cat);
 	  	num = exp(sum);
 	  	x += discrimination;
-		f.push_back(num);
-		f_prime.push_back( num * x);
-		f_primeprime.push_back( num * x*x);
-	}
+	  	double num_x = num*x;
+	  	double num_xx = num_x*x;
 
-	double g = 0.0;
-	double g_prime = 0.0;
-	double g_primeprime = 0.0;
-	x = 0;
-	for (size_t i = 0; i < f.size(); ++i) {
-	  	x += discrimination;
-	  	g += f.at(i);
-	  	g_prime += f.at(i) * x;
-	  	g_primeprime += f.at(i) * x*x;
+	  	g += num;
+	  	g_prime += num_x;
+	  	g_primeprime += num_xx;
+
+		f.push_back(num);
+		first.push_back(num_x);
+		second.push_back(num_xx);
 	}
 	
-	first.clear();
-	first.reserve(f.size());
-	second.clear();
-	second.reserve(f.size());
-
 	double b = g*g;
 	double b2 = b*b;
 	double b_prime = 2.0 * g * g_prime;
 
   	for (size_t i = 0; i < f.size(); ++i)
   	{     		
-  		double a = g * f_prime.at(i) - f.at(i) * g_prime;
-    	first.push_back(a / b);
+  		double a = g * first.at(i) - f.at(i) * g_prime;
+    	first[i] = (a / b);
 
-    	double a_prime = f_primeprime.at(i) * g - g_primeprime * f.at(i);
-    	second.push_back((b * a_prime - a * b_prime) / b2);
+    	double a_prime = second.at(i) * g - g_primeprime * f.at(i);
+    	second[i] = ((b * a_prime - a * b_prime) / b2);
 	}
 }
 
