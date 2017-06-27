@@ -115,9 +115,6 @@ double Estimator::prob_gpcm_at(double theta, size_t question, size_t at)
 {
 	double discrimination = questionSet.discrimination.at(question);
   	auto const & categoryparams = questionSet.difficulty.at(question);
- 
-  	std::vector<double> probabilities;
-  	probabilities.reserve(categoryparams.size()+1); 	
 
   	double sum = discrimination * theta;
   	double denominator = exp(sum);
@@ -161,6 +158,71 @@ double Estimator::prob_gpcm_at(double theta, size_t question, size_t at)
 	return result/denominator;
 }
 
+double Estimator::gpcm_partial_d1LL(double theta, size_t question, int answer) {
+	size_t index = ((size_t)answer) - 1;
+
+	double discrimination = questionSet.discrimination.at(question);
+  	auto const & categoryparams = questionSet.difficulty.at(question);
+ 
+	double f = -1;
+	double f_prime = -1;
+	double sum = discrimination * (theta - 0.0);
+  	double g = exp(sum);
+  	double x = discrimination;
+  	double g_prime = g*x;
+
+  	if(index == 0)
+  	{
+  		f = g;
+  		f_prime = g_prime;
+
+  		for (auto cat : categoryparams)
+  		{
+		  	sum += discrimination * (theta - cat);
+	  		double num = exp(sum);
+	  		x += discrimination;
+	  		double num_x = num*x;
+	  		g += num;
+	  		g_prime += num_x;
+		}
+	}
+	else
+	{
+		index -= 1;
+		for (size_t i = 0; i != index; ++i)
+  		{
+  			sum += discrimination * (theta - categoryparams[i]);
+  			double num = exp(sum);
+	  		x += discrimination;
+	  		double num_x = num*x;
+	  		g += num;
+	  		g_prime += num_x;
+  		}
+
+  		sum += discrimination * (theta - categoryparams[index]);
+  		f = exp(sum);
+  		x += discrimination;
+	  	f_prime = f*x;
+	  	g += f;
+	  	g_prime += f_prime;
+
+		for (size_t i = index+1; i < categoryparams.size(); ++i)
+  		{
+  			sum += discrimination * (theta - categoryparams[i]);
+		  	double num = exp(sum);
+	  		x += discrimination;
+	  		double num_x = num*x;
+	  		g += num;
+	  		g_prime += num_x;
+  		}
+	}
+
+	if(g == 0.0 or std::isinf(g)){
+    	throw std::domain_error("Theta value too extreme for numerical routines.");
+  	}
+
+  	return (g*f_prime - f*g_prime)/(g*f);
+}
 
 std::vector<double> Estimator::prob_derivs_gpcm_first(double theta, size_t question)
 {
@@ -179,7 +241,7 @@ std::vector<double> Estimator::prob_derivs_gpcm_first(double theta, size_t quest
   	double g = num;
   	double g_prime = num*x;
   	f.push_back(num);
-  	f_prime.push_back(num* x);
+  	f_prime.push_back(g_prime);
   	
 	for (auto cat : categoryparams) {
 	  	sum += discrimination * (theta - cat);
@@ -390,9 +452,6 @@ double Estimator::likelihood(double theta, size_t question, int answer){
 	return likelihood;
 }
 
-
-
-
 double Estimator::grm_partial_d2LL(double theta, size_t question) {
 	size_t answer_k = (size_t) questionSet.answers.at(question);
 
@@ -465,27 +524,9 @@ double Estimator::gpcm_partial_d2LL(double theta, size_t question, int answer) {
 
 double Estimator::gpcm_partial_d1LL(double theta, size_t question) {
 
-	size_t index = ((size_t)questionSet.answers.at(question)) - 1;
-	
-	auto probs_1d = prob_derivs_gpcm_first(theta, question);
-	
-	double p = prob_gpcm_at(theta, question, index);
-	double p_prime = probs_1d.at(index);
-
-  	return p_prime / p;
+  	return gpcm_partial_d1LL(theta, question, questionSet.answers.at(question));
 }
 
-double Estimator::gpcm_partial_d1LL(double theta, size_t question, int answer) {
-
-	size_t index = ((size_t)answer) - 1;
-	
-	auto probs_1d = prob_derivs_gpcm_first(theta, question);
-	
-	double p = prob_gpcm_at(theta, question, index);
-	double p_prime = probs_1d.at(index);
-
-  	return p_prime / p;
-}
 
 double Estimator::gpcm_d2LL(double theta) {
   double d2l = 0.0;
