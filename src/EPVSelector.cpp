@@ -13,15 +13,27 @@ struct EPV_ltm_tpm : public mpl::FunctionCaller<Prior>
 	}
 };
 
-struct EPV_grm_gpcm: public mpl::FunctionCaller<Prior>
+struct EPV_grm: public mpl::FunctionCaller<Prior>
 {
 	using Base = mpl::FunctionCaller<Prior>;
 
-	EPV_grm_gpcm(Estimator& e, Prior& p):Base{e,p}{}
+	EPV_grm(Estimator& e, Prior& p):Base{e,p}{}
 
 	double operator()(int question)
 	{
-		return estimator.expectedPV_grm_gpcm(question, arg);
+		return estimator.expectedPV_grm(question, arg);
+	}
+};
+
+struct EPV_gpcm: public mpl::FunctionCaller<Prior>
+{
+	using Base = mpl::FunctionCaller<Prior>;
+
+	EPV_gpcm(Estimator& e, Prior& p):Base{e,p}{}
+
+	double operator()(int question)
+	{
+		return estimator.expectedPV_gpcm(question, arg);
 	}
 };
 
@@ -54,9 +66,14 @@ Selection EPVSelector::selectItem() {
 		mpl::ParallelHelper<EPV_ltm_tpm> helper(selection.questions, selection.values, estimator, prior);
   		RcppParallel::parallelFor(0, selection.questions.size(), helper);
 	}
+	else if (questionSet.model == "grm")
+	{
+		mpl::ParallelHelper<EPV_grm> helper(selection.questions, selection.values, estimator, prior);
+  		RcppParallel::parallelFor(0, selection.questions.size(), helper);
+	}
 	else
 	{
-		mpl::ParallelHelper<EPV_grm_gpcm> helper(selection.questions, selection.values, estimator, prior);
+		mpl::ParallelHelper<EPV_gpcm> helper(selection.questions, selection.values, estimator, prior);
   		RcppParallel::parallelFor(0, selection.questions.size(), helper);
 	}
 

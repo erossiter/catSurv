@@ -930,29 +930,31 @@ double Estimator::expectedPV_ltm_tpm(int item, Prior &prior)
 	return (prob_incorrect * variance_correct) + ((1.0 - prob_incorrect) * variance_incorrect);
 }
 
-double Estimator::expectedPV_grm_gpcm(int item, Prior &prior)
+double Estimator::expectedPV_grm(int item, Prior &prior)
 {
 	//polytomous_posterior_variance
-	
-   
+	   
 	double sum = 0;
-	if (questionSet.model == "grm") {
-		auto probabilities = prob_grm(estimateTheta(prior), (size_t) item);
-	  	for (size_t i = 1; i < probabilities.size(); ++i) {
-	  		double var = std::pow(estimateSE(prior,item,(int)i), 2.0);
-	    	sum += var * (probabilities.at(i) - probabilities.at(i-1));
-	    }
-	}
-	else if (questionSet.model == "gpcm"){
-		auto probabilities = prob_gpcm(estimateTheta(prior), (size_t) item);
-	  	for (size_t i = 0; i < probabilities.size(); ++i) {
-	  		double var = std::pow(estimateSE(prior,item,(int) i + 1), 2.0);
-	    	sum += var * probabilities.at(i);
-	    }
-	}
+	auto probabilities = prob_grm(estimateTheta(prior), (size_t) item);
+  	for (size_t i = 1; i < probabilities.size(); ++i) {
+  		double var = std::pow(estimateSE(prior,item,(int)i), 2.0);
+    	sum += var * (probabilities.at(i) - probabilities.at(i-1));
+    }
 	
 	return sum;
+}
 
+double Estimator::expectedPV_gpcm(int item, Prior &prior)
+{
+	//polytomous_posterior_variance
+	double sum = 0;
+	auto probabilities = prob_gpcm(estimateTheta(prior), (size_t) item);
+  	for (size_t i = 0; i < probabilities.size(); ++i) {
+  		double var = std::pow(estimateSE(prior,item,(int) i + 1), 2.0);
+    	sum += var * probabilities.at(i);
+    }
+	
+	return sum;
 }
 
 double Estimator::obsInf(double theta, int item) {

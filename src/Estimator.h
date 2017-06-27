@@ -39,7 +39,8 @@ public:
 
 	virtual double expectedPV(int item, Prior &prior);
 	virtual double expectedPV_ltm_tpm(int item, Prior &prior);
-	virtual double expectedPV_grm_gpcm(int item, Prior &prior);
+	virtual double expectedPV_grm(int item, Prior &prior);
+	virtual double expectedPV_gpcm(int item, Prior &prior);
 
 	double expectedObsInf(int item, Prior &prior);
 	double expectedObsInf_grm(int item, Prior &prior);
