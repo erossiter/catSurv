@@ -99,9 +99,9 @@ private:
 	 */
 	constexpr static double integrationSubintervals = 10;
   
-  std::vector<double> prob_ltm(double theta, size_t question);
-  std::vector<double> prob_grm(double theta, size_t question);
-  std::vector<double> prob_gpcm(double theta, size_t question);
+    double prob_ltm(double theta, size_t question);
+  	std::vector<double> prob_grm(double theta, size_t question);
+  	std::vector<double> prob_gpcm(double theta, size_t question);
   
   double likelihood_ltm(double theta);
 	double likelihood_grm(double theta);
