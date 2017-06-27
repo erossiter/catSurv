@@ -7,21 +7,28 @@
 #include <gsl/gsl_roots.h>
 #include <gsl/gsl_errno.h>
 
-
   
 double Estimator::prob_ltm(double theta, size_t question) {
-  double eps = std::pow(2.0, -52.0);
-  eps = std::pow(eps, 1.0/3.0);
+	double eps = std::pow(2.0, -52.0);
+	eps = std::pow(eps, 1.0/3.0);
+
+	double difficulty = questionSet.difficulty.at(question).at(0);
+	double exp_prob_bi = exp(difficulty + (questionSet.discrimination.at(question) * theta));
+
+	if(std::isinf(exp_prob_bi))
+	{
+		return 1.0 - eps;
+	}
+
+	double guess = questionSet.guessing.at(question);
+    double result = guess + (1 - guess) * (exp_prob_bi / (1 + exp_prob_bi));
   
-  double guess = questionSet.guessing.at(question);
-  double difficulty = questionSet.difficulty.at(question).at(0);
-  double exp_prob_bi = exp(difficulty + (questionSet.discrimination.at(question) * theta));
-  double result = guess + (1 - guess) * (exp_prob_bi / (1 + exp_prob_bi));
-  
-  	if(std::isinf(exp_prob_bi) || result > (1.0 - eps)){
+  	if(result > (1.0 - eps))
+  	{
 	  result = 1.0 - eps;
 	}
-	else if(result < eps){
+	else if(result < eps)
+	{
 	  result = eps;
 	}
 
