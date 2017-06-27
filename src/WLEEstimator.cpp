@@ -69,14 +69,15 @@ double WLEEstimator::gpcm_estimateTheta(Prior prior){
   integrableFunction W = [&](double theta) {
     double B = 0.0;
     double I = 0.0;
+
+    std::vector<double> p;
+    std::vector<double> p_prime;
+    std::vector<double> p_primeprime;
   
     for (auto item : questionSet.applicable_rows) {
       I += fisherInf(theta, item);
       
-      std::vector<double> p = probability(theta, item);
-      std::vector<double> p_prime;
-      std::vector<double> p_primeprime;
-      prob_derivs_gpcm(theta, item, p_prime, p_primeprime);
+      prob_derivs_gpcm(theta, item, p, p_prime, p_primeprime);
       
       for (size_t k = 0; k < p.size(); ++k) {
         B += (p_prime.at(k) * p_primeprime.at(k)) / p.at(k);
@@ -95,13 +96,14 @@ double WLEEstimator::gpcm_estimateTheta(Prior prior, size_t question, int answer
     double B = 0.0;
     double I = 0.0;
   
+    std::vector<double> p;
+    std::vector<double> p_prime;
+    std::vector<double> p_primeprime;
+
     for (auto item : questionSet.applicable_rows) {
       I += fisherInf(theta, item, questionSet.answers.at(item));
       
-      std::vector<double> p = probability(theta, item);
-      std::vector<double> p_prime;
-      std::vector<double> p_primeprime;
-      prob_derivs_gpcm(theta, item, p_prime, p_primeprime);
+      prob_derivs_gpcm(theta, item, p, p_prime, p_primeprime);
       
       for (size_t k = 0; k < p.size(); ++k) {
         B += (p_prime.at(k) * p_primeprime.at(k)) / p.at(k);
@@ -110,10 +112,7 @@ double WLEEstimator::gpcm_estimateTheta(Prior prior, size_t question, int answer
 
     I += fisherInf(theta, question, answer);
     
-    std::vector<double> p = probability(theta, question);
-    std::vector<double> p_prime;
-    std::vector<double> p_primeprime;
-    prob_derivs_gpcm(theta, question, p_prime, p_primeprime);
+    prob_derivs_gpcm(theta, question, p, p_prime, p_primeprime);
     
     for (size_t k = 0; k < p.size(); ++k) {
       B += (p_prime.at(k) * p_primeprime.at(k)) / p.at(k);

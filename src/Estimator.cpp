@@ -347,31 +347,30 @@ std::vector<double> Estimator::prob_derivs_gpcm_first(double theta, size_t quest
 }
 
 
-void Estimator::prob_derivs_gpcm(double theta, size_t question, std::vector<double>& first, std::vector<double>& second){
+void Estimator::prob_derivs_gpcm(double theta, size_t question, std::vector<double>& probs, std::vector<double>& first, std::vector<double>& second){
   	double discrimination = questionSet.discrimination.at(question);
   	auto const & categoryparams = questionSet.difficulty.at(question);
  
-  	std::vector<double> f;
-
-  	f.reserve(categoryparams.size()+1);
+  	probs.clear();
+  	probs.reserve(categoryparams.size()+1);
   	first.clear();
   	first.reserve(categoryparams.size()+1); 
   	second.clear();
   	second.reserve(categoryparams.size()+1); 
 
   	double sum = discrimination * theta;
-  	double num = exp(sum);
   	double x = discrimination;
-  	double g = num;
-  	double g_prime = num*x;
+  	double g = exp(sum);
+  	double g_prime = g*x;
   	double g_primeprime = g_prime*x;
-  	f.push_back(num);
+
+  	probs.push_back(g);
   	first.push_back(g_prime);
 	second.push_back(g_primeprime);
   	
 	for (auto cat : categoryparams) {
 	  	sum += discrimination * (theta - cat);
-	  	num = exp(sum);
+	  	double num = exp(sum);
 	  	x += discrimination;
 	  	double num_x = num*x;
 	  	double num_xx = num_x*x;
@@ -380,7 +379,7 @@ void Estimator::prob_derivs_gpcm(double theta, size_t question, std::vector<doub
 	  	g_prime += num_x;
 	  	g_primeprime += num_xx;
 
-		f.push_back(num);
+		probs.push_back(num);
 		first.push_back(num_x);
 		second.push_back(num_xx);
 	}
@@ -389,13 +388,15 @@ void Estimator::prob_derivs_gpcm(double theta, size_t question, std::vector<doub
 	double b2 = b*b;
 	double b_prime = 2.0 * g * g_prime;
 
-  	for (size_t i = 0; i < f.size(); ++i)
+  	for (size_t i = 0; i < probs.size(); ++i)
   	{     		
-  		double a = g * first.at(i) - f.at(i) * g_prime;
+  		double a = g * first.at(i) - probs.at(i) * g_prime;
     	first[i] = a / b;
 
-    	double a_prime = second.at(i) * g - g_primeprime * f.at(i);
+    	double a_prime = second.at(i) * g - g_primeprime * probs.at(i);
     	second[i] = (b * a_prime - a * b_prime) / b2;
+
+    	probs[i] /= g;
 	}
 }
 
@@ -942,7 +943,7 @@ double Estimator::expectedPV_grm_gpcm(int item, Prior &prior)
 	    	sum += var * (probabilities.at(i) - probabilities.at(i-1));
 	    }
 	}
-	if (questionSet.model == "gpcm"){
+	else if (questionSet.model == "gpcm"){
 		auto probabilities = prob_gpcm(estimateTheta(prior), (size_t) item);
 	  	for (size_t i = 0; i < probabilities.size(); ++i) {
 	  		double var = std::pow(estimateSE(prior,item,(int) i + 1), 2.0);
@@ -997,10 +998,9 @@ double Estimator::fisherInf(double theta, int item) {
 	}
 
 	double output = 0.0;
-	
-	double discrimination_squared = std::pow(questionSet.discrimination.at(item), 2.0);
 
 	if (questionSet.model == "grm") {
+		double discrimination_squared = std::pow(questionSet.discrimination.at(item), 2.0);
 		auto probabilities = prob_grm(theta, (size_t) item);
 	  	for (size_t i = 1; i <= questionSet.difficulty.at(item).size() + 1; ++i) {
 		  double P_star1 = probabilities.at(i);
@@ -1012,13 +1012,13 @@ double Estimator::fisherInf(double theta, int item) {
 	}
 	
 	if (questionSet.model == "gpcm"){
-		auto probabilities = prob_gpcm(theta, (size_t) item);
+		std::vector<double> probs;
 	  	std::vector<double> prob_firstderiv;
 		std::vector<double> prob_secondderiv;
-		prob_derivs_gpcm(theta, item, prob_firstderiv, prob_secondderiv);
+		prob_derivs_gpcm(theta, item, probs, prob_firstderiv, prob_secondderiv);
 
-	  	for (size_t i = 0; i < probabilities.size(); ++i) {
-		  double p = probabilities.at(i);
+	  	for (size_t i = 0; i < probs.size(); ++i) {
+		  double p = probs.at(i);
 		  double p_prime = prob_firstderiv.at(i);
 		  double p_primeprime = prob_secondderiv.at(i);
 		  output += (std::pow(p_prime, 2.0) / p) - p_primeprime;
@@ -1034,9 +1034,9 @@ double Estimator::fisherInf(double theta, int item, int answer) {
 	}
 
 	double output = 0.0;
-	double discrimination_squared = std::pow(questionSet.discrimination.at(item), 2.0);
 
 	if (questionSet.model == "grm") {
+		double discrimination_squared = std::pow(questionSet.discrimination.at(item), 2.0);
 		auto probabilities = prob_grm(theta, (size_t) item);
 	  	for (size_t i = 1; i <= questionSet.difficulty.at(item).size() + 1; ++i) {
 		  double P_star1 = probabilities.at(i);
@@ -1048,13 +1048,13 @@ double Estimator::fisherInf(double theta, int item, int answer) {
 	}
 	
 	if (questionSet.model == "gpcm"){
-		auto probabilities = prob_gpcm(theta, (size_t) item);
+		std::vector<double> probs;
 	  	std::vector<double> prob_firstderiv;
 		std::vector<double> prob_secondderiv;
-		prob_derivs_gpcm(theta, item, prob_firstderiv, prob_secondderiv);
+		prob_derivs_gpcm(theta, item, probs, prob_firstderiv, prob_secondderiv);
 
-	  	for (size_t i = 0; i < probabilities.size(); ++i) {
-		  double p = probabilities.at(i);
+	  	for (size_t i = 0; i < probs.size(); ++i) {
+		  double p = probs.at(i);
 		  double p_prime = prob_firstderiv.at(i);
 		  double p_primeprime = prob_secondderiv.at(i);
 		  output += (std::pow(p_prime, 2.0) / p) - p_primeprime;

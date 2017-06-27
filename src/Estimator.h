@@ -68,7 +68,7 @@ public:
 	double d2LL(double theta, bool use_prior, Prior &prior, size_t question, int answer);
 	
 	//public for WLEEstimator
-	void prob_derivs_gpcm(double theta, size_t question, std::vector<double>& first, std::vector<double>& second);
+	void prob_derivs_gpcm(double theta, size_t question, std::vector<double>& probs, std::vector<double>& first, std::vector<double>& second);
 	std::vector<double> prob_derivs_gpcm_first(double theta, size_t question);
 
 
