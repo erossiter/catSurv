@@ -9,8 +9,7 @@
 
   
 double Estimator::prob_ltm(double theta, size_t question) {
-	double eps = std::pow(2.0, -52.0);
-	eps = std::pow(eps, 1.0/3.0);
+	constexpr static double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
 
 	double difficulty = questionSet.difficulty.at(question).at(0);
 	double exp_prob_bi = exp(difficulty + (questionSet.discrimination.at(question) * theta));
@@ -1003,45 +1002,70 @@ double Estimator::expectedPV_gpcm(int item, Prior &prior)
 }
 
 double Estimator::obsInf(double theta, int item) {
-	double discrimination = questionSet.discrimination.at(item);
-
 	if(questionSet.model == "grm"){
-	  return -std::pow(discrimination, 2.0) * grm_partial_d2LL(theta, item);
+	  return obsInf_grm(theta, item);
+	}	
+	else if(questionSet.model == "gpcm"){
+	  return obsInf_gpcm(theta, item);
 	}
-	
-	if(questionSet.model == "gpcm"){
-	  return -gpcm_partial_d2LL(theta, item);
+	else
+	{
+		return obsInf_ltm(theta, item);
 	}
-
-	double guess = questionSet.guessing.at(item);
-	double P = prob_ltm(theta, item);
-	double Q = 1 - P;
-	double temp = std::pow((P - guess) / (1.0 - guess), 2.0);
-	return std::pow(discrimination, 2.0) * temp * (Q / P);
 }
 
 double Estimator::obsInf(double theta, int item, int answer) {
-	double discrimination = questionSet.discrimination.at(item);
-
 	if(questionSet.model == "grm"){
-	  return -std::pow(discrimination, 2.0) * grm_partial_d2LL(theta, item, answer);
+	  return obsInf_grm(theta, item, answer);
+	}	
+	else if(questionSet.model == "gpcm"){
+	  return obsInf_gpcm(theta, item, answer);
 	}
-	
-	if(questionSet.model == "gpcm"){
-	  return -gpcm_partial_d2LL(theta, item, answer);
+	else
+	{
+		return obsInf_ltm(theta, item, answer);
 	}
+}
 
+double Estimator::obsInf_grm(double theta, int item)
+{	double discrimination = questionSet.discrimination.at(item);
+	return -discrimination*discrimination * grm_partial_d2LL(theta, item);
+}
+double Estimator::obsInf_grm(double theta, int item, int answer)
+{
+	double discrimination = questionSet.discrimination.at(item);
+	return -discrimination*discrimination* grm_partial_d2LL(theta, item, answer);
+}
+
+double Estimator::obsInf_gpcm(double theta, int item)
+{
+	return -gpcm_partial_d2LL(theta, item);
+}
+
+double Estimator::obsInf_gpcm(double theta, int item, int answer)
+{
+	-gpcm_partial_d2LL(theta, item, answer);
+}
+
+double Estimator::obsInf_ltm(double theta, int item)
+{
+	double discrimination = questionSet.discrimination.at(item);
 	double guess = questionSet.guessing.at(item);
 	double P = prob_ltm(theta, item);
 	double Q = 1 - P;
 	double temp = std::pow((P - guess) / (1.0 - guess), 2.0);
-	return std::pow(discrimination, 2.0) * temp * (Q / P);
+	return discrimination*discrimination * temp * (Q / P);
 }
+double Estimator::obsInf_ltm(double theta, int item, int answer)
+{
+	return obsInf_ltm(theta, item);
+}
+
 
 double Estimator::fisherInf(double theta, int item) {
 
-	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
-		return obsInf(theta, item);
+	if ((questionSet.model == "ltm") || (questionSet.model == "tpm")) {
+		return obsInf_ltm(theta, item);
 	}
 
 	double output = 0.0;
@@ -1077,7 +1101,7 @@ double Estimator::fisherInf(double theta, int item) {
 double Estimator::fisherInf(double theta, int item, int answer) {
 
 	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
-		return obsInf(theta, item, answer);
+		return obsInf_ltm(theta, item, answer);
 	}
 
 	double output = 0.0;
@@ -1092,9 +1116,8 @@ double Estimator::fisherInf(double theta, int item, int answer) {
 		  double w2 = P_star2 * (1.0 - P_star2);
 		  output += discrimination_squared * (std::pow(w1 - w2, 2.0) / (P_star1 - P_star2));
 		}
-	}
-	
-	if (questionSet.model == "gpcm"){
+	}	
+	else if (questionSet.model == "gpcm"){
 		std::vector<double> probs;
 	  	std::vector<double> prob_firstderiv;
 		std::vector<double> prob_secondderiv;
@@ -1112,33 +1135,38 @@ double Estimator::fisherInf(double theta, int item, int answer) {
 
 double Estimator::expectedObsInf(int item, Prior &prior) {
 
-	if ((questionSet.model == "grm") | (questionSet.model == "gpcm")){
-		double old_theta = estimateTheta(prior);
+	if (questionSet.model == "grm"){
+		auto probabilities = prob_grm(estimateTheta(prior), (size_t) item);
 	  	
 	  	questionSet.applicable_rows.push_back(item);
-	  
+
 		double sum = 0.0;
-		std::vector<double> obsInfs;
-		for (size_t i = 0; i <= questionSet.difficulty.at(item).size(); ++i){
-			questionSet.answers.at(item) = (int) i + 1;
-			obsInfs.push_back(obsInf(estimateTheta(prior), item));
-		}
+	  	for (size_t i = 1; i < probabilities.size(); ++i) {
+	  		questionSet.answers.at(item) = (int) i;
+			double obsinfo = obsInf_grm(estimateTheta(prior), item);
+	    	sum += obsinfo * (probabilities.at(i) - probabilities.at(i-1));
+     	}
 
 		questionSet.answers.at(item) = NA_INTEGER;
 		questionSet.applicable_rows.pop_back();
 		
-		if (questionSet.model == "grm") {
-			auto probabilities = prob_grm(old_theta, (size_t) item);
-		  	for (size_t i = 1; i < probabilities.size(); ++i) {
-		    	sum += obsInfs.at(i-1) * (probabilities.at(i) - probabilities.at(i-1));
-	     	}
-		}
-		if (questionSet.model == "gpcm"){
-			auto probabilities = prob_gpcm(old_theta, (size_t) item);
-		  	for (size_t i = 0; i < probabilities.size(); ++i) {
-	      		sum += obsInfs.at(i) * probabilities.at(i);
-	    	}
-		}
+		return sum;
+	}
+	else if (questionSet.model == "gpcm"){
+		auto probabilities = prob_gpcm(estimateTheta(prior), (size_t) item);
+
+	  	questionSet.applicable_rows.push_back(item);
+	  
+		double sum = 0.0;
+	  	for (size_t i = 0; i < probabilities.size(); ++i) {
+	  		questionSet.answers.at(item) = (int) i + 1;
+			double obsinfo = obsInf_gpcm(estimateTheta(prior), item);
+      		sum += obsinfo * probabilities.at(i);
+    	}
+
+		questionSet.answers.at(item) = NA_INTEGER;
+		questionSet.applicable_rows.pop_back();
+				
 		return sum;
 	}
 
@@ -1146,9 +1174,9 @@ double Estimator::expectedObsInf(int item, Prior &prior) {
 	questionSet.applicable_rows.push_back(item);
 	
 	questionSet.answers.at(item) = 0;
-	double obsInfZero = obsInf(estimateTheta(prior), item);
+	double obsInfZero = obsInf_ltm(estimateTheta(prior), item);
 	questionSet.answers.at(item) = 1;
-	double obsInfOne = obsInf(estimateTheta(prior), item);
+	double obsInfOne = obsInf_ltm(estimateTheta(prior), item);
 	
 	questionSet.applicable_rows.pop_back();
 	questionSet.answers.at(item) = NA_INTEGER;
@@ -1162,7 +1190,7 @@ double Estimator::expectedObsInf_grm(int item, Prior &prior)
 	double sum = 0.0;
 
 	for(size_t i = 1; i < probabilities.size(); ++i){
-	    sum += obsInf(estimateTheta(prior,item,(int)i), item, (int)i) * (probabilities.at(i) - probabilities.at(i-1));
+	    sum += obsInf_grm(estimateTheta(prior,item,(int)i), item, (int)i) * (probabilities.at(i) - probabilities.at(i-1));
     }
 
 	return sum;
@@ -1174,7 +1202,7 @@ double Estimator::expectedObsInf_gpcm(int item, Prior &prior)
 	double sum = 0.0;
 	
 	for (size_t i = 0; i < probabilities.size(); ++i) {
-	      sum += obsInf(estimateTheta(prior,item,(int) i + 1), item, (int) i + 1) * probabilities.at(i);
+	      sum += obsInf_gpcm(estimateTheta(prior,item,(int) i + 1), item, (int) i + 1) * probabilities.at(i);
 	}
 
 	return sum;
@@ -1183,8 +1211,8 @@ double Estimator::expectedObsInf_gpcm(int item, Prior &prior)
 double Estimator::expectedObsInf_rest(int item, Prior &prior)
 {
 	double prob_one = prob_ltm(estimateTheta(prior), (size_t) item);
-	double obsInfZero = obsInf(estimateTheta(prior, item, 0), item, 0);
-	double obsInfOne = obsInf(estimateTheta(prior, item, 1), item, 1);
+	double obsInfZero = obsInf_ltm(estimateTheta(prior, item, 0), item, 0);
+	double obsInfOne = obsInf_ltm(estimateTheta(prior, item, 1), item, 1);
 	return (prob_one * obsInfOne) + ((1 - prob_one) * obsInfZero);
 }
 
@@ -1316,7 +1344,7 @@ double Estimator::kl(double theta_not, int item, double theta){
 	  	}
   	}
   
-  	if((questionSet.model == "ltm") | (questionSet.model == "tpm")){
+  	if((questionSet.model == "ltm") || (questionSet.model == "tpm")){
     	const double prob_theta_not = prob_ltm(theta_not, (size_t) item);
     	const double prob_theta_hat = prob_ltm(theta, (size_t) item);
 

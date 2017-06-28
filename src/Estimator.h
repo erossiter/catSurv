@@ -33,6 +33,12 @@ public:
 
 	double obsInf(double theta, int item);
 	double obsInf(double theta, int item, int answer);
+	double obsInf_grm(double theta, int item);
+	double obsInf_grm(double theta, int item, int answer);
+	double obsInf_gpcm(double theta, int item);
+	double obsInf_gpcm(double theta, int item, int answer);
+	double obsInf_ltm(double theta, int item);
+	double obsInf_ltm(double theta, int item, int answer);
 
 	double fisherInf(double theta, int item);
 	double fisherInf(double theta, int item, int answer);
