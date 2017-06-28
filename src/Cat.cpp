@@ -176,11 +176,12 @@ NumericVector Cat::estimateThetas(DataFrame& responses)
 
   size_t nrow = responses.nrow();
   NumericVector thetas;
+  thetas = static_cast<NumericVector>(no_init(nrow));
 
   for(size_t row = 0; row != nrow; ++row)
   {
     questionSet.reset_answers(responses, row);
-    thetas.push_back(estimateTheta());
+    thetas[row] = estimateTheta();
   }
 
   return thetas;
