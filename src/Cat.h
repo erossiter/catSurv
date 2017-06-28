@@ -55,6 +55,8 @@ public:
 	
 	double fisherTestInfo();
 
+	NumericVector estimateThetas(DataFrame& responses);
+
 private:
 
 	QuestionSet questionSet;

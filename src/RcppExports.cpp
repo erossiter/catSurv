@@ -82,6 +82,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// estimateThetas
+NumericVector estimateThetas(S4 catObj, DataFrame responses);
+RcppExport SEXP catSurv_estimateThetas(SEXP catObjSEXP, SEXP responsesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< S4 >::type catObj(catObjSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type responses(responsesSEXP);
+    rcpp_result_gen = Rcpp::wrap(estimateThetas(catObj, responses));
+    return rcpp_result_gen;
+END_RCPP
+}
 // obsInf
 double obsInf(S4 catObj, double theta, int item);
 RcppExport SEXP catSurv_obsInf(SEXP catObjSEXP, SEXP thetaSEXP, SEXP itemSEXP) {

@@ -396,6 +396,12 @@ double estimateTheta(S4 catObj) {
 	return Cat(catObj).estimateTheta();
 }
 
+//' @export
+// [[Rcpp::export]]
+NumericVector estimateThetas(S4 catObj, DataFrame responses){
+	return Cat(catObj).estimateThetas(responses);
+}
+
 
 //' Observed Information
 //'

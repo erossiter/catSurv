@@ -167,7 +167,24 @@ List Cat::lookAhead(int item) {
 	return Rcpp::List::create(Named("estimates") = all_estimates);
 }
 
+NumericVector Cat::estimateThetas(DataFrame& responses)
+{
+  if(responses.ncol() != questionSet.question_names.size())
+  {
+    throw std::domain_error("number of questions doesnt match with catObj");
+  }
 
+  size_t nrow = responses.nrow();
+  NumericVector thetas;
+
+  for(size_t row = 0; row != nrow; ++row)
+  {
+    questionSet.reset_answers(responses, row);
+    thetas.push_back(estimateTheta());
+  }
+
+  return thetas;
+}
 
 
 double Cat::d1LL(double theta, bool use_prior) {
