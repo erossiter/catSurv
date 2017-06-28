@@ -1044,7 +1044,7 @@ double Estimator::obsInf_gpcm(double theta, int item)
 
 double Estimator::obsInf_gpcm(double theta, int item, int answer)
 {
-	-gpcm_partial_d2LL(theta, item, answer);
+	return -gpcm_partial_d2LL(theta, item, answer);
 }
 
 double Estimator::obsInf_ltm(double theta, int item)
@@ -1081,8 +1081,7 @@ double Estimator::fisherInf(double theta, int item) {
 		  output += discrimination_squared * (std::pow(w1 - w2, 2.0) / (P_star1 - P_star2));
 		}
 	}
-	
-	if (questionSet.model == "gpcm"){
+	else if (questionSet.model == "gpcm"){
 		std::vector<double> probs;
 	  	std::vector<double> prob_firstderiv;
 		std::vector<double> prob_secondderiv;
@@ -1135,6 +1134,7 @@ double Estimator::fisherInf(double theta, int item, int answer) {
 
 double Estimator::expectedObsInf(int item, Prior &prior) {
 
+	
 	if (questionSet.model == "grm"){
 		auto probabilities = prob_grm(estimateTheta(prior), (size_t) item);
 	  	
