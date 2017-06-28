@@ -35,27 +35,41 @@ double Estimator::prob_ltm(double theta, size_t question) {
 	return result;
 }
 
-std::vector<double> Estimator::prob_grm(double theta, size_t question) {
-  	double eps = std::pow(2.0, -52.0);
-  	eps = std::pow(eps, 1.0/3.0);
+struct GrmProb
+{
+	GrmProb(double theta, double discrimination)
+	: theta_desc(theta*discrimination)
+	{}
 
-  	double discrimination = questionSet.discrimination.at(question);
+	double operator()(double difficulty) const
+	{
+		double exp_prob = exp(difficulty - theta_desc);
 
-	auto calculate = [&](double difficulty) {
-		double exp_prob = exp(difficulty - (discrimination * theta));
+		if(std::isinf(exp_prob))
+		{
+		 	return 1.0 - eps;
+		}
+
 		double result = exp_prob / (1 + exp_prob);
-
-		if(std::isinf(exp_prob)){
-		 result = 1.0 - eps;
+		
+		if(result > (1.0 - eps))
+		{
+		  	result = 1.0 - eps;
 		}
-		if(result > (1.0 - eps)){
-		  result = 1.0 - eps;
-		}
-		if(result < eps){
-		  result = eps;
+		else if(result < eps)
+		{
+		  	result = eps;
 		}
 		return result;
-	};
+	}
+
+private:
+	constexpr static double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
+	double theta_desc;
+};
+
+std::vector<double> Estimator::prob_grm(double theta, size_t question) {
+	GrmProb calculate{theta, questionSet.discrimination.at(question)};
 
 	std::vector<double> probabilities;
 	probabilities.reserve(questionSet.difficulty.size()+2);
@@ -74,6 +88,41 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
   	}
 
 	return probabilities;
+}
+
+std::pair<double,double> Estimator::prob_grm_pair(double theta, size_t question, size_t at)
+{
+	// Returns prob at at-1 and at
+	GrmProb calculate{theta, questionSet.discrimination.at(question)};
+	std::pair<double, double> probs;
+
+	auto const& difficulties = questionSet.difficulty.at(question);
+
+	if(at == 1)
+	{
+		probs.first = 0.0;
+	}
+	else
+	{
+		probs.first = calculate(difficulties[at-2]);
+	}
+
+	if(at == difficulties.size()+1)
+	{
+		probs.second = 1.0;
+	}
+	else
+	{
+		probs.second = calculate(difficulties[at-1]);
+	}
+
+	// checking for repeated elements
+  	if(probs.first == probs.second)
+  	{
+    	throw std::domain_error("Theta value too extreme for numerical routines.");
+  	}
+
+	return probs;
 }
 
 std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
@@ -430,8 +479,8 @@ double Estimator::likelihood_grm(double theta) {
 	for (auto question : questionSet.applicable_rows) {
 		size_t unanswered_question = (size_t) question;
 	  	int answer = questionSet.answers.at(unanswered_question);
-    	auto question_cdf = prob_grm(theta, unanswered_question);
-		L += log(question_cdf.at((size_t) answer) - question_cdf.at(((size_t) answer) - 1)) ;
+		auto probs = prob_grm_pair(theta, question, answer);
+		L += log(probs.second- probs.first) ;
 	}
 	return exp(L);
 }
@@ -481,13 +530,12 @@ double Estimator::likelihood_grm(double theta, size_t question, int answer) {
 
 	for (auto q : questionSet.applicable_rows) {
 	  	size_t a = (size_t)questionSet.answers.at((size_t) q);
-    	auto question_cdf = prob_grm(theta, (size_t) q);
-		L += log(question_cdf.at(a) - question_cdf.at(a - 1)) ;
+    	auto probs = prob_grm_pair(theta, q, a);
+		L += log(probs.second - probs.first) ;
 	}
 
-    auto question_cdf = prob_grm(theta, question);
-    auto a = (size_t)answer;
-	L += log(question_cdf.at(a) - question_cdf.at(a - 1)) ;
+    auto probs = prob_grm_pair(theta, question, answer);
+	L += log(probs.second - probs.first) ;
 
 	return exp(L);
 }
@@ -540,10 +588,10 @@ double Estimator::likelihood(double theta, size_t question, int answer){
 double Estimator::grm_partial_d2LL(double theta, size_t question) {
 	size_t answer_k = (size_t) questionSet.answers.at(question);
 
-	auto probabilities = prob_grm(theta, question);
+	double P_star1;
+	double P_star2;
 
-	double P_star1 = probabilities.at(answer_k);
-	double P_star2 = probabilities.at(answer_k - 1);
+	std::tie(P_star2, P_star1) = prob_grm_pair(theta, question, answer_k);
 
 	double P = P_star1 - P_star2;
 
@@ -560,10 +608,10 @@ double Estimator::grm_partial_d2LL(double theta, size_t question) {
 }
 
 double Estimator::grm_partial_d2LL(double theta, size_t question, int answer) {
-	auto probabilities = prob_grm(theta, question);
+	double P_star1;
+	double P_star2;
 
-	double P_star1 = probabilities.at(answer);
-	double P_star2 = probabilities.at(answer - 1);
+	std::tie(P_star2, P_star1) = prob_grm_pair(theta, question, answer);
 
 	double P = P_star1 - P_star2;
 
@@ -702,13 +750,12 @@ double Estimator::gpcm_d1LL(double theta, size_t question, int answer) {
 double Estimator::grm_d1LL(double theta) {
 	double l_theta = 0.0;
 	for (auto question : questionSet.applicable_rows) {
-		const int answer_k = questionSet.answers.at(question);
+		int answer_k = questionSet.answers.at(question);
 
-		auto probabilities = prob_grm(theta, (size_t) question);
+		double P_star2, P_star1;
+		std::tie(P_star2, P_star1) = prob_grm_pair(theta, question, answer_k);
 
-		double P_star1 = probabilities.at(answer_k);
 		double Q_star1 = 1.0 - P_star1;
-		double P_star2 = probabilities.at(answer_k - 1);
 		double Q_star2 = 1 - P_star2;
 		double P = P_star1 - P_star2;
 		double w2 = P_star2 * Q_star2;
@@ -723,18 +770,16 @@ double Estimator::grm_d1LL(double theta, size_t question, int answer) {
 	double l_theta = 0.0;
 	for (auto q : questionSet.applicable_rows) {
 		int answer_k = questionSet.answers.at(q);
-		auto probabilities = prob_grm(theta, (size_t) q);
-		double P_star1 = probabilities.at(answer_k);
-		double P_star2 = probabilities.at(answer_k - 1);
+		double P_star2, P_star1;
+		std::tie(P_star2, P_star1) = prob_grm_pair(theta, q, answer_k);
 		double P = P_star1 - P_star2;
 		double w = P_star1 * (1.0 - P_star1) - P_star2 * (1 - P_star2);
 
 		l_theta += (-1*questionSet.discrimination.at(q) * (w/ P));
 	}
 
-	auto probabilities = prob_grm(theta, question);
-	double P_star1 = probabilities.at(answer);
-	double P_star2 = probabilities.at(answer - 1);
+	double P_star2, P_star1;
+	std::tie(P_star2, P_star1) = prob_grm_pair(theta, question, answer);
 	double P = P_star1 - P_star2;
 	double w = P_star1 * (1.0 - P_star1) - P_star2 * (1 - P_star2);
 

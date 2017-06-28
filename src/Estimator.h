@@ -102,6 +102,7 @@ private:
   
     double prob_ltm(double theta, size_t question);
   	std::vector<double> prob_grm(double theta, size_t question);
+  	std::pair<double,double> prob_grm_pair(double theta, size_t question, size_t at);
   	std::vector<double> prob_gpcm(double theta, size_t question);
   	double prob_gpcm_at(double theta, size_t question, size_t at);
   
