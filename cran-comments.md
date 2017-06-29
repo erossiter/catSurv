@@ -1,5 +1,5 @@
 ## Release Summary
-* This patch release streamlines code to reduce run time significantly and adds a new function to the pacakge.
+* This patch release streamlines code to reduce run time significantly and adds a new function to the package.
 
 ## Test environments
 * local OS X install, R 3.4.0
