@@ -9,7 +9,7 @@
 
   
 double Estimator::prob_ltm(double theta, size_t question) {
-	constexpr static double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
+	double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
 
 	double difficulty = questionSet.difficulty.at(question).at(0);
 	double exp_prob_bi = exp(difficulty + (questionSet.discrimination.at(question) * theta));
@@ -63,7 +63,7 @@ struct GrmProb
 	}
 
 private:
-	constexpr static double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
+	double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
 	double theta_desc;
 };
 
