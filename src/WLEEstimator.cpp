@@ -15,7 +15,7 @@ double WLEEstimator::ltm_estimateTheta(Prior prior){
       double dP = b * (1 - c) * (exp_part / std::pow((1.0 + exp_part), 2.0));
       double d2P = std::pow(b, 2.0) * exp_part * (1 - exp_part) * ((1 - c) / std::pow((1.0 + exp_part), 3.0));
 
-      double P = probability(theta, item).at(0);
+      double P = prob_ltm(theta, item);
       B += (dP * d2P) / (P * (1.0 - P));
       I += fisherInf(theta, item);
     }
@@ -40,7 +40,7 @@ double WLEEstimator::ltm_estimateTheta(Prior prior, size_t question, int answer)
       double dP = b * (1 - c) * (exp_part / std::pow((1.0 + exp_part), 2.0));
       double d2P = std::pow(b, 2.0) * exp_part * (1 - exp_part) * ((1 - c) / std::pow((1.0 + exp_part), 3.0));
 
-      double P = probability(theta, item).at(0);
+      double P = prob_ltm(theta, item);
       B += (dP * d2P) / (P * (1.0 - P));
       I += fisherInf(theta, item, questionSet.answers.at(item));
     }
@@ -53,7 +53,7 @@ double WLEEstimator::ltm_estimateTheta(Prior prior, size_t question, int answer)
     double dP = b * (1 - c) * (exp_part / std::pow((1.0 + exp_part), 2.0));
     double d2P = std::pow(b, 2.0) * exp_part * (1 - exp_part) * ((1 - c) / std::pow((1.0 + exp_part), 3.0));
 
-    double P = probability(theta, question).at(0);
+    double P = prob_ltm(theta, question);
     B += (dP * d2P) / (P * (1.0 - P));
     I += fisherInf(theta, question, answer);
 
@@ -69,13 +69,15 @@ double WLEEstimator::gpcm_estimateTheta(Prior prior){
   integrableFunction W = [&](double theta) {
     double B = 0.0;
     double I = 0.0;
+
+    std::vector<double> p;
+    std::vector<double> p_prime;
+    std::vector<double> p_primeprime;
   
     for (auto item : questionSet.applicable_rows) {
       I += fisherInf(theta, item);
       
-      std::vector<double> p = probability(theta, item);
-      std::vector<double> p_prime = prob_derivs_gpcm(theta, item, true);
-      std::vector<double> p_primeprime = prob_derivs_gpcm(theta, item, false);
+      prob_derivs_gpcm(theta, item, p, p_prime, p_primeprime);
       
       for (size_t k = 0; k < p.size(); ++k) {
         B += (p_prime.at(k) * p_primeprime.at(k)) / p.at(k);
@@ -94,12 +96,14 @@ double WLEEstimator::gpcm_estimateTheta(Prior prior, size_t question, int answer
     double B = 0.0;
     double I = 0.0;
   
+    std::vector<double> p;
+    std::vector<double> p_prime;
+    std::vector<double> p_primeprime;
+
     for (auto item : questionSet.applicable_rows) {
       I += fisherInf(theta, item, questionSet.answers.at(item));
       
-      std::vector<double> p = probability(theta, item);
-      std::vector<double> p_prime = prob_derivs_gpcm(theta, item, true);
-      std::vector<double> p_primeprime = prob_derivs_gpcm(theta, item, false);
+      prob_derivs_gpcm(theta, item, p, p_prime, p_primeprime);
       
       for (size_t k = 0; k < p.size(); ++k) {
         B += (p_prime.at(k) * p_primeprime.at(k)) / p.at(k);
@@ -108,9 +112,7 @@ double WLEEstimator::gpcm_estimateTheta(Prior prior, size_t question, int answer
 
     I += fisherInf(theta, question, answer);
     
-    std::vector<double> p = probability(theta, question);
-    std::vector<double> p_prime = prob_derivs_gpcm(theta, question, true);
-    std::vector<double> p_primeprime = prob_derivs_gpcm(theta, question, false);
+    prob_derivs_gpcm(theta, question, p, p_prime, p_primeprime);
     
     for (size_t k = 0; k < p.size(); ++k) {
       B += (p_prime.at(k) * p_primeprime.at(k)) / p.at(k);
@@ -134,7 +136,7 @@ double WLEEstimator::grm_estimateTheta(Prior prior){
       I += fisherInf(theta, item);
       
       double beta = questionSet.discrimination.at(item);
-      std::vector<double> P_stars = probability(theta, item);
+      std::vector<double> P_stars = prob_grm(theta, item);
       
       std::vector<double> P;
       for (size_t i = 1; i < P_stars.size(); ++i) {
@@ -194,7 +196,7 @@ double WLEEstimator::grm_estimateTheta(Prior prior, size_t question, int answer)
       I += fisherInf(theta, item, questionSet.answers.at(item));
       
       double beta = questionSet.discrimination.at(item);
-      std::vector<double> P_stars = probability(theta, item);
+      std::vector<double> P_stars = prob_grm(theta, item);
 
       P_star_prime.clear();
       P_star_prime.reserve(P_stars.size());
@@ -223,7 +225,7 @@ double WLEEstimator::grm_estimateTheta(Prior prior, size_t question, int answer)
     I += fisherInf(theta, question, answer);
     
     double beta = questionSet.discrimination.at(question);
-    std::vector<double> P_stars = probability(theta, question);
+    std::vector<double> P_stars = prob_grm(theta, question);
 
     P_star_prime.clear();
     P_star_prime.reserve(P_stars.size());

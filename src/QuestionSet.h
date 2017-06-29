@@ -33,4 +33,10 @@ struct QuestionSet {
 	double upperBound;
 
 	QuestionSet(Rcpp::S4 &cat_df);
+
+	void reset_answers(Rcpp::DataFrame& responses, size_t row);
+	void reset_answer(size_t question, int answer);
+private:
+	void reset_all_extreme();
+	void reset_applicables();
 };

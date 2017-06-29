@@ -7,151 +7,445 @@
 #include <gsl/gsl_roots.h>
 #include <gsl/gsl_errno.h>
 
+  
+double Estimator::prob_ltm(double theta, size_t question) {
+	double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
 
+	double difficulty = questionSet.difficulty.at(question).at(0);
+	double exp_prob_bi = exp(difficulty + (questionSet.discrimination.at(question) * theta));
+
+	if(std::isinf(exp_prob_bi))
+	{
+		return 1.0 - eps;
+	}
+
+	double guess = questionSet.guessing.at(question);
+    double result = guess + (1 - guess) * (exp_prob_bi / (1 + exp_prob_bi));
   
-std::vector<double> Estimator::prob_ltm(double theta, size_t question) {
-  double eps = std::pow(2.0, -52.0);
-  eps = std::pow(eps, 1.0/3.0);
-  
-  double guess = questionSet.guessing.at(question);
-  double difficulty = questionSet.difficulty.at(question).at(0);
-  double exp_prob_bi = exp(difficulty + (questionSet.discrimination.at(question) * theta));
-  double result = guess + (1 - guess) * (exp_prob_bi / (1 + exp_prob_bi));
-  
-  if(std::isinf(exp_prob_bi)){
+  	if(result > (1.0 - eps))
+  	{
 	  result = 1.0 - eps;
 	}
-	if(result > (1.0 - eps)){
-	  result = 1.0 - eps;
-	}
-	if(result < eps){
+	else if(result < eps)
+	{
 	  result = eps;
 	}
 
-	std::vector<double> probabilities;
-	probabilities.push_back(result);
-
-	return probabilities;
+	return result;
 }
 
-std::vector<double> Estimator::prob_grm(double theta, size_t question) {
-  double eps = std::pow(2.0, -52.0);
-  eps = std::pow(eps, 1.0/3.0);
+struct GrmProb
+{
+	GrmProb(double theta, double discrimination)
+	: theta_desc(theta*discrimination)
+	{}
 
-	auto calculate = [&](double difficulty) {
-		double exp_prob = exp(difficulty - (questionSet.discrimination.at(question) * theta));
+	double operator()(double difficulty) const
+	{
+		double exp_prob = exp(difficulty - theta_desc);
+
+		if(std::isinf(exp_prob))
+		{
+		 	return 1.0 - eps;
+		}
+
 		double result = exp_prob / (1 + exp_prob);
-
-		if(std::isinf(exp_prob)){
-		 result = 1.0 - eps;
+		
+		if(result > (1.0 - eps))
+		{
+		  	result = 1.0 - eps;
 		}
-		if(result > (1.0 - eps)){
-		  result = 1.0 - eps;
-		}
-		if(result < eps){
-		  result = eps;
+		else if(result < eps)
+		{
+		  	result = eps;
 		}
 		return result;
-	};
+	}
+
+private:
+	double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
+	double theta_desc;
+};
+
+std::vector<double> Estimator::prob_grm(double theta, size_t question) {
+	GrmProb calculate{theta, questionSet.discrimination.at(question)};
 
 	std::vector<double> probabilities;
+	probabilities.reserve(questionSet.difficulty.size()+2);
+	probabilities.push_back(0.0);
+
 	for (auto term : questionSet.difficulty.at(question)) {
 		probabilities.push_back(calculate(term));
 	}
-	// padding probabilities with 0,1
-	std::vector<double> padded{0.0};
-	padded.insert(padded.end(), probabilities.begin(), probabilities.end());
-	padded.push_back(1.0);
+
+	probabilities.push_back(1.0);
 
 	// checking for repeated elements
-	std::vector<double>::iterator it;
-  it = std::adjacent_find(padded.begin(), padded.end());
-  if(it != padded.end()){
-    throw std::domain_error("Theta value too extreme for numerical routines.");
-  }
+  	auto it = std::adjacent_find(probabilities.begin(), probabilities.end());
+  	if(it != probabilities.end()){
+    	throw std::domain_error("Theta value too extreme for numerical routines.");
+  	}
 
-	return padded;
+	return probabilities;
+}
+
+std::pair<double,double> Estimator::prob_grm_pair(double theta, size_t question, size_t at)
+{
+	// Returns prob at at-1 and at
+	GrmProb calculate{theta, questionSet.discrimination.at(question)};
+	std::pair<double, double> probs;
+
+	auto const& difficulties = questionSet.difficulty.at(question);
+
+	if(at == 1)
+	{
+		probs.first = 0.0;
+	}
+	else
+	{
+		probs.first = calculate(difficulties[at-2]);
+	}
+
+	if(at == difficulties.size()+1)
+	{
+		probs.second = 1.0;
+	}
+	else
+	{
+		probs.second = calculate(difficulties[at-1]);
+	}
+
+	// checking for repeated elements
+  	if(probs.first == probs.second)
+  	{
+    	throw std::domain_error("Theta value too extreme for numerical routines.");
+  	}
+
+	return probs;
 }
 
 std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
-  // double xmax = pow(2, 52);
-  // double eps = pow(2, -52);
-  // eps = pow(eps, 1.0/3.0);
+  	// double xmax = pow(2, 52);
+  	// double eps = pow(2, -52);
+  	// eps = pow(eps, 1.0/3.0);
     
-  double discrimination = questionSet.discrimination.at(question);
-  std::vector<double> categoryparams = questionSet.difficulty.at(question);
-  std::vector<double>::iterator it;
-  it = categoryparams.begin();
-  it = categoryparams.insert(it, 0.0);
-  
-  std::vector<double> numerators;
-  double sum = 0.0;
-	for (size_t i = 0; i < categoryparams.size(); ++i) {
-	  sum += discrimination * (theta - categoryparams.at(i));
-	  double num = exp(sum);
-		numerators.push_back(num);
-	}
+  	double discrimination = questionSet.discrimination.at(question);
+  	auto const & categoryparams = questionSet.difficulty.at(question);
+ 
+  	std::vector<double> probabilities;
+  	probabilities.reserve(categoryparams.size()+1); 	
 
-	double denominator = std::accumulate(numerators.begin(), numerators.end(), 0.0);
+  	double sum = discrimination * theta;
+  	double denominator = exp(sum);
+  	probabilities.push_back(denominator);
+
+	for (auto cat : categoryparams) {
+	  	sum += discrimination * (theta - cat);
+	  	double num = exp(sum);
+	  	denominator += num;
+		probabilities.push_back(num);
+	}
 	
 	if(denominator == 0.0 or std::isinf(denominator)){
-    throw std::domain_error("Theta value too extreme for numerical routines.");
-  }
+    	throw std::domain_error("Theta value too extreme for numerical routines.");
+  	}
 
-	std::vector<double> probabilities;
-  for (size_t i = 0; i < numerators.size(); ++i) {
-    probabilities.push_back(numerators.at(i)/denominator);
+  	// normalize
+  	for (auto& prob:probabilities)
+  	{
+  		prob /= denominator;
 	}
   
 	return probabilities;
 }
 
-std::vector<double> Estimator::prob_derivs_gpcm(double theta, size_t question, bool first) {
-  double discrimination = questionSet.discrimination.at(question);
-  
-  std::vector<double> categoryparams = questionSet.difficulty.at(question);
-  std::vector<double>::iterator it;
-  it = categoryparams.begin();
-  it = categoryparams.insert(it, 0.0);
-  
-  std::vector<double> f;
-  std::vector<double> f_prime;
-  std::vector<double> f_primeprime;
-  double sum = 0.0;
-	for (size_t i = 0; i < categoryparams.size(); ++i) {
-	  sum += discrimination * (theta - categoryparams.at(i));
-		f.push_back( exp(sum) );
-		f_prime.push_back( exp(sum) * discrimination * (i+1) );
-		double x = discrimination * (i+1.0);
-		f_primeprime.push_back( exp(sum) * std::pow(x, 2.0) );
-	}
+double Estimator::prob_gpcm_at(double theta, size_t question, size_t at)
+{
+	double discrimination = questionSet.discrimination.at(question);
+  	auto const & categoryparams = questionSet.difficulty.at(question);
 
-	double g = 0.0;
-	double g_prime = 0.0;
-	double g_primeprime = 0.0;
-	for (size_t i = 0; i < categoryparams.size(); ++i) {
-	  g += f.at(i);
-	  g_prime += f.at(i) * (discrimination * (i+1));
-	  double x = discrimination * (i+1.0);
-	  g_primeprime += f.at(i) * std::pow(x, 2.0);
+  	double sum = discrimination * theta;
+  	double denominator = exp(sum);
+
+  	double result = -1;
+  	if(at == 0)
+  	{
+  		result = denominator;
+
+  		for (auto cat : categoryparams)
+  		{
+		  	sum += discrimination * (theta - cat);
+		  	denominator += exp(sum);
+		}
+	}
+	else
+	{
+		at -= 1;
+		for (size_t i = 0; i != at; ++i)
+  		{
+  			sum += discrimination * (theta - categoryparams[i]);
+		  	denominator += exp(sum);
+  		}
+
+  		sum += discrimination * (theta - categoryparams[at]);
+  		result = exp(sum);
+		denominator += result;
+
+		for (size_t i = at+1; i < categoryparams.size(); ++i)
+  		{
+  			sum += discrimination * (theta - categoryparams[i]);
+		  	denominator += exp(sum);
+  		}
 	}
 	
-	std::vector<double> probabilities;
-	std::vector<double> first_derivs;
-	std::vector<double> second_derivs;
-  for (size_t i = 0; i < f.size(); ++i) {
-    probabilities.push_back(f.at(i)/g);
-    
-    first_derivs.push_back((g * f_prime.at(i) - f.at(i) * g_prime) / std::pow(g, 2.0));
-    
-    double a = g * f_prime.at(i) - f.at(i) * g_prime;
-    double a_prime = f_primeprime.at(i) * g - g_primeprime * f.at(i);
-    double b = std::pow(g, 2.0);
-    double b_prime = 2.0 * g * g_prime;
-    second_derivs.push_back((b * a_prime - a * b_prime) / std::pow(b, 2.0));
+	if(denominator == 0.0 or std::isinf(denominator)){
+    	throw std::domain_error("Theta value too extreme for numerical routines.");
+  	}
+
+  	// normalize 
+	return result/denominator;
+}
+
+double Estimator::gpcm_partial_d1LL(double theta, size_t question, int answer) {
+	size_t index = ((size_t)answer) - 1;
+
+	double discrimination = questionSet.discrimination.at(question);
+  	auto const & categoryparams = questionSet.difficulty.at(question);
+ 
+	double f = -1;
+	double f_prime = -1;
+	double sum = discrimination * (theta - 0.0);
+  	double g = exp(sum);
+  	double x = discrimination;
+  	double g_prime = g*x;
+
+  	if(index == 0)
+  	{
+  		f = g;
+  		f_prime = g_prime;
+
+  		for (auto cat : categoryparams)
+  		{
+		  	sum += discrimination * (theta - cat);
+	  		double num = exp(sum);
+	  		x += discrimination;
+	  		g += num;
+	  		g_prime += num*x;
+		}
+	}
+	else
+	{
+		index -= 1;
+		for (size_t i = 0; i != index; ++i)
+  		{
+  			sum += discrimination * (theta - categoryparams[i]);
+  			double num = exp(sum);
+	  		x += discrimination;
+	  		g += num;
+	  		g_prime += num*x;
+  		}
+
+  		sum += discrimination * (theta - categoryparams[index]);
+  		f = exp(sum);
+  		x += discrimination;
+	  	f_prime = f*x;
+	  	g += f;
+	  	g_prime += f_prime;
+
+		for (size_t i = index+1; i < categoryparams.size(); ++i)
+  		{
+  			sum += discrimination * (theta - categoryparams[i]);
+		  	double num = exp(sum);
+	  		x += discrimination;
+	  		g += num;
+	  		g_prime += num*x;
+  		}
 	}
 
-	return first ? first_derivs : second_derivs;
+	if(g == 0.0 or std::isinf(g)){
+    	throw std::domain_error("Theta value too extreme for numerical routines.");
+  	}
+
+  	return (g*f_prime - f*g_prime)/(g*f);
+}
+
+double Estimator::gpcm_partial_d2LL(double theta, size_t question, int answer) {
+	size_t index = ((size_t)answer) - 1;
+
+	double discrimination = questionSet.discrimination.at(question);
+  	auto const & categoryparams = questionSet.difficulty.at(question);
+ 
+	double f = -1;
+	double f_prime = -1;
+	double f_primeprime = -1;
+	double sum = discrimination * (theta - 0.0);
+  	double g = exp(sum);
+  	double x = discrimination;
+  	double g_prime = g*x;
+  	double g_primeprime = g_prime*x;
+
+
+  	if(index == 0)
+  	{
+  		f = g;
+  		f_prime = g_prime;
+  		f_primeprime = g_primeprime;
+
+  		for (auto cat : categoryparams)
+  		{
+		  	sum += discrimination * (theta - cat);
+	  		double num = exp(sum);
+	  		x += discrimination;
+	  		double num_x = num*x;
+	  		g += num;
+	  		g_prime += num_x;
+	  		g_primeprime += num_x*x;
+		}
+	}
+	else
+	{
+		index -= 1;
+		for (size_t i = 0; i != index; ++i)
+  		{
+  			sum += discrimination * (theta - categoryparams[i]);
+  			double num = exp(sum);
+	  		x += discrimination;
+	  		double num_x = num*x;
+	  		g += num;
+	  		g_prime += num_x;
+	  		g_primeprime += num_x*x;
+  		}
+
+  		sum += discrimination * (theta - categoryparams[index]);
+  		f = exp(sum);
+  		x += discrimination;
+	  	f_prime = f*x;
+	  	f_primeprime = f_prime*x;
+	  	g += f;
+	  	g_prime += f_prime;
+	  	g_primeprime += f_primeprime;
+
+		for (size_t i = index+1; i < categoryparams.size(); ++i)
+  		{
+  			sum += discrimination * (theta - categoryparams[i]);
+		  	double num = exp(sum);
+	  		x += discrimination;
+	  		double num_x = num*x;
+	  		g += num;
+	  		g_prime += num_x;
+	  		g_primeprime += num_x*x;
+  		}
+	}
+
+	if(g == 0.0 or std::isinf(g)){
+    	throw std::domain_error("Theta value too extreme for numerical routines.");
+  	}
+
+	double b = g*g;
+	double b2 = b*b;
+	double b_prime = 2.0 * g * g_prime;
+    		
+	double a = g * f_prime - f * g_prime;
+	f_prime = a / b; // p_prime
+
+	double a_prime = f_primeprime * g - g_primeprime * f;
+	f_primeprime = (b * a_prime - a * b_prime) / b2; // p_primeprime
+
+	f /= g; // p
+	
+  	return - ((f_prime*f_prime/f - f_primeprime) / f);
+}
+
+std::vector<double> Estimator::prob_derivs_gpcm_first(double theta, size_t question)
+{
+	double discrimination = questionSet.discrimination.at(question);
+  	auto const & categoryparams = questionSet.difficulty.at(question);
+ 
+  	std::vector<double> f;
+  	std::vector<double> f_prime;
+
+  	f.reserve(categoryparams.size()+1);
+  	f_prime.reserve(categoryparams.size()+1); 
+
+  	double sum = discrimination * theta;
+  	double num = exp(sum);
+  	double x = discrimination;
+  	double g = num;
+  	double g_prime = num*x;
+  	f.push_back(num);
+  	f_prime.push_back(g_prime);
+  	
+	for (auto cat : categoryparams) {
+	  	sum += discrimination * (theta - cat);
+	  	double num = exp(sum);
+	  	x += discrimination;
+	  	double num_x = num*x;
+	  	g += num;
+	  	g_prime += num_x;
+		f.push_back(num);
+		f_prime.push_back(num_x);
+	}
+	
+	double b = g*g;
+	for (size_t i = 0; i < f.size(); ++i)
+  	{    
+    	f_prime[i] = (g * f_prime.at(i) - f.at(i) * g_prime) / b;
+	}
+	return f_prime;
+}
+
+
+void Estimator::prob_derivs_gpcm(double theta, size_t question, std::vector<double>& probs, std::vector<double>& first, std::vector<double>& second){
+  	double discrimination = questionSet.discrimination.at(question);
+  	auto const & categoryparams = questionSet.difficulty.at(question);
+ 
+  	probs.clear();
+  	probs.reserve(categoryparams.size()+1);
+  	first.clear();
+  	first.reserve(categoryparams.size()+1); 
+  	second.clear();
+  	second.reserve(categoryparams.size()+1); 
+
+  	double sum = discrimination * theta;
+  	double x = discrimination;
+  	double g = exp(sum);
+  	double g_prime = g*x;
+  	double g_primeprime = g_prime*x;
+
+  	probs.push_back(g);
+  	first.push_back(g_prime);
+	second.push_back(g_primeprime);
+  	
+	for (auto cat : categoryparams) {
+	  	sum += discrimination * (theta - cat);
+	  	double num = exp(sum);
+	  	x += discrimination;
+	  	double num_x = num*x;
+	  	double num_xx = num_x*x;
+
+	  	g += num;
+	  	g_prime += num_x;
+	  	g_primeprime += num_xx;
+
+		probs.push_back(num);
+		first.push_back(num_x);
+		second.push_back(num_xx);
+	}
+	
+	double b = g*g;
+	double b2 = b*b;
+	double b_prime = 2.0 * g * g_prime;
+
+  	for (size_t i = 0; i < probs.size(); ++i)
+  	{     		
+  		double a = g * first.at(i) - probs.at(i) * g_prime;
+    	first[i] = a / b;
+
+    	double a_prime = second.at(i) * g - g_primeprime * probs.at(i);
+    	second[i] = (b * a_prime - a * b_prime) / b2;
+
+    	probs[i] /= g;
+	}
 }
 
 std::vector<double> Estimator::probability(double theta, size_t question) {
@@ -159,16 +453,18 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
     throw std::domain_error("Must use a question number applicable to Cat object.");
   }
   
-  std::vector<double> probabilities;
+  	std::vector<double> probabilities;
 
-  if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
-	  probabilities = prob_ltm(theta, question);
+	if(questionSet.model == "grm") {
+	  	probabilities = prob_grm(theta, question);
 	}
-	if (questionSet.model == "grm") {
-	  probabilities = prob_grm(theta, question);
-	}
-	if (questionSet.model == "gpcm"){
+	else if (questionSet.model == "gpcm"){
 		probabilities = prob_gpcm(theta, question);
+	}
+	else if (questionSet.model == "ltm" || questionSet.model == "tpm")
+	{
+		probabilities.reserve(1);
+		probabilities.push_back(prob_ltm(theta, question));
 	}
 	
 	return probabilities;
@@ -181,9 +477,9 @@ double Estimator::likelihood_grm(double theta) {
 
 	for (auto question : questionSet.applicable_rows) {
 		size_t unanswered_question = (size_t) question;
-	  int answer = questionSet.answers.at(unanswered_question);
-    auto question_cdf = probability(theta, unanswered_question);
-		L += log(question_cdf.at((size_t) answer) - question_cdf.at(((size_t) answer) - 1)) ;
+	  	int answer = questionSet.answers.at(unanswered_question);
+		auto probs = prob_grm_pair(theta, question, answer);
+		L += log(probs.second- probs.first) ;
 	}
 	return exp(L);
 }
@@ -193,11 +489,9 @@ double Estimator::likelihood_gpcm(double theta) {
 
 	for (auto question : questionSet.applicable_rows) {
 		size_t unanswered_question = (size_t) question;
-	  int answer = questionSet.answers.at(unanswered_question);
-    auto probs = probability(theta, unanswered_question);
-    // index probabilities correctly using the answer
-    answer -= 1;
-    L += log(probs.at((size_t) answer));
+	  	size_t answer = questionSet.answers.at(unanswered_question);
+    	// index probabilities correctly using the answer
+    	L += log(prob_gpcm_at(theta, unanswered_question, answer-1));
 	}
 	return exp(L);
 }
@@ -206,7 +500,7 @@ double Estimator::likelihood_ltm(double theta) {
 	double L = 0.0;
 	for (auto question : questionSet.applicable_rows) {
 		size_t index = (size_t) question;
-		double prob = probability(theta, index).at(0);
+		double prob = prob_ltm(theta, index);
 		int this_answer = questionSet.answers.at(index);
 		L += (this_answer * log(prob)) + ((1 - this_answer) * log(1 - prob));
 	}
@@ -235,13 +529,12 @@ double Estimator::likelihood_grm(double theta, size_t question, int answer) {
 
 	for (auto q : questionSet.applicable_rows) {
 	  	size_t a = (size_t)questionSet.answers.at((size_t) q);
-    	auto question_cdf = probability(theta, (size_t) q);
-		L += log(question_cdf.at(a) - question_cdf.at(a - 1)) ;
+    	auto probs = prob_grm_pair(theta, q, a);
+		L += log(probs.second - probs.first) ;
 	}
 
-    auto question_cdf = probability(theta, question);
-    auto a = (size_t)answer;
-	L += log(question_cdf.at(a) - question_cdf.at(a - 1)) ;
+    auto probs = prob_grm_pair(theta, question, answer);
+	L += log(probs.second - probs.first) ;
 
 	return exp(L);
 }
@@ -252,12 +545,10 @@ double Estimator::likelihood_gpcm(double theta,size_t question, int answer) {
 	for (auto q : questionSet.applicable_rows) {
 		size_t unanswered_question = (size_t) q;
 	  	auto a = (size_t)questionSet.answers.at(unanswered_question);
-    	auto probs = probability(theta, unanswered_question);
-    	L += log(probs.at(a-1));
+    	L += log(prob_gpcm_at(theta, unanswered_question, a-1));
 	}
 
-    auto probs = probability(theta, question);
-    L += log(probs.at(((size_t)answer)-1));
+    L += log(prob_gpcm_at(theta, question, ((size_t)answer)-1));
 
 	return exp(L);
 }
@@ -266,12 +557,12 @@ double Estimator::likelihood_ltm(double theta,size_t question, int answer) {
 	double L = 0.0;
 	for (auto q : questionSet.applicable_rows) {
 		size_t index = (size_t) q;
-		double prob = probability(theta, index).at(0);
+		double prob = prob_ltm(theta, index);
 		int this_answer = questionSet.answers.at(index);
 		L += (this_answer * log(prob)) + ((1 - this_answer) * log(1 - prob));
 	}
 
-	double prob = probability(theta, question).at(0);
+	double prob = prob_ltm(theta, question);
 	L += (answer * log(prob)) + ((1 - answer) * log(1 - prob));
 
 	return exp(L);
@@ -293,16 +584,13 @@ double Estimator::likelihood(double theta, size_t question, int answer){
 	return likelihood;
 }
 
-
-
-
 double Estimator::grm_partial_d2LL(double theta, size_t question) {
 	size_t answer_k = (size_t) questionSet.answers.at(question);
 
-	auto probabilities = probability(theta, question);
+	double P_star1;
+	double P_star2;
 
-	double P_star1 = probabilities.at(answer_k);
-	double P_star2 = probabilities.at(answer_k - 1);
+	std::tie(P_star2, P_star1) = prob_grm_pair(theta, question, answer_k);
 
 	double P = P_star1 - P_star2;
 
@@ -319,10 +607,10 @@ double Estimator::grm_partial_d2LL(double theta, size_t question) {
 }
 
 double Estimator::grm_partial_d2LL(double theta, size_t question, int answer) {
-	auto probabilities = probability(theta, question);
+	double P_star1;
+	double P_star2;
 
-	double P_star1 = probabilities.at(answer);
-	double P_star2 = probabilities.at(answer - 1);
+	std::tie(P_star2, P_star1) = prob_grm_pair(theta, question, answer);
 
 	double P = P_star1 - P_star2;
 
@@ -339,72 +627,21 @@ double Estimator::grm_partial_d2LL(double theta, size_t question, int answer) {
 }
 
 double Estimator::gpcm_partial_d2LL(double theta, size_t question) {
-	size_t unanswered_question = (size_t) question;
-	int answer = questionSet.answers.at(unanswered_question);
-	int index = answer - 1;
-	
-	auto probs = probability(theta, unanswered_question);
-	auto probs_1d = prob_derivs_gpcm(theta, unanswered_question, true);
-	auto probs_2d = prob_derivs_gpcm(theta, unanswered_question, false);
-	
-	double p = probs.at(index);
-	double p_prime = probs_1d.at(index);
-	double p_primeprime = probs_2d.at(index);
-
-  return - ((std::pow(p_prime, 2.0) / std::pow(p, 2.0)) - (p_primeprime / p));
-}
-
-double Estimator::gpcm_partial_d2LL(double theta, size_t question, int answer) {
-
-	size_t unanswered_question = (size_t) question;
-	int index = answer - 1;
-	
-	auto probs = probability(theta, unanswered_question);
-	auto probs_1d = prob_derivs_gpcm(theta, unanswered_question, true);
-	auto probs_2d = prob_derivs_gpcm(theta, unanswered_question, false);
-	
-	double p = probs.at(index);
-	double p_prime = probs_1d.at(index);
-	double p_primeprime = probs_2d.at(index);
-
-  return - ((std::pow(p_prime, 2.0) / std::pow(p, 2.0)) - (p_primeprime / p));
+	return gpcm_partial_d2LL(theta,question,questionSet.answers.at(question));
 }
 
 double Estimator::gpcm_partial_d1LL(double theta, size_t question) {
 
-	size_t unanswered_question = (size_t) question;
-	int answer = questionSet.answers.at(unanswered_question);
-	int index = answer - 1;
-	
-	auto probs = probability(theta, unanswered_question);
-	auto probs_1d = prob_derivs_gpcm(theta, unanswered_question, true);
-	
-	double p = probs.at(index);
-	double p_prime = probs_1d.at(index);
-
-  return p_prime / p;
+  	return gpcm_partial_d1LL(theta, question, questionSet.answers.at(question));
 }
 
-double Estimator::gpcm_partial_d1LL(double theta, size_t question, int answer) {
-
-	size_t unanswered_question = (size_t) question;
-	int index = answer - 1;
-	
-	auto probs = probability(theta, unanswered_question);
-	auto probs_1d = prob_derivs_gpcm(theta, unanswered_question, true);
-	
-	double p = probs.at(index);
-	double p_prime = probs_1d.at(index);
-
-  return p_prime / p;
-}
 
 double Estimator::gpcm_d2LL(double theta) {
   double d2l = 0.0;
 
 	for (auto question : questionSet.applicable_rows) {
-    d2l += gpcm_partial_d2LL(theta, question);
-	 }
+    	d2l += gpcm_partial_d2LL(theta, question);
+	}
 	
 	return d2l;
 }
@@ -452,7 +689,7 @@ double Estimator::grm_d2LL(double theta, size_t question, int answer) {
 double Estimator::ltm_d2LL(double theta) {
 	double lambda_theta = 0.0;
 	for (auto question : questionSet.applicable_rows) {
-		const double P = probability(theta, (size_t) question).at(0);
+		const double P = prob_ltm(theta, (size_t) question);
 		const double guess = questionSet.guessing.at(question);
 		const double Q = 1.0 - P;
 		const double lambda_temp = (P - guess) / (1.0 - guess);
@@ -466,7 +703,7 @@ double Estimator::ltm_d2LL(double theta) {
 double Estimator::ltm_d2LL(double theta, size_t question, int answer) {
 	double lambda_theta = 0.0;
 	for (auto q : questionSet.applicable_rows) {
-		double P = probability(theta, (size_t) q).at(0);
+		double P = prob_ltm(theta, (size_t) q);
 		double guess = questionSet.guessing.at(q);
 		double Q = 1.0 - P;
 		double lambda_temp = (P - guess) / (1.0 - guess);
@@ -475,7 +712,7 @@ double Estimator::ltm_d2LL(double theta, size_t question, int answer) {
 		lambda_theta += std::pow(discrimination*lambda_temp, 2.0) * (Q / P);
 	}
 
-	double P = probability(theta, question).at(0);
+	double P = prob_ltm(theta, question);
 	double guess = questionSet.guessing.at(question);
 	double Q = 1.0 - P;
 	double lambda_temp = (P - guess) / (1.0 - guess);
@@ -512,13 +749,12 @@ double Estimator::gpcm_d1LL(double theta, size_t question, int answer) {
 double Estimator::grm_d1LL(double theta) {
 	double l_theta = 0.0;
 	for (auto question : questionSet.applicable_rows) {
-		const int answer_k = questionSet.answers.at(question);
+		int answer_k = questionSet.answers.at(question);
 
-		auto probabilities = probability(theta, (size_t) question);
+		double P_star2, P_star1;
+		std::tie(P_star2, P_star1) = prob_grm_pair(theta, question, answer_k);
 
-		double P_star1 = probabilities.at(answer_k);
 		double Q_star1 = 1.0 - P_star1;
-		double P_star2 = probabilities.at(answer_k - 1);
 		double Q_star2 = 1 - P_star2;
 		double P = P_star1 - P_star2;
 		double w2 = P_star2 * Q_star2;
@@ -533,18 +769,16 @@ double Estimator::grm_d1LL(double theta, size_t question, int answer) {
 	double l_theta = 0.0;
 	for (auto q : questionSet.applicable_rows) {
 		int answer_k = questionSet.answers.at(q);
-		auto probabilities = probability(theta, (size_t) q);
-		double P_star1 = probabilities.at(answer_k);
-		double P_star2 = probabilities.at(answer_k - 1);
+		double P_star2, P_star1;
+		std::tie(P_star2, P_star1) = prob_grm_pair(theta, q, answer_k);
 		double P = P_star1 - P_star2;
 		double w = P_star1 * (1.0 - P_star1) - P_star2 * (1 - P_star2);
 
 		l_theta += (-1*questionSet.discrimination.at(q) * (w/ P));
 	}
 
-	auto probabilities = probability(theta, (size_t) question);
-	double P_star1 = probabilities.at(answer);
-	double P_star2 = probabilities.at(answer - 1);
+	double P_star2, P_star1;
+	std::tie(P_star2, P_star1) = prob_grm_pair(theta, question, answer);
 	double P = P_star1 - P_star2;
 	double w = P_star1 * (1.0 - P_star1) - P_star2 * (1 - P_star2);
 
@@ -556,7 +790,7 @@ double Estimator::grm_d1LL(double theta, size_t question, int answer) {
 double Estimator::ltm_d1LL(double theta) {
 	double l_theta = 0;
 	for (auto question : questionSet.applicable_rows) {
-		const double P = probability(theta, question).at(0);
+		const double P = prob_ltm(theta, question);
 		const double guess = questionSet.guessing.at(question);
 		const double answer = questionSet.answers.at(question);
 		const double discrimination = questionSet.discrimination.at(question);
@@ -568,14 +802,14 @@ double Estimator::ltm_d1LL(double theta) {
 double Estimator::ltm_d1LL(double theta, size_t question, int answer) {
 	double l_theta = 0;
 	for (auto q : questionSet.applicable_rows) {
-		double P = probability(theta, q).at(0);
+		double P = prob_ltm(theta, q);
 		double guess = questionSet.guessing.at(q);
 		double a = questionSet.answers.at(q);
 		double discrimination = questionSet.discrimination.at(q);
 		l_theta += discrimination * ((P - guess) / (P * (1 - guess))) * (a - P);
 	}
 
-	double P = probability(theta, question).at(0);
+	double P = prob_ltm(theta, question);
 	double guess = questionSet.guessing.at(question);
 	double discrimination = questionSet.discrimination.at(question);
 	l_theta += discrimination * ((P - guess) / (P * (1 - guess))) * (answer - P);
@@ -585,7 +819,7 @@ double Estimator::ltm_d1LL(double theta, size_t question, int answer) {
 
 
 double Estimator::d1LL(double theta, bool use_prior, Prior &prior) {
-	const double prior_shift = (theta - prior.parameters.at(0)) / std::pow(prior.parameters.at(1), 2.0);
+	const double prior_shift = (theta - prior.param0()) / std::pow(prior.param1(), 2.0);
 	if (questionSet.applicable_rows.empty()) {
 		return prior_shift;
 	}
@@ -619,13 +853,13 @@ double Estimator::d1LL(double theta, bool use_prior, Prior &prior, size_t questi
 
 	if (use_prior)
 	{
-		l_theta -= ((theta - prior.parameters.at(0)) / std::pow(prior.parameters.at(1), 2.0));
+		l_theta -= ((theta - prior.param0()) / std::pow(prior.param1(), 2.0));
 	}
 	return l_theta;
 }
 
 double Estimator::d2LL(double theta, bool use_prior, Prior &prior) {
-	const double prior_shift = 1.0 / std::pow(prior.parameters.at(1), 2.0);
+	const double prior_shift = 1.0 / std::pow(prior.param1(), 2.0);
 	if (questionSet.applicable_rows.empty()) {
 		return -prior_shift;
 	}
@@ -658,7 +892,7 @@ double Estimator::d2LL(double theta, bool use_prior, Prior &prior, size_t questi
 
 	if(use_prior)
 	{
-		lambda_theta -= (1.0 / std::pow(prior.parameters.at(1), 2.0));
+		lambda_theta -= (1.0 / std::pow(prior.param1(), 2.0));
 	}
 	return lambda_theta;
 }
@@ -668,9 +902,9 @@ double Estimator::d2LL(double theta, bool use_prior, Prior &prior, size_t questi
 Estimator::Estimator(Integrator &integration, QuestionSet &question) : integrator(integration), questionSet(question) { }
 
 double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
-  auto probabilities = probability(estimateTheta(prior), (size_t) item);
+	double theta_old = estimateTheta(prior);
   
-  questionSet.applicable_rows.push_back(item);
+  	questionSet.applicable_rows.push_back(item);
  
 	std::vector<double> variances;
 	for (size_t i = 0; i <= questionSet.difficulty.at(item).size(); ++i) {
@@ -680,13 +914,15 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 
 	double sum = 0;
 	if (questionSet.model == "grm") {
-	  for (size_t i = 1; i < probabilities.size(); ++i) {
-	    sum += variances.at(i-1) * (probabilities.at(i) - probabilities.at(i-1));
+		auto probabilities = prob_grm(theta_old, (size_t) item);
+	  	for (size_t i = 1; i < probabilities.size(); ++i) {
+	    	sum += variances.at(i-1) * (probabilities.at(i) - probabilities.at(i-1));
 	    }
 	}
 	if (questionSet.model == "gpcm"){
-	  for (size_t i = 0; i < probabilities.size(); ++i) {
-	    sum += variances.at(i) * probabilities.at(i);
+		auto probabilities = prob_gpcm(theta_old, (size_t) item);
+	  	for (size_t i = 0; i < probabilities.size(); ++i) {
+	    	sum += variances.at(i) * probabilities.at(i);
 	    }
 	}
 	
@@ -695,7 +931,7 @@ double Estimator::polytomous_posterior_variance(int item, Prior &prior) {
 }
 
 double Estimator::binary_posterior_variance(int item, Prior &prior) {
-  const double probability_incorrect = probability(estimateTheta(prior), (size_t) item).at(0);
+  const double prob_incorrect = prob_ltm(estimateTheta(prior), (size_t) item);
   
   questionSet.applicable_rows.push_back(item);
   
@@ -707,7 +943,7 @@ double Estimator::binary_posterior_variance(int item, Prior &prior) {
 	
 	questionSet.applicable_rows.pop_back();
 
-	return (probability_incorrect * variance_correct) + ((1.0 - probability_incorrect) * variance_incorrect);
+	return (prob_incorrect * variance_correct) + ((1.0 - prob_incorrect) * variance_incorrect);
 }
 
 double Estimator::expectedPV(int item, Prior &prior) {
@@ -730,85 +966,114 @@ double Estimator::expectedPV(int item, Prior &prior) {
 double Estimator::expectedPV_ltm_tpm(int item, Prior &prior)
 {
 	//binary_posterior_variance
-	double probability_incorrect = probability(estimateTheta(prior), (size_t) item).at(0);
+	double prob_incorrect = prob_ltm(estimateTheta(prior), (size_t) item);
     
 	double variance_correct = std::pow(estimateSE(prior,item,1), 2.0);
 	double variance_incorrect = std::pow(estimateSE(prior,item,0), 2.0);
 	
-	return (probability_incorrect * variance_correct) + ((1.0 - probability_incorrect) * variance_incorrect);
+	return (prob_incorrect * variance_correct) + ((1.0 - prob_incorrect) * variance_incorrect);
 }
 
-double Estimator::expectedPV_grm_gpcm(int item, Prior &prior)
+double Estimator::expectedPV_grm(int item, Prior &prior)
 {
 	//polytomous_posterior_variance
-	auto probabilities = probability(estimateTheta(prior), (size_t) item);
-   
+	   
 	double sum = 0;
-	if (questionSet.model == "grm") {
-	  	for (size_t i = 1; i < probabilities.size(); ++i) {
-	  		double var = std::pow(estimateSE(prior,item,(int)i), 2.0);
-	    	sum += var * (probabilities.at(i) - probabilities.at(i-1));
-	    }
-	}
-	if (questionSet.model == "gpcm"){
-	  	for (size_t i = 0; i < probabilities.size(); ++i) {
-	  		double var = std::pow(estimateSE(prior,item,(int) i + 1), 2.0);
-	    	sum += var * probabilities.at(i);
-	    }
-	}
+	auto probabilities = prob_grm(estimateTheta(prior), (size_t) item);
+  	for (size_t i = 1; i < probabilities.size(); ++i) {
+  		double var = std::pow(estimateSE(prior,item,(int)i), 2.0);
+    	sum += var * (probabilities.at(i) - probabilities.at(i-1));
+    }
 	
 	return sum;
+}
 
+double Estimator::expectedPV_gpcm(int item, Prior &prior)
+{
+	//polytomous_posterior_variance
+	double sum = 0;
+	auto probabilities = prob_gpcm(estimateTheta(prior), (size_t) item);
+  	for (size_t i = 0; i < probabilities.size(); ++i) {
+  		double var = std::pow(estimateSE(prior,item,(int) i + 1), 2.0);
+    	sum += var * probabilities.at(i);
+    }
+	
+	return sum;
 }
 
 double Estimator::obsInf(double theta, int item) {
-	double discrimination = questionSet.discrimination.at(item);
-
 	if(questionSet.model == "grm"){
-	  return -std::pow(discrimination, 2.0) * grm_partial_d2LL(theta, item);
+	  return obsInf_grm(theta, item);
+	}	
+	else if(questionSet.model == "gpcm"){
+	  return obsInf_gpcm(theta, item);
 	}
-	
-	if(questionSet.model == "gpcm"){
-	  return -gpcm_partial_d2LL(theta, item);
+	else
+	{
+		return obsInf_ltm(theta, item);
 	}
-
-	double guess = questionSet.guessing.at(item);
-	double P = probability(theta, item).at(0);
-	double Q = 1 - P;
-	double temp = std::pow((P - guess) / (1.0 - guess), 2.0);
-	return std::pow(discrimination, 2.0) * temp * (Q / P);
 }
 
 double Estimator::obsInf(double theta, int item, int answer) {
-	double discrimination = questionSet.discrimination.at(item);
-
 	if(questionSet.model == "grm"){
-	  return -std::pow(discrimination, 2.0) * grm_partial_d2LL(theta, item, answer);
+	  return obsInf_grm(theta, item, answer);
+	}	
+	else if(questionSet.model == "gpcm"){
+	  return obsInf_gpcm(theta, item, answer);
 	}
-	
-	if(questionSet.model == "gpcm"){
-	  return -gpcm_partial_d2LL(theta, item, answer);
+	else
+	{
+		return obsInf_ltm(theta, item, answer);
 	}
+}
 
+double Estimator::obsInf_grm(double theta, int item)
+{	double discrimination = questionSet.discrimination.at(item);
+	return -discrimination*discrimination * grm_partial_d2LL(theta, item);
+}
+double Estimator::obsInf_grm(double theta, int item, int answer)
+{
+	double discrimination = questionSet.discrimination.at(item);
+	return -discrimination*discrimination* grm_partial_d2LL(theta, item, answer);
+}
+
+double Estimator::obsInf_gpcm(double theta, int item)
+{
+	return -gpcm_partial_d2LL(theta, item);
+}
+
+double Estimator::obsInf_gpcm(double theta, int item, int answer)
+{
+	return -gpcm_partial_d2LL(theta, item, answer);
+}
+
+double Estimator::obsInf_ltm(double theta, int item)
+{
+	double discrimination = questionSet.discrimination.at(item);
 	double guess = questionSet.guessing.at(item);
-	double P = probability(theta, item).at(0);
+	double P = prob_ltm(theta, item);
 	double Q = 1 - P;
 	double temp = std::pow((P - guess) / (1.0 - guess), 2.0);
-	return std::pow(discrimination, 2.0) * temp * (Q / P);
+	return discrimination*discrimination * temp * (Q / P);
 }
+double Estimator::obsInf_ltm(double theta, int item, int answer)
+{
+	return obsInf_ltm(theta, item);
+}
+
 
 double Estimator::fisherInf(double theta, int item) {
 
-	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
-		return obsInf(theta, item);
+	if ((questionSet.model == "ltm") || (questionSet.model == "tpm")) {
+		return obsInf_ltm(theta, item);
 	}
 
 	double output = 0.0;
-	auto probabilities = probability(theta, (size_t) item);
-	double discrimination_squared = std::pow(questionSet.discrimination.at(item), 2.0);
 
 	if (questionSet.model == "grm") {
-	  for (size_t i = 1; i <= questionSet.difficulty.at(item).size() + 1; ++i) {
+		double discrimination_squared = std::pow(questionSet.discrimination.at(item), 2.0);
+		auto probabilities = prob_grm(theta, (size_t) item);
+	  	for (size_t i = 1; i <= questionSet.difficulty.at(item).size() + 1; ++i) {
 		  double P_star1 = probabilities.at(i);
 		  double P_star2 = probabilities.at(i-1);
 		  double w1 = P_star1 * (1.0 - P_star1);
@@ -816,12 +1081,14 @@ double Estimator::fisherInf(double theta, int item) {
 		  output += discrimination_squared * (std::pow(w1 - w2, 2.0) / (P_star1 - P_star2));
 		}
 	}
-	
-	if (questionSet.model == "gpcm"){
-	  auto prob_firstderiv = prob_derivs_gpcm(theta, item, true);
-	  auto prob_secondderiv = prob_derivs_gpcm(theta, item, false);
-	  for (size_t i = 0; i < probabilities.size(); ++i) {
-		  double p = probabilities.at(i);
+	else if (questionSet.model == "gpcm"){
+		std::vector<double> probs;
+	  	std::vector<double> prob_firstderiv;
+		std::vector<double> prob_secondderiv;
+		prob_derivs_gpcm(theta, item, probs, prob_firstderiv, prob_secondderiv);
+
+	  	for (size_t i = 0; i < probs.size(); ++i) {
+		  double p = probs.at(i);
 		  double p_prime = prob_firstderiv.at(i);
 		  double p_primeprime = prob_secondderiv.at(i);
 		  output += (std::pow(p_prime, 2.0) / p) - p_primeprime;
@@ -833,28 +1100,30 @@ double Estimator::fisherInf(double theta, int item) {
 double Estimator::fisherInf(double theta, int item, int answer) {
 
 	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
-		return obsInf(theta, item, answer);
+		return obsInf_ltm(theta, item, answer);
 	}
 
 	double output = 0.0;
-	auto probabilities = probability(theta, (size_t) item);
-	double discrimination_squared = std::pow(questionSet.discrimination.at(item), 2.0);
 
 	if (questionSet.model == "grm") {
-	  for (size_t i = 1; i <= questionSet.difficulty.at(item).size() + 1; ++i) {
+		double discrimination_squared = std::pow(questionSet.discrimination.at(item), 2.0);
+		auto probabilities = prob_grm(theta, (size_t) item);
+	  	for (size_t i = 1; i <= questionSet.difficulty.at(item).size() + 1; ++i) {
 		  double P_star1 = probabilities.at(i);
 		  double P_star2 = probabilities.at(i-1);
 		  double w1 = P_star1 * (1.0 - P_star1);
 		  double w2 = P_star2 * (1.0 - P_star2);
 		  output += discrimination_squared * (std::pow(w1 - w2, 2.0) / (P_star1 - P_star2));
 		}
-	}
-	
-	if (questionSet.model == "gpcm"){
-	  auto prob_firstderiv = prob_derivs_gpcm(theta, item, true);
-	  auto prob_secondderiv = prob_derivs_gpcm(theta, item, false);
-	  for (size_t i = 0; i < probabilities.size(); ++i) {
-		  double p = probabilities.at(i);
+	}	
+	else if (questionSet.model == "gpcm"){
+		std::vector<double> probs;
+	  	std::vector<double> prob_firstderiv;
+		std::vector<double> prob_secondderiv;
+		prob_derivs_gpcm(theta, item, probs, prob_firstderiv, prob_secondderiv);
+
+	  	for (size_t i = 0; i < probs.size(); ++i) {
+		  double p = probs.at(i);
 		  double p_prime = prob_firstderiv.at(i);
 		  double p_primeprime = prob_secondderiv.at(i);
 		  output += (std::pow(p_prime, 2.0) / p) - p_primeprime;
@@ -865,40 +1134,49 @@ double Estimator::fisherInf(double theta, int item, int answer) {
 
 double Estimator::expectedObsInf(int item, Prior &prior) {
 
-	if ((questionSet.model == "grm") | (questionSet.model == "gpcm")){
-	  std::vector<double> probabilities = probability(estimateTheta(prior), (size_t) item);
-	  questionSet.applicable_rows.push_back(item);
-	  
+	
+	if (questionSet.model == "grm"){
+		auto probabilities = prob_grm(estimateTheta(prior), (size_t) item);
+	  	
+	  	questionSet.applicable_rows.push_back(item);
+
 		double sum = 0.0;
-		std::vector<double> obsInfs;
-		for (size_t i = 0; i <= questionSet.difficulty.at(item).size(); ++i){
-			questionSet.answers.at(item) = (int) i + 1;
-			obsInfs.push_back(obsInf(estimateTheta(prior), item));
-		}
+	  	for (size_t i = 1; i < probabilities.size(); ++i) {
+	  		questionSet.answers.at(item) = (int) i;
+			double obsinfo = obsInf_grm(estimateTheta(prior), item);
+	    	sum += obsinfo * (probabilities.at(i) - probabilities.at(i-1));
+     	}
 
 		questionSet.answers.at(item) = NA_INTEGER;
 		questionSet.applicable_rows.pop_back();
 		
-		if (questionSet.model == "grm") {
-		  for (size_t i = 1; i < probabilities.size(); ++i) {
-		    sum += obsInfs.at(i-1) * (probabilities.at(i) - probabilities.at(i-1));
-	     }
-		}
-		if (questionSet.model == "gpcm"){
-		  for (size_t i = 0; i < probabilities.size(); ++i) {
-	      sum += obsInfs.at(i) * probabilities.at(i);
-	    }
-		}
+		return sum;
+	}
+	else if (questionSet.model == "gpcm"){
+		auto probabilities = prob_gpcm(estimateTheta(prior), (size_t) item);
+
+	  	questionSet.applicable_rows.push_back(item);
+	  
+		double sum = 0.0;
+	  	for (size_t i = 0; i < probabilities.size(); ++i) {
+	  		questionSet.answers.at(item) = (int) i + 1;
+			double obsinfo = obsInf_gpcm(estimateTheta(prior), item);
+      		sum += obsinfo * probabilities.at(i);
+    	}
+
+		questionSet.answers.at(item) = NA_INTEGER;
+		questionSet.applicable_rows.pop_back();
+				
 		return sum;
 	}
 
-	double prob_one = probability(estimateTheta(prior), (size_t) item).at(0);
+	double prob_one = prob_ltm(estimateTheta(prior), (size_t) item);
 	questionSet.applicable_rows.push_back(item);
 	
 	questionSet.answers.at(item) = 0;
-	double obsInfZero = obsInf(estimateTheta(prior), item);
+	double obsInfZero = obsInf_ltm(estimateTheta(prior), item);
 	questionSet.answers.at(item) = 1;
-	double obsInfOne = obsInf(estimateTheta(prior), item);
+	double obsInfOne = obsInf_ltm(estimateTheta(prior), item);
 	
 	questionSet.applicable_rows.pop_back();
 	questionSet.answers.at(item) = NA_INTEGER;
@@ -908,11 +1186,11 @@ double Estimator::expectedObsInf(int item, Prior &prior) {
 
 double Estimator::expectedObsInf_grm(int item, Prior &prior)
 {
-	std::vector<double> probabilities = probability(estimateTheta(prior), (size_t) item);
+	std::vector<double> probabilities = prob_grm(estimateTheta(prior), (size_t) item);
 	double sum = 0.0;
 
 	for(size_t i = 1; i < probabilities.size(); ++i){
-	    sum += obsInf(estimateTheta(prior,item,(int)i), item, (int)i) * (probabilities.at(i) - probabilities.at(i-1));
+	    sum += obsInf_grm(estimateTheta(prior,item,(int)i), item, (int)i) * (probabilities.at(i) - probabilities.at(i-1));
     }
 
 	return sum;
@@ -920,11 +1198,11 @@ double Estimator::expectedObsInf_grm(int item, Prior &prior)
 
 double Estimator::expectedObsInf_gpcm(int item, Prior &prior)
 {
-	std::vector<double> probabilities = probability(estimateTheta(prior), (size_t) item);
+	std::vector<double> probabilities = prob_gpcm(estimateTheta(prior), (size_t) item);
 	double sum = 0.0;
 	
 	for (size_t i = 0; i < probabilities.size(); ++i) {
-	      sum += obsInf(estimateTheta(prior,item,(int) i + 1), item, (int) i + 1) * probabilities.at(i);
+	      sum += obsInf_gpcm(estimateTheta(prior,item,(int) i + 1), item, (int) i + 1) * probabilities.at(i);
 	}
 
 	return sum;
@@ -932,9 +1210,9 @@ double Estimator::expectedObsInf_gpcm(int item, Prior &prior)
 
 double Estimator::expectedObsInf_rest(int item, Prior &prior)
 {
-	double prob_one = probability(estimateTheta(prior), (size_t) item).at(0);
-	double obsInfZero = obsInf(estimateTheta(prior, item, 0), item, 0);
-	double obsInfOne = obsInf(estimateTheta(prior, item, 1), item, 1);
+	double prob_one = prob_ltm(estimateTheta(prior), (size_t) item);
+	double obsInfZero = obsInf_ltm(estimateTheta(prior, item, 0), item, 0);
+	double obsInfOne = obsInf_ltm(estimateTheta(prior, item, 1), item, 1);
 	return (prob_one * obsInfOne) + ((1 - prob_one) * obsInfZero);
 }
 
@@ -1045,39 +1323,39 @@ double Estimator::fii(int item, Prior prior) {
 }
 
 double Estimator::kl(double theta_not, int item, double theta){
-  double sum = 0.0;
+  	double sum = 0.0;
   
-  if(questionSet.model == "grm"){
-    auto cdf_theta_not = probability(theta_not, (size_t) item);
-	  auto cdf_theta_hat = probability(theta, (size_t) item);
+  	if(questionSet.model == "grm"){
+    	auto cdf_theta_not = prob_grm(theta_not, (size_t) item);
+	  	auto cdf_theta_hat = prob_grm(theta, (size_t) item);
 	  
-	  for (size_t i = 1; i < cdf_theta_hat.size(); ++i) {
-	    double prob_theta_not = cdf_theta_not.at(i) - cdf_theta_not.at(i-1);
-	    double prob_theta_hat = cdf_theta_hat.at(i) - cdf_theta_hat.at(i-1);
-	    sum += prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
-	  }
+	  	for (size_t i = 1; i < cdf_theta_hat.size(); ++i) {
+	    	double prob_theta_not = cdf_theta_not.at(i) - cdf_theta_not.at(i-1);
+	    	double prob_theta_hat = cdf_theta_hat.at(i) - cdf_theta_hat.at(i-1);
+	    	sum += prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
+	  	}
 	}
   
-  if(questionSet.model == "gpcm"){
-    auto prob_theta_not = probability(theta_not, (size_t) item);
-	  auto prob_theta_hat = probability(theta, (size_t) item);
+  	if(questionSet.model == "gpcm"){
+    	auto prob_theta_not = prob_gpcm(theta_not, (size_t) item);
+	  	auto prob_theta_hat = prob_gpcm(theta, (size_t) item);
 	  
-	  for (size_t i = 0; i < prob_theta_not.size(); ++i) {
-	    sum += prob_theta_not.at(i) * (log(prob_theta_not.at(i)) - log(prob_theta_hat.at(i)));
-	  }
-  }
+	  	for (size_t i = 0; i < prob_theta_not.size(); ++i) {
+	  	  	sum += prob_theta_not.at(i) * (log(prob_theta_not.at(i)) - log(prob_theta_hat.at(i)));
+	  	}
+  	}
   
-  if((questionSet.model == "ltm") | (questionSet.model == "tpm")){
-    const double prob_theta_not = probability(theta_not, (size_t) item).at(0);
-    const double prob_theta_hat = probability(theta, (size_t) item).at(0);
+  	if((questionSet.model == "ltm") || (questionSet.model == "tpm")){
+    	const double prob_theta_not = prob_ltm(theta_not, (size_t) item);
+    	const double prob_theta_hat = prob_ltm(theta, (size_t) item);
 
-    double first_term = prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
-    double second_term = (1 - prob_theta_not) * (log(1 - prob_theta_not) - log(1 - prob_theta_hat));
+    	double first_term = prob_theta_not * (log(prob_theta_not) - log(prob_theta_hat));
+    	double second_term = (1 - prob_theta_not) * (log(1 - prob_theta_not) - log(1 - prob_theta_hat));
 
-    sum = first_term + second_term;
-  }
+    	sum = first_term + second_term;
+  	}
   
-  return sum;
+  	return sum;
 }
 
 double Estimator::expectedKL(int item, Prior prior) {

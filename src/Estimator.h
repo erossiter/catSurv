@@ -33,13 +33,20 @@ public:
 
 	double obsInf(double theta, int item);
 	double obsInf(double theta, int item, int answer);
+	double obsInf_grm(double theta, int item);
+	double obsInf_grm(double theta, int item, int answer);
+	double obsInf_gpcm(double theta, int item);
+	double obsInf_gpcm(double theta, int item, int answer);
+	double obsInf_ltm(double theta, int item);
+	double obsInf_ltm(double theta, int item, int answer);
 
 	double fisherInf(double theta, int item);
 	double fisherInf(double theta, int item, int answer);
 
 	virtual double expectedPV(int item, Prior &prior);
 	virtual double expectedPV_ltm_tpm(int item, Prior &prior);
-	virtual double expectedPV_grm_gpcm(int item, Prior &prior);
+	virtual double expectedPV_grm(int item, Prior &prior);
+	virtual double expectedPV_gpcm(int item, Prior &prior);
 
 	double expectedObsInf(int item, Prior &prior);
 	double expectedObsInf_grm(int item, Prior &prior);
@@ -66,9 +73,18 @@ public:
 
 	double d2LL(double theta, bool use_prior, Prior &prior);
 	double d2LL(double theta, bool use_prior, Prior &prior, size_t question, int answer);
-	
-	//public for WLEEstimator
-	std::vector<double> prob_derivs_gpcm(double theta, size_t question, bool first);
+
+protected:
+
+	//for WLEEstimator
+	void prob_derivs_gpcm(double theta, size_t question, std::vector<double>& probs, std::vector<double>& first, std::vector<double>& second);
+	std::vector<double> prob_derivs_gpcm_first(double theta, size_t question);
+
+	double prob_ltm(double theta, size_t question);
+  	std::vector<double> prob_grm(double theta, size_t question);
+  	std::pair<double,double> prob_grm_pair(double theta, size_t question, size_t at);
+  	std::vector<double> prob_gpcm(double theta, size_t question);
+  	double prob_gpcm_at(double theta, size_t question, size_t at);
 
 
 protected:
@@ -98,9 +114,7 @@ private:
 	 */
 	constexpr static double integrationSubintervals = 10;
   
-  std::vector<double> prob_ltm(double theta, size_t question);
-  std::vector<double> prob_grm(double theta, size_t question);
-  std::vector<double> prob_gpcm(double theta, size_t question);
+    
   
   double likelihood_ltm(double theta);
 	double likelihood_grm(double theta);
