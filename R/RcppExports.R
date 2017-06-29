@@ -373,6 +373,11 @@ estimateThetas <- function(catObj, responses) {
     .Call(catSurv_estimateThetas, catObj, responses)
 }
 
+#' @export
+simulateAll <- function(catObj, responses) {
+    .Call(catSurv_simulateAll, catObj, responses)
+}
+
 #' Observed Information
 #'
 #' Calculates the observed information of the likelihood of a respondent's ability \eqn{\theta} for a given \code{item}.

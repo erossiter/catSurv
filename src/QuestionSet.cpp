@@ -37,6 +37,85 @@ void QuestionSet::reset_answers(Rcpp::DataFrame& responses, size_t row)
 	reset_all_extreme();
 }
 
+void QuestionSet::reset_answer(size_t question, int answer)
+{
+	if(answer == answers[question])
+	{
+		return; // nothing to be done
+	}
+
+	int old_answer = answers[question];
+	answers[question] = answer;
+
+	
+	if(old_answer == NA_INTEGER)
+	{
+		if(answer != NA_INTEGER)
+		{
+			// remove question from nonapplicable_rows
+			auto itr = std::lower_bound(nonapplicable_rows.begin(), nonapplicable_rows.end(), question);
+			nonapplicable_rows.erase(itr);
+
+			if(answer == -1)
+			{
+				// insert in skipped
+				auto itr = std::lower_bound(skipped.begin(), skipped.end(), question);
+				skipped.insert(itr, question);
+			}
+			else
+			{
+				// insert in applicable_rows
+				auto itr = std::lower_bound(applicable_rows.begin(), applicable_rows.end(), question);
+				applicable_rows.insert(itr, question);
+			}
+		}
+	}
+	else if(old_answer == -1)
+	{
+		// remove question from skipped
+		auto itr = std::lower_bound(skipped.begin(), skipped.end(), question);
+		skipped.erase(itr);
+
+		if(answer == NA_INTEGER)
+		{
+			// insert in nonapplicable_rows
+			auto itr = std::lower_bound(nonapplicable_rows.begin(), nonapplicable_rows.end(), question);
+			nonapplicable_rows.insert(itr, question);
+		}
+		else
+		{
+			// insert in applicable_rows
+			auto itr = std::lower_bound(applicable_rows.begin(), applicable_rows.end(), question);
+			applicable_rows.insert(itr, question);
+		}
+	}
+	else
+	{
+		if(answer == -1)
+		{
+			// remove question from applicable_rows
+			auto itr = std::lower_bound(applicable_rows.begin(), applicable_rows.end(), question);
+			applicable_rows.erase(itr);
+
+			// insert in skipped
+			itr = std::lower_bound(skipped.begin(), skipped.end(), question);
+			skipped.insert(itr, question);
+		}
+		else if (answer == NA_INTEGER)
+		{
+			// remove question from applicable_rows
+			auto itr = std::lower_bound(applicable_rows.begin(), applicable_rows.end(), question);
+			applicable_rows.erase(itr);
+
+			// insert in nonapplicable_rows
+			itr = std::lower_bound(nonapplicable_rows.begin(), nonapplicable_rows.end(), question);
+			nonapplicable_rows.insert(itr, question);
+		}
+	}
+
+	reset_all_extreme();
+}
+
 void QuestionSet::reset_applicables()
 {
 	nonapplicable_rows.clear();

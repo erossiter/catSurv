@@ -402,6 +402,12 @@ NumericVector estimateThetas(S4 catObj, DataFrame responses){
 	return Cat(catObj).estimateThetas(responses);
 }
 
+//' @export
+// [[Rcpp::export]]
+NumericVector simulateAll(S4 catObj, DataFrame responses){
+	return Cat(catObj).simulateAll(responses);
+}
+
 
 //' Observed Information
 //'

@@ -57,6 +57,8 @@ public:
 
 	NumericVector estimateThetas(DataFrame& responses);
 
+	NumericVector simulateAll(DataFrame& responses);
+
 private:
 
 	QuestionSet questionSet;
