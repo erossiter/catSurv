@@ -187,34 +187,6 @@ NumericVector Cat::estimateThetas(DataFrame& responses)
   return thetas;
 }
 
-NumericVector Cat::simulateAll(DataFrame& responses)
-{
-  if(std::isnan(checkRules.lengthThreshold) && std::isnan(checkRules.seThreshold) &&
-   std::isnan(checkRules.infoThreshold) && std::isnan(checkRules.gainThreshold) )
-  {
-    throw std::domain_error("Need to specify stopping rule(s) in Cat object.");
-  }
-
-
-  size_t nrow = responses.nrow();
-  NumericVector thetas;
-  thetas = static_cast<NumericVector>(no_init(nrow));
-
-  for(size_t row = 0; row != nrow; ++row)
-  {
-    while(!questionSet.nonapplicable_rows.empty() && !(checkStopRules()[0]))
-    {
-      Selection selection = selector->selectItem();
-      Rcpp::IntegerVector col = responses[selection.item]; 
-      questionSet.reset_answer(selection.item, col[row]);
-    }
-
-    // FIX ME: checkStopRules already computes theta
-    thetas[row] = estimateTheta();
-  }
-
-  return thetas;
-}
 
 
 double Cat::d1LL(double theta, bool use_prior) {
