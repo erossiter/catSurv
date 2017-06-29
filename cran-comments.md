@@ -8,9 +8,11 @@
 ## R CMD check results
 There were no ERRORs or WARNINGs.
 
-There was 1 NOTE:
+There were 2 NOTEs:
 
 * checking for GNU extensions in Makefiles ... NOTE GNU make is a SystemRequirements.
+
+*checking CRAN incoming feasibility ... NOTE Maintainer: ‘Erin Rossiter <erinrossiter@wustl.edu>’ Days since last update: 3
 
 ## Downstream dependencies
 I have also run R CMD check on downstream dependencies of catSurv using `devtools::revdep_check()`.
