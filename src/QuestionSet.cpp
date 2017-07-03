@@ -37,6 +37,13 @@ void QuestionSet::reset_answers(Rcpp::DataFrame& responses, size_t row)
 	reset_all_extreme();
 }
 
+void QuestionSet::reset_answers(std::vector<int> const& source)
+{
+	std::copy(source.begin(), source.end(), answers.begin());
+	reset_applicables();
+	reset_all_extreme();
+}
+
 void QuestionSet::reset_answer(size_t question, int answer)
 {
 	if(answer == answers[question])

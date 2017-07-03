@@ -200,17 +200,21 @@ NumericVector Cat::simulateAll(DataFrame& responses)
   NumericVector thetas;
   thetas = static_cast<NumericVector>(no_init(nrow));
 
+  auto answers = questionSet.answers;
+
   for(size_t row = 0; row != nrow; ++row)
   {
     while(!questionSet.nonapplicable_rows.empty() && !(checkStopRules()[0]))
     {
       Selection selection = selector->selectItem();
-      Rcpp::IntegerVector col = responses[selection.item]; 
+      Rcpp::IntegerVector col = responses[selection.item];
       questionSet.reset_answer(selection.item, col[row]);
     }
 
     // FIX ME: checkStopRules already computes theta
     thetas[row] = estimateTheta();
+
+    questionSet.reset_answers(answers);
   }
 
   return thetas;
