@@ -1114,8 +1114,7 @@ List lookAhead(S4 catObj, int item) {
 //' @export
 // [[Rcpp::export]]
 bool checkStopRules(S4 catObj) {
-	std::vector<bool> answer = Cat(catObj).checkStopRules();
-  return answer[0];
+  return Cat(catObj).checkStopRules();
 }
 
 

@@ -27,7 +27,7 @@ Cat::Cat(S4 cat_df) : questionSet(cat_df),
                       estimator(createEstimator(cat_df, integrator, questionSet)),
                       selector(createSelector(cat_df.slot("selection"), questionSet, *estimator, prior)){}
 
-std::vector<bool> Cat::checkStopRules() {
+bool Cat::checkStopRules() {
   std::vector<bool> all_thresholds;
   std::vector<bool> all_overrides;
   
@@ -38,65 +38,59 @@ std::vector<bool> Cat::checkStopRules() {
   if (! std::isnan(checkRules.lengthThreshold)){
     bool answer_lengthTheshold = questionSet.applicable_rows.size() >= checkRules.lengthThreshold ? true : false;
     all_thresholds.push_back(answer_lengthTheshold);
-  } else { }
+  }
 
   if (! std::isnan(checkRules.lengthOverride)){
     bool answer_lengthOverride = questionSet.applicable_rows.size() < checkRules.lengthOverride ? true : false;
     all_overrides.push_back(answer_lengthOverride);
-  } else { }
+  }
 
   if (! std::isnan(checkRules.seThreshold)){
     bool answer_seThreshold = SE_est < checkRules.seThreshold ? true : false;
     all_thresholds.push_back(answer_seThreshold);
-  } else { }
+  }
 
   if (! std::isnan(checkRules.gainThreshold)){
-    std::vector<bool> all_gainThreshold;
-    for (auto item : questionSet.nonapplicable_rows) {
-      double gain = std::abs(SE_est - std::pow(expectedPV(item), 0.5));
-      bool item_threshold = gain < checkRules.gainThreshold ? true : false;
-      all_gainThreshold.push_back(item_threshold);
-    }
-    bool answer_gainThreshold = std::all_of(all_gainThreshold.begin(), all_gainThreshold.end(), [](bool v) { return v; });
+    bool answer_gainThreshold  = std::all_of(questionSet.nonapplicable_rows.begin(), questionSet.nonapplicable_rows.end(), [&](int item)
+    {
+        double gain = std::abs(SE_est - std::pow(expectedPV(item), 0.5));
+        return gain < checkRules.gainThreshold;
+    });
+
     all_thresholds.push_back(answer_gainThreshold);
-  } else { }
+  }
 
   if (! std::isnan(checkRules.gainOverride)){
-    std::vector<bool> all_gainOverride;
-    for (auto item : questionSet.nonapplicable_rows) {
-      double gain = std::abs(SE_est - std::pow(expectedPV(item), 0.5));
-      bool item_override = gain >= checkRules.gainOverride ? true : false;
-      all_gainOverride.push_back(item_override);
-    }
-    bool answer_gainOverride  = std::all_of(all_gainOverride.begin(), all_gainOverride.end(), [](bool v) { return v; });
+    bool answer_gainOverride  = std::all_of(questionSet.nonapplicable_rows.begin(), questionSet.nonapplicable_rows.end(), [&](int item)
+    {
+        double gain = std::abs(SE_est - std::pow(expectedPV(item), 0.5));
+        return gain >= checkRules.gainOverride;
+    });
+
     all_overrides.push_back(answer_gainOverride);
-  } else { }
+  }
 
   if (! std::isnan(checkRules.infoThreshold)){
-    std::vector<bool> all_infoThreshold;
-    for (auto item : questionSet.nonapplicable_rows) {
-      double info = estimator->fisherInf(theta_est, item);
-      bool item_answer = info < checkRules.infoThreshold ? true : false;
-      all_infoThreshold.push_back(item_answer);
-    }
-    bool answer_infoThreshold  = std::all_of(all_infoThreshold.begin(), all_infoThreshold.end(), [](bool v) { return v; });
-    all_thresholds.push_back(answer_infoThreshold);
-  } else { }
-  
+    bool answer_infoThreshold  = std::all_of(questionSet.nonapplicable_rows.begin(), questionSet.nonapplicable_rows.end(), [&](int item)
+    {
+        double info = estimator->fisherInf(theta_est, item);
+        return info < checkRules.infoThreshold;
+    });
 
-  //had to do these excessive measures to get return value into a vector
-  std::vector<bool> stop;
+    all_thresholds.push_back(answer_infoThreshold);
+  }
   
+ 
   if(all_thresholds.empty() && all_overrides.empty()){
-    stop.push_back(false);
-  } else {
+    return false;
+  }
+  else
+  {
     bool any_thresholds_true = std::any_of(all_thresholds.begin(), all_thresholds.end(), [](bool v) { return v; });
     bool all_overrides_false = std::all_of(all_overrides.begin(), all_overrides.end(), [](bool v) { return !v; });
   
-    bool answer = any_thresholds_true && all_overrides_false ? true : false;
-    stop.push_back(answer);
+    return any_thresholds_true && all_overrides_false;
   }
-  return stop; 
 }
 
 double Cat::likelihood(double theta) {
@@ -156,15 +150,15 @@ List Cat::lookAhead(int item) {
     Selection selection = selector->selectItem();
     items.push_back(selection.item + 1);
     response_options.push_back(questionSet.answers.at(item));
-	}
+  }
   
   questionSet.nonapplicable_rows.push_back(item); // add item back to unanswered q's
-	questionSet.applicable_rows.pop_back(); // remove item from answered q's
-	questionSet.answers.at(item) = NA_INTEGER; // remove answer
-	  
-	DataFrame all_estimates = Rcpp::DataFrame::create(Named("response_option") = response_options,
+  questionSet.applicable_rows.pop_back(); // remove item from answered q's
+  questionSet.answers.at(item) = NA_INTEGER; // remove answer
+    
+  DataFrame all_estimates = Rcpp::DataFrame::create(Named("response_option") = response_options,
                                                    Named("next_item") = items);
-	return Rcpp::List::create(Named("estimates") = all_estimates);
+  return Rcpp::List::create(Named("estimates") = all_estimates);
 }
 
 NumericVector Cat::estimateThetas(DataFrame& responses)
@@ -204,7 +198,7 @@ NumericVector Cat::simulateAll(DataFrame& responses)
 
   for(size_t row = 0; row != nrow; ++row)
   {
-    while(!questionSet.nonapplicable_rows.empty() && !(checkStopRules()[0]))
+    while(!questionSet.nonapplicable_rows.empty() && !(checkStopRules()))
     {
       Selection selection = selector->selectItem();
       Rcpp::IntegerVector col = responses[selection.item];

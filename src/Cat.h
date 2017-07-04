@@ -41,7 +41,7 @@ public:
 	
 	Rcpp::List lookAhead(int item);
 	
-	std::vector<bool> checkStopRules();
+	bool checkStopRules();
 	
 	void showCppCat();
 
