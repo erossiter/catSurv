@@ -9,7 +9,7 @@ test_that("EAP estimation calculates correctly", {
   ltm_cat@estimation <- tpm_cat@estimation <- grm_cat@estimation <- gpcm_cat@estimation <- "EAP"
   
   ltm_cat@lengthThreshold <- 40
-  simulateAll(ltm_cat, npi[1:10, ])
+  #simulateAll(ltm_cat, npi[1:10, ])
   
   indv_ltm <- indv_tpm <- indv_grm <- indv_gpcm <- rep(NA, 10)
   for(i in 1:10){
