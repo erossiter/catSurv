@@ -1,3 +1,12 @@
+# catSurv 1.0.3
+
+### Major Changes
+* New functions `estimateThetas()` and `simulateThetas()` allow for estimation of ability parameter for dataframe of response sets.
+
+### Minnor Changes
+* Streamlined `checkStopRules()`.
+
+
 # catSurv 1.0.2
 
 ### Major Changes
@@ -10,4 +19,4 @@
 * Removed versioning from `stats` and `methods` imports as it caused errors in testing with r-oldrel.
 
 # catSurv 1.0.1
-* Corrected errors regarding portability of code to Solaris operating systems
+* Corrected errors regarding portability of code to Solaris operating systems.
