@@ -221,7 +221,14 @@ NumericVector Cat::simulateAll(DataFrame& responses)
     {
       Selection selection = selector->selectItem();
       Rcpp::IntegerVector col = responses[selection.item];
-      questionSet.reset_answer(selection.item, col[row]);
+      if(col[row] == NA_INTEGER)
+      {
+        questionSet.reset_answer(selection.item, -1);
+      }
+      else
+      {
+        questionSet.reset_answer(selection.item, col[row]);
+      }
     }
 
     // FIX ME: checkStopRules already computes theta
