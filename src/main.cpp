@@ -452,10 +452,51 @@ NumericVector estimateThetas(S4 catObj, DataFrame responses){
 	return Cat(catObj).estimateThetas(responses);
 }
 
+
+
+
+
+//' Simulates Estimates of Ability Parameters for a Dataset of Response Profiles
+//'
+//' Given a set of stopping rules and complete response profiles for a dataset of respondents,
+//' simulates the expected value of the ability parameter \eqn{\theta} as though an adaptive 
+//' battery were provided
+//'
+//' @param catObj An object of class \code{Cat} with stopping rule(s) specified
+//' @param responses A dataframe of complete response profiles
+//'
+//' @return The function \code{simulateThetas} returns a vector of the expected values of the respondents' ability parameters
+//' as though the respondents were given an adaptive battery.  Given the item selection criterion specified in the \code{Cat} object,
+//'  this function selects an item, "administers" the item to the respondent, and records their answer from the dataframe provided in
+//'  the \code{response} parameter of the function.  This process continues until stopping rule(s) specified in the \code{Cat} object are met for each respondent.  The function returns a final estimate of the ability parameter \eqn{\theta}
+//'  for each respondent.
+//'  
+//'
+//' 
+//' @examples
+//'## Loading ltm Cat object
+//'data(ltm_cat)
+//'
+//'## Set estimation, selection, and stopping rule
+//'data(npi)
+//'setEstimation(ltm_cat) <- "EAP"
+//'setSelection(ltm_cat) <- "EPV"
+//'setLengthThreshold(ltm_cat) <- 3
+//'
+//'## Simulate theta by asking 3 questions adaptively for the first 25 respondents
+//'simulateThetas(ltm_cat, responses = npi[1:25, ])
+//'
+//' 
+//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
+//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+//'  
+//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
+//' 
+//' @seealso \code{\link{Cat-class}}, \code{\link{estimateThetas}}, \code{\link{checkStopRules}}
 //' @export
 // [[Rcpp::export]]
-NumericVector simulateAll(S4 catObj, DataFrame responses){
-	return Cat(catObj).simulateAll(responses);
+NumericVector simulateThetas(S4 catObj, DataFrame responses){
+	return Cat(catObj).simulateThetas(responses);
 }
 
 

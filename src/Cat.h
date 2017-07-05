@@ -57,7 +57,7 @@ public:
 
 	NumericVector estimateThetas(DataFrame& responses);
 
-	NumericVector simulateAll(DataFrame& responses);
+	NumericVector simulateThetas(DataFrame& responses);
 
 private:
 	bool noneOfOverrides(double se);

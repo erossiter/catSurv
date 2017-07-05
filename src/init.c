@@ -27,7 +27,7 @@ extern SEXP catSurv_prior(SEXP, SEXP, SEXP);
 extern SEXP catSurv_probability(SEXP, SEXP, SEXP);
 extern SEXP catSurv_selectItem(SEXP);
 extern SEXP catSurv_estimateThetas(SEXP,SEXP);
-extern SEXP catSurv_simulateAll(SEXP,SEXP);
+extern SEXP catSurv_simulateThetas(SEXP,SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"catSurv_checkStopRules", (DL_FUNC) &catSurv_checkStopRules, 1},
@@ -49,7 +49,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"catSurv_probability",    (DL_FUNC) &catSurv_probability,    3},
     {"catSurv_selectItem",     (DL_FUNC) &catSurv_selectItem,     1},
     {"catSurv_estimateThetas", (DL_FUNC) &catSurv_estimateThetas, 2},
-    {"catSurv_simulateAll",    (DL_FUNC) &catSurv_simulateAll,    2},
+    {"catSurv_simulateThetas",    (DL_FUNC) &catSurv_simulateThetas,    2},
     {NULL, NULL, 0}
 };
 

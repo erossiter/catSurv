@@ -200,7 +200,7 @@ NumericVector Cat::estimateThetas(DataFrame& responses)
   return thetas;
 }
 
-NumericVector Cat::simulateAll(DataFrame& responses)
+NumericVector Cat::simulateThetas(DataFrame& responses)
 {
   if(std::isnan(checkRules.lengthThreshold) && std::isnan(checkRules.seThreshold) &&
    std::isnan(checkRules.infoThreshold) && std::isnan(checkRules.gainThreshold) )
@@ -208,6 +208,11 @@ NumericVector Cat::simulateAll(DataFrame& responses)
     throw std::domain_error("Need to specify stopping rule(s) in Cat object.");
   }
 
+  if(!questionSet.applicable_rows.empty())
+  {
+    throw std::domain_error("All answers Cat object should be NA.");
+  }
+  
 
   size_t nrow = responses.nrow();
   NumericVector thetas;

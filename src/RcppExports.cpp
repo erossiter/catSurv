@@ -94,15 +94,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// simulateAll
-NumericVector simulateAll(S4 catObj, DataFrame responses);
-RcppExport SEXP catSurv_simulateAll(SEXP catObjSEXP, SEXP responsesSEXP) {
+// simulateThetas
+NumericVector simulateThetas(S4 catObj, DataFrame responses);
+RcppExport SEXP catSurv_simulateThetas(SEXP catObjSEXP, SEXP responsesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< S4 >::type catObj(catObjSEXP);
     Rcpp::traits::input_parameter< DataFrame >::type responses(responsesSEXP);
-    rcpp_result_gen = Rcpp::wrap(simulateAll(catObj, responses));
+    rcpp_result_gen = Rcpp::wrap(simulateThetas(catObj, responses));
     return rcpp_result_gen;
 END_RCPP
 }
