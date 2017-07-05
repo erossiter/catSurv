@@ -60,6 +60,10 @@ public:
 	NumericVector simulateAll(DataFrame& responses);
 
 private:
+	bool noneOfOverrides(double se);
+	bool anyOfThresholds(double se);
+
+private:
 
 	QuestionSet questionSet;
 	Integrator integrator;

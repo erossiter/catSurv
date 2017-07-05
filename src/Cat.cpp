@@ -27,70 +27,89 @@ Cat::Cat(S4 cat_df) : questionSet(cat_df),
                       estimator(createEstimator(cat_df, integrator, questionSet)),
                       selector(createSelector(cat_df.slot("selection"), questionSet, *estimator, prior)){}
 
-bool Cat::checkStopRules() {
-  std::vector<bool> all_thresholds;
-  std::vector<bool> all_overrides;
-  
+bool Cat::checkStopRules() { 
   double SE_est = estimator->estimateSE(prior);
-  double theta_est = estimator->estimateTheta(prior);
-  
-  // Checking whether or not user wants each rule implemented, then performing the check
-  if (! std::isnan(checkRules.lengthThreshold)){
-    bool answer_lengthTheshold = questionSet.applicable_rows.size() >= checkRules.lengthThreshold ? true : false;
-    all_thresholds.push_back(answer_lengthTheshold);
+
+  if(noneOfOverrides(SE_est))
+  {
+    return anyOfThresholds(SE_est);
+  }
+  return false;  
+}
+
+bool Cat::anyOfThresholds(double se)
+{  
+  if (! std::isnan(checkRules.lengthThreshold))
+  {
+    if(questionSet.applicable_rows.size() >= checkRules.lengthThreshold)
+    {
+      return true;
+    }
   }
 
-  if (! std::isnan(checkRules.lengthOverride)){
-    bool answer_lengthOverride = questionSet.applicable_rows.size() < checkRules.lengthOverride ? true : false;
-    all_overrides.push_back(answer_lengthOverride);
-  }
-
-  if (! std::isnan(checkRules.seThreshold)){
-    bool answer_seThreshold = SE_est < checkRules.seThreshold ? true : false;
-    all_thresholds.push_back(answer_seThreshold);
+  if (! std::isnan(checkRules.seThreshold))
+  {
+    if(se < checkRules.seThreshold )
+    {
+      return true;
+    }
   }
 
   if (! std::isnan(checkRules.gainThreshold)){
     bool answer_gainThreshold  = std::all_of(questionSet.nonapplicable_rows.begin(), questionSet.nonapplicable_rows.end(), [&](int item)
     {
-        double gain = std::abs(SE_est - std::pow(expectedPV(item), 0.5));
+        double gain = std::abs(se - std::pow(expectedPV(item), 0.5));
         return gain < checkRules.gainThreshold;
     });
 
-    all_thresholds.push_back(answer_gainThreshold);
-  }
-
-  if (! std::isnan(checkRules.gainOverride)){
-    bool answer_gainOverride  = std::all_of(questionSet.nonapplicable_rows.begin(), questionSet.nonapplicable_rows.end(), [&](int item)
+    if(answer_gainThreshold)
     {
-        double gain = std::abs(SE_est - std::pow(expectedPV(item), 0.5));
-        return gain >= checkRules.gainOverride;
-    });
-
-    all_overrides.push_back(answer_gainOverride);
+      return true;
+    }
   }
+
 
   if (! std::isnan(checkRules.infoThreshold)){
+    double theta = estimator->estimateTheta(prior);
     bool answer_infoThreshold  = std::all_of(questionSet.nonapplicable_rows.begin(), questionSet.nonapplicable_rows.end(), [&](int item)
     {
-        double info = estimator->fisherInf(theta_est, item);
+        double info = estimator->fisherInf(theta, item);
         return info < checkRules.infoThreshold;
     });
 
-    all_thresholds.push_back(answer_infoThreshold);
+    if(answer_infoThreshold)
+    {
+      return true;
+    }
   }
-  
- 
-  if(all_thresholds.empty() && all_overrides.empty()){
-    return false;
-  }
-  else
+   
+  return false;
+}
+
+bool Cat::noneOfOverrides(double se)
+{
+  if (! std::isnan(checkRules.lengthOverride))
   {
-    bool any_thresholds_true = std::any_of(all_thresholds.begin(), all_thresholds.end(), [](bool v) { return v; });
-    bool all_overrides_false = std::all_of(all_overrides.begin(), all_overrides.end(), [](bool v) { return !v; });
-  
-    return any_thresholds_true && all_overrides_false;
+    if(questionSet.applicable_rows.size() < checkRules.lengthOverride)
+    {
+      return false;
+    }
   }
+
+  if (! std::isnan(checkRules.gainOverride))
+  {
+    bool answer_gainOverride  = std::all_of(questionSet.nonapplicable_rows.begin(), questionSet.nonapplicable_rows.end(), [&](int item)
+    {
+        double gain = std::abs(se - std::pow(expectedPV(item), 0.5));
+        return gain >= checkRules.gainOverride;
+    });
+
+    if(answer_gainOverride)
+    {
+      return false;
+    }
+  }
+  return true;
 }
 
 double Cat::likelihood(double theta) {
