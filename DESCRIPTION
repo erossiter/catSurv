@@ -8,6 +8,7 @@ Depends:
 	R(>= 3.3.2)
 License: GPL-3
 Imports:
+	jsonlite,
 	methods,
 	stats,
 	Rcpp(>= 0.12.11),

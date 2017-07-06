@@ -419,7 +419,6 @@ estimateThetas <- function(catObj, responses) {
     .Call(catSurv_estimateThetas, catObj, responses)
 }
 
-
 #' Simulates Estimates of Ability Parameters for a Dataset of Response Profiles
 #'
 #' Given a set of stopping rules and complete response profiles for a dataset of respondents,
@@ -461,7 +460,6 @@ estimateThetas <- function(catObj, responses) {
 simulateThetas <- function(catObj, responses) {
     .Call(catSurv_simulateThetas, catObj, responses)
 }
-
 
 #' Observed Information
 #'

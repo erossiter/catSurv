@@ -94,7 +94,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-
 // simulateThetas
 NumericVector simulateThetas(S4 catObj, DataFrame responses);
 RcppExport SEXP catSurv_simulateThetas(SEXP catObjSEXP, SEXP responsesSEXP) {
@@ -107,7 +106,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-
 // obsInf
 double obsInf(S4 catObj, double theta, int item);
 RcppExport SEXP catSurv_obsInf(SEXP catObjSEXP, SEXP thetaSEXP, SEXP itemSEXP) {
