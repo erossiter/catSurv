@@ -36,6 +36,7 @@ struct QuestionSet {
 
 	void reset_answers(Rcpp::DataFrame& responses, size_t row);
 	void reset_answer(size_t question, int answer);
+	void reset_answers(std::vector<int> const& source);
 private:
 	void reset_all_extreme();
 	void reset_applicables();

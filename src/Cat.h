@@ -41,7 +41,7 @@ public:
 	
 	Rcpp::List lookAhead(int item);
 	
-	std::vector<bool> checkStopRules();
+	bool checkStopRules();
 	
 	void showCppCat();
 
@@ -56,6 +56,13 @@ public:
 	double fisherTestInfo();
 
 	NumericVector estimateThetas(DataFrame& responses);
+
+	NumericVector simulateThetas(DataFrame& responses);
+
+private:
+	bool noneOfOverrides(double se);
+	bool anyOfThresholds(double se);
+
 
 private:
 
