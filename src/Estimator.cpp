@@ -1315,8 +1315,9 @@ double Estimator::fii(int item, Prior prior) {
 	  
   double delta = questionSet.z.at(0) * std::pow(fisherTestInfo(prior), 0.5);
   
-  const double lower = estimateTheta(prior) - delta;
-  const double upper = estimateTheta(prior) + delta;
+  double theta = estimateTheta(prior);
+  const double lower = theta - delta;
+  const double upper = theta + delta;
 
 	return integrate_selectItem(fii_j, lower, upper);
 }
@@ -1365,8 +1366,8 @@ double Estimator::expectedKL(int item, Prior prior) {
   
   double delta = questionSet.z.at(0) * std::pow(fisherTestInfo(prior), 0.5);
   
-  const double lower = estimateTheta(prior) - delta;
-  const double upper = estimateTheta(prior) + delta;
+  const double lower = theta - delta;
+  const double upper = theta + delta;
 
   return integrate_selectItem(kl_fctn, lower, upper);
 }

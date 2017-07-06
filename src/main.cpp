@@ -456,6 +456,7 @@ NumericVector estimateThetas(S4 catObj, DataFrame responses){
 
 
 
+
 //' Simulates Estimates of Ability Parameters for a Dataset of Response Profiles
 //'
 //' Given a set of stopping rules and complete response profiles for a dataset of respondents,

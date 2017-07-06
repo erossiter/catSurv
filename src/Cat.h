@@ -63,6 +63,7 @@ private:
 	bool noneOfOverrides(double se);
 	bool anyOfThresholds(double se);
 
+
 private:
 
 	QuestionSet questionSet;

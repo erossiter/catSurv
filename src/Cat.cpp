@@ -200,6 +200,7 @@ NumericVector Cat::estimateThetas(DataFrame& responses)
   return thetas;
 }
 
+
 NumericVector Cat::simulateThetas(DataFrame& responses)
 {
   if(std::isnan(checkRules.lengthThreshold) && std::isnan(checkRules.seThreshold) &&
@@ -244,6 +245,7 @@ NumericVector Cat::simulateThetas(DataFrame& responses)
 
   return thetas;
 }
+
 
 
 double Cat::d1LL(double theta, bool use_prior) {

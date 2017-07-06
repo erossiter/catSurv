@@ -29,6 +29,7 @@ extern SEXP catSurv_selectItem(SEXP);
 extern SEXP catSurv_estimateThetas(SEXP,SEXP);
 extern SEXP catSurv_simulateThetas(SEXP,SEXP);
 
+
 static const R_CallMethodDef CallEntries[] = {
     {"catSurv_checkStopRules", (DL_FUNC) &catSurv_checkStopRules, 1},
     {"catSurv_d1LL",           (DL_FUNC) &catSurv_d1LL,           3},

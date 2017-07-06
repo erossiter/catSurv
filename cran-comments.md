@@ -3,7 +3,6 @@
 
 * In addition, this patch release adds two important functions, `estimateThetas()` and `simulateThetas()`.
 
-
 ## Test environments
 * local OS X install, R 3.4.0
 * win-builder
