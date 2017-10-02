@@ -9,7 +9,7 @@ using namespace Rcpp;
 
 // probability
 std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector item);
-RcppExport SEXP catSurv_probability(SEXP catObjSEXP, SEXP thetaSEXP, SEXP itemSEXP) {
+RcppExport SEXP _catSurv_probability(SEXP catObjSEXP, SEXP thetaSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -22,7 +22,7 @@ END_RCPP
 }
 // likelihood
 double likelihood(S4 catObj, double theta);
-RcppExport SEXP catSurv_likelihood(SEXP catObjSEXP, SEXP thetaSEXP) {
+RcppExport SEXP _catSurv_likelihood(SEXP catObjSEXP, SEXP thetaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -34,7 +34,7 @@ END_RCPP
 }
 // prior
 double prior(NumericVector x, CharacterVector dist, NumericVector params);
-RcppExport SEXP catSurv_prior(SEXP xSEXP, SEXP distSEXP, SEXP paramsSEXP) {
+RcppExport SEXP _catSurv_prior(SEXP xSEXP, SEXP distSEXP, SEXP paramsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -47,7 +47,7 @@ END_RCPP
 }
 // d1LL
 double d1LL(S4& catObj, double theta, bool use_prior);
-RcppExport SEXP catSurv_d1LL(SEXP catObjSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
+RcppExport SEXP _catSurv_d1LL(SEXP catObjSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -60,7 +60,7 @@ END_RCPP
 }
 // d2LL
 double d2LL(S4& catObj, double theta, bool use_prior);
-RcppExport SEXP catSurv_d2LL(SEXP catObjSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
+RcppExport SEXP _catSurv_d2LL(SEXP catObjSEXP, SEXP thetaSEXP, SEXP use_priorSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -73,7 +73,7 @@ END_RCPP
 }
 // estimateTheta
 double estimateTheta(S4 catObj);
-RcppExport SEXP catSurv_estimateTheta(SEXP catObjSEXP) {
+RcppExport SEXP _catSurv_estimateTheta(SEXP catObjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -84,7 +84,7 @@ END_RCPP
 }
 // estimateThetas
 NumericVector estimateThetas(S4 catObj, DataFrame responses);
-RcppExport SEXP catSurv_estimateThetas(SEXP catObjSEXP, SEXP responsesSEXP) {
+RcppExport SEXP _catSurv_estimateThetas(SEXP catObjSEXP, SEXP responsesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -96,7 +96,7 @@ END_RCPP
 }
 // simulateThetas
 NumericVector simulateThetas(S4 catObj, DataFrame responses);
-RcppExport SEXP catSurv_simulateThetas(SEXP catObjSEXP, SEXP responsesSEXP) {
+RcppExport SEXP _catSurv_simulateThetas(SEXP catObjSEXP, SEXP responsesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -108,7 +108,7 @@ END_RCPP
 }
 // obsInf
 double obsInf(S4 catObj, double theta, int item);
-RcppExport SEXP catSurv_obsInf(SEXP catObjSEXP, SEXP thetaSEXP, SEXP itemSEXP) {
+RcppExport SEXP _catSurv_obsInf(SEXP catObjSEXP, SEXP thetaSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -121,7 +121,7 @@ END_RCPP
 }
 // expectedObsInf
 double expectedObsInf(S4 catObj, int item);
-RcppExport SEXP catSurv_expectedObsInf(SEXP catObjSEXP, SEXP itemSEXP) {
+RcppExport SEXP _catSurv_expectedObsInf(SEXP catObjSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -133,7 +133,7 @@ END_RCPP
 }
 // fisherInf
 double fisherInf(S4 catObj, double theta, int item);
-RcppExport SEXP catSurv_fisherInf(SEXP catObjSEXP, SEXP thetaSEXP, SEXP itemSEXP) {
+RcppExport SEXP _catSurv_fisherInf(SEXP catObjSEXP, SEXP thetaSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -146,7 +146,7 @@ END_RCPP
 }
 // fisherTestInfo
 double fisherTestInfo(S4 catObj);
-RcppExport SEXP catSurv_fisherTestInfo(SEXP catObjSEXP) {
+RcppExport SEXP _catSurv_fisherTestInfo(SEXP catObjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -157,7 +157,7 @@ END_RCPP
 }
 // estimateSE
 double estimateSE(S4 catObj);
-RcppExport SEXP catSurv_estimateSE(SEXP catObjSEXP) {
+RcppExport SEXP _catSurv_estimateSE(SEXP catObjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -168,7 +168,7 @@ END_RCPP
 }
 // expectedPV
 double expectedPV(S4 catObj, int item);
-RcppExport SEXP catSurv_expectedPV(SEXP catObjSEXP, SEXP itemSEXP) {
+RcppExport SEXP _catSurv_expectedPV(SEXP catObjSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -180,7 +180,7 @@ END_RCPP
 }
 // selectItem
 List selectItem(S4 catObj);
-RcppExport SEXP catSurv_selectItem(SEXP catObjSEXP) {
+RcppExport SEXP _catSurv_selectItem(SEXP catObjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -191,7 +191,7 @@ END_RCPP
 }
 // expectedKL
 double expectedKL(S4 catObj, int item);
-RcppExport SEXP catSurv_expectedKL(SEXP catObjSEXP, SEXP itemSEXP) {
+RcppExport SEXP _catSurv_expectedKL(SEXP catObjSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -203,7 +203,7 @@ END_RCPP
 }
 // likelihoodKL
 double likelihoodKL(S4 catObj, int item);
-RcppExport SEXP catSurv_likelihoodKL(SEXP catObjSEXP, SEXP itemSEXP) {
+RcppExport SEXP _catSurv_likelihoodKL(SEXP catObjSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -215,7 +215,7 @@ END_RCPP
 }
 // posteriorKL
 double posteriorKL(S4 catObj, int item);
-RcppExport SEXP catSurv_posteriorKL(SEXP catObjSEXP, SEXP itemSEXP) {
+RcppExport SEXP _catSurv_posteriorKL(SEXP catObjSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -227,7 +227,7 @@ END_RCPP
 }
 // lookAhead
 List lookAhead(S4 catObj, int item);
-RcppExport SEXP catSurv_lookAhead(SEXP catObjSEXP, SEXP itemSEXP) {
+RcppExport SEXP _catSurv_lookAhead(SEXP catObjSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -239,7 +239,7 @@ END_RCPP
 }
 // checkStopRules
 bool checkStopRules(S4 catObj);
-RcppExport SEXP catSurv_checkStopRules(SEXP catObjSEXP) {
+RcppExport SEXP _catSurv_checkStopRules(SEXP catObjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
