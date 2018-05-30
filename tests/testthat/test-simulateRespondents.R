@@ -1,6 +1,9 @@
 context("estimateThetas")
 load("cat_objects.Rdata")
 
+
+## Takes a true value of theta and n number of respondents simulate
+## and simulates FULL response profiles
 simulateRespondents_test <- function(cat, theta, n){
   if(sum(!is.na(cat@answers)) != 0){
     stop("Cat object should not have respondent specific answers.")
@@ -28,6 +31,7 @@ simulateRespondents_test <- function(cat, theta, n){
   return(as.data.frame(ans_profiles))
 }
 
+library(catSurv)
 ## LTM: A check with theta of 1, item 10
 probs <- probability(ltm_cat, 1, 10)
 sims <- simulateRespondents_test(ltm_cat, 1, 5000)

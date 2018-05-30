@@ -22,6 +22,9 @@ simulate_all <- function(cat, response_mat){
   return(out)
 }
 
+## Takes full response profiles and given some stopping rule(s)
+## simulates an adaptive test, and returns the theta value
+
 test_that("Length threshold operates correctly", {
   ltm_cat@lengthThreshold <- tpm_cat@lengthThreshold <- grm_cat@lengthThreshold <- gpcm_cat@lengthThreshold <- 3
   

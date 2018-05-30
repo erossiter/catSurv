@@ -43,6 +43,8 @@ oracle_test <- function(catObj, theta, x, n){
 grm_cat@answers <- as.numeric(nfc[1,])
 true_theta <- estimateTheta(grm_cat)
 grm_cat@answers <- rep(NA, length(grm_cat@answers))
+
+## oracle depends on response profiles
 grm_example <- oracle_test(grm_cat, theta = true_theta, x = nfc[1,], n = 15)
 grm_example$true_theta
 grm_example$theta_est
