@@ -24,6 +24,7 @@ The \code{jsonObj} argument of the function \code{jsonCat} is an object of class
 }
 \examples{
 ## Creating json object
+library(jsonlite)
 json_cat <- toJSON(list(guessing = rep(0, 10),
 discrimination = rnorm(n = 10, 0, 1.5),
 difficulty = rnorm(n = 10, 0, 3),

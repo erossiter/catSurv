@@ -7,23 +7,25 @@
 #' @param type Character.
 #' @param ... Other arguments passed to plot().
 #' 
-#' @aliases plot
-
-setGeneric("plot.Cat", function(x, item, type, ...){
-    standardGeneric("plot.Cat")
-    }) 
-
+#' 
+#' @name plot.Cat
+#' 
+#' 
+#' @importFrom grDevices rgb
+#' @import graphics
+#' @export plot
+#' 
 #' @export
-setMethod(f = "plot.Cat", signature = c(x = "Cat", item = "numeric", type = "character"),
-          definition = function(x, item, type, ...) {
+setMethod("plot", c("Cat"),
+          definition = function(x, item = "numeric", type = "character", ...) {
               catObj <- x
               ## R class code
               linecolors<-c(col=rgb(51/255, 153/255, 102/255), rgb(0/255, 102/255, 204/255),
-                           rgb(204/255, 102/255, 153/255), col= rgb(102/255, 0/255, 102/255),
-                           col=rgb(204/255, 51/255, 0/255),
-                           ## Above is the customizable part. Codes below return randomized colors.
-                           sapply(c(1:1000),function(i){return(col=rgb(
-                               sample(100:255,1)/255,sample(100:255,1)/255,sample(100:255,1)/255))}))
+                            rgb(204/255, 102/255, 153/255), col= rgb(102/255, 0/255, 102/255),
+                            col=rgb(204/255, 51/255, 0/255),
+                            ## Above is the customizable part. Codes below return randomized colors.
+                            sapply(c(1:1000),function(i){return(col=rgb(
+                                sample(100:255,1)/255,sample(100:255,1)/255,sample(100:255,1)/255))}))
               ltys<-c(1:16)
               x<-seq(-5,5,.1)
               if(type=="IIF"){ipr<-sapply(x,fisherInf, catObj=catObj, item=item)
