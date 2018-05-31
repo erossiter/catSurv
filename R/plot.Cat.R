@@ -8,8 +8,10 @@
 #' @param ... Other arguments passed to plot().
 #' 
 #' 
-#' @name plot.Cat
+#' @aliases plot.Cat plot,Cat plot,Cat-method
 #' 
+#' @rdname plot.Cat
+#' @name plot.Cat
 #' 
 #' @importFrom grDevices rgb
 #' @import graphics

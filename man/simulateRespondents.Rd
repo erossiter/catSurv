@@ -6,14 +6,14 @@
 \alias{simulateRespondents,Cat-method}
 \title{Simulate Answer Profiles}
 \usage{
-\S4method{simulateRespondents}{Cat}(cat, theta, n)
+\S4method{simulateRespondents}{Cat}(catObj, theta, n)
 }
 \arguments{
+\item{catObj}{An object of class \code{Cat}}
+
 \item{theta}{A numeric representing the true position on the latent trait.}
 
 \item{n}{A numeric indicating the number of answer profiles to simulate.}
-
-\item{catObj}{An object of class \code{Cat}}
 }
 \value{
 ...

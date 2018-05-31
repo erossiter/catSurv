@@ -3,9 +3,11 @@
 \docType{methods}
 \name{plot.Cat}
 \alias{plot.Cat}
+\alias{plot,Cat}
+\alias{plot,Cat-method}
 \title{Plotting function for Cat object}
 \usage{
-\S4method{plot}{Cat,ANY}(x, item = "numeric", type = "character", ...)
+\S4method{plot}{Cat}(x, item = "numeric", type = "character", ...)
 }
 \arguments{
 \item{x}{Cat.}
