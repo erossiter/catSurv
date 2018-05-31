@@ -39,18 +39,19 @@ bool Cat::checkStopRules() {
 
 bool Cat::anyOfThresholds(double se)
 {  
-  if (! std::isnan(checkRules.lengthThreshold))
-  {
-    if(questionSet.applicable_rows.size() >= checkRules.lengthThreshold)
-    {
-      return true;
-    }
+  if (! std::isnan(checkRules.lengthThreshold)){
+      // std::cout << "applic" << questionSet.applicable_rows.size() << std:: endl;
+      // std::cout << "nonapplic" << questionSet.nonapplicable_rows.size() << std:: endl;
+      // std::cout << "skipped" << questionSet.skipped.size() << std:: endl;
+      // 
+      //added non-response to length count
+      if((questionSet.applicable_rows.size() + questionSet.skipped.size()) >= checkRules.lengthThreshold){
+          return true;
+      }
   }
 
-  if (! std::isnan(checkRules.seThreshold))
-  {
-    if(se < checkRules.seThreshold )
-    {
+  if (! std::isnan(checkRules.seThreshold)) {
+    if(se < checkRules.seThreshold ) {
       return true;
     }
   }
@@ -62,8 +63,7 @@ bool Cat::anyOfThresholds(double se)
         return gain < checkRules.gainThreshold;
     });
 
-    if(answer_gainThreshold)
-    {
+    if(answer_gainThreshold){
       return true;
     }
   }
@@ -77,8 +77,7 @@ bool Cat::anyOfThresholds(double se)
         return info < checkRules.infoThreshold;
     });
 
-    if(answer_infoThreshold)
-    {
+    if(answer_infoThreshold) {
       return true;
     }
   }
@@ -86,26 +85,21 @@ bool Cat::anyOfThresholds(double se)
   return false;
 }
 
-bool Cat::noneOfOverrides(double se)
-{
-  if (! std::isnan(checkRules.lengthOverride))
-  {
-    if(questionSet.applicable_rows.size() < checkRules.lengthOverride)
-    {
+bool Cat::noneOfOverrides(double se){
+  if (! std::isnan(checkRules.lengthOverride)) {
+    if((questionSet.applicable_rows.size() + questionSet.skipped.size()) < checkRules.lengthOverride){
       return false;
     }
   }
 
-  if (! std::isnan(checkRules.gainOverride))
-  {
+  if (! std::isnan(checkRules.gainOverride)){
     bool answer_gainOverride  = std::all_of(questionSet.nonapplicable_rows.begin(), questionSet.nonapplicable_rows.end(), [&](int item)
     {
         double gain = std::abs(se - std::pow(expectedPV(item), 0.5));
         return gain >= checkRules.gainOverride;
     });
 
-    if(answer_gainOverride)
-    {
+    if(answer_gainOverride){
       return false;
     }
   }
