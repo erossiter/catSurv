@@ -13,12 +13,14 @@
 
 \item{theta}{A numeric representing the true position on the latent trait.}
 
-\item{n}{A numeric indicating the length the combinations of all subsetted answer profile should be.}
+\item{ans_profiles}{A vector representing the respondent's full answer profile.}
 
-\item{ans_profile}{A vector representing the respondent's full answer profile.}
+\item{n}{A numeric indicating the length the combinations of all subsetted answer profile should be.}
 }
 \value{
-...
+A data.frame where the first column is the user-supplied true value of theta, the second column is the
+best possible theta estimate given n questions are asked, and the remaining columns are the answer profile leading
+to the best possible theta estimation.
 }
 \description{
 Generating all possible combinations of length n from a response profile to determine
