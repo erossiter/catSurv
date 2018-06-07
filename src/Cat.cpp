@@ -366,8 +366,8 @@ double Cat::posteriorKL(int item) {
 	return estimator->posteriorKL(item, prior);
 }
 
-double Cat::fisherTestInfo() {
-	return estimator->fisherTestInfo(prior);
+double Cat::fisherTestInfo(double theta) {
+    return estimator->fisherTestInfo(theta);
 }
 
 

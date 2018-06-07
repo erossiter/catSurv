@@ -574,6 +574,7 @@ fisherInf <- function(catObj, theta, item) {
 #' Calculates the total information gained for a respondent for all answered items, conditioned on \eqn{\theta}.
 #'
 #' @param catObj An object of class \code{Cat}
+#' @param theta A numeric indicating the position on the latent trait.
 #' 
 #' @return The function \code{fisherTestInfo} returns a numeric indicating the total information gained for a respondent,
 #'  given a specific answer set and the current estimate of \eqn{\theta}.
@@ -598,8 +599,8 @@ fisherInf <- function(catObj, theta, item) {
 #' @seealso \code{\link{fisherInf}}
 #' 
 #' @export
-fisherTestInfo <- function(catObj) {
-    .Call(`_catSurv_fisherTestInfo`, catObj)
+fisherTestInfo <- function(catObj, theta) {
+    .Call(`_catSurv_fisherTestInfo`, catObj, theta)
 }
 
 #' Standard Error of Ability Parameter Estimate

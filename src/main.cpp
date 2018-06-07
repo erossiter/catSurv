@@ -615,11 +615,15 @@ double fisherInf(S4 catObj, double theta, int item) {
   return Cat(catObj).fisherInf(theta, item);
 }
 
+
+
+
 //' Fisher's Test Information
 //'
 //' Calculates the total information gained for a respondent for all answered items, conditioned on \eqn{\theta}.
 //'
 //' @param catObj An object of class \code{Cat}
+//' @param theta A numeric indicating the position on the latent trait.
 //' 
 //' @return The function \code{fisherTestInfo} returns a numeric indicating the total information gained for a respondent,
 //'  given a specific answer set and the current estimate of \eqn{\theta}.
@@ -645,9 +649,10 @@ double fisherInf(S4 catObj, double theta, int item) {
 //' 
 //' @export
 // [[Rcpp::export]]
-double fisherTestInfo(S4 catObj) {
-  return Cat(catObj).fisherTestInfo();
+double fisherTestInfo(S4 catObj, double theta) {
+    return Cat(catObj).fisherTestInfo(theta);
 }
+
 
 //' Standard Error of Ability Parameter Estimate
 //'

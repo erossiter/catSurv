@@ -53,7 +53,9 @@ public:
 	
 	double posteriorKL(int item);
 	
-	double fisherTestInfo();
+	//double fisherTestInfo();
+	
+	double fisherTestInfo(double theta);
 
 	NumericVector estimateThetas(DataFrame& responses);
 

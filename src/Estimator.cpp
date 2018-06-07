@@ -83,7 +83,8 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
 	// checking for repeated elements
   	auto it = std::adjacent_find(probabilities.begin(), probabilities.end());
   	if(it != probabilities.end()){
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. \
+                                 If using MAP estimation, try EAP instead.");
   	}
 
 	return probabilities;
@@ -118,7 +119,8 @@ std::pair<double,double> Estimator::prob_grm_pair(double theta, size_t question,
 	// checking for repeated elements
   	if(probs.first == probs.second)
   	{
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. \
+                                 If using MAP estimation, try EAP instead.");
   	}
 
 	return probs;
@@ -147,7 +149,8 @@ std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
 	}
 	
 	if(denominator == 0.0 or std::isinf(denominator)){
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. \
+                                 If using MAP estimation, try EAP instead.");
   	}
 
   	// normalize
@@ -199,7 +202,8 @@ double Estimator::prob_gpcm_at(double theta, size_t question, size_t at)
 	}
 	
 	if(denominator == 0.0 or std::isinf(denominator)){
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. \
+                                 If using MAP estimation, try EAP instead.");
   	}
 
   	// normalize 
@@ -263,7 +267,8 @@ double Estimator::gpcm_partial_d1LL(double theta, size_t question, int answer) {
 	}
 
 	if(g == 0.0 or std::isinf(g)){
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. \
+                                 If using MAP estimation, try EAP instead.");
   	}
 
   	return (g*f_prime - f*g_prime)/(g*f);
@@ -338,7 +343,8 @@ double Estimator::gpcm_partial_d2LL(double theta, size_t question, int answer) {
 	}
 
 	if(g == 0.0 or std::isinf(g)){
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. \
+                                 If using MAP estimation, try EAP instead.");
   	}
 
 	double b = g*g;
@@ -977,14 +983,12 @@ double Estimator::expectedPV_ltm_tpm(int item, Prior &prior)
 double Estimator::expectedPV_grm(int item, Prior &prior)
 {
 	//polytomous_posterior_variance
-	   
 	double sum = 0;
 	auto probabilities = prob_grm(estimateTheta(prior), (size_t) item);
   	for (size_t i = 1; i < probabilities.size(); ++i) {
   		double var = std::pow(estimateSE(prior,item,(int)i), 2.0);
     	sum += var * (probabilities.at(i) - probabilities.at(i-1));
     }
-	
 	return sum;
 }
 
@@ -1260,6 +1264,17 @@ double Estimator::brentMethod(integrableFunction function){//const &function) {
   
   return r;
 }
+
+//This version of the function is only for plotting.
+//It should not intented to be used for anything else in the package!
+double Estimator::fisherTestInfo(double theta) {
+    double sum = 0.0;
+    for (auto item : questionSet.applicable_rows) {
+        sum += fisherInf(theta, item);
+    }
+    return sum;
+}
+
   
 double Estimator::fisherTestInfo(Prior prior) {
   double theta = estimateTheta(prior);

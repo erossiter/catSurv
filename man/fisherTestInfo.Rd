@@ -4,10 +4,12 @@
 \alias{fisherTestInfo}
 \title{Fisher's Test Information}
 \usage{
-fisherTestInfo(catObj)
+fisherTestInfo(catObj, theta)
 }
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
+
+\item{theta}{A numeric indicating the position on the latent trait.}
 }
 \value{
 The function \code{fisherTestInfo} returns a numeric indicating the total information gained for a respondent,

@@ -21,44 +21,67 @@
 #' @name oracle
 NULL
 
-setGeneric("oracle", function(catObj, theta, ans_profile, n) standardGeneric("oracle"))
+setGeneric("oracle", function(catObj, theta, ans_profiles, n) standardGeneric("oracle"))
 
 #' @rdname oracle
 #' @export
-setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, ans_profile, n){
-    ## add more checks here, like correct type of answers?
-    if(length(ans_profile) != length(catObj@answers)){
-        stop("Response profile is not compatible with Cat object.")
-    }
+setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, ans_profiles, n){
+    ## matrix of answer profiles
+    ## vector of thetas
+    ## same 'n'
+    ## warning if n>5 or something...
+  
+  if(length(theta) != nrow(ans_profiles)){
+    stop("Need a corresponding theta value for each answe profile.")
+  }
+
+  if(length(ans_profiles) != length(catObj@answers)){
+    stop("Response profile is not compatible with Cat object.")
+  }
     
-    ## 10 million for now... not sure what a good cut off is
-    ncombos <- choose(length(ans_profile), n)
-    if(ncombos > 10000000){
-        stop("Too many combinations result from choose(length(ans_profile), n).")
-    }
+  ncombos <- choose(length(ans_profiles), n)
+  if(ncombos > 1000000){
+    stop("Too many combinations result from choose(length(ans_profiles), n).")
+  }
+  
+  if(n > 6){
+    warning("Will likely get to be arbitrarily close to the truth....")
+  }
+  
+  ## matrix of all length n combinations of ~indexes~
+  ## where each column is a possible combo
+  combo_mat <- combn(1:ncol(ans_profiles), n)
+  
+  ## results for one profile with true theta
+  find_truth <- function(t, ans, combo_mat = combo_mat){
+    # combo_profiles <- matrix(nrow = ncol(combo_mat),
+    #                          ncol = (length(catObj@answers)+1),
+    #                          dimnames = list(1:ncol(combo_mat),
+    #                                        c(paste0("q", 1:length(catObj@answers)), "theta_est")))
+    # for(i in 1:ncol(combo_mat)){
+    #   ## now use indexes to get actual answer profile
+    #   indexes <- combo_mat[ ,i]
+    #   combo_profiles[i, indexes] <- as.numeric(ans[indexes])
+    #   
+    #   catObj@answers <- combo_profiles[i, 1:(ncol(combo_profiles)-1)]
+    #   combo_profiles[i, "theta_est"] <- estimateTheta(catObj)
+    # }
+    combo_profiles <- adply(.data = combo_mat, .margins = 2, .fun = function(indices, catObj = ltm_cat, ans = ans){
+      catObj@answers[indexes] <- ans[indexes]
+      theta_est <-  estimateTheta(catObj)
+      return(c(as.numeric(ans[indexes]), theta_est))
+    })
     
-    ## matrix of all length n combinations of indexes
-    ## where each column is a possible combo
-    combo_mat <- combn(1:length(ans_profile), n)
+    return_row <- which.min(abs(combo_profiles[,"theta_est"] - t))
     
-    ans_profiles <- matrix(nrow = ncol(combo_mat),
-                           ncol = (length(catObj@answers)+1),
-                           dimnames = list(1:ncol(combo_mat),
-                                           c(paste0("q", 1:length(catObj@answers)), "theta_est")))
-    for(i in 1:ncol(combo_mat)){
-        ## now use indexes to get actual answer profile
-        indexes <- combo_mat[ ,i]
-        ans_profiles[i, indexes] <- as.numeric(ans_profile[indexes])
-        
-        catObj@answers <- ans_profiles[i, 1:(ncol(ans_profiles)-1)]
-        ans_profiles[i, "theta_est"] <- estimateTheta(catObj)
-    }
-    
-    return_row <- which.min(abs(ans_profiles[,"theta_est"] - theta))
-    
-    return(list("true_theta" = theta,
-                "theta_est" = ans_profiles[return_row, "theta_est"],
-                "ans_profile" = ans_profiles[return_row, -ncol(ans_profiles)]))
+    return(c(t,
+             combo_profiles[return_row, "theta_est"],
+             combo_profiles[return_row, -ncol(combo_profiles)]))
+  }
+  return(adply(.data = 1:nrow(ans_profiles),
+               .margins = 1,
+               .fun = function(x) find_truth(t = theta[x], ans = ans_profiles[x,]),
+               .id = NULL))
 })
 
 

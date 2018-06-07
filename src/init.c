@@ -17,7 +17,7 @@ extern SEXP _catSurv_expectedKL(SEXP, SEXP);
 extern SEXP _catSurv_expectedObsInf(SEXP, SEXP);
 extern SEXP _catSurv_expectedPV(SEXP, SEXP);
 extern SEXP _catSurv_fisherInf(SEXP, SEXP, SEXP);
-extern SEXP _catSurv_fisherTestInfo(SEXP);
+extern SEXP _catSurv_fisherTestInfo(SEXP, SEXP);
 extern SEXP _catSurv_likelihood(SEXP, SEXP);
 extern SEXP _catSurv_likelihoodKL(SEXP, SEXP);
 extern SEXP _catSurv_lookAhead(SEXP, SEXP);
@@ -40,7 +40,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_catSurv_expectedObsInf", (DL_FUNC) &_catSurv_expectedObsInf, 2},
     {"_catSurv_expectedPV",     (DL_FUNC) &_catSurv_expectedPV,     2},
     {"_catSurv_fisherInf",      (DL_FUNC) &_catSurv_fisherInf,      3},
-    {"_catSurv_fisherTestInfo", (DL_FUNC) &_catSurv_fisherTestInfo, 1},
+    {"_catSurv_fisherTestInfo", (DL_FUNC) &_catSurv_fisherTestInfo, 2},
     {"_catSurv_likelihood",     (DL_FUNC) &_catSurv_likelihood,     2},
     {"_catSurv_likelihoodKL",   (DL_FUNC) &_catSurv_likelihoodKL,   2},
     {"_catSurv_lookAhead",      (DL_FUNC) &_catSurv_lookAhead,      2},

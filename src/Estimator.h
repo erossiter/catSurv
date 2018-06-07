@@ -52,7 +52,8 @@ public:
 	double expectedObsInf_grm(int item, Prior &prior);
 	double expectedObsInf_gpcm(int item, Prior &prior);
 	double expectedObsInf_rest(int item, Prior &prior);
-	
+
+	double fisherTestInfo(double theta);	
 	double fisherTestInfo(Prior prior);
 	double fisherTestInfo(Prior prior, size_t question, int answer);
 	
