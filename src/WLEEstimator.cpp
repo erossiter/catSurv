@@ -127,7 +127,7 @@ double WLEEstimator::gpcm_estimateTheta(Prior prior, size_t question, int answer
 }
 
 double WLEEstimator::grm_estimateTheta(Prior prior){
-  
+    std::cout<<"1param"<<std::endl;
   integrableFunction W = [&](double theta) {
     double B = 0.0;
     double I = 0.0;
@@ -179,11 +179,13 @@ double WLEEstimator::grm_estimateTheta(Prior prior){
 
     return L_theta + (B / (2 * I));
   };
-  
-  return brentMethod(W);
+  double brent_est = brentMethod(W);
+  std::cout << brent_est << std::endl;
+  return 1.0;
 }
 
 double WLEEstimator::grm_estimateTheta(Prior prior, size_t question, int answer){
+    std::cout<<"3param"<<std::endl;
   
   integrableFunction W = [&](double theta) {
     double B = 0.0;
@@ -264,12 +266,13 @@ double WLEEstimator::estimateTheta(Prior prior) {
 	  theta = ltm_estimateTheta(prior);
 	}
 	if (questionSet.model == "grm") {
+	    std::cout<<"start_estimateTheta"<<std::endl;
 	  theta = grm_estimateTheta(prior);
 	}
 	if (questionSet.model == "gpcm"){
 		theta = gpcm_estimateTheta(prior);
 	}
-	
+	std::cout<<"end_estimateTheta"<<std::endl;
 	return theta;
 }
 

@@ -283,6 +283,7 @@ std::unique_ptr<Estimator> Cat::createEstimator(S4 &cat_df, Integrator &integrat
 	
 	if (estimation_type == "MLE" || estimation_type == "WLE") {
 	  if (questionSet.applicable_rows.size() == 0 || questionSet.all_extreme){
+	      std::cout<<"all_extreme"<<std::endl;
 	    if (estimation_default == "MAP") return std::unique_ptr<MAPEstimator>(new MAPEstimator(integrator, questionSet));
 	    if (estimation_default == "EAP") return std::unique_ptr<EAPEstimator>(new EAPEstimator(integrator, questionSet));
 	  } 

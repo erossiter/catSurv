@@ -83,8 +83,7 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
 	// checking for repeated elements
   	auto it = std::adjacent_find(probabilities.begin(), probabilities.end());
   	if(it != probabilities.end()){
-    	throw std::domain_error("Theta value too extreme for numerical routines. \
-                                 If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
   	}
 
 	return probabilities;
@@ -119,8 +118,7 @@ std::pair<double,double> Estimator::prob_grm_pair(double theta, size_t question,
 	// checking for repeated elements
   	if(probs.first == probs.second)
   	{
-    	throw std::domain_error("Theta value too extreme for numerical routines. \
-                                 If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
   	}
 
 	return probs;
@@ -149,8 +147,7 @@ std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
 	}
 	
 	if(denominator == 0.0 or std::isinf(denominator)){
-    	throw std::domain_error("Theta value too extreme for numerical routines. \
-                                 If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
   	}
 
   	// normalize
@@ -202,8 +199,7 @@ double Estimator::prob_gpcm_at(double theta, size_t question, size_t at)
 	}
 	
 	if(denominator == 0.0 or std::isinf(denominator)){
-    	throw std::domain_error("Theta value too extreme for numerical routines. \
-                                 If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
   	}
 
   	// normalize 
@@ -267,8 +263,7 @@ double Estimator::gpcm_partial_d1LL(double theta, size_t question, int answer) {
 	}
 
 	if(g == 0.0 or std::isinf(g)){
-    	throw std::domain_error("Theta value too extreme for numerical routines. \
-                                 If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
   	}
 
   	return (g*f_prime - f*g_prime)/(g*f);
@@ -343,8 +338,7 @@ double Estimator::gpcm_partial_d2LL(double theta, size_t question, int answer) {
 	}
 
 	if(g == 0.0 or std::isinf(g)){
-    	throw std::domain_error("Theta value too extreme for numerical routines. \
-                                 If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
   	}
 
 	double b = g*g;
@@ -1220,7 +1214,8 @@ double Estimator::expectedObsInf_rest(int item, Prior &prior)
 	return (prob_one * obsInfOne) + ((1 - prob_one) * obsInfZero);
 }
 
-double Estimator::brentMethod(integrableFunction function){//const &function) {
+double Estimator::brentMethod(integrableFunction function){
+    std::cout<<"brent1"<<std::endl;
   int status;
   int iter = 0;
   int max_iter = 100;
@@ -1235,12 +1230,16 @@ double Estimator::brentMethod(integrableFunction function){//const &function) {
   auto gslfunc = GSLFunctionWrapper(function);
   gsl_function *F = gslfunc.asGSLFunction();
   
-	T = gsl_root_fsolver_brent;
+  std::cout<<"brent2"<<std::endl;
+  
+  T = gsl_root_fsolver_brent;
   s = gsl_root_fsolver_alloc (T);
   
   // This function initializes, or reinitializes, an existing solver s
   // to use the function f and the initial search interval [x_lower, x_upper].
   gsl_root_fsolver_set (s, F, x_lo, x_hi);
+  
+  std::cout<<"brent3"<<std::endl;
   
   do {
       iter++;
@@ -1262,11 +1261,13 @@ double Estimator::brentMethod(integrableFunction function){//const &function) {
 
   gsl_root_fsolver_free (s);
   
+  std::cout<<"brent4"<<std::endl;
+  
   return r;
 }
 
 //This version of the function is only for plotting.
-//It should not intented to be used for anything else in the package!
+//It is not intented to be used for anything else in the package.
 double Estimator::fisherTestInfo(double theta) {
     double sum = 0.0;
     for (auto item : questionSet.applicable_rows) {

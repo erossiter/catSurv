@@ -45,30 +45,29 @@ setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, 
     #     warning("Asking n>5 questions will likely be arbitrarily close...")
     # }
   
-  ## matrix of all length n combinations of indexes where each row is a possible combo
-  combo_mat <- t(combn(1:ncol(ans_profiles), n))
-  
-  ## results for one profile with respective true theta
-  find_truth <- function(ind_theta, ind_ans, combo_mat, cat){
-    combo_profiles <- adply(.data = combo_mat,
-                            .margins = 1,
-                            .id = NULL,
-                            .fun = function(indices, catObj = cat, ans = ind_ans){
-                                catObj@answers[indices] <- unlist(ans[indices])
-                                theta_est <- estimateTheta(catObj)
-                                return(data.frame(theta = ind_theta, theta_est = theta_est, ans[indices]))
-    })
+    ## matrix of all length n combinations of indexes where each row is a possible combo
+    combo_mat <- t(combn(1:ncol(ans_profiles), n))
     
-    return_row <- which.min(abs(combo_profiles$theta_est - ind_theta))
+    ## results for one profile with respective true theta
+    find_truth <- function(ind_theta, ind_ans, combo_mat, cat){
+        combo_profiles <- adply(.data = combo_mat,
+                                .margins = 1,
+                                .id = NULL,
+                                .fun = function(indices, catObj = cat, ans = ind_ans){
+                                    catObj@answers[indices] <- unlist(ans[indices])
+                                    theta_est <- estimateTheta(catObj)
+                                    return(data.frame(theta = ind_theta, theta_est = theta_est, ans[indices]))
+                                })
+        
+        return_row <- which.min(abs(combo_profiles$theta_est - ind_theta))
+        return(combo_profiles[return_row, ])
+    }
     
-    return(combo_profiles[return_row, ])
-  }
-  
-  ## results for each profile
-  return(adply(.data = 1:nrow(ans_profiles),
-               .margins = 1,
-               .fun = function(x) find_truth(ind_theta = theta[x], ind_ans = ans_profiles[x,], combo_mat = combo_mat, cat = catObj),
-               .id = NULL))
+    ## results for each profile
+    return(adply(.data = 1:nrow(ans_profiles),
+                 .margins = 1,
+                 .fun = function(x) find_truth(ind_theta = theta[x], ind_ans = ans_profiles[x,], combo_mat = combo_mat, cat = catObj),
+                 .id = NULL))
 })
 
 
