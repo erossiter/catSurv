@@ -1232,7 +1232,7 @@ double Estimator::brentMethod(integrableFunction function){
   
   std::cout<<"brent2"<<std::endl;
   
-  T = gsl_root_fsolver_brent;
+  T = gsl_root_fsolver_brent; //can change this to whatever method ex. _bisection
   s = gsl_root_fsolver_alloc (T);
   
   // This function initializes, or reinitializes, an existing solver s
@@ -1240,6 +1240,13 @@ double Estimator::brentMethod(integrableFunction function){
   gsl_root_fsolver_set (s, F, x_lo, x_hi);
   
   std::cout<<"brent3"<<std::endl;
+  
+  printf ("using %s method\n", 
+          gsl_root_fsolver_name (s));
+  
+  printf ("%5s [%9s, %9s] %9s %9s\n",
+          "iter", "lower", "upper", "root", 
+          "err(est)");
   
   do {
       iter++;
@@ -1256,6 +1263,15 @@ double Estimator::brentMethod(integrableFunction function){
       double epsrel = 0.0000001;
       
       status = gsl_root_test_interval (x_lo, x_hi, epsabs, epsrel);
+      
+      if (status == GSL_SUCCESS)
+          printf ("Converged:\n");
+      
+      printf ("%5d [%.7f, %.7f] %.7f %.7f\n",
+              iter, x_lo, x_hi,
+              r,
+              x_hi - x_lo);
+      
     } 
   while (status == GSL_CONTINUE && iter < max_iter);
 
