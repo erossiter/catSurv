@@ -75,7 +75,7 @@ setMethod("plot", c("Cat"),
                     #           segments(x0=-catObj@difficulty[item]/catObj@discrimination[item],  y0=0, y1=0.5, lwd=2, col="darkred", lty=2)
                   }
                   if(plotType=="IRF"){
-                    plot(x,prob,"l", main="Item Response Function",col=linecolors[1],
+                    plot(x,prob,"l", main=paste0("Item Response Function (", names(catObj@difficulty[item]), ")" ),col=linecolors[1],
                          ylab=expression(paste("Pr(Y=1|", theta, ")")),xlab=expression(theta), lwd=2,
                          xlim=xlim, ylim=c(0,max(expectedValue)), tck=F,cex.axis=.90, las=1)
                     abline(h=0, lty=3, col="gray70")
@@ -101,7 +101,7 @@ setMethod("plot", c("Cat"),
                     #           segments(x0=-catObj@difficulty[item]/catObj@discrimination[item],  y0=0, y1=0.5, lwd=2, col="darkred", lty=2)
                   }
                   if(plotType=="IRF"){
-                    plot(x,prob,"l", main="Item Response Function",col=linecolors[1],
+                    plot(x,prob,"l", main=paste0("Item Response Function (", names(catObj@difficulty[item]), ")" ),col=linecolors[1],
                          ylab=expression(paste("Pr(Y=1|", theta, ")")),xlab=expression(theta), lwd=2,
                          xlim=xlim, ylim=c(0,max(expectedValue)), tck=F,cex.axis=.90, las=1)
                     abline(h=0, lty=3, col="gray70")
