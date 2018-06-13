@@ -83,7 +83,7 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
 	// checking for repeated elements
   	auto it = std::adjacent_find(probabilities.begin(), probabilities.end());
   	if(it != probabilities.end()){
-    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines to provide reliable calculations.  This usually happens when the probabilities of answering in different response categories can no longer be distinguished.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.");
   	}
 
 	return probabilities;
@@ -118,7 +118,7 @@ std::pair<double,double> Estimator::prob_grm_pair(double theta, size_t question,
 	// checking for repeated elements
   	if(probs.first == probs.second)
   	{
-    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines to provide reliable calculations.  This usually happens when the probabilities of answering in different response categories can no longer be distinguished.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.");
   	}
 
 	return probs;
@@ -147,7 +147,7 @@ std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
 	}
 	
 	if(denominator == 0.0 or std::isinf(denominator)){
-    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines to provide reliable calculations.  This usually happens when the probabilities of answering in different response categories can no longer be distinguished.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.");
   	}
 
   	// normalize
@@ -199,7 +199,7 @@ double Estimator::prob_gpcm_at(double theta, size_t question, size_t at)
 	}
 	
 	if(denominator == 0.0 or std::isinf(denominator)){
-    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines to provide reliable calculations.  This usually happens when the probabilities of answering in different response categories can no longer be distinguished.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.");
   	}
 
   	// normalize 
@@ -263,7 +263,7 @@ double Estimator::gpcm_partial_d1LL(double theta, size_t question, int answer) {
 	}
 
 	if(g == 0.0 or std::isinf(g)){
-    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines to provide reliable calculations.  This usually happens when the probabilities of answering in different response categories can no longer be distinguished.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.");
   	}
 
   	return (g*f_prime - f*g_prime)/(g*f);
@@ -338,7 +338,7 @@ double Estimator::gpcm_partial_d2LL(double theta, size_t question, int answer) {
 	}
 
 	if(g == 0.0 or std::isinf(g)){
-    	throw std::domain_error("Theta value too extreme for numerical routines. If using MAP estimation, try EAP instead.");
+    	throw std::domain_error("Theta value too extreme for numerical routines to provide reliable calculations.  This usually happens when the probabilities of answering in different response categories can no longer be distinguished.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.");
   	}
 
 	double b = g*g;

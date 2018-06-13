@@ -38,6 +38,8 @@ The \code{data} argument of the function \code{gpcmCat} is either a data frame o
 The \code{quadraturePoints} argument of the function \code{gpcmCat} is used only when the \code{data} argument is a data frame.  \code{quadraturePoints} is then passed to the \code{gpcm} function from the \code{ltm} package when fitting the generalized partial credit model to the data and is used when approximating the value of integrals.
 }
 \note{
+This Cat object should be used for testing package functionality only.
+
 In case the Hessian matrix at convergence is not positive definite try to use \code{start.val = "random"}.
 }
 \examples{
