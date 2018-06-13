@@ -18,7 +18,7 @@
 #' 
 #'
 #' @importFrom utils combn
-#' @importFrom plyr adply
+#' 
 #' 
 #' @name oracle
 NULL

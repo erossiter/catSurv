@@ -4,7 +4,7 @@
 #' 
 #' @param x Cat.
 #' @param item Numeric.
-#' @param type Character.
+#' @param plotType Character.
 #' @param ... Other arguments passed to plot().
 #' 
 #' 

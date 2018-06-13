@@ -14,7 +14,7 @@
 
 \item{item}{Numeric.}
 
-\item{type}{Character.}
+\item{plotType}{Character.}
 
 \item{...}{Other arguments passed to plot().}
 }
