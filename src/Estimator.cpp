@@ -9,6 +9,10 @@
 
   
 double Estimator::prob_ltm(double theta, size_t question) {
+    if(theta > 20.0 || theta < -20.0){
+        throw std::domain_error("Theta value too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.");
+    }
+    
 	double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
 
 	double difficulty = questionSet.difficulty.at(question).at(0);
