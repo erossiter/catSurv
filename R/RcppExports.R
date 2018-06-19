@@ -988,7 +988,7 @@ posteriorKL <- function(catObj, item) {
 #' @param catObj  An object of class \code{Cat}
 #' @param item A numeric indicating the question item the respondent is currently answering.
 #'
-#' @return A function \code{lookAhead} returns a list of one element named \code{estimates}, which is itself a data frame.
+#' @return A function \code{lookAhead} returns a data.frame.
 #' The the first column of the data frame is the possible response option to the question the respondent
 #' is currently answering and the second column is the next item that should be asked given each response.
 #' 
