@@ -8,14 +8,14 @@
 using namespace Rcpp;
 
 // probability
-std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector item);
+std::vector<double> probability(S4 catObj, double theta, int item);
 RcppExport SEXP _catSurv_probability(SEXP catObjSEXP, SEXP thetaSEXP, SEXP itemSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< S4 >::type catObj(catObjSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type item(itemSEXP);
+    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< int >::type item(itemSEXP);
     rcpp_result_gen = Rcpp::wrap(probability(catObj, theta, item));
     return rcpp_result_gen;
 END_RCPP
@@ -33,15 +33,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // prior
-double prior(NumericVector x, CharacterVector dist, NumericVector params);
-RcppExport SEXP _catSurv_prior(SEXP xSEXP, SEXP distSEXP, SEXP paramsSEXP) {
+double prior(S4 catObj, double x);
+RcppExport SEXP _catSurv_prior(SEXP catObjSEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type dist(distSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type params(paramsSEXP);
-    rcpp_result_gen = Rcpp::wrap(prior(x, dist, params));
+    Rcpp::traits::input_parameter< S4 >::type catObj(catObjSEXP);
+    Rcpp::traits::input_parameter< double >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(prior(catObj, x));
     return rcpp_result_gen;
 END_RCPP
 }

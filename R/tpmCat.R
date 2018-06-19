@@ -90,19 +90,6 @@ setMethod("tpmCat",
             diff <- fit$coef[,"beta.1i"]
             guess <- coef(fit)[,"Gussng"]
             names(diff) <- rownames(fit$coef)
-
-            if(any(discm < -5) || any(discm > 5)){
-              warning("Measurement model poorly estimated: 
-                      discrimination values outside of [-5, 5]")
-            }
-            if(any(diff < -5) || any(diff > 5)){
-              warning("Measurement model poorly estimated: 
-                      difficulty values outside of [-5, 5]")
-            }
-            if(any(guess < 0) || any(guess > 1)){
-              warning("Measurement model poorly estimated: 
-                      guessing values outside of [0, 1]")
-            }
   
             object <- new("Cat")
             object@discrimination <- discm
@@ -123,19 +110,6 @@ setMethod("tpmCat",
             guess <- coef(data)[,"Gussng"]
             names(diff) <- rownames(data$coef)
             
-            if(any(discm < -5) || any(discm > 5)){
-              warning("Measurement model poorly estimated: 
-                      discrimination values outside of [-5, 5]")
-            }
-            if(any(diff < -5) || any(diff > 5)){
-              warning("Measurement model poorly estimated: 
-                      difficulty values outside of [-5, 5]")
-            }
-            if(any(guess < 0) || any(guess > 1)){
-              warning("Measurement model poorly estimated: 
-                      guessing values outside of [0, 1]")
-            }
-  
             object <- new("Cat")
             object@discrimination <- discm
             object@difficulty <- diff

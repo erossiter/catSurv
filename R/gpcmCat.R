@@ -83,36 +83,29 @@ setGeneric("gpcmCat", function(data, quadraturePoints = NULL, ...){
 setMethod("gpcmCat",
           signature(data = "data.frame"),
           function(data, quadraturePoints = 21, ...){
-            fit <- gpcm(data = data, constraint = "gpcm",
-                        control = list(GHk = quadraturePoints), ...)
-            coefficients <- fit$coef
-
-            discm <- sapply(1:length(coefficients), function(i){
-              coefficients[[i]][length(coefficients[[i]])]})
-            names(discm) <- names(discm)
-  
-            diff <- lapply(1:length(coefficients), function(i){
-              coefficients[[i]][-length(coefficients[[i]])]})
-            names(diff) <- names(diff)
-  
-            if(any(discm < -5) || any(discm > 5)){
-              warning("Measurement model poorly estimated: 
-                      discrimination values outside of [-5, 5]")
-            }
-            for (i in 1:length(diff)){
-              if (any(diff[[i]] < -5) || any(diff[[i]] > 5)){
-                warning("Measurement model poorly estimated: 
-                        difficulty values outside of [-5, 5]")
-              }
-            }
-
-            object <- new("Cat")
-            object@discrimination <- discm
-            object@difficulty <- diff
-            object@guessing <- rep(0, length(discm))
-            object@answers <- rep(NA, length(discm))
-            object@model <- "gpcm"
-            return(object)
+              fit <- gpcm(data = data, constraint = "gpcm",
+                          control = list(GHk = quadraturePoints), ...)
+              coefficients <- fit$coef
+              
+              discm <- sapply(1:length(coefficients), function(i){
+                  coefficients[[i]][length(coefficients[[i]])]
+              })
+              names(discm) <- colnames(data)
+              
+              diff <- lapply(1:length(coefficients), function(i){
+                  out <- coefficients[[i]][-length(coefficients[[i]])]
+                  names(out) <- NULL
+                  return(out)
+              })
+              names(diff) <- colnames(data)
+              
+              object <- new("Cat")
+              object@discrimination <- discm
+              object@difficulty <- diff
+              object@guessing <- rep(0, length(discm))
+              object@answers <- rep(NA, length(discm))
+              object@model <- "gpcm"
+              return(object)
 })
 
 
@@ -121,32 +114,25 @@ setMethod("gpcmCat",
 setMethod("gpcmCat",
           signature(data = c("gpcm")),
           function(data, quadraturePoints = NULL, ...){
-            coefficients <- data$coef
-            
-            discm <- sapply(1:length(coefficients), function(i){
-              coefficients[[i]][length(coefficients[[i]])]})
-            names(discm) <- names(discm)
-            
-            diff <- lapply(1:length(coefficients), function(i){
-              coefficients[[i]][-length(coefficients[[i]])]})
-            names(diff) <- names(diff)
-            
-            if(any(discm < -5) || any(discm > 5)){
-              warning("Measurement model poorly estimated: 
-                      discrimination values outside of [-5, 5]")
-              }
-            for (i in 1:length(diff)){
-              if(any(diff[[i]] < -5) || any(diff[[i]] > 5)){
-                warning("Measurement model poorly estimated: 
-                        difficulty values outside of [-5, 5]")
-              }
-            }
-            
-            object <- new("Cat")
-            object@discrimination <- discm
-            object@difficulty <- diff
-            object@guessing <- rep(0, length(discm))
-            object@answers <- rep(NA, length(discm))
-            object@model <- "gpcm"
-            return(object)
+              coefficients <- data$coef
+              
+              discm <- sapply(1:length(coefficients), function(i){
+                  coefficients[[i]][length(coefficients[[i]])]
+              })
+              names(discm) <- names(data$coef)
+              
+              diff <- lapply(1:length(coefficients), function(i){
+                  out <- coefficients[[i]][-length(coefficients[[i]])]
+                  names(out) <- NULL
+                  return(out)
+              })
+              names(diff) <- names(data$coef)
+              
+              object <- new("Cat")
+              object@discrimination <- discm
+              object@difficulty <- diff
+              object@guessing <- rep(0, length(discm))
+              object@answers <- rep(NA, length(discm))
+              object@model <- "gpcm"
+              return(object)
 })

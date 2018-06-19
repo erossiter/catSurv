@@ -141,21 +141,20 @@ likelihood <- function(catObj, theta) {
 #'
 #' Calculates the density at \code{x} of either the normal, Student's t, or uniform distribution.
 #'
+#' @param catObj An object of class \code{Cat}.  
 #' @param x A numeric value at which to evaluate the prior
-#' @param dist A string indicating the distribution (slot \code{priorName} of \code{Cat} object)
-#' @param params A length two numeric vector indicating the parameters of the distribution (slot \code{priorParams} of \code{Cat} object)
 #' 
 #' @return The function \code{prior} returns a numeric consisting of prior value, \eqn{\pi(x)}, given the value \code{x}.
 #'
-#' @details The \code{dist} argument needs to be either \code{"UNIFORM"}, \code{"NORMAL"}, or \code{"STUDENT_T"}.
+#' @details The \code{priorName} slot of \code{Cat} object needs to be either \code{"UNIFORM"}, \code{"NORMAL"}, or \code{"STUDENT_T"}.
 #' 
-#' When \code{dist} is \code{"NORMAL"}, the first element of \code{params} is the mean, 
+#' When \code{priorName} slot is \code{"NORMAL"}, the first element of \code{priorParams} slot is the mean, 
 #' the second element is the standard deviation.
 #' 
-#' When \code{dist} is \code{"STUDENT_T"}, the first 
-#' element of \code{params} is the non-centrality parameters and the second is degrees of freedom.  
+#' When \code{priorName} slot is \code{"STUDENT_T"}, the first 
+#' element of \code{priorParams} slot is the non-centrality parameters and the second is degrees of freedom.  
 #' 
-#' When \code{dist} is \code{"UNIFORM"}, the elements of \code{params} are the lower and upper bounds,
+#' When \code{priorName} slot is \code{"UNIFORM"}, the elements of the \code{priorParams} slot are the lower and upper bounds,
 #' of the interval, respectively.  Note that the \code{"UNIFORM"} is only applicable for the expected a posteriori (EAP) estimation method.   
 #' 
 #' @examples
@@ -165,15 +164,15 @@ likelihood <- function(catObj, theta) {
 #'## Prior calculation for different distributions
 #'ltm_cat@priorName <- "NORMAL"
 #'ltm_cat@priorParams <- c(0, 1) ## Parameters are mean and standard deviation
-#'prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
+#'prior(ltm_cat, x = 1)
 #'
 #'ltm_cat@priorName <- "STUDENT_T"
 #'ltm_cat@priorParams <- c(1, 3) ## Parameters are non-centrality param and degrees of freedom
-#'prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
+#'prior(ltm_cat, x = 1)
 #'
 #'ltm_cat@priorName <- "UNIFORM"
 #'ltm_cat@priorParams <- c(-1, 1) ## Parameters are lower bound and upper bound of interval
-#'prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
+#'prior(ltm_cat, x = 1)
 #'
 #'
 #' @seealso
@@ -192,8 +191,8 @@ likelihood <- function(catObj, theta) {
 #'  
 #'  
 #' @export
-prior <- function(x, dist, params) {
-    .Call(`_catSurv_prior`, x, dist, params)
+prior <- function(catObj, x) {
+    .Call(`_catSurv_prior`, catObj, x)
 }
 
 #' The First Derivative of the Log-Likelihood

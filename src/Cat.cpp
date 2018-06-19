@@ -142,7 +142,7 @@ List Cat::selectItem() {
 	return Rcpp::List::create(Named("estimates") = all_estimates, Named("next_item") = wrap(selection.item + 1));
 }
 
-List Cat::lookAhead(int item) {
+DataFrame Cat::lookAhead(int item) {
   if(std::find(questionSet.applicable_rows.begin(), questionSet.applicable_rows.end(),
                item) != questionSet.applicable_rows.end()){
     throw std::domain_error("lookAhead should not be called for an answered item.");
@@ -171,7 +171,7 @@ List Cat::lookAhead(int item) {
     
   DataFrame all_estimates = Rcpp::DataFrame::create(Named("response_option") = response_options,
                                                    Named("next_item") = items);
-  return Rcpp::List::create(Named("estimates") = all_estimates);
+  return all_estimates;
 }
 
 NumericVector Cat::estimateThetas(DataFrame& responses)

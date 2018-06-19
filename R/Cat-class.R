@@ -95,86 +95,102 @@ setMethod("initialize", "Cat", function(.Object, ...) {
 
 
 setValidity("Cat", function(object){
-  if(! length(object@discrimination) > 1){
-    stop("Discrimination needs length greater than 1.")
-  }
-
-  if(! length(object@discrimination) == length(object@guessing)){
-    stop("Discrimination and guessing need to be same length.")
-  }
-
-  if(! length(object@discrimination) == length(object@answers)){
-    stop("Discrimination and answers need to be same length.")
-  }
-
-  if(! length(object@discrimination)==length(object@difficulty)){
-    stop("Discrimination and difficulty need to be same length.")
-  }
-
-  if(object@model == "grm" | object@model == "gpcm"){
-    if(class(object@difficulty) != "list") stop("Difficulty needs to be a list.")
-  }
-  
-  if(object@upperBound < object@lowerBound){
-    stop("Lower bound value must be less than upper bound value.")
-  }
-  
-  if(object@model == "grm"){
-    for(i in object@difficulty){
-      sorted <- sort(i)
-      uniques <- unique(sorted)
-      if(sum(sorted != i) > 0){
-        stop("Difficulty values must be increasing.")
-      }
-      if(length(uniques) != length(i)){
-        stop("Difficulty values must be unique within each item.")
-      }
+    ## Checking for valid answers
+    if(object@model == "ltm" | object@model == "tpm"){
+        if(any(!object@answers %in% c(0, 1, NA, -1))){
+            stop("Answer for binary model is not valid.")
+        }
     }
-  }
-  
-  if(sum(is.na(object@discrimination)) > 0){
-    stop("Discrimination values cannot be NA.")
-  }
-  
-  if(object@priorName == 'UNIFORM'){
-    if(object@estimation != "EAP"){
-      stop("Uniform prior requires EAP estimation.")
+    if(object@model == "grm" | object@model == "gpcm"){
+        for(i in 1:length(object@answers)){
+            max_option <- length(object@difficulty[[i]])+1
+            if(!object@answers[i] %in% c(NA, -1:max_option)){
+                stop("Answer for categorical model is not valid.")  
+            }
+        }
     }
-  }
-  
-  if(sum(is.na(object@guessing)) > 0){
-    stop("Guessing values cannot be NA.")
-  }
-  
-  if(sum(object@guessing < 0) > 0 | sum(object@guessing > 1) > 0){
-    stop("Guessing values must be between 0 and 1.")
-  }
-  
-  model_options = c("ltm", "grm", "gpcm", "tpm")
-  if(! object@model %in% model_options){
-    stop("Model is not valid.  Must be 'ltm', 'tpm', 'grm' or 'gpcm'.")
-  }
-  
-  estimation_options = c("EAP", "MAP", "MLE", "WLE")
-  if(! object@estimation %in% estimation_options){
-    stop("Estimation method is not valid.  Must be 'EAP', 'MAP', 'MLE', or 'WLE'.")
-  }
-  
-  estdefault_options = c("EAP", "MAP")
-  if(! object@estimationDefault %in% estdefault_options){
-    stop("Estimation default method is not valid.  Must be 'EAP' or 'MAP'.")
-  }
-  
-  prior_options <- c("NORMAL", "STUDENT_T", "UNIFORM")
-  if(! object@priorName %in% prior_options){
-    stop("Prior name is not valid.")
-  }
-  
-  selection_options = c("EPV", "MEI", "MFI", "MPWI", "MLWI",
-                        "KL", "LKL", "PKL", "MFII", "RANDOM")
-  if(!object@selection %in% selection_options){
-    stop("Selection method is not valid.")
-  }
+    
+    
+    if(! length(object@discrimination) > 1){
+        stop("Discrimination needs length greater than 1.")
+    }
+    
+    if(! length(object@discrimination) == length(object@guessing)){
+        stop("Discrimination and guessing need to be same length.")
+    }
+    
+    if(! length(object@discrimination) == length(object@answers)){
+        stop("Discrimination and answers need to be same length.")
+    }
+    
+    if(! length(object@discrimination)==length(object@difficulty)){
+        stop("Discrimination and difficulty need to be same length.")
+    }
+    
+    if(object@model == "grm" | object@model == "gpcm"){
+        if(class(object@difficulty) != "list") stop("Difficulty needs to be a list.")
+    }
+    
+    if(object@upperBound < object@lowerBound){
+        stop("Lower bound value must be less than upper bound value.")
+    }
+    
+    if(object@model == "grm"){
+        for(i in object@difficulty){
+            sorted <- sort(i)
+            uniques <- unique(sorted)
+            if(sum(sorted != i) > 0){
+                stop("Difficulty values must be increasing.")
+            }
+            if(length(uniques) != length(i)){
+                stop("Difficulty values must be unique within each item.")
+            }
+        }
+    }
+    
+    if(sum(is.na(object@discrimination)) > 0){
+        stop("Discrimination values cannot be NA.")
+    }
+    
+    if(object@priorName == 'UNIFORM'){
+        if(object@estimation != "EAP"){
+            stop("Uniform prior requires EAP estimation.")
+        }
+    }
+    
+    if(sum(is.na(object@guessing)) > 0){
+        stop("Guessing values cannot be NA.")
+    }
+    
+    if(sum(object@guessing < 0) > 0 | sum(object@guessing > 1) > 0){
+        stop("Guessing values must be between 0 and 1.")
+    }
+    
+    model_options = c("ltm", "grm", "gpcm", "tpm")
+    if(! object@model %in% model_options){
+        stop("Model is not valid.  Must be 'ltm', 'tpm', 'grm' or 'gpcm'.")
+    }
+    
+    estimation_options = c("EAP", "MAP", "MLE", "WLE")
+    if(! object@estimation %in% estimation_options){
+        stop("Estimation method is not valid.  Must be 'EAP', 'MAP', 'MLE', or 'WLE'.")
+    }
+    
+    estdefault_options = c("EAP", "MAP")
+    if(! object@estimationDefault %in% estdefault_options){
+        stop("Estimation default method is not valid.  Must be 'EAP' or 'MAP'.")
+    }
+    
+    prior_options <- c("NORMAL", "STUDENT_T", "UNIFORM")
+    if(! object@priorName %in% prior_options){
+        stop("Prior name is not valid.")
+    }
+    
+    selection_options = c("EPV", "MEI", "MFI", "MPWI", "MLWI",
+                          "KL", "LKL", "PKL", "MFII", "RANDOM")
+    if(!object@selection %in% selection_options){
+        stop("Selection method is not valid.")
+    }
 })
 
 

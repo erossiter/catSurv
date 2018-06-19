@@ -39,7 +39,7 @@ public:
 	
 	Rcpp::List selectItem();
 	
-	Rcpp::List lookAhead(int item);
+	Rcpp::DataFrame lookAhead(int item);
 	
 	bool checkStopRules();
 	

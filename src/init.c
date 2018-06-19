@@ -23,7 +23,7 @@ extern SEXP _catSurv_likelihoodKL(SEXP, SEXP);
 extern SEXP _catSurv_lookAhead(SEXP, SEXP);
 extern SEXP _catSurv_obsInf(SEXP, SEXP, SEXP);
 extern SEXP _catSurv_posteriorKL(SEXP, SEXP);
-extern SEXP _catSurv_prior(SEXP, SEXP, SEXP);
+extern SEXP _catSurv_prior(SEXP, SEXP);
 extern SEXP _catSurv_probability(SEXP, SEXP, SEXP);
 extern SEXP _catSurv_selectItem(SEXP);
 extern SEXP _catSurv_estimateThetas(SEXP,SEXP);
@@ -46,7 +46,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_catSurv_lookAhead",      (DL_FUNC) &_catSurv_lookAhead,      2},
     {"_catSurv_obsInf",         (DL_FUNC) &_catSurv_obsInf,         3},
     {"_catSurv_posteriorKL",    (DL_FUNC) &_catSurv_posteriorKL,    2},
-    {"_catSurv_prior",          (DL_FUNC) &_catSurv_prior,          3},
+    {"_catSurv_prior",          (DL_FUNC) &_catSurv_prior,          2},
     {"_catSurv_probability",    (DL_FUNC) &_catSurv_probability,    3},
     {"_catSurv_selectItem",     (DL_FUNC) &_catSurv_selectItem,     1},
     {"_catSurv_estimateThetas", (DL_FUNC) &_catSurv_estimateThetas, 2},

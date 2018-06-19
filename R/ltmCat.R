@@ -87,16 +87,7 @@ setMethod("ltmCat",
             discm <- fit$coef[,"z1"]
             diff <- fit$coef[,"(Intercept)"]
             names(diff) <- rownames(fit$coef)
-             
-            if(any(discm < -5) || any(discm > 5)){
-             warning("Measurement model poorly estimated: 
-                     discrimination values outside of [-5, 5]")
-            }
-            if(any(diff < -5) || any(diff > 5)){
-             warning("Measurement model poorly estimated: 
-                       difficulty values outside of [-5, 5]")
-            }
-             
+
             object <- new("Cat")
             object@discrimination <- discm
             object@difficulty <- diff
@@ -114,15 +105,6 @@ setMethod("ltmCat",
             discm <- data$coef[,"z1"]
             diff <- data$coef[,"(Intercept)"]
             names(diff) <- rownames(data$coef)
-            
-            if(any(discm < -5) || any(discm > 5)){
-               warning("Measurement model poorly estimated: 
-                       discrimination values outside of [-5, 5]")
-            }
-            if(any(diff < -5) || any(diff > 5)){
-             warning("Measurement model poorly estimated: 
-                     difficulty values outside of [-5, 5]")
-            }
              
             object <- new("Cat")
             object@discrimination <- discm

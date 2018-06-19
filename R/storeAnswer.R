@@ -35,6 +35,7 @@ setGeneric("storeAnswer", function(catObj, item, answer) standardGeneric("storeA
 #' @export
 setMethod(f = "storeAnswer", signature = "Cat", definition = function(catObj, item, answer){
   catObj@answers[item] <- answer
+  validObject(catObj)
   return(catObj)
 })
 
