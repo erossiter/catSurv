@@ -178,7 +178,7 @@ NumericVector Cat::estimateThetas(DataFrame& responses)
 {
   if(responses.ncol() != questionSet.question_names.size())
   {
-    throw std::domain_error("number of questions doesn't match with catObj");
+    throw std::domain_error("Number of questions doesn't match with catObj");
   }
 
   size_t nrow = responses.nrow();

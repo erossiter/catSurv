@@ -32,11 +32,13 @@ test_that("gpcm MLE estimation calculates correctly", {
   expect_equal(round(package_mle, 4), round(catR_mle, 4))
 })
 
+# This now prints a "warning" message in c++ that R does not understand
+# as a warning message, so a unit test won't work.
 # test_that("MLE with all extreme answers defaults correctly", {
 #   grm_cat@answers[1:5] <- c(1, 1, 5, 1, 1)
 #   grm_cat@estimation <- "MLE"
 #   package_mle <- expect_message(estimateTheta(grm_cat))
-#   
+# 
 #   grm_cat@estimationDefault <- "EAP"
 #   package_map <- estimateTheta(grm_cat)
 # 

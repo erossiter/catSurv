@@ -5,6 +5,7 @@
 #' @param x Cat.
 #' @param item Numeric.
 #' @param plotType Character.
+#' @param xlim Vector.
 #' @param ... Other arguments passed to plot().
 #' 
 #' 
@@ -19,7 +20,7 @@
 #' 
 #' @export
 setMethod("plot", c("Cat"),
-          definition = function(x, item, plotType, xlim=c(-5, 5)) {
+          definition = function(x, item, plotType, xlim=c(-5, 5), ...) {
                 #catObj <- ltm_cat
                 #item<-1
                 #xlim=c(-5,5)
@@ -168,41 +169,4 @@ setMethod("plot", c("Cat"),
                     abline(h=ncol(prob), lty=3, col="gray70")
                   }
                 }
-                
-              
-              
-           
-              ## Now plot -- binary outcomes slightly easier
-              
-              #as.matrix(sapply(1:nrow(prob),function(i) weighted.mean(prob[i,],1:ncol(prob))))
-              #weighted.mean(x=1:ncol(prob), w=prob[1,])
-              
-         #     prob[1,]
-              
-        #      plot(x,ipr,"l", main="Item Information Function",col=linecolors[3],
-         #          ylab=expression(I(theta)),xlab=expression(theta), lwd=2,
-          #         xlim=c(-5,5), ylim=c(0,max(ipr)), tck=F,cex.axis=.90, las=1)
-           #   abline(h=0, type=3, col="gray70")
-          #    legend("left",  inset=c(1,1.2), xpd=TRUE, bty="n", legend=paste("Item",item),col=linecolors[3], lty=1, cex=1)
-                
-                        
-                              
-           #   if(type=="IIF"){
-          #      ipr<-sapply(x,fisherInf, catObj=catObj, item=item)
-           #     plot(x,ipr,"l", main="Item Information Function",col=linecolors[3],
-          #           ylab=expression(I(theta)),xlab=expression(theta), lwd=2,
-          #           xlim=c(-5,5), ylim=c(0,max(ipr)), tck=F,cex.axis=.90, las=1)
-          #     else{ipr<-as.matrix(sapply(x,probability, catObj=catObj, item))
-     #         if((catObj@model=="grm")|(catObj@model=="gpcm")){
-      #            ipr<-t(ipr)[,2:(nrow(ipr)-1)]}
-       #       if(type=="ICC"){ipr<-as.matrix(sapply(1:nrow(ipr),function(i)weighted.mean(ipr[i,],1:ncol(ipr))))}
-      #        if(type=="IRF"){x<-x[2:length(x)]
-      #        ipr<-10*as.matrix(sapply(1:(nrow(ipr)-1),function(i){return(abs(ipr[i+1,]-ipr[i,]))}))
-      #        if(catObj@model=="grm"|catObj@model=="gpcm"){ipr<-t(ipr)}}
-      #        par(mar=c(3,3,2,9),mgp=c(1.5,0,0))
-      #        plot(c(),c(),"l", main=paste(type,"Plot"),ylab="Probability", xlab=expression(theta),
-      #             lwd=2, xlim=c(-5,5), ylim=c(0,max(ipr)), las=1, tck=F,cex.axis=.90)
-      #        sapply(1:(ncol(ipr)),function(i){lines(x,ipr[,i],col=linecolors[i],lty=ltys[i], lwd=2)})
-      #        if(type=="ICC"){legend("left",  inset=c(1,1.2), xpd=TRUE, bty="n", legend=paste("Item",item), col=linecolors[1], lty=1 , cex=0.8)}}
-      #        if(type=="IRF"){legend("left",  inset=c(1,1.2), xpd=TRUE, bty="n",legend=sapply(1:ncol(ipr),function(i)paste("Response", i,sep=" ")), col=linecolors[1:ncol(ipr)], lty=ltys[1:ncol(ipr)] , cex=0.8)}
-          })
+})

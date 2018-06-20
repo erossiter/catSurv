@@ -588,7 +588,7 @@ fisherInf <- function(catObj, theta, item) {
 #'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 #'
 #'## Fisher's test information for answer profile
-#'fisherTestInfo(ltm_cat)
+#'fisherTestInfo(ltm_cat, theta = 2)
 #'
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,

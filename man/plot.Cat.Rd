@@ -7,7 +7,7 @@
 \alias{plot,Cat-method}
 \title{Plotting function for Cat object}
 \usage{
-\S4method{plot}{Cat}(x, item, plotType, xlim = c(-5, 5))
+\S4method{plot}{Cat}(x, item, plotType, xlim = c(-5, 5), ...)
 }
 \arguments{
 \item{x}{Cat.}
@@ -15,6 +15,8 @@
 \item{item}{Numeric.}
 
 \item{plotType}{Character.}
+
+\item{xlim}{Vector.}
 
 \item{...}{Other arguments passed to plot().}
 }
