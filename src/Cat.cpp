@@ -176,7 +176,8 @@ DataFrame Cat::lookAhead(int item) {
 
 NumericVector Cat::estimateThetas(DataFrame& responses)
 {
-  if(responses.ncol() != questionSet.question_names.size())
+    size_t data_length = responses.ncol();
+  if(data_length != questionSet.question_names.size())
   {
     throw std::domain_error("Number of questions doesn't match with catObj");
   }

@@ -90,7 +90,7 @@ double MLEEstimator::estimateTheta(Prior prior) {
                                          -1.75, -1.5, -1.25, -1.0, -0.75, -0.5, -0.25,
                                          0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75,
                                          2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5};
-        for(int i = 0; i < try_theta.size(); i++){
+        for(size_t i = 0; i < try_theta.size(); i++){
             double d1ll_val = d1LL(try_theta.at(i), true, prior);
             check_d1LL.push_back(std::abs(d1ll_val));
         }
@@ -118,7 +118,7 @@ double MLEEstimator::estimateTheta(Prior prior, size_t question, int answer)
                                          -1.75, -1.5, -1.25, -1.0, -0.75, -0.5, -0.25,
                                          0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75,
                                          2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5};
-        for(int i = 0; i < try_theta.size(); i++){
+        for(size_t i = 0; i < try_theta.size(); i++){
             double d1ll_val = d1LL(try_theta.at(i), true, prior);
             check_d1LL.push_back(std::abs(d1ll_val));
         }
