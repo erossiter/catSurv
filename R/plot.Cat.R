@@ -149,7 +149,7 @@ setMethod("plot", c("Cat"),
                   
                   prob<-as.matrix(sapply(x,probability, catObj=catObj, item=item))
                   prob<-as.matrix(sapply(1:(nrow(prob)-1),function(i){return(abs(prob[i+1,]-prob[i,]))}))
-                #  expectedValue<-prob%*%(1:ncol(prob))
+                  expectedValue<-prob%*%(1:ncol(prob))
                   
                   if(plotType=="IRF"){
                     par(mar=c(3,3,2,7.5),mgp=c(1.75,.25,0))
