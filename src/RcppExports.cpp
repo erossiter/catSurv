@@ -33,14 +33,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // prior
-double prior(S4 catObj, double x);
-RcppExport SEXP _catSurv_prior(SEXP catObjSEXP, SEXP xSEXP) {
+double prior(S4 catObj, double theta);
+RcppExport SEXP _catSurv_prior(SEXP catObjSEXP, SEXP thetaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< S4 >::type catObj(catObjSEXP);
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(prior(catObj, x));
+    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(prior(catObj, theta));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -137,14 +137,14 @@ likelihood <- function(catObj, theta) {
     .Call(`_catSurv_likelihood`, catObj, theta)
 }
 
-#' Evaluate the Prior Density Distribution at Position \code{x}
+#' Evaluate the Prior Density Distribution at Position \eqn{theta}
 #'
 #' Calculates the density at \code{x} of either the normal, Student's t, or uniform distribution.
 #'
 #' @param catObj An object of class \code{Cat}.  
 #' @param x A numeric value at which to evaluate the prior
 #' 
-#' @return The function \code{prior} returns a numeric consisting of prior value, \eqn{\pi(x)}, given the value \code{x}.
+#' @return The function \code{prior} returns a numeric consisting of prior value, \eqn{\pi(\theta)}, given the value \eqn{\theta}.
 #'
 #' @details The \code{priorName} slot of \code{Cat} object needs to be either \code{"UNIFORM"}, \code{"NORMAL"}, or \code{"STUDENT_T"}.
 #' 
@@ -164,15 +164,15 @@ likelihood <- function(catObj, theta) {
 #'## Prior calculation for different distributions
 #'ltm_cat@priorName <- "NORMAL"
 #'ltm_cat@priorParams <- c(0, 1) ## Parameters are mean and standard deviation
-#'prior(ltm_cat, x = 1)
+#'prior(ltm_cat, theta = 1)
 #'
 #'ltm_cat@priorName <- "STUDENT_T"
 #'ltm_cat@priorParams <- c(1, 3) ## Parameters are non-centrality param and degrees of freedom
-#'prior(ltm_cat, x = 1)
+#'prior(ltm_cat, theta = 1)
 #'
 #'ltm_cat@priorName <- "UNIFORM"
 #'ltm_cat@priorParams <- c(-1, 1) ## Parameters are lower bound and upper bound of interval
-#'prior(ltm_cat, x = 1)
+#'prior(ltm_cat, theta = 1)
 #'
 #'
 #' @seealso
@@ -191,8 +191,8 @@ likelihood <- function(catObj, theta) {
 #'  
 #'  
 #' @export
-prior <- function(catObj, x) {
-    .Call(`_catSurv_prior`, catObj, x)
+prior <- function(catObj, theta) {
+    .Call(`_catSurv_prior`, catObj, theta)
 }
 
 #' The First Derivative of the Log-Likelihood
