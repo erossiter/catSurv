@@ -67,7 +67,7 @@ setMethod("plot", c("Cat"),
                   par(mar=c(3,3,2,1),mgp=c(1.75,.25,0))
                   
                   if(plotType=="ICC"){
-                    plot(x,expectedValue,"l", main="Item Characteristic Curve",col=linecolors[1],
+                    plot(x,expectedValue,"l", main=paste0("Item Characteristic Curve (", names(catObj@difficulty[item]), ")" ),col=linecolors[1],
                          ylab="Expected Value of Response",xlab=expression(theta), lwd=2,
                          xlim=xlim, ylim=c(0,max(expectedValue)), tck=F,cex.axis=.90, las=1)
                     abline(h=0, lty=3, col="gray70")
@@ -126,7 +126,7 @@ setMethod("plot", c("Cat"),
 
                   if(plotType=="IRF"){
                     par(mar=c(3,3,2,7.5),mgp=c(1.75,.25,0))
-                    plot(NULL, main="Item Response Function", xlab=expression(theta), ylab=expression(paste("Pr(Y=x|", theta, ")")),
+                    plot(NULL, main=paste0("Item Response Function (", names(catObj@difficulty[item]), ")" ), xlab=expression(theta), ylab=expression(paste("Pr(Y=x|", theta, ")")),
                          lwd=2, xlim=c(xlim[1], xlim[2]), ylim=c(0, max(prob)),  las=1, tck=F,cex.axis=.90)
                     
                     
@@ -135,7 +135,7 @@ setMethod("plot", c("Cat"),
                   }
                   if(plotType=="ICC"){
                     par(mar=c(3,3,2,1),mgp=c(1.75,.25,0))
-                    plot(x,expectedValue,"l", main="Item Characteristic Curve",col=linecolors[1],
+                    plot(x,expectedValue,"l", main=paste0("Item Characteristic Curve (", names(catObj@difficulty[item]), ")" ),col=linecolors[1],
                          ylab="Expected Value of Response",xlab=expression(theta), lwd=2,
                          xlim=xlim, ylim=c(1,max(expectedValue)), tck=F,cex.axis=.90, las=1)
                     abline(h=1, lty=3, col="gray70")
@@ -153,7 +153,7 @@ setMethod("plot", c("Cat"),
                   
                   if(plotType=="IRF"){
                     par(mar=c(3,3,2,7.5),mgp=c(1.75,.25,0))
-                    plot(NULL, main="Item Response Function", xlab=expression(theta), ylab=expression(paste("Pr(Y=x|", theta, ")")),
+                    plot(NULL, main=paste0("Item Response Function (", names(catObj@difficulty[item]), ")" ), xlab=expression(theta), ylab=expression(paste("Pr(Y=x|", theta, ")")),
                          lwd=2, xlim=c(xlim[1], xlim[2]), ylim=c(0, max(prob)),  las=1, tck=F,cex.axis=.90)
                     
                     
@@ -162,7 +162,7 @@ setMethod("plot", c("Cat"),
                   }
                   if(plotType=="ICC"){
                     par(mar=c(3,3,2,1),mgp=c(1.75,.25,0))
-                    plot(x,expectedValue,"l", main="Item Characteristic Curve",col=linecolors[1],
+                    plot(x,expectedValue,"l", main=paste0("Item Characteristic Curve (", names(catObj@difficulty[item]), ")" ),col=linecolors[1],
                          ylab="Expected Value of Response",xlab=expression(theta), lwd=2,
                          xlim=xlim, ylim=c(1,max(expectedValue)), tck=F,cex.axis=.90, las=1)
                     abline(h=1, lty=3, col="gray70")
