@@ -162,28 +162,41 @@ void QuestionSet::reset_all_extreme()
 	int max_response = ((model == "ltm") | (model == "tpm")) ? 1.0 : difficulty[1].size() + 1.0;
 	int min_response = ((model == "ltm") | (model == "tpm")) ? 0.0 : 1.0;
 
-	for (auto i : applicable_rows) {
-	  	if (discrimination.at(i) < 0.0 and answers.at(i) == min_response) minAnswer_negDiscrim = true;
-	  	else if (discrimination.at(i) < 0.0 and answers.at(i) == max_response) maxAnswer_negDiscrim = true;
-	  	else if (discrimination.at(i) > 0.0 and answers.at(i) == min_response) minAnswer_posDiscrim = true;
-	  	else if (discrimination.at(i) > 0.0 and answers.at(i) == max_response) maxAnswer_posDiscrim = true;
-	  	else
-	  	{
-	  		ans_not_extreme = true;
-	  		break;
-	  	}
-	}
-
-	all_extreme = false;
-
-	if(!ans_not_extreme)
-	{
-		if (minAnswer_posDiscrim and maxAnswer_negDiscrim and (!minAnswer_negDiscrim)  and (!maxAnswer_posDiscrim))
-		{
-	  		all_extreme = true;
-		} else if ((!minAnswer_posDiscrim)  and (!maxAnswer_negDiscrim) and minAnswer_negDiscrim and maxAnswer_posDiscrim)
-		{
-	  		all_extreme = true;
-		}
+	if(model == "tpm"){
+	    //simply check if all right (1) or all wrong (0)
+	    std::vector<int> ans_profile;
+	    for (auto i : applicable_rows) {
+	        ans_profile.push_back(answers.at(i));
+	    }
+	    if(std::equal(ans_profile.begin() + 1, ans_profile.end(), ans_profile.begin())){
+	        all_extreme = true;
+	    }else{
+	        all_extreme = false;
+	    }
+	}else{
+	    //for all other models, we need to look at discrimination params and recorded answer
+	    for (auto i : applicable_rows) {
+	        if (discrimination.at(i) < 0.0 and answers.at(i) == min_response) minAnswer_negDiscrim = true;
+	        else if (discrimination.at(i) < 0.0 and answers.at(i) == max_response) maxAnswer_negDiscrim = true;
+	        else if (discrimination.at(i) > 0.0 and answers.at(i) == min_response) minAnswer_posDiscrim = true;
+	        else if (discrimination.at(i) > 0.0 and answers.at(i) == max_response) maxAnswer_posDiscrim = true;
+	        else
+	        {
+	            ans_not_extreme = true;
+	            break;
+	        }
+	    }
+	    all_extreme = false;
+	    
+	    if(!ans_not_extreme)
+	    {
+	        if (minAnswer_posDiscrim and maxAnswer_negDiscrim and (!minAnswer_negDiscrim)  and (!maxAnswer_posDiscrim))
+	        {
+	            all_extreme = true;
+	        } else if ((!minAnswer_posDiscrim)  and (!maxAnswer_negDiscrim) and minAnswer_negDiscrim and maxAnswer_posDiscrim)
+	        {
+	            all_extreme = true;
+	        }
+	    }
 	}
 }
