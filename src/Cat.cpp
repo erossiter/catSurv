@@ -40,10 +40,6 @@ bool Cat::checkStopRules() {
 bool Cat::anyOfThresholds(double se)
 {  
   if (! std::isnan(checkRules.lengthThreshold)){
-      // std::cout << "applic" << questionSet.applicable_rows.size() << std:: endl;
-      // std::cout << "nonapplic" << questionSet.nonapplicable_rows.size() << std:: endl;
-      // std::cout << "skipped" << questionSet.skipped.size() << std:: endl;
-      // 
       //added non-response to length count
       if((questionSet.applicable_rows.size() + questionSet.skipped.size()) >= checkRules.lengthThreshold){
           return true;
