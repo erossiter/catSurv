@@ -6,9 +6,8 @@
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric representing the true position on the latent trait.
 #' @param ans_profiles A vector representing the respondent's full answer profile.
-#' @param n A numeric indicating the length the combinations of all subsetted answer profile should be.
 #'
-#' @details ....
+#' @details lengthThreshold slot should specify how many questions to ask.  
 #'
 #' @return A data.frame where the first column is the user-supplied true value of theta, the second column is the
 #' best possible theta estimate given n questions are asked, and the remaining columns are the answer profile leading
@@ -23,11 +22,15 @@
 #' @name oracle
 NULL
 
-setGeneric("oracle", function(catObj, theta, ans_profiles, n) standardGeneric("oracle"))
+setGeneric("oracle", function(catObj, theta, ans_profiles) standardGeneric("oracle"))
 
 #' @rdname oracle
 #' @export
-setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, ans_profiles, n){
+setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, ans_profiles){
+    
+    # TODO: generalize using checkStopRules
+    n <- grm_cat@lengthThreshold
+    
     if(length(theta) != nrow(ans_profiles)){
         stop("Need a corresponding theta value for each answer profile.")
     }
@@ -45,7 +48,8 @@ setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, 
     #     warning("Asking n>5 questions will likely be arbitrarily close...")
     # }
   
-    ## matrix of all length n combinations of indexes where each row is a possible combo
+    ## matrix of all length n combinations of ~indexes~ where each row is a possible combo
+    ## will be the same combo_mat applied to each specific answer profile
     combo_mat <- t(combn(1:ncol(ans_profiles), n))
     
     ## results for one profile with respective true theta

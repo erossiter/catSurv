@@ -6,7 +6,7 @@
 \alias{oracle,Cat-method}
 \title{Find Answer Profile that Minimizes Bias}
 \usage{
-\S4method{oracle}{Cat}(catObj, theta, ans_profiles, n)
+\S4method{oracle}{Cat}(catObj, theta, ans_profiles)
 }
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
@@ -14,8 +14,6 @@
 \item{theta}{A numeric representing the true position on the latent trait.}
 
 \item{ans_profiles}{A vector representing the respondent's full answer profile.}
-
-\item{n}{A numeric indicating the length the combinations of all subsetted answer profile should be.}
 }
 \value{
 A data.frame where the first column is the user-supplied true value of theta, the second column is the
@@ -27,7 +25,7 @@ Generating all possible combinations of length n from a response profile to dete
 the possible response profile best able to estimate the true value of theta.
 }
 \details{
-....
+lengthThreshold slot should specify how many questions to ask.
 }
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil

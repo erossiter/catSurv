@@ -323,9 +323,6 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 		return std::unique_ptr<MLWISelector>(new MLWISelector(questionSet, estimator, prior));
 	}
 	
-	if (selection_type == "KL") {
-		return std::unique_ptr<KLSelector>(new KLSelector(questionSet, estimator, prior));
-	}
 	
 	if (selection_type == "LKL") {
 		return std::unique_ptr<LKLSelector>(new LKLSelector(questionSet, estimator, prior));
@@ -335,12 +332,24 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 		return std::unique_ptr<PKLSelector>(new PKLSelector(questionSet, estimator, prior));
 	}
 	
-	if (selection_type == "MFII") {
-		return std::unique_ptr<MFIISelector>(new MFIISelector(questionSet, estimator, prior));
-	}
 	
 	if (selection_type == "RANDOM") {
 		return std::unique_ptr<RANDOMSelector>(new RANDOMSelector(questionSet, estimator, prior));
+	}
+	
+	// uses EPV for selection methods that fail when no questions asked
+	if (selection_type == "MFII" || selection_type == "KL") {
+	    if (questionSet.applicable_rows.size() == 0){
+	        std::cerr<<"Warning: EPV will be used select first question since MFII and KL routines fail when no answers have been recorded."<<std::endl;
+	        return std::unique_ptr<EPVSelector>(new EPVSelector(questionSet, estimator, prior));
+	    }else{
+	        if(selection_type == "MFII"){
+	            return std::unique_ptr<MFIISelector>(new MFIISelector(questionSet, estimator, prior));
+	        }
+	        if (selection_type == "KL") {
+	            return std::unique_ptr<KLSelector>(new KLSelector(questionSet, estimator, prior));
+	        }
+	    }
 	}
 
 	stop("%s is not a valid selection type.", selection_type);

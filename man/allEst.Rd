@@ -2,14 +2,14 @@
 % Please edit documentation in R/allEst.R
 \name{allEst}
 \alias{allEst}
-\title{A function that estimates the theta values of multiple cat-objects}
+\title{Estimates theta with multiple specifications}
 \usage{
 allEst(catObjs = list(), resp)
 }
 \arguments{
-\item{catObjs}{A list of \code{Cat} objects of the same class (using different estimation parameters)}
+\item{catObjs}{A list of \code{Cat} objects of the same class (i.e., LTM, TPM, GRM, GPCM) specifying different estimation routines}
 
-\item{respondents}{A matrix of respondent answers}
+\item{respondents}{A matrix of response profiles}
 }
 \value{
 The function \code{allEst} returns a vector.  Each \code{Cat} object returns a column and each respondent returns a row.
@@ -18,11 +18,11 @@ The function \code{allEst} returns a vector.  Each \code{Cat} object returns a c
 This function is to allow users to look at data computed before \code{Cat} technologies were availabe and and analyze multpile types of analyses on mulptile resondents to achieve a theta estimate.
 }
 \description{
-Takes in a full collection of answers from multiple respondents and multiple cat-objects and returns a set of theta estimates defined by the user
+Takes response profiles from multiple respondents and multiple Cat objects and returns a set of theta estimates
 }
 \details{
 The function takes a \code{Cat} object and generates an estimation for \code{theta} using \code{MAP}, \code{EAP}, etc. 
-The user must transform all \code{cat} objects into a single list to be analyzed.
+The user must store all \code{Cat} objects in a single list.
 }
 \examples{
 
