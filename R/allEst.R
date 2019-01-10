@@ -71,22 +71,46 @@ allEst<- function(catObjs=list(), resp){
                                 cat <- catObj
                                 continue <- TRUE
                                 while(continue){
-                                    item <- selectItem(cat)$next_item
+                                    
+                                    item <- tryCatch({
+                                        selectItem(cat)$next_item
+                                    }, error = function(err){
+                                        print(paste("1:", err))
+                                        saved_selection <- cat@selection
+                                        cat@selection <- "RANDOM"
+                                        item <- selectItem(cat)$next_item
+                                        cat@selection <- saved_selection
+                                        return(item)
+                                    })
+                                    
                                     answer <- x[item]
                                     cat <- storeAnswer(catObj = cat, item = item, answer = answer)
-                                    
-                                    continue <- tryCatch({
-                                        checkStopRules(cat)
-                                    }, error = function(err){
-                                        print(err)
-                                        saved_estimation <- cat@estimation
-                                        cat@estimation <- "EAP"
-                                        continue <- checkStopRules(cat)
-                                        cat@estimation <- saved_estimation
-                                        return(continue)
-                                    })
+                                    continue <- checkStopRules(cat)
+                                    # continue <- tryCatch({
+                                    #     checkStopRules(cat)
+                                    # }, error = function(err){
+                                    #     print(paste("2:", err))
+                                    #     saved_estimation <- cat@estimation
+                                    #     cat@estimation <- "EAP"
+                                    #     continue <- checkStopRules(cat)
+                                    #     cat@estimation <- saved_estimation
+                                    #     return(continue)
+                                    # })
                                 }
-                                return(estimateTheta(cat))
+                                
+                                est <- tryCatch({
+                                    estimateTheta(cat)
+                                }, error = function(err){
+                                    print(paste("3:", err))
+                                    if(cat@estimation == "EAP"){
+                                        return(NA)
+                                    }else{
+                                        cat@estimation <- "EAP"
+                                        return(estimateTheta(cat)) 
+                                    }
+                                    
+                                })
+                                return(est)
                             },
                             catObj = catObjs[[i]])
     }
