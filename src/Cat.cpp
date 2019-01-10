@@ -28,16 +28,14 @@ Cat::Cat(S4 cat_df) : questionSet(cat_df),
                       selector(createSelector(cat_df.slot("selection"), questionSet, *estimator, prior)){}
 
 bool Cat::checkStopRules() { 
-  double SE_est = estimator->estimateSE(prior);
-
-  if(noneOfOverrides(SE_est))
+  if(noneOfOverrides())
   {
-    return anyOfThresholds(SE_est);
+    return anyOfThresholds();
   }
   return false;  
 }
 
-bool Cat::anyOfThresholds(double se)
+bool Cat::anyOfThresholds()
 {  
   if (! std::isnan(checkRules.lengthThreshold)){
       //added non-response to length count
@@ -46,7 +44,10 @@ bool Cat::anyOfThresholds(double se)
       }
   }
 
+  
+  
   if (! std::isnan(checkRules.seThreshold)) {
+      double se = estimator->estimateSE(prior);
     if(se < checkRules.seThreshold ) {
       return true;
     }
@@ -55,6 +56,7 @@ bool Cat::anyOfThresholds(double se)
   if (! std::isnan(checkRules.gainThreshold)){
     bool answer_gainThreshold  = std::all_of(questionSet.nonapplicable_rows.begin(), questionSet.nonapplicable_rows.end(), [&](int item)
     {
+        double se = estimator->estimateSE(prior);
         double gain = std::abs(se - std::pow(expectedPV(item), 0.5));
         return gain < checkRules.gainThreshold;
     });
@@ -81,16 +83,18 @@ bool Cat::anyOfThresholds(double se)
   return false;
 }
 
-bool Cat::noneOfOverrides(double se){
+bool Cat::noneOfOverrides(){
   if (! std::isnan(checkRules.lengthOverride)) {
     if((questionSet.applicable_rows.size() + questionSet.skipped.size()) < checkRules.lengthOverride){
       return false;
     }
   }
 
+  
   if (! std::isnan(checkRules.gainOverride)){
     bool answer_gainOverride  = std::all_of(questionSet.nonapplicable_rows.begin(), questionSet.nonapplicable_rows.end(), [&](int item)
     {
+        double se = estimator->estimateSE(prior);
         double gain = std::abs(se - std::pow(expectedPV(item), 0.5));
         return gain >= checkRules.gainOverride;
     });

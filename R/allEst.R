@@ -52,87 +52,44 @@ allEst <- function(catObjs, resp){
 }
 
 allEst<- function(catObjs=list(), resp){
-    #the multiple cat objects must be of the same class and be in list type
-    #first do for loop to go over our stopping rules having trouble creating more efficient code
-    store<-NULL
-    obj<-NULL
-    for (i in 1:length(catObjs)){
-        #create a dummy object so we can collect the model type of every catObj
-        obj<-c(obj, catObjs[[i]]@model)
-        
-        if (length(levels(as.factor(obj)))!=1){
-            #if there are more than one types of catObj (ltm, grm), stop
-            
-            stop("List of Cat objects must be of the same type*")
-        }
-        if (length(resp) != length(catObjs[[i]]@answers)){
-            #make sure answer profile is appropriate for catObj grm@answers = 18 so make sure battery has 18 questions
-            
-            stop("Response profile is not compatible with Cat object.")
-        }
-        
-        #there are 2 selection types which do not work if the first answer is not chosen
-        #for these we will resort back to the default "EPV" and switch back after the first question is picked
-        if(catObjs[[i]]@selection=="KL" | catObjs[[i]]@selection=="MFII"){
-            #lots going on here; go over each respondent and return  each theta value
-            #we do this adaptively by selecting the next question  and grabbing it from the answer profile
-            
-            store<-(rbind(store,apply(resp,1,  function(catObj, answers=c()){
-                #throw a tryCatch in here because there are troubles with MAP
-                
-                theta_est <- tryCatch({   
-                    
-                    #Bc they cant generate 1st answer we resort to EPV 
-                    orig<-catObjs[[i]]@selection
-                    tempcatObj<-catObjs[[i]]
-                    setSelection(tempcatObj) <-"EPV"
-                    #here we pick the first item that "EPV" chooses
-                    while ( answers[selectItem(tempcatObj)$next_item]== -1){
-                        tempcatObj<-storeAnswer(catObj=tempcatObj,item=selectItem(tempcatObj)$next_item, answers[selectItem(tempcatObj)$next_item])
-                    }
-                    tempcatObj<-storeAnswer(catObj=tempcatObj,item=selectItem(tempcatObj)$next_item, answers[selectItem(tempcatObj)$next_item])
-                    # after first question we flip back to KL and continue as usual
-                    
-                    setSelection(tempcatObj) <-orig
-                    cat<-tempcatObj
-                    # Look to checkStopRules and identify the question selection and grab the corresponding answer
-                    while (checkStopRules(cat)==F) {
-                        cat<-storeAnswer(cat, item=selectItem(cat)$next_item, answers[selectItem(cat)$next_item])}
-                    
-                    #used estimateTheta here probably could have went with estimateThetas, idk
-                    estimateTheta(cat)
-                }, 
-                
-                #back to tryCatch there are lots of potential errors so we just nip it in the bud and return an error message and NA's
-                error = function(cond) {
-                    message(cond)
-                    return(NA)
-                }
-                )
-                return(theta_est)
-            }, catObj=catObjs[[i]])))
-            
-            
-        } else
-            #then we do it all again with the functions that can pick the first question
-            
-            store<-(rbind(store,apply(resp,1,  function(catObj, answers=c()){
-                theta_est <- tryCatch(
-                    {
-                        cat<-storeAnswer(catObj,item=selectItem(catObj)$next_item, answers[selectItem(catObj)$next_item])
-                        while (checkStopRules(cat)==F) {
-                            cat<-storeAnswer(cat, item=selectItem(cat)$next_item, answers[selectItem(cat)$next_item])
-                        }
-                        estimateTheta(cat)
-                    }, 
-                    error = function(cond) {
-                        message(cond)
-                        return(NA)
-                    })
-                return(theta_est)
-            }, catObj=catObjs[[i]])))
+    
+    # checks
+    if(length(unique(lapply(catObjs, function(x) x@model))) != 1){
+        stop("Cat objects must be of the same model e.g., grm.")
     }
-    store<-t(store)
-    colnames(store)<- paste("catObj", 1:ncol(store))
-    return(store)
+    if(any(unlist(lapply(catObjs, function(x) length(x@answers) != length(resp))))){
+        stop("Response profile is not compatible with Cat object.")
+    }
+    
+    
+    # for loop for now
+    out <- matrix(NA, nrow = nrow(resp), ncol = length(catObjs))
+    for (i in 1:length(catObjs)){
+        out[,i] <- apply(X = resp,
+                            MARGIN = 1,
+                            FUN = function(x, catObj){
+                                cat <- catObj
+                                continue <- TRUE
+                                while(continue){
+                                    item <- selectItem(cat)$next_item
+                                    answer <- x[item]
+                                    cat <- storeAnswer(catObj = cat, item = item, answer = answer)
+                                    
+                                    continue <- tryCatch({
+                                        checkStopRules(cat)
+                                    }, error = function(err){
+                                        print(err)
+                                        saved_estimation <- cat@estimation
+                                        cat@estimation <- "EAP"
+                                        continue <- checkStopRules(cat)
+                                        cat@estimation <- saved_estimation
+                                        return(continue)
+                                    })
+                                }
+                                return(estimateTheta(cat))
+                            },
+                            catObj = catObjs[[i]])
+    }
+    colnames(out) <- paste0(catObjs[[1]]@model, unlist(lapply(catObjs, function(x) x@estimation)))
+    return(data.frame(out))
 }

@@ -97,7 +97,7 @@ double MLEEstimator::estimateTheta(Prior prior) {
         auto this_value = std::min_element(std::begin(check_d1LL), std::end(check_d1LL));
         auto this_index = std::distance(std::begin(check_d1LL), this_value);
         theta_hat_old = try_theta.at(this_index);
-        theta_hat_new = theta_hat_old - 1.0;
+        theta_hat_new = theta_hat_old + 1.0;
         
         // If there's still an error, it will be thrown.
         theta_hat_new = newton_raphson(prior,theta_hat_old, theta_hat_new, true);
@@ -125,7 +125,7 @@ double MLEEstimator::estimateTheta(Prior prior, size_t question, int answer)
         auto this_value = std::min_element(std::begin(check_d1LL), std::end(check_d1LL));
         auto this_index = std::distance(std::begin(check_d1LL), this_value);
         theta_hat_old = try_theta.at(this_index);
-        theta_hat_new = theta_hat_old - 1.0;
+        theta_hat_new = theta_hat_old + 1.0;
         
         // If there's still an error, it will be thrown.
         theta_hat_new = newton_raphson(prior, question, answer, theta_hat_old, theta_hat_new, true);

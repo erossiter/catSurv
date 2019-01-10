@@ -7,7 +7,8 @@
 #' @param theta A numeric representing the true position on the latent trait.
 #' @param ans_profiles A vector representing the respondent's full answer profile.
 #'
-#' @details lengthThreshold slot should specify how many questions to ask.  
+#' @details lengthThreshold slot should specify how many questions to ask.
+#' Note this function uses the estimateTheta method specified in the supplied cat object
 #'
 #' @return A data.frame where the first column is the user-supplied true value of theta, the second column is the
 #' best possible theta estimate given n questions are asked, and the remaining columns are the answer profile leading

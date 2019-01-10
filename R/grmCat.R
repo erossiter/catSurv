@@ -89,19 +89,19 @@ setMethod("grmCat",
           function(data, quadraturePoints = 21, ...){
               fit <- grm(data = data, control = list(GHk = quadraturePoints), ...)
               coefficients <- fit$coef
-              
+
               discm <- sapply(1:length(coefficients), function(i){
                   coefficients[[i]][length(coefficients[[i]])]
               })
               names(discm) <- colnames(data)
-              
+
               diff <- lapply(1:length(coefficients), function(i){
                   out <- coefficients[[i]][-length(coefficients[[i]])]
                   names(out) <- NULL
                   return(out)
               })
               names(diff) <- colnames(data)
-              
+
               object <- new("Cat")
               object@discrimination <- discm
               object@difficulty <- diff

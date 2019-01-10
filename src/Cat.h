@@ -62,8 +62,8 @@ public:
 	NumericVector simulateThetas(DataFrame& responses);
 
 private:
-	bool noneOfOverrides(double se);
-	bool anyOfThresholds(double se);
+	bool noneOfOverrides();
+	bool anyOfThresholds();
 
 
 private:

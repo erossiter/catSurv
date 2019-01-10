@@ -26,6 +26,7 @@ the possible response profile best able to estimate the true value of theta.
 }
 \details{
 lengthThreshold slot should specify how many questions to ask.
+Note this function uses the estimateTheta method specified in the supplied cat object
 }
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
