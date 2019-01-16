@@ -45,6 +45,7 @@ setMethod(f = "simulateRespondents", signature = "Cat", definition = function(ca
             ans_profiles[respondent, i] <- sample(1:(length(catObj@difficulty[[i]])+1), 1, prob = probs)
         }
     }
+    colnames(ans_profiles) <- names(catObj@discrimination)
     return(as.data.frame(ans_profiles))
 })
 

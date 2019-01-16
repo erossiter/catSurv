@@ -4,8 +4,11 @@
 \name{storeAnswer}
 \alias{storeAnswer}
 \alias{storeAnswer,Cat-method}
+\alias{storeAnswer,Cat-method}
 \title{Update Answer to Single Item}
 \usage{
+\S4method{storeAnswer}{Cat}(catObj, item, answer)
+
 \S4method{storeAnswer}{Cat}(catObj, item, answer)
 }
 \arguments{

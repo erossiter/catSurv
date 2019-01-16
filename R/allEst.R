@@ -108,7 +108,6 @@ allEst<- function(catObjs=list(), resp){
                                         cat@estimation <- "EAP"
                                         return(estimateTheta(cat)) 
                                     }
-                                    
                                 })
                                 return(est)
                             },
