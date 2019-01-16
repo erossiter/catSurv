@@ -89,9 +89,11 @@ setMethod("tpmCat",
             discm <- fit$coef[,"beta.2i"]
             diff <- fit$coef[,"beta.1i"]
             guess <- coef(fit)[,"Gussng"]
-            names(diff) <- rownames(fit$coef)
-  
+            
             object <- new("Cat")
+            object@ids <- rownames(fit$coef)
+            names(diff) <- names(discm) <- object@ids
+            
             object@discrimination <- discm
             object@difficulty <- diff
             object@guessing <- guess
@@ -108,9 +110,11 @@ setMethod("tpmCat",
             discm <- data$coef[,"beta.2i"]
             diff <- data$coef[,"beta.1i"]
             guess <- coef(data)[,"Gussng"]
-            names(diff) <- rownames(data$coef)
-            
+
             object <- new("Cat")
+            object@ids <- rownames(data$coef)
+            names(diff) <- names(discm) <- object@ids
+            
             object@discrimination <- discm
             object@difficulty <- diff
             object@guessing <- guess

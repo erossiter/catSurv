@@ -93,16 +93,17 @@ setMethod("grmCat",
               discm <- sapply(1:length(coefficients), function(i){
                   coefficients[[i]][length(coefficients[[i]])]
               })
-              names(discm) <- colnames(data)
 
               diff <- lapply(1:length(coefficients), function(i){
                   out <- coefficients[[i]][-length(coefficients[[i]])]
                   names(out) <- NULL
                   return(out)
               })
-              names(diff) <- colnames(data)
 
               object <- new("Cat")
+              object@ids <- colnames(data)
+              names(diff) <- names(discm) <- object@ids
+              
               object@discrimination <- discm
               object@difficulty <- diff
               object@guessing <- rep(0, length(discm))
@@ -121,16 +122,17 @@ setMethod("grmCat",
               discm <- sapply(1:length(coefficients), function(i){
                   coefficients[[i]][length(coefficients[[i]])]
               })
-              names(discm) <- names(data$coef)
-              
+
               diff <- lapply(1:length(coefficients), function(i){
                   out <- coefficients[[i]][-length(coefficients[[i]])]
                   names(out) <- NULL
                   return(out)
               })
-              names(diff) <- names(data$coef)
-              
+
               object <- new("Cat")
+              object@ids <- names(data$coef)
+              names(diff) <- names(discm) <- object@ids
+              
               object@discrimination <- discm
               object@difficulty <- diff
               object@guessing <- rep(0, length(discm))

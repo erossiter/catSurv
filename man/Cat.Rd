@@ -11,6 +11,7 @@ Creates an object of class \code{Cat}.  \code{Cat} objects are used in administe
 \details{
 Assume we have a survey battery with \code{I} questions.  An object of the class \code{Cat} has the following slots:
 \itemize{
+\item \code{ids} A vector of length \code{I} of unique question identifiers.  Default is the column names of response data frame used to calibrate \code{Cat} object.
 \item \code{guessing} A vector of length \code{I} of guessing parameters.  Guessing parameters are only applicable for \code{Cat} objects fit with the \code{"tpm"} model, using the \code{tpmCat} function. 
 \item \code{discrimination} A vector of length \code{I} of discrimination parameters.
 \item \code{difficulty} A vector or list of length \code{I} of difficulty parameters. For \code{Cat} objects of the \code{"ltm"} or \code{"tpm"} model, \code{difficulty} is a vector that contains a parameter for each item.  For \code{Cat} objects of the \code{"grm"} or \code{"gpcm"} model, \code{difficulty} is a list that contains a vector for each item, and each vector contains parameters for each response option.  

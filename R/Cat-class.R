@@ -14,6 +14,7 @@ setClassUnion("numericORlist", c("numeric","list"))
 #'
 #' Assume we have a survey battery with \code{I} questions.  An object of the class \code{Cat} has the following slots:
 #' \itemize{
+#' \item \code{ids} A vector of length \code{I} of unique question identifiers.  Default is the column names of response data frame used to calibrate \code{Cat} object.
 #' \item \code{guessing} A vector of length \code{I} of guessing parameters.  Guessing parameters are only applicable for \code{Cat} objects fit with the \code{"tpm"} model, using the \code{tpmCat} function. 
 #' \item \code{discrimination} A vector of length \code{I} of discrimination parameters.
 #' \item \code{difficulty} A vector or list of length \code{I} of difficulty parameters. For \code{Cat} objects of the \code{"ltm"} or \code{"tpm"} model, \code{difficulty} is a vector that contains a parameter for each item.  For \code{Cat} objects of the \code{"grm"} or \code{"gpcm"} model, \code{difficulty} is a list that contains a vector for each item, and each vector contains parameters for each response option.  
@@ -46,6 +47,7 @@ setClassUnion("numericORlist", c("numeric","list"))
 #' @export
 setClass("Cat",
   slots = list(
+    ids = "character",
     guessing = "numeric",
     discrimination = "numeric",
     difficulty = "numericORlist",
@@ -66,6 +68,7 @@ setClass("Cat",
     lengthOverride = "logicalORnumeric",
     gainOverride = "logicalORnumeric"),
   prototype = prototype(
+    ids = paste0("Q", 1:10),  
     guessing = rep(0, 10),
     discrimination = rep(0, 10),
     difficulty = rep(0, 10),
@@ -95,6 +98,11 @@ setMethod("initialize", "Cat", function(.Object, ...) {
 
 
 setValidity("Cat", function(object){
+    ## Checking for valid id's
+    if(length(unique(object@ids)) != length(object@answers)){
+        stop("Question id's must be unique.")
+    } 
+    
     ## Checking for valid answers
     if(object@model == "ltm" | object@model == "tpm"){
         if(any(!object@answers %in% c(0, 1, NA, -1))){
@@ -267,6 +275,18 @@ setReplaceMethod("setAnswers", "Cat", definition = function(catObj, value){
   slot(catObj, "answers") <- value
   validObject(catObj)
   return(catObj)
+})
+
+
+setGeneric("setIds<-", function(catObj, value) standardGeneric("setIds<-"))
+
+#' @aliases setIds<- setters
+#' @rdname setters
+#' @export
+setReplaceMethod("setIds", "Cat", definition = function(catObj, value){
+    slot(catObj, "ids") <- value
+    validObject(catObj)
+    return(catObj)
 })
 
 
@@ -511,6 +531,13 @@ setGeneric("getAnswers", function(catObj) standardGeneric("getAnswers"))
 #' @rdname getters
 #' @export
 setMethod("getAnswers", "Cat", function(catObj) return(catObj@answers))
+
+setGeneric("getIds", function(catObj) standardGeneric("getIds"))
+
+#' @aliases getIds getters
+#' @rdname getters
+#' @export
+setMethod("getIds", "Cat", function(catObj) return(catObj@ids))
 
 setGeneric("getPriorName", function(catObj) standardGeneric("getPriorName"))
 

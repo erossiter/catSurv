@@ -18,6 +18,9 @@
 \alias{getAnswers,Cat-method}
 \alias{getAnswers}
 \alias{getters}
+\alias{getIds,Cat-method}
+\alias{getIds}
+\alias{getters}
 \alias{getPriorName,Cat-method}
 \alias{getPriorName}
 \alias{getters}
@@ -71,6 +74,8 @@
 \S4method{getDifficulty}{Cat}(catObj)
 
 \S4method{getAnswers}{Cat}(catObj)
+
+\S4method{getIds}{Cat}(catObj)
 
 \S4method{getPriorName}{Cat}(catObj)
 

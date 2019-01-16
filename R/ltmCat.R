@@ -86,9 +86,11 @@ setMethod("ltmCat",
             fit <- ltm(data ~ z1, control = list(GHk = quadraturePoints), ...)
             discm <- fit$coef[,"z1"]
             diff <- fit$coef[,"(Intercept)"]
-            names(diff) <- rownames(fit$coef)
-
+            
             object <- new("Cat")
+            object@ids <- rownames(fit$coef)
+            names(diff) <- names(discm) <- object@ids
+            
             object@discrimination <- discm
             object@difficulty <- diff
             object@guessing <- rep(0, length(discm))
@@ -104,9 +106,11 @@ setMethod("ltmCat",
           function(data, quadraturePoints = NULL, ...){
             discm <- data$coef[,"z1"]
             diff <- data$coef[,"(Intercept)"]
-            names(diff) <- rownames(data$coef)
-             
+            
             object <- new("Cat")
+            object@ids <- rownames(data$coef)
+            names(diff) <- names(discm) <- object@ids
+            
             object@discrimination <- discm
             object@difficulty <- diff
             object@guessing <- rep(0, length(discm))

@@ -15,6 +15,9 @@
 \alias{setAnswers<-,Cat-method}
 \alias{setAnswers<-}
 \alias{setters}
+\alias{setIds<-,Cat-method}
+\alias{setIds<-}
+\alias{setters}
 \alias{setModel<-,Cat-method}
 \alias{setModel<-}
 \alias{setters}
@@ -69,6 +72,8 @@
 \S4method{setDifficulty}{Cat}(catObj) <- value
 
 \S4method{setAnswers}{Cat}(catObj) <- value
+
+\S4method{setIds}{Cat}(catObj) <- value
 
 \S4method{setModel}{Cat}(catObj) <- value
 
