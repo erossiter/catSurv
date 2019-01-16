@@ -4,15 +4,15 @@
 \name{storeAnswer}
 \alias{storeAnswer}
 \alias{storeAnswer,Cat-method}
-\alias{storeAnswer,Cat-method}
+\alias{storeAnswer,json-method}
 \title{Update Answer to Single Item}
 \usage{
 \S4method{storeAnswer}{Cat}(catObj, item, answer)
 
-\S4method{storeAnswer}{Cat}(catObj, item, answer)
+\S4method{storeAnswer}{json}(catObj, item, answer)
 }
 \arguments{
-\item{catObj}{An object of class \code{Cat}}
+\item{catObj}{An object of class \code{Cat} or class \code{json}.}
 
 \item{item}{An integer indicating the index of the question item}
 

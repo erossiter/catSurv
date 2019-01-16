@@ -2,7 +2,7 @@
 #'
 #' Stores answer to item \eqn{k} to the \code{Cat} object's \code{answers} slot.
 #'
-#' @param catObj An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat} or class \code{json}.
 #' @param item An integer indicating the index of the question item
 #' @param answer The answer to the \code{item} to be updated
 #'
@@ -37,6 +37,17 @@ setMethod(f = "storeAnswer", signature = "Cat", definition = function(catObj, it
   catObj@answers[item] <- answer
   validObject(catObj)
   return(catObj)
+})
+
+
+
+#' @rdname storeAnswer
+#' @export
+setMethod(f = "storeAnswer", signature = "json", definition = function(catObj, item, answer){
+    catObj <- fromJSONCat(catObj)
+    catObj@answers[item] <- answer
+    validObject(catObj)
+    return(catObj)
 })
 
 
