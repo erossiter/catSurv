@@ -7,9 +7,9 @@
 \alias{storeAnswer,json-method}
 \title{Update Answer to Single Item}
 \usage{
-\S4method{storeAnswer}{Cat}(catObj, item, answer)
+\S4method{storeAnswer}{Cat}(catObj, item, answer, returnJSON = FALSE)
 
-\S4method{storeAnswer}{json}(catObj, item, answer)
+\S4method{storeAnswer}{json}(catObj, item, answer, returnJSON = FALSE)
 }
 \arguments{
 \item{catObj}{An object of class \code{Cat} or class \code{json}.}
@@ -17,6 +17,8 @@
 \item{item}{An integer indicating the index of the question item}
 
 \item{answer}{The answer to the \code{item} to be updated}
+
+\item{returnJSON}{Boolean indicating whether the updated \code{Cat} object should be returned as a JSON object.  Defaults to FALSE.}
 }
 \value{
 The function \code{storeAnswer} returns an updated object of class \code{Cat} with the \code{answers} slot reflecting the newly stored \code{answer} to the indicated \code{item}.  All previously stored answers remain the same, and all unanswered questions remain \code{NA}.
