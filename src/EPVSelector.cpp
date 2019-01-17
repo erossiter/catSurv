@@ -82,7 +82,7 @@ Selection EPVSelector::selectItem() {
 
 	selection.question_names.resize(selection.questions.size());
 	std::transform(selection.questions.begin(),selection.questions.end(),selection.question_names.begin(), qn_name);
-
+	
 	auto min_itr = std::min_element(selection.values.begin(), selection.values.end());
 	selection.item = selection.questions[std::distance(selection.values.begin(),min_itr)];
 

@@ -139,7 +139,9 @@ List Cat::selectItem() {
                                                    Named("q_name") = selection.question_names,
 	                                                 Named(selection.name) = selection.values);
                                                      
-	return Rcpp::List::create(Named("estimates") = all_estimates, Named("next_item") = wrap(selection.item + 1));
+	return Rcpp::List::create(Named("estimates") = all_estimates,
+                              Named("next_item") = wrap(selection.item + 1),
+	                          Named("next_item_name") = questionSet.question_names.at(selection.item));
 }
 
 DataFrame Cat::lookAhead(int item) {

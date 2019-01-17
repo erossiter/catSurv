@@ -10,13 +10,15 @@ selectItem(catObj)
 \item{catObj}{An object of class \code{Cat}}
 }
 \value{
-The function \code{selectItem} returns a list with two elements:
+The function \code{selectItem} returns a list with three elements:
  
 \code{estimates}: a data frame with a row for each unasked question and three columns representing 
 the item index number, the item name, and the item value (calculated by the specified selection method), 
 and
 
 \code{next_item}: a numeric representing the index of the item that should be asked next.
+
+\code{next_item_name}: a string representing the unique identifier of the item that should be asked next.
 }
 \description{
 Selects the next item in the question set to be administered to respondent based on the specified selection method.
