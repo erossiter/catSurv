@@ -46,6 +46,7 @@ setMethod("fromJSONCat",
             for(i in slotNames(return_cat)){
               slot(return_cat, i) <- list_cat[[i]]
             }
+            names(return_cat@discrimination) <- return_cat@ids
             
             if(!validObject(return_cat)){
               stop("Problem...")
