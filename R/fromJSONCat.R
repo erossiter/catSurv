@@ -53,3 +53,28 @@ setMethod("fromJSONCat",
             }
             return(return_cat)
 })
+
+
+#' @rdname fromJSONCat
+#' @export
+setMethod("fromJSONCat",
+          signature(jsonObj = "character"),
+          function(jsonObj){
+              list_cat = jsonlite::fromJSON(jsonObj, simplifyMatrix = FALSE)
+              return_cat <- new("Cat")
+              
+              if(! identical(sort(names(list_cat)), sort(slotNames(return_cat)))){
+                  stop("jsonObj names must match slots of Cat object.")
+              }
+              for(i in slotNames(return_cat)){
+                  slot(return_cat, i) <- list_cat[[i]]
+              }
+              names(return_cat@discrimination) <- return_cat@ids
+              
+              if(!validObject(return_cat)){
+                  stop("Problem...")
+              }
+              return(return_cat)
+          })
+
+

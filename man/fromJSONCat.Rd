@@ -4,9 +4,12 @@
 \name{fromJSONCat}
 \alias{fromJSONCat}
 \alias{fromJSONCat,json-method}
+\alias{fromJSONCat,character-method}
 \title{Convert JSON object to Cat object}
 \usage{
 \S4method{fromJSONCat}{json}(jsonObj)
+
+\S4method{fromJSONCat}{character}(jsonObj)
 }
 \arguments{
 \item{jsonObj}{A \code{json} object with elements matching Cat object slots}
