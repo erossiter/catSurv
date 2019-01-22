@@ -30,7 +30,7 @@
 #' @name storeAnswer
 NULL
 
-setGeneric("storeAnswer", function(catObj, item, answer, returnJSON) standardGeneric("storeAnswer"))
+setGeneric("storeAnswer", function(catObj, item, answer, returnJSON = NULL) standardGeneric("storeAnswer"))
 
 #' @rdname storeAnswer
 #' @export
