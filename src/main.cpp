@@ -100,7 +100,7 @@ using namespace Rcpp;
 //' @export
 // [[Rcpp::export]]
 std::vector<double> probability(S4 catObj, double theta, int item) {
-	return Cat(catObj).probability(theta, item);
+    return Cat(catObj).probability(theta, item);
 }
 
 //' Likelihood of the Specified Response Set

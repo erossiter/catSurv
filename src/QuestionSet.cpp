@@ -20,7 +20,6 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 		difficulty.push_back(Rcpp::as<std::vector<double> >(item));
 	}
 
-	
 	reset_applicables();
 	reset_all_extreme();
 }
@@ -29,8 +28,8 @@ void QuestionSet::reset_answers(Rcpp::DataFrame& responses, size_t row)
 {
 	for(size_t i = 0; i < answers.size(); ++i)
 	{
-		Rcpp::IntegerVector col = responses[i]; 
-		answers[i] = col[row];
+		Rcpp::IntegerVector col = responses.at(i); 
+		answers.at(i) = col.at(row);
 	}
 	
 	reset_applicables();
@@ -46,13 +45,13 @@ void QuestionSet::reset_answers(std::vector<int> const& source)
 
 void QuestionSet::reset_answer(size_t question, int answer)
 {
-	if(answer == answers[question])
+	if(answer == answers.at(question))
 	{
 		return; // nothing to be done
 	}
 
-	int old_answer = answers[question];
-	answers[question] = answer;
+	int old_answer = answers.at(question);
+	answers.at(question) = answer;
 
 	
 	if(old_answer == NA_INTEGER)
@@ -159,23 +158,10 @@ void QuestionSet::reset_all_extreme()
 	bool maxAnswer_negDiscrim = false;
 	bool ans_not_extreme = false;
 	
-	int max_response = ((model == "ltm") | (model == "tpm")) ? 1.0 : difficulty[1].size() + 1.0;
+	int max_response = ((model == "ltm") | (model == "tpm")) ? 1.0 : difficulty.at(1).size() + 1.0;
 	int min_response = ((model == "ltm") | (model == "tpm")) ? 0.0 : 1.0;
 
-	if(model == "tpm"){
-	    //simply check if all right (1) or all wrong (0)
-	    std::vector<int> ans_profile;
-	    for (auto i : applicable_rows) {
-	        ans_profile.push_back(answers.at(i));
-	    }
-	    if(std::equal(ans_profile.begin() + 1, ans_profile.end(), ans_profile.begin())){
-	        all_extreme = true;
-	    }else{
-	        all_extreme = false;
-	    }
-	}else{
-	    //for all other models, we need to look at discrimination params and recorded answer
-	    for (auto i : applicable_rows) {
+	for (auto i : applicable_rows) {
 	        if (discrimination.at(i) < 0.0 and answers.at(i) == min_response) minAnswer_negDiscrim = true;
 	        else if (discrimination.at(i) < 0.0 and answers.at(i) == max_response) maxAnswer_negDiscrim = true;
 	        else if (discrimination.at(i) > 0.0 and answers.at(i) == min_response) minAnswer_posDiscrim = true;
@@ -198,5 +184,4 @@ void QuestionSet::reset_all_extreme()
 	            all_extreme = true;
 	        }
 	    }
-	}
 }
