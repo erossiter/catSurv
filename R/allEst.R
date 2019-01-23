@@ -69,13 +69,12 @@ allEst<- function(catObjs=list(), resp){
                             MARGIN = 1,
                             FUN = function(x, catObj){
                                 cat <- catObj
-                                continue <- TRUE
-                                while(continue){
-                                    
+                                end_survey <- FALSE
+                                while(! end_survey){
                                     item <- tryCatch({
                                         selectItem(cat)$next_item
                                     }, error = function(err){
-                                        print(paste("1:", err))
+                                        print(err)
                                         saved_selection <- cat@selection
                                         cat@selection <- "RANDOM"
                                         item <- selectItem(cat)$next_item
@@ -85,23 +84,13 @@ allEst<- function(catObjs=list(), resp){
                                     
                                     answer <- x[item]
                                     cat <- storeAnswer(catObj = cat, item = item, answer = answer)
-                                    continue <- checkStopRules(cat)
-                                    # continue <- tryCatch({
-                                    #     checkStopRules(cat)
-                                    # }, error = function(err){
-                                    #     print(paste("2:", err))
-                                    #     saved_estimation <- cat@estimation
-                                    #     cat@estimation <- "EAP"
-                                    #     continue <- checkStopRules(cat)
-                                    #     cat@estimation <- saved_estimation
-                                    #     return(continue)
-                                    # })
+                                    end_survey <- checkStopRules(cat) # should survey stop?
                                 }
                                 
                                 est <- tryCatch({
                                     estimateTheta(cat)
                                 }, error = function(err){
-                                    print(paste("3:", err))
+                                    print(err)
                                     if(cat@estimation == "EAP"){
                                         return(NA)
                                     }else{
