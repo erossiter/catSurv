@@ -102,6 +102,6 @@ allEst<- function(catObjs=list(), resp){
                             },
                             catObj = catObjs[[i]])
     }
-    colnames(out) <- paste0(catObjs[[1]]@model, unlist(lapply(catObjs, function(x) x@estimation)))
+    colnames(out) <- paste0("cat", 1:length(catObjs))
     return(data.frame(out))
 }
