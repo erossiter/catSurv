@@ -85,12 +85,12 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
 
 	probabilities.push_back(1.0);
 
-	// checking for repeated elements
-  	auto it = std::adjacent_find(probabilities.begin(), probabilities.end());
-  	if(it != probabilities.end()){
-  	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
-  	    throw std::domain_error(msg);
-  	}
+// 	// checking for repeated elements
+//   	auto it = std::adjacent_find(probabilities.begin(), probabilities.end());
+//   	if(it != probabilities.end()){
+//   	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
+//   	    throw std::domain_error(msg);
+//   	}
 
 	return probabilities;
 }
@@ -121,12 +121,12 @@ std::pair<double,double> Estimator::prob_grm_pair(double theta, size_t question,
 		probs.second = calculate(difficulties[at-1]);
 	}
 
-	// checking for repeated elements
-  	if(probs.first == probs.second)
-  	{
-  	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
-  	    throw std::domain_error(msg);
-  	      	}
+// 	// checking for repeated elements
+//   	if(probs.first == probs.second)
+//   	{
+//   	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
+//   	    throw std::domain_error(msg);
+//   	      	}
 
 	return probs;
 }

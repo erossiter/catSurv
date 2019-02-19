@@ -191,7 +191,7 @@ NumericVector Cat::estimateThetas(DataFrame& responses)
   for(size_t row = 0; row != nrow; ++row)
   {
     questionSet.reset_answers(responses, row);
-    thetas[row] = estimateTheta();
+    thetas.at(row) = estimateTheta();
   }
 
   return thetas;
