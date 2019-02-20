@@ -49,7 +49,7 @@ setMethod(f = "storeAnswer", signature = "Cat", definition = function(catObj, it
 
 #' @rdname storeAnswer
 #' @export
-setMethod(f = "storeAnswer", signature = "json", definition = function(catObj, item, answer, returnJSON = FALSE){
+setMethod(f = "storeAnswer", signature = "character", definition = function(catObj, item, answer, returnJSON = FALSE){
     catObj <- fromJSONCat(catObj)
     catObj@answers[item] <- answer
     validObject(catObj)
