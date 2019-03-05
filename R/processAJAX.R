@@ -24,7 +24,7 @@ setMethod(f = "processAJAX", signature = "character", definition = function(catO
     catObj@answers[item] <- answer
     validObject(catObj)
     nexts = NULL
-    if (!checkStopRules()) {
+    if (!checkStopRules(catObj)) {
         nexts <- selectItem(catObj)
         nexts$newCat <- toJSONCat(catObj)
     } else {
