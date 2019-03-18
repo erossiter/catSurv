@@ -30,7 +30,7 @@ setGeneric("oracle", function(catObj, theta, ans_profiles) standardGeneric("orac
 setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, ans_profiles){
     
     # TODO: generalize using checkStopRules
-    n <- grm_cat@lengthThreshold
+    n <- catObj@lengthThreshold
     
     if(length(theta) != nrow(ans_profiles)){
         stop("Need a corresponding theta value for each answer profile.")
@@ -40,14 +40,14 @@ setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, 
         stop("Response profiles are not compatible with Cat object.")
     }
     
-    ncombos <- choose(length(ans_profiles), n)
+    ncombos <- choose(ncol(ans_profiles), n)
     if(ncombos > 1000000){
-        stop("Too many combinations result from choose(length(ans_profiles), n).")
+        stop("Too many combinations result from choose(nrow(ans_profiles), n).")
     }
     
-    # if(n > 5){
-    #     warning("Asking n>5 questions will likely be arbitrarily close...")
-    # }
+    if(n > 5){
+        warning("Asking n>5 questions will provide estimate likely arbitrarily close to truth.")
+    }
   
     ## matrix of all length n combinations of ~indexes~ where each row is a possible combo
     ## will be the same combo_mat applied to each specific answer profile

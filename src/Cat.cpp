@@ -150,6 +150,10 @@ DataFrame Cat::lookAhead(int item) {
     throw std::domain_error("lookAhead should not be called for an answered item.");
   }
   
+  if(questionSet.nonapplicable_rows.size() == 1){
+      throw std::domain_error("lookAhead should not be called for last unanswered item.");
+  }
+  
   // take item out of unanswered questions
   questionSet.nonapplicable_rows.erase(std::remove(questionSet.nonapplicable_rows.begin(),
                                                    questionSet.nonapplicable_rows.end(),
