@@ -4,12 +4,13 @@
 \name{storeAnswer}
 \alias{storeAnswer}
 \alias{storeAnswer,Cat-method}
-\alias{storeAnswer,json-method}
+\alias{storeAnswer,character-method}
 \title{Update Answer to Single Item}
 \usage{
 \S4method{storeAnswer}{Cat}(catObj, item, answer, returnJSON = FALSE)
 
-\S4method{storeAnswer}{json}(catObj, item, answer, returnJSON = FALSE)
+\S4method{storeAnswer}{character}(catObj, item, answer,
+  returnJSON = FALSE)
 }
 \arguments{
 \item{catObj}{An object of class \code{Cat} or class \code{json}.}

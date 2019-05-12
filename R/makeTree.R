@@ -67,7 +67,7 @@ makeTree <- function(catObj, flat = FALSE){
         for (i in 1:nresp[[currentq]]){ ## Loop: for each possible response
             nextcat<-storeAnswer(catObj,currentq,as.numeric(rlist[i,currentq])) ## Predict next call
             ## i.e. if your answer to current question is 'i', how would your catObj look in next call?
-            if(checkStopRules(nextcat)|sum(is.na(nextcat@answers))==1|catObj@lengthThreshold==sum(!is.na(nextcat@answers))){
+            if(checkStopRules(nextcat)|sum(is.na(nextcat@answers))==1|catObj@lengthThreshold==sum(!is.na(nextcat@answers)) ){
                 ## Add any condition you would like to break the recursive call.
                 ## 'sum(is.na(nextcat@answers))==1' was added to end recursive call when
                 ## there will be no more question to be answered in the next call.

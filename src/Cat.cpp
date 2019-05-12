@@ -147,7 +147,28 @@ List Cat::selectItem() {
 DataFrame Cat::lookAhead(int item) {
   if(std::find(questionSet.applicable_rows.begin(), questionSet.applicable_rows.end(),
                item) != questionSet.applicable_rows.end()){
-    throw std::domain_error("lookAhead should not be called for an answered item.");
+      
+      std::cerr << "lookAhead should not be called for an answered item." << std::endl;
+      // throw std::domain_error("lookAhead should not be called for an answered item.");
+    
+      std::vector<std::string> items(questionSet.difficulty.at(item).size()+1, "NULL");
+      std::vector<std::string> response_options(questionSet.difficulty.at(item).size()+1, "NULL");
+      
+      DataFrame all_estimates = Rcpp::DataFrame::create(Named("response_option") = response_options,
+                                                        Named("next_item") = items);
+      return all_estimates;
+  }
+  
+  if(questionSet.nonapplicable_rows.size() == 1){
+      std::cerr << "lookAhead should not be called for last unanswered item." << std::endl;
+      // throw std::domain_error("lookAhead should not be called for last unanswered item.");
+      
+      std::vector<std::string> items(questionSet.difficulty.at(item).size()+1, "NULL");
+      std::vector<std::string> response_options(questionSet.difficulty.at(item).size()+1, "NULL");
+      
+      DataFrame all_estimates = Rcpp::DataFrame::create(Named("response_option") = response_options,
+                                                        Named("next_item") = items);
+      return all_estimates;
   }
   
   // take item out of unanswered questions
