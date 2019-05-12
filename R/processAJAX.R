@@ -19,7 +19,7 @@ setGeneric("processAJAX", function(catObj, item, answer) standardGeneric("proces
 
 #' @rdname storeAnswer
 #' @export
-setMethod(f = "processAJAX", signature = "character", definition = function(catObj, item, answer){
+setMethod(f = "processAJAX", signature = "list", definition = function(catObj, item, answer){
     catObj <- fromJSONCat(catObj)
     catObj@answers[item] <- answer
     validObject(catObj)
