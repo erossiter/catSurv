@@ -33,12 +33,11 @@ setMethod(f = "processAJAX", signature = "character", definition = function(catO
     validObject(catObj)
     nexts <- NULL
     if (!checkStopRules(catObj)) {
-        nexts <- lookAhead(catObj, item)
+        nexts <- as.list(lookAhead(catObj, item))
         nexts$newCat <- toJSONCat(catObj)
         if (firstThing) {
           nexts$firstThing <- item
         }
-        nexts <- as.list(nexts)
     } else {
         nexts <- list(next_item = "NULL", next_item_name = "NULL", newCat = "NULL")
     }
