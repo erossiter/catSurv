@@ -14,21 +14,33 @@
 #' @name processAJAX
 NULL
 
-setGeneric("processAJAX", function(catObj, item, answer) standardGeneric("processAJAX"))
+setGeneric("processAJAX", function(catObj, item, answer, store) standardGeneric("processAJAX"))
 
 
 #' @rdname storeAnswer
 #' @export
 setMethod(f = "processAJAX", signature = "character", definition = function(catObj, item, answer){
     catObj <- fromJSONCat(catObj)
-    catObj@answers[item] <- answer
+    firstThing <- F
+    
+    if (item != -1) {
+      catObj@answers[item] <- answer
+    } else {
+      item <- selectItem(catObj)$next_item
+      firstThing <- T
+    }
+    
     validObject(catObj)
     nexts <- NULL
     if (!checkStopRules(catObj)) {
-        nexts <- selectItem(catObj)
+        nexts <- lookAhead(catObj, item)
         nexts$newCat <- toJSONCat(catObj)
+        if (firstThing) {
+          nexts$firstThing <- item
+        }
+        nexts <- as.list(nexts)
     } else {
-        nexts <- list(next_item = "NULL", next_item_name = "NULL", newCat = "NULL")    
+        nexts <- list(next_item = "NULL", next_item_name = "NULL", newCat = "NULL")
     }
-    return(nexts)  
+    return(nexts)
 })
