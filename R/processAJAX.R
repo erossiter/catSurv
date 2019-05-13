@@ -14,7 +14,7 @@
 #' @name processAJAX
 NULL
 
-setGeneric("processAJAX", function(catObj, item, answer, store) standardGeneric("processAJAX"))
+setGeneric("processAJAX", function(catObj, item, answer) standardGeneric("processAJAX"))
 
 
 #' @rdname storeAnswer
