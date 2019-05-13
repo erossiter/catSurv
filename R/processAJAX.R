@@ -14,18 +14,16 @@
 #' @name processAJAX
 NULL
 
-setGeneric("processAJAX", function(catObj, item, answer) standardGeneric("processAJAX"))
+setGeneric("processAJAX", function(catObj, item) standardGeneric("processAJAX"))
 
 
-#' @rdname storeAnswer
+#' @rdname processAJAX
 #' @export
-setMethod(f = "processAJAX", signature = "character", definition = function(catObj, item, answer){
+setMethod(f = "processAJAX", signature = "character", definition = function(catObj, item){
     catObj <- fromJSONCat(catObj)
     firstThing <- F
     
-    if (item != -1) {
-      catObj@answers[item] <- answer
-    } else {
+    if (item == -1) {
       item <- selectItem(catObj)$next_item
       firstThing <- T
     }
