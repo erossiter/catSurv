@@ -57,16 +57,6 @@ test_that("grm nextItem KL calculates correctly", {
   expect_equal(round(package_est, 1), round(catIrt_est, 1))
 })
 
-test_that("nextItem KL throws error when no questions asked", {
-  ltm_cat@selection <- "KL"
-  grm_cat@selection <- "KL"
-  gpcm_cat@selection <- "KL"
-
-  expect_error(selectItem(ltm_cat))
-  expect_error(selectItem(grm_cat))
-  expect_error(selectItem(gpcm_cat))
-})
-
 test_that("nextItem KL is actually the maximum estimate", {
   ltm_cat@selection <- "KL"
   ltm_cat@answers[1:5] <- c(1, 0, 1, 1, 1)

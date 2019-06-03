@@ -190,11 +190,11 @@ void QuestionSet::reset_all_extreme()
         }
     }
     
-    int sum_1 = 0;
+    size_t sum_1 = 0;
     for (auto i : minAnswer_negDiscrim) sum_1 += i;
     for (auto i : maxAnswer_posDiscrim) sum_1 += i;
     
-    int sum_2 = 0;
+    size_t sum_2 = 0;
     for (auto i : minAnswer_posDiscrim) sum_2 += i;
     for (auto i : maxAnswer_negDiscrim) sum_2 += i;
     

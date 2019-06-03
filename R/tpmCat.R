@@ -27,19 +27,6 @@
 #' 
 #' 
 #' @examples
-#' \dontrun{
-#' ## Creating Cat object with first 20 questions of with raw data
-#' data(polknowMT)
-#' tpm_cat1 <- tpmCat(polknowMT[,1:20], quadraturePoints = 100, start.val = "random")
-#' 
-#' ## Creating Cat object with fitted object of class tpm
-#' tpm_fit <- tpm(polknowMT[,1:20], control = list(GHk = 100), start.val = "random")
-#' class(tpm_fit)
-#' tpm_cat2 <- tpmCat(tpm_fit)
-#' 
-#' ## Note the two Cat objects are identical
-#' identical(tpm_cat1, tpm_cat2)
-#' }
 #' 
 #' ## Creating Cat objects from large datasets is computationally expensive
 #' ## Load the Cat object created from the above code
