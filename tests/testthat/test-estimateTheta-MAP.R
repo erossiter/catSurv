@@ -59,5 +59,5 @@ test_that("estimatTheta with MAP works when questions skipped", {
   
   expect_equal(round(estimateTheta(ltm_cat), 4), round(catR_ltm, 4))
   expect_equal(round(estimateTheta(grm_cat), 3), round(catR_grm, 3))
-  expect_equal(round(estimateTheta(gpcm_cat), 6), round(catR_gpcm, 6))
+  expect_equal(round(estimateTheta(gpcm_cat), 5), round(catR_gpcm, 5))
 })

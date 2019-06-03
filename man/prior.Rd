@@ -9,13 +9,13 @@ prior(catObj, theta)
 \arguments{
 \item{catObj}{An object of class \code{Cat}.}
 
-\item{x}{A numeric value at which to evaluate the prior}
+\item{theta}{A numeric value at which to evaluate the prior}
 }
 \value{
 The function \code{prior} returns a numeric consisting of prior value, \eqn{\pi(\theta)}, given the value \eqn{\theta}.
 }
 \description{
-Calculates the density at \code{x} of either the normal, Student's t, or uniform distribution.
+Calculates the density at \code{theta} of either the normal, Student's t, or uniform distribution.
 }
 \details{
 The \code{priorName} slot of \code{Cat} object needs to be either \code{"UNIFORM"}, \code{"NORMAL"}, or \code{"STUDENT_T"}.

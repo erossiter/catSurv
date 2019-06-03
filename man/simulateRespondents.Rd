@@ -4,7 +4,7 @@
 \name{simulateRespondents}
 \alias{simulateRespondents}
 \alias{simulateRespondents,Cat-method}
-\title{Simulate Answer Profiles}
+\title{Simulate answer profiles given some true value of theta}
 \usage{
 \S4method{simulateRespondents}{Cat}(catObj, theta, n)
 }
@@ -16,13 +16,10 @@
 \item{n}{A numeric indicating the number of answer profiles to simulate.}
 }
 \value{
-...
+Function returns a dataframe where each row is a possible answer profile simulated given the provided value of theta
 }
 \description{
-Generating n answer profiles given a true value of theta and a battery's item parameters.
-}
-\details{
-....
+The function simulates \code{n} answer profiles given a true value of theta and a battery's item parameters stored in a \code{Cat} object.
 }
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil

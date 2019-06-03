@@ -2,9 +2,8 @@
 #'
 #' Takes in response profiles from multiple respondents and multiple Cat object (i.e., adaptive battery) specifications and returns a set of theta estimates
 #'
-#' @param respondents A matrix of response profiles
 #' @param catObjs A list of \code{Cat} objects of the same model with different adaptive battery specifications
-#'
+#' @param resp A matrix of response profiles
 #'
 #' @details The function takes multiple \code{Cat} objects, stored in a list, and generates an estimation for \code{theta}.
 #' 
@@ -19,8 +18,12 @@
 #' data(grm_cat)
 #'    
 #' # Simulate respondents
-#' respondents <- plyr::adply(.data = matrix(c(-1, 0, 1)), .margins = 1, .id = NULL, .fun = simulateRespondents, cat = grm_cat, n = 10)
-#' 
+#' # Simulate respondents
+#' respondents <- plyr::adply(.data = matrix(c(-1, 0, 1)),
+#'                            .margins = 1,
+#'                            .id = NULL,
+#'                            .fun = simulateRespondents, cat = grm_cat, n = 10)
+#'  
 #' # A stopping rule (here, a common one) is required
 #' grm_cat@lengthThreshold <- 3
 #' 

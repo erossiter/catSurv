@@ -22,7 +22,10 @@
 #' data(grm_cat)
 #'    
 #' # Simulate respondents
-#' respondents <- plyr::adply(.data = matrix(c(-1, 0, 1)), .margins = 1, .id = NULL, .fun = simulateRespondents, cat = grm_cat, n = 10)
+#' respondents <- plyr::adply(.data = matrix(c(-1, 0, 1)),
+#'                            .margins = 1,
+#'                            .id = NULL,
+#'                            .fun = simulateRespondents, cat = grm_cat, n = 10)
 #' 
 #' # A stopping rule (here, a common one) is required
 #' grm_cat@lengthThreshold <- 3
@@ -36,7 +39,10 @@
 #' grmList <- list(grm_MAP, grm_EAP)
 #' 
 #' # Results
-#' fisher_inf_results <- allFish(catObjs = grmList, theta = rep(c(-1, 0, 1), each = 10), resp = respondents)
+#' fisher_inf_results <- allFish(catObjs = grmList,
+#'                               theta = rep(c(-1, 0, 1),
+#'                               each = 10),
+#'                               resp = respondents)
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil, Jaerin Kim, Dominique Lockett 
 #' 
