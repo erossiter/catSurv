@@ -1,4 +1,4 @@
-#' A function that finds total information that can be gained via answered items.
+#' Calculates Fisher Information under different adaptive battery specifications
 #'
 #' Takes in a a \code{Cat} object, a set of respondents, and their corresponding \code{theta} values, and calculates the amount of information given an adaptive battery.  
 #'

@@ -1,17 +1,23 @@
-#' Simulate Answer Profiles
+#' Simulate answer profiles given some true value of theta
 #'
-#' Generating n answer profiles given a true value of theta and a battery's item parameters.
+#' The function simulates \code{n} answer profiles given a true value of theta and a battery's item parameters stored in a \code{Cat} object.
 #'
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric representing the true position on the latent trait.
 #' @param n A numeric indicating the number of answer profiles to simulate.
 #'
-#' @details ....
 #'
-#' @return ...
+#' @return Function returns a dataframe where each row is a possible answer profile simulated given the provided value of theta
 #'  
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #' 
+#' @example
+#' 
+#' # Load Cat object
+#' data(grm_cat)
+#' 
+#' # Simulate 5 response profiles given a theta of 2
+#' sim_resp <- simulateRespondents(catObj = grm_cat, theta = 2, n = 5)
 #'
 #' 
 #' @name simulateRespondents
