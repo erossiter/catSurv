@@ -12,12 +12,6 @@ double MLEEstimator::estimateSE(Prior prior, size_t question, int answer)
   	return std::pow(var, 0.5);
 }
 
-// theta_hat_old = theta_hat_new;
-// if(std::isnan(theta_hat_old)){
-//     theta_hat_new = d1LL_root(question, answer);
-//     break;
-// }
-
 
 double MLEEstimator::newton_raphson(Prior prior, double theta_hat_old, double theta_hat_new, bool second_try){
     int iter = 0;
