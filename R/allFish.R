@@ -1,48 +1,49 @@
-#' A function that finds total information that can be gained via answered items .
+#' Calculates Fisher Information under different adaptive battery specifications
 #'
-#' Takes in a a \code{Cat} object, a set of respondents, and their corresponding \code{theta} values, to calculate the amount of information which can be extracted given an adaptive battery  
+#' Takes in a a \code{Cat} object, a set of respondents, and their corresponding \code{theta} values, and calculates the amount of information given an adaptive battery.  
 #'
 #' 
 #' @param catObjs A list of \code{Cat} objects of the same class.
 #' @param theta A vector of numerics representing the true value of theta.
-#' @param resp One or many full response profiles.
+#' @param resp A dataframe of answer profiles corresponding to the true values of theta.
 #' 
 #' @details The function takes a \code{Cat} object, \code{theta}, and response profiles. 
 #' The user defines the selection type, estimation type, etc. so that the questions can be applied adaptively
 #' These adaptive profiles are then used to calculate the total inforamtion gained for a respondent for all answered
 #' items, conditioned on \code{theta}.
 #' 
-#' @return The function \code{allFish} returns a dataframe.  Each \code{Cat} object returns a column and each respondent returns a row.
+#' @return The function \code{allFish} returns a dataframe where each \code{Cat} object corresponds to a column and each respondent corresponds to a row.
 #' 
-#' 
-#' 
-#' @seealso \code{\link{Cat-class}}, \code{\link{fisherTestInfo}}, \code{\link{selectItem}}, \code{\link{store}}
+#' @seealso \code{\link{Cat-class}}, \code{\link{fisherTestInfo}}, \code{\link{selectItem}}
 #' 
 #' @examples 
 #' 
-#'  ## Loading ltm Cat object
+#' # Load Cat object
 #' data(grm_cat)
 #'    
-#' ## load sample data
-#'  
-#' respondents<-apply(thetaValue[1:3], 2, simulateRespondents, cat=grm_cat, n=10)
+#' # Simulate respondents
+#' respondents <- plyr::adply(.data = matrix(c(-1, 0, 1)),
+#'                            .margins = 1,
+#'                            .id = NULL,
+#'                            .fun = simulateRespondents, cat = grm_cat, n = 10)
 #' 
-#' #Choose your \code{cat} object and the types of estimation you would like to use
-#'  grm_MAP<-grm_cat
-#'  grm_MAP@estimation<-"MAP"
-#'  grm_EAP<-grm_cat
-#'  grm_EAP@estimation<-"EAP"
+#' # A stopping rule (here, a common one) is required
+#' grm_cat@lengthThreshold <- 3
 #' 
+#' # Specify different adaptive inventory procedures
+#' grm_MAP <- grm_EAP <- grm_cat
+#' grm_MAP@estimation <- "MAP"
+#' grm_EAP@estimation <- "EAP"
 #' 
-#' grmList<-list(grm_MAP, grm_EAP)
-#' ## Create a threshold for the estimation
+#' # List of Cat objects 
+#' grmList <- list(grm_MAP, grm_EAP)
 #' 
-#' ## You must set some sort of CheckStopRule
-#' grm_cat@lengthThreshold<-4
+#' # Results
+#' fisher_inf_results <- allFish(catObjs = grmList,
+#'                               theta = rep(c(-1, 0, 1),
+#'                               each = 10),
+#'                               resp = respondents)
 #' 
-#' ## Run 
-#' 
-#' allFish(catObjs=grmList, resp=respondents)
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil, Jaerin Kim, Dominique Lockett 
 #' 
 #' @rdname allFish

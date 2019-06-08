@@ -628,3 +628,27 @@
 
 
 
+#' Narcissistic personality inventory question items
+#' 
+#' A list where each element is a length three vector containin the text of the the question item and the two response options.
+#' 
+#' @examples 
+#' 
+#' data(npi_battery)
+#' 
+#' # Item 1
+#' npi_battery$Q1[1]
+#' 
+#' # Response options for item 1
+#' npi_battery$Q1[2:3]
+#' 
+#'
+#' @docType data
+#' @name npi_battery
+#' @usage data(npi_battery)
+"npi_battery"
+
+
+
+
+

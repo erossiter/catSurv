@@ -145,32 +145,51 @@ List Cat::selectItem() {
 }
 
 DataFrame Cat::lookAhead(int item) {
+
+  //item is item index and 0-indexed
   if(std::find(questionSet.applicable_rows.begin(), questionSet.applicable_rows.end(),
                item) != questionSet.applicable_rows.end()){
-      
       std::cerr << "lookAhead should not be called for an answered item." << std::endl;
-      // throw std::domain_error("lookAhead should not be called for an answered item.");
-    
-      std::vector<std::string> items(questionSet.difficulty.at(item).size()+1, "NULL");
-      std::vector<std::string> response_options(questionSet.difficulty.at(item).size()+1, "NULL");
+      
+      // return empty dataframe
+      std::vector<std::string> items(questionSet.difficulty.at(item).size()+2, "NULL");
+      std::vector<std::string> response_options(questionSet.difficulty.at(item).size()+2, "NULL");
       
       DataFrame all_estimates = Rcpp::DataFrame::create(Named("response_option") = response_options,
                                                         Named("next_item") = items);
       return all_estimates;
   }
-  
+
   if(questionSet.nonapplicable_rows.size() == 1){
       std::cerr << "lookAhead should not be called for last unanswered item." << std::endl;
-      // throw std::domain_error("lookAhead should not be called for last unanswered item.");
       
-      std::vector<std::string> items(questionSet.difficulty.at(item).size()+1, "NULL");
-      std::vector<std::string> response_options(questionSet.difficulty.at(item).size()+1, "NULL");
+      // return empty dataframe
+      std::vector<std::string> items(questionSet.difficulty.at(item).size()+2, "NULL");
+      std::vector<std::string> response_options(questionSet.difficulty.at(item).size()+2, "NULL");
       
       DataFrame all_estimates = Rcpp::DataFrame::create(Named("response_option") = response_options,
                                                         Named("next_item") = items);
       return all_estimates;
   }
   
+  // storage vectors
+  std::vector<int> items;
+  std::vector<int> response_options;
+  
+  
+  // say item has been skipped
+  questionSet.skipped.push_back(item);
+
+  questionSet.answers.at(item) = -1;
+  Selection selection = selector->selectItem();
+
+  items.push_back(selection.item + 1);
+  response_options.push_back(questionSet.answers.at(item));
+
+  // undo that item has been skipped
+  questionSet.skipped.pop_back(); // remove item from answered q's
+
+
   // take item out of unanswered questions
   questionSet.nonapplicable_rows.erase(std::remove(questionSet.nonapplicable_rows.begin(),
                                                    questionSet.nonapplicable_rows.end(),
@@ -178,16 +197,17 @@ DataFrame Cat::lookAhead(int item) {
   // say item has been answered
   questionSet.applicable_rows.push_back(item);
 
-  std::vector<int> items;
-  std::vector<int> response_options;
+
+  // now possible answers
   for (size_t i = 1; i <= questionSet.difficulty.at(item).size()+1; ++i) {
-    // if binary response options, iterate from 0, otherwise iterate from 1
-    questionSet.answers.at(item) = ((questionSet.model == "ltm") | (questionSet.model == "tpm")) ?  i - 1 : i; 
-    Selection selection = selector->selectItem();
-    items.push_back(selection.item + 1);
-    response_options.push_back(questionSet.answers.at(item));
+      // if binary response options, iterate from 0, otherwise iterate from 1
+      questionSet.answers.at(item) = ((questionSet.model == "ltm") | (questionSet.model == "tpm")) ?  i - 1 : i;
+      Selection selection = selector->selectItem();
+      items.push_back(selection.item + 1);
+      response_options.push_back(questionSet.answers.at(item));
   }
-  
+
+
   questionSet.nonapplicable_rows.push_back(item); // add item back to unanswered q's
   questionSet.applicable_rows.pop_back(); // remove item from answered q's
   questionSet.answers.at(item) = NA_INTEGER; // remove answer
@@ -306,6 +326,7 @@ std::unique_ptr<Estimator> Cat::createEstimator(S4 &cat_df, Integrator &integrat
 	
 	
 	if (estimation_type == "MLE" || estimation_type == "WLE") {
+
 	    if (questionSet.applicable_rows.size() == 0 || questionSet.all_extreme){
 	        std::cerr<<"Warning: estimate_default will be used to estimate theta as the maximum likelihood cannot be computed with an answer profile of all extreme response options."<<std::endl;
 	        if (estimation_default == "MAP") return std::unique_ptr<MAPEstimator>(new MAPEstimator(integrator, questionSet));

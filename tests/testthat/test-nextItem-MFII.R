@@ -29,15 +29,6 @@ test_that("grm nextItem MFII calculates correctly", {
   expect_equal(round(package_est, 3), 3.238)
 })
 
-test_that("nextItem MFII throws error when no questions asked", {
-  ltm_cat@selection <- "MFII"
-  grm_cat@selection <- "MFII"
-  gpcm_cat@selection <- "MFII"
-
-  expect_error(selectItem(ltm_cat))
-  expect_error(selectItem(grm_cat))
-  expect_error(selectItem(gpcm_cat))
-})
 
 test_that("nextItem MFII is actually the maximum estimate", {
   ltm_cat@selection <- "MFII"
@@ -78,3 +69,4 @@ test_that("nextItem MFII correctly skips questions", {
   expect_equal(nrow(gpcm_next$estimates) + sum(!is.na(gpcm_cat@answers)),
                length(gpcm_cat@answers))
 })
+

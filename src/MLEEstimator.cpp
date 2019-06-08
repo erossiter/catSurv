@@ -12,12 +12,6 @@ double MLEEstimator::estimateSE(Prior prior, size_t question, int answer)
   	return std::pow(var, 0.5);
 }
 
-// theta_hat_old = theta_hat_new;
-// if(std::isnan(theta_hat_old)){
-//     theta_hat_new = d1LL_root(question, answer);
-//     break;
-// }
-
 
 double MLEEstimator::newton_raphson(Prior prior, double theta_hat_old, double theta_hat_new, bool second_try){
     int iter = 0;
@@ -36,12 +30,12 @@ double MLEEstimator::newton_raphson(Prior prior, double theta_hat_old, double th
     
     // throw an error if first time around we reach max number of iterations
     // it will be caught and we will try again with a better start value
-    if(not second_try && iter == max_iter){
+    if((not second_try && iter == max_iter) || std::isnan(theta_hat_old)){
         throw std::domain_error("Newton Raphson algorithm reached maximum number of iterations before theta estimate converged.  Trying a different start value.");
     }
     
     // write a warning if the second time around we reach max number of iterations
-    if(second_try && iter == max_iter){
+    if((second_try && iter == max_iter) || std::isnan(theta_hat_old)){
         std::cerr << "Warning: Newton Raphson algorithm reached maximum number of iterations before theta estimate converged." << std::endl;
     }
     
@@ -64,11 +58,11 @@ double MLEEstimator::newton_raphson(Prior prior, size_t question, int answer, do
         theta_hat_old = theta_hat_new;
     }
     
-    if(not second_try && iter == max_iter){
+    if((not second_try && iter == max_iter) || std::isnan(theta_hat_old)){
         throw std::domain_error("Newton Raphson algorithm reached maximum number of iterations before theta estimate converged.  Trying a different start value.");
     }
     
-    if(second_try && iter == max_iter){
+    if((second_try && iter == max_iter) || std::isnan(theta_hat_old)){
         std::cerr << "Warning: Newton Raphson algorithm reached maximum number of iterations before theta estimate converged." << std::endl;
     }
     

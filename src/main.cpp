@@ -155,10 +155,10 @@ double likelihood(S4 catObj, double theta) {
 
 //' Evaluate the Prior Density Distribution at Position \eqn{theta}
 //'
-//' Calculates the density at \code{x} of either the normal, Student's t, or uniform distribution.
+//' Calculates the density at \code{theta} of either the normal, Student's t, or uniform distribution.
 //'
 //' @param catObj An object of class \code{Cat}.  
-//' @param x A numeric value at which to evaluate the prior
+//' @param theta A numeric value at which to evaluate the prior
 //' 
 //' @return The function \code{prior} returns a numeric consisting of prior value, \eqn{\pi(\theta)}, given the value \eqn{\theta}.
 //'

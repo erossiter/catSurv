@@ -1,46 +1,42 @@
-#' Estimates theta with multiple specifications
+#' Estimates theta under different adaptive battery specifications
 #'
-#' Takes response profiles from multiple respondents and multiple Cat objects and returns a set of theta estimates
+#' Takes in response profiles from multiple respondents and multiple Cat object (i.e., adaptive battery) specifications and returns a set of theta estimates
 #'
-#' @param respondents A matrix of response profiles
-#' @param catObjs A list of \code{Cat} objects of the same class (i.e., LTM, TPM, GRM, GPCM) specifying different estimation routines
+#' @param catObjs A list of \code{Cat} objects of the same model with different adaptive battery specifications
+#' @param resp A matrix of response profiles
 #'
-#'
-#' @details The function takes a \code{Cat} object and generates an estimation for \code{theta} using \code{MAP}, \code{EAP}, etc. 
-#' The user must store all \code{Cat} objects in a single list.
+#' @details The function takes multiple \code{Cat} objects, stored in a list, and generates an estimation for \code{theta}.
 #' 
-#' @return The function \code{allEst} returns a vector.  Each \code{Cat} object returns a column and each respondent returns a row.
+#' @return The function \code{allFish} returns a dataframe where each \code{Cat} object corresponds to a column and each respondent corresponds to a row.
 #' 
 #' 
-#' This function is to allow users to look at data computed before \code{Cat} technologies were availabe and and analyze multpile types of analyses on mulptile resondents to achieve a theta estimate.
-#' 
-#' @seealso \code{\link{Cat-class}}, \code{\link{apply}}, \code{\link{selectItem}}, \code{\link{store}}
+#' @seealso \code{\link{Cat-class}}, \code{\link{apply}}, \code{\link{selectItem}}
 #' 
 #' @examples 
 #' 
-#'  ## Loading ltm Cat object
+#' # Load Cat object
 #' data(grm_cat)
 #'    
-#' ## load sample data
+#' # Simulate respondents
+#' # Simulate respondents
+#' respondents <- plyr::adply(.data = matrix(c(-1, 0, 1)),
+#'                            .margins = 1,
+#'                            .id = NULL,
+#'                            .fun = simulateRespondents, cat = grm_cat, n = 10)
 #'  
-#' respondents<-apply(thetaValue[1:3], 2, simulateRespondents, cat=grm_cat, n=10)
+#' # A stopping rule (here, a common one) is required
+#' grm_cat@lengthThreshold <- 3
 #' 
-#' #Choose your \code{cat} object and the types of estimation you would like to use
-#'  grm_MAP<-grm_cat
-#'  grm_MAP@estimation<-"MAP"
-#'  grm_EAP<-grm_cat
-#'  grm_EAP@estimation<-"EAP"
+#' # Specify different adaptive inventory procedures
+#' grm_MAP <- grm_EAP <- grm_cat
+#' grm_MAP@estimation <- "MAP"
+#' grm_EAP@estimation <- "EAP"
 #' 
+#' # List of Cat objects 
+#' grmList <- list(grm_MAP, grm_EAP)
 #' 
-#' grmList<-list(grm_MAP, grm_EAP)
-#' ## Create a threshold for the estimation
-#' 
-#' ## You must set some sort of CheckStopRule
-#' grm_cat@lengthThreshold<-4
-#' 
-#' ## Run 
-#' 
-#' allEst(catObjs=grmList, resp=respondents)
+#' # Results
+#' theta_est_results <- allEst(catObjs = grmList, resp = respondents)
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil, Jaerin Kim, Dominique Lockett 
 #' 
