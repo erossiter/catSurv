@@ -9,7 +9,7 @@
 #' @details Blah
 #' @return Blah
 #'  
-#' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil, Joshua Landman 
+#' @author Joshua Landman 
 #' 
 #' @name processAJAX
 NULL
@@ -31,7 +31,13 @@ setMethod(f = "processAJAX", signature = "character", definition = function(catO
     validObject(catObj)
     nexts <- NULL
     if (!checkStopRules(catObj)) {
-        nexts <- as.list(lookAhead(catObj, item))
+        nexts <- tryCatch(
+          {
+            as.list(lookAhead(cat, 1))
+          }, error = function(err) {
+            list(response_option = c(-1, 1, 2, 3, 4, 5), next_item = c(-1, -1, -1, -1, -1, -1))
+          }
+        )
         
         fakecat <- catObj
         fakecat@answers[item] <- -1
