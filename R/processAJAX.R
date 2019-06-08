@@ -35,7 +35,7 @@ setMethod(f = "processAJAX", signature = "character", definition = function(catO
           {
             as.list(lookAhead(catObj, item))
           }, error = function(err) {
-            list(response_option = c(1, 2, 3, 4, 5), next_item = c(-1, -1, -1, -1, -1))
+            list(error = err, response_option = c(1, 2, 3, 4, 5), next_item = c(-1, -1, -1, -1, -1))
           }
         )
         
