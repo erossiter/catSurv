@@ -33,9 +33,9 @@ setMethod(f = "processAJAX", signature = "character", definition = function(catO
     if (!checkStopRules(catObj)) {
         nexts <- tryCatch(
           {
-            as.list(lookAhead(cat, 1))
+            as.list(lookAhead(catObj, item))
           }, error = function(err) {
-            list(response_option = c(-1, 1, 2, 3, 4, 5), next_item = c(-1, -1, -1, -1, -1, -1))
+            list(response_option = c(1, 2, 3, 4, 5), next_item = c(-1, -1, -1, -1, -1))
           }
         )
         
