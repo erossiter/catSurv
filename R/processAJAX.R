@@ -31,20 +31,16 @@ setMethod(f = "processAJAX", signature = "character", definition = function(catO
     validObject(catObj)
     nexts <- NULL
     if (!checkStopRules(catObj)) {
-        nexts <- tryCatch(
-          {
-            as.list(lookAhead(catObj, item))
-          }, error = function(err) {
-            list(next_item = NULL)
-          }
-        )
+        nexts <- as.list(lookAhead(catObj, item))
         
+        ### Begin handle the skipped item response -- delete when `lookAhead` is fixed
         fakecat <- catObj
         fakecat@answers[item] <- -1
         nullNext <- selectItem(fakecat)$next_item
         
         nexts$response_option <- c(-1, nexts$response_option)
         nexts$next_item <- c(nullNext, nexts$next_item)
+        ### End handle the skipped item response
         
         nexts$newCat <- toJSONCat(catObj)
         if (firstThing) {
