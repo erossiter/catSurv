@@ -145,6 +145,38 @@ List Cat::selectItem() {
 }
 
 DataFrame Cat::lookAhead(int item) {
+    
+    std::cout << "skipped" << std::endl;
+    for(size_t i = 0; i < questionSet.skipped.size(); i++){
+        std::cout << questionSet.skipped.at(i) << std::endl;
+    }
+    
+    std::cout << "\n applicable" << std::endl;
+    for(size_t i = 0; i < questionSet.applicable_rows.size(); i++){
+        std::cout << questionSet.applicable_rows.at(i) << std::endl;
+    }
+    
+    std::cout << "\n nonapplicable" << std::endl;
+    for(size_t i = 0; i < questionSet.nonapplicable_rows.size(); i++){
+        std::cout << questionSet.nonapplicable_rows.at(i) << std::endl;
+    }
+    
+    
+    
+    //if item has been previously skipped
+    if(std::find(questionSet.skipped.begin(), questionSet.skipped.end(),
+                 item) != questionSet.skipped.end()){
+        std::cerr << "lookAhead should not be called for a skipped item." << std::endl;
+        
+        // return empty dataframe
+        std::vector<std::string> items(questionSet.difficulty.at(item).size()+2, "NULL");
+        std::vector<std::string> response_options(questionSet.difficulty.at(item).size()+2, "NULL");
+        
+        DataFrame all_estimates = Rcpp::DataFrame::create(Named("response_option") = response_options,
+                                                          Named("next_item") = items);
+        return all_estimates;
+    }  
+
 
   //item is item index and 0-indexed
   if(std::find(questionSet.applicable_rows.begin(), questionSet.applicable_rows.end(),
@@ -179,6 +211,11 @@ DataFrame Cat::lookAhead(int item) {
   
   // say item has been skipped
   questionSet.skipped.push_back(item);
+  
+  // take item out of unanswered questions
+  questionSet.nonapplicable_rows.erase(std::remove(questionSet.nonapplicable_rows.begin(),
+                                                   questionSet.nonapplicable_rows.end(),
+                                                   item), questionSet.nonapplicable_rows.end());
 
   questionSet.answers.at(item) = -1;
   Selection selection = selector->selectItem();
@@ -190,10 +227,10 @@ DataFrame Cat::lookAhead(int item) {
   questionSet.skipped.pop_back(); // remove item from answered q's
 
 
-  // take item out of unanswered questions
-  questionSet.nonapplicable_rows.erase(std::remove(questionSet.nonapplicable_rows.begin(),
-                                                   questionSet.nonapplicable_rows.end(),
-                                                   item), questionSet.nonapplicable_rows.end());
+  // // take item out of unanswered questions
+  // questionSet.nonapplicable_rows.erase(std::remove(questionSet.nonapplicable_rows.begin(),
+  //                                                  questionSet.nonapplicable_rows.end(),
+  //                                                  item), questionSet.nonapplicable_rows.end());
   // say item has been answered
   questionSet.applicable_rows.push_back(item);
 
