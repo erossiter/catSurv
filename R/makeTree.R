@@ -67,19 +67,9 @@ makeTree <- function(catObj, flat = FALSE){
         for (i in 1:nresp[[currentq]]){ ## Loop: for each possible response
             nextcat<-storeAnswer(catObj,currentq,as.numeric(rlist[i,currentq])) ## Predict next call
             ## i.e. if your answer to current question is 'i', how would your catObj look in next call?
-            if(checkStopRules(nextcat)|sum(is.na(nextcat@answers))==1|catObj@lengthThreshold==sum(!is.na(nextcat@answers)) ){
-                ## Add any condition you would like to break the recursive call.
-                ## 'sum(is.na(nextcat@answers))==1' was added to end recursive call when
-                ## there will be no more question to be answered in the next call.
-                ## Note: '-1' does not count toward length threshold,
-                ## which results in massive computation in many cases(refer to Cat.cpp).
-                ## For 15 questions, imagine starting the function from
-                ##  -1*15 and then -1*14+0, -1*14+1,... and on and on.
-                ## You might want to restrict total number of questions to be asked
-                ## for when the responses are massive combinations of '-1's.
-                output[[rlist[i,currentq]]]<-list(Next=qlist[selectItem(nextcat)$next_item])
-                ## If one of the conditions is TRUE, don't call recursiveTree,
-                ## and store the next question if your response to current question is 'i'.
+            if(checkStopRules(nextcat) | (sum(is.na(nextcat@answers))==1) | (catObj@lengthThreshold==sum(!is.na(nextcat@answers))) ){
+                ## If one of the conditions is TRUE, adaptive inventory should stop
+                #output[[rlist[i,currentq]]]<-list(Next=qlist[selectItem(nextcat)$next_item])
             }
             else{ ## If not, move on to next question with 'nextcat',
                 ## with the current response, 'i', as a list of current output, which will be the new output
@@ -96,9 +86,6 @@ makeTree <- function(catObj, flat = FALSE){
     ## Now that we have the recursive function, start the process with inputs for makeTree()
     tree<-recursiveTree(catObj=catObj,output=list(),currentq=selectItem(catObj)$next_item)
     
-    ## Flat type of the function (below) is copied from the previous version,
-    ## with changes in the names of variables as I coded above.
-    ## Important note: flat option doesn't work unless catObj@model has binary responses.
     
     ## flatten the tree or leave it as list of lists
     if(flat == FALSE){
