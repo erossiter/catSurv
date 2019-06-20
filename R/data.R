@@ -650,5 +650,294 @@
 
 
 
+#' Agreeableness Cat Object
+#' 
+#' Cat model created for the 20-item Agreeableness dimension of the 
+#' 100-item IPIP representation of Costa and McCrae's Five Factor Model
+#' 
+#' @details
+#' 
+#' A Cat object fit with 774,410 response profiles by Mypersonality.org and 1500 response profiles
+#' collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.113) and a standard deviation (1.5)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are 1=Very inaccurate; 2=Moderately inaccurate; 3=Neither inaccurate nor accurate;
+#' 4=Moderately accurate; 5=Very accurate.
+#' 
+#' The wording of the question items:
+#' 
+#' I...
+#' \describe{
+#' \item{\code{q86}}{Have a good word for everyone.}
+#' \item{\code{q6}}{Believe that others have good intentions.}
+#' \item{\code{q66}}{Respect others.}
+#' \item{\code{q46}}{Accept people as they are.}
+#' \item{\code{q36}}{Make people feel at ease.}
+#' \item{\code{q26}}{Am concerned about others.}
+#' \item{\code{q56}}{Trust what people say.}
+#' \item{\code{q76}}{Sympathize with others' feelings.}
+#' \item{\code{q13}}{Am easy to satisfy.}
+#' \item{\code{q96}}{Treat all people equally.}
+#' \item{\code{q82}}{Have a sharp tongue.}
+#' \item{\code{q9}}{Cut others to pieces.}
+#' \item{\code{q22}}{Suspect hidden motives in others.}
+#' \item{\code{q32}}{Get back at others.}
+#' \item{\code{q92}}{Insult people.}
+#' \item{\code{q42}}{Believe that I am better than others.}
+#' \item{\code{q52}}{Contradict others.}
+#' \item{\code{q62}}{Make demands on others.}
+#' \item{\code{q2}}{Hold a grudge.}
+#' \item{\code{q72}}{Am out for my own personal gain.}
+#' }
+#' 
+#'
+#' @references 
+#' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
+#' and NEO Five-Factor Inventory (NEO-FFI): Professional manual. Odessa, FL: Psychological Assessment Resources.
+#'
+#' @docType data
+#' @name agree_cat
+#' @usage data(agree_cat)
+"agree_cat"
+
+
+
+
+
+
+
+
+#' Neuroticism Cat Object
+#' 
+#' Cat model created for the 20-item Neuroticism dimension of the 
+#' 100-item IPIP representation of Costa and McCrae's Five Factor Model
+#' 
+#' @details
+#' 
+#' A Cat object fit with 774,410 response profiles by Mypersonality.org and 1500 response profiles
+#' collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.025) and a standard deviation (1.2)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are 1=Very inaccurate; 2=Moderately inaccurate; 3=Neither inaccurate nor accurate;
+#' 4=Moderately accurate; 5=Very accurate.
+#' 
+#' The wording of the question items:
+#' 
+#' I...
+#' \describe{
+#' \item{\code{q12}}{Often feel blue.}
+#' \item{\code{q30}}{Dislike myself.}
+#' \item{\code{q80}}{Am often down in the dumps.}
+#' \item{\code{q70}}{Have frequent mood swings.}
+#' \item{\code{q50}}{Panic easily.}
+#' \item{\code{q90}}{Am filled with doubts about things.}
+#' \item{\code{q100}}{Feel threatened easily.}
+#' \item{\code{q17}}{Get stressed out easily.}
+#' \item{\code{q40}}{Fear for the worst.}
+#' \item{\code{q60}}{Worry about things.}
+#' \item{\code{q37}}{Seldom feel blue.}
+#' \item{\code{q11}}{Feel comfortable with myself.}
+#' \item{\code{q67}}{Rarely get irritated.}
+#' \item{\code{q19}}{Am not easily bothered by things.}
+#' \item{\code{q97}}{Am very pleased with myself.}
+#' \item{\code{q27}}{Am relaxed most of the time.}
+#' \item{\code{q77}}{Seldom get mad.}
+#' \item{\code{q47}}{Am not easily frustrated.}
+#' \item{\code{q87}}{Remain calm under pressure.}
+#' \item{\code{q57}}{Rarely lose my composure.}
+#' }
+#' 
+#'
+#' @references 
+#' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
+#' and NEO Five-Factor Inventory (NEO-FFI): Professional manual. Odessa, FL: Psychological Assessment Resources.
+#'
+#' @docType data
+#' @name neuro_cat
+#' @usage data(neuro_cat)
+"neuro_cat"
+
+
+#' Extraversion Cat Object
+#' 
+#' Cat model created for the 20-item Extraversion dimension of the 
+#' 100-item IPIP representation of Costa and McCrae's Five Factor Model
+#' 
+#' @details
+#' 
+#' A Cat object fit with 774,410 response profiles by Mypersonality.org and 1500 response profiles
+#' collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.367) and a standard deviation (1.3)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are 1=Very inaccurate; 2=Moderately inaccurate; 3=Neither inaccurate nor accurate;
+#' 4=Moderately accurate; 5=Very accurate.
+#' 
+#' The wording of the question items:
+#' 
+#' I...
+#' \describe{
+#' \item{\code{q83}}{Feel comfortable around people.}
+#' \item{\code{q10}}{Make friends easily.}
+#' \item{\code{q73}}{Am skilled in handling social situations.}
+#' \item{\code{q63}}{Am the life of the party.}
+#' \item{\code{q53}}{Know how to captivate people.}
+#' \item{\code{q93}}{Start conversations.}
+#' \item{\code{q33}}{Warm up quickly to others.}
+#' \item{\code{q43}}{Talk to a lot of different people at parties.}
+#' \item{\code{q3}}{Don't mind being the center of attention.}
+#' \item{\code{q23}}{Cheer people up.}
+#' \item{\code{q39}}{Have little to say.}
+#' \item{\code{q14}}{Keep in the background.}
+#' \item{\code{q89}}{Would describe my experiences as somewhat dull.}
+#' \item{\code{q59}}{Don't like to draw attention to myself.}
+#' \item{\code{q29}}{Don't talk a lot.}
+#' \item{\code{q18}}{Avoid contacts with others.}
+#' \item{\code{q99}}{Am hard to get to know.}
+#' \item{\code{q79}}{Retreat from others.}
+#' \item{\code{q69}}{Find it difficult to approach others.}
+#' \item{\code{q49}}{Keep others at a distance.}
+#' }
+#' 
+#'
+#' @references 
+#' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
+#' and NEO Five-Factor Inventory (NEO-FFI): Professional manual. Odessa, FL: Psychological Assessment Resources.
+#'
+#' @docType data
+#' @name extra_cat
+#' @usage data(extra_cat)
+"extra_cat"
+
+
+
+
+#' Openness to Experience Cat Object
+#' 
+#' Cat model created for the 20-item Openness dimension of the 
+#' 100-item IPIP representation of Costa and McCrae's Five Factor Model
+#' 
+#' @details
+#' 
+#' A Cat object fit with 774,410 response profiles by Mypersonality.org and 1500 response profiles
+#' collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.674) and a standard deviation (1.2)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are 1=Very inaccurate; 2=Moderately inaccurate; 3=Neither inaccurate nor accurate;
+#' 4=Moderately accurate; 5=Very accurate.
+#' 
+#' The wording of the question items:
+#' 
+#' I...
+#' \describe{
+#' \item{\code{q91}}{Believe in the importance of art.}
+#' \item{\code{q1}}{Have a vivid imagination.}
+#' \item{\code{q51}}{Tend to vote for liberal political candidates.}
+#' \item{\code{q41}}{Carry the conversation to a higher level.}
+#' \item{\code{q61}}{Enjoy hearing new ideas.}
+#' \item{\code{q31}}{Enjoy thinking about things.}
+#' \item{\code{q21}}{Can say things beautifully.}
+#' \item{\code{q16}}{Enjoy wild flights of fantasy.}
+#' \item{\code{q81}}{Get excited by new ideas.}
+#' \item{\code{q71}}{Have a rich vocabulary.}
+#' \item{\code{q24}}{Am not interested in abstract ideas.}
+#' \item{\code{q74}}{Do not like art.}
+#' \item{\code{q7}}{Avoid philosophical discussions.}
+#' \item{\code{q34}}{Do not enjoy going to art museums.}
+#' \item{\code{q44}}{Tend to vote for conservative political candidates.}
+#' \item{\code{q4}}{Do not like poetry.}
+#' \item{\code{q94}}{Rarely look for a deeper meaning in things.}
+#' \item{\code{q84}}{Believe that too much tax money goes to support artists.}
+#' \item{\code{q54}}{Am not interested in theoretical discussions.}
+#' \item{\code{q64}}{Have difficulty understanding abstract ideas.}
+#' }
+#' 
+#'
+#' @references 
+#' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
+#' and NEO Five-Factor Inventory (NEO-FFI): Professional manual. Odessa, FL: Psychological Assessment Resources.
+#'
+#' @docType data
+#' @name open_cat
+#' @usage data(open_cat)
+"open_cat"
+
+
+
+#' Conscientiousness Cat Object
+#' 
+#' Cat model created for the 20-item Conscientiousness dimension of the 
+#' 100-item IPIP representation of Costa and McCrae's Five Factor Model
+#' 
+#' @details
+#' A Cat object fit with 774,410 response profiles by Mypersonality.org and 1500 response profiles
+#' collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.455) and a standard deviation (1.5)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are 1=Very inaccurate; 2=Moderately inaccurate; 3=Neither inaccurate nor accurate;
+#' 4=Moderately accurate; 5=Very accurate.
+#' 
+#' The wording of the question items:
+#' 
+#' I...
+#' \describe{
+#' \item{\code{q15}}{Am always prepared.}
+#' \item{\code{q85}}{Pay attention to details.}
+#' \item{\code{q75}}{Get chores done right away.}
+#' \item{\code{q95}}{Carry out my plans.}
+#' \item{\code{q55}}{Make plans and stick to them.}
+#' \item{\code{q5}}{Complete tasks successfully.}
+#' \item{\code{q25}}{Do things according to a plan.}
+#' \item{\code{q45}}{Am exacting in my work.}
+#' \item{\code{q5}}{Finish what I start.}
+#' \item{\code{q35}}{Follow through with my plans.}
+#' \item{\code{q28}}{Waste my time.}
+#' \item{\code{q88}}{Find it difficult to get down to work.}
+#' \item{\code{q98}}{Do just enough work to get by.}
+#' \item{\code{q78}}{Don't see things through.}
+#' \item{\code{q20}}{Shirk my duties.}
+#' \item{\code{q38}}{Mess things up.}
+#' \item{\code{q58}}{Leave things unfinished.}
+#' \item{\code{q48}}{Don't put my mind on the task at hand.}
+#' \item{\code{q68}}{Make a mess of things.}
+#' \item{\code{q8}}{Need a push to get started.}
+#' }
+#' 
+#'
+#' @references 
+#' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
+#' and NEO Five-Factor Inventory (NEO-FFI): Professional manual. Odessa, FL: Psychological Assessment Resources.
+#'
+#' @docType data
+#' @name consc_cat
+#' @usage data(consc_cat)
+"consc_cat"
+
+
+
 
 

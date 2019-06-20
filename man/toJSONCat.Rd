@@ -6,10 +6,12 @@
 \alias{toJSONCat,Cat-method}
 \title{Convert Cat object to JSON}
 \usage{
-\S4method{toJSONCat}{Cat}(catObj)
+\S4method{toJSONCat}{Cat}(catObj, escapeQuotes = FALSE)
 }
 \arguments{
 \item{catObj}{A \code{Cat} object}
+
+\item{escapeQuotes}{A logical indicating if the quotation marks are to be escaped.  Default is FALSE.}
 }
 \value{
 The function \code{toJSONCat} returns a JSON object with list elements corresponding to information stored in the \code{catObj}.

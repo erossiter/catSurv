@@ -21,6 +21,16 @@ Function returns a dataframe where each row is a possible answer profile simulat
 \description{
 The function simulates \code{n} answer profiles given a true value of theta and a battery's item parameters stored in a \code{Cat} object.
 }
+\examples{
+
+# Load Cat object
+data(grm_cat)
+
+# Simulate 5 response profiles given a theta of 2
+sim_resp <- simulateRespondents(catObj = grm_cat, theta = 2, n = 5)
+
+
+}
 \author{
 Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
 }
