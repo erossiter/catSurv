@@ -24,11 +24,12 @@
 #' 
 #' @examples 
 #' 
+#' \dontrun{
 #' raw_df <- read.csv("qualtrics_results.csv", stringsAsFactors = FALSE)
 #' 
 #' # removing first two header rows containing question text and import ID
-#' clean_df <- readQualtrics(raw_df$catObj[-c(1,2)], raw_df$catObj[c(-1,2)])
-#'
+#' clean_df <- readQualtrics(raw_df$catObj[-c(1,2)], raw_df$catObj[-c(1,2)])
+#' }
 #'
 #' @seealso
 #' 
@@ -36,19 +37,19 @@
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
 #' 
-#' @rdname readQualtrics
-#' 
 #' @name readQualtrics
+NULL
 
 setGeneric("readQualtrics", function(catObj, responseID){
   standardGeneric("readQualtrics")
 })
 
 
+#' @rdname readQualtrics
 #' @export
 setMethod("readQualtrics",
-          signature = c(catObj = "character", responseID = "character"),
-          function(catObj, responseID){
+          signature = "character",
+          definition = function(catObj, responseID){
               
               
               # these columns might be there

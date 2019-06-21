@@ -17,3 +17,9 @@ devtools::install_github("erossiter/catSurv")
 ```
 
 If you encounter a clear bug, please let us know [here](https://github.com/erossiter/catSurv/issues).
+
+
+Qualtrics Integration
+---------------------
+
+

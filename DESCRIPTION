@@ -4,21 +4,21 @@ Version: 1.0.4
 Authors@R: c(person("Jacob", "Montgomery", email =  "jacob.montgomery@wustl.edu", role = "aut"), person("Erin", "Rossiter", email = "erinrossiter@wustl.edu", role = c("aut", "cre")))
 Description: Provides methods of computerized adaptive testing for survey researchers. Includes functionality for data fit with the classic item response methods including the latent trait model, Birnbaum`s three parameter model, the graded response, and the generalized partial credit model.  Additionally, includes several ability parameter estimation and item selection routines.  During item selection, all calculations are done in compiled C++ code.
 Depends:
-	ltm(>= 1.0.0),
-	R(>= 3.4.0)
+	ltm(>= 1.1.1),
+	R(>= 3.5.3)
 License: GPL-3
 Imports:
 	jsonlite,
 	methods,
 	stats,
 	plyr,
-	Rcpp(>= 0.12.11),
+	Rcpp(>= 1.0.1),
 	RcppParallel,
 LinkingTo:
-	BH(>= 1.62.0.1),
-	Rcpp(>= 0.12.11),
+	BH(>= 1.69.0.1),
+	Rcpp(>= 1.0.1),
 	RcppArmadillo,
-	RcppGSL(>= 0.3.2),
+	RcppGSL(>= 0.3.6),
 	RcppParallel
 LazyData: true
 RoxygenNote: 6.1.1
@@ -27,6 +27,6 @@ SystemRequirements:
 	GNU make
 Suggests:
 	catIrt(>= 0.5.0),
-	catR(>= 3.12),
-	testthat(>= 1.0.2)
+	catR(>= 3.16),
+	testthat(>= 2.0.1)
 BugReports: https://github.com/erossiter/catSurv/issues
