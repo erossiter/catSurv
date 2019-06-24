@@ -14,7 +14,7 @@
 \item{responses}{A dataframe of complete response profiles}
 }
 \value{
-The function \code{estimateThetas} returns a vector of the expected values of the respondents' ability parameters.
+The function \code{estimateThetas} returns a data frame containing the responses and the respondents' estimated ability parameters.
 }
 \description{
 Estimates the expected value of the ability parameter \eqn{\theta}, conditioned on the observed answers, prior, and the item parameters
