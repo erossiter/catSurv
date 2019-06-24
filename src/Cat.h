@@ -57,10 +57,6 @@ public:
 	
 	double fisherTestInfo(double theta);
 
-	NumericVector estimateThetas(DataFrame& responses);
-
-	NumericVector simulateThetas(DataFrame& responses);
-
 private:
 	bool noneOfOverrides();
 	bool anyOfThresholds();

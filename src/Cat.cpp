@@ -237,72 +237,9 @@ DataFrame Cat::lookAhead(int item) {
   return all_estimates;
 }
 
-NumericVector Cat::estimateThetas(DataFrame& responses)
-{
-    size_t data_length = responses.ncol();
-  if(data_length != questionSet.question_names.size())
-  {
-    throw std::domain_error("Number of questions doesn't match with catObj");
-  }
-
-  size_t nrow = responses.nrow();
-  NumericVector thetas;
-  thetas = static_cast<NumericVector>(no_init(nrow));
-
-  for(size_t row = 0; row != nrow; ++row)
-  {
-    questionSet.reset_answers(responses, row);
-    thetas.at(row) = estimateTheta();
-  }
-
-  return thetas;
-}
 
 
-NumericVector Cat::simulateThetas(DataFrame& responses)
-{
-  if(std::isnan(checkRules.lengthThreshold) && std::isnan(checkRules.seThreshold) &&
-   std::isnan(checkRules.infoThreshold) && std::isnan(checkRules.gainThreshold) )
-  {
-    throw std::domain_error("Need to specify stopping rule(s) in Cat object.");
-  }
 
-  if(!questionSet.applicable_rows.empty())
-  {
-    throw std::domain_error("All answers Cat object should be NA.");
-  }
-  
-
-  size_t nrow = responses.nrow();
-  NumericVector thetas;
-  thetas = static_cast<NumericVector>(no_init(nrow));
-
-  auto answers = questionSet.answers;
-
-  for(size_t row = 0; row != nrow; ++row)
-  {
-    while(!questionSet.nonapplicable_rows.empty() && !(checkStopRules()))
-    {
-      Selection selection = selector->selectItem();
-      Rcpp::IntegerVector col = responses[selection.item];
-      if(col[row] == NA_INTEGER)
-      {
-        questionSet.reset_answer(selection.item, -1);
-      }
-      else
-      {
-        questionSet.reset_answer(selection.item, col[row]);
-      }
-    }
-
-    // FIX ME: checkStopRules already computes theta
-    thetas[row] = estimateTheta();
-
-    questionSet.reset_answers(answers);
-  }
-
-  return thetas;
-}
 
 
 
