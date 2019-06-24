@@ -77,7 +77,7 @@ double MLEEstimator::estimateTheta(Prior prior) {
     
     try {
         theta_hat_new = newton_raphson(prior, theta_hat_old, theta_hat_new, false);
-    } catch(std::domain_error) {
+    } catch(std::domain_error &) {
         
         std::vector<double> check_d1LL;
         std::vector<double> try_theta = {-3.5, -3.25, -3.0, -2.75, -2.5, -2.25, -2.0,
@@ -106,7 +106,7 @@ double MLEEstimator::estimateTheta(Prior prior, size_t question, int answer)
     double theta_hat_new = 1.0;
     try {
         theta_hat_new = newton_raphson(prior, question, answer, theta_hat_old, theta_hat_new, false);
-    } catch(std::domain_error) {
+    } catch(std::domain_error &) {
         std::vector<double> check_d1LL;
         std::vector<double> try_theta = {-3.5, -3.25, -3.0, -2.75, -2.5, -2.25, -2.0,
                                          -1.75, -1.5, -1.25, -1.0, -0.75, -0.5, -0.25,

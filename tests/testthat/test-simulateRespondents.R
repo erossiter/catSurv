@@ -50,25 +50,3 @@ test_that("simulateRespondents for grm returns profiles with correct probs", {
     
     expect_equal(round(probs, 2), round(recover_probs, 2))
 })
-
-
-
-
-
-## GRM: A check with theta of 1, item 10
-
-
-## GPCM: A check with theta of 1, item 10
-probs <- probability(gpcm_cat, 1, 10)
-sims <- simulateRespondents_test(gpcm_cat, 1, 5000)
-recover_probs <- table(sims$V10)/nrow(sims)
-
-
-test_that("GRM returns correct output", {
-})
-
-test_that("...", {
-})
-
-test_that("Errors are thrown due to bad input", {
-})
