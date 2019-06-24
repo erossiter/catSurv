@@ -344,7 +344,7 @@
 #' @usage data(polknowTAPS)
 #'
 #' 
-#' @source \url{http://taps.wustl.edu/data-archive}
+#' @source \url{https://wc.wustl.edu/}
 "polknowTAPS"
 
 
@@ -416,7 +416,7 @@
 #' @usage data(polknowOrdered)
 #'
 #' 
-#' @source \url{http://taps.wustl.edu/data-archive}
+#' @source \url{https://wc.wustl.edu/}
 "polknowOrdered"
 
 
