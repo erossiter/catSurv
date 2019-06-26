@@ -21,10 +21,10 @@ test_that("EAP estimation calculates correctly", {
     indv_gpcm[i] <- estimateTheta(gpcm_cat)
   }
 
-  expect_equal(estimateThetas(ltm_cat, npi[1:10, ])$theta_est, indv_ltm)
-  expect_equal(estimateThetas(tpm_cat, polknowMT[1:10,1:20])$theta_est, indv_tpm)
-  expect_equal(estimateThetas(grm_cat, nfc[1:10, ])$theta_est, indv_grm)
-  expect_equal(estimateThetas(gpcm_cat, polknowTAPS[1:10, ])$theta_est, indv_gpcm)
+  expect_equal(estimateThetas(ltm_cat, npi[1:10, ]), indv_ltm)
+  expect_equal(estimateThetas(tpm_cat, polknowMT[1:10,1:20]), indv_tpm)
+  expect_equal(estimateThetas(grm_cat, nfc[1:10, ]), indv_grm)
+  expect_equal(estimateThetas(gpcm_cat, polknowTAPS[1:10, ]), indv_gpcm)
 })
 
 test_that("MAP estimation calculates correctly", {
@@ -41,9 +41,9 @@ test_that("MAP estimation calculates correctly", {
     indv_gpcm[i] <- estimateTheta(gpcm_cat)
   }
 
-  expect_equal(estimateThetas(ltm_cat, npi[1:5, ])$theta_est, indv_ltm)
-  expect_equal(estimateThetas(tpm_cat, polknowMT[1:5,1:20])$theta_est, indv_tpm)
-  expect_equal(estimateThetas(gpcm_cat, polknowTAPS[1:5, ])$theta_est, indv_gpcm)
+  expect_equal(estimateThetas(ltm_cat, npi[1:5, ]), indv_ltm)
+  expect_equal(estimateThetas(tpm_cat, polknowMT[1:5,1:20]), indv_tpm)
+  expect_equal(estimateThetas(gpcm_cat, polknowTAPS[1:5, ]), indv_gpcm)
 })
 
 test_that("MLE estimation calculates correctly", {
@@ -62,10 +62,10 @@ test_that("MLE estimation calculates correctly", {
     indv_gpcm[i] <- estimateTheta(gpcm_cat)
   }
 
-  expect_equal(estimateThetas(ltm_cat, npi[1:5, ])$theta_est, indv_ltm)
-  expect_equal(estimateThetas(tpm_cat, polknowMT[1:5,1:20])$theta_est, indv_tpm)
-  expect_equal(estimateThetas(grm_cat, nfc[1:5, ])$theta_est, indv_grm)
-  expect_equal(estimateThetas(gpcm_cat, polknowTAPS[1:5, ])$theta_est, indv_gpcm)
+  expect_equal(estimateThetas(ltm_cat, npi[1:5, ]), indv_ltm)
+  expect_equal(estimateThetas(tpm_cat, polknowMT[1:5,1:20]), indv_tpm)
+  expect_equal(estimateThetas(grm_cat, nfc[1:5, ]), indv_grm)
+  expect_equal(estimateThetas(gpcm_cat, polknowTAPS[1:5, ]), indv_gpcm)
 })
 
 test_that("WLE estimation calculates correctly", {
@@ -84,8 +84,8 @@ test_that("WLE estimation calculates correctly", {
     indv_gpcm[i] <- estimateTheta(gpcm_cat)
   }
 
-  expect_equal(estimateThetas(ltm_cat, npi[1:10, ])$theta_est, indv_ltm)
-  expect_equal(estimateThetas(tpm_cat, polknowMT[1:10,1:20])$theta_est, indv_tpm)
-  expect_equal(estimateThetas(grm_cat, nfc[1:10, ])$theta_est, indv_grm)
-  expect_equal(estimateThetas(gpcm_cat, polknowTAPS[1:10, ])$theta_est, indv_gpcm)
+  expect_equal(estimateThetas(ltm_cat, npi[1:10, ]), indv_ltm)
+  expect_equal(estimateThetas(tpm_cat, polknowMT[1:10,1:20]), indv_tpm)
+  expect_equal(estimateThetas(grm_cat, nfc[1:10, ]), indv_grm)
+  expect_equal(estimateThetas(gpcm_cat, polknowTAPS[1:10, ]), indv_gpcm)
 })

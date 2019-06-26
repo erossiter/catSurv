@@ -6,7 +6,7 @@
 #' @param catObj An object of class \code{Cat}
 #' @param responses A dataframe of complete response profiles
 #'
-#' @return The function \code{estimateThetas} returns a data frame containing the responses and the respondents' estimated ability parameters.
+#' @return The function \code{estimateThetas} returns a vector containing respondents' estimated ability parameters.
 #'
 #' @details
 #' 
@@ -58,13 +58,14 @@ setMethod(f = "estimateThetas", signature = "Cat", definition = function(catObj,
     if(!all(apply(responses, 2, is.numeric))){
         stop("Responses need to be numeric.")
     }
-    out <- plyr::adply(.data = responses,
-                       .margins = 1, 
-                       .fun = function(x, catObj){
-                           catObj@answers <- unlist(x)
-                           data.frame("theta_est" = estimateTheta(catObj))
-                       },
-                       catObj = catObj)
+    out <- apply(X = responses,
+                 MARGIN = 1,
+                 FUN = function(x, catObj){
+                     catObj@answers <- unlist(x)
+                     estimateTheta(catObj)
+                 },
+                 catObj = catObj)
+    names(out) <- NULL
     return(out)
 })
 
