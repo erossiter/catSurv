@@ -5,14 +5,14 @@
 #' 
 #' @param catObjs A list of \code{Cat} objects of the same class.
 #' @param theta A vector of numerics representing the true value of theta.
-#' @param resp A dataframe of answer profiles corresponding to the true values of theta.
+#' @param responses A dataframe of answer profiles corresponding to the true values of theta.
 #' 
 #' @details The function takes a \code{Cat} object, \code{theta}, and response profiles. 
 #' The user defines the selection type, estimation type, etc. so that the questions can be applied adaptively
 #' These adaptive profiles are then used to calculate the total inforamtion gained for a respondent for all answered
 #' items, conditioned on \code{theta}.
 #' 
-#' @return The function \code{allFish} returns a dataframe where each \code{Cat} object corresponds to a column and each respondent corresponds to a row.
+#' @return The function \code{simulateFisherInfo} returns a dataframe where each \code{Cat} object corresponds to a column and each respondent corresponds to a row.
 #' 
 #' @seealso \code{\link{Cat-class}}, \code{\link{fisherTestInfo}}, \code{\link{selectItem}}
 #' 
@@ -39,39 +39,39 @@
 #' grmList <- list(grm_MAP, grm_EAP)
 #' 
 #' # Results
-#' fisher_inf_results <- allFish(catObjs = grmList,
+#' fisher_inf_results <- simulateFisherInfo(catObjs = grmList,
 #'                               theta = rep(c(-1, 0, 1),
 #'                               each = 10),
-#'                               resp = respondents)
+#'                               responses = respondents)
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil, Jaerin Kim, Dominique Lockett 
 #' 
-#' @rdname allFish
+#' @rdname simulateFisherInfo
 #' 
 #' @export
-allFish <- function(catObjs, theta, resp){
-    UseMethod("allFish", catObj)
+simulateFisherInfo <- function(catObjs, theta, responses){
+    UseMethod("simulateFisherInfo", catObj)
 }
 
-allFish <- function(catObjs=list(), theta, resp){
+simulateFisherInfo <- function(catObjs=list(), theta, responses){
     
     # checks
     if(length(unique(lapply(catObjs, function(x) x@model))) != 1){
         stop("Cat objects must be of the same model e.g., grm.")
     }
-    if(any(unlist(lapply(catObjs, function(x) length(x@answers) != length(resp))))){
+    if(any(unlist(lapply(catObjs, function(x) length(x@answers) != length(responses))))){
         stop("Response profile is not compatible with Cat object.")
     }
-    if(length(theta) != nrow(resp)){
+    if(length(theta) != nrow(responses)){
         stop("Need a value of theta to correspond with each response profile.")
     }
 
-    resp$theta <- theta
+    responses$theta <- theta
     
     # for loop for now
-    out <- matrix(NA, nrow = nrow(resp), ncol = length(catObjs))
+    out <- matrix(NA, nrow = nrow(responses), ncol = length(catObjs))
     for (i in 1:length(catObjs)){
-        out[,i] <- apply(X = resp,
+        out[,i] <- apply(X = responses,
                             MARGIN = 1,
                             FUN = function(x, catObj){
                                 cat <- catObj
