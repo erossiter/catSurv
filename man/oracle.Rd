@@ -6,14 +6,14 @@
 \alias{oracle,Cat-method}
 \title{Find Answer Profile that Minimizes Bias}
 \usage{
-\S4method{oracle}{Cat}(catObj, theta, ans_profiles)
+\S4method{oracle}{Cat}(catObj, theta, responses)
 }
 \arguments{
 \item{catObj}{An object of class \code{Cat}}
 
 \item{theta}{A numeric representing the true position on the latent trait.}
 
-\item{ans_profiles}{A vector representing the respondent's full answer profile.}
+\item{responses}{A vector representing the respondent's full answer profile.}
 }
 \value{
 A data.frame where the first column is the user-supplied true value of theta, the second column is the

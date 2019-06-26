@@ -5,7 +5,7 @@
 #'
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric representing the true position on the latent trait.
-#' @param ans_profiles A vector representing the respondent's full answer profile.
+#' @param responses A vector representing the respondent's full answer profile.
 #'
 #' @details lengthThreshold slot should specify how many questions to ask.
 #' Note this function uses the estimateTheta method specified in the supplied cat object
@@ -23,26 +23,26 @@
 #' @name oracle
 NULL
 
-setGeneric("oracle", function(catObj, theta, ans_profiles) standardGeneric("oracle"))
+setGeneric("oracle", function(catObj, theta, responses) standardGeneric("oracle"))
 
 #' @rdname oracle
 #' @export
-setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, ans_profiles){
+setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, responses){
     
     # TODO: generalize using checkStopRules
     n <- catObj@lengthThreshold
     
-    if(length(theta) != nrow(ans_profiles)){
+    if(length(theta) != nrow(responses)){
         stop("Need a corresponding theta value for each answer profile.")
     }
     
-    if(ncol(ans_profiles) != length(catObj@answers)){
+    if(ncol(responses) != length(catObj@answers)){
         stop("Response profiles are not compatible with Cat object.")
     }
     
-    ncombos <- choose(ncol(ans_profiles), n)
+    ncombos <- choose(ncol(responses), n)
     if(ncombos > 1000000){
-        stop("Too many combinations result from choose(nrow(ans_profiles), n).")
+        stop("Too many combinations result from choose(nrow(responses), n).")
     }
     
     if(n > 5){
@@ -51,7 +51,7 @@ setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, 
   
     ## matrix of all length n combinations of ~indexes~ where each row is a possible combo
     ## will be the same combo_mat applied to each specific answer profile
-    combo_mat <- t(combn(1:ncol(ans_profiles), n))
+    combo_mat <- t(combn(1:ncol(responses), n))
     
     ## results for one profile with respective true theta
     find_truth <- function(ind_theta, ind_ans, combo_mat, cat){
@@ -69,9 +69,9 @@ setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, 
     }
     
     ## results for each profile
-    return(adply(.data = 1:nrow(ans_profiles),
+    return(adply(.data = 1:nrow(responses),
                  .margins = 1,
-                 .fun = function(x) find_truth(ind_theta = theta[x], ind_ans = ans_profiles[x,], combo_mat = combo_mat, cat = catObj),
+                 .fun = function(x) find_truth(ind_theta = theta[x], ind_ans = responses[x,], combo_mat = combo_mat, cat = catObj),
                  .id = NULL))
 })
 
