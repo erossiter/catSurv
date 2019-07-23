@@ -22,6 +22,7 @@ setGeneric("processAJAX", function(catObj, item) standardGeneric("processAJAX"))
 setMethod(f = "processAJAX", signature = "character", definition = function(catObj, item){
     catObj <- fromJSONCat(catObj)
     firstThing <- F
+    lastThing <- F
     
     if (item == -1) {
       item <- selectItem(catObj)$next_item
