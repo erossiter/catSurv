@@ -1,6 +1,6 @@
-' Update Answer to Single Item
+' Qualtrics AJAX Handler
 #'
-#' Stores answer to item \eqn{k} to the \code{Cat} object's \code{answers} slot.
+#' Qualtrics AJAX Handler
 #'
 #' @param catObj An object of class \code{character}.
 #' @param item An integer indicating the index of the question item
@@ -27,6 +27,10 @@ setMethod(f = "processAJAX", signature = "character", definition = function(catO
       item <- selectItem(catObj)$next_item
       firstThing <- T
     }
+
+    if (sum(is.na(catObj@answers)) == 1) {
+      lastThing <- T
+    }
     
     validObject(catObj)
     nexts <- NULL
@@ -45,6 +49,9 @@ setMethod(f = "processAJAX", signature = "character", definition = function(catO
         nexts$newCat <- toJSONCat(catObj)
         if (firstThing) {
           nexts$firstThing <- item
+        }
+        if (lastThing) {
+          nexts$lastThing <- 1
         }
     } else {
         nexts <- list(all = "NULL")
