@@ -29,7 +29,7 @@ setMethod(f = "processAJAX", signature = "character", definition = function(catO
       firstThing <- T
     }
 
-    if (sum(is.na(catObj@answers)) == 1) {
+    if (sum(as.numeric(is.na(catObj@answers))) == 1) {
       lastThing <- T
     }
     
