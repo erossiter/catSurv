@@ -27,7 +27,7 @@ setMethod(f = "processAJAX", signature = "character", definition = function(catO
       firstThing <- T
     }
 
-    if (sum(as.numeric(is.na(catObj@answers))) == 1) {
+    if ((catObj@lengthThreshold - sum(as.numeric(!is.na(catObj@answers)))) == 1) {
       lastItem <- T
     }
     
