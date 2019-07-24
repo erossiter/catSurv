@@ -4,7 +4,6 @@ output:
     variant: markdown_github
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
@@ -30,4 +29,8 @@ install.packages("catSurv")
 devtools::install_github("erossiter/catSurv")
 ```
 
-If you encounter a clear bug, please let us know [here](https://github.com/erossiter/catSurv/issues). 
+If you encounter a clear bug, please let us know [here](https://github.com/erossiter/catSurv/issues).
+
+
+## Qualtrics Integration
+
