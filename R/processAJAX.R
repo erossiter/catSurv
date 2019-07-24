@@ -1,13 +1,11 @@
-' Qualtrics AJAX Handler
-#'
 #' Qualtrics AJAX Handler
+#'
+#' Qualtrics AJAX Handler used to implement catSurv functionality in a Qualtrics survey
 #'
 #' @param catObj An object of class \code{character}.
 #' @param item An integer indicating the index of the question item
 #' @param answer The answer to the \code{item} to be updated
 #'
-#' @details Blah
-#' @return Blah
 #'  
 #' @author Joshua Landman 
 #' 
