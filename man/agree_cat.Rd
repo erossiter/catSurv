@@ -54,5 +54,9 @@ I...
 \references{
 Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
 and NEO Five-Factor Inventory (NEO-FFI): Professional manual. Odessa, FL: Psychological Assessment Resources.
+
+
+Stillwell, David, and Michal Kosinski. 2007. "myPersonality Project."
+\url{https://sites.google.com/michalkosinski.com/mypersonality}
 }
 \keyword{datasets}
