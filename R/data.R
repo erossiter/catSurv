@@ -657,8 +657,8 @@
 #' 
 #' @details
 #' 
-#' A Cat object fit with 774,410 response profiles by Mypersonality.org and 1500 response profiles
-#' collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
+#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.113) and a standard deviation (1.5)
@@ -723,8 +723,8 @@
 #' 
 #' @details
 #' 
-#' A Cat object fit with 774,410 response profiles by Mypersonality.org and 1500 response profiles
-#' collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
+#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.025) and a standard deviation (1.2)
@@ -782,8 +782,8 @@
 #' 
 #' @details
 #' 
-#' A Cat object fit with 774,410 response profiles by Mypersonality.org and 1500 response profiles
-#' collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
+#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.367) and a standard deviation (1.3)
@@ -844,8 +844,8 @@
 #' 
 #' @details
 #' 
-#' A Cat object fit with 774,410 response profiles by Mypersonality.org and 1500 response profiles
-#' collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
+#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.674) and a standard deviation (1.2)
@@ -903,8 +903,8 @@
 #' 100-item IPIP representation of Costa and McCrae's Five Factor Model
 #' 
 #' @details
-#' A Cat object fit with 774,410 response profiles by Mypersonality.org and 1500 response profiles
-#' collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
+#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.455) and a standard deviation (1.5)
@@ -1031,6 +1031,88 @@
 #' @name empathy_cat
 #' @usage data(empathy_cat)
 "empathy_cat"
+
+
+
+
+
+
+#' Systemizing Quotient Cat Object
+#' 
+#' Cat model created for the 40-item Systemizing Quotient personality inventory
+#' 
+#' @details
+#' A Cat object fit with 13,256 response profiles collected by personality-testing.info, 3050 response profiles
+#' collected by Qualtrics in July 2018, and 1500 response profiles collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.033) and a standard deviation (1.4)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are 1=Strongly disagree; 2=Slightly disagree; 3=Slightly agree; 4=Strongly agree
+#' 
+#' The wording of the question items:
+#' 
+#' \describe{
+#' \item{\code{q1}}{   When I listen to a piece of music, I always notice the way it's structured.}
+#' \item{\code{q4}}{   I prefer to read non-fiction than fiction.}
+#' \item{\code{q5}}{    If I were buying a car, I would want to obtain specific information about its engine capacity.}
+#' \item{\code{q6}}{   When I look at a painting, I do not usually think about the technique involved in making it.}
+#' \item{\code{q7}}{    If there was a problem with the electrical wiring in my home, I'd be able to fix it myself.}
+#' \item{\code{q11}}{    I rarely read articles or webpages about new technology.}
+#' \item{\code{q12}}{   I do not enjoy games that involve a high degree of strategy.}
+#' \item{\code{q13}}{    I am fascinated by how machines work.}
+#' \item{\code{q15}}{    In math, I am intrigued by the rules and patterns governing numbers.}
+#' \item{\code{q18}}{    I find it difficult to understand instruction manuals for putting appliances together.}
+#' \item{\code{q19}}{    When I look at an animal, I like to know the precise species it belongs to.}
+#' \item{\code{q20}}{    If I were buying a computer, I would want to know exact details about its hard drive capacity and processor speed.}
+#' \item{\code{q23}}{    When I cook, I do not think about exactly how different methods and ingredients contribute to the final product.}
+#' \item{\code{q24}}{    I find it difficult to read and understand maps.}
+#' \item{\code{q25}}{   If I had a collection (e.g. CDs, coins, stamps), it would be highly organized.}
+#' \item{\code{q26}}{    When I look at a piece of furniture, I do not notice the details of how it was constructed.}
+#' \item{\code{q28}}{    When I learn about historical events, I do not focus on exact dates.}
+#' \item{\code{q29}}{   When I read the newspaper, I am drawn to tables of information, such as football league scores or stock market indices.}
+#' \item{\code{q30}}{   When I learn a language, I become intrigued by its grammatical rules.}
+#' \item{\code{q31}}{   I find it difficult to learn my way around a new city.}
+#' \item{\code{q32}}{   I do not tend to watch science documentaries on television or read articles about science and nature.}
+#' \item{\code{q33}}{   If I were buying a stereo, I would want to know about its precise technical features.}
+#' \item{\code{q34}}{    I find it easy to grasp exactly how odds work in betting.}
+#' \item{\code{q35}}{   I am not very meticulous when I carry out D.I.Y.}
+#' \item{\code{q37}}{   When I look at a building, I am curious about the precise way it was constructed.}
+#' \item{\code{q38}}{    When an election is being held, I am not interested in the results for each constituency.}
+#' \item{\code{q40}}{    I find it difficult to understand information the bank sends me on different investment and saving systems.}
+#' \item{\code{q41}}{    When traveling by train, I often wonder exactly how the rail networks are coordinated.}
+#' \item{\code{q42}}{    When I buy a new appliance, I do not read the instruction manual very thoroughly.}
+#' \item{\code{q43}}{    If I were buying a camera, I would not look carefully into the quality of the lens.}
+#' \item{\code{q44}}{    When I read something, I always notice whether it is grammatically correct.}
+#' \item{\code{q45}}{   When I hear the weather forecast, I am not very interested in the meteorological patterns.}
+#' \item{\code{q48}}{    When I look at a mountain, I think about how precisely it was formed.}
+#' \item{\code{q49}}{    I can easily visualize how the highways in my region link up.}
+#' \item{\code{q51}}{    When I'm in a plane, I do not think about the aerodynamics.}
+#' \item{\code{q53}}{    When I am walking in the country, I am curious about how the various kinds of trees differ.}
+#' \item{\code{q55}}{    I am interested in knowing the path a river takes from its source to the sea.}
+#' \item{\code{q56}}{    I do not read legal documents very carefully.}
+#' \item{\code{q57}}{   I am not interested in understanding how wireless communication works.}
+#' \item{\code{q60}}{    I do not care to know the names of the plants I see.}
+#' }
+#' 
+#'
+#' @references 
+#' Baron-Cohen, Simon, Jennifer Richler, Dheraj Bisarya, Nhishanth Gurunathan,
+#' and Sally Wheelwright.  "The systemizing quotient: an investigation of adults with
+#' Asperger syndrome or high-functioning autism, and normal sex differences."
+#' Philosophical Transactions of the Royal Society of London.  Series B: Biological Sciences
+#' 358, no. 1430 (2003): 361-374.
+#' 
+#'   
+#' Open Source Psychometrics Project. \url{personality-testing.info}
+#'
+#' @docType data
+#' @name systemizing_cat
+#' @usage data(systemizing_cat)
+"systemizing_cat"
 
 
 
