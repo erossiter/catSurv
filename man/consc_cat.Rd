@@ -5,6 +5,9 @@
 \alias{consc_cat}
 \title{Conscientiousness Cat Object}
 \format{An object of class \code{Cat} of length 1.}
+\source{
+See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+}
 \usage{
 data(consc_cat)
 }
@@ -37,7 +40,7 @@ I...
 \item{\code{q5}}{Complete tasks successfully.}
 \item{\code{q25}}{Do things according to a plan.}
 \item{\code{q45}}{Am exacting in my work.}
-\item{\code{q5}}{Finish what I start.}
+\item{\code{q65}}{Finish what I start.}
 \item{\code{q35}}{Follow through with my plans.}
 \item{\code{q28}}{Waste my time.}
 \item{\code{q88}}{Find it difficult to get down to work.}

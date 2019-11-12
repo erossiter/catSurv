@@ -695,7 +695,10 @@
 #' \item{\code{q72}}{Am out for my own personal gain.}
 #' }
 #' 
-#'
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' 
 #' @references 
 #' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
 #' and NEO Five-Factor Inventory (NEO-FFI): Professional manual. Odessa, FL: Psychological Assessment Resources.
@@ -761,7 +764,10 @@
 #' \item{\code{q57}}{Rarely lose my composure.}
 #' }
 #' 
-#'
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' 
 #' @references 
 #' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
 #' and NEO Five-Factor Inventory (NEO-FFI): Professional manual. Odessa, FL: Psychological Assessment Resources.
@@ -819,6 +825,11 @@
 #' \item{\code{q69}}{Find it difficult to approach others.}
 #' \item{\code{q49}}{Keep others at a distance.}
 #' }
+#' 
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
 #'
 #' @references 
@@ -882,6 +893,10 @@
 #' \item{\code{q64}}{Have difficulty understanding abstract ideas.}
 #' }
 #' 
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #'
 #' @references 
 #' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
@@ -927,7 +942,7 @@
 #' \item{\code{q5}}{Complete tasks successfully.}
 #' \item{\code{q25}}{Do things according to a plan.}
 #' \item{\code{q45}}{Am exacting in my work.}
-#' \item{\code{q5}}{Finish what I start.}
+#' \item{\code{q65}}{Finish what I start.}
 #' \item{\code{q35}}{Follow through with my plans.}
 #' \item{\code{q28}}{Waste my time.}
 #' \item{\code{q88}}{Find it difficult to get down to work.}
@@ -941,6 +956,9 @@
 #' \item{\code{q8}}{Need a push to get started.}
 #' }
 #' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #'
 #' @references 
 #' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
@@ -957,7 +975,7 @@
 
 
 
-#' Empathy Quotient Cat Object
+#' Empathizing Quotient Cat Object
 #' 
 #' Cat model created for the 40-item Empathy Quotient personality inventory
 #' 
@@ -1017,6 +1035,10 @@
 #' \item{\code{q59}}{ I tend to get emotionally involved with a friend's problems.}				
 #' \item{\code{q60}}{ I can usually appreciate the other person's viewpoint, even if I don't agree with it.}
 #' }
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
 #'
 #' @references 
@@ -1108,12 +1130,269 @@
 #' 
 #'   
 #' Open Source Psychometrics Project. \url{personality-testing.info}
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #'
 #' @docType data
 #' @name systemizing_cat
 #' @usage data(systemizing_cat)
 "systemizing_cat"
 
+
+
+#' Openness to Change (Schwartz Values) Cat Object
+#' 
+#' Cat model created for the  Openness to Change (Schwartz Values) inventory
+#' 
+#' @details
+#' A Cat object fit with 8,448 response profiles by myPersonality.org and 718 response profiles
+#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-3.54) and a standard deviation (1.2)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options for the Schwartz Values survey are:
+#' 
+#' 0 - means the value is not at all important, it is not relevant as a guiding principle for you.
+#' 3 - means the value is important.
+#' 6 - means the value is very important.
+#' 
+#' -1 is for rating any values opposed to the principles that guide you.
+#' 7 is for rating a value of supreme importance as a guiding principle in your life; ordinarily there are no more than two such values.
+#' 
+#' However, for computerized adaptive testing methods, the 0-7 response option range as been shifted to a 1-9 range. 
+#' 
+#' The wording of the question items: 
+#' 
+#' \describe{
+#' \item{\code{q5}}{   FREEDOM (freedom of action and thought)}
+#' \item{\code{q15}}{   RECIPROCATION OF FAVORS (avoidance of indebtedness)}
+#' \item{\code{q31}}{   INDEPENDENT (self-reliant, self-sufficient)}
+#' \item{\code{q41}}{  CHOOSING OWN GOALS (selecting own purposes)}
+#' \item{\code{q53}}{    CURIOUS (interested in everything, exploring)}
+#' \item{\code{q9}}{    AN EXCITING LIFE (stimulating experiences)}
+#' \item{\code{q25}}{  A VARIED LIFE (filled with challenge, novelty and change)}
+#' \item{\code{q37}}{   DARING (seeking adventure, risk)}
+#' \item{\code{q4}}{   PLEASURE (gratification of desires)}
+#' \item{\code{q50}}{  ENJOYING LIFE (enjoying food, sex, leisure, etc.)}
+#' \item{\code{q57}}{ SELF-INDULGENT (doing pleasant things)}
+#' }
+#' 
+#'
+#' @references 
+#' Stillwell, David, and Michal Kosinski. 2007. "myPersonality Project."
+#' \url{https://sites.google.com/michalkosinski.com/mypersonality}
+#' 
+#' Schwartz, Shalom H. "Universals in the content and structure of values: 
+#' Theoretical advances and empirical tests in 20 countries." 
+#' Advances in experimental social psychology. Vol. 25. Academic Press, 1992. 1-65.
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#'
+#' @docType data
+#' @name sv_open_cat
+#' @usage data(sv_open_cat)
+"sv_open_cat"
+
+
+
+
+#' Self-Transcendence (Schwartz Values) Cat Object
+#' 
+#' Cat model created for the Self-Transcendence (Schwartz Values) inventory
+#' 
+#' @details
+#' A Cat object fit with 8,415 response profiles by myPersonality.org and 718 response profiles
+#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.004) and a standard deviation (1.2)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options for the Schwartz Values survey are:
+#' 
+#' 0 - means the value is not at all important, it is not relevant as a guiding principle for you.
+#' 3 - means the value is important.
+#' 6 - means the value is very important.
+#' 
+#' -1 is for rating any values opposed to the principles that guide you.
+#' 7 is for rating a value of supreme importance as a guiding principle in your life; ordinarily there are no more than two such values.
+#' 
+#' However, for computerized adaptive testing methods, the 0-7 response option range as been shifted to a 1-9 range. 
+#' 
+#' The wording of the question items: 
+#' 
+#' \describe{
+#' \item{\code{q1}}{   EQUALITY (equal opportunity for all)}
+#' \item{\code{q17}}{   A WORLD AT PEACE (free of war and conflict)}
+#' \item{\code{q24}}{  UNITY WITH NATURE (fitting into nature)}
+#' \item{\code{q26}}{  WISDOM (a mature understanding of life)}
+#' \item{\code{q29}}{    A WORLD OF BEAUTY (beauty of nature and the arts)}
+#' \item{\code{q30}}{   SOCIAL JUSTICE (correcting injustice, care for the weak)}
+#' \item{\code{q35}}{  BROADMINDED (tolerant of different ideas and beliefs)}
+#' \item{\code{q38}}{  PROTECTING THE ENVIRONMENT (preserving nature)}
+#' \item{\code{q33}}{   LOYAL (faithful to my friends, group)}
+#' \item{\code{q45}}{  HONEST (genuine, sincere)}
+#' \item{\code{q49}}{HELPFUL (working for the welfare of others)}
+#' \item{\code{q52}}{ RESPONSIBLE (dependable, reliable)}
+#' \item{\code{q54}}{ FORGIVING (willing to pardon others)}
+#' }
+#' 
+#'
+#' @references 
+#' Stillwell, David, and Michal Kosinski. 2007. "myPersonality Project."
+#' \url{https://sites.google.com/michalkosinski.com/mypersonality}
+#' 
+#' Schwartz, Shalom H. "Universals in the content and structure of values: 
+#' Theoretical advances and empirical tests in 20 countries." 
+#' Advances in experimental social psychology. Vol. 25. Academic Press, 1992. 1-65.
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#'
+#' @docType data
+#' @name sv_selftransc_cat
+#' @usage data(sv_selftransc_cat)
+"sv_selftransc_cat"
+
+
+
+
+#' Self-Enhancement (Schwartz Values) Cat Object
+#' 
+#' Cat model created for the Self-Enhancement(Schwartz Values) inventory
+#' 
+#' @details
+#' A Cat object fit with 8,497 response profiles by myPersonality.org and 718 response profiles
+#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.09) and a standard deviation (1.2)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options for the Schwartz Values survey are:
+#' 
+#' 0 - means the value is not at all important, it is not relevant as a guiding principle for you.
+#' 3 - means the value is important.
+#' 6 - means the value is very important.
+#' 
+#' -1 is for rating any values opposed to the principles that guide you.
+#' 7 is for rating a value of supreme importance as a guiding principle in your life; ordinarily there are no more than two such values.
+#' 
+#' However, for computerized adaptive testing methods, the 0-7 response option range as been shifted to a 1-9 range. 
+#' 
+#' The wording of the question items: 
+#' 
+#' \describe{
+#' \item{\code{q4}}{   PLEASURE (gratification of desires)}
+#' \item{\code{q50}}{   ENJOYING LIFE (enjoying food, sex, leisure, etc.)}
+#' \item{\code{q57}}{  SELF-INDULGENT (doing pleasant things)}
+#' \item{\code{q34}}{ AMBITIOUS (hard-working, aspiring)}
+#' \item{\code{q39}}{   INFLUENTIAL (having an impact on people and events)}
+#' \item{\code{q43}}{  CAPABLE (competent, effective, efficient)}
+#' \item{\code{q55}}{  SUCCESSFUL (achieving goals)}
+#' \item{\code{q3}}{ SOCIAL POWER (control over others, dominance)}
+#' \item{\code{q12}}{  WEALTH (material possessions, money)}
+#' \item{\code{q27}}{ AUTHORITY (the right to lead or command)}
+#' \item{\code{q46}}{PRESERVING MY PUBLIC IMAGE (protecting my "face")}
+#' }
+#' 
+#'
+#' @references 
+#' Stillwell, David, and Michal Kosinski. 2007. "myPersonality Project."
+#' \url{https://sites.google.com/michalkosinski.com/mypersonality}
+#' 
+#' Schwartz, Shalom H. "Universals in the content and structure of values: 
+#' Theoretical advances and empirical tests in 20 countries." 
+#' Advances in experimental social psychology. Vol. 25. Academic Press, 1992. 1-65.
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#'
+#' @docType data
+#' @name sv_selfenhance_cat
+#' @usage data(sv_selfenhance_cat)
+"sv_selfenhance_cat"
+
+
+
+
+
+
+#' Conservation (Schwartz Values) Cat Object
+#' 
+#' Cat model created for the Conservation (Schwartz Values) inventory
+#' 
+#' @details
+#' A Cat object fit with 8,173 response profiles by myPersonality.org and 718 response profiles
+#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.480) and a standard deviation (1.4)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options for the Schwartz Values survey are:
+#' 
+#' 0 - means the value is not at all important, it is not relevant as a guiding principle for you.
+#' 3 - means the value is important.
+#' 6 - means the value is very important.
+#' 
+#' -1 is for rating any values opposed to the principles that guide you.
+#' 7 is for rating a value of supreme importance as a guiding principle in your life; ordinarily there are no more than two such values.
+#' 
+#' However, for computerized adaptive testing methods, the 0-7 response option range as been shifted to a 1-9 range. 
+#' 
+#' The wording of the question items: 
+#' 
+#' \describe{
+#' \item{\code{q11}}{   POLITENESS (courtesy, good manners)                          }
+#' \item{\code{q20}}{  SELF-DISCIPLINE (self-restraint, resistance to temptation)   }
+#' \item{\code{q40}}{  HONORING OF PARENTS AND ELDERS (showing respect)                 }
+#' \item{\code{q47}}{ OBEDIENT (dutiful, meeting obligations)              }
+#' \item{\code{q18}}{  RESPECT FOR TRADITION (preservation of time-honored customs) }
+#' \item{\code{q32}}{ MODERATE (avoiding extremes of feeling & action)              }
+#' \item{\code{q36}}{  HUMBLE (modest, self-effacing)                                    }
+#' \item{\code{q44}}{ ACCEPTING MY PORTION IN LIFE (submitting to life's circumstances)}
+#' \item{\code{q51}}{  DEVOUT (holding to religious faith & belief)                     }
+#' \item{\code{q8}}{ SOCIAL ORDER (stability of society)                          }
+#' \item{\code{q13}}{NATIONAL SECURITY (protection of my nation from enemies)     }
+#' \item{\code{q15}}{RECIPROCATION OF FAVORS (avoidance of indebtedness)          }
+#' \item{\code{q22}}{FAMILY SECURITY (safety for loved ones)                      }
+#' \item{\code{q56}}{CLEAN (neat, tidy)                                   }
+#' }
+#' 
+#'
+#' @references 
+#' Stillwell, David, and Michal Kosinski. 2007. "myPersonality Project."
+#' \url{https://sites.google.com/michalkosinski.com/mypersonality}
+#' 
+#' Schwartz, Shalom H. "Universals in the content and structure of values: 
+#' Theoretical advances and empirical tests in 20 countries." 
+#' Advances in experimental social psychology. Vol. 25. Academic Press, 1992. 1-65.
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#'
+#' @docType data
+#' @name sv_conservation_cat
+#' @usage data(sv_conservation_cat)
+"sv_conservation_cat"
 
 
 
