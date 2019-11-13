@@ -1397,3 +1397,122 @@
 
 
 
+
+
+#' Right Wing Authoritarianism Cat Object
+#' 
+#' Cat model created for the 20 item Right Wing Authoritarianism inventory
+#' 
+#' @details
+#' A Cat object fit with 2056 response profiles from Lucid, 2519 response profiles from MTurk,
+#' and 1423 response profiles collected by YouGov in July 2018.  The sample from MTurk was a convenience sample
+#' The respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.241) and a standard deviation (1)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are:
+#' 
+#' 5 = Strongly agree, 4 = Somewhat agree, 3 = Neither agree nor disagree, 2 = Somewhat disagree, 1 = Strongly disagree
+#' 
+#' The wording of the question items is: 
+#' 
+#' \describe{
+#' \item{\code{q1}}{   Our country desperately needs a mighty leader who will do what has to be done to destroy the radical new ways and sinfulness that are ruining us.}
+#' \item{\code{q2}}{   Gays and lesbians are just as healthy and moral as anybody else.}
+#' \item{\code{q3}}{   It is always better to trust the judgment of the proper authorities in government and religion than to listen to the noisy rabble-rousers in our society who are trying to create doubt in people's minds.}
+#' \item{\code{q4}}{   Atheists and others who have rebelled against the established religions are no doubt every bit as good and virtuous as those who attend church regularly.}
+#' \item{\code{q5}}{   The only way our country can get through the crisis ahead is to get back to our traditional values, put some tough leaders in power, and silence the troublemakers spreading bad ideas.}
+#' \item{\code{q6}}{   There is absolutely nothing wrong with nudist camps.}
+#' \item{\code{q7}}{   Our country needs free thinkers who have the courage to defy traditional ways, even if this upsets many people.}
+#' \item{\code{q8}}{   Our country will be destroyed someday if we do not smash the perversions eating away at our moral fiber and traditional beliefs.}
+#' \item{\code{q9}}{   Everyone should have their own lifestyle, religious beliefs, and sexual preferences, even if it makes them different from everyone else.}
+#' \item{\code{q10}}{   The "old-fashioned ways" and the "old-fashioned values" still show the best way to live.}
+#' \item{\code{q11}}{   You have to admire those who challenged the law and the majority's view by protesting for women's abortion rights, for animal rights, or to abolish school prayer.}
+#' \item{\code{q12}}{   What our country really needs is a strong, determined leader who will crush evil, and take us back to our true path.}
+#' \item{\code{q13}}{   Some of the best people in our country are those who are challenging our government, criticizing religion, and ignoring the "normal way things are supposed to be done."}
+#' \item{\code{q14}}{   God's laws about abortion, pornography and marriage must be strictly followed before it is too late, and those who break them must be strongly punished.}
+#' \item{\code{q15}}{   There are many radical, immoral people in our country today, who are trying to ruin it for their own godless purposes, whom the authorities should put out of action.}
+#' \item{\code{q16}}{    A "woman's place" should be wherever she wants to be. The days when women are submissive to their husbands and social conventions belong strictly in the past.}
+#' \item{\code{q17}}{    Our country will be great if we honor the ways of our forefathers, do what the authorities tell us to do, and get rid of the "rotten apples" who are ruining everything.}
+#' \item{\code{q18}}{    There is no "ONE right way" to live life; everybody has to create their own way.}
+#' \item{\code{q19}}{    Homosexuals and feminists should be praised for being brave enough to defy "traditional family values."}
+#' \item{\code{q20}}{    This country would work a lot better if certain groups of troublemakers would just shut up and accept their group's traditional place in society.}
+#' }
+#' 
+#'
+#' @references 
+#' 
+#' Altemeyer, Bob. Enemies of freedom: Understanding right-wing authoritarianism. Jossey-Bass, 1988.
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#'
+#' @docType data
+#' @name rwa_cat
+#' @usage data(rwa_cat)
+"rwa_cat"
+
+
+
+
+
+
+
+#' Social Dominance Orientation Cat Object
+#' 
+#' Cat model created for the 15 item Social Dominance Orientation inventory
+#' 
+#' @details
+#' A Cat object fit with 2042 response profiles from Lucid, 1192 response profiles from MTurk,
+#' and 1482 response profiles collected by YouGov in July 2018.  The sample from MTurk was a convenience sample
+#' The respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.19) and a standard deviation (1)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are:
+#' 
+#' 5 = Strongly agree, 4 = Somewhat agree, 3 = Neither agree nor disagree, 2 = Somewhat disagree, 1 = Strongly disagree
+#' 
+#' The wording of the question items is: 
+#' 
+#' \describe{
+#' \item{\code{q1}}{    Some groups of people are simply inferior to other groups.}
+#' \item{\code{q2}}{    In getting what you want, it is sometimes necessary to use force against other groups.}
+#' \item{\code{q3}}{    It's OK if some groups have more of a chance in life than others.}
+#' \item{\code{q4}}{    To get ahead in life, it is sometimes necessary to step on other groups.}
+#' \item{\code{q5}}{    If certain groups stayed in their place, we would have fewer problems.}
+#' \item{\code{q6}}{    It's probably a good thing that certain groups are at the top and other groups are at the bottom.}
+#' \item{\code{q7}}{    Inferior groups should stay in their place.}
+#' \item{\code{q8}}{    Sometimes other groups must be kept in their place.}
+#' \item{\code{q9}}{    It would be good if groups could be equal.}
+#' \item{\code{q10}}{    Group equality should be our ideal.}
+#' \item{\code{q11}}{    All groups should be given an equal chance in life.}
+#' \item{\code{q12}}{    We should do what we can to equalize conditions for different groups.}
+#' \item{\code{q13}}{    Increased social equality is beneficial to society.}
+#' \item{\code{q14}}{    We would have fewer problems if we treated people more equally.}
+#' \item{\code{q15}}{    We should strive to make incomes as equal as possible.}
+#' \item{\code{q16}}{    No group should dominate in society.}
+#' }
+#' 
+#'
+#' @references 
+#' 
+#' Pratto, Felicia, et al. "Social dominance orientation: A personality variable predicting social and political attitudes."
+#' Journal of personality and social psychology 67.4 (1994): 741.
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#'
+#' @docType data
+#' @name sdo_cat
+#' @usage data(sdo_cat)
+"sdo_cat"
+
