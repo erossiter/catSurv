@@ -9,14 +9,17 @@
 \S4method{processAJAX}{character}(catObj, item)
 }
 \arguments{
-\item{catObj}{An object of class \code{character}.}
+\item{catObj}{An object of class \code{Cat}.}
 
 \item{item}{An integer indicating the index of the question item}
-
-\item{answer}{The answer to the \code{item} to be updated}
 }
 \description{
 Qualtrics AJAX Handler used to implement catSurv functionality in a Qualtrics survey
+}
+\details{
+This function is not intended for researcher use, rather it is a public
+facing function of the package because it is used by catSurv
+to integrate computerized adaptive testing into a Qualtrics survey.
 }
 \author{
 Joshua Landman

@@ -2,10 +2,12 @@
 #'
 #' Qualtrics AJAX Handler used to implement catSurv functionality in a Qualtrics survey
 #'
-#' @param catObj An object of class \code{character}.
+#' @param catObj An object of class \code{Cat}.
 #' @param item An integer indicating the index of the question item
-#' @param answer The answer to the \code{item} to be updated
 #'
+#' @details This function is not intended for researcher use, rather it is a public
+#' facing function of the package because it is used by catSurv
+#' to integrate computerized adaptive testing into a Qualtrics survey.
 #'  
 #' @author Joshua Landman 
 #' 

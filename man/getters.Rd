@@ -110,6 +110,10 @@ getDiscrimination(ltm_cat)
 
 
 }
+\references{
+Montgomery, Jacob M., and Erin L. Rossiter. "So many questions, so little time: 
+Integrating adaptive inventories into public opinion research." Journal of Survey Statistics and Methodology (2019).
+}
 \seealso{
 \code{\link{Cat-class}}, \code{\link{setters}}
 }

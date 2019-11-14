@@ -1,9 +1,9 @@
-# catSurv 1.0.4
+# catSurv 1.1.0
 
 ### Major Changes
 * Package functionality is now integratable with Qualtrics.  New functions `fromJSONCat()`, `toJSONCat()`, and `readQualtrics()` aid the user in creating an adaptive battery in Qualtrics using `catSurv`.
 
-* New functions `simulateRespondents()`, `allEst()`, `allFish()`, and `oracle()` allow for simulation exercises.
+* New functions `simulateRespondents()`, `simulateThetas()`, `simulateFisherInfo()`, and `oracle()` allow for simulation exercises to evaluate model quality and performace.
 
 * New function `plot.Cat()` allows for visual representation of item parameters.
 

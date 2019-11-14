@@ -1,6 +1,8 @@
 #' MTurk Political Knowledge
 #'
-#' Data from Amazon Mechanical Turkers in 2012 responding to 64 political knowledge questions.  Political knowledge questions had a varying number of response options, noted below.  This dataset codes answers as either correct (a value of 0) or incorrect (a value of 1).
+#' Data from Amazon Mechanical Turkers in 2012 responding to 64 political knowledge questions.  
+#' Political knowledge questions had a varying number of response options, noted below.  
+#' This dataset codes answers as either correct (a value of 0) or incorrect (a value of 1).
 #' 
 #' @format A data frame with 810 observations on the following 64 questions.
 #' \describe{
@@ -19,7 +21,9 @@
 #' 
 #' \item{\code{Q4}}{The federal debt is 
 #'   
-#'   Much smaller than it was 20 years ago; The difference between imports and exports with foreign countries; The annual difference between spending and tax revenues; The accumulated borrowing of the federal government that has not been repaid}
+#'   Much smaller than it was 20 years ago; The difference between imports and exports with foreign countries; 
+#'   The annual difference between spending and tax revenues; The accumulated borrowing 
+#'   of the federal government that has not been repaid}
 #' 
 #' \item{\code{Q5}}{How many times can an individual be elected President of the United States under current laws?
 #'   
@@ -29,7 +33,9 @@
 #'   
 #'   The Articles of Confederation; The inalienable right; The Bill of Rights; The Declaration of Independence}
 #' 
-#' \item{\code{Q7}}{Is the U.S. federal budget deficit, the amount by which the governments spending exceeds the amount of money it collects, now bigger, about the same, or smaller than it was during most of the 1990s?
+#' \item{\code{Q7}}{Is the U.S. federal budget deficit, the amount by which the governments 
+#' spending exceeds the amount of money it collects, now bigger, about the same, or smaller 
+#' than it was during most of the 1990s?
 #'   
 #'   Smaller; About the same; Bigger}
 #' 
@@ -37,7 +43,8 @@
 #'   
 #'   The President; The Vice President; The Chief Justice of the Supreme Court; The Secretary of State}
 #' 
-#' \item{\code{Q9}}{Which party is generally more supportive of creating a way for immigrants who are in the U.S. illegally to eventually become citizens?
+#' \item{\code{Q9}}{Which party is generally more supportive of creating a way for immigrants who 
+#' are in the U.S. illegally to eventually become citizens?
 #'   
 #'   The Republican Party; The Democratic Party}
 #' 
@@ -47,7 +54,8 @@
 #' 
 #' \item{\code{Q11}}{What are the two parts of the U.S. Congress?
 #'   
-#'   The Senate and the Supreme Court; The House of Lords and the House of Commons; The House of Representative and the Supreme Court; The Senate and House of Representatives}
+#'   The Senate and the Supreme Court; The House of Lords and the House of Commons; The House of 
+#'   Representative and the Supreme Court; The Senate and House of Representatives}
 #' 
 #' \item{\code{Q12}}{Which party is generally more supportive of restricting access to abortion?
 #'   
@@ -61,9 +69,11 @@
 #'   
 #'   Clean elections; A cleaner environment; The rights of gun owners; Women's rights}
 #'   
-#'   \item{\code{Q15}}{Compared to 30 years ago, is the difference in incomes between the top 20\% of households and the bottom 20\% of households now bigger, smaller, or the same?
+#'   \item{\code{Q15}}{Compared to 30 years ago, is the difference in incomes between the top 
+#'   20\% of households and the bottom 20\% of households now bigger, smaller, or the same?
 #'   
-#'   The difference is now the same as 30 years ago; The difference is now smaller than 30 years ago; The difference is now bigger than 30 years ago}
+#'   The difference is now the same as 30 years ago; The difference is now smaller than 30 years ago; 
+#'   The difference is now bigger than 30 years ago}
 #'   
 #'   \item{\code{Q16}}{The EPA is part of the national government primarily responsible for regulating
 #'   
@@ -73,11 +83,13 @@
 #'   
 #'   The Republican Party; The Democratic Party}
 #'   
-#'   \item{\code{Q18}}{Which party is generally more supportive of increasing taxes on higher income people to reduce the federal budget deficit?
+#'   \item{\code{Q18}}{Which party is generally more supportive of increasing taxes on higher 
+#'   income people to reduce the federal budget deficit?
 #'   
 #'   The Republican Party; The Democratic Party}
 #'   
-#'   \item{\code{Q19}}{Which party is generally more supportive of allowing drilling for oil in the Arctic National Wildlife Refuge?
+#'   \item{\code{Q19}}{Which party is generally more supportive of allowing drilling for oil in 
+#'   the Arctic National Wildlife Refuge?
 #'   
 #'   The Republican Party; The Democratic Party}
 #'   
@@ -95,11 +107,14 @@
 #'   
 #'   \item{\code{Q23}}{Social Security is
 #'   
-#'   Funded by the personal income tax; Operated by state government; The responsibility of the Department of Defense; The benefit program for senior citizens}
+#'   Funded by the personal income tax; Operated by state government; The responsibility of the 
+#'   Department of Defense; The benefit program for senior citizens}
 #'   
 #'   \item{\code{Q24}}{What is Medicare?
 #'   
-#'   A private, non-profit organization that runs free health clinic; A private health insurance plan sold to individuals in all 50 states; A program run by state governments to provide health care to poor people; A program run by the U.S. federal government to pay for old people's health care}
+#'   A private, non-profit organization that runs free health clinic; A private health insurance 
+#'   plan sold to individuals in all 50 states; A program run by state governments to provide health 
+#'   care to poor people; A program run by the U.S. federal government to pay for old people's health care}
 #' 
 #' \item{\code{Q25}}{How many senators are elected from each state?
 #'   
@@ -107,49 +122,60 @@
 #' 
 #' \item{\code{Q26}}{How many votes are required in Congress to override a presidential veto
 #'   
-#'   A simple majority of both houses of Congress; A simple majority of one house of Congress; A two-thirds majority of both houses of Congress; A two-thirds majority of one house of Congress}
+#'   A simple majority of both houses of Congress; A simple majority of one house of Congress; 
+#'   A two-thirds majority of both houses of Congress; A two-thirds majority of one house of Congress}
 #' 
 #' \item{\code{Q27}}{The Secretary of State
 #'   
-#'   Serves a two-year term; Serves the state governments; Is nominated by the president; Heads the armed services}
+#'   Serves a two-year term; Serves the state governments; Is nominated by the president; Heads 
+#'   the armed services}
 #' 
-#' \item{\code{Q28}}{Near the end of an election campaign, a polls shows that an issue that no candidate has mentioned is of great concern to voters. What is most likely to happen?
+#' \item{\code{Q28}}{Near the end of an election campaign, a polls shows that an issue that no 
+#' candidate has mentioned is of great concern to voters. What is most likely to happen?
 #'   
-#'   Some candidates will drop out of the race; Candidates will start talking about the issue; Newspapers will not report the results of the poll; The election will be postponed}
+#'   Some candidates will drop out of the race; Candidates will start talking about the issue; 
+#'   Newspapers will not report the results of the poll; The election will be postponed}
 #' 
 #' \item{\code{Q29}}{Liberals are generally said to
 #'   
-#'   Support pro-life policies; Oppose all tax increases; Support military spending; Support government programs to give government assistance the needy}
+#'   Support pro-life policies; Oppose all tax increases; Support military spending; Support 
+#'   government programs to give government assistance the needy}
 #' 
-#' \item{\code{Q30}}{Which party is generally more supportive of reducing the size and scope of the federal government?
+#' \item{\code{Q30}}{Which party is generally more supportive of reducing the size and scope 
+#' of the federal government?
 #'   
 #'   The Republican Party; The Democratic Party}
 #' 
-#' \item{\code{Q31}}{The ability of a minority of senators to prevent a vote on a bill is known as
-#'   
-#'   Suspension of the rules; Enrollment; A veto; A filibuster}
+#' \item{\code{Q31}}{The ability of a minority of senators to prevent a vote on a bill 
+#' is known as Suspension of the rules; Enrollment; A veto; A filibuster}
 #' 
 #' \item{\code{Q32}}{conservatives are generally said to
 #'   
-#'   Support pro-choice policies; Support tax cuts; Oppose military spending; Support government programs to give government assistance to the needy}
+#'   Support pro-choice policies; Support tax cuts; Oppose military spending; 
+#'   Support government programs to give government assistance to the needy}
 #' 
-#' \item{\code{Q33}}{Which of these regions of the country is generally considered to be most supportive of Republican candidates 
+#' \item{\code{Q33}}{Which of these regions of the country is generally 
+#' considered to be most supportive of Republican candidates 
 #'   
 #'   Midwest; South; West Coast; New England}
 #' 
 #' \item{\code{Q34}}{The presiding officer in the House of Representatives is 
 #'   
-#'   The Majority Leader; The Sergeant at Arms; The Vice President of the United States; The Speaker}
+#'   The Majority Leader; The Sergeant at Arms; The Vice President of the 
+#'   United States; The Speaker}
 #' 
-#' \item{\code{Q35}}{Which of these countries is NOT a permanent member of the U.N. Security Council
+#' \item{\code{Q35}}{Which of these countries is NOT a permanent member of 
+#' the U.N. Security Council
 #'   
 #'   United Kingdom; France; India; China}
 #' 
-#' \item{\code{Q36}}{Which part has a majority of seats in the U.S. House of Representatives?
+#' \item{\code{Q36}}{Which part has a majority of seats in the U.S. House 
+#' of Representatives?
 #'   
 #'   Neither; Democrats; Republicans}
 #' 
-#' \item{\code{Q37}}{What state holds the first primary election in Presidential primaries?
+#' \item{\code{Q37}}{What state holds the first primary election in 
+#' Presidential primaries?
 #'   
 #'   Florida; Nevada; South Carolina; New Hampshire}
 #' 
@@ -159,7 +185,8 @@
 #' 
 #' \item{\code{Q39}}{Most cases are considered by the Supreme Court
 #'   
-#'   In even-numbered years; At the request of the Congress; Upon order of the president; With the approval of at least four justices}
+#'   In even-numbered years; At the request of the Congress; Upon order 
+#'   of the president; With the approval of at least four justices}
 #' 
 #' \item{\code{Q40}}{How many Justices typically serve on the U.S. Supreme Court
 #'   
@@ -167,7 +194,8 @@
 #' 
 #' \item{\code{Q41}}{What job or political office is no held by Ben Bernanke?
 #'   
-#'   None of these; Minority Whip of the U.S. House; Chief Justice of the United States Supreme Court; Majority leader of the U.S. Senate, Chairman of the Federal Reserve}
+#'   None of these; Minority Whip of the U.S. House; Chief Justice of 
+#'   the United States Supreme Court; Majority leader of the U.S. Senate, Chairman of the Federal Reserve}
 #' 
 #' \item{\code{Q42}}{Whose responsibility is it to nominate judges to the Federal Courts
 #'   
@@ -179,21 +207,27 @@
 #' 
 #' \item{\code{Q44}}{The U.S. Senate 
 #'   
-#'   Votes to confirm nominees to the U.S. Supreme court chosen by the House of Representatives; Plays no role in choosing the members of the U.S. Supreme Court; Chooses members of the U.S. Supreme Court; Votes to confirm nominees to the U.S. Supreme Court chosen by the President}
+#'   Votes to confirm nominees to the U.S. Supreme court chosen by the 
+#'   House of Representatives; Plays no role in choosing the members 
+#'   of the U.S. Supreme Court; Chooses members of the U.S. Supreme 
+#'   Court; Votes to confirm nominees to the U.S. Supreme Court chosen by the President}
 #' 
 #' \item{\code{Q45}}{Which party has a majority of seats in the U.S. Senate
 #'   
 #'   Neither; Democrats; Republicans}
 #' 
-#' \item{\code{Q46}}{Which of the states listed below has the greatest number of electoral college votes in the U.S. Presidential Elections?
+#' \item{\code{Q46}}{Which of the states listed below has the 
+#' greatest number of electoral college votes in the U.S. Presidential Elections?
 #'   
 #'   Puerto Rico; Nevada; North Dakota; Washington, D.C.}
 #' 
-#' \item{\code{Q47}}{Citizens United v the FEC is a case decided by the Supreme Court that relates to
+#' \item{\code{Q47}}{Citizens United v the FEC is a case decided 
+#' by the Supreme Court that relates to
 #'   
 #'   Executive power; Campaign finance; Birth control; Abortion}
 #' 
-#' \item{\code{Q48}}{For how many years is a United States Senator elected that is, how many years are there in one full term of office for a U.S. Senator?
+#' \item{\code{Q48}}{For how many years is a United States Senator 
+#' elected that is, how many years are there in one full term of office for a U.S. Senator?
 #'   
 #'   None of these; Eight years; Six years; Four years; Two years}
 #' 
@@ -207,21 +241,26 @@
 #' 
 #' \item{\code{Q51}}{The House of Representatives has how many voting members?
 #'   
-#'   Four hundred and forty-one; Four hundred and thirty-five; Two hundred; One hundred}
+#'   Four hundred and forty-one; Four hundred and thirty-five; 
+#'   Two hundred; One hundred}
 #' 
 #' \item{\code{Q52}}{The President of the Senate is
 #'   
-#'   The Majority Leader; The Sergeant at Arms; The Vice President of the United States; The senior senator of the majority party}
+#'   The Majority Leader; The Sergeant at Arms; The Vice President 
+#'   of the United States; The senior senator of the majority party}
 #' 
-#' \item{\code{Q53}}{On which of the following federal programs is the most money spent each year?
+#' \item{\code{Q53}}{On which of the following federal programs is 
+#' the most money spent each year?
 #'   
 #'   Medicare; Education; Subsidies to farmers; Aid to foreign countries}
 #' 
 #' \item{\code{Q54}}{What do all constitutional governments have?
 #'   
-#'   Separation of church and state; A bill of rights; A President as the head of government; Limits on political power}
+#'   Separation of church and state; A bill of rights; A President 
+#'   as the head of government; Limits on political power}
 #' 
-#' \item{\code{Q55}}{One which of the following does the U.S. federal government spend the least money?
+#' \item{\code{Q55}}{One which of the following does the U.S. 
+#' federal government spend the least money?
 #'   
 #'   Social Security; National defense; Medicare; Foreign aid}
 #' 
@@ -231,19 +270,25 @@
 #' 
 #' \item{\code{Q57}}{The president may NOT
 #'   
-#'   Declare war; Pardon criminals without justification; Appoint federal officials when Congress is in recess; Refuse to sign legislation passed by Congress}
+#'   Declare war; Pardon criminals without justification; Appoint 
+#'   federal officials when Congress is in recess; Refuse to sign 
+#'   legislation passed by Congress}
 #' 
-#' \item{\code{Q58}}{Which of these is NOT primarily the responsibility of the Federal government in Washington?
+#' \item{\code{Q58}}{Which of these is NOT primarily the 
+#' responsibility of the Federal government in Washington?
 #'   
-#'   Interstate commerce; Negotiating treaties with foreign countries; Education; National defense}
+#'   Interstate commerce; Negotiating treaties with foreign countries; 
+#'   Education; National defense}
 #' 
 #' \item{\code{Q59}}{Who is the current president of Mexico?
 #'   
 #'   Vincente Fox; Hugo Chavez; Dilma Rousseff; Felipe Calderon}
 #' 
-#' \item{\code{Q60}}{Which of the following actions does the United States federal government commonly take to finance a budget deficit?
+#' \item{\code{Q60}}{Which of the following actions does the United 
+#' States federal government commonly take to finance a budget deficit?
 #'   
-#'   Expanding public-works projects; Borrowing from the public; Imposing import quotas; Printing more money}
+#'   Expanding public-works projects; Borrowing from the public; 
+#'   Imposing import quotas; Printing more money}
 #' 
 #' \item{\code{Q61}}{Common Cause is an organization that advocates for
 #'   
@@ -251,13 +296,16 @@
 #'   
 #'   \item{\code{Q62}}{The Byrd Rule is relevant
 #'   
-#'   During the confirmation of cabinet members; For national party conventions; During Congressional debates over non-budgetary policies; For the Reconciliation process}
+#'   During the confirmation of cabinet members; For national party conventions; 
+#'   During Congressional debates over non-budgetary policies; For the 
+#'   Reconciliation process}
 #'   
 #'   \item{\code{Q63}}{The Majority Leader of the House of Representative is
 #'   
 #'   Nancy Pelosi; Kevin McCarthy; Eric Cantor; John Boehner}
 #'   
-#'   \item{\code{Q64}}{On which of the following does the U.S. federal government spend the most money each year?
+#'   \item{\code{Q64}}{On which of the following does the U.S. federal 
+#'   government spend the most money each year?
 #'   
 #'   Education; Medicare; Interest on the national debt; National defense}
 #' }
@@ -280,9 +328,14 @@
 
 #' TAPS Political Knowledge
 #'
-#' Data of responses to a political knowledge battery from the May 2013 wave of The American Panel Survey (TAPS) out of Washington University in St. Louis.  
+#' Data of responses to a political knowledge battery from the May 2013 wave 
+#' of The American Panel Survey (TAPS) out of Washington University in St. Louis.  
 #' 
-#' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
+#' TAPS is a monthly online panel survey  of about 2,000 adults in the United 
+#' States. The panel was recruited in the fall of 2011 using an address-based 
+#' sampling frame.  TAPS surveys are administered online.  Selected panelists 
+#' who do not have a computer or online service are provided a computer and 
+#' internet access by TAPS. 
 #' 
 #' @format A data frame with 1496 observations on the following 10 questions.
 #' \describe{
@@ -299,7 +352,9 @@
 #' 
 #' \item{\code{Q3}}{Social Security is
 #' 
-#' 1 = the benefit program for senior citizens. 2 = the responsibility of the Department of Defense. 3 = operated by state governments. 4 = funded by the personal income tax. 5 = Don't know.
+#' 1 = the benefit program for senior citizens. 2 = the responsibility of the 
+#' Department of Defense. 3 = operated by state governments. 4 = funded by the 
+#' personal income tax. 5 = Don't know.
 #' }
 #' 
 #' \item{\code{Q4}}{On which of the following programs is the most money spent each year?
@@ -314,7 +369,9 @@
 #' 
 #' \item{\code{Q6}}{How many votes are required in Congress to override a presidential veto?
 #' 
-#' 1 = a simple majority of one house of Congress. 2 = a simple majority of both houses of Congress. 3 = a two-thirds majority of one house of Congress. 4 = a two-thirds majority of both houses of Congress. 5 = Don't know.
+#' 1 = a simple majority of one house of Congress. 2 = a simple majority of both 
+#' houses of Congress. 3 = a two-thirds majority of one house of Congress. 4 = a 
+#' two-thirds majority of both houses of Congress. 5 = Don't know.
 #' }
 #' 
 #' \item{\code{Q7}}{How long is one term for a member of the U.S. Senate?
@@ -352,9 +409,14 @@
 
 #' TAPS Political Knowledge (Ordered Response Options)
 #'
-#' Data of responses to a political knowledge battery from the May 2013 wave of The American Panel Survey (TAPS) out of Washington University in St. Louis.  
+#' Data of responses to a political knowledge battery from the May 2013 wave of 
+#' The American Panel Survey (TAPS) out of Washington University in St. Louis.  
 #' 
-#' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
+#' TAPS is a monthly online panel survey  of about 2,000 adults in the United 
+#' States. The panel was recruited in the fall of 2011 using an address-based 
+#' sampling frame.  TAPS surveys are administered online.  Selected panelists 
+#' who do not have a computer or online service are provided a computer and 
+#' internet access by TAPS. 
 #' 
 #' @format A data frame with 1340 observations (only complete cases) of the following 10 questions.
 #' \describe{
@@ -371,7 +433,8 @@
 #' 
 #' \item{\code{Q3}}{Social Security is
 #' 
-#' 5 = the benefit program for senior citizens. 2 = the responsibility of the Department of Defense. 3 = operated by state governments. 4 = funded by the personal income tax. 1 = Don't know.
+#' 5 = the benefit program for senior citizens. 2 = the responsibility of the 
+#' Department of Defense. 3 = operated by state governments. 4 = funded by the personal income tax. 1 = Don't know.
 #' }
 #' 
 #' \item{\code{Q4}}{On which of the following programs is the most money spent each year?
@@ -386,7 +449,9 @@
 #' 
 #' \item{\code{Q6}}{How many votes are required in Congress to override a presidential veto?
 #' 
-#' 2 = a simple majority of one house of Congress. 3 = a simple majority of both houses of Congress. 4 = a two-thirds majority of one house of Congress. 5 = a two-thirds majority of both houses of Congress. 1 = Don't know.
+#' 2 = a simple majority of one house of Congress. 3 = a simple majority of both 
+#' houses of Congress. 4 = a two-thirds majority of one house of Congress. 5 = a 
+#' two-thirds majority of both houses of Congress. 1 = Don't know.
 #' }
 #' 
 #' \item{\code{Q7}}{How long is one term for a member of the U.S. Senate?
@@ -1557,7 +1622,7 @@
 #' \item{\code{q8}}{I approach situations in which I expect to experience strong emotions.} 
 #' \item{\code{q9}}{I feel like I need a good cry every now and then.} 
 #' \item{\code{q10}}{I like to dwell on my emotions.} 
-#' \item{\code{q11}}{We should indulge our emotions
+#' \item{\code{q11}}{We should indulge our emotions.}
 #' \item{\code{q12}}{I like decorating my bedroom with a lot of pictures and posters of things emotionally significant to me.} 
 #' \item{\code{q13}}{The experience of emotions promotes human survival.} 
 #' \item{\code{q14}}{I do not know how to handle my emotion, so I avoid them.} 
@@ -1817,7 +1882,7 @@
 #' 
 #' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
-#' See \url{\url{https://openpsychometrics.org/_rawdata/} for the raw personality-testing data.
+#' See \url{https://openpsychometrics.org/_rawdata/} for the raw personality-testing data.
 #'
 #' @docType data
 #' @name npi_cat
@@ -1883,7 +1948,7 @@
 #' 
 #' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
-#' See \url{\url{https://openpsychometrics.org/_rawdata/} for the raw personality-testing data.
+#' See \url{https://openpsychometrics.org/_rawdata/} for the raw personality-testing data.
 #'
 #' @docType data
 #' @name mach_cat

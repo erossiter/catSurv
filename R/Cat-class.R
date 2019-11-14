@@ -476,7 +476,12 @@ setReplaceMethod("setGainOverride", "Cat", definition = function(catObj, value){
 #' @return These functions return the respective slot from Cat object.
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, 
-#'Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+#'Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+#'
+#' @references 
+#' 
+#' Montgomery, Jacob M., and Erin L. Rossiter. "So many questions, so little time: 
+#' Integrating adaptive inventories into public opinion research." Journal of Survey Statistics and Methodology (2019). 
 #' 
 #' @examples
 #' ## Loading ltm Cat object
