@@ -1516,3 +1516,212 @@
 #' @usage data(sdo_cat)
 "sdo_cat"
 
+
+
+#' Need for Affect Cat Object
+#' 
+#' Cat model created for the 26 item Need for Affect inventory
+#' 
+#' @details
+#' A Cat object fit with 2507 response profiles from MTurk,
+#' 4990 response profiles collected by Qualtrics in July 2018,
+#' and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
+#' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the TAPS sample (.236) and a standard deviation (1.3)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are:
+#' 
+#' 5 = Strongly agree, 4 = Somewhat agree, 3 = Neither agree nor disagree, 2 = Somewhat disagree, 1 = Strongly disagree
+#' 
+#' The wording of the question items is: 
+#' 
+#' \describe{
+#' \item{\code{q1}}{	It is important for me to be in touch with my feelings.}
+#' \item{\code{q2}}{	I think that it is very important to explore my feelings.} 
+#' \item{\code{q3}}{	I am a very emotional person.} 
+#' \item{\code{q4}}{	It is important for me to know how others are feeling.} 
+#' \item{\code{q5}}{	Emotions help people get along in life.}
+#' \item{\code{q6}}{	Strong emotions are generally beneficial.} 
+#' \item{\code{q7}}{	I feel that I need to experience strong emotions regularly.}
+#' \item{\code{q8}}{	I approach situations in which I expect to experience strong emotions.} 
+#' \item{\code{q9}}{	I feel like I need a good cry every now and then.} 
+#' \item{\code{q10}}{	I like to dwell on my emotions.} 
+#' \item{\code{q11}}{	We should indulge our emotions
+#' \item{\code{q12}}{	I like decorating my bedroom with a lot of pictures and posters of things emotionally significant to me.} 
+#' \item{\code{q13}}{	The experience of emotions promotes human survival.} 
+#' \item{\code{q14}}{	I do not know how to handle my emotion, so I avoid them.} 
+#' \item{\code{q15}}{	I find strong emotions overwhelming and therefore try to avoid them.} 
+#' \item{\code{q16}}{	Emotions are dangerous---they tend to get me into situations that I would rather avoid.} 
+#' \item{\code{q17}}{	I would prefer not to experience either the lows or highs of emotion.}
+#' \item{\code{q18}}{	If I reflect on my past, I see that I tend to be afraid of emotions.} 
+#' \item{\code{q19}}{	I would love to be like Mr.} Spock, who is totally logical and experiences little emotion.} 
+#' \item{\code{q20}}{	I have trouble telling the people close to me that I love them.} 
+#' \item{\code{q21}}{	Displays of emotions are embarrassing.} 
+#' \item{\code{q22}}{	Acting on ones emotions is always a mistake.} 
+#' \item{\code{q23}}{	I am sometimes afraid of how I might act if I become too emotional.} 
+#' \item{\code{q24}}{	Avoiding emotional events helps me sleep better at night.} 
+#' \item{\code{q25}}{	I wish I could feel less emotion.}
+#' \item{\code{q26}}{	People can function most effectively when they are not experiencing strong emotions.} 
+#' }
+#' 
+#'
+#' @references 
+#' 
+#' Maio, Gregory R., and Victoria M. Esses. "The need for affect: Individual
+#'  differences in the motivation to approach or avoid emotions." 
+#'  Journal of personality 69.4 (2001): 583-614.
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' 
+#' See \url{https://wc.wustl.edu/american-panel-survey} for raw TAPS data.
+#'
+#' @docType data
+#' @name nfa_cat
+#' @usage data(nfa_cat)
+"nfa_cat"
+
+
+
+
+
+#' Need to Evaluate Cat Object
+#' 
+#' Cat model created for the 16 item Need to Evaluate inventory
+#' 
+#' @details
+#' A Cat object fit with 2534 response profiles from MTurk,
+#' 4993 response profiles collected by Qualtrics in July 2018,
+#' and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
+#' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the TAPS sample (.002) and a standard deviation (1.3)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are:
+#' 
+#' 5 = Extremely characteristic of me, 4 = Somewhat characteristic of me, 3 = Uncertain, 2 = Somewhat uncharacteristic of me, 1 = Extremely uncharacteristic of me
+#' 
+#' The wording of the question items is: 
+#' 
+#' \describe{
+#' \item{\code{q1}}{ I form opinions about everything.} 
+#' \item{\code{q2}}{ I prefer to avoid taking extreme positions.} 
+#' \item{\code{q3}}{ It is very important to me to hold strong opinions.} 
+#' \item{\code{q4}}{ I want to know exactly what is good and bad about everything.} 
+#' \item{\code{q5}}{ I often prefer to remain neutral about complex issues.} 
+#' \item{\code{q6}}{ If something does not affect me, I do not usually determine if it is good or bad.} 
+#' \item{\code{q7}}{ I enjoy strongly liking and disliking things.}
+#' \item{\code{q8}}{ There are many things for which I do not have a preference.} 
+#' \item{\code{q9}}{ It bothers me to remain neutral.} 
+#' \item{\code{q10}}{ I like to have strong opinions even when I am not personally involved.} 
+#' \item{\code{q11}}{ I have many more opinions than the average person.}
+#' \item{\code{q12}}{ I would rather have a strong opinion than no opinion at all.} 
+#' \item{\code{q13}}{ I pay a lot of attention to whether things are good or bad.} 
+#' \item{\code{q14}}{ I only form strong opinions when I have to.} 
+#' \item{\code{q15}}{ I like to decide that new things are really good or really bad.}
+#' \item{\code{q16}}{ I am pretty much indifferent to many important issues.} 
+#' }
+#' 
+#'
+#' @references 
+#' 
+#' 
+#' Jarvis, W. Blair G., and Richard E. Petty.
+#' "The need to evaluate." Journal of personality and social psychology 70.1 (1996): 172.
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' 
+#' See \url{https://wc.wustl.edu/american-panel-survey} for raw TAPS data.
+#'
+#' @docType data
+#' @name nte_cat
+#' @usage data(nte_cat)
+"nte_cat"
+
+
+
+
+#' Need for Cognition Cat Object
+#' 
+#' Cat model created for the 34 item Need for Cognition inventory
+#' 
+#' @details
+#' A Cat object fit with 4985 response profiles collected by Qualtrics in July 2018
+#' and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
+#' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the TAPS sample (.003) and a standard deviation (1.6)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are:
+#' 
+#' 5 = Strongly agree, 4 = Somewhat agree, 3 = Neither agree nor disagree, 2 = Somewhat disagree, 1 = Strongly disagree
+#' 
+#' The wording of the question items is: 
+#' 
+#' \describe{
+#' \item{\code{q1}}{	I would prefer complex to simple problems.}  
+#' \item{\code{q2}}{	I don't like to have the responsibility for handling a situation that requires a lot of thinking.}
+#' \item{\code{q3}}{	Thinking is not my idea of fun.} 
+#' \item{\code{q4}}{    	I would rather do something that requires little thought than something that is sure to challenge my thinking abilities.} 
+#' \item{\code{q5}}{	I try to anticipate and avoid situations where there is a likely chance I will have to think in depth about something.} 
+#' \item{\code{q6}}{	 	I find little satisfaction in deliberating hard and for long hours.}
+#' \item{\code{q7}}{	 	I only think as hard as I have to.}
+#' \item{\code{q8}}{	 	I prefer to think about small, daily projects more than long-term ones.} 
+#' \item{\code{q9}}{	 	I like tasks that require little thought once I've learned them.}  
+#' \item{\code{q10}}{	 	The idea of relying on thought to make my way to the top does not appeal to me.}
+#' \item{\code{q11}}{	 	I really enjoy a task that involves coming up with new solutions to problems.}
+#' \item{\code{q12}}{	 	Learning new ways to think doesn't excite me very much.}  
+#' \item{\code{q13}}{	I prefer my life to be filled with puzzles that I must solve.}  
+#' \item{\code{q14}}{	 	The notion of thinking abstractly is not appealing to me.}
+#' \item{\code{q15}}{	 	I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought.} 
+#' \item{\code{q16}}{	I feel relief rather the satisfaction after completing a task that required a lot of mental effort.}
+#' \item{\code{q17}}{	Its enough for me that something gets the job done, I don't care how or why it works.} 
+#' \item{\code{q18}}{	 	I usually end up deliberating about issues even when they do not affect me personally.}  
+#' \item{\code{q19}}{	 	I tend to set goals that can be accomplished only by expending considerable mental effort.} 
+#' \item{\code{q20}}{  	I am usually tempted to put more thought into a task than the job minimally requires.} 
+#' \item{\code{q21}}{  	I am hesitant about making important decisions after thinking about them.} 
+#' \item{\code{q22}}{  	I prefer just to let things happen rather than try to understand why they turned out that way.} 
+#' \item{\code{q23}}{  	I have difficulty thinking in new and unfamiliar situations.} 
+#' \item{\code{q24}}{  	I am an intellectual.} 
+#' \item{\code{q25}}{  	I don't reason well under pressure.} 
+#' \item{\code{q26}}{  	I more often talk with other people about the reasons/possible solutions to international problems than about gossip or tidbits about what famous people are doing.} 
+#' \item{\code{q27}}{ These days, I see little chance for performing well, even in intellectual jobs, unless one knows the right people.}
+#' \item{\code{q28}}{ More often than not, more thinking just leads to more errors.} 
+#' \item{\code{q29}}{ I appreciate opportunities to discover the strengths and weaknesses of my own reasoning.} 
+#' \item{\code{q30}}{ I prefer watching educational programs more than entertainment programs.} 
+#' \item{\code{q31}}{ I think best when those around me are very intelligent.}
+#' \item{\code{q32}}{ Simply knowing the answer rather than understanding the reasons for the answer to a problem is fine with me.} 
+#' \item{\code{q33}}{ Ignorance is bliss.} 
+#' \item{\code{q34}}{ I enjoy thinking about an issue even when the results of my thought will have no effect on the outcome of the issue.} 
+#' }
+#' 
+#'
+#' @references 
+#' 
+#' Cacioppo, John T., and Richard E. Petty. "The need for cognition."
+#'  Journal of personality and social psychology 42.1 (1982): 116.
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' 
+#' See \url{https://wc.wustl.edu/american-panel-survey} for raw TAPS data.
+#'
+#' @docType data
+#' @name nfc_cat
+#' @usage data(nfc_cat)
+"nfc_cat"
+
