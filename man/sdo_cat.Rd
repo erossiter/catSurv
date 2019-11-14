@@ -50,7 +50,8 @@ The wording of the question items is:
 }
 }
 \references{
-Pratto, Felicia, et al. "Social dominance orientation: A personality variable predicting social and political attitudes."
-Journal of personality and social psychology 67.4 (1994): 741.
+Pratto, F., J. Sidanius, L. M. Stallworth, and B. F. Malle (1994), "Social Dominance Orientation: A
+Personality Variable Predicting Social and Political Attitudes," Journal of Personality and
+Social Psychology, 67, 741.
 }
 \keyword{datasets}

@@ -426,8 +426,10 @@
 
 #' Narcissistic Personality Inventory
 #'
-#' Data from the 40 item Narcissistic Personality Inventory (Raskin and Terry 1988).  Item responses are paired. Respondents had to choose the one that fit them the best. Missingness is optional.  Respondents were asked to affirm that their answers were accurate and suitable for research, those that did not (9\%) are not included in this dataset.  Observations come from one of three administrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
+#' Data from the 40 item Narcissistic Personality Inventory (Raskin and Terry 1988) collected by
+#' personality-testing.info \url{https://openpsychometrics.org/_rawdata/} in 2012.
 #' 
+#' Item responses are paired. Respondents had to choose the one that fit them the best.
 #' 
 #' @format A data frame with 11,243 observations on the following 40 variables.
 #' \describe{
@@ -1504,8 +1506,9 @@
 #'
 #' @references 
 #' 
-#' Pratto, Felicia, et al. "Social dominance orientation: A personality variable predicting social and political attitudes."
-#' Journal of personality and social psychology 67.4 (1994): 741.
+#' Pratto, F., J. Sidanius, L. M. Stallworth, and B. F. Malle (1994), "Social Dominance Orientation: A
+#' Personality Variable Predicting Social and Political Attitudes," Journal of Personality and
+#' Social Psychology, 67, 741.
 #' 
 #' @source 
 #' 
@@ -1523,10 +1526,14 @@
 #' Cat model created for the 26 item Need for Affect inventory
 #' 
 #' @details
+#' 
 #' A Cat object fit with 2507 response profiles from MTurk,
 #' 4990 response profiles collected by Qualtrics in July 2018,
 #' and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
-#' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
+#' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in 
+#' the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  
+#' Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
+#' 
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the TAPS sample (.236) and a standard deviation (1.3)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1540,32 +1547,32 @@
 #' The wording of the question items is: 
 #' 
 #' \describe{
-#' \item{\code{q1}}{	It is important for me to be in touch with my feelings.}
-#' \item{\code{q2}}{	I think that it is very important to explore my feelings.} 
-#' \item{\code{q3}}{	I am a very emotional person.} 
-#' \item{\code{q4}}{	It is important for me to know how others are feeling.} 
-#' \item{\code{q5}}{	Emotions help people get along in life.}
-#' \item{\code{q6}}{	Strong emotions are generally beneficial.} 
-#' \item{\code{q7}}{	I feel that I need to experience strong emotions regularly.}
-#' \item{\code{q8}}{	I approach situations in which I expect to experience strong emotions.} 
-#' \item{\code{q9}}{	I feel like I need a good cry every now and then.} 
-#' \item{\code{q10}}{	I like to dwell on my emotions.} 
-#' \item{\code{q11}}{	We should indulge our emotions
-#' \item{\code{q12}}{	I like decorating my bedroom with a lot of pictures and posters of things emotionally significant to me.} 
-#' \item{\code{q13}}{	The experience of emotions promotes human survival.} 
-#' \item{\code{q14}}{	I do not know how to handle my emotion, so I avoid them.} 
-#' \item{\code{q15}}{	I find strong emotions overwhelming and therefore try to avoid them.} 
-#' \item{\code{q16}}{	Emotions are dangerous---they tend to get me into situations that I would rather avoid.} 
-#' \item{\code{q17}}{	I would prefer not to experience either the lows or highs of emotion.}
-#' \item{\code{q18}}{	If I reflect on my past, I see that I tend to be afraid of emotions.} 
-#' \item{\code{q19}}{	I would love to be like Mr.} Spock, who is totally logical and experiences little emotion.} 
-#' \item{\code{q20}}{	I have trouble telling the people close to me that I love them.} 
-#' \item{\code{q21}}{	Displays of emotions are embarrassing.} 
-#' \item{\code{q22}}{	Acting on ones emotions is always a mistake.} 
-#' \item{\code{q23}}{	I am sometimes afraid of how I might act if I become too emotional.} 
-#' \item{\code{q24}}{	Avoiding emotional events helps me sleep better at night.} 
-#' \item{\code{q25}}{	I wish I could feel less emotion.}
-#' \item{\code{q26}}{	People can function most effectively when they are not experiencing strong emotions.} 
+#' \item{\code{q1}}{It is important for me to be in touch with my feelings.}
+#' \item{\code{q2}}{I think that it is very important to explore my feelings.} 
+#' \item{\code{q3}}{I am a very emotional person.} 
+#' \item{\code{q4}}{It is important for me to know how others are feeling.} 
+#' \item{\code{q5}}{Emotions help people get along in life.}
+#' \item{\code{q6}}{Strong emotions are generally beneficial.} 
+#' \item{\code{q7}}{I feel that I need to experience strong emotions regularly.}
+#' \item{\code{q8}}{I approach situations in which I expect to experience strong emotions.} 
+#' \item{\code{q9}}{I feel like I need a good cry every now and then.} 
+#' \item{\code{q10}}{I like to dwell on my emotions.} 
+#' \item{\code{q11}}{We should indulge our emotions
+#' \item{\code{q12}}{I like decorating my bedroom with a lot of pictures and posters of things emotionally significant to me.} 
+#' \item{\code{q13}}{The experience of emotions promotes human survival.} 
+#' \item{\code{q14}}{I do not know how to handle my emotion, so I avoid them.} 
+#' \item{\code{q15}}{I find strong emotions overwhelming and therefore try to avoid them.} 
+#' \item{\code{q16}}{Emotions are dangerous---they tend to get me into situations that I would rather avoid.} 
+#' \item{\code{q17}}{I would prefer not to experience either the lows or highs of emotion.}
+#' \item{\code{q18}}{If I reflect on my past, I see that I tend to be afraid of emotions.} 
+#' \item{\code{q19}}{I would love to be like Mr. Spock, who is totally logical and experiences little emotion.} 
+#' \item{\code{q20}}{I have trouble telling the people close to me that I love them.} 
+#' \item{\code{q21}}{Displays of emotions are embarrassing.} 
+#' \item{\code{q22}}{Acting on ones emotions is always a mistake.} 
+#' \item{\code{q23}}{I am sometimes afraid of how I might act if I become too emotional.} 
+#' \item{\code{q24}}{Avoiding emotional events helps me sleep better at night.} 
+#' \item{\code{q25}}{I wish I could feel less emotion.}
+#' \item{\code{q26}}{People can function most effectively when they are not experiencing strong emotions.} 
 #' }
 #' 
 #'
@@ -1724,4 +1731,162 @@
 #' @name nfc_cat
 #' @usage data(nfc_cat)
 "nfc_cat"
+
+
+
+
+
+
+
+#' Narcissistic Personality Cat Object
+#' 
+#' Cat model created for the 40 item Narcissistic Personality inventory
+#' 
+#' @details
+#' A Cat object fit with 2945 response profiles collected by Qualtrics in July 2018
+#' and 10440 response profiles from personality-testing.info \url{https://openpsychometrics.org/_rawdata/}
+#' collected in 2012.
+#' 
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the Qualtrics sample (-.069) and a standard deviation (1)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Item responses are paired. Respondents had to choose the one that fit them the best.
+#' 
+#' The wording of the item responses is: 
+#' 
+#' \describe{
+#' \item{\code{Q1*}}{0 = I am not good at influencing people. 1 = I have a natural talent for influencing people.}
+#' \item{\code{Q2}}{0 = Modesty doesn't become me. 1 = I am essentially a modest person.}
+#' \item{\code{Q3}}{0 = I would do almost anything on a dare. 1 = I tend to be a fairly cautious person.}
+#' \item{\code{Q4}}{0 = When people compliment me I sometimes get embarrassed. 1 = I know that I am good because everybody keeps telling me so.}
+#' \item{\code{Q5}}{0 = The thought of ruling the world frightens the hell out of me. 1 = If I ruled the world it would be a better place.}
+#' \item{\code{Q6}}{0 = I can usually talk my way out of anything. 1 = I try to accept the consequences of my behavior.}
+#' \item{\code{Q7}}{0 = I prefer to blend in with the crowd. 1 = I like to be the center of attention.}
+#' \item{\code{Q8}}{0 = I will be a success. 1 = I am not too concerned about success.}
+#' \item{\code{Q9}}{0 = I am no better or worse than most people. 1 = I think I am a special person.}
+#' \item{\code{Q10}}{0 = I am not sure if I would make a good leader. 1 = I see myself as a good leader.}
+#' \item{\code{Q11}}{0 = I am assertive. 1 = I wish I were more assertive.}
+#' \item{\code{Q12}}{0 = I like to have authority over other people. 1 = I don't mind following orders.}
+#' \item{\code{Q13}}{0 = I find it easy to manipulate people. 1 = I don't like it when I find myself manipulating people.}
+#' \item{\code{Q14}}{0 = I insist upon getting the respect that is due me. 1 = I usually get the respect that I deserve.}
+#' \item{\code{Q15}}{0 = I don't particularly like to show off my body. 1 = I like to show off my body.}
+#' \item{\code{Q16}}{0 = I can read people like a book. 1 = People are sometimes hard to understand.}
+#' \item{\code{Q17}}{0 = If I feel competent I am willing to take responsibility for making decisions. 1 = I like to take responsibility for making decisions.}
+#' \item{\code{Q18}}{0 = I just want to be reasonably happy. 1 = I want to amount to something in the eyes of the world.}
+#' \item{\code{Q19}}{0 = My body is nothing special. 1 = I like to look at my body.}
+#' \item{\code{Q20}}{0 = I try not to be a show off. 1 = I will usually show off if I get the chance.}
+#' \item{\code{Q21}}{0 = I always know what I am doing. 1 = Sometimes I am not sure of what I am doing.}
+#' \item{\code{Q22}}{0 = I sometimes depend on people to get things done. 1 = I rarely depend on anyone else to get things done.}
+#' \item{\code{Q23}}{0 = Sometimes I tell good stories. 1 = Everybody likes to hear my stories.}
+#' \item{\code{Q24}}{0 = I expect a great deal from other people. 1 = I like to do things for other people.}
+#' \item{\code{Q25}}{0 = I will never be satisfied until I get all that I deserve. 1 = I take my satisfactions as they come.}
+#' \item{\code{Q26}}{0 = Compliments embarrass me. 1 = I like to be complimented.}
+#' \item{\code{Q27}}{0 = I have a strong will to power. 1 = Power for its own sake doesn't interest me.}
+#' \item{\code{Q28}}{0 = I don't care about new fads and fashions. 1 = I like to start new fads and fashions.}
+#' \item{\code{Q29}}{0 = I like to look at myself in the mirror. 1 = I am not particularly interested in looking at myself in the mirror.}
+#' \item{\code{Q30}}{0 = I really like to be the center of attention. 1 = It makes me uncomfortable to be the center of attention.}
+#' \item{\code{Q31}}{0 = I can live my life in any way I want to. 1 = People can't always live their lives in terms of what they want.}
+#' \item{\code{Q32}}{0 = Being an authority doesn't mean that much to me. 1 = People always seem to recognize my authority.}
+#' \item{\code{Q33}}{0 = I would prefer to be a leader. 1 = It makes little difference to me whether I am a leader or not.}
+#' \item{\code{Q34}}{0 = I am going to be a great person. 1 = I hope I am going to be successful.}
+#' \item{\code{Q35}}{0 = People sometimes believe what I tell them. 1 = I can make anybody believe anything I want them to.}
+#' \item{\code{Q36}}{0 = I am a born leader. 1 = Leadership is a quality that takes a long time to develop.}
+#' \item{\code{Q37}}{0 = I wish somebody would someday write my biography. 1 = I don't like people to pry into my life for any reason.}
+#' \item{\code{Q38}}{0 = I get upset when people don't notice how I look when I go out in public. 1 = I don't mind blending into the crowd when I go out in public.}
+#' \item{\code{Q39}}{0 = I am more capable than other people. 1 = There is a lot that I can learn from other people.}
+#' \item{\code{Q40}}{0 = I am much like everybody else. 1 = I am an extraordinary person.}
+#' }
+#' 
+#' *Note that Item 1 is "reverse coded" from the coding that is typically used.
+#' This is because item parameter estimation constrains the first item's discrimination parameter
+#' to be positive.  So the reverse coding was done for the more intuitive
+#' interpretation of item parameters and theta
+#' estimates as larger, positive values indicate "more" of the latent trait.
+#' 
+#'
+#' @references 
+#' 
+#' Raskin, R., and H. Terry (1988), "A Principal-Components Analysis of the Narcissistic Personality
+#' Inventory and Further Evidence of Its Construct Validity," Journal of Personality and Social
+#' Psychology, 54, 890-902.
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' 
+#' See \url{\url{https://openpsychometrics.org/_rawdata/} for the raw personality-testing data.
+#'
+#' @docType data
+#' @name npi_cat
+#' @usage data(npi_cat)
+"npi_cat"
+
+
+
+
+
+
+
+#' Machiavellianism Personality Cat Object
+#' 
+#' Cat model created for the 20 item machiavellianism inventory
+#' 
+#' @details
+#' A Cat object fit with 3020 response profiles collected by Qualtrics in July 2018
+#' and 12299 response profiles from personality-testing.info \url{https://openpsychometrics.org/_rawdata/}
+#' collected in 2012.
+#' 
+#' 
+#' A normal prior was chosen with mean from the theta estimates from the Qualtrics sample (-0.713) and a standard deviation (1)
+#' wide enough to envelope the range of estimated theta values across both samples.
+#' 
+#' Note that due to how the item parameters were estimated, large, positive values indicate "more" of the latent trait.
+#' 
+#' Response options are:
+#' 5 = Strongly agree, 4 = Somewhat agree, 3 = Neither agree nor disagree, 2 = Somewhat disagree, 1 = Strongly disagree
+#' 
+#' The wording of the item responses is: 
+#' 
+#' \describe{
+#' \item{\code{Q1}}{ Never tell anyone the real reason you did something unless it is useful to do so.}
+#' \item{\code{Q2}}{ The best way to handle people is to tell them what they want to hear.}
+#' \item{\code{Q3}}{ One should take action only when sure it is morally right.}
+#' \item{\code{Q4}}{ Most people are basically good and kind.}
+#' \item{\code{Q5}}{ It is safest to assume that all people have a vicious streak and it will come out when they are given a chance.}
+#' \item{\code{Q6}}{ Honesty is the best policy in all cases.}
+#' \item{\code{Q7}}{ There is no excuse for lying to someone else.}
+#' \item{\code{Q8}}{ Generally speaking, people won't work hard unless they're forced to do so.}
+#' \item{\code{Q9}}{ All in all, it is better to be humble and honest than to be important and dishonest.}
+#' \item{\code{Q10}}{ When you ask someone to do something for you, it is best to give the real reasons for wanting it rather than giving reasons which carry more weight.}
+#' \item{\code{Q11}}{ Most people who get ahead in the world lead clean, moral lives.}
+#' \item{\code{Q12}}{ Anyone who completely trusts anyone else is asking for trouble.}
+#' \item{\code{Q13}}{ The biggest difference between most criminals and other people is that the criminals are stupid enough to get caught.}
+#' \item{\code{Q14}}{ Most people are brave.}
+#' \item{\code{Q15}}{ It is wise to flatter important people.}
+#' \item{\code{Q16}}{ It is possible to be good in all respects.}
+#' \item{\code{Q17}}{ P.T. Barnum was wrong when he said that there's a sucker born every minute.}
+#' \item{\code{Q18}}{ It is hard to get ahead without cutting corners here and there.}
+#' \item{\code{Q19}}{ People suffering from incurable diseases should have the choice of being put painlessly to death.}
+#' \item{\code{Q20}}{ Most people forget more easily the death of their parents than the loss of their property.}
+#' }
+#' 
+#' 
+#'
+#' @references 
+#' 
+#' Christie, R., F. L. Geis, and D. Berger (1970), Studies in Machiavellianism, New York: Academic Press.
+#' 
+#' @source 
+#' 
+#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' 
+#' See \url{\url{https://openpsychometrics.org/_rawdata/} for the raw personality-testing data.
+#'
+#' @docType data
+#' @name mach_cat
+#' @usage data(mach_cat)
+"mach_cat"
 
