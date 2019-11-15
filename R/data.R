@@ -725,7 +725,7 @@
 #' @details
 #' 
 #' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
-#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.113) and a standard deviation (1.5)
@@ -794,7 +794,7 @@
 #' @details
 #' 
 #' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
-#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.025) and a standard deviation (1.2)
@@ -856,7 +856,7 @@
 #' @details
 #' 
 #' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
-#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.367) and a standard deviation (1.3)
@@ -923,7 +923,7 @@
 #' @details
 #' 
 #' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
-#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.674) and a standard deviation (1.2)
@@ -986,7 +986,7 @@
 #' 
 #' @details
 #' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
-#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.455) and a standard deviation (1.5)
@@ -1048,7 +1048,7 @@
 #' 
 #' @details
 #' A Cat object fit with 13976 response profiles collected by myPersonality.org, 3050 response profiles
-#' collected by Qualtrics in July 2018, and 1500 response profiles collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' collected by Qualtrics in June 2018, and 1500 response profiles collected by YouGov in June 2018.  The sample from Mypersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-0.363) and a standard deviation (1.5)
@@ -1132,7 +1132,7 @@
 #' 
 #' @details
 #' A Cat object fit with 13,256 response profiles collected by personality-testing.info, 3050 response profiles
-#' collected by Qualtrics in July 2018, and 1500 response profiles collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' collected by Qualtrics in June 2018, and 1500 response profiles collected by YouGov in June 2018.  The sample from Mypersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.033) and a standard deviation (1.4)
@@ -1215,7 +1215,7 @@
 #' 
 #' @details
 #' A Cat object fit with 8,448 response profiles by myPersonality.org and 718 response profiles
-#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-3.54) and a standard deviation (1.2)
@@ -1277,7 +1277,7 @@
 #' 
 #' @details
 #' A Cat object fit with 8,415 response profiles by myPersonality.org and 718 response profiles
-#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.004) and a standard deviation (1.2)
@@ -1341,7 +1341,7 @@
 #' 
 #' @details
 #' A Cat object fit with 8,497 response profiles by myPersonality.org and 718 response profiles
-#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.09) and a standard deviation (1.2)
@@ -1405,7 +1405,7 @@
 #' 
 #' @details
 #' A Cat object fit with 8,173 response profiles by myPersonality.org and 718 response profiles
-#' collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.480) and a standard deviation (1.4)
@@ -1472,7 +1472,7 @@
 #' 
 #' @details
 #' A Cat object fit with 2056 response profiles from Lucid, 2519 response profiles from MTurk,
-#' and 1423 response profiles collected by YouGov in July 2018.  The sample from MTurk was a convenience sample
+#' and 1423 response profiles collected by YouGov in June 2018.  The sample from MTurk was a convenience sample
 #' The respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.241) and a standard deviation (1)
@@ -1535,7 +1535,7 @@
 #' 
 #' @details
 #' A Cat object fit with 2042 response profiles from Lucid, 1192 response profiles from MTurk,
-#' and 1482 response profiles collected by YouGov in July 2018.  The sample from MTurk was a convenience sample
+#' and 1482 response profiles collected by YouGov in June 2018.  The sample from MTurk was a convenience sample
 #' The respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.19) and a standard deviation (1)
@@ -1593,7 +1593,7 @@
 #' @details
 #' 
 #' A Cat object fit with 2507 response profiles from MTurk,
-#' 4990 response profiles collected by Qualtrics in July 2018,
+#' 4990 response profiles collected by Qualtrics in June 2018,
 #' and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
 #' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in 
 #' the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  
@@ -1668,7 +1668,7 @@
 #' 
 #' @details
 #' A Cat object fit with 2534 response profiles from MTurk,
-#' 4993 response profiles collected by Qualtrics in July 2018,
+#' 4993 response profiles collected by Qualtrics in June 2018,
 #' and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
 #' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
 #' 
@@ -1728,7 +1728,7 @@
 #' Cat model created for the 34 item Need for Cognition inventory
 #' 
 #' @details
-#' A Cat object fit with 4985 response profiles collected by Qualtrics in July 2018
+#' A Cat object fit with 4985 response profiles collected by Qualtrics in June 2018
 #' and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
 #' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
 #' 
@@ -1808,7 +1808,7 @@
 #' Cat model created for the 40 item Narcissistic Personality inventory
 #' 
 #' @details
-#' A Cat object fit with 2945 response profiles collected by Qualtrics in July 2018
+#' A Cat object fit with 2945 response profiles collected by Qualtrics in June 2018
 #' and 10440 response profiles from personality-testing.info \url{https://openpsychometrics.org/_rawdata/}
 #' collected in 2012.
 #' 
@@ -1900,7 +1900,7 @@
 #' Cat model created for the 20 item machiavellianism inventory
 #' 
 #' @details
-#' A Cat object fit with 3020 response profiles collected by Qualtrics in July 2018
+#' A Cat object fit with 3020 response profiles collected by Qualtrics in June 2018
 #' and 12299 response profiles from personality-testing.info \url{https://openpsychometrics.org/_rawdata/}
 #' collected in 2012.
 #' 

@@ -17,7 +17,7 @@ data(npi_cat)
 Cat model created for the 40 item Narcissistic Personality inventory
 }
 \details{
-A Cat object fit with 2945 response profiles collected by Qualtrics in July 2018
+A Cat object fit with 2945 response profiles collected by Qualtrics in June 2018
 and 10440 response profiles from personality-testing.info \url{https://openpsychometrics.org/_rawdata/}
 collected in 2012.
 

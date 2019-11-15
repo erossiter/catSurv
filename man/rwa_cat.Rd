@@ -16,7 +16,7 @@ Cat model created for the 20 item Right Wing Authoritarianism inventory
 }
 \details{
 A Cat object fit with 2056 response profiles from Lucid, 2519 response profiles from MTurk,
-and 1423 response profiles collected by YouGov in July 2018.  The sample from MTurk was a convenience sample
+and 1423 response profiles collected by YouGov in June 2018.  The sample from MTurk was a convenience sample
 The respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 
 A normal prior was chosen with mean from the theta estimates from the YouGov sample (.241) and a standard deviation (1)

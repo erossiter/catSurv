@@ -4,9 +4,8 @@ Overview
 catSurv provides methods of computerized adaptive testing for survey researchers, including
 
 -   functionality to assess fit and performance of the underlying model via simulations
--   functionality to pre-build adpative batteries in order to work with survey firms
--   functionality to integrate adaptive batteries into the survey software Qualtrics
 -   pre-calibrated item parameters (stored as `Cat` objects) for 18 widely used personality inventories so researchers can easily incorporate adaptive batteries into their own surveys
+-   functionality to pre-build adaptive batteries in order to work with survey firms
 
 Installation
 ------------

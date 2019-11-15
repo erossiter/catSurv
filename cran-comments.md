@@ -1,7 +1,7 @@
 ## Release Summary
-* We addressed all instances of the warnings listed here https://cran.r-project.org/web/checks/check_results_catSurv.html regarding catching errors by value instead of by reference.
+* I addressed all instances of the warnings listed here https://cran.r-project.org/web/checks/check_results_catSurv.html regarding catching errors by value instead of by reference.
 
-* This release also adresses an email regarding CRAN packages using C++ code with bind2nd.
+* I addressed an email from Brian Ripley regarding use of C++ code with bind2nd -- I have ommitted use of that function.
 
 * This release adds several important functions making the package functionality integrable with Qualtrics survey administration.
 
@@ -9,6 +9,7 @@
 ## Test environments
 * local OS X install, R 3.5.3
 * win-builder to use the development and release version of R
+
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.
@@ -19,4 +20,4 @@ There was 1 NOTE:
 
 
 ## Downstream dependencies
-I have also run R CMD check on downstream dependencies of catSurv. All packages passed (no failures or problems).
+I have also run R CMD check on downstream dependencies of catSurv. All packages passed.

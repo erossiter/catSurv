@@ -17,7 +17,7 @@ Cat model created for the 20-item Conscientiousness dimension of the
 }
 \details{
 A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
-collected by YouGov in July 2018.  The sample from myPersonality.org was a convenience sample, and the
+collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
 respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 
 A normal prior was chosen with mean from the theta estimates from the YouGov sample (.455) and a standard deviation (1.5)

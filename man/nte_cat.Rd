@@ -18,7 +18,7 @@ Cat model created for the 16 item Need to Evaluate inventory
 }
 \details{
 A Cat object fit with 2534 response profiles from MTurk,
-4993 response profiles collected by Qualtrics in July 2018,
+4993 response profiles collected by Qualtrics in June 2018,
 and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
 TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
 

@@ -16,7 +16,7 @@ Cat model created for the 15 item Social Dominance Orientation inventory
 }
 \details{
 A Cat object fit with 2042 response profiles from Lucid, 1192 response profiles from MTurk,
-and 1482 response profiles collected by YouGov in July 2018.  The sample from MTurk was a convenience sample
+and 1482 response profiles collected by YouGov in June 2018.  The sample from MTurk was a convenience sample
 The respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 
 A normal prior was chosen with mean from the theta estimates from the YouGov sample (.19) and a standard deviation (1)

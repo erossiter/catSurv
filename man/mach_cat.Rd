@@ -17,7 +17,7 @@ data(mach_cat)
 Cat model created for the 20 item machiavellianism inventory
 }
 \details{
-A Cat object fit with 3020 response profiles collected by Qualtrics in July 2018
+A Cat object fit with 3020 response profiles collected by Qualtrics in June 2018
 and 12299 response profiles from personality-testing.info \url{https://openpsychometrics.org/_rawdata/}
 collected in 2012.
 

@@ -16,7 +16,7 @@ Cat model created for the 40-item Systemizing Quotient personality inventory
 }
 \details{
 A Cat object fit with 13,256 response profiles collected by personality-testing.info, 3050 response profiles
-collected by Qualtrics in July 2018, and 1500 response profiles collected by YouGov in July 2018.  The sample from Mypersonality.org was a convenience sample, and the
+collected by Qualtrics in June 2018, and 1500 response profiles collected by YouGov in June 2018.  The sample from Mypersonality.org was a convenience sample, and the
 respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
 
 A normal prior was chosen with mean from the theta estimates from the YouGov sample (.033) and a standard deviation (1.4)
