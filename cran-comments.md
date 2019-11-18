@@ -1,6 +1,12 @@
 ## Resubmission
 This is a resubmission.  In this version I have:
 
+* Corrected the reference to the method in the Description file  in the form Authors (year) <doi:.....>.  I appologize for this error.
+
+
+## Prior Resubmission
+This is a resubmission.  In this version I have:
+
 * Provided valid links, including the portocol, to external URLs referenced in the documentation.
 
 * Added a reference to the method in the Description file  in the form Authors (year) <doi:.....>.
