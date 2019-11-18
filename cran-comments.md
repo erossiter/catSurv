@@ -1,10 +1,10 @@
 ## Resubmission
 This is a resubmission.  In this version I have:
 
-* Provided valid links to external URLs referenced in the documentation.
+* Provided valid links, including the portocol, to external URLs referenced in the documentation.
 
-* Added a reference to the method in the Description field of several documentation entries.  In addition to referencing the method,
-I have directed readers (included links) to other documentation entries that fully describe the method and cite all sources.
+* Added a reference to the method in the Description file  in the form Authors (year) <doi:.....>.
+
 
 
 ## Release Summary
@@ -16,7 +16,7 @@ I have directed readers (included links) to other documentation entries that ful
 
 
 ## Test environments
-* local OS X install, R 3.5.3
+* local OS X install, R 3.6.1
 * win-builder to use the development and release version of R
 
 
