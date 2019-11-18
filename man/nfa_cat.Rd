@@ -14,16 +14,19 @@ See \url{https://wc.wustl.edu/american-panel-survey} for raw TAPS data.
 data(nfa_cat)
 }
 \description{
-Cat model created for the 26 item Need for Affect inventory
+Cat object containing item parameters for graded response model fit with responses to the 26 item Need for Affect inventory
 }
 \details{
-A Cat object fit with 2507 response profiles from MTurk,
+Cat object containing item parameters for graded response model fit with 2507 response profiles from MTurk,
 4990 response profiles collected by Qualtrics in June 2018,
 and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
 TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in 
 the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  
 Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
 
+
+See \code{\link{Cat-class}} for details regarding the Cat object structure.
+See \code{\link{grmCat}} for details regarding the graded response model.
 
 A normal prior was chosen with mean from the theta estimates from the TAPS sample (.236) and a standard deviation (1.3)
 wide enough to envelope the range of estimated theta values across both samples.
@@ -69,5 +72,8 @@ The wording of the question items is:
 Maio, Gregory R., and Victoria M. Esses. "The need for affect: Individual
  differences in the motivation to approach or avoid emotions." 
  Journal of personality 69.4 (2001): 583-614.
+}
+\seealso{
+\code{\link{Cat-class}}, \code{\link{grmCat}}
 }
 \keyword{datasets}

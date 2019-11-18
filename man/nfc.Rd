@@ -29,7 +29,8 @@
 data(nfc)
 }
 \description{
-Data of survey respondents' responses to 18 NFC questions, which is a reduced version of NFC (Cacioppo and Petty 1984). For each question, respondents could choose one of five response options: 1 = agree strongly, 2 = agree somewhat, 3 = neither agree nor disagree, 4 = disagree somewhat, 5 = disagree strongly. Missingness is optional. Observations come from one of three administrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
+Data of survey respondents' responses to 18 NFC questions, which is a reduced version of NFC (Cacioppo and Petty 1984). For each question, respondents could choose one of five response options: 1 = agree strongly, 2 = agree somewhat, 3 = neither agree nor disagree, 4 = disagree somewhat, 5 = disagree strongly. Missingness is optional.
+Observations come from one of three administrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
 }
 \references{
 Cacioppo, John T. and Richard E. Petty. 1984. "The Efficient Assessment of Need for Cognition." Journal of Personality Assessment 48(3):306-307.

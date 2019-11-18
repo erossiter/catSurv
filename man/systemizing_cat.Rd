@@ -7,17 +7,25 @@
 \format{An object of class \code{Cat} of length 1.}
 \source{
 See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+
+See \url{https://openpsychometrics.org/_rawdata/}, maintained by Eric Jorgenson, for the raw Open Source Psychometrics Project site data.
 }
 \usage{
 data(systemizing_cat)
 }
 \description{
-Cat model created for the 40-item Systemizing Quotient personality inventory
+Cat object containing item parameters for graded response model fit with responses to the 40-item Systemizing Quotient personality inventory
 }
 \details{
-A Cat object fit with 13,256 response profiles collected by personality-testing.info, 3050 response profiles
-collected by Qualtrics in June 2018, and 1500 response profiles collected by YouGov in June 2018.  The sample from Mypersonality.org was a convenience sample, and the
+Cat object containing item parameters for graded response model fit with
+ 13,256 response profiles collected by the Open Source Psychometrics Project in 2012,
+  3050 response profiles
+collected by Qualtrics in June 2018, and 1500 response profiles collected by YouGov in June 2018.
+The sample from the Open Source Psychometrics Project was a convenience sample, and the
 respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+
+See \code{\link{Cat-class}} for details regarding the Cat object structure.
+See \code{\link{grmCat}} for details regarding the graded response model.
 
 A normal prior was chosen with mean from the theta estimates from the YouGov sample (.033) and a standard deviation (1.4)
 wide enough to envelope the range of estimated theta values across both samples.
@@ -78,7 +86,9 @@ Asperger syndrome or high-functioning autism, and normal sex differences."
 Philosophical Transactions of the Royal Society of London.  Series B: Biological Sciences
 358, no. 1430 (2003): 361-374.
 
-  
-Open Source Psychometrics Project. \url{personality-testing.info}
+Open Source Psychometrics Project. \url{https://openpsychometrics.org/_rawdata/}
+}
+\seealso{
+\code{\link{Cat-class}}, \code{\link{grmCat}}
 }
 \keyword{datasets}

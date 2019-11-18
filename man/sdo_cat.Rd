@@ -12,12 +12,16 @@ See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or
 data(sdo_cat)
 }
 \description{
-Cat model created for the 15 item Social Dominance Orientation inventory
+Cat object containing item parameters for graded response model fit with responses to the 15 item Social Dominance Orientation inventory
 }
 \details{
-A Cat object fit with 2042 response profiles from Lucid, 1192 response profiles from MTurk,
+Cat object containing item parameters for graded response model fit with
+2042 response profiles from Lucid, 1192 response profiles from MTurk,
 and 1482 response profiles collected by YouGov in June 2018.  The sample from MTurk was a convenience sample
 The respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+
+See \code{\link{Cat-class}} for details regarding the Cat object structure.
+See \code{\link{grmCat}} for details regarding the graded response model.
 
 A normal prior was chosen with mean from the theta estimates from the YouGov sample (.19) and a standard deviation (1)
 wide enough to envelope the range of estimated theta values across both samples.
@@ -53,5 +57,8 @@ The wording of the question items is:
 Pratto, F., J. Sidanius, L. M. Stallworth, and B. F. Malle (1994), "Social Dominance Orientation: A
 Personality Variable Predicting Social and Political Attitudes," Journal of Personality and
 Social Psychology, 67, 741.
+}
+\seealso{
+\code{\link{Cat-class}}, \code{\link{grmCat}}
 }
 \keyword{datasets}

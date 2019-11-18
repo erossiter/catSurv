@@ -12,12 +12,16 @@ See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or
 data(rwa_cat)
 }
 \description{
-Cat model created for the 20 item Right Wing Authoritarianism inventory
+Cat object containing item parameters for graded response model fit with responses to the 20 item Right Wing Authoritarianism inventory
 }
 \details{
-A Cat object fit with 2056 response profiles from Lucid, 2519 response profiles from MTurk,
+Cat object containing item parameters for graded response model fit with
+ 2056 response profiles from Lucid, 2519 response profiles from MTurk,
 and 1423 response profiles collected by YouGov in June 2018.  The sample from MTurk was a convenience sample
 The respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+
+See \code{\link{Cat-class}} for details regarding the Cat object structure.
+See \code{\link{grmCat}} for details regarding the graded response model.
 
 A normal prior was chosen with mean from the theta estimates from the YouGov sample (.241) and a standard deviation (1)
 wide enough to envelope the range of estimated theta values across both samples.
@@ -55,5 +59,8 @@ The wording of the question items is:
 }
 \references{
 Altemeyer, Bob. Enemies of freedom: Understanding right-wing authoritarianism. Jossey-Bass, 1988.
+}
+\seealso{
+\code{\link{Cat-class}}, \code{\link{grmCat}}
 }
 \keyword{datasets}

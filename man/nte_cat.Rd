@@ -14,13 +14,20 @@ See \url{https://wc.wustl.edu/american-panel-survey} for raw TAPS data.
 data(nte_cat)
 }
 \description{
-Cat model created for the 16 item Need to Evaluate inventory
+Cat object containing item parameters for graded response model fit with responses to the 16 item Need to Evaluate inventory
 }
 \details{
-A Cat object fit with 2534 response profiles from MTurk,
+Cat object containing item parameters for graded response model fit with
+  2534 response profiles from MTurk,
 4993 response profiles collected by Qualtrics in June 2018,
 and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
-TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
+TAPS is a monthly online panel survey  of about 2,000 adults in the United States.
+The panel was recruited in the fall of 2011 using an address-based sampling frame.
+TAPS surveys are administered online.  Selected panelists who do not have a computer or
+ online service are provided a computer and internet access by TAPS. 
+
+See \code{\link{Cat-class}} for details regarding the Cat object structure.
+See \code{\link{grmCat}} for details regarding the graded response model.
 
 A normal prior was chosen with mean from the theta estimates from the TAPS sample (.002) and a standard deviation (1.3)
 wide enough to envelope the range of estimated theta values across both samples.
@@ -55,5 +62,8 @@ The wording of the question items is:
 \references{
 Jarvis, W. Blair G., and Richard E. Petty.
 "The need to evaluate." Journal of personality and social psychology 70.1 (1996): 172.
+}
+\seealso{
+\code{\link{Cat-class}}, \code{\link{grmCat}}
 }
 \keyword{datasets}

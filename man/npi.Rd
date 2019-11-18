@@ -52,12 +52,14 @@ data(npi)
 }
 \description{
 Data from the 40 item Narcissistic Personality Inventory (Raskin and Terry 1988) collected by
-personality-testing.info \url{https://openpsychometrics.org/_rawdata/} in 2012.
+by the Open Source Psychometrics Project in 2012.
 }
 \details{
 Item responses are paired. Respondents had to choose the one that fit them the best.
 }
 \references{
 Raskin, Robert and Howard Terry. 1988. "A Principal-Components Analysis of the Narcissistic Personality Inventory and Further Evidence of Its Construct Validity." Journal of Personality and Social Psychology 54(5):890-902.
+
+Open Source Psychometrics Project. \url{https://openpsychometrics.org/_rawdata/}
 }
 \keyword{datasets}

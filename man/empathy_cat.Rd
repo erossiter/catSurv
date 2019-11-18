@@ -12,12 +12,17 @@ See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or
 data(empathy_cat)
 }
 \description{
-Cat model created for the 40-item Empathy Quotient personality inventory
+Cat object containing item parameters for graded response model fit with responses to the 40-item Empathy Quotient personality inventory
 }
 \details{
-A Cat object fit with 13976 response profiles collected by myPersonality.org, 3050 response profiles
-collected by Qualtrics in June 2018, and 1500 response profiles collected by YouGov in June 2018.  The sample from Mypersonality.org was a convenience sample, and the
+Cat object containing item parameters for graded response model fit with
+ 13976 response profiles collected by myPersonality Project, 3050 response profiles
+collected by Qualtrics in June 2018, and 1500 response profiles collected by YouGov in June 2018. 
+The sample from myPersonality Project was a convenience sample, and the
 respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+
+See \code{\link{Cat-class}} for details regarding the Cat object structure.
+See \code{\link{grmCat}} for details regarding the graded response model.
 
 A normal prior was chosen with mean from the theta estimates from the YouGov sample (-0.363) and a standard deviation (1.5)
 wide enough to envelope the range of estimated theta values across both samples.
@@ -78,5 +83,8 @@ Baron-Cohen, Simon, and Sally Wheelwright. "The empathy quotient: an investigati
   
 Stillwell, David, and Michal Kosinski. 2007. "myPersonality Project."
 \url{https://sites.google.com/michalkosinski.com/mypersonality}
+}
+\seealso{
+\code{\link{Cat-class}}, \code{\link{grmCat}}
 }
 \keyword{datasets}

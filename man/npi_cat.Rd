@@ -8,19 +8,22 @@
 \source{
 See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 
-See \url{https://openpsychometrics.org/_rawdata/} for the raw personality-testing data.
+See \url{https://openpsychometrics.org/_rawdata/}, maintained by Eric Jorgenson, for the raw Open Source Psychometrics Project data.
 }
 \usage{
 data(npi_cat)
 }
 \description{
-Cat model created for the 40 item Narcissistic Personality inventory
+Cat object containing item parameters for latent trait model fit with responses
+to the  40 item Narcissistic Personality inventory
 }
 \details{
-A Cat object fit with 2945 response profiles collected by Qualtrics in June 2018
-and 10440 response profiles from personality-testing.info \url{https://openpsychometrics.org/_rawdata/}
-collected in 2012.
+Cat object containing item parameters for latent trait model fit with
+2945 response profiles collected by Qualtrics in June 2018
+and 10440 response profiles collected by the Open Source Psychometrics Project in 2012.
 
+See \code{\link{Cat-class}} for details regarding the Cat object structure.
+See \code{\link{ltmCat}} for details regarding the latent trait model.
 
 A normal prior was chosen with mean from the theta estimates from the Qualtrics sample (-.069) and a standard deviation (1)
 wide enough to envelope the range of estimated theta values across both samples.
@@ -84,5 +87,10 @@ estimates as larger, positive values indicate "more" of the latent trait.
 Raskin, R., and H. Terry (1988), "A Principal-Components Analysis of the Narcissistic Personality
 Inventory and Further Evidence of Its Construct Validity," Journal of Personality and Social
 Psychology, 54, 890-902.
+
+Open Source Psychometrics Project. \url{https://openpsychometrics.org/_rawdata/}
+}
+\seealso{
+\code{\link{Cat-class}}, \code{\link{ltmCat}}
 }
 \keyword{datasets}

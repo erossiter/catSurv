@@ -23,4 +23,12 @@ npi_battery$Q1[2:3]
 
 
 }
+\references{
+Raskin, R., and H. Terry (1988), "A Principal-Components Analysis of the Narcissistic Personality
+Inventory and Further Evidence of Its Construct Validity," Journal of Personality and Social
+Psychology, 54, 890-902.
+}
+\seealso{
+\code{\link{npi_cat}}
+}
 \keyword{datasets}

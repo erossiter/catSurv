@@ -8,19 +8,21 @@
 \source{
 See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 
-See \url{https://openpsychometrics.org/_rawdata/} for the raw personality-testing data.
+See \url{https://openpsychometrics.org/_rawdata/}, maintained by Eric Jorgenson, for the raw Open Source Psychometrics Project data.
 }
 \usage{
 data(mach_cat)
 }
 \description{
-Cat model created for the 20 item machiavellianism inventory
+Cat object containing item parameters for graded response model fit with responses to the 20 item machiavellianism inventory
 }
 \details{
-A Cat object fit with 3020 response profiles collected by Qualtrics in June 2018
-and 12299 response profiles from personality-testing.info \url{https://openpsychometrics.org/_rawdata/}
-collected in 2012.
+Cat object containing item parameters for graded response model fit with
+ 3020 response profiles collected by Qualtrics in June 2018
+and 12299 response profiles collected by the Open Source Psychometrics Project in 2012.
 
+See \code{\link{Cat-class}} for details regarding the Cat object structure.
+See \code{\link{grmCat}} for details regarding the graded response model.
 
 A normal prior was chosen with mean from the theta estimates from the Qualtrics sample (-0.713) and a standard deviation (1)
 wide enough to envelope the range of estimated theta values across both samples.
@@ -57,5 +59,10 @@ The wording of the item responses is:
 }
 \references{
 Christie, R., F. L. Geis, and D. Berger (1970), Studies in Machiavellianism, New York: Academic Press.
+
+Open Source Psychometrics Project. \url{https://openpsychometrics.org/_rawdata/}
+}
+\seealso{
+\code{\link{Cat-class}}, \code{\link{grmCat}}
 }
 \keyword{datasets}

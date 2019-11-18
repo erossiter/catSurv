@@ -12,12 +12,15 @@ See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or
 data(sv_selftransc_cat)
 }
 \description{
-Cat model created for the Self-Transcendence (Schwartz Values) inventory
+Cat object containing item parameters for graded response model fit with responses to the Self-Transcendence (Schwartz Values) inventory
 }
 \details{
-A Cat object fit with 8,415 response profiles by myPersonality.org and 718 response profiles
-collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
+Cat object containing item parameters for graded response model fit with 8,415 response profiles by myPersonalit Project and 718 response profiles
+collected by YouGov in June 2018.  The sample from myPersonality Project was a convenience sample, and the
 respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+
+See \code{\link{Cat-class}} for details regarding the Cat object structure.
+See \code{\link{grmCat}} for details regarding the graded response model.
 
 A normal prior was chosen with mean from the theta estimates from the YouGov sample (.004) and a standard deviation (1.2)
 wide enough to envelope the range of estimated theta values across both samples.
@@ -60,5 +63,8 @@ Stillwell, David, and Michal Kosinski. 2007. "myPersonality Project."
 Schwartz, Shalom H. "Universals in the content and structure of values: 
 Theoretical advances and empirical tests in 20 countries." 
 Advances in experimental social psychology. Vol. 25. Academic Press, 1992. 1-65.
+}
+\seealso{
+\code{\link{Cat-class}}, \code{\link{grmCat}}
 }
 \keyword{datasets}

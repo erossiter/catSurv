@@ -492,7 +492,7 @@
 #' Narcissistic Personality Inventory
 #'
 #' Data from the 40 item Narcissistic Personality Inventory (Raskin and Terry 1988) collected by
-#' personality-testing.info \url{https://openpsychometrics.org/_rawdata/} in 2012.
+#' by the Open Source Psychometrics Project in 2012.
 #' 
 #' Item responses are paired. Respondents had to choose the one that fit them the best.
 #' 
@@ -544,6 +544,8 @@
 #' 
 #' Raskin, Robert and Howard Terry. 1988. "A Principal-Components Analysis of the Narcissistic Personality Inventory and Further Evidence of Its Construct Validity." Journal of Personality and Social Psychology 54(5):890-902.
 #'
+#' Open Source Psychometrics Project. \url{https://openpsychometrics.org/_rawdata/}
+#'
 #' @docType data
 #' @keywords datasets
 #' @name npi
@@ -555,7 +557,8 @@
 
 #' Need For Cognition
 #'
-#' Data of survey respondents' responses to 18 NFC questions, which is a reduced version of NFC (Cacioppo and Petty 1984). For each question, respondents could choose one of five response options: 1 = agree strongly, 2 = agree somewhat, 3 = neither agree nor disagree, 4 = disagree somewhat, 5 = disagree strongly. Missingness is optional. Observations come from one of three administrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
+#' Data of survey respondents' responses to 18 NFC questions, which is a reduced version of NFC (Cacioppo and Petty 1984). For each question, respondents could choose one of five response options: 1 = agree strongly, 2 = agree somewhat, 3 = neither agree nor disagree, 4 = disagree somewhat, 5 = disagree strongly. Missingness is optional.
+#' Observations come from one of three administrations of the survey: The American Panel Survey, Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
 #' 
 #' 
 #' @format A data frame with 4043 observations on the following 18 variables.
@@ -699,6 +702,14 @@
 #' 
 #' A list where each element is a length three vector containin the text of the the question item and the two response options.
 #' 
+#' @seealso \code{\link{npi_cat}}
+#' 
+#' @references 
+#' Raskin, R., and H. Terry (1988), "A Principal-Components Analysis of the Narcissistic Personality
+#' Inventory and Further Evidence of Its Construct Validity," Journal of Personality and Social
+#' Psychology, 54, 890-902.
+#'
+#' 
 #' @examples 
 #' 
 #' data(npi_battery)
@@ -719,14 +730,18 @@
 
 #' Agreeableness Cat Object
 #' 
-#' Cat model created for the 20-item Agreeableness dimension of the 
+#' Cat object containing item parameters for graded response model fit with responses to the 20-item Agreeableness dimension of the 
 #' 100-item IPIP representation of Costa and McCrae's Five Factor Model
 #' 
 #' @details
 #' 
-#' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
-#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' Cat object containing item parameters for graded response model fit with 774,410 response profiles by myPersonality Poject and 1500 response profiles
+#' collected by YouGov in June 2018.  The sample from myPersonality Project was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model. 
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.113) and a standard deviation (1.5)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -762,6 +777,9 @@
 #' \item{\code{q72}}{Am out for my own personal gain.}
 #' }
 #' 
+#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}}
+#' 
 #' @source 
 #' 
 #' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
@@ -788,14 +806,18 @@
 
 #' Neuroticism Cat Object
 #' 
-#' Cat model created for the 20-item Neuroticism dimension of the 
+#' Cat object containing item parameters for graded response model fit with responses to the 20-item Neuroticism dimension of the 
 #' 100-item IPIP representation of Costa and McCrae's Five Factor Model
 #' 
 #' @details
 #' 
-#' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
-#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' Cat object containing item parameters for graded response model fit with
+#'  774,410 response profiles by myPersonality Project and 1500 response profiles
+#' collected by YouGov in June 2018.  The sample from myPersonality Project was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.025) and a standard deviation (1.2)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -831,6 +853,8 @@
 #' \item{\code{q57}}{Rarely lose my composure.}
 #' }
 #' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
+#' 
 #' @source 
 #' 
 #' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
@@ -850,14 +874,18 @@
 
 #' Extraversion Cat Object
 #' 
-#' Cat model created for the 20-item Extraversion dimension of the 
+#' Cat object containing item parameters for graded response model fit with responses to the 20-item Extraversion dimension of the 
 #' 100-item IPIP representation of Costa and McCrae's Five Factor Model
 #' 
 #' @details
 #' 
-#' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
-#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
+#'  Cat object containing item parameters for graded response model fit with
+#'   774,410 response profiles by myPersonality Project and 1500 response profiles
+#' collected by YouGov in June 2018.  The sample from myPersonality Project was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.367) and a standard deviation (1.3)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -893,6 +921,7 @@
 #' \item{\code{q49}}{Keep others at a distance.}
 #' }
 #' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
 #' 
 #' @source 
 #' 
@@ -917,14 +946,17 @@
 
 #' Openness to Experience Cat Object
 #' 
-#' Cat model created for the 20-item Openness dimension of the 
+#' Cat object containing item parameters for graded response model fit with responses to the 20-item Openness dimension of the 
 #' 100-item IPIP representation of Costa and McCrae's Five Factor Model
 #' 
 #' @details
 #' 
-#' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
-#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' Cat object containing item parameters for graded response model fit with 774,410 response profiles by myPersonality Project and 1500 response profiles
+#' collected by YouGov in June 2018.  The sample from myPersonality Project was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.674) and a standard deviation (1.2)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -961,6 +993,8 @@
 #' }
 #' 
 #' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
+#' 
 #' @source 
 #' 
 #' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
@@ -981,13 +1015,17 @@
 
 #' Conscientiousness Cat Object
 #' 
-#' Cat model created for the 20-item Conscientiousness dimension of the 
+#' Cat object containing item parameters for graded response model fit with responses to the 20-item Conscientiousness dimension of the 
 #' 100-item IPIP representation of Costa and McCrae's Five Factor Model
 #' 
 #' @details
-#' A Cat object fit with 774,410 response profiles by myPersonality.org and 1500 response profiles
-#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' Cat object containing item parameters for graded response model fit with
+#'  774,410 response profiles by myPersonality Project and 1500 response profiles
+#' collected by YouGov in June 2018.  The sample from myPersonality Project was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.455) and a standard deviation (1.5)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1023,6 +1061,8 @@
 #' \item{\code{q8}}{Need a push to get started.}
 #' }
 #' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
+#' 
 #' @source 
 #' 
 #' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
@@ -1044,12 +1084,17 @@
 
 #' Empathizing Quotient Cat Object
 #' 
-#' Cat model created for the 40-item Empathy Quotient personality inventory
+#' Cat object containing item parameters for graded response model fit with responses to the 40-item Empathy Quotient personality inventory
 #' 
 #' @details
-#' A Cat object fit with 13976 response profiles collected by myPersonality.org, 3050 response profiles
-#' collected by Qualtrics in June 2018, and 1500 response profiles collected by YouGov in June 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' Cat object containing item parameters for graded response model fit with
+#'  13976 response profiles collected by myPersonality Project, 3050 response profiles
+#' collected by Qualtrics in June 2018, and 1500 response profiles collected by YouGov in June 2018. 
+#' The sample from myPersonality Project was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-0.363) and a standard deviation (1.5)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1103,6 +1148,8 @@
 #' \item{\code{q60}}{ I can usually appreciate the other person's viewpoint, even if I don't agree with it.}
 #' }
 #' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
+#' 
 #' @source 
 #' 
 #' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
@@ -1128,12 +1175,18 @@
 
 #' Systemizing Quotient Cat Object
 #' 
-#' Cat model created for the 40-item Systemizing Quotient personality inventory
+#' Cat object containing item parameters for graded response model fit with responses to the 40-item Systemizing Quotient personality inventory
 #' 
 #' @details
-#' A Cat object fit with 13,256 response profiles collected by personality-testing.info, 3050 response profiles
-#' collected by Qualtrics in June 2018, and 1500 response profiles collected by YouGov in June 2018.  The sample from Mypersonality.org was a convenience sample, and the
+#' Cat object containing item parameters for graded response model fit with
+#'  13,256 response profiles collected by the Open Source Psychometrics Project in 2012,
+#'   3050 response profiles
+#' collected by Qualtrics in June 2018, and 1500 response profiles collected by YouGov in June 2018.
+#' The sample from the Open Source Psychometrics Project was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.033) and a standard deviation (1.4)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1187,6 +1240,9 @@
 #' \item{\code{q60}}{    I do not care to know the names of the plants I see.}
 #' }
 #' 
+#' 
+#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
 #'
 #' @references 
 #' Baron-Cohen, Simon, Jennifer Richler, Dheraj Bisarya, Nhishanth Gurunathan,
@@ -1195,12 +1251,13 @@
 #' Philosophical Transactions of the Royal Society of London.  Series B: Biological Sciences
 #' 358, no. 1430 (2003): 361-374.
 #' 
-#'   
-#' Open Source Psychometrics Project. \url{personality-testing.info}
+#' Open Source Psychometrics Project. \url{https://openpsychometrics.org/_rawdata/}
 #' 
 #' @source 
 #' 
 #' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' 
+#' See \url{https://openpsychometrics.org/_rawdata/}, maintained by Eric Jorgenson, for the raw Open Source Psychometrics Project site data.
 #'
 #' @docType data
 #' @name systemizing_cat
@@ -1214,9 +1271,13 @@
 #' Cat model created for the  Openness to Change (Schwartz Values) inventory
 #' 
 #' @details
-#' A Cat object fit with 8,448 response profiles by myPersonality.org and 718 response profiles
-#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' Cat object containing item parameters for graded response model fit with
+#'  8,448 response profiles by myPersonality Project and 718 response profiles
+#' collected by YouGov in June 2018.  The sample from myPersonality Project was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-3.54) and a standard deviation (1.2)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1250,6 +1311,8 @@
 #' \item{\code{q57}}{ SELF-INDULGENT (doing pleasant things)}
 #' }
 #' 
+#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
 #'
 #' @references 
 #' Stillwell, David, and Michal Kosinski. 2007. "myPersonality Project."
@@ -1273,12 +1336,15 @@
 
 #' Self-Transcendence (Schwartz Values) Cat Object
 #' 
-#' Cat model created for the Self-Transcendence (Schwartz Values) inventory
+#' Cat object containing item parameters for graded response model fit with responses to the Self-Transcendence (Schwartz Values) inventory
 #' 
 #' @details
-#' A Cat object fit with 8,415 response profiles by myPersonality.org and 718 response profiles
-#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' Cat object containing item parameters for graded response model fit with 8,415 response profiles by myPersonalit Project and 718 response profiles
+#' collected by YouGov in June 2018.  The sample from myPersonality Project was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.004) and a standard deviation (1.2)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1314,6 +1380,8 @@
 #' \item{\code{q54}}{ FORGIVING (willing to pardon others)}
 #' }
 #' 
+#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
 #'
 #' @references 
 #' Stillwell, David, and Michal Kosinski. 2007. "myPersonality Project."
@@ -1337,12 +1405,15 @@
 
 #' Self-Enhancement (Schwartz Values) Cat Object
 #' 
-#' Cat model created for the Self-Enhancement(Schwartz Values) inventory
+#' Cat object containing item parameters for graded response model fit with responses to the Self-Enhancement(Schwartz Values) inventory
 #' 
 #' @details
-#' A Cat object fit with 8,497 response profiles by myPersonality.org and 718 response profiles
-#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' Cat object containing item parameters for graded response model fit with 8,497 response profiles by myPersonality Project and 718 response profiles
+#' collected by YouGov in June 2018.  The sample from myPersonality Project was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (-.09) and a standard deviation (1.2)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1376,6 +1447,8 @@
 #' \item{\code{q46}}{PRESERVING MY PUBLIC IMAGE (protecting my "face")}
 #' }
 #' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
+#' 
 #'
 #' @references 
 #' Stillwell, David, and Michal Kosinski. 2007. "myPersonality Project."
@@ -1401,12 +1474,16 @@
 
 #' Conservation (Schwartz Values) Cat Object
 #' 
-#' Cat model created for the Conservation (Schwartz Values) inventory
+#' Cat object containing item parameters for graded response model fit with responses to the Conservation (Schwartz Values) inventory
 #' 
 #' @details
-#' A Cat object fit with 8,173 response profiles by myPersonality.org and 718 response profiles
-#' collected by YouGov in June 2018.  The sample from myPersonality.org was a convenience sample, and the
+#' Cat object containing item parameters for graded response model fit with
+#'  8,173 response profiles by the myPersonality Project and 718 response profiles
+#' collected by YouGov in June 2018.  The sample from myPersonality Project was a convenience sample, and the
 #' respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.480) and a standard deviation (1.4)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1443,6 +1520,8 @@
 #' \item{\code{q56}}{CLEAN (neat, tidy)                                   }
 #' }
 #' 
+#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
 #'
 #' @references 
 #' Stillwell, David, and Michal Kosinski. 2007. "myPersonality Project."
@@ -1468,12 +1547,16 @@
 
 #' Right Wing Authoritarianism Cat Object
 #' 
-#' Cat model created for the 20 item Right Wing Authoritarianism inventory
+#' Cat object containing item parameters for graded response model fit with responses to the 20 item Right Wing Authoritarianism inventory
 #' 
 #' @details
-#' A Cat object fit with 2056 response profiles from Lucid, 2519 response profiles from MTurk,
+#' Cat object containing item parameters for graded response model fit with
+#'  2056 response profiles from Lucid, 2519 response profiles from MTurk,
 #' and 1423 response profiles collected by YouGov in June 2018.  The sample from MTurk was a convenience sample
 #' The respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.241) and a standard deviation (1)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1509,6 +1592,7 @@
 #' \item{\code{q20}}{    This country would work a lot better if certain groups of troublemakers would just shut up and accept their group's traditional place in society.}
 #' }
 #' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}}
 #'
 #' @references 
 #' 
@@ -1531,12 +1615,16 @@
 
 #' Social Dominance Orientation Cat Object
 #' 
-#' Cat model created for the 15 item Social Dominance Orientation inventory
+#' Cat object containing item parameters for graded response model fit with responses to the 15 item Social Dominance Orientation inventory
 #' 
 #' @details
-#' A Cat object fit with 2042 response profiles from Lucid, 1192 response profiles from MTurk,
+#' Cat object containing item parameters for graded response model fit with
+#' 2042 response profiles from Lucid, 1192 response profiles from MTurk,
 #' and 1482 response profiles collected by YouGov in June 2018.  The sample from MTurk was a convenience sample
 #' The respondents from YouGov were matched to a sampling frame on gender, age, race, and education.
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the YouGov sample (.19) and a standard deviation (1)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1568,6 +1656,8 @@
 #' \item{\code{q16}}{    No group should dominate in society.}
 #' }
 #' 
+#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
 #'
 #' @references 
 #' 
@@ -1588,17 +1678,20 @@
 
 #' Need for Affect Cat Object
 #' 
-#' Cat model created for the 26 item Need for Affect inventory
+#' Cat object containing item parameters for graded response model fit with responses to the 26 item Need for Affect inventory
 #' 
 #' @details
 #' 
-#' A Cat object fit with 2507 response profiles from MTurk,
+#' Cat object containing item parameters for graded response model fit with 2507 response profiles from MTurk,
 #' 4990 response profiles collected by Qualtrics in June 2018,
 #' and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
 #' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in 
 #' the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  
 #' Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
 #' 
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the TAPS sample (.236) and a standard deviation (1.3)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1640,6 +1733,8 @@
 #' \item{\code{q26}}{People can function most effectively when they are not experiencing strong emotions.} 
 #' }
 #' 
+#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
 #'
 #' @references 
 #' 
@@ -1664,13 +1759,20 @@
 
 #' Need to Evaluate Cat Object
 #' 
-#' Cat model created for the 16 item Need to Evaluate inventory
+#' Cat object containing item parameters for graded response model fit with responses to the 16 item Need to Evaluate inventory
 #' 
 #' @details
-#' A Cat object fit with 2534 response profiles from MTurk,
+#'  Cat object containing item parameters for graded response model fit with
+#'   2534 response profiles from MTurk,
 #' 4993 response profiles collected by Qualtrics in June 2018,
 #' and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
-#' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
+#' TAPS is a monthly online panel survey  of about 2,000 adults in the United States.
+#' The panel was recruited in the fall of 2011 using an address-based sampling frame.
+#' TAPS surveys are administered online.  Selected panelists who do not have a computer or
+#'  online service are provided a computer and internet access by TAPS. 
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the TAPS sample (.002) and a standard deviation (1.3)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1702,6 +1804,7 @@
 #' \item{\code{q16}}{ I am pretty much indifferent to many important issues.} 
 #' }
 #' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
 #'
 #' @references 
 #' 
@@ -1725,12 +1828,15 @@
 
 #' Need for Cognition Cat Object
 #' 
-#' Cat model created for the 34 item Need for Cognition inventory
+#' Cat object containing item parameters for graded response model fit with responses to the 34 item Need for Cognition inventory
 #' 
 #' @details
-#' A Cat object fit with 4985 response profiles collected by Qualtrics in June 2018
+#'  Cat object containing item parameters for graded response model fit with 4985 response profiles collected by Qualtrics in June 2018
 #' and 1512 response profiles from The American Panel Survey (TAPS) in December 2014.
 #' TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS. 
+#' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the TAPS sample (.003) and a standard deviation (1.6)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1780,6 +1886,7 @@
 #' \item{\code{q34}}{ I enjoy thinking about an issue even when the results of my thought will have no effect on the outcome of the issue.} 
 #' }
 #' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
 #'
 #' @references 
 #' 
@@ -1805,13 +1912,16 @@
 
 #' Narcissistic Personality Cat Object
 #' 
-#' Cat model created for the 40 item Narcissistic Personality inventory
+#' Cat object containing item parameters for latent trait model fit with responses
+#' to the  40 item Narcissistic Personality inventory
 #' 
 #' @details
-#' A Cat object fit with 2945 response profiles collected by Qualtrics in June 2018
-#' and 10440 response profiles from personality-testing.info \url{https://openpsychometrics.org/_rawdata/}
-#' collected in 2012.
+#' Cat object containing item parameters for latent trait model fit with
+#' 2945 response profiles collected by Qualtrics in June 2018
+#' and 10440 response profiles collected by the Open Source Psychometrics Project in 2012.
 #' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{ltmCat}} for details regarding the latent trait model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the Qualtrics sample (-.069) and a standard deviation (1)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1871,6 +1981,7 @@
 #' interpretation of item parameters and theta
 #' estimates as larger, positive values indicate "more" of the latent trait.
 #' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{ltmCat}} 
 #'
 #' @references 
 #' 
@@ -1878,11 +1989,13 @@
 #' Inventory and Further Evidence of Its Construct Validity," Journal of Personality and Social
 #' Psychology, 54, 890-902.
 #' 
+#' Open Source Psychometrics Project. \url{https://openpsychometrics.org/_rawdata/}
+#' 
 #' @source 
 #' 
 #' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
-#' See \url{https://openpsychometrics.org/_rawdata/} for the raw personality-testing data.
+#' See \url{https://openpsychometrics.org/_rawdata/}, maintained by Eric Jorgenson, for the raw Open Source Psychometrics Project data.
 #'
 #' @docType data
 #' @name npi_cat
@@ -1897,13 +2010,15 @@
 
 #' Machiavellianism Personality Cat Object
 #' 
-#' Cat model created for the 20 item machiavellianism inventory
+#' Cat object containing item parameters for graded response model fit with responses to the 20 item machiavellianism inventory
 #' 
 #' @details
-#' A Cat object fit with 3020 response profiles collected by Qualtrics in June 2018
-#' and 12299 response profiles from personality-testing.info \url{https://openpsychometrics.org/_rawdata/}
-#' collected in 2012.
+#'  Cat object containing item parameters for graded response model fit with
+#'  3020 response profiles collected by Qualtrics in June 2018
+#' and 12299 response profiles collected by the Open Source Psychometrics Project in 2012.
 #' 
+#' See \code{\link{Cat-class}} for details regarding the Cat object structure.
+#' See \code{\link{grmCat}} for details regarding the graded response model.
 #' 
 #' A normal prior was chosen with mean from the theta estimates from the Qualtrics sample (-0.713) and a standard deviation (1)
 #' wide enough to envelope the range of estimated theta values across both samples.
@@ -1938,17 +2053,19 @@
 #' \item{\code{Q20}}{ Most people forget more easily the death of their parents than the loss of their property.}
 #' }
 #' 
-#' 
+#' @seealso \code{\link{Cat-class}}, \code{\link{grmCat}} 
 #'
 #' @references 
 #' 
 #' Christie, R., F. L. Geis, and D. Berger (1970), Studies in Machiavellianism, New York: Academic Press.
 #' 
+#' Open Source Psychometrics Project. \url{https://openpsychometrics.org/_rawdata/}
+#' 
 #' @source 
 #' 
 #' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
-#' See \url{https://openpsychometrics.org/_rawdata/} for the raw personality-testing data.
+#' See \url{https://openpsychometrics.org/_rawdata/}, maintained by Eric Jorgenson, for the raw Open Source Psychometrics Project data.
 #'
 #' @docType data
 #' @name mach_cat
