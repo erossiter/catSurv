@@ -1,3 +1,12 @@
+## Resubmission
+This is a resubmission.  In this version I have:
+
+* Provided valid links to external URLs referenced in the documentation.
+
+* Added a reference to the method in the Description field of several documentation entries.  In addition to referencing the method,
+I have directed readers (included links) to other documentation entries that fully describe the method and cite all sources.
+
+
 ## Release Summary
 * I addressed all instances of the warnings listed here https://cran.r-project.org/web/checks/check_results_catSurv.html regarding catching errors by value instead of by reference.
 
