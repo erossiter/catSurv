@@ -9,6 +9,11 @@
 
   
 double Estimator::prob_ltm(double theta, size_t question) {
+    if(theta > 20.0 || theta < -20.0){
+        std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
+        throw std::domain_error(msg);
+    }
+    
 	double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
 
 	double difficulty = questionSet.difficulty.at(question).at(0);
@@ -80,11 +85,12 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
 
 	probabilities.push_back(1.0);
 
-	// checking for repeated elements
-  	auto it = std::adjacent_find(probabilities.begin(), probabilities.end());
-  	if(it != probabilities.end()){
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
-  	}
+// 	// checking for repeated elements
+//   	auto it = std::adjacent_find(probabilities.begin(), probabilities.end());
+//   	if(it != probabilities.end()){
+//   	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
+//   	    throw std::domain_error(msg);
+//   	}
 
 	return probabilities;
 }
@@ -115,11 +121,12 @@ std::pair<double,double> Estimator::prob_grm_pair(double theta, size_t question,
 		probs.second = calculate(difficulties[at-1]);
 	}
 
-	// checking for repeated elements
-  	if(probs.first == probs.second)
-  	{
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
-  	}
+// 	// checking for repeated elements
+//   	if(probs.first == probs.second)
+//   	{
+//   	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
+//   	    throw std::domain_error(msg);
+//   	      	}
 
 	return probs;
 }
@@ -147,7 +154,8 @@ std::vector<double> Estimator::prob_gpcm(double theta, size_t question) {
 	}
 	
 	if(denominator == 0.0 or std::isinf(denominator)){
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
+	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
+	    throw std::domain_error(msg);
   	}
 
   	// normalize
@@ -199,7 +207,8 @@ double Estimator::prob_gpcm_at(double theta, size_t question, size_t at)
 	}
 	
 	if(denominator == 0.0 or std::isinf(denominator)){
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
+	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
+	    throw std::domain_error(msg);
   	}
 
   	// normalize 
@@ -263,7 +272,8 @@ double Estimator::gpcm_partial_d1LL(double theta, size_t question, int answer) {
 	}
 
 	if(g == 0.0 or std::isinf(g)){
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
+	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
+	    throw std::domain_error(msg);
   	}
 
   	return (g*f_prime - f*g_prime)/(g*f);
@@ -338,7 +348,8 @@ double Estimator::gpcm_partial_d2LL(double theta, size_t question, int answer) {
 	}
 
 	if(g == 0.0 or std::isinf(g)){
-    	throw std::domain_error("Theta value too extreme for numerical routines.");
+	    std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
+	    throw std::domain_error(msg);
   	}
 
 	double b = g*g;
@@ -977,14 +988,12 @@ double Estimator::expectedPV_ltm_tpm(int item, Prior &prior)
 double Estimator::expectedPV_grm(int item, Prior &prior)
 {
 	//polytomous_posterior_variance
-	   
 	double sum = 0;
 	auto probabilities = prob_grm(estimateTheta(prior), (size_t) item);
   	for (size_t i = 1; i < probabilities.size(); ++i) {
   		double var = std::pow(estimateSE(prior,item,(int)i), 2.0);
     	sum += var * (probabilities.at(i) - probabilities.at(i-1));
     }
-	
 	return sum;
 }
 
@@ -1216,7 +1225,7 @@ double Estimator::expectedObsInf_rest(int item, Prior &prior)
 	return (prob_one * obsInfOne) + ((1 - prob_one) * obsInfZero);
 }
 
-double Estimator::brentMethod(integrableFunction function){//const &function) {
+double Estimator::brentMethod(integrableFunction function){
   int status;
   int iter = 0;
   int max_iter = 100;
@@ -1231,12 +1240,20 @@ double Estimator::brentMethod(integrableFunction function){//const &function) {
   auto gslfunc = GSLFunctionWrapper(function);
   gsl_function *F = gslfunc.asGSLFunction();
   
-	T = gsl_root_fsolver_brent;
+
+  T = gsl_root_fsolver_brent; //can change this to whatever method ex. _bisection
   s = gsl_root_fsolver_alloc (T);
   
   // This function initializes, or reinitializes, an existing solver s
   // to use the function f and the initial search interval [x_lower, x_upper].
   gsl_root_fsolver_set (s, F, x_lo, x_hi);
+  
+  // printf ("using %s method\n", 
+  //         gsl_root_fsolver_name (s));
+  // 
+  // printf ("%5s [%9s, %9s] %9s %9s\n",
+  //         "iter", "lower", "upper", "root", 
+  //         "err(est)");
   
   do {
       iter++;
@@ -1253,13 +1270,24 @@ double Estimator::brentMethod(integrableFunction function){//const &function) {
       double epsrel = 0.0000001;
       
       status = gsl_root_test_interval (x_lo, x_hi, epsabs, epsrel);
-    } 
+  } 
   while (status == GSL_CONTINUE && iter < max_iter);
-
+  
   gsl_root_fsolver_free (s);
   
   return r;
 }
+
+//This version of the function is only for plotting.
+//It is not intented to be used for anything else in the package.
+double Estimator::fisherTestInfo(double theta) {
+    double sum = 0.0;
+    for (auto item : questionSet.applicable_rows) {
+        sum += fisherInf(theta, item);
+    }
+    return sum;
+}
+
   
 double Estimator::fisherTestInfo(Prior prior) {
   double theta = estimateTheta(prior);

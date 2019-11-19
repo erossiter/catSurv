@@ -2,9 +2,10 @@
 #'
 #' Stores answer to item \eqn{k} to the \code{Cat} object's \code{answers} slot.
 #'
-#' @param catObj An object of class \code{Cat}
+#' @param catObj An object of class \code{Cat} or class \code{json}.
 #' @param item An integer indicating the index of the question item
 #' @param answer The answer to the \code{item} to be updated
+#' @param returnJSON Boolean indicating whether the updated \code{Cat} object should be returned as a JSON object.  Defaults to FALSE.
 #'
 #' @details The function \code{storeAnswer} updates the \code{Cat} object, but the updated object must be assigned to an object for the changes to be stored.  See \strong{Examples}.
 #'
@@ -29,13 +30,35 @@
 #' @name storeAnswer
 NULL
 
-setGeneric("storeAnswer", function(catObj, item, answer) standardGeneric("storeAnswer"))
+setGeneric("storeAnswer", function(catObj, item, answer, returnJSON = NULL) standardGeneric("storeAnswer"))
 
 #' @rdname storeAnswer
 #' @export
-setMethod(f = "storeAnswer", signature = "Cat", definition = function(catObj, item, answer){
+setMethod(f = "storeAnswer", signature = "Cat", definition = function(catObj, item, answer, returnJSON = FALSE){
   catObj@answers[item] <- answer
-  return(catObj)
+  validObject(catObj)
+  if(returnJSON){
+      return(toJSONCat(catObj))  
+  }
+  else{
+      return(catObj)
+  }
+})
+
+
+
+#' @rdname storeAnswer
+#' @export
+setMethod(f = "storeAnswer", signature = "character", definition = function(catObj, item, answer, returnJSON = FALSE){
+    catObj <- fromJSONCat(catObj)
+    catObj@answers[item] <- answer
+    validObject(catObj)
+    if(returnJSON){
+        return(toJSONCat(catObj))  
+    }
+    else{
+        return(catObj)
+    }
 })
 
 

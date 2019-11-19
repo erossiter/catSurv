@@ -49,118 +49,89 @@ makeTree <- function(catObj){
 }
 
 makeTree <- function(catObj, flat = FALSE){
-  var_names <- names(catObj@discrimination)
-  resp_options <- rep(NA, length(var_names))
-  for(i in 1:length(var_names)){
-    resp_options[i] <- (length(catObj@difficulty[[i]]) + 2)
-  }
-
-  q <- selectItem(catObj)$next_item
-  output <- list()
-  for (i in 1:(resp_options[q])){
-    output[[paste(i)]] <- NA
-  }
-  output[[i+1]] <- var_names[q]
-  if(catObj@model == "ltm" | catObj@model == "tpm"){
-    names(output) <- c(-1:(resp_options[q] - 2), "Next")
-  } else {
-    names(output) <- c(-1, 1:(resp_options[q] - 1), "Next")
-  }
-  
-  ## function to be called recursively
-  treeList <- function(output, catObj, var_names, resp_options){
-    for(i in 1:length(output)){
-      q_names <- names(output)
-      
-      if(is.na(output[[i]])){
-        
-        if(sum(is.na(catObj@answers)) == 1){
-          q <- var_names[q]
-          output[[q_names[i]]] <- list(Next = q)
-        }
-        
-        if(sum(is.na(catObj@answers)) > 1 & sum(!is.na(catObj@answers)) < (catObj@lengthThreshold - 1)){
-          this_q <- which(var_names == output[["Next"]])
-          new_cat <- storeAnswer(catObj, this_q, as.integer(names(output)[i]))
-          q <- selectItem(new_cat)$next_item
-          for(j in 1:(resp_options[q] + 1)){
-            output[[q_names[i]]][[j]] <- NA
-          }
-          output[[q_names[i]]][[j]] <- var_names[q]
-          if(catObj@model == "ltm" | catObj@model == "tpm"){
-            names(output[[q_names[i]]]) <- c(-1:(resp_options[q]-2), "Next")
-          }else{
-            names(output[[q_names[i]]]) <- c(-1, 1:(resp_options[q]-1), "Next")
-          }
-          output[[q_names[i]]] <- as.list(output[[q_names[i]]])
-
-          ## calling it recursively
-          output[[q_names[i]]] <- treeList(output = output[[q_names[i]]],
-                                     catObj = new_cat,
-                                     var_names = var_names,
-                                     resp_options = resp_options)
-        }
-        
-        if(sum(!is.na(catObj@answers)) >= (catObj@lengthThreshold-1)){
-          this_q <- which(var_names == output[["Next"]])
-          new_cat <- storeAnswer(catObj, this_q, as.integer(names(output)[i]))
-          q <- selectItem(new_cat)$next_item
-          q <- var_names[q]
-          output[[q_names[i]]] <- list(Next = q)
-        }
-      }
-    }
-    return(output)
-  }
-  
-  ## calling recursive function
-  tree <- treeList(output, catObj, var_names = var_names, resp_options = resp_options)
-  
-  ## flatten the tree or leave it as list of lists
-  if(flat == FALSE){
-    out <- tree
-  }else{
-    flattenTree <- function(tree){
-      flatTree <- unlist(tree)
-      names(flatTree) <- gsub("Next", "", names(flatTree))
-      flatTree <- flatTree[order(nchar(names(flatTree)))]
-      
-      if(catObj@model == "ltm" | catObj@model == "tpm"){
-        ans_choices <- c("-", 0:(resp_options[1] - 2))
-      } else {
-        ans_choices <- c("-", 1:(resp_options[1] - 1))
-      }
-      
-      orderedTree <- flatTree[1]
-      for(i in ans_choices[1:length(ans_choices)]){
-        answers <- rep(NA, (length(flatTree)-1)/length(ans_choices))
-        answers <- flatTree[substring(names(flatTree), 1, 1) == i]
-        orderedTree <- c(orderedTree, answers)
-      }
-      
-      flatTree <- orderedTree
-      
-      response_list <- strsplit(names(flatTree), "[.]")
-      output <- matrix(data = NA, nrow = length(flatTree), ncol = length(catObj@answers) + 1)
-      colnames(output) <- c(names(catObj@difficulty), "NextItem")
-      
-      for(i in 1:length(flatTree)){
-        output[i,ncol(output)] <- flatTree[i]
-        if(i > 1){ 
-          output[i, output[1, ncol(output)]] <- response_list[[i]][1]
-          if(length(response_list[[i]]) > 1){
-            for(j in 1:(length(response_list[[i]])-1)){
-              output[i, flatTree[which(sapply(1:length(response_list), function(f)
-                identical(response_list[[f]], response_list[[i]][1:j])))]]  <- response_list[[i]][j+1]
+    qlist<-names(catObj@discrimination) ## qlist is a vector of questions
+    if(length(unique(qlist))!=length(qlist)){ ## If names of questions are not unique, 
+        qlist<-sapply(1:length(qlist),function(x)paste("Q",x,sep=""))} ## assign question numbers
+    ## nresp is a vector of the number of possible responses for each question
+    nresp<-sapply(1:length(qlist),function(x)length(catObj@difficulty[[x]])+2)
+    ## rlist is a matrix of possible responses for every question
+    if(catObj@model=="ltm"|catObj@model=="tpm"){
+        rlist<-sapply(1:length(qlist),function(x){c(-1:(nresp[x]-2), "Next")})}
+    else{rlist<-sapply(1:length(qlist),function(x){c(-1, 1:(nresp[x]-1), "Next", rep(NA,max(nresp)-(nresp)[x]))})}
+    ## Variables defined above are always fixed and not to be modified below
+    
+    recursiveTree<-function(catObj, output, currentq){  ## To be recursively called
+        ## For this call, = for this response, what is the question to be answered?
+        ## Assign that question as an element, "Next", for current output as a list.
+        output<-list(Next=qlist[selectItem(catObj)$next_item])
+        for (i in 1:nresp[[currentq]]){ ## Loop: for each possible response
+            nextcat<-storeAnswer(catObj,currentq,as.numeric(rlist[i,currentq])) ## Predict next call
+            ## i.e. if your answer to current question is 'i', how would your catObj look in next call?
+            if(checkStopRules(nextcat) | (sum(is.na(nextcat@answers))==1) | (catObj@lengthThreshold==sum(!is.na(nextcat@answers))) ){
+                ## If one of the conditions is TRUE, adaptive inventory should stop
+                #output[[rlist[i,currentq]]]<-list(Next=qlist[selectItem(nextcat)$next_item])
             }
-          }
+            else{ ## If not, move on to next question with 'nextcat',
+                ## with the current response, 'i', as a list of current output, which will be the new output
+                ## for the next call. For the next call, 'selectItem(nextcat)$next_item)' will be
+                ## the question under consideration.
+                output[[rlist[i,currentq]]]<-
+                    recursiveTree(catObj=nextcat, output=output[[rlist[i,currentq]]],
+                                  currentq=selectItem(nextcat)$next_item)
+                
+            }
         }
-      }
-      output <- as.table(as.matrix(output))
-      return(output)
+        return(output) ## Upon finishing all of the recursive calls, return output.
     }
-    out <- flattenTree(tree)
-  }
-  return(out)
+    ## Now that we have the recursive function, start the process with inputs for makeTree()
+    tree<-recursiveTree(catObj=catObj,output=list(),currentq=selectItem(catObj)$next_item)
+    
+    
+    ## flatten the tree or leave it as list of lists
+    if(flat == FALSE){
+        out <- tree
+    }else{
+        flattenTree <- function(tree){
+            flatTree <- unlist(tree)
+            names(flatTree) <- gsub("Next", "", names(flatTree))
+            flatTree <- flatTree[order(nchar(names(flatTree)))]
+            
+            if(catObj@model == "ltm" | catObj@model == "tpm"){
+                ans_choices <- c("-", 0:(nresp[1] - 2))
+            } else {
+                ans_choices <- c("-", 1:(nresp[1] - 1))
+            }
+            
+            orderedTree <- flatTree[1]
+            for(i in ans_choices[1:length(ans_choices)]){
+                answers <- rep(NA, (length(flatTree)-1)/length(ans_choices))
+                answers <- flatTree[substring(names(flatTree), 1, 1) == i]
+                orderedTree <- c(orderedTree, answers)
+            }
+            
+            flatTree <- orderedTree
+            
+            response_list <- strsplit(names(flatTree), "[.]")
+            output <- matrix(data = NA, nrow = length(flatTree), ncol = length(catObj@answers) + 1)
+            colnames(output) <- c(qlist, "NextItem")
+            
+            for(i in 1:length(flatTree)){
+                output[i,ncol(output)] <- flatTree[i]
+                if(i > 1){ 
+                    output[i, output[1, ncol(output)]] <- response_list[[i]][1]
+                    if(length(response_list[[i]]) > 1){
+                        for(j in 1:(length(response_list[[i]])-1)){
+                            output[i, flatTree[which(sapply(1:length(response_list), function(f)
+                                identical(response_list[[f]], response_list[[i]][1:j])))]]  <- response_list[[i]][j+1]
+                        }
+                    }
+                }
+            }
+            output <- as.table(as.matrix(output))
+            return(output)
+        }
+        out <- flattenTree(tree)
+    }
+    return(out)
 }
 

@@ -59,7 +59,8 @@ using namespace Rcpp;
 //'  
 //'  where \eqn{\theta_j} is respondent \eqn{j} 's position on the latent scale of interest, \eqn{\alpha_i} is the discrimination parameter for item \eqn{i},
 //'  \eqn{\beta_i} is the difficulty parameter for item \eqn{i}, and \eqn{\tau_{it}} is the category \eqn{t} threshold parameter for item \eqn{i}, with \eqn{k = 1,...,K_i} response options
-//'  for item \eqn{i}.  For identification purposes \eqn{\tau_{i0} = 0} and \eqn{\sum_{t=1}^1 \alpha_{i} [\theta_j - (\beta_i - \tau_{it})] = 0}.
+//'  for item \eqn{i}.  For identification purposes \eqn{\tau_{i0} = 0} and \eqn{\sum_{t=1}^1 \alpha_{i} [\theta_j - (\beta_i - \tau_{it})] = 0}.  Note that when fitting the model,
+//'  the \eqn{\beta_i} and  \eqn{\tau_{it}} are not distinct, but rather, the difficulty parameters are \eqn{\beta_{it}} =  \eqn{\beta_{i}} - \eqn{\tau_{it}}.
 //'
 //'@examples
 //'## Loading ltm Cat object
@@ -98,14 +99,8 @@ using namespace Rcpp;
 //'  
 //' @export
 // [[Rcpp::export]]
-std::vector<double> probability(S4 catObj, NumericVector theta, IntegerVector item) {
-	Cat cat = Cat(catObj);
-	double t = theta[0];
-	int q = item[0];
-	if(q == 0){
-	  throw std::domain_error("Must use an item number applicable to Cat object.");
-	}
-	return cat.probability(t, q);
+std::vector<double> probability(S4 catObj, double theta, int item) {
+    return Cat(catObj).probability(theta, item);
 }
 
 //' Likelihood of the Specified Response Set
@@ -158,25 +153,24 @@ double likelihood(S4 catObj, double theta) {
 
 
 
-//' Evaluate the Prior Density Distribution at Position \code{x}
+//' Evaluate the Prior Density Distribution at Position \eqn{theta}
 //'
-//' Calculates the density at \code{x} of either the normal, Student's t, or uniform distribution.
+//' Calculates the density at \code{theta} of either the normal, Student's t, or uniform distribution.
 //'
-//' @param x A numeric value at which to evaluate the prior
-//' @param dist A string indicating the distribution (slot \code{priorName} of \code{Cat} object)
-//' @param params A length two numeric vector indicating the parameters of the distribution (slot \code{priorParams} of \code{Cat} object)
+//' @param catObj An object of class \code{Cat}.  
+//' @param theta A numeric value at which to evaluate the prior
 //' 
-//' @return The function \code{prior} returns a numeric consisting of prior value, \eqn{\pi(x)}, given the value \code{x}.
+//' @return The function \code{prior} returns a numeric consisting of prior value, \eqn{\pi(\theta)}, given the value \eqn{\theta}.
 //'
-//' @details The \code{dist} argument needs to be either \code{"UNIFORM"}, \code{"NORMAL"}, or \code{"STUDENT_T"}.
+//' @details The \code{priorName} slot of \code{Cat} object needs to be either \code{"UNIFORM"}, \code{"NORMAL"}, or \code{"STUDENT_T"}.
 //' 
-//' When \code{dist} is \code{"NORMAL"}, the first element of \code{params} is the mean, 
+//' When \code{priorName} slot is \code{"NORMAL"}, the first element of \code{priorParams} slot is the mean, 
 //' the second element is the standard deviation.
 //' 
-//' When \code{dist} is \code{"STUDENT_T"}, the first 
-//' element of \code{params} is the non-centrality parameters and the second is degrees of freedom.  
+//' When \code{priorName} slot is \code{"STUDENT_T"}, the first 
+//' element of \code{priorParams} slot is the non-centrality parameters and the second is degrees of freedom.  
 //' 
-//' When \code{dist} is \code{"UNIFORM"}, the elements of \code{params} are the lower and upper bounds,
+//' When \code{priorName} slot is \code{"UNIFORM"}, the elements of the \code{priorParams} slot are the lower and upper bounds,
 //' of the interval, respectively.  Note that the \code{"UNIFORM"} is only applicable for the expected a posteriori (EAP) estimation method.   
 //' 
 //' @examples
@@ -186,15 +180,15 @@ double likelihood(S4 catObj, double theta) {
 //'## Prior calculation for different distributions
 //'ltm_cat@priorName <- "NORMAL"
 //'ltm_cat@priorParams <- c(0, 1) ## Parameters are mean and standard deviation
-//'prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
+//'prior(ltm_cat, theta = 1)
 //'
 //'ltm_cat@priorName <- "STUDENT_T"
 //'ltm_cat@priorParams <- c(1, 3) ## Parameters are non-centrality param and degrees of freedom
-//'prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
+//'prior(ltm_cat, theta = 1)
 //'
 //'ltm_cat@priorName <- "UNIFORM"
 //'ltm_cat@priorParams <- c(-1, 1) ## Parameters are lower bound and upper bound of interval
-//'prior(x = 1, ltm_cat@priorName, ltm_cat@priorParams)
+//'prior(ltm_cat, theta = 1)
 //'
 //'
 //' @seealso
@@ -214,10 +208,10 @@ double likelihood(S4 catObj, double theta) {
 //'  
 //' @export
 // [[Rcpp::export]]
-double prior(NumericVector x, CharacterVector dist, NumericVector params) {
-  std::string name = Rcpp::as<std::string>(dist);
-  std::vector<double> args = Rcpp::as<std::vector<double> >(params);
-  return Prior(name, args).prior(x[0]);
+double prior(S4 catObj, double theta) {
+    std::string name = Rcpp::as<std::string>(catObj.slot("priorName")); 
+    std::vector<double> args = Rcpp::as<std::vector<double> >(catObj.slot("priorParams"));
+    return Prior(name, args).prior(theta);
 }
 
 //' The First Derivative of the Log-Likelihood
@@ -400,105 +394,7 @@ double estimateTheta(S4 catObj) {
 
 
 
-//' Estimates of Ability Parameters for a Dataset of Response Profiles
-//'
-//' Estimates the expected value of the ability parameter \eqn{\theta}, conditioned on the observed answers, prior, and the item parameters
-//' for complete response profiles for a dataset of respondents.
-//'
-//' @param catObj An object of class \code{Cat}
-//' @param responses A dataframe of complete response profiles
-//'
-//' @return The function \code{estimateThetas} returns a vector of the expected values of the respondents' ability parameters.
-//'
-//' @details
-//' 
-//' Estimation approach is specified in \code{estimation} slot of \code{Cat} object.
-//' 
-//' The expected a posteriori approach is used when \code{estimation} slot is \code{"EAP"}.  This method involves integration.  See \strong{Note} for more information.
-//' 
-//' The modal a posteriori approach is used when \code{estimation} slot is \code{"MAP"}.  This method is only available using the normal prior distribution.
-//' 
-//' The maximum likelihood approach is used when \code{estimation} slot is \code{"MLE"}.  When the likelihood is undefined,
-//' the MAP or EAP method will be used, determined by what is specified in the \code{estimationDefault} slot in \code{Cat} object.
-//' 
-//' The weighted maximum likelihood approach is used when \code{estimation} slot is \code{"WLE"}.
-//' Estimating \eqn{\theta} requires root finding with the ``Brent'' method in the GNU Scientific
-//'  Library (GSL) with initial search interval of \code{[-5,5]}.
-//' 
-//' @examples
-//'## Loading ltm Cat object
-//'data(ltm_cat)
-//'
-//'## Set different estimation procedures and estimate ability parameter
-//'data(npi)
-//'setEstimation(ltm_cat) <- "EAP"
-//'estimateThetas(ltm_cat, responses = npi[1:25, ])
-//'
-//' 
-//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
-//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
-//'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
-//' 
-//' This function uses adaptive quadrature methods from the GNU Scientific
-//'  Library (GSL) to approximate single-dimensional
-//'  integrals with high accuracy.  The bounds of integration are determined by the
-//'  \code{lowerBound} and \code{upperBound} slots of the \code{Cat} object.
-//' 
-//' @seealso \code{\link{Cat-class}}, \code{\link{estimateTheta}}
-//' @export
-// [[Rcpp::export]]
-NumericVector estimateThetas(S4 catObj, DataFrame responses){
-	return Cat(catObj).estimateThetas(responses);
-}
 
-
-
-
-
-
-//' Simulates Estimates of Ability Parameters for a Dataset of Response Profiles
-//'
-//' Given a set of stopping rules and complete response profiles for a dataset of respondents,
-//' simulates the expected value of the ability parameter \eqn{\theta} as though an adaptive 
-//' battery were provided
-//'
-//' @param catObj An object of class \code{Cat} with stopping rule(s) specified
-//' @param responses A dataframe of complete response profiles
-//'
-//' @return The function \code{simulateThetas} returns a vector of the expected values of the respondents' ability parameters
-//' as though the respondents were given an adaptive battery.  Given the item selection criterion specified in the \code{Cat} object,
-//'  this function selects an item, "administers" the item to the respondent, and records their answer from the dataframe provided in
-//'  the \code{response} parameter of the function.  This process continues until stopping rule(s) specified in the \code{Cat} object are met for each respondent.  The function returns a final estimate of the ability parameter \eqn{\theta}
-//'  for each respondent.
-//'  
-//'
-//' 
-//' @examples
-//'## Loading ltm Cat object
-//'data(ltm_cat)
-//'
-//'## Set estimation, selection, and stopping rule
-//'data(npi)
-//'setEstimation(ltm_cat) <- "EAP"
-//'setSelection(ltm_cat) <- "EPV"
-//'setLengthThreshold(ltm_cat) <- 3
-//'
-//'## Simulate theta by asking 3 questions adaptively for the first 25 respondents
-//'simulateThetas(ltm_cat, responses = npi[1:25, ])
-//'
-//' 
-//' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
-//'  Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
-//'  
-//' @note This function is to allow users to access the internal functions of the package. During item selection, all calculations are done in compiled \code{C++} code.
-//' 
-//' @seealso \code{\link{Cat-class}}, \code{\link{estimateThetas}}, \code{\link{checkStopRules}}
-//' @export
-// [[Rcpp::export]]
-NumericVector simulateThetas(S4 catObj, DataFrame responses){
-	return Cat(catObj).simulateThetas(responses);
-}
 
 
 //' Observed Information
@@ -615,11 +511,15 @@ double fisherInf(S4 catObj, double theta, int item) {
   return Cat(catObj).fisherInf(theta, item);
 }
 
+
+
+
 //' Fisher's Test Information
 //'
 //' Calculates the total information gained for a respondent for all answered items, conditioned on \eqn{\theta}.
 //'
 //' @param catObj An object of class \code{Cat}
+//' @param theta A numeric indicating the position on the latent trait.
 //' 
 //' @return The function \code{fisherTestInfo} returns a numeric indicating the total information gained for a respondent,
 //'  given a specific answer set and the current estimate of \eqn{\theta}.
@@ -633,7 +533,7 @@ double fisherInf(S4 catObj, double theta, int item) {
 //'setAnswers(ltm_cat) <- c(1,0,1,0,1, rep(NA, 35))
 //'
 //'## Fisher's test information for answer profile
-//'fisherTestInfo(ltm_cat)
+//'fisherTestInfo(ltm_cat, theta = 2)
 //'
 //' 
 //' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery,
@@ -645,9 +545,10 @@ double fisherInf(S4 catObj, double theta, int item) {
 //' 
 //' @export
 // [[Rcpp::export]]
-double fisherTestInfo(S4 catObj) {
-  return Cat(catObj).fisherTestInfo();
+double fisherTestInfo(S4 catObj, double theta) {
+    return Cat(catObj).fisherTestInfo(theta);
 }
+
 
 //' Standard Error of Ability Parameter Estimate
 //'
@@ -763,13 +664,15 @@ double expectedPV(S4 catObj, int item) {
 //' 
 //' @param catObj An object of class \code{Cat}
 //'
-//' @return The function \code{selectItem} returns a list with two elements:
+//' @return The function \code{selectItem} returns a list with three elements:
 //'  
 //' \code{estimates}: a data frame with a row for each unasked question and three columns representing 
 //' the item index number, the item name, and the item value (calculated by the specified selection method), 
 //' and
 //' 
 //' \code{next_item}: a numeric representing the index of the item that should be asked next.
+//' 
+//' \code{next_item_name}: a string representing the unique identifier of the item that should be asked next.
 //'
 //' @details Selection approach is specified in the \code{selection} slot of the \code{Cat} object.
 //' 
@@ -1044,7 +947,7 @@ double posteriorKL(S4 catObj, int item) {
 //' @param catObj  An object of class \code{Cat}
 //' @param item A numeric indicating the question item the respondent is currently answering.
 //'
-//' @return A function \code{lookAhead} returns a list of one element named \code{estimates}, which is itself a data frame.
+//' @return A function \code{lookAhead} returns a data.frame.
 //' The the first column of the data frame is the possible response option to the question the respondent
 //' is currently answering and the second column is the next item that should be asked given each response.
 //' 

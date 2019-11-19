@@ -19,7 +19,9 @@
 
 \item{\code{Q3}}{Social Security is
 
-1 = the benefit program for senior citizens. 2 = the responsibility of the Department of Defense. 3 = operated by state governments. 4 = funded by the personal income tax. 5 = Don't know.
+1 = the benefit program for senior citizens. 2 = the responsibility of the 
+Department of Defense. 3 = operated by state governments. 4 = funded by the 
+personal income tax. 5 = Don't know.
 }
 
 \item{\code{Q4}}{On which of the following programs is the most money spent each year?
@@ -34,7 +36,9 @@
 
 \item{\code{Q6}}{How many votes are required in Congress to override a presidential veto?
 
-1 = a simple majority of one house of Congress. 2 = a simple majority of both houses of Congress. 3 = a two-thirds majority of one house of Congress. 4 = a two-thirds majority of both houses of Congress. 5 = Don't know.
+1 = a simple majority of one house of Congress. 2 = a simple majority of both 
+houses of Congress. 3 = a two-thirds majority of one house of Congress. 4 = a 
+two-thirds majority of both houses of Congress. 5 = Don't know.
 }
 
 \item{\code{Q7}}{How long is one term for a member of the U.S. Senate?
@@ -58,15 +62,20 @@
 }
 }}
 \source{
-\url{http://taps.wustl.edu/data-archive}
+\url{https://wc.wustl.edu/}
 }
 \usage{
 data(polknowTAPS)
 }
 \description{
-Data of responses to a political knowledge battery from the May 2013 wave of The American Panel Survey (TAPS) out of Washington University in St. Louis.
+Data of responses to a political knowledge battery from the May 2013 wave 
+of The American Panel Survey (TAPS) out of Washington University in St. Louis.
 }
 \details{
-TAPS is a monthly online panel survey  of about 2,000 adults in the United States. The panel was recruited in the fall of 2011 using an address-based sampling frame.  TAPS surveys are administered online.  Selected panelists who do not have a computer or online service are provided a computer and internet access by TAPS.
+TAPS is a monthly online panel survey  of about 2,000 adults in the United 
+States. The panel was recruited in the fall of 2011 using an address-based 
+sampling frame.  TAPS surveys are administered online.  Selected panelists 
+who do not have a computer or online service are provided a computer and 
+internet access by TAPS.
 }
 \keyword{datasets}

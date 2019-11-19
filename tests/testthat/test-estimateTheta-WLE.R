@@ -32,20 +32,28 @@ test_that("gpcm WLE estimation calculates correctly", {
   expect_equal(round(package_wle, 4), round(catR_map, 4))
 })
 
-test_that("WLE with all extreme answers defaults correctly", {
-  grm_cat@answers[1:5] <- gpcm_cat@answers <- c(1, 1, 5, 1, 1)
+test_that("WLE (grm) with all extreme answers defaults correctly", {
+  grm_cat@answers[1:5] <- c(1, 1, 5, 1, 1)
   grm_cat@estimation <- "WLE"
-  gpcm_cat@estimation <- "WLE"
-  package_wle_grm <- estimateTheta(grm_cat)
-  package_wle_gpcm <- estimateTheta(gpcm_cat)
-
   grm_cat@estimationDefault <- "MAP"
-  gpcm_cat@estimationDefault <- "MAP"
+  package_wle_grm <- estimateTheta(grm_cat)
+
+  grm_cat@estimation <- "MAP"
   package_map_grm <- estimateTheta(grm_cat)
-  package_map_gpcm <- estimateTheta(gpcm_cat)
 
   expect_equal(package_wle_grm, package_map_grm)
-  expect_equal(package_wle_gpcm, package_map_gpcm)
+})
+
+test_that("WLE (grm) with all extreme answers defaults correctly", {
+    gpcm_cat@answers[1:5] <- c(1, 1, 1, 1, 1)
+    gpcm_cat@estimation <- "WLE"
+    gpcm_cat@estimationDefault <- "MAP"
+    package_wle_gpcm <- estimateTheta(gpcm_cat)
+    
+    gpcm_cat@estimation <- "MAP"
+    package_map_gpcm <- estimateTheta(gpcm_cat)
+    
+    expect_equal(package_wle_gpcm, package_map_gpcm)
 })
 
 test_that("estimatTheta with WLE works when questions skipped", {

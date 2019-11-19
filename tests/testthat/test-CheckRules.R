@@ -46,12 +46,21 @@ checkStopRules_test <- function(cat){
 
 
 
+
 test_that("lengthThreshold works", {
   ltm_cat@lengthThreshold <- 5
   expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
 
   ltm_cat@answers[1:5] <- c(0, 1, 1, 0, 1)
   expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
+})
+
+test_that("lengthThreshold counts skipped questions", {
+    ltm_cat@lengthThreshold <- 5
+    expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
+    
+    ltm_cat@answers[1:5] <- c(-1, -1, 1, 0, 1)
+    expect_equal(checkStopRules(ltm_cat), checkStopRules_test(ltm_cat))
 })
 
 test_that("seThreshold works", {

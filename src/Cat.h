@@ -39,7 +39,7 @@ public:
 	
 	Rcpp::List selectItem();
 	
-	Rcpp::List lookAhead(int item);
+	Rcpp::DataFrame lookAhead(int item);
 	
 	bool checkStopRules();
 	
@@ -53,15 +53,13 @@ public:
 	
 	double posteriorKL(int item);
 	
-	double fisherTestInfo();
-
-	NumericVector estimateThetas(DataFrame& responses);
-
-	NumericVector simulateThetas(DataFrame& responses);
+	//double fisherTestInfo();
+	
+	double fisherTestInfo(double theta);
 
 private:
-	bool noneOfOverrides(double se);
-	bool anyOfThresholds(double se);
+	bool noneOfOverrides();
+	bool anyOfThresholds();
 
 
 private:

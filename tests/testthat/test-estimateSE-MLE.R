@@ -14,7 +14,7 @@ test_that("ltm MLE theta standard error calculates correctly", {
 
 test_that("grm MLE theta standard error calculates correctly", {
   grm_cat@estimation <- "MLE"
-  grm_cat@answers[1:5] <- c(4, 5, 2, 4, 4)
+  grm_cat@answers[1:4] <- c(1,2,3,4)
   package_se <- estimateSE(grm_cat)
   catR_se <- semTheta(thEst = estimateTheta(grm_cat), it = it_grm,
                        x = c(grm_cat@answers) - 1, method = "ML", model = "GRM")

@@ -1,8 +1,11 @@
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 Overview
 --------
 
-catSurv provides methods of computerized adaptive testing for survey researchers with functions to calculate the probability of a respondent providing an item option with `probability()`, a current estimate of their position on a latent trait with `estimateTheta()`, and ultimately selecting the next best survey item to adminster to that respondent with `selectItem()`, among others.
+catSurv provides methods of computerized adaptive testing for survey researchers, including
+
+-   functionality to assess fit and performance of the underlying model via simulations
+-   pre-calibrated item parameters (stored as `Cat` objects) for 18 widely used personality inventories so researchers can easily incorporate adaptive batteries into their own surveys
+-   functionality to pre-build adaptive batteries in order to work with survey firms
 
 Installation
 ------------

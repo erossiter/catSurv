@@ -16,5 +16,8 @@ public:
 	
 	virtual double estimateSE(Prior prior) override;
 	virtual double estimateSE(Prior prior, size_t question, int answer) override;
+	
+	double newton_raphson(Prior prior, double theta_hat_old, double theta_hat_new, bool second_try);
+	double newton_raphson(Prior prior, size_t question, int answer, double theta_hat_old, double theta_hat_new, bool second_try);
 
 };

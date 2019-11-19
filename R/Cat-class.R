@@ -14,6 +14,7 @@ setClassUnion("numericORlist", c("numeric","list"))
 #'
 #' Assume we have a survey battery with \code{I} questions.  An object of the class \code{Cat} has the following slots:
 #' \itemize{
+#' \item \code{ids} A vector of length \code{I} of unique question identifiers.  Default is the column names of response data frame used to calibrate \code{Cat} object.
 #' \item \code{guessing} A vector of length \code{I} of guessing parameters.  Guessing parameters are only applicable for \code{Cat} objects fit with the \code{"tpm"} model, using the \code{tpmCat} function. 
 #' \item \code{discrimination} A vector of length \code{I} of discrimination parameters.
 #' \item \code{difficulty} A vector or list of length \code{I} of difficulty parameters. For \code{Cat} objects of the \code{"ltm"} or \code{"tpm"} model, \code{difficulty} is a vector that contains a parameter for each item.  For \code{Cat} objects of the \code{"grm"} or \code{"gpcm"} model, \code{difficulty} is a list that contains a vector for each item, and each vector contains parameters for each response option.  
@@ -46,6 +47,7 @@ setClassUnion("numericORlist", c("numeric","list"))
 #' @export
 setClass("Cat",
   slots = list(
+    ids = "character",
     guessing = "numeric",
     discrimination = "numeric",
     difficulty = "numericORlist",
@@ -66,6 +68,7 @@ setClass("Cat",
     lengthOverride = "logicalORnumeric",
     gainOverride = "logicalORnumeric"),
   prototype = prototype(
+    ids = paste0("Q", 1:10),  
     guessing = rep(0, 10),
     discrimination = rep(0, 10),
     difficulty = rep(0, 10),
@@ -95,86 +98,107 @@ setMethod("initialize", "Cat", function(.Object, ...) {
 
 
 setValidity("Cat", function(object){
-  if(! length(object@discrimination) > 1){
-    stop("Discrimination needs length greater than 1.")
-  }
-
-  if(! length(object@discrimination) == length(object@guessing)){
-    stop("Discrimination and guessing need to be same length.")
-  }
-
-  if(! length(object@discrimination) == length(object@answers)){
-    stop("Discrimination and answers need to be same length.")
-  }
-
-  if(! length(object@discrimination)==length(object@difficulty)){
-    stop("Discrimination and difficulty need to be same length.")
-  }
-
-  if(object@model == "grm" | object@model == "gpcm"){
-    if(class(object@difficulty) != "list") stop("Difficulty needs to be a list.")
-  }
-  
-  if(object@upperBound < object@lowerBound){
-    stop("Lower bound value must be less than upper bound value.")
-  }
-  
-  if(object@model == "grm"){
-    for(i in object@difficulty){
-      sorted <- sort(i)
-      uniques <- unique(sorted)
-      if(sum(sorted != i) > 0){
-        stop("Difficulty values must be increasing.")
-      }
-      if(length(uniques) != length(i)){
-        stop("Difficulty values must be unique within each item.")
-      }
+    ## Checking for valid id's
+    if(length(unique(object@ids)) != length(object@answers)){
+        stop("Question id's must be unique.")
+    } 
+    
+    ## Checking for valid answers
+    if(object@model == "ltm" | object@model == "tpm"){
+        if(any(!object@answers %in% c(0, 1, NA, -1))){
+            stop("Answer for binary model is not valid.")
+        }
     }
-  }
-  
-  if(sum(is.na(object@discrimination)) > 0){
-    stop("Discrimination values cannot be NA.")
-  }
-  
-  if(object@priorName == 'UNIFORM'){
-    if(object@estimation != "EAP"){
-      stop("Uniform prior requires EAP estimation.")
+    if(object@model == "grm" | object@model == "gpcm"){
+        for(i in 1:length(object@answers)){
+            max_option <- length(object@difficulty[[i]])+1
+            if(!object@answers[i] %in% c(NA, -1:max_option)){
+                stop("Answer for categorical model is not valid.")  
+            }
+        }
     }
-  }
-  
-  if(sum(is.na(object@guessing)) > 0){
-    stop("Guessing values cannot be NA.")
-  }
-  
-  if(sum(object@guessing < 0) > 0 | sum(object@guessing > 1) > 0){
-    stop("Guessing values must be between 0 and 1.")
-  }
-  
-  model_options = c("ltm", "grm", "gpcm", "tpm")
-  if(! object@model %in% model_options){
-    stop("Model is not valid.  Must be 'ltm', 'tpm', 'grm' or 'gpcm'.")
-  }
-  
-  estimation_options = c("EAP", "MAP", "MLE", "WLE")
-  if(! object@estimation %in% estimation_options){
-    stop("Estimation method is not valid.  Must be 'EAP', 'MAP', 'MLE', or 'WLE'.")
-  }
-  
-  estdefault_options = c("EAP", "MAP")
-  if(! object@estimationDefault %in% estdefault_options){
-    stop("Estimation default method is not valid.  Must be 'EAP' or 'MAP'.")
-  }
-  
-  prior_options <- c("NORMAL", "STUDENT_T", "UNIFORM")
-  if(! object@priorName %in% prior_options){
-    stop("Prior name is not valid.")
-  }
-  
-  selection_options = c("EPV", "MEI", "MFI", "MPWI", "MLWI",
-                        "KL", "LKL", "PKL", "MFII", "RANDOM")
-  if(!object@selection %in% selection_options){
-    stop("Selection method is not valid.")
-  }
+    
+    
+    if(! length(object@discrimination) > 1){
+        stop("Discrimination needs length greater than 1.")
+    }
+    
+    if(! length(object@discrimination) == length(object@guessing)){
+        stop("Discrimination and guessing need to be same length.")
+    }
+    
+    if(! length(object@discrimination) == length(object@answers)){
+        stop("Discrimination and answers need to be same length.")
+    }
+    
+    if(! length(object@discrimination)==length(object@difficulty)){
+        stop("Discrimination and difficulty need to be same length.")
+    }
+    
+    if(object@model == "grm" | object@model == "gpcm"){
+        if(class(object@difficulty) != "list") stop("Difficulty needs to be a list.")
+    }
+    
+    if(object@upperBound < object@lowerBound){
+        stop("Lower bound value must be less than upper bound value.")
+    }
+    
+    if(object@model == "grm"){
+        for(i in object@difficulty){
+            sorted <- sort(i)
+            uniques <- unique(sorted)
+            if(sum(sorted != i) > 0){
+                stop("Difficulty values must be increasing.")
+            }
+            if(length(uniques) != length(i)){
+                stop("Difficulty values must be unique within each item.")
+            }
+        }
+    }
+    
+    if(sum(is.na(object@discrimination)) > 0){
+        stop("Discrimination values cannot be NA.")
+    }
+    
+    if(object@priorName == 'UNIFORM'){
+        if(object@estimation != "EAP"){
+            stop("Uniform prior requires EAP estimation.")
+        }
+    }
+    
+    if(sum(is.na(object@guessing)) > 0){
+        stop("Guessing values cannot be NA.")
+    }
+    
+    if(sum(object@guessing < 0) > 0 | sum(object@guessing > 1) > 0){
+        stop("Guessing values must be between 0 and 1.")
+    }
+    
+    model_options = c("ltm", "grm", "gpcm", "tpm")
+    if(! object@model %in% model_options){
+        stop("Model is not valid.  Must be 'ltm', 'tpm', 'grm' or 'gpcm'.")
+    }
+    
+    estimation_options = c("EAP", "MAP", "MLE", "WLE")
+    if(! object@estimation %in% estimation_options){
+        stop("Estimation method is not valid.  Must be 'EAP', 'MAP', 'MLE', or 'WLE'.")
+    }
+    
+    estdefault_options = c("EAP", "MAP")
+    if(! object@estimationDefault %in% estdefault_options){
+        stop("Estimation default method is not valid.  Must be 'EAP' or 'MAP'.")
+    }
+    
+    prior_options <- c("NORMAL", "STUDENT_T", "UNIFORM")
+    if(! object@priorName %in% prior_options){
+        stop("Prior name is not valid.")
+    }
+    
+    selection_options = c("EPV", "MEI", "MFI", "MPWI", "MLWI",
+                          "KL", "LKL", "PKL", "MFII", "RANDOM")
+    if(!object@selection %in% selection_options){
+        stop("Selection method is not valid.")
+    }
 })
 
 
@@ -251,6 +275,18 @@ setReplaceMethod("setAnswers", "Cat", definition = function(catObj, value){
   slot(catObj, "answers") <- value
   validObject(catObj)
   return(catObj)
+})
+
+
+setGeneric("setIds<-", function(catObj, value) standardGeneric("setIds<-"))
+
+#' @aliases setIds<- setters
+#' @rdname setters
+#' @export
+setReplaceMethod("setIds", "Cat", definition = function(catObj, value){
+    slot(catObj, "ids") <- value
+    validObject(catObj)
+    return(catObj)
 })
 
 
@@ -440,7 +476,12 @@ setReplaceMethod("setGainOverride", "Cat", definition = function(catObj, value){
 #' @return These functions return the respective slot from Cat object.
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, 
-#'Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil 
+#'Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil
+#'
+#' @references 
+#' 
+#' Montgomery, Jacob M., and Erin L. Rossiter. "So many questions, so little time: 
+#' Integrating adaptive inventories into public opinion research." Journal of Survey Statistics and Methodology (2019). 
 #' 
 #' @examples
 #' ## Loading ltm Cat object
@@ -495,6 +536,13 @@ setGeneric("getAnswers", function(catObj) standardGeneric("getAnswers"))
 #' @rdname getters
 #' @export
 setMethod("getAnswers", "Cat", function(catObj) return(catObj@answers))
+
+setGeneric("getIds", function(catObj) standardGeneric("getIds"))
+
+#' @aliases getIds getters
+#' @rdname getters
+#' @export
+setMethod("getIds", "Cat", function(catObj) return(catObj@ids))
 
 setGeneric("getPriorName", function(catObj) standardGeneric("getPriorName"))
 

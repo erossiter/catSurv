@@ -87,36 +87,29 @@ setGeneric("grmCat", function(data, quadraturePoints = NULL, ...){
 setMethod("grmCat",
           signature(data = "data.frame"),
           function(data, quadraturePoints = 21, ...){
-            fit <- grm(data = data, control = list(GHk = quadraturePoints), ...)
-            coefficients <- fit$coef
-            
-            discm <- sapply(1:length(coefficients), function(i){
-              coefficients[[i]][length(coefficients[[i]])]})
-            names(discm) <- names(discm)
-            
-            diff <- lapply(1:length(coefficients), function(i){
-              coefficients[[i]][-length(coefficients[[i]])]})
-            names(diff) <- names(diff)
-            
-            if(any(discm < -5) || any(discm > 5)){
-              warning("Measurement model poorly estimated: 
-                      discrimination values outside of [-5, 5]")
-              }
-            
-            for (i in 1:length(diff)){
-              if (any(diff[[i]] < -5) || any(diff[[i]] > 5)){
-                warning("Measurement model poorly estimated: 
-                        difficulty values outside of [-5, 5]")
-              }
-            }
-            
-            object <- new("Cat")
-            object@discrimination <- discm
-            object@difficulty <- diff
-            object@guessing <- rep(0, length(discm))
-            object@answers <- rep(NA, length(discm))
-            object@model <- "grm"
-            return(object)
+              fit <- grm(data = data, control = list(GHk = quadraturePoints), ...)
+              coefficients <- fit$coef
+
+              discm <- sapply(1:length(coefficients), function(i){
+                  coefficients[[i]][length(coefficients[[i]])]
+              })
+
+              diff <- lapply(1:length(coefficients), function(i){
+                  out <- coefficients[[i]][-length(coefficients[[i]])]
+                  names(out) <- NULL
+                  return(out)
+              })
+
+              object <- new("Cat")
+              object@ids <- colnames(data)
+              names(diff) <- names(discm) <- object@ids
+              
+              object@discrimination <- discm
+              object@difficulty <- diff
+              object@guessing <- rep(0, length(discm))
+              object@answers <- rep(NA, length(discm))
+              object@model <- "grm"
+              return(object)
 })
 
 #' @rdname grmCat
@@ -124,33 +117,27 @@ setMethod("grmCat",
 setMethod("grmCat",
           signature(data = c("grm")),
           function(data, quadraturePoints = NULL, ...){
-            coefficients <- data$coef
-            
-            discm <- sapply(1:length(coefficients), function(i){
-              coefficients[[i]][length(coefficients[[i]])]})
-            names(discm) <- names(discm)
-            
-            diff <- lapply(1:length(coefficients), function(i){
-              coefficients[[i]][-length(coefficients[[i]])]})
-            names(diff) <- names(diff)
-            
-            if(any(discm < -5) || any(discm > 5)){
-              warning("Measurement model poorly estimated: 
-                      discrimination values outside of [-5, 5]")
-              }
-            for (i in 1:length(diff)){
-              if(any(diff[[i]] < -5) || any(diff[[i]] > 5)){
-                warning("Measurement model poorly estimated: 
-                        difficulty values outside of [-5, 5]")
-              }
-            }
-            
-            object <- new("Cat")
-            object@discrimination <- discm
-            object@difficulty <- diff
-            object@guessing <- rep(0, length(discm))
-            object@answers <- rep(NA, length(discm))
-            object@model <- "grm"
-            return(object)
+              coefficients <- data$coef
+              
+              discm <- sapply(1:length(coefficients), function(i){
+                  coefficients[[i]][length(coefficients[[i]])]
+              })
+
+              diff <- lapply(1:length(coefficients), function(i){
+                  out <- coefficients[[i]][-length(coefficients[[i]])]
+                  names(out) <- NULL
+                  return(out)
+              })
+
+              object <- new("Cat")
+              object@ids <- names(data$coef)
+              names(diff) <- names(discm) <- object@ids
+              
+              object@discrimination <- discm
+              object@difficulty <- diff
+              object@guessing <- rep(0, length(discm))
+              object@answers <- rep(NA, length(discm))
+              object@model <- "grm"
+              return(object)
 })
  

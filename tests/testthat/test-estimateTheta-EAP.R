@@ -56,3 +56,4 @@ test_that("estimatTheta with EAP works when questions skipped", {
   expect_equal(round(estimateTheta(grm_cat), 3), round(catR_grm, 3))
   expect_equal(round(estimateTheta(gpcm_cat), 2), round(catR_gpcm, 2))
 })
+

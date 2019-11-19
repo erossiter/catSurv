@@ -11,7 +11,7 @@ test_that("ltm nextItem KL calculates correctly", {
   package_est <- package_next$estimates[package_next$estimates$q_number == package_item,
                                         "KL"]
 
-  delta <- ltm_cat@z * sqrt(fisherTestInfo(ltm_cat))
+  delta <- ltm_cat@z * sqrt(fisherTestInfo(ltm_cat, estimateTheta(ltm_cat)))
   catIrt_next <- catIrt::itChoose(cbind(8:40, it_ltm[8:40,1:3]),
                         mod = "brm",
                         numb = 1,
@@ -39,7 +39,7 @@ test_that("grm nextItem KL calculates correctly", {
   package_est <- package_next$estimates[package_next$estimates$q_number == package_item,
                                         "KL"]
 
-  delta <- grm_cat@z * sqrt(fisherTestInfo(grm_cat))
+  delta <- grm_cat@z * sqrt(fisherTestInfo(grm_cat, estimateTheta(grm_cat)))
   catIrt_next <- catIrt::itChoose(cbind(9:18, it_grm[9:18,]),
                         mod = "grm",
                         numb = 1,
@@ -55,16 +55,6 @@ test_that("grm nextItem KL calculates correctly", {
 
   expect_equal(package_item, catIrt_item)
   expect_equal(round(package_est, 1), round(catIrt_est, 1))
-})
-
-test_that("nextItem KL throws error when no questions asked", {
-  ltm_cat@selection <- "KL"
-  grm_cat@selection <- "KL"
-  gpcm_cat@selection <- "KL"
-
-  expect_error(selectItem(ltm_cat))
-  expect_error(selectItem(grm_cat))
-  expect_error(selectItem(gpcm_cat))
 })
 
 test_that("nextItem KL is actually the maximum estimate", {
