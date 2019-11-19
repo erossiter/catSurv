@@ -79,6 +79,7 @@ simulateThetas<- function(catObjs=list(), responses){
                                     })
                                     
                                     answer <- x[item]
+                                    answer <- ifelse(is.na(answer), -1, answer) # indicate respondent "skipped"
                                     cat <- storeAnswer(catObj = cat, item = item, answer = answer)
                                     end_survey <- checkStopRules(cat) # should survey stop?
                                 }
