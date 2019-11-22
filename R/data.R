@@ -596,6 +596,35 @@
 
 
 
+
+#' Need to Evaluate
+#'
+#' 4005 full response profiles to 16 Need to Evaluate inventory.
+#' Observations come from one of three administrations of the survey: The American Panel Survey, 
+#' Amazon's Mechanical Turk  in fall of 2014, or Amazon's Mechanical Turk in spring of 2015.
+#' 
+#' See \code{\link{nte_cat}} for detailed information on question wordings and response options.
+#' 
+#' 
+#' @seealso \code{\link{nte_cat}}
+#'
+#' @references 
+#' 
+#' Jarvis, W. Blair G., and Richard E. Petty.
+#' "The need to evaluate." Journal of personality and social psychology 70.1 (1996): 172.
+#' 
+#' 
+#' @docType data
+#' @keywords datasets
+#' @name nte
+#' @usage data(nte)
+"nte"
+
+
+
+
+
+
 #' ltm Cat Object
 #' 
 #' An object of class \code{Cat} created using the \code{ltmCat} function with the \code{npi} dataset.
