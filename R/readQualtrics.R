@@ -61,18 +61,17 @@ setMethod("readQualtrics",
               }
               
               # get answers from JSON strings
-              responses <- data.frame(responseID = responseID,
-                                      plyr::adply(.data = catObj,
-                                       .margins = 1,
-                                       .id = NULL,
-                                       .fun = function(json_cat){
-                                           cat <- fromJSONCat(json_cat)
-                                           cat@answers
-                                       })
-              )
+              responses <- plyr::adply(.data = catObj,
+                                                  .margins = 1,
+                                                  .id = NULL,
+                                                  .fun = function(json_cat){
+                                                      cat <- fromJSONCat(json_cat)
+                                                      cat@answers
+                                                  })
               
               # append to data
-              colnames(responses) <- c("responseID", fromJSONCat(catObj[1])@ids)
+              colnames(responses) <- fromJSONCat(catObj[1])@ids
+              rownames(responses) <- responseID
               return(responses)
 })
 
