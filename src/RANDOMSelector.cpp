@@ -18,7 +18,7 @@ Selection RANDOMSelector::selectItem() {
 		selection.values.push_back(item);
 	}
 
-	std::vector<int> sample_vec = Rcpp::RcppArmadillo::sample(selection.questions, 1, false, NULL);
+	std::vector<int> sample_vec = Rcpp::RcppArmadillo::sample(selection.questions, 1, false);
 	selection.item = sample_vec.at(0);
 
 	return selection;

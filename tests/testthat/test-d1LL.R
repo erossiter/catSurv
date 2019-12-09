@@ -52,6 +52,7 @@ d1LL_test <- function(cat, theta, usePrior) {
       }
       g <- sum(f)
       g_prime <- sum(f * (discrimination * 1:length(categoryparams)))
+      
       p_prime <- (g * f_prime - f * g_prime) / g^2
 
       answer_k <- cat@answers[item]

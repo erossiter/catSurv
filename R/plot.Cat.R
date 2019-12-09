@@ -1,11 +1,12 @@
 #' Plotting function for Cat object
 #'
-#' Description.
+#' Function to plot item response functions, item characteristic functions, and item information functions
+#' for Cat objects.
 #' 
-#' @param x Cat.
-#' @param item Numeric.
-#' @param plotType Character.
-#' @param xlim Vector.
+#' @param x Cat object.
+#' @param item Numeric. Item index.
+#' @param plotType Character. Either "IRF", "ICC", or "IIF" for item response functions, item characteristic functions, and item information functions, respectively.
+#' @param xlim Vector. Range of the x-axis.
 #' @param ... Other arguments passed to plot().
 #' 
 #' 

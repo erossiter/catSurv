@@ -2101,3 +2101,44 @@
 #' @usage data(mach_cat)
 "mach_cat"
 
+
+
+#' Example Qualtrics Data for Adaptive Inventory
+#' 
+#' Example data when including an adaptive inventory on a Qualtrics survey
+#' 
+#' @details
+#'  This data set includes four example responses to a length four adaptive inventory
+#'  for the agreeableness battery.
+#' 
+#' See \code{\link{agree_cat}} for details regarding the Cat object structure and battery items.
+#' 
+#' See \code{\link{readQualtrics}} for how to clean adaptive inventory response profiles.
+#' 
+#' @seealso \code{\link{agree_cat}}, \code{\link{readQualtrics}}
+#'
+#' @docType data
+#' @name ex_qualtrics_results
+#' @usage data(ex_qualtrics_results)
+"ex_qualtrics_results"
+
+
+#' Example Qualtrics Data for Multiple Adaptive Inventories
+#' 
+#' Example data when including multiple adaptive inventory on a Qualtrics survey
+#' 
+#' @details
+#'  This data set includes four example responses to length four adaptive inventories
+#'  for both the agreeableness and neuroticism batteries.
+#' 
+#' See \code{\link{agree_cat}} and \code{\link{neuro_cat}} for details regarding the Cat object structure and battery items.
+#' 
+#' See \code{\link{readQualtrics}} for how to clean adaptive inventory response profiles.
+#' 
+#' @seealso \code{\link{agree_cat}}, \code{\link{neuro_cat}},\code{\link{readQualtrics}}
+#'
+#' @docType data
+#' @name ex_qualtrics_results_multiple
+#' @usage data(ex_qualtrics_results_multiple)
+"ex_qualtrics_results_multiple"
+

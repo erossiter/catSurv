@@ -9,16 +9,17 @@
 \S4method{plot}{Cat}(x, item, plotType, xlim = c(-5, 5), ...)
 }
 \arguments{
-\item{x}{Cat.}
+\item{x}{Cat object.}
 
-\item{item}{Numeric.}
+\item{item}{Numeric. Item index.}
 
-\item{plotType}{Character.}
+\item{plotType}{Character. Either "IRF", "ICC", or "IIF" for item response functions, item characteristic functions, and item information functions, respectively.}
 
-\item{xlim}{Vector.}
+\item{xlim}{Vector. Range of the x-axis.}
 
 \item{...}{Other arguments passed to plot().}
 }
 \description{
-Description.
+Function to plot item response functions, item characteristic functions, and item information functions
+for Cat objects.
 }

@@ -1,4 +1,18 @@
-# catSurv 1.1.0
+# catSurv 1.2.0
+
+
+### Minor Changes
+* `simulateRespondents()` bug fix when respondent's answer in raw data is `NA`, now transform to -1 to indicate a skip
+
+* added dataset of Need to Evaluate raw response profiles
+
+* `readQualtrics()` now has respondent ID as rownames instead of a column.
+
+* Added example data for the `readQualtrics()` function.
+
+
+
+# catSurv 1.1.3
 
 ### Major Changes
 * New functions `simulateRespondents()`, `simulateThetas()`, `simulateFisherInfo()`, and `oracle()` allow for simulation exercises to evaluate model quality and performace.
