@@ -6,6 +6,7 @@
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric representing the true position on the latent trait.
 #' @param responses A vector representing the respondent's full answer profile.
+#' @param approx
 #'
 #' @details lengthThreshold slot should specify how many questions to ask.
 #' Note this function uses the estimateTheta method specified in the supplied cat object
@@ -23,11 +24,11 @@
 #' @name oracle
 NULL
 
-setGeneric("oracle", function(catObj, theta, responses) standardGeneric("oracle"))
+setGeneric("oracle", function(catObj, theta, responses, approx = FALSE) standardGeneric("oracle"))
 
 #' @rdname oracle
 #' @export
-setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, responses){
+setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, responses, approx = FALSE){
     
     # TODO: generalize using checkStopRules
     n <- catObj@lengthThreshold
@@ -52,6 +53,9 @@ setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, 
     ## matrix of all length n combinations of ~indexes~ where each row is a possible combo
     ## will be the same combo_mat applied to each specific answer profile
     combo_mat <- t(combn(1:ncol(responses), n))
+    if(approx){
+        combo_mat <- combo_mat[sample(x = 1:nrow(combo_mat), size = 1000, replace = FALSE), ]
+    }
     
     ## results for one profile with respective true theta
     find_truth <- function(ind_theta, ind_ans, combo_mat, cat){
