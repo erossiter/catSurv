@@ -6,10 +6,12 @@
 #' @param catObj An object of class \code{Cat}
 #' @param theta A numeric representing the true position on the latent trait.
 #' @param responses A vector representing the respondent's full answer profile.
-#' @param approx
+#' @param approx If TRUE, uses a subset of 1000 potential response profiles
+#' @param parallel If TRUE, computes in parallel
 #'
 #' @details lengthThreshold slot should specify how many questions to ask.
 #' Note this function uses the estimateTheta method specified in the supplied cat object
+#' 
 #'
 #' @return A data.frame where the first column is the user-supplied true value of theta, the second column is the
 #' best possible theta estimate given n questions are asked, and the remaining columns are the answer profile leading
@@ -24,11 +26,11 @@
 #' @name oracle
 NULL
 
-setGeneric("oracle", function(catObj, theta, responses, approx = FALSE) standardGeneric("oracle"))
+setGeneric("oracle", function(catObj, theta, responses, approx = FALSE, parallel = FALSE) standardGeneric("oracle"))
 
 #' @rdname oracle
 #' @export
-setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, responses, approx = FALSE){
+setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, responses, approx = FALSE, parallel = FALSE){
     
     # TODO: generalize using checkStopRules
     n <- catObj@lengthThreshold
@@ -53,7 +55,7 @@ setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, 
     ## matrix of all length n combinations of ~indexes~ where each row is a possible combo
     ## will be the same combo_mat applied to each specific answer profile
     combo_mat <- t(combn(1:ncol(responses), n))
-    if(approx){
+    if(approx & nrow(combo_mat) > 1000){
         combo_mat <- combo_mat[sample(x = 1:nrow(combo_mat), size = 1000, replace = FALSE), ]
     }
     
@@ -62,21 +64,26 @@ setMethod(f = "oracle", signature = "Cat", definition = function(catObj, theta, 
         combo_profiles <- adply(.data = combo_mat,
                                 .margins = 1,
                                 .id = NULL,
-                                .fun = function(indices, catObj = cat, ans = ind_ans){
-                                    catObj@answers[indices] <- unlist(ans[indices])
-                                    theta_est <- estimateTheta(catObj)
-                                    return(data.frame(theta = ind_theta, theta_est = theta_est, ans[indices]))
-                                })
+                                .parallel = parallel,
+                                .fun = function(indices, catObj, ans){
+                                  catObj@answers[indices] <- unlist(ans[indices])
+                                  theta_est <- estimateTheta(catObj)
+                                  return(data.frame(theta = ind_theta, theta_est = theta_est, ans[indices]))
+                                },
+                                catObj = cat,
+                                ans = ind_ans)
         
         return_row <- which.min(abs(combo_profiles$theta_est - ind_theta))
         return(combo_profiles[return_row, ])
     }
     
     ## results for each profile
-    return(adply(.data = 1:nrow(responses),
+    out <- adply(.data = 1:nrow(responses),
                  .margins = 1,
-                 .fun = function(x) find_truth(ind_theta = theta[x], ind_ans = responses[x,], combo_mat = combo_mat, cat = catObj),
-                 .id = NULL))
+                 .id = NULL,
+                 .parallel = parallel,
+                 .fun = function(x) find_truth(ind_theta = theta[x], ind_ans = responses[x,], combo_mat = combo_mat, cat = catObj))
+    return(out)
 })
 
 
