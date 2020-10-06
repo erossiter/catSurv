@@ -14,7 +14,7 @@ test_that("ltm MLE estimation calculates correctly", {
 
 test_that("grm MLE estimation calculates correctly", {
   grm_cat@estimation <- "MLE"
-  grm_cat@answers[1:5] <- c(4, 5, 2, 4, 4)
+  grm_cat@answers[1:5] <- c(5,2,3,5,5)
   package_mle <- estimateTheta(grm_cat)
   catR_mle <- thetaEst(it_grm, x = c(grm_cat@answers)-1, model = "GRM",
                        method = "ML")

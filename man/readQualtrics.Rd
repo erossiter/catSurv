@@ -37,6 +37,7 @@ ids <- ex_qualtrics_results$ResponseId[-c(1,2)] # vector of respondent identifie
 clean_df <- readQualtrics(catObj = cat_vect, responseID = ids)
 
 # estimate respondents' positions
+setEstimation(agree_cat) <- "MAP"
 estimateThetas(catObj = agree_cat, responses = clean_df)
 
 }

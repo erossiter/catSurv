@@ -11,7 +11,7 @@ test_that("ltm nextItem KL calculates correctly", {
   package_est <- package_next$estimates[package_next$estimates$q_number == package_item,
                                         "KL"]
 
-  delta <- ltm_cat@z * sqrt(fisherTestInfo(ltm_cat, estimateTheta(ltm_cat)))
+  delta <- qnorm(ltm_cat@z) * sqrt(fisherTestInfo(ltm_cat, estimateTheta(ltm_cat)))
   catIrt_next <- catIrt::itChoose(cbind(8:40, it_ltm[8:40,1:3]),
                         mod = "brm",
                         numb = 1,
@@ -39,7 +39,7 @@ test_that("grm nextItem KL calculates correctly", {
   package_est <- package_next$estimates[package_next$estimates$q_number == package_item,
                                         "KL"]
 
-  delta <- grm_cat@z * sqrt(fisherTestInfo(grm_cat, estimateTheta(grm_cat)))
+  delta <- qnorm(grm_cat@z) * sqrt(fisherTestInfo(grm_cat, estimateTheta(grm_cat)))
   catIrt_next <- catIrt::itChoose(cbind(9:18, it_grm[9:18,]),
                         mod = "grm",
                         numb = 1,

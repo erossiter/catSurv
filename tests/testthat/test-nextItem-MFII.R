@@ -12,7 +12,7 @@ test_that("ltm nextItem MFII calculates correctly", {
                                         "MFII"]
 
   expect_equal(package_item, 27)
-  expect_equal(round(package_est, 3), 1.818)
+  expect_equal(round(package_est, 3), 1.972)
 })
 
 test_that("grm nextItem MFII calculates correctly", {
@@ -26,7 +26,7 @@ test_that("grm nextItem MFII calculates correctly", {
                                         "MFII"]
 
   expect_equal(package_item, 10)
-  expect_equal(round(package_est, 3), 3.238)
+  expect_equal(round(package_est, 3), 4.286)
 })
 
 
