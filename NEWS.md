@@ -1,3 +1,18 @@
+# catSurv 1.3.0
+
+
+### Minor Changes
+
+* All `Cat` objects now use integration bounds of [-4,4].  Likewise, the `Cat` class defaults are now [-4,4].  This narrows the bounds of integration from [-5,5] to avoid computational issues that arise at "extreme" values of the latent trait.
+
+* `Cat` object `z` slot still defaults to .9, but now in calculating delta for certain integration routines, the package executes qnorm(z).
+
+* `oracle()` function adds option for parallel computing using `plyr`
+
+* `probability()` for categorical data now throws errors to account for extreme values of latent trait that may  cause computational issues
+
+
+
 # catSurv 1.2.0
 
 

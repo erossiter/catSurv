@@ -4,7 +4,9 @@
 \name{nte}
 \alias{nte}
 \title{Need to Evaluate}
-\format{An object of class \code{data.frame} with 4005 rows and 16 columns.}
+\format{
+An object of class \code{data.frame} with 4005 rows and 16 columns.
+}
 \usage{
 data(nte)
 }

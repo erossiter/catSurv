@@ -4,7 +4,8 @@
 \name{npi}
 \alias{npi}
 \title{Narcissistic Personality Inventory}
-\format{A data frame with 11,243 observations on the following 40 variables.
+\format{
+A data frame with 11,243 observations on the following 40 variables.
 \describe{
 \item{\code{Q1}}{0 = I have a natural talent for influencing people. 1 = I am not good at influencing people.}
 \item{\code{Q2}}{0 = Modesty doesn't become me. 1 = I am essentially a modest person.}
@@ -46,7 +47,8 @@
 \item{\code{Q38}}{0 = I get upset when people don't notice how I look when I go out in public. 1 = I don't mind blending into the crowd when I go out in public.}
 \item{\code{Q39}}{0 = I am more capable than other people. 1 = There is a lot that I can learn from other people.}
 \item{\code{Q40}}{0 = I am much like everybody else. 1 = I am an extraordinary person.}
-}}
+}
+}
 \usage{
 data(npi)
 }

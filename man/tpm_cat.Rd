@@ -4,7 +4,9 @@
 \name{tpm_cat}
 \alias{tpm_cat}
 \title{tpm Cat Object}
-\format{An object of class \code{Cat}.  See \code{\link{Cat-class}} for more details.}
+\format{
+An object of class \code{Cat}.  See \code{\link{Cat-class}} for more details.
+}
 \usage{
 data(tpm_cat)
 }

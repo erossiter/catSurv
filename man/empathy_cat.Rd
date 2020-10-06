@@ -4,7 +4,9 @@
 \name{empathy_cat}
 \alias{empathy_cat}
 \title{Empathizing Quotient Cat Object}
-\format{An object of class \code{Cat} of length 1.}
+\format{
+An object of class \code{Cat} of length 1.
+}
 \source{
 See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 }

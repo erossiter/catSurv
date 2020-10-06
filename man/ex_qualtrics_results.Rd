@@ -4,7 +4,9 @@
 \name{ex_qualtrics_results}
 \alias{ex_qualtrics_results}
 \title{Example Qualtrics Data for Adaptive Inventory}
-\format{An object of class \code{data.frame} with 6 rows and 9 columns.}
+\format{
+An object of class \code{data.frame} with 6 rows and 9 columns.
+}
 \usage{
 data(ex_qualtrics_results)
 }

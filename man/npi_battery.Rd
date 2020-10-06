@@ -4,7 +4,9 @@
 \name{npi_battery}
 \alias{npi_battery}
 \title{Narcissistic personality inventory question items}
-\format{An object of class \code{list} of length 40.}
+\format{
+An object of class \code{list} of length 40.
+}
 \usage{
 data(npi_battery)
 }

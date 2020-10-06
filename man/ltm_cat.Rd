@@ -4,7 +4,9 @@
 \name{ltm_cat}
 \alias{ltm_cat}
 \title{ltm Cat Object}
-\format{An object of class \code{Cat}.  See \code{\link{Cat-class}} for more details.}
+\format{
+An object of class \code{Cat}.  See \code{\link{Cat-class}} for more details.
+}
 \usage{
 data(ltm_cat)
 }

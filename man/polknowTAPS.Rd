@@ -4,7 +4,8 @@
 \name{polknowTAPS}
 \alias{polknowTAPS}
 \title{TAPS Political Knowledge}
-\format{A data frame with 1496 observations on the following 10 questions.
+\format{
+A data frame with 1496 observations on the following 10 questions.
 \describe{
 
 \item{\code{Q1}}{Members of the U.S. Supreme Court serve 
@@ -60,7 +61,8 @@ two-thirds majority of both houses of Congress. 5 = Don't know.
 
 1 = one term. 2 = two terms. 3 = three terms. 4 = any number of terms. 5 = Don't know.
 }
-}}
+}
+}
 \source{
 \url{https://wc.wustl.edu/}
 }

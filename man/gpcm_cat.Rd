@@ -4,7 +4,9 @@
 \name{gpcm_cat}
 \alias{gpcm_cat}
 \title{gpcm Cat Object}
-\format{An object of class \code{Cat}.  See \code{\link{Cat-class}} for more details.}
+\format{
+An object of class \code{Cat}.  See \code{\link{Cat-class}} for more details.
+}
 \usage{
 data(gpcm_cat)
 }

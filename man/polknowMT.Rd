@@ -4,7 +4,8 @@
 \name{polknowMT}
 \alias{polknowMT}
 \title{MTurk Political Knowledge}
-\format{A data frame with 810 observations on the following 64 questions.
+\format{
+A data frame with 810 observations on the following 64 questions.
 \describe{
 
 \item{\code{Q1}}{How long is one term for the President of the United States?
@@ -308,7 +309,8 @@ States federal government commonly take to finance a budget deficit?
   government spend the most money each year?
   
   Education; Medicare; Interest on the national debt; National defense}
-}}
+}
+}
 \source{
 \url{https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/19381}
 }

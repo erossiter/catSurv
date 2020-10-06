@@ -4,7 +4,9 @@
 \name{sv_conservation_cat}
 \alias{sv_conservation_cat}
 \title{Conservation (Schwartz Values) Cat Object}
-\format{An object of class \code{Cat} of length 1.}
+\format{
+An object of class \code{Cat} of length 1.
+}
 \source{
 See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 }

@@ -4,7 +4,8 @@
 \name{nfc}
 \alias{nfc}
 \title{Need For Cognition}
-\format{A data frame with 4043 observations on the following 18 variables.
+\format{
+A data frame with 4043 observations on the following 18 variables.
 \describe{
     \item{\code{NFC1}}{I really enjoy a task that involves coming up with new solutions to problems}
     \item{\code{NFC4}}{I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought}
@@ -24,7 +25,8 @@
     \item{\code{NFC39}}{I prefer my life to be filed with puzzles that I must solve}
     \item{\code{NFC40}}{I would prefer complex to simple problems}
     \item{\code{NFC43}}{Its enough for me that something gets the job done; I don't care how or why it works}
-}}
+}
+}
 \usage{
 data(nfc)
 }

@@ -4,7 +4,8 @@
 \name{polknowOrdered}
 \alias{polknowOrdered}
 \title{TAPS Political Knowledge (Ordered Response Options)}
-\format{A data frame with 1340 observations (only complete cases) of the following 10 questions.
+\format{
+A data frame with 1340 observations (only complete cases) of the following 10 questions.
 \describe{
 
 \item{\code{Q1}}{Members of the U.S. Supreme Court serve 
@@ -59,7 +60,8 @@ two-thirds majority of both houses of Congress. 1 = Don't know.
 
 3 = one term. 5 = two terms. 4 = three terms. 2 = any number of terms. 1 = Don't know.
 }
-}}
+}
+}
 \source{
 \url{https://wc.wustl.edu/}
 }
