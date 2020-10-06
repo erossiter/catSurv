@@ -16,6 +16,7 @@ struct QuestionSet {
 	std::vector<double> guessing;
 	std::vector<double> discrimination;
 	std::vector<double> z;
+	//std::vector<double> zz;
 	
 	/**
 	 * The user's answer to each question.

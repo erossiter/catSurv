@@ -12,7 +12,8 @@ expectedObsInf(catObj, item)
 \item{item}{An integer indicating the index of the question item}
 }
 \value{
-The function \code{expectedObsInf} returns a numeric value of the expected information.
+The function \code{expectedObsInf} returns a numeric value of the expected information. **Not implemented
+for three parameter model for binary data.**
 }
 \description{
 Calculates the expected information, which is the observed information attained from a specific response set times the probability of that profile occurring.

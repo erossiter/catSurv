@@ -4,7 +4,10 @@ QuestionSet::QuestionSet(Rcpp::S4 &cat_df) {
 	answers = Rcpp::as<std::vector<int> >(cat_df.slot("answers"));
 	guessing = Rcpp::as<std::vector<double> >(cat_df.slot("guessing"));
 	discrimination = Rcpp::as<std::vector<double> >(cat_df.slot("discrimination"));
+	
 	z = Rcpp::as<std::vector<double> >(cat_df.slot("z"));
+	z[0] = R::qnorm(z.at(0), 0.0, 1.0, 1, 0);
+	
 	
 	lowerBound = Rcpp::as<double >(cat_df.slot("lowerBound"));
 	upperBound = Rcpp::as<double >(cat_df.slot("upperBound"));

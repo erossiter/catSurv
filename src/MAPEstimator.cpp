@@ -3,6 +3,7 @@ using namespace Rcpp;
 #include "MAPEstimator.h"
 
 double MAPEstimator::newton_raphson(Prior prior, double theta_hat_old, double theta_hat_new, bool second_try){
+
     int iter = 0;
     int max_iter = 200;
     
@@ -61,6 +62,11 @@ double MAPEstimator::newton_raphson(Prior prior, size_t question, int answer, do
 
 
 double MAPEstimator::estimateTheta(Prior prior) {
+  
+  if(questionSet.applicable_rows.empty()){
+    return prior.param0();
+  }
+
     double theta_hat_old = 0.0;
     double theta_hat_new = 1.0;
     
@@ -83,7 +89,7 @@ double MAPEstimator::estimateTheta(Prior prior) {
         theta_hat_new = theta_hat_old - 1.0;
         
         // If there's still an error, it will be thrown.
-        theta_hat_new = newton_raphson(prior,theta_hat_old, theta_hat_new, true);
+        theta_hat_new = newton_raphson(prior, theta_hat_old, theta_hat_new, true);
     }
     
     return theta_hat_new;
@@ -91,6 +97,10 @@ double MAPEstimator::estimateTheta(Prior prior) {
 
 double MAPEstimator::estimateTheta(Prior prior, size_t question, int answer)
 {
+  
+  if(questionSet.applicable_rows.empty()){
+    return prior.param0();
+  }
     double theta_hat_old = 0.0;
     double theta_hat_new = 1.0;
     try {

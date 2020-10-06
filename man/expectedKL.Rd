@@ -22,7 +22,7 @@ Calculates the expected Kullback-Leibler information for an individual question 
 \details{
 The function \code{expectedKL} calculates the expected value of the Kullback-Leibler information
 for a specified item where the bounds of integration are \eqn{\hat{\theta} \pm \delta},
- where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
+ where \eqn{\delta} is qnorm(\eqn{z}) times the square root of the Fisher test information and
  \eqn{z} is specified in the \code{z} slot of the \code{Cat} object.  See \strong{Note} for more information on integration.
 }
 \note{

@@ -128,7 +128,7 @@ double Cat::expectedPV(int item) {
 
 List Cat::selectItem() {
   if(questionSet.nonapplicable_rows.empty()){
-    throw std::domain_error("selectItem should not be called if all items have been answered.");
+    Rcpp::stop("selectItem should not be called if all items have been answered.");
   }
   
   Selection selection = selector->selectItem();
@@ -255,7 +255,7 @@ double Cat::d2LL(double theta, bool use_prior) {
 
 double Cat::obsInf(double theta, int item) {
 	if (questionSet.applicable_rows.empty()) {
-		throw std::domain_error("ObsInf should not be called if no items have been answered.");
+		Rcpp::stop("ObsInf should not be called if no items have been answered.");
 	}
 	return estimator->obsInf(theta, item);
 }
@@ -289,7 +289,7 @@ std::unique_ptr<Estimator> Cat::createEstimator(S4 &cat_df, Integrator &integrat
 	if (estimation_type == "MLE" || estimation_type == "WLE") {
 
 	    if (questionSet.applicable_rows.size() == 0 || questionSet.all_extreme){
-	        Rcpp::Rcout<<"Warning: estimate_default will be used to estimate theta as the maximum likelihood cannot be computed with an answer profile of all extreme response options."<<std::endl;
+	        Rcpp::Rcout<<"Warning: estimationDefault will be used to estimate theta as the maximum likelihood cannot be computed with an answer profile of all extreme response options."<<std::endl;
 	        if (estimation_default == "MAP") return std::unique_ptr<MAPEstimator>(new MAPEstimator(integrator, questionSet));
 	        if (estimation_default == "EAP") return std::unique_ptr<EAPEstimator>(new EAPEstimator(integrator, questionSet));
 	    } 

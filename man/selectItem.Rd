@@ -33,16 +33,17 @@ The maximum Fisher's information criterion is used when the \code{selection}
   slot is \code{"MFI"}.  This method calls \code{fisherInf} for each unasked item.
   
 The maximum likelihood weighted information criterion is used when the \code{selection}
-slot is \code{"MLWI"}. This method involves integration. See \strong{Note} for more information.
+slot is \code{"MLWI"}.  Note that when no questions have been answered, likelihood evaluates to 1. This method involves integration. See \strong{Note} for more information.
 
 The maximum posterior weighted information criterion is used when the \code{selection}
-slot is \code{"MPWI"}.  This method involves integration. See \strong{Note} for more information.
+slot is \code{"MPWI"}. Note that when no questions have been answered, likelihood evaluates to 1. This method involves integration. See \strong{Note} for more information.
  
 The maximum expected information criterion is used when the \code{selection}
-slot is \code{"MEI"}.  This method calls \code{expectedObsInf} for each unasked item.
+slot is \code{"MEI"}.  This method calls \code{expectedObsInf} for each unasked item. **Not implemented
+for three parameter model for binary data.**
 
 The maximum Kullback-Leibler information criterion is used when the \code{selection}
-slot is \code{"KL"}.  This method calls \code{expectedKL} for each unasked item.
+slot is \code{"KL"}.  This method calls \code{expectedKL} for each unasked item.  See \code{\link{expectedKL}} for more information.
 
 The maximum likelihood weighted Kullback-Leibler information criterion is used when the \code{selection}
 slot is \code{"LKL"}.  This method calls \code{likelihoodKL} for each unasked item.
@@ -53,7 +54,7 @@ slot is \code{"PKL"}.  This method calls \code{posteriorKL} for each unasked ite
 The maximum Fisher interval information criterion is used when the \code{selection}
 slot is \code{"MFII"}. This method involves integration. See \strong{Note} for more information.
 The bounds of integration are \eqn{\hat{\theta} \pm \delta},
- where \eqn{\delta} is \eqn{z} times the square root of the Fisher test information and
+ where \eqn{\delta} is qnorm(\eqn{z}) times the square root of the Fisher test information and
  \eqn{z} is specified in the \code{z} slot of the \code{Cat} object.
 
 A random number generator is used when the \code{selection}
