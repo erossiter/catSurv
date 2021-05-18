@@ -4,15 +4,20 @@
 \alias{simulateThetas}
 \title{Estimates theta under different adaptive battery specifications}
 \usage{
-simulateThetas(catObjs = list(), responses)
+simulateThetas(catObjs = list(), responses, return_adaptive = FALSE)
 }
 \arguments{
 \item{catObjs}{A list of \code{Cat} objects of the same model with different adaptive battery specifications}
 
 \item{responses}{A matrix of response profiles}
+
+\item{return_adaptive}{Boolean indicating if user wants dataframe containing only answers chosen via the adaptive design for each Cat object in catObjs list.}
 }
 \value{
-The function \code{allFish} returns a dataframe where each \code{Cat} object corresponds to a column and each respondent corresponds to a row.
+The function \code{simulateThetas} returns a dataframe where each \code{Cat} object corresponds to a column and each respondent
+corresponds to a row if \code{return_adaptive} is \code{FALSE}, the default.
+Optionally, \code{simulateThetas} returns a list containing that dataframe plus dataframes
+for the answer profiles simulated via each adaptive design if \code{return_adaptive} is \code{TRUE}.
 }
 \description{
 Takes in response profiles from multiple respondents and multiple Cat object (i.e., adaptive battery) specifications and returns a set of theta estimates
@@ -25,7 +30,6 @@ The function takes multiple \code{Cat} objects, stored in a list, and generates 
 # Load Cat object
 data(grm_cat)
    
-# Simulate respondents
 # Simulate respondents
 respondents <- plyr::adply(.data = matrix(c(-1, 0, 1)),
                            .margins = 1,
@@ -41,7 +45,7 @@ grm_MAP@estimation <- "MAP"
 grm_EAP@estimation <- "EAP"
 
 # List of Cat objects 
-grmList <- list(grm_MAP, grm_EAP)
+grmList <- list(cat1 = grm_MAP, cat2 = grm_EAP)
 
 # Results
 theta_est_results <- simulateThetas(catObjs = grmList, responses = respondents)

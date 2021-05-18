@@ -26,7 +26,9 @@ double MAPEstimator::newton_raphson(Prior prior, double theta_hat_old, double th
     
     // write a warning if the second time around we reach max number of iterations
     if(second_try && iter == max_iter){
-        Rcpp::Rcout << "Warning: Newton Raphson algorithm reached maximum number of iterations before theta estimate converged." << std::endl;
+        // Rcpp::Rcout << "Warning: Newton Raphson algorithm reached maximum number of iterations before theta estimate converged." << std::endl;
+        Rcpp::warning("Newton Raphson algorithm reached maximum number of iterations before theta estimate converged.");
+
     }
     
     return theta_hat_new;
@@ -53,7 +55,8 @@ double MAPEstimator::newton_raphson(Prior prior, size_t question, int answer, do
     }
     
     if(second_try && iter == max_iter){
-        Rcpp::Rcout << "Warning: Newton Raphson algorithm reached maximum number of iterations before theta estimate converged." << std::endl;
+        // Rcpp::Rcout << "Warning: Newton Raphson algorithm reached maximum number of iterations before theta estimate converged." << std::endl;
+        Rcpp::warning("Newton Raphson algorithm reached maximum number of iterations before theta estimate converged.");
     }
     
     return theta_hat_new;

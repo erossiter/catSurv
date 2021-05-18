@@ -151,7 +151,8 @@ DataFrame Cat::lookAhead(int item) {
     //if item has been previously skipped
     if(std::find(questionSet.skipped.begin(), questionSet.skipped.end(),
                  item) != questionSet.skipped.end()){
-        Rcpp::Rcout << "lookAhead should not be called for a skipped item." << std::endl;
+        // Rcpp::Rcout << "lookAhead should not be called for a skipped item." << std::endl;
+        Rcpp::warning("lookAhead should not be called for a skipped item.");
         
         // return empty dataframe
         std::vector<std::string> items(questionSet.difficulty.at(item).size()+2, "NULL");
@@ -166,7 +167,8 @@ DataFrame Cat::lookAhead(int item) {
   //item is item index and 0-indexed
   if(std::find(questionSet.applicable_rows.begin(), questionSet.applicable_rows.end(),
                item) != questionSet.applicable_rows.end()){
-      Rcpp::Rcout << "lookAhead should not be called for an answered item." << std::endl;
+      // Rcpp::Rcout << "lookAhead should not be called for an answered item." << std::endl;
+      Rcpp::warning("lookAhead should not be called for an answered item.");
       
       // return empty dataframe
       std::vector<std::string> items(questionSet.difficulty.at(item).size()+2, "NULL");
@@ -178,7 +180,9 @@ DataFrame Cat::lookAhead(int item) {
   }
 
   if(questionSet.nonapplicable_rows.size() == 1){
-      Rcpp::Rcout << "lookAhead should not be called for last unanswered item." << std::endl;
+      // Rcpp::Rcout << "lookAhead should not be called for last unanswered item." << std::endl;
+      Rcpp::warning("lookAhead should not be called for last unanswered item.");
+      
       
       // return empty dataframe
       std::vector<std::string> items(questionSet.difficulty.at(item).size()+2, "NULL");
@@ -289,7 +293,8 @@ std::unique_ptr<Estimator> Cat::createEstimator(S4 &cat_df, Integrator &integrat
 	if (estimation_type == "MLE" || estimation_type == "WLE") {
 
 	    if (questionSet.applicable_rows.size() == 0 || questionSet.all_extreme){
-	        Rcpp::Rcout<<"Warning: estimationDefault will be used to estimate theta as the maximum likelihood cannot be computed with an answer profile of all extreme response options."<<std::endl;
+	        // Rcpp::Rcout<<"Warning: estimationDefault will be used to estimate theta as the maximum likelihood cannot be computed with an answer profile of all extreme response options."<<std::endl;
+	        Rcpp::warning("estimationDefault will be used to estimate theta as the maximum likelihood cannot be computed with an answer profile of all extreme response options.");
 	        if (estimation_default == "MAP") return std::unique_ptr<MAPEstimator>(new MAPEstimator(integrator, questionSet));
 	        if (estimation_default == "EAP") return std::unique_ptr<EAPEstimator>(new EAPEstimator(integrator, questionSet));
 	    } 
@@ -349,7 +354,8 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 	// uses EPV for selection methods that fail when no questions asked
 	if (selection_type == "MFII" || selection_type == "KL") {
 	    if (questionSet.applicable_rows.size() == 0){
-	        Rcpp::Rcout<<"Warning: EPV will be used select first question since MFII and KL routines fail when no answers have been recorded."<<std::endl;
+	        // Rcpp::Rcout<<"Warning: EPV will be used select first question since MFII and KL routines fail when no answers have been recorded."<<std::endl;
+	        Rcpp::warning("EPV will be used select first question since MFII and KL routines fail when no answers have been recorded.");
 	        return std::unique_ptr<EPVSelector>(new EPVSelector(questionSet, estimator, prior));
 	    }else{
 	        if(selection_type == "MFII"){
