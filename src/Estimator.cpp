@@ -856,7 +856,7 @@ double Estimator::ltm_d1LL(double theta, size_t question, int answer) {
 double Estimator::d1LL(double theta, bool use_prior, Prior &prior) {
 	const double prior_shift = (theta - prior.param0()) / std::pow(prior.param1(), 2.0);
 	if (questionSet.applicable_rows.empty()) {
-		return prior_shift;
+		return -prior_shift;
 	}
 	double l_theta = 0.0;
 	

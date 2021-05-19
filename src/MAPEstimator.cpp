@@ -26,7 +26,6 @@ double MAPEstimator::newton_raphson(Prior prior, double theta_hat_old, double th
     
     // write a warning if the second time around we reach max number of iterations
     if(second_try && iter == max_iter){
-        // Rcpp::Rcout << "Warning: Newton Raphson algorithm reached maximum number of iterations before theta estimate converged." << std::endl;
         Rcpp::warning("Newton Raphson algorithm reached maximum number of iterations before theta estimate converged.");
 
     }
@@ -55,7 +54,6 @@ double MAPEstimator::newton_raphson(Prior prior, size_t question, int answer, do
     }
     
     if(second_try && iter == max_iter){
-        // Rcpp::Rcout << "Warning: Newton Raphson algorithm reached maximum number of iterations before theta estimate converged." << std::endl;
         Rcpp::warning("Newton Raphson algorithm reached maximum number of iterations before theta estimate converged.");
     }
     
@@ -66,9 +64,10 @@ double MAPEstimator::newton_raphson(Prior prior, size_t question, int answer, do
 
 double MAPEstimator::estimateTheta(Prior prior) {
   
-  if(questionSet.applicable_rows.empty()){
-    return prior.param0();
-  }
+  
+  // if(questionSet.applicable_rows.empty()){
+  //   return prior.param0();
+  // }
 
     double theta_hat_old = 0.0;
     double theta_hat_new = 1.0;
@@ -88,6 +87,7 @@ double MAPEstimator::estimateTheta(Prior prior) {
         }
         auto this_value = std::min_element(std::begin(check_d1LL), std::end(check_d1LL));
         auto this_index = std::distance(std::begin(check_d1LL), this_value);
+        
         theta_hat_old = try_theta.at(this_index);
         theta_hat_new = theta_hat_old - 1.0;
         
@@ -100,10 +100,10 @@ double MAPEstimator::estimateTheta(Prior prior) {
 
 double MAPEstimator::estimateTheta(Prior prior, size_t question, int answer)
 {
-  
-  if(questionSet.applicable_rows.empty()){
-    return prior.param0();
-  }
+
+  // if(questionSet.applicable_rows.empty()){
+  //   return prior.param0();
+  // }
     double theta_hat_old = 0.0;
     double theta_hat_new = 1.0;
     try {

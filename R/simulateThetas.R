@@ -60,8 +60,8 @@ simulateThetas<- function(catObjs=list(), responses, return_adaptive = FALSE){
     if(any(unlist(lapply(catObjs, function(x) length(x@answers) != length(responses))))){
         stop("Response profile is not compatible with Cat object.")
     }
-    if(any(is.na(names(catObjs)))){
-        stop("Elements of the CatObjs list need to be uniquely named.")
+    if(any(is.na(names(catObjs))) |  is.null(names(catObjs))  ){
+        stop("Elements of the catObjs list need to be uniquely named.")
     }
 
     # If the user wants the profile and the estimate return
