@@ -23,9 +23,6 @@ double MLEEstimator::newton_raphson(Prior prior, double theta_hat_old, double th
     
     while (difference > tolerance && iter < max_iter) {
         iter++;
-      std::cout << "b" << std::endl;
-      std::cout << theta_hat_new << std::endl;
-      
         theta_hat_new = theta_hat_old - d1LL(theta_hat_old, false, prior) / d2LL(theta_hat_old, false, prior);
         difference = std::abs(theta_hat_new - theta_hat_old);
         theta_hat_old = theta_hat_new;
@@ -58,7 +55,6 @@ double MLEEstimator::newton_raphson(Prior prior, size_t question, int answer, do
     
     while (difference > tolerance && iter < max_iter) {
         iter++;
-      std::cout << "a" << std::endl;
         theta_hat_new = theta_hat_old - d1LL(theta_hat_old, false, prior, question, answer) / d2LL(theta_hat_old, false, prior, question, answer);
         difference = std::abs(theta_hat_new - theta_hat_old);
         theta_hat_old = theta_hat_new;
