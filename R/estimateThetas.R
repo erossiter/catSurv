@@ -55,7 +55,7 @@ setMethod(f = "estimateThetas", signature = "Cat", definition = function(catObj,
     if(length(catObj@answers) != ncol(responses)){
         stop("Cat object not compatible with responses.")
     }
-    if(!all(apply(responses, 2, is.numeric))){
+    if(!all(apply(responses, 2, function(x) all(is.numeric(x) | is.na(x))))) {
         stop("Responses need to be numeric.")
     }
     out <- apply(X = responses,
