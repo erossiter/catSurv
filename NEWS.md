@@ -1,3 +1,15 @@
+# catSurv 1.4.0
+
+
+### Minor Changes
+
+* All `Cat` objects are reverted to the bounds of [-5,5].  Likewise, the `Cat` class defaults are now [-5,5].
+
+* Newton Raphson bug fixed.  Bug was causing estimates when no questions have been answered to go to extremes rather than prior mean.
+
+* `simulateThetas()` has a new argument (defaulted to FALSE for backwards compatibility) that when TRUE returns a list of dataframes containing adaptive answer profiles for each Cat objected involved in the simulation
+
+
 # catSurv 1.3.0
 
 

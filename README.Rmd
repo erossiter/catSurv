@@ -34,4 +34,6 @@ devtools::install_github("erossiter/catSurv")
 
 If you encounter a clear bug, please let us know [here](https://github.com/erossiter/catSurv/issues).
 
+## Additional resources
 
+See our articles using the software [here](https://doi.org/10.1093/jssam/smz027) and [here](https://doi.org/10.1093/pan/mps060).  Also see [our website](https://catsurv.com/) explaining how to pair Qualtrics and `catSurv` to administer an adaptive battery.

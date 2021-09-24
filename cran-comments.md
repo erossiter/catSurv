@@ -3,18 +3,13 @@
 
 
 ## Test environments
-* local OS X install, R 4.0.2
+* local OS X install, R 4.1.0
 * win-builder to use the development and release version of R
-* used R-hub builder as well
 
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.
 
-There were 2 notes:
+There was 1 note:
 
 * checking for GNU extensions in Makefiles ... NOTE GNU make is listed in the SystemRequirements.
-
-* Found the following (possibly) invalid DOIs:
-
-This DOI is valid.
