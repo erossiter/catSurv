@@ -69,7 +69,7 @@ struct GrmProb
 	}
 
 private:
-	double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0); //7.401487e-17
+	double eps = .000001;//eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0); //7.401487e-17
 	double theta_desc;
 };
 
@@ -89,8 +89,10 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
 	// checking for repeated elements
   	auto it = std::adjacent_find(probabilities.begin(), probabilities.end());
   	if(it != probabilities.end()){
+  	 
   	    // Define small amount
   	    double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0);
+  	    
   	    
   	    // Differentiate
   	    int counter = 0;
@@ -101,6 +103,7 @@ std::vector<double> Estimator::prob_grm(double theta, size_t question) {
   	            probabilities.at(i+1) += counter*eps;
   	        }
   	    }
+  	    
   	    
   	    // Normalize between 0 and 1
   	    double max = *std::max_element(std::begin(probabilities), std::end(probabilities));
@@ -137,14 +140,15 @@ std::pair<double,double> Estimator::prob_grm_pair(double theta, size_t question,
 	{
 		probs.second = calculate(difficulties[at-1]);
 	}
+	
+
+	
 
 	// checking for repeated elements
   	if(probs.first == probs.second)
   	{
-  	    double eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0); //7.401487e-17
+  	    double eps = .000001; //std::pow(std::pow(2.0, -52.0), 1.0/3.0); //7.401487e-17
   	    probs.second += eps;
-  	    //std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
-  	    //Rcpp::stop(msg);
   	}
 
 	return probs;

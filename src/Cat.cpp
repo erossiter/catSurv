@@ -130,13 +130,15 @@ List Cat::selectItem() {
   if(questionSet.nonapplicable_rows.empty()){
     Rcpp::stop("selectItem should not be called if all items have been answered.");
   }
-  
+
   Selection selection = selector->selectItem();
+  
     // Adding 1 to each row index so it prints the correct question number for user
     //std::transform(selection.questions.begin(), selection.questions.end(), selection.questions.begin(),
     //             bind2nd(std::plus<int>(), 1.0));
 	std::for_each(selection.questions.begin(), selection.questions.end(), [](int& d) { d+=1.0;});
 	
+
 	DataFrame all_estimates = Rcpp::DataFrame::create(Named("q_number") = selection.questions,
                                                    Named("q_name") = selection.question_names,
 	                                                 Named(selection.name) = selection.values);
