@@ -136,7 +136,7 @@ setValidity("Cat", function(object){
     }
     
     if(object@model == "grm" | object@model == "gpcm"){
-        if(class(object@difficulty) != "list") stop("Difficulty needs to be a list.")
+        if(!is.list(object@difficulty)) stop("Difficulty needs to be a list.")
     }
     
     if(object@upperBound < object@lowerBound){

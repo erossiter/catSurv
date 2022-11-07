@@ -160,11 +160,11 @@ void QuestionSet::reset_all_extreme()
     std::vector<bool> minAnswer_negDiscrim;
     std::vector<bool> maxAnswer_negDiscrim;
     
-    int min_response = ((model == "ltm") | (model == "tpm")) ? 0.0 : 1.0;
+    int min_response = ((model == "ltm") or (model == "tpm")) ? 0.0 : 1.0;
     
     
     for (auto i : applicable_rows) {
-        int max_response = ((model == "ltm") | (model == "tpm")) ? 1.0 : difficulty.at(i).size() + 1.0;
+        int max_response = ((model == "ltm") or (model == "tpm")) ? 1.0 : difficulty.at(i).size() + 1.0;
         
         if (discrimination.at(i) < 0.0 and answers.at(i) == min_response){
             minAnswer_negDiscrim.push_back(true); 
@@ -201,7 +201,7 @@ void QuestionSet::reset_all_extreme()
     for (auto i : minAnswer_posDiscrim) sum_2 += i;
     for (auto i : maxAnswer_negDiscrim) sum_2 += i;
     
-    if ((sum_1 == applicable_rows.size()) || (sum_2 == applicable_rows.size())){
+    if ((sum_1 == applicable_rows.size()) or (sum_2 == applicable_rows.size())){
         all_extreme = true;
     } else {
         all_extreme = false;

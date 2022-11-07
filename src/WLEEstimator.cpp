@@ -258,7 +258,7 @@ double WLEEstimator::grm_estimateTheta(Prior prior, size_t question, int answer)
 double WLEEstimator::estimateTheta(Prior prior) {
   double theta = 0.0;
 
-  if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
+  if ((questionSet.model == "ltm") or (questionSet.model == "tpm")) {
 	  theta = ltm_estimateTheta(prior);
 	}
 	if (questionSet.model == "grm") {
@@ -274,7 +274,7 @@ double WLEEstimator::estimateTheta(Prior prior, size_t question, int answer)
 {
   double theta = 0.0;
 
-  if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
+  if ((questionSet.model == "ltm") or (questionSet.model == "tpm")) {
     theta = ltm_estimateTheta(prior, question, answer);
   }
   if (questionSet.model == "grm") {

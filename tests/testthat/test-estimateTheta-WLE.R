@@ -36,7 +36,7 @@ test_that("WLE (grm) with all extreme answers defaults correctly", {
   grm_cat@answers[1:5] <- c(1, 1, 5, 1, 1)
   grm_cat@estimation <- "WLE"
   grm_cat@estimationDefault <- "MAP"
-  package_wle_grm <- estimateTheta(grm_cat)
+  package_wle_grm <- expect_warning(estimateTheta(grm_cat))
 
   grm_cat@estimation <- "MAP"
   package_map_grm <- estimateTheta(grm_cat)
@@ -48,7 +48,7 @@ test_that("WLE (grm) with all extreme answers defaults correctly", {
     gpcm_cat@answers[1:5] <- c(1, 1, 1, 1, 1)
     gpcm_cat@estimation <- "WLE"
     gpcm_cat@estimationDefault <- "MAP"
-    package_wle_gpcm <- estimateTheta(gpcm_cat)
+    package_wle_gpcm <- expect_warning(estimateTheta(gpcm_cat))
     
     gpcm_cat@estimation <- "MAP"
     package_map_gpcm <- estimateTheta(gpcm_cat)

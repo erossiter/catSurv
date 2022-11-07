@@ -17,7 +17,6 @@
 #include "PKLSelector.h"
 #include "RANDOMSelector.h"
 
-
 using namespace Rcpp;
 
 Cat::Cat(S4 cat_df) : questionSet(cat_df),

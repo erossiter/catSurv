@@ -60,7 +60,7 @@ test_that("lookAhead works for gpcm Cat", {
 
 test_that("lookAhead returns empty df when question has been answered", {
   ltm_cat@answers[1] <- 1 
-  look <- lookAhead(ltm_cat, 1)
+  look <- expect_warning(lookAhead(ltm_cat, 1))
   
   expect_equal(as.character(look[1,1]), "NULL")
   expect_equal(dim(look), c(3,2))
@@ -68,7 +68,7 @@ test_that("lookAhead returns empty df when question has been answered", {
 
 test_that("lookAhead returns empty df when last question", {
     ltm_cat@answers[1:39] <- sample(c(-1,0,1), 39, replace = TRUE)
-    look <- lookAhead(ltm_cat, 40)
+    look <- expect_warning(lookAhead(ltm_cat, 40))
     
     expect_equal(as.character(look[1,1]), "NULL")
     expect_equal(dim(look), c(3,2))

@@ -9,7 +9,7 @@
 
   
 double Estimator::prob_ltm(double theta, size_t question) {
-    if(theta > 20.0 || theta < -20.0){
+    if(theta > 20.0 or theta < -20.0){
         std::string msg = "Theta value " + std::to_string(theta) + " too extreme for numerical routines to provide reliable calculations.  Try using less extreme values for theta.  If using MAP estimation, try EAP instead.";
         //Rcpp::stop(msg);
         throw std::domain_error(msg);
@@ -69,7 +69,7 @@ struct GrmProb
 	}
 
 private:
-	double eps = .000001;//eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0); //7.401487e-17
+	double eps = .0000001;//eps = std::pow(std::pow(2.0, -52.0), 1.0/3.0); //7.401487e-17
 	double theta_desc;
 };
 
@@ -147,7 +147,7 @@ std::pair<double,double> Estimator::prob_grm_pair(double theta, size_t question,
 	// checking for repeated elements
   	if(probs.first == probs.second)
   	{
-  	    double eps = .000001; //std::pow(std::pow(2.0, -52.0), 1.0/3.0); //7.401487e-17
+  	    double eps = .0000001; //std::pow(std::pow(2.0, -52.0), 1.0/3.0); //7.401487e-17
   	    probs.second += eps;
   	}
 
@@ -500,7 +500,7 @@ std::vector<double> Estimator::probability(double theta, size_t question) {
 	else if (questionSet.model == "gpcm"){
 		probabilities = prob_gpcm(theta, question);
 	}
-	else if (questionSet.model == "ltm" || questionSet.model == "tpm")
+	else if (questionSet.model == "ltm" or questionSet.model == "tpm")
 	{
 		probabilities.reserve(1);
 		probabilities.push_back(prob_ltm(theta, question));
@@ -549,7 +549,7 @@ double Estimator::likelihood_ltm(double theta) {
 double Estimator::likelihood(double theta) {
   double likelihood = 0.0;
 
-  if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
+  if ((questionSet.model == "ltm") or (questionSet.model == "tpm")) {
 	  likelihood = likelihood_ltm(theta);
 	}
 	if (questionSet.model == "grm") {
@@ -610,7 +610,7 @@ double Estimator::likelihood_ltm(double theta,size_t question, int answer) {
 double Estimator::likelihood(double theta, size_t question, int answer){
 	 double likelihood = 0.0;
 
-  if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
+  if ((questionSet.model == "ltm") or (questionSet.model == "tpm")) {
 	  likelihood = likelihood_ltm(theta,question,answer);
 	}
 	if (questionSet.model == "grm") {
@@ -864,7 +864,7 @@ double Estimator::d1LL(double theta, bool use_prior, Prior &prior) {
 	}
 	double l_theta = 0.0;
 	
-	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
+	if ((questionSet.model == "ltm") or (questionSet.model == "tpm")) {
 	  l_theta = ltm_d1LL(theta);
 	}
 	if (questionSet.model == "grm") {
@@ -880,7 +880,7 @@ double Estimator::d1LL(double theta, bool use_prior, Prior &prior) {
 double Estimator::d1LL(double theta, bool use_prior, Prior &prior, size_t question, int answer) {
 	double l_theta = 0.0;
 	
-	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
+	if ((questionSet.model == "ltm") or (questionSet.model == "tpm")) {
 	  l_theta = ltm_d1LL(theta, question, answer);
 	}
 	if (questionSet.model == "grm") {
@@ -904,7 +904,7 @@ double Estimator::d2LL(double theta, bool use_prior, Prior &prior) {
 	}
 	double lambda_theta = 0.0;
 	
-	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
+	if ((questionSet.model == "ltm") or (questionSet.model == "tpm")) {
 	  lambda_theta = ltm_d2LL(theta);
 	}
 	if (questionSet.model == "grm") {
@@ -919,7 +919,7 @@ double Estimator::d2LL(double theta, bool use_prior, Prior &prior) {
 double Estimator::d2LL(double theta, bool use_prior, Prior &prior, size_t question, int answer) {
 	double lambda_theta = 0.0;
 	
-	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
+	if ((questionSet.model == "ltm") or (questionSet.model == "tpm")) {
 	  lambda_theta = ltm_d2LL(theta, question, answer);
 	}
 	if (questionSet.model == "grm") {
@@ -988,7 +988,7 @@ double Estimator::binary_posterior_variance(int item, Prior &prior) {
 double Estimator::expectedPV(int item, Prior &prior) {
 	double result = 0.0;
   
-	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
+	if ((questionSet.model == "ltm") or (questionSet.model == "tpm")) {
 	  result = binary_posterior_variance(item, prior);
 	}
 	if (questionSet.model == "grm") {
@@ -1101,7 +1101,7 @@ double Estimator::obsInf_ltm(double theta, int item, int answer)
 
 double Estimator::fisherInf(double theta, int item) {
 
-	if ((questionSet.model == "ltm") || (questionSet.model == "tpm")) {
+	if ((questionSet.model == "ltm") or (questionSet.model == "tpm")) {
 		return obsInf_ltm(theta, item);
 	}
 
@@ -1136,7 +1136,7 @@ double Estimator::fisherInf(double theta, int item) {
 
 double Estimator::fisherInf(double theta, int item, int answer) {
 
-	if ((questionSet.model == "ltm") | (questionSet.model == "tpm")) {
+	if ((questionSet.model == "ltm") or (questionSet.model == "tpm")) {
 		return obsInf_ltm(theta, item, answer);
 	}
 
@@ -1401,7 +1401,7 @@ double Estimator::kl(double theta_not, int item, double theta){
 	  	}
   	}
   
-  	if((questionSet.model == "ltm") || (questionSet.model == "tpm")){
+  	if((questionSet.model == "ltm") or (questionSet.model == "tpm")){
     	const double prob_theta_not = prob_ltm(theta_not, (size_t) item);
     	const double prob_theta_hat = prob_ltm(theta, (size_t) item);
 
