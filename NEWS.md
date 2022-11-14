@@ -1,3 +1,11 @@
+# catSurv 1.5.0
+
+### Minor Changes
+
+* Addressed warning messages about bitwise operators in C++ code
+* Removed 'boost' C++ libraries because no longer using for distribution functions
+
+
 # catSurv 1.4.0
 
 

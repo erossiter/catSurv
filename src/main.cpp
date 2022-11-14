@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 #include "Cat.h"
-#include <boost/variant.hpp>
 using namespace Rcpp;
+
 
 /**
  * To enable the usage of R-style methods (i.e. functions that take their object as their first parameter),
