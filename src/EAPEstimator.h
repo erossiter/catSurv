@@ -11,6 +11,8 @@ public:
 
 	EAPEstimator(Integrator &integrator, QuestionSet &questionSet);
 
+	~EAPEstimator();
+
 	virtual EstimationType getEstimationType() const override;
 
 	virtual double estimateTheta(Prior prior) override;

@@ -228,7 +228,7 @@ DataFrame Cat::lookAhead(int item) {
   // now possible answers
   for (size_t i = 1; i <= questionSet.difficulty.at(item).size()+1; ++i) {
       // if binary response options, iterate from 0, otherwise iterate from 1
-      questionSet.answers.at(item) = ((questionSet.model == "ltm") | (questionSet.model == "tpm")) ?  i - 1 : i;
+      questionSet.answers.at(item) = ((questionSet.model == "ltm") or (questionSet.model == "tpm")) ?  i - 1 : i;
       Selection selection = selector->selectItem();
       items.push_back(selection.item + 1);
       response_options.push_back(questionSet.answers.at(item));
@@ -291,9 +291,9 @@ std::unique_ptr<Estimator> Cat::createEstimator(S4 &cat_df, Integrator &integrat
 	}
 	
 	
-	if (estimation_type == "MLE" || estimation_type == "WLE") {
+	if (estimation_type == "MLE" or estimation_type == "WLE") {
 
-	    if (questionSet.applicable_rows.size() == 0 || questionSet.all_extreme){
+	    if (questionSet.applicable_rows.size() == 0 or questionSet.all_extreme){
 	        // Rcpp::Rcout<<"Warning: estimationDefault will be used to estimate theta as the maximum likelihood cannot be computed with an answer profile of all extreme response options."<<std::endl;
 	        Rcpp::warning("estimationDefault will be used to estimate theta as the maximum likelihood cannot be computed with an answer profile of all extreme response options.");
 	        if (estimation_default == "MAP") return std::unique_ptr<MAPEstimator>(new MAPEstimator(integrator, questionSet));
@@ -353,7 +353,7 @@ std::unique_ptr<Selector> Cat::createSelector(std::string selection_type, Questi
 	}
 	
 	// uses EPV for selection methods that fail when no questions asked
-	if (selection_type == "MFII" || selection_type == "KL") {
+	if (selection_type == "MFII" or selection_type == "KL") {
 	    if (questionSet.applicable_rows.size() == 0){
 	        // Rcpp::Rcout<<"Warning: EPV will be used select first question since MFII and KL routines fail when no answers have been recorded."<<std::endl;
 	        Rcpp::warning("EPV will be used select first question since MFII and KL routines fail when no answers have been recorded.");

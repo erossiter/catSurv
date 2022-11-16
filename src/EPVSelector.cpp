@@ -61,7 +61,7 @@ Selection EPVSelector::selectItem() {
 	}
 	**/
 
-	if((questionSet.model == "ltm") || (questionSet.model == "tpm"))
+	if((questionSet.model == "ltm") or (questionSet.model == "tpm"))
 	{
 		mpl::ParallelHelper<EPV_ltm_tpm> helper(selection.questions, selection.values, estimator, prior);
   		RcppParallel::parallelFor(0, selection.questions.size(), helper);

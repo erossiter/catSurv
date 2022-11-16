@@ -10,6 +10,8 @@ class MLEEstimator : public Estimator {
 public:
 
     MLEEstimator(Integrator &integrator, QuestionSet &questionSet);
+
+    ~MLEEstimator();
     
     virtual EstimationType getEstimationType() const override;
     

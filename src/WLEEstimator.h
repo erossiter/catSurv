@@ -11,6 +11,8 @@ public:
 
 	WLEEstimator(Integrator &integrator, QuestionSet &questionSet);
 
+  ~WLEEstimator();
+
 	virtual EstimationType getEstimationType() const override;
 
 	virtual double estimateTheta(Prior prior) override;

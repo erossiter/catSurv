@@ -17,6 +17,8 @@ enum class EstimationType {
 class Estimator {
 public:
 	Estimator(Integrator &integration, QuestionSet &question);
+  
+  virtual ~Estimator();
 
 	virtual EstimationType getEstimationType() const = 0;
 

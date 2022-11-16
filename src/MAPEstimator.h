@@ -9,6 +9,8 @@ public:
 
 	MAPEstimator(Integrator &integrator, QuestionSet &questionSet);
 
+	~MAPEstimator();
+
 	virtual EstimationType getEstimationType() const override;
 
 	virtual double estimateTheta(Prior prior) override;
