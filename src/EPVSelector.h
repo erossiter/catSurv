@@ -10,6 +10,8 @@ public:
 
 	EPVSelector(QuestionSet &questions, Estimator &estimation, Prior &priorModel);
 	
+	~EPVSelector() {};
+	
 private:
 	std::string getSelectionName();
 };

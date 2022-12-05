@@ -5,6 +5,8 @@ class MLWISelector : public Selector {
 
 public:
 	MLWISelector(QuestionSet &questions, Estimator &estimation, Prior &priorModel);
+  
+  ~MLWISelector() {};
 
 	virtual SelectionType getSelectionType() override;
 

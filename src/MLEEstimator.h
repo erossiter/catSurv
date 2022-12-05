@@ -11,7 +11,7 @@ public:
 
     MLEEstimator(Integrator &integrator, QuestionSet &questionSet);
 
-    ~MLEEstimator();
+    ~MLEEstimator() {};
     
     virtual EstimationType getEstimationType() const override;
     

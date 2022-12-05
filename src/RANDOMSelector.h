@@ -6,7 +6,7 @@ class RANDOMSelector : public Selector {
 public:
 	RANDOMSelector(QuestionSet &questions, Estimator &estimation, Prior &priorModel);
 
-	~RANDOMSelector();
+	~RANDOMSelector() {};
 
 	virtual SelectionType getSelectionType() override;
 

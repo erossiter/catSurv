@@ -11,7 +11,7 @@ public:
 
 	EAPEstimator(Integrator &integrator, QuestionSet &questionSet);
 
-	~EAPEstimator();
+	~EAPEstimator() {};
 
 	virtual EstimationType getEstimationType() const override;
 

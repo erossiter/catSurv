@@ -9,7 +9,7 @@ public:
 
 	MAPEstimator(Integrator &integrator, QuestionSet &questionSet);
 
-	~MAPEstimator();
+	~MAPEstimator() {};
 
 	virtual EstimationType getEstimationType() const override;
 

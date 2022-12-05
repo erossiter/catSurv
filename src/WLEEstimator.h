@@ -11,7 +11,7 @@ public:
 
 	WLEEstimator(Integrator &integrator, QuestionSet &questionSet);
 
-  ~WLEEstimator();
+  ~WLEEstimator(){};
 
 	virtual EstimationType getEstimationType() const override;
 

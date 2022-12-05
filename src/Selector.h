@@ -17,7 +17,7 @@ public:
 
 	Selector(QuestionSet &questions, Estimator &estimation, Prior &priorModel);
 
-	virtual ~Selector();
+	virtual ~Selector() {};
 
 protected:
 	QuestionSet &questionSet;
