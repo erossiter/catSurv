@@ -319,7 +319,7 @@
 #' "Computerized Adaptive Testing for Public Opinion Surveys." 
 #' Political Analysis (Spring 2013) 21 (2): 172-192.
 #' 
-#' @source \url{https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/19381}
+#' @source \code{https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/19381}
 "polknowMT"
 
 
@@ -811,7 +811,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
 #' @references 
 #' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
@@ -886,7 +886,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
 #' @references 
 #' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
@@ -954,7 +954,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
 #'
 #' @references 
@@ -1026,7 +1026,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #'
 #' @references 
 #' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
@@ -1094,7 +1094,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #'
 #' @references 
 #' Costa, P. T., Jr., & McCrae, R. R. (1992). Revised NEO Personality Inventory (NEO PI-R)
@@ -1181,7 +1181,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
 #'
 #' @references 
@@ -1284,7 +1284,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
 #' See \url{https://openpsychometrics.org/_rawdata/}, maintained by Eric Jorgenson, for the raw Open Source Psychometrics Project site data.
 #'
@@ -1353,7 +1353,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #'
 #' @docType data
 #' @name sv_open_cat
@@ -1422,7 +1422,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #'
 #' @docType data
 #' @name sv_selftransc_cat
@@ -1489,7 +1489,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #'
 #' @docType data
 #' @name sv_selfenhance_cat
@@ -1562,7 +1562,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #'
 #' @docType data
 #' @name sv_conservation_cat
@@ -1629,7 +1629,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #'
 #' @docType data
 #' @name rwa_cat
@@ -1696,7 +1696,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #'
 #' @docType data
 #' @name sdo_cat
@@ -1773,9 +1773,9 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
-#' See \url{https://wc.wustl.edu/american-panel-survey} for raw TAPS data.
+#' See \url{https://wc.wustl.edu} for raw TAPS data.
 #'
 #' @docType data
 #' @name nfa_cat
@@ -1843,9 +1843,9 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
-#' See \url{https://wc.wustl.edu/american-panel-survey} for raw TAPS data.
+#' See \url{https://wc.wustl.edu} for raw TAPS data.
 #'
 #' @docType data
 #' @name nte_cat
@@ -1924,9 +1924,9 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
-#' See \url{https://wc.wustl.edu/american-panel-survey} for raw TAPS data.
+#' See \url{https://wc.wustl.edu} for raw TAPS data.
 #'
 #' @docType data
 #' @name nfc_cat
@@ -2022,7 +2022,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
 #' See \url{https://openpsychometrics.org/_rawdata/}, maintained by Eric Jorgenson, for the raw Open Source Psychometrics Project data.
 #'
@@ -2092,7 +2092,7 @@
 #' 
 #' @source 
 #' 
-#' See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+#' See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 #' 
 #' See \url{https://openpsychometrics.org/_rawdata/}, maintained by Eric Jorgenson, for the raw Open Source Psychometrics Project data.
 #'

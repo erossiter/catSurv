@@ -27,6 +27,8 @@ The function takes multiple \code{Cat} objects, stored in a list, and generates 
 }
 \examples{
 
+\dontrun{
+# Example takes > 2.5 min to run
 # Load Cat object
 data(grm_cat)
    
@@ -49,6 +51,7 @@ grmList <- list(cat1 = grm_MAP, cat2 = grm_EAP)
 
 # Results
 theta_est_results <- simulateThetas(catObjs = grmList, responses = respondents)
+}
 
 }
 \seealso{

@@ -8,7 +8,7 @@
 An object of class \code{Cat} of length 1.
 }
 \source{
-See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 }
 \usage{
 data(sv_conservation_cat)

@@ -1,13 +1,12 @@
 ## Release Summary
-* This is a release to address a handful of warnings flagged on the CRAN Package Check Results.
+* This is a release to address a warning on the CRAN Package Check Results to drop C++ specification
+* We also addressed NOTEs about potential misspellings and potential invalid URLs 
 
 
 ## Test environments
-* local OS X install, R 4.2.2
-* win-builder development version of R
-* R-hub builder for Windows Server 2022, R-devel, 64 bit
-* R-hub builder for Ubuntu Linux 20.04.1 LTS, R-release, GCC
-* R-hub builder for Fedora Linux, R-devel, clang, gfortran
+* local OS X install, R 4.4.0
+* win-builder R 4.5.1
+* win-builder R Under Development
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.

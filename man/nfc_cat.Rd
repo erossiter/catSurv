@@ -8,9 +8,9 @@
 An object of class \code{Cat} of length 1.
 }
 \source{
-See \url{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
+See \code{https://dataverse.harvard.edu/dataverse/pdsl} for the raw YouGov and/or Qualtrics data.
 
-See \url{https://wc.wustl.edu/american-panel-survey} for raw TAPS data.
+See \url{https://wc.wustl.edu} for raw TAPS data.
 }
 \usage{
 data(nfc_cat)

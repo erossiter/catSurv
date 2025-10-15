@@ -27,6 +27,8 @@ items, conditioned on \code{theta}.
 }
 \examples{
 
+\dontrun{
+# Example takes > 2.5 min to run
 # Load Cat object
 data(grm_cat)
    
@@ -52,6 +54,7 @@ fisher_inf_results <- simulateFisherInfo(catObjs = grmList,
                               theta = rep(c(-1, 0, 1),
                               each = 10),
                               responses = respondents)
+}
 
 }
 \seealso{

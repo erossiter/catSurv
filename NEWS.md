@@ -1,3 +1,11 @@
+# catSurv 1.6.0
+
+### Minor Changes
+
+* Dropped  C++11 specification causing warning messages
+
+
+
 # catSurv 1.5.0
 
 ### Minor Changes

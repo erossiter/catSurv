@@ -18,6 +18,8 @@
 #' 
 #' @examples 
 #' 
+#' \dontrun{
+#' # Example takes > 2.5 min to run
 #' # Load Cat object
 #' data(grm_cat)
 #'    
@@ -40,6 +42,7 @@
 #' 
 #' # Results
 #' theta_est_results <- simulateThetas(catObjs = grmList, responses = respondents)
+#' }
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil, Jaerin Kim, Dominique Lockett 
 #' 

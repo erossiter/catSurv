@@ -18,6 +18,8 @@
 #' 
 #' @examples 
 #' 
+#' \dontrun{
+#' # Example takes > 2.5 min to run
 #' # Load Cat object
 #' data(grm_cat)
 #'    
@@ -43,6 +45,7 @@
 #'                               theta = rep(c(-1, 0, 1),
 #'                               each = 10),
 #'                               responses = respondents)
+#' }
 #' 
 #' @author Haley Acevedo, Ryden Butler, Josh W. Cutler, Matt Malis, Jacob M. Montgomery, Tom Wilkinson, Erin Rossiter, Min Hee Seo, Alex Weil, Jaerin Kim, Dominique Lockett 
 #' 

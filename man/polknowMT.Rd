@@ -312,7 +312,7 @@ States federal government commonly take to finance a budget deficit?
 }
 }
 \source{
-\url{https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/19381}
+\code{https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/19381}
 }
 \usage{
 data(polknowMT)
